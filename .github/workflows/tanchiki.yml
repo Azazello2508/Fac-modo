@@ -1,0 +1,39 @@
+# Каждый час проверяет игру «Танчики» на GitHub (Azazello2508/Tanchiki).
+# Если игра изменилась — встраивает новую версию в Fac Modo и пересобирает приложение для iPhone.
+name: Обновление «Танчиков»
+
+on:
+  schedule:
+    - cron: "17 * * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    outputs:
+      changed: ${{ steps.embed.outputs.changed }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Скачать свежие «Танчики»
+        run: curl -fsSL -o /tmp/tanchiki.html https://raw.githubusercontent.com/Azazello2508/Tanchiki/main/index.html
+
+      - name: Встроить игру в приложение
+        id: embed
+        run: python3 tools/embed_tanchiki.py /tmp/tanchiki.html >> "$GITHUB_OUTPUT"
+
+      - name: Сохранить обновление
+        if: steps.embed.outputs.changed == 'true'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -am "Обновлены «Танчики» из Azazello2508/Tanchiki"
+          git push
+
+  ios:
+    needs: sync
+    if: needs.sync.outputs.changed == 'true'
+    uses: ./.github/workflows/ios.yml
