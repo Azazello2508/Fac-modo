@@ -1,0 +1,10 @@
+{
+  "appId": "io.github.azazello2508.facmodo",
+  "appName": "Fac Modo",
+  "webDir": "www",
+  "backgroundColor": "#0e1424",
+  "ios": {
+    "contentInset": "never",
+    "backgroundColor": "#0e1424"
+  }
+}
