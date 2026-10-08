@@ -59,7 +59,7 @@ jobs:
           xcodebuild $TARGET -scheme App -configuration Release -sdk iphoneos \
             -destination 'generic/platform=iOS' -derivedDataPath build \
             CODE_SIGNING_ALLOWED=NO CODE_SIGNING_REQUIRED=NO CODE_SIGN_IDENTITY="" \
-            MARKETING_VERSION=1.0.${{ github.run_number }} CURRENT_PROJECT_VERSION=${{ github.run_number }} \
+            MARKETING_VERSION=1.0.$(git -C ../.. log -1 --format=%ct) CURRENT_PROJECT_VERSION=$(git -C ../.. log -1 --format=%ct) \
             build | tail -n 40
           rm -rf Payload && mkdir Payload
           cp -R build/Build/Products/Release-iphoneos/App.app Payload/
@@ -70,7 +70,9 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          gh release create "ios-${{ github.run_number }}" FacModo.ipa \
-            --title "Fac Modo для iPhone — сборка ${{ github.run_number }}" \
+          B=$(git log -1 --format=%ct)
+          WHEN=$(TZ=Asia/Baku date -d @$B '+%d.%m.%Y %H:%M' 2>/dev/null || TZ=Asia/Baku date -r $B '+%d.%m.%Y %H:%M')
+          gh release create "ios-${{ github.run_id }}" FacModo.ipa \
+            --title "Fac Modo для iPhone — версия от $WHEN" \
             --notes "Установка: Sideloadly на компьютере → перетащить FacModo.ipa → Start. Подробно — в README." \
             --latest
