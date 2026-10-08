@@ -9,6 +9,8 @@ on:
 
 permissions:
   contents: write
+  pages: write
+  id-token: write
 
 jobs:
   sync:
@@ -37,3 +39,8 @@ jobs:
     needs: sync
     if: needs.sync.outputs.changed == 'true'
     uses: ./.github/workflows/ios.yml
+
+  site:
+    needs: sync
+    if: needs.sync.outputs.changed == 'true'
+    uses: ./.github/workflows/pages.yml

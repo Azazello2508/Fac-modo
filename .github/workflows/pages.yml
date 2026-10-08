@@ -1,0 +1,46 @@
+# Публикует сайт приложения на GitHub Pages.
+# Отсюда приложение на телефоне скачивает обновления (version.json + index.html).
+name: Сайт и обновления приложения
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+  workflow_call:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deploy.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+
+      - name: Подготовить сайт
+        run: |
+          B=$(git log -1 --format=%ct)
+          mkdir _site
+          cp index.html manifest.webmanifest sw.js apple-touch-icon.png icon-192.png icon-512.png _site/
+          touch _site/.nojekyll
+          sed -i "s/__FM_BUILD__/$B/" _site/index.html
+          grep -c "FM_BUILD=parseInt(\"$B\")" _site/index.html
+          echo "{\"build\":$B}" > _site/version.json
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+
+      - id: deploy
+        uses: actions/deploy-pages@v4

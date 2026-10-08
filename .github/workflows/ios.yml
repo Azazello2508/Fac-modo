@@ -25,12 +25,15 @@ jobs:
           node-version: 22
 
       - name: Установить Capacitor (обёртка, которая делает из страницы приложение)
-        run: npm install --no-audit --no-fund @capacitor/core@latest @capacitor/cli@latest @capacitor/ios@latest
+        run: npm install --no-audit --no-fund @capacitor/core@latest @capacitor/cli@latest @capacitor/ios@latest @capacitor/filesystem@latest
 
       - name: Подготовить файлы приложения
         run: |
           rm -rf www && mkdir www
           cp index.html manifest.webmanifest apple-touch-icon.png icon-192.png icon-512.png www/
+          # номер версии = время последнего изменения; по нему приложение понимает, что вышло обновление
+          sed -i '' "s/__FM_BUILD__/$(git log -1 --format=%ct)/" www/index.html
+          grep -c 'FM_BUILD=parseInt("[0-9]' www/index.html
 
       - name: Создать проект iOS
         run: |
