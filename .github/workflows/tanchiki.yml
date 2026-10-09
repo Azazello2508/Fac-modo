@@ -1,6 +1,8 @@
-# Каждый час проверяет игру «Танчики» на GitHub (Azazello2508/Tanchiki).
-# Если игра изменилась — встраивает новую версию в Fac Modo и пересобирает приложение для iPhone.
-name: Обновление «Танчиков»
+# Каждый час проверяет игры на GitHub:
+#   «Танчики»    — Azazello2508/Tanchiki
+#   «Самолётики» — Azazello2508/Samolety
+# Если игра изменилась — встраивает новую версию в Fac Modo, публикует сайт и пересобирает приложение для iPhone.
+name: Обновление игр
 
 on:
   schedule:
@@ -20,19 +22,31 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Скачать свежие «Танчики»
-        run: curl -fsSL -o /tmp/tanchiki.html https://raw.githubusercontent.com/Azazello2508/Tanchiki/main/index.html
-
-      - name: Встроить игру в приложение
+      - name: Скачать свежие игры и встроить в приложение
         id: embed
-        run: python3 tools/embed_tanchiki.py /tmp/tanchiki.html >> "$GITHUB_OUTPUT"
+        run: |
+          CHANGED=false
+          embed () {  # $1 — адрес игры, $2 — id блока, $3 — копия в репозитории (может быть пустой)
+            if curl -fsSL -o /tmp/game.html "$1"; then
+              R=$(python3 tools/embed_tanchiki.py /tmp/game.html "$2")
+              echo "$2: $R"
+              [ "$R" = "changed=true" ] && CHANGED=true
+              [ -n "$3" ] && cp /tmp/game.html "$3"
+            else
+              echo "$2: игра пока недоступна по адресу $1 — пропускаю"
+            fi
+          }
+          embed https://raw.githubusercontent.com/Azazello2508/Tanchiki/main/index.html tk-src ""
+          embed https://raw.githubusercontent.com/Azazello2508/Samolety/main/index.html sm-src games/samolety.html
+          echo "changed=$CHANGED" >> "$GITHUB_OUTPUT"
 
       - name: Сохранить обновление
         if: steps.embed.outputs.changed == 'true'
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git commit -am "Обновлены «Танчики» из Azazello2508/Tanchiki"
+          git add -A
+          git commit -m "Обновлены игры из Azazello2508/Tanchiki и Azazello2508/Samolety"
           git push
 
   ios:
