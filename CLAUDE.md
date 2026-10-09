@@ -12,6 +12,8 @@
 ## Правила
 - Не трогать блок самообновления (`FM_BUILD`, `fm-ota-*`) и блок игры `<script type="text/plain" id="tk-src">`.
 - «Танчики» не править здесь: игра берётся из Azazello2508/Tanchiki (tanchiki.yml раз в час, tools/embed_tanchiki.py).
+- «Самолётики»: источник — папка пользователя `Клод\Самолеты\index.html`, копия в `games/samolety.html`.
+  Обновить: скопировать файл в games/samolety.html и запустить `python3 tools/embed_tanchiki.py games/samolety.html sm-src`.
 - Перед push проверить приложение в браузере: все вкладки открываются, в консоли нет ошибок.
 - После push копию `index.html` положить в папку пользователя `Клод\Костя\fac-modo-app\`,
   свежий `FacModo.ipa` — в `Клод\Костя\`.
