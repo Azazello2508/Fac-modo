@@ -1,0 +1,8122 @@
+[
+[
+"Сменить фото",
+"Change photo",
+1
+],
+[
+"Фото",
+"Photo",
+1
+],
+[
+"Уровень",
+"Level",
+1
+],
+[
+"Время",
+"Time",
+1
+],
+[
+"Свой квест (+# XP)",
+"Custom quest (+# XP)",
+1
+],
+[
+"Название",
+"Name",
+1
+],
+[
+"Код прогресса",
+"Progress code",
+1
+],
+[
+"Выйти из игры",
+"Exit game",
+1
+],
+[
+"Новичок",
+"Beginner",
+1
+],
+[
+"🔥 Серия:",
+"🔥 Streak:",
+1
+],
+[
+"⭐ Всего XP:",
+"⭐ Total XP:",
+1
+],
+[
+"✅ Задач:",
+"✅ Tasks:",
+1
+],
+[
+"Характеристики",
+"Stats",
+1
+],
+[
+"Другая фраза",
+"Another quote",
+1
+],
+[
+"Квесты дня",
+"Daily quests",
+1
+],
+[
+"Добавить",
+"Add",
+1
+],
+[
+"Закрой все квесты дня и получи бонус +# XP. Будущие дни закрыть нельзя.",
+"Complete all daily quests and get a +# XP bonus. Future days can't be completed.",
+1
+],
+[
+"🪖 Танчики",
+"🪖 Tanks",
+1
+],
+[
+"Танковый бой на # уровнях: Т-# против «Тигров» и «Пантер». На телефоне — джойстик, на компьютере — стрелки и пробел. Работает без интернета; игра вдвоём по коду комнаты — только с интернетом.",
+"Tank battle across # levels: T-# against Tigers and Panthers. On a phone use the joystick, on a computer the arrow keys and space. Works offline; two-player games by room code need the internet.",
+1
+],
+[
+"▶ Играть",
+"▶ Play",
+1
+],
+[
+"✈️ Самолётики",
+"✈️ Planes",
+1
+],
+[
+"Воздушный бой над морем на # уровнях: уворачивайся, стреляй, собирай бонусы — мощность, щит, жизнь, бомба, скорострельность. В конце уровня — тяжёлый бомбардировщик. На телефоне — джойстик и кнопка «Огонь», на компьютере — стрелки и пробел. Работает без интернета; игра вдвоём по коду комнаты — только с интернетом.",
+"Air combat over the sea across # levels: dodge, shoot and collect power-ups — power, shield, life, bomb, fire rate. A heavy bomber waits at the end of each level. On a phone use the joystick and the Fire button, on a computer the arrow keys and space. Works offline; two-player games by room code need the internet.",
+1
+],
+[
+"Достижения",
+"Achievements",
+1
+],
+[
+"Оформление",
+"Appearance",
+1
+],
+[
+"Выбрать фото",
+"Choose photo",
+1
+],
+[
+"Убрать фото",
+"Remove photo",
+1
+],
+[
+"Резервная копия",
+"Backup",
+1
+],
+[
+"Приложение работает без интернета: всё хранится на устройстве. Сохраняй копию, чтобы не потерять прогресс при очистке браузера.",
+"The app works offline: everything is stored on the device. Save a backup so you don't lose progress if the browser data is cleared.",
+1
+],
+[
+"Сохранить в файл",
+"Save to file",
+1
+],
+[
+"Скопировать код",
+"Copy code",
+1
+],
+[
+"Загрузить из файла",
+"Load from file",
+1
+],
+[
+"Вставить код",
+"Paste code",
+1
+],
+[
+"Применить код",
+"Apply code",
+1
+],
+[
+"Сбросить весь прогресс",
+"Reset all progress",
+1
+],
+[
+"Миссии",
+"Missions",
+1
+],
+[
+"Знания",
+"Knowledge",
+1
+],
+[
+"Игры",
+"Games",
+1
+],
+[
+"Берег",
+"Shore",
+1
+],
+[
+"Дневник",
+"Journal",
+1
+],
+[
+"Профиль",
+"Profile",
+1
+],
+[
+"✕ Выйти",
+"✕ Exit",
+1
+],
+[
+"Единственный способ делать великие дела — любить то, что ты делаешь.",
+"The only way to do great work is to love what you do.",
+0
+],
+[
+"Стив Джобс",
+"Steve Jobs",
+1
+],
+[
+"Путь в тысячу ли начинается с первого шага.",
+"A journey of a thousand miles begins with a single step.",
+0
+],
+[
+"Лао-цзы",
+"Lao Tzu",
+1
+],
+[
+"Знание — сила.",
+"Knowledge is power.",
+1
+],
+[
+"Фрэнсис Бэкон",
+"Francis Bacon",
+1
+],
+[
+"Я знаю, что ничего не знаю.",
+"I know that I know nothing.",
+1
+],
+[
+"Сократ",
+"Socrates",
+1
+],
+[
+"Воображение важнее знания.",
+"Imagination is more important than knowledge.",
+1
+],
+[
+"Альберт Эйнштейн",
+"Albert Einstein",
+1
+],
+[
+"Единственное, что может ограничить наше завтра, — наши сегодняшние сомнения.",
+"The only limit to our realization of tomorrow will be our doubts of today.",
+0
+],
+[
+"Франклин Рузвельт",
+"Franklin D. Roosevelt",
+1
+],
+[
+"Неважно, как медленно ты идёшь, пока не останавливаешься.",
+"It does not matter how slowly you go as long as you do not stop.",
+0
+],
+[
+"Конфуций",
+"Confucius",
+1
+],
+[
+"Знать недостаточно, надо применять; хотеть недостаточно, надо делать.",
+"Knowing is not enough; we must apply. Willing is not enough; we must do.",
+0
+],
+[
+"Иоганн Вольфганг Гёте",
+"Johann Wolfgang von Goethe",
+1
+],
+[
+"Нет величия там, где нет простоты, добра и правды.",
+"There is no greatness where there is no simplicity, goodness and truth.",
+0
+],
+[
+"Лев Толстой",
+"Leo Tolstoy",
+1
+],
+[
+"Не сдавайся. Потерпи сейчас — и проживёшь остаток жизни чемпионом.",
+"Don't quit. Suffer now and live the rest of your life as a champion.",
+0
+],
+[
+"Мухаммед Али",
+"Muhammad Ali",
+1
+],
+[
+"Те, которые отправляются на кораблях в море, торгуя на великих водах, видят дела Господа и чудеса Его в пучине.",
+"They that go down to the sea in ships, that do business in great waters; these see the works of the Lord, and his wonders in the deep.",
+0
+],
+[
+"Библия, Псалом #:#–#",
+"Bible, Psalm #:#–#",
+1
+],
+[
+"Все могу в укрепляющем меня Иисусе Христе.",
+"I can do all things through Christ which strengtheneth me.",
+0
+],
+[
+"Библия, Послание к Филиппийцам #:#",
+"Bible, Philippians #:#",
+1
+],
+[
+"Будь тверд и мужествен, не страшись и не ужасайся.",
+"Be strong and of a good courage; be not afraid, neither be thou dismayed.",
+0
+],
+[
+"Библия, Книга Иисуса Навина #:#",
+"Bible, Joshua #:#",
+1
+],
+[
+"Всему своё время, и время всякой вещи под небом.",
+"To every thing there is a season, and a time to every purpose under the heaven.",
+0
+],
+[
+"Библия, Екклесиаст #:#",
+"Bible, Ecclesiastes #:#",
+1
+],
+[
+"Доброе имя лучше большого богатства.",
+"A good name is rather to be chosen than great riches.",
+1
+],
+[
+"Библия, Книга Притчей #:#",
+"Bible, Proverbs #:#",
+1
+],
+[
+"Нет попутного ветра для того, кто не знает, в какую гавань плыть.",
+"If one does not know to which port one is sailing, no wind is favorable.",
+0
+],
+[
+"Сенека",
+"Seneca",
+1
+],
+[
+"Препятствие действию продвигает действие. То, что стоит на пути, становится путём.",
+"The impediment to action advances action. What stands in the way becomes the way.",
+0
+],
+[
+"Марк Аврелий",
+"Marcus Aurelius",
+1
+],
+[
+"Человека можно уничтожить, но его нельзя победить.",
+"A man can be destroyed but not defeated.",
+0
+],
+[
+"Эрнест Хемингуэй, «Старик и море»",
+"Ernest Hemingway, The Old Man and the Sea",
+1
+],
+[
+"Маленький шаг каждый день сильнее редкого рывка.",
+"A small step every day beats a rare big push.",
+0
+],
+[
+"От меня, Claude",
+"From me, Claude",
+1
+],
+[
+"Сегодняшний уровень — это вчерашние привычки. Завтрашний — сегодняшние.",
+"Today's level is yesterday's habits. Tomorrow's level is today's habits.",
+0
+],
+[
+"Воля",
+"Will",
+1
+],
+[
+"Сила",
+"Strength",
+1
+],
+[
+"Язык",
+"Language",
+1
+],
+[
+"Интеллект",
+"Intellect",
+1
+],
+[
+"Восстановление",
+"Recovery",
+1
+],
+[
+"Кругозор",
+"Outlook",
+1
+],
+[
+"Порядок",
+"Order",
+1
+],
+[
+"Ученик",
+"Apprentice",
+1
+],
+[
+"Практик",
+"Practitioner",
+1
+],
+[
+"Специалист",
+"Specialist",
+1
+],
+[
+"Мастер",
+"Master",
+1
+],
+[
+"Эксперт",
+"Expert",
+1
+],
+[
+"Легенда",
+"Legend",
+1
+],
+[
+"Пн",
+"Mon",
+1
+],
+[
+"Вт",
+"Tue",
+1
+],
+[
+"Ср",
+"Wed",
+1
+],
+[
+"Чт",
+"Thu",
+1
+],
+[
+"Пт",
+"Fri",
+1
+],
+[
+"Сб",
+"Sat",
+1
+],
+[
+"Вс",
+"Sun",
+1
+],
+[
+"Подготовка ко сну",
+"Getting ready for bed",
+1
+],
+[
+"Сон",
+"Sleep",
+1
+],
+[
+"Чтение: # минут",
+"Reading: # minutes",
+1
+],
+[
+"Учёба: # час",
+"Study: # hour",
+1
+],
+[
+"Ужин",
+"Dinner",
+1
+],
+[
+"Обед",
+"Lunch",
+1
+],
+[
+"Подъём, завтрак",
+"Wake up, breakfast",
+1
+],
+[
+"Работа: первая половина",
+"Work: first half",
+1
+],
+[
+"Работа: вторая половина",
+"Work: second half",
+1
+],
+[
+"Занятие английским",
+"English lesson",
+1
+],
+[
+"Зал",
+"Gym",
+1
+],
+[
+"Отдых",
+"Rest",
+1
+],
+[
+"Английский: повторение",
+"English: review",
+1
+],
+[
+"Планирование недели",
+"Weekly planning",
+1
+],
+[
+"Отдых, прогулка",
+"Rest, walk",
+1
+],
+[
+"⚠ Память заполнена, изменения не сохраняются. Удали лишние рисунки и фото и сохрани копию в файл.",
+"⚠ Storage is full, changes are not being saved. Delete unneeded drawings and photos and save a backup to a file.",
+0
+],
+[
+"Первый шаг",
+"First step",
+1
+],
+[
+"Закрой # квест",
+"Complete # quest",
+1
+],
+[
+"Чистый день",
+"Clean day",
+1
+],
+[
+"Закрой все квесты дня",
+"Complete all daily quests",
+1
+],
+[
+"Серия #",
+"Streak #",
+1
+],
+[
+"# идеальных дня подряд",
+"# perfect days in a row",
+1
+],
+[
+"Неделя без пропусков",
+"A week without gaps",
+1
+],
+[
+"Железный",
+"Iron",
+1
+],
+[
+"# походов в зал",
+"# gym sessions",
+1
+],
+[
+"Полиглот",
+"Polyglot",
+1
+],
+[
+"# занятий английским",
+"# English lessons",
+1
+],
+[
+"Умник",
+"Brainiac",
+1
+],
+[
+"# сессий учёбы",
+"# study sessions",
+1
+],
+[
+"Стойкий",
+"Steadfast",
+1
+],
+[
+"# рабочих блоков",
+"# work blocks",
+1
+],
+[
+"Читатель",
+"Reader",
+1
+],
+[
+"# сессий чтения",
+"# reading sessions",
+1
+],
+[
+"Знаток",
+"Connoisseur",
+1
+],
+[
+"# верных ответов в экзамене",
+"# correct exam answers",
+1
+],
+[
+"Победитель шторма",
+"Storm Breaker",
+1
+],
+[
+"Одолей босса недели",
+"Defeat the boss of the week",
+1
+],
+[
+"Библиотекарь",
+"Librarian",
+1
+],
+[
+"Прочитай # статей",
+"Read # articles",
+1
+],
+[
+"Философ",
+"Philosopher",
+1
+],
+[
+"Прочитай все статьи по философии",
+"Read all philosophy articles",
+1
+],
+[
+"Счастливчик",
+"Lucky",
+1
+],
+[
+"Открой сундук дня",
+"Open the daily chest",
+1
+],
+[
+"Курс на берег",
+"Course to Shore",
+1
+],
+[
+"Освой # навыков из дерева",
+"Master # skills in the tree",
+1
+],
+[
+"Фокус",
+"Focus",
+1
+],
+[
+"Заверши # таймеров",
+"Finish # timers",
+1
+],
+[
+"Картограф",
+"Cartographer",
+1
+],
+[
+"Закрой # месяца плана выхода на берег",
+"Complete # months of the shore plan",
+1
+],
+[
+"Летописец",
+"Chronicler",
+1
+],
+[
+"Сделай # записей в дневнике",
+"Make # journal entries",
+1
+],
+[
+"Уровень #",
+"Level #",
+1
+],
+[
+"Достигни # уровня",
+"Reach level #",
+1
+],
+[
+"XP до следующего уровня",
+"XP to next level",
+1
+],
+[
+"ур.",
+"lvl",
+1
+],
+[
+"Удалить",
+"Delete",
+1
+],
+[
+"Понедельник",
+"Monday",
+1
+],
+[
+"Вторник",
+"Tuesday",
+1
+],
+[
+"Среда",
+"Wednesday",
+1
+],
+[
+"Четверг",
+"Thursday",
+1
+],
+[
+"Пятница",
+"Friday",
+1
+],
+[
+"Суббота",
+"Saturday",
+1
+],
+[
+"Воскресенье",
+"Sunday",
+1
+],
+[
+"из",
+"of",
+1
+],
+[
+"🎯 День закрыт! +# XP",
+"🎯 Day completed! +# XP",
+1
+],
+[
+"🎉 Новый уровень:",
+"🎉 New level:",
+1
+],
+[
+"⚠ В этом режиме браузер не сохраняет данные: прогресс сотрётся при закрытии страницы. Чаще сохраняй копию в файл.",
+"⚠ In this mode the browser does not save data: progress will be lost when the page closes. Save a backup to a file more often.",
+0
+],
+[
+"Копия сохранена",
+"Backup saved",
+1
+],
+[
+"Прогресс загружен",
+"Progress loaded",
+1
+],
+[
+"Не удалось прочитать файл",
+"Couldn't read the file",
+1
+],
+[
+"Электромеханик",
+"Electro-Technical Officer",
+1
+],
+[
+"электромеханика",
+"an ETO",
+1
+],
+[
+"Механик",
+"Engineer",
+1
+],
+[
+"механика",
+"an engineer",
+1
+],
+[
+"Штурман",
+"Navigator",
+1
+],
+[
+"штурмана",
+"a navigator",
+1
+],
+[
+"Моя специальность",
+"My specialty",
+1
+],
+[
+"Советы, экзамен, термины, резюме и курс на берег подстроятся под выбор.",
+"Tips, exam, terms, CV and course to shore will adapt to your choice.",
+1
+],
+[
+"Научись быстро читать однолинейную схему судовой электростанции: она показывает большую часть того, что нужно при поиске неисправности. Хватит # минут в день на одну секцию.",
+"Learn to read the single-line diagram of the ship's power plant quickly: it shows most of what you need when troubleshooting. # minutes a day on one section is enough.",
+0
+],
+[
+"Выучи условия синхронизации генераторов: напряжение, частота, порядок фаз и совпадение фазы. Одной карточки хватит вместо страницы конспекта.",
+"Learn the generator synchronising conditions: voltage, frequency, phase sequence and phase angle. One flashcard is enough instead of a page of notes.",
+0
+],
+[
+"Мегомметр: пойми, как и когда замерять изоляцию двигателей и кабелей, и держи таблицу норм под рукой. Это одна из самых частых практических задач.",
+"Megger: understand how and when to test the insulation of motors and cables, and keep a table of limits at hand. It's one of the most common practical tasks.",
+0
+],
+[
+"Разбери порядок действий при блэкауте как чек-лист из #–# шагов и проговаривай вслух, чтобы он работал на автомате.",
+"Break down the blackout procedure into a checklist of #–# steps and say it aloud so it becomes automatic.",
+0
+],
+[
+"Пусковые схемы двигателей (прямой пуск, звезда–треугольник, частотник): сравни в одной таблице пусковой ток, момент и где применяют.",
+"Motor starting methods (direct-on-line, star–delta, VFD): compare starting current, torque and typical use in one table.",
+0
+],
+[
+"Частотные преобразователи: начни с трёх вещей: параметры двигателя, время разгона, типовые аварийные коды. Этого хватает для большинства задач.",
+"Variable frequency drives: start with three things — motor parameters, ramp-up time and common fault codes. That covers most tasks.",
+0
+],
+[
+"Защиты: сделай шпаргалку «что отключает автомат или реле и почему» по своему судну.",
+"Protections: make a cheat sheet \"what trips the breaker or relay and why\" for your own ship.",
+0
+],
+[
+"Где разрешено, сфотографируй щит и подпиши цепи: так схема запоминается быстрее, чем по учебнику.",
+"Where allowed, photograph a switchboard and label the circuits: you'll remember the diagram faster than from a textbook.",
+0
+],
+[
+"# минут работы и # минут паузы: так учиться легче, чем одним длинным куском.",
+"# minutes of work and # minutes of break: easier to learn than in one long stretch.",
+0
+],
+[
+"Закрой конспект и объясни тему вслух. Это запоминается лучше, чем перечитывание.",
+"Close your notes and explain the topic aloud. It sticks better than rereading.",
+0
+],
+[
+"Повторяй тему через #, #, # и # дней: так знания держатся дольше при меньших затратах времени.",
+"Review a topic after #, #, # and # days: knowledge lasts longer with less time spent.",
+0
+],
+[
+"Одна тема за сеанс. Сначала самое сложное, пока голова свежая.",
+"One topic per session. Hardest first, while your head is fresh.",
+0
+],
+[
+"Тест после темы даёт больше, чем второе прочтение. Проходи экзамен ниже.",
+"A test after a topic gives more than a second reading. Take the exam below.",
+0
+],
+[
+"Учись в одно и то же время: привычка снижает усилие на старт.",
+"Study at the same time every day: habit lowers the effort to start.",
+0
+],
+[
+"Составь одностраничную шпаргалку по одной теме и повесь у койки.",
+"Make a one-page cheat sheet on one topic and pin it by your bunk.",
+0
+],
+[
+"Объясни сегодняшнюю тему воображаемому новичку за # минуты.",
+"Explain today's topic to an imaginary beginner in # minutes.",
+0
+],
+[
+"Задай одному из старших по службе один вопрос по теме дня.",
+"Ask one senior officer one question on today's topic.",
+0
+],
+[
+"Запиши # вещи, которые узнал сегодня.",
+"Write down # things you learned today.",
+1
+],
+[
+"Пройди экзамен по теме, в которой слабее.",
+"Take the exam on the topic where you are weakest.",
+0
+],
+[
+"Выучи # английских терминов своей специальности из глоссария во вкладке «Знания».",
+"Learn # English terms for your specialty from the glossary in the Knowledge tab.",
+0
+],
+[
+"Если устал, поменяй местами чтение и учёбу: главное, не пропустить оба.",
+"If you're tired, swap reading and study: the main thing is not to skip both.",
+0
+],
+[
+"Поставь себе цель на месяц по уровню и запиши её в заметки.",
+"Set yourself a monthly level goal and write it in your notes.",
+0
+],
+[
+"Море",
+"Sea",
+1
+],
+[
+"Космос",
+"Space",
+1
+],
+[
+"Рубка",
+"Wheelhouse",
+1
+],
+[
+"Ночная вахта",
+"Night watch",
+1
+],
+[
+"Авто",
+"Auto",
+1
+],
+[
+"Тёмная",
+"Dark",
+1
+],
+[
+"Светлая",
+"Light",
+1
+],
+[
+"Океан",
+"Ocean",
+1
+],
+[
+"Закат",
+"Sunset",
+1
+],
+[
+"Лес",
+"Forest",
+1
+],
+[
+"Сегодня и вчера",
+"Today and yesterday",
+1
+],
+[
+"XP сегодня",
+"XP today",
+1
+],
+[
+"XP вчера",
+"XP yesterday",
+1
+],
+[
+"= поровну",
+"= even",
+1
+],
+[
+"задач к вчера",
+"tasks vs yesterday",
+1
+],
+[
+"🌊 Босс недели «Шторм»:",
+"🌊 Boss of the week \"Storm\":",
+1
+],
+[
+"осталось",
+"remaining",
+1
+],
+[
+"HP. Набирай XP, чтобы победить.",
+"HP. Earn XP to win.",
+1
+],
+[
+"побеждён! Отличная неделя.",
+"defeated! Great week.",
+1
+],
+[
+"Совет и идея дня",
+"Tip and idea of the day",
+1
+],
+[
+"Электромеханику",
+"To the ETO",
+1
+],
+[
+"Механику",
+"To the engineer",
+1
+],
+[
+"Штурману",
+"To the navigator",
+1
+],
+[
+"Разбор темы",
+"Topic breakdown",
+1
+],
+[
+"⏱ Учись быстрее:",
+"⏱ Learn faster:",
+1
+],
+[
+"💡 Идея дня:",
+"💡 Idea of the day:",
+1
+],
+[
+"Для чего служит мегомметр?",
+"What is a megger used for?",
+1
+],
+[
+"Измерение сопротивления изоляции",
+"Measuring insulation resistance",
+1
+],
+[
+"Измерение частоты",
+"Measuring frequency",
+1
+],
+[
+"Измерение мощности",
+"Measuring power",
+1
+],
+[
+"Измерение влажности",
+"Measuring humidity",
+1
+],
+[
+"Что должно совпасть при включении генератора на параллельную работу?",
+"What must match when connecting a generator for parallel operation?",
+0
+],
+[
+"Напряжение, частота и фаза",
+"Voltage, frequency and phase",
+1
+],
+[
+"Только мощность",
+"Only power",
+1
+],
+[
+"Только обороты дизеля",
+"Only the diesel speed",
+1
+],
+[
+"Только температура обмоток",
+"Only the winding temperature",
+1
+],
+[
+"Как изменить направление вращения трёхфазного асинхронного двигателя?",
+"How do you reverse the rotation of a three-phase induction motor?",
+0
+],
+[
+"Поменять местами две любые фазы",
+"Swap any two phases",
+1
+],
+[
+"Поменять все три фазы по кругу",
+"Rotate all three phases",
+1
+],
+[
+"Увеличить напряжение",
+"Increase the voltage",
+1
+],
+[
+"Снизить частоту",
+"Lower the frequency",
+1
+],
+[
+"Что такое блэкаут на судне?",
+"What is a blackout on a ship?",
+1
+],
+[
+"Полная потеря электропитания",
+"Total loss of electrical power",
+1
+],
+[
+"Короткое замыкание в каюте",
+"A short circuit in a cabin",
+1
+],
+[
+"Отказ радара",
+"Radar failure",
+1
+],
+[
+"Перегрев дизеля",
+"Diesel overheating",
+1
+],
+[
+"Зачем применяют пуск «звезда–треугольник»?",
+"Why is star–delta starting used?",
+0
+],
+[
+"Снизить пусковой ток",
+"To reduce starting current",
+1
+],
+[
+"Увеличить скорость",
+"To increase speed",
+1
+],
+[
+"Поменять фазы",
+"To swap phases",
+1
+],
+[
+"Повысить частоту сети",
+"To raise the network frequency",
+1
+],
+[
+"Что защищает двигатель от длительной перегрузки?",
+"What protects a motor from prolonged overload?",
+0
+],
+[
+"Тепловое реле",
+"Thermal overload relay",
+1
+],
+[
+"Лампа индикации",
+"Indicator lamp",
+1
+],
+[
+"Амперметр",
+"Ammeter",
+1
+],
+[
+"Клеммная колодка",
+"Terminal block",
+1
+],
+[
+"Закон Ома для участка цепи?",
+"Ohm's law for a circuit section?",
+1
+],
+[
+"Что делает аварийный дизель-генератор при потере основного питания?",
+"What does the emergency diesel generator do when main power is lost?",
+0
+],
+[
+"Питает важнейших потребителей",
+"Supplies the most essential consumers",
+1
+],
+[
+"Заряжает телефоны",
+"Charges phones",
+1
+],
+[
+"Охлаждает главный двигатель",
+"Cools the main engine",
+1
+],
+[
+"Включает кондиционеры в каютах",
+"Switches on cabin air conditioning",
+1
+],
+[
+"Что такое СОЛАС?",
+"What is SOLAS?",
+1
+],
+[
+"Конвенция по охране человеческой жизни на море",
+"The Convention for the Safety of Life at Sea",
+0
+],
+[
+"Правила швартовки",
+"Mooring rules",
+1
+],
+[
+"Нормы выбросов",
+"Emission limits",
+1
+],
+[
+"Правила рыбной ловли",
+"Fishing rules",
+1
+],
+[
+"Зачем на пассажирском судне стабилизаторы качки?",
+"Why does a passenger ship have stabilisers?",
+0
+],
+[
+"Уменьшать бортовую качку",
+"To reduce rolling",
+1
+],
+[
+"Увеличивать скорость",
+"To increase speed",
+1
+],
+[
+"Охлаждать двигатели",
+"To cool the engines",
+1
+],
+[
+"Вырабатывать электричество",
+"To generate electricity",
+1
+],
+[
+"Что такое Azipod?",
+"What is an Azipod?",
+1
+],
+[
+"Поворотный движитель с электродвигателем в гондоле",
+"A rotating thruster with an electric motor in a pod",
+0
+],
+[
+"Тип якоря",
+"A type of anchor",
+1
+],
+[
+"Система пожаротушения",
+"A fire-fighting system",
+1
+],
+[
+"Спасательный плот",
+"A life raft",
+1
+],
+[
+"Какая силовая установка типична для современных круизных лайнеров?",
+"What propulsion plant is typical for modern cruise ships?",
+0
+],
+[
+"Дизель-электрическая",
+"Diesel-electric",
+1
+],
+[
+"Паровая",
+"Steam",
+1
+],
+[
+"Парусная",
+"Sail",
+1
+],
+[
+"Только ядерная",
+"Nuclear only",
+1
+],
+[
+"Что такое пункт сбора (muster station)?",
+"What is a muster station?",
+1
+],
+[
+"Место сбора пассажиров при эвакуации",
+"The place where passengers gather during an evacuation",
+1
+],
+[
+"Склад продуктов",
+"A provisions store",
+1
+],
+[
+"Рубка капитана",
+"The captain's wheelhouse",
+1
+],
+[
+"Машинное отделение",
+"The engine room",
+1
+],
+[
+"Для чего нужны водонепроницаемые переборки?",
+"What are watertight bulkheads for?",
+0
+],
+[
+"Делят корпус на отсеки и сохраняют плавучесть при пробоине",
+"They divide the hull into compartments and keep the ship afloat if holed",
+0
+],
+[
+"Украшают интерьер",
+"They decorate the interior",
+1
+],
+[
+"Охлаждают воду",
+"They cool water",
+1
+],
+[
+"Усиливают радиосигнал",
+"They boost the radio signal",
+1
+],
+[
+"Что означает IMO?",
+"What does IMO stand for?",
+1
+],
+[
+"Международная морская организация",
+"International Maritime Organization",
+1
+],
+[
+"Морской оркестр",
+"A maritime orchestra",
+1
+],
+[
+"Информационный морской отчёт",
+"An information maritime report",
+1
+],
+[
+"Индекс метеоусловий",
+"A weather index",
+1
+],
+[
+"Какой сигнал бедствия передают по радиотелефону?",
+"Which distress signal is sent by radiotelephone?",
+0
+],
+[
+"Что такое короткое замыкание?",
+"What is a short circuit?",
+1
+],
+[
+"Соединение точек цепи с разным потенциалом через малое сопротивление",
+"A connection between points of different potential through a very low resistance",
+0
+],
+[
+"Плавное снижение напряжения",
+"A gradual drop in voltage",
+1
+],
+[
+"Обрыв провода",
+"A broken wire",
+1
+],
+[
+"Рост частоты сети",
+"A rise in network frequency",
+1
+],
+[
+"Зачем заземляют корпуса электрооборудования?",
+"Why are the frames of electrical equipment earthed?",
+0
+],
+[
+"Для защиты людей от поражения током при пробое изоляции",
+"To protect people from electric shock if insulation fails",
+0
+],
+[
+"Для увеличения мощности",
+"To increase power",
+1
+],
+[
+"Чтобы снизить шум",
+"To reduce noise",
+1
+],
+[
+"Для охлаждения",
+"For cooling",
+1
+],
+[
+"О чём говорит падение сопротивления изоляции обмотки двигателя?",
+"What does a drop in a motor winding's insulation resistance indicate?",
+0
+],
+[
+"Об увлажнении или загрязнении изоляции",
+"Moisture or contamination of the insulation",
+1
+],
+[
+"О росте скорости",
+"An increase in speed",
+1
+],
+[
+"Об исправных подшипниках",
+"Healthy bearings",
+1
+],
+[
+"О хорошей смазке",
+"Good lubrication",
+1
+],
+[
+"Что делает трансформатор?",
+"What does a transformer do?",
+1
+],
+[
+"Изменяет напряжение переменного тока",
+"Changes the voltage of alternating current",
+1
+],
+[
+"Превращает переменный ток в постоянный",
+"Converts AC to DC",
+1
+],
+[
+"Накапливает заряд",
+"Stores charge",
+1
+],
+[
+"Меняет частоту",
+"Changes frequency",
+1
+],
+[
+"Чем синхронная машина отличается от асинхронной?",
+"How does a synchronous machine differ from an induction one?",
+0
+],
+[
+"Ротор синхронной вращается синхронно с полем статора",
+"The synchronous rotor turns in step with the stator field",
+0
+],
+[
+"У синхронной нет статора",
+"A synchronous machine has no stator",
+1
+],
+[
+"Асинхронная работает только на постоянном токе",
+"An induction machine runs only on DC",
+0
+],
+[
+"Ничем",
+"No difference",
+1
+],
+[
+"Что такое коэффициент мощности (cos φ)?",
+"What is power factor (cos φ)?",
+1
+],
+[
+"Отношение активной мощности к полной",
+"The ratio of active power to apparent power",
+1
+],
+[
+"Отношение тока к напряжению",
+"The ratio of current to voltage",
+1
+],
+[
+"КПД двигателя",
+"Motor efficiency",
+1
+],
+[
+"Частота сети",
+"Network frequency",
+1
+],
+[
+"Для чего нужен выпрямитель?",
+"What is a rectifier for?",
+1
+],
+[
+"Преобразует переменный ток в постоянный",
+"Converts AC to DC",
+1
+],
+[
+"Повышает частоту",
+"Raises frequency",
+1
+],
+[
+"Повышает напряжение переменного тока",
+"Raises AC voltage",
+1
+],
+[
+"Накапливает энергию",
+"Stores energy",
+1
+],
+[
+"Что нужно сделать перед работой на электрооборудовании?",
+"What must you do before working on electrical equipment?",
+0
+],
+[
+"Обесточить, заблокировать и проверить отсутствие напряжения",
+"Isolate, lock out and verify there is no voltage",
+0
+],
+[
+"Надеть яркий жилет",
+"Put on a bright vest",
+1
+],
+[
+"Включить свет",
+"Switch on the light",
+1
+],
+[
+"Уменьшить нагрузку",
+"Reduce the load",
+1
+],
+[
+"Что такое осадка судна?",
+"What is a ship's draught?",
+1
+],
+[
+"Глубина погружения корпуса в воду",
+"How deep the hull sits in the water",
+1
+],
+[
+"Длина судна",
+"The ship's length",
+1
+],
+[
+"Высота борта",
+"The freeboard height",
+1
+],
+[
+"Скорость хода",
+"The ship's speed",
+1
+],
+[
+"Для чего служит подруливающее устройство?",
+"What is a thruster for?",
+0
+],
+[
+"Помогает маневрировать на малых скоростях",
+"Helps manoeuvre at low speeds",
+0
+],
+[
+"Увеличивает скорость",
+"Increases speed",
+1
+],
+[
+"Заменяет якорь",
+"Replaces the anchor",
+1
+],
+[
+"Охлаждает двигатель",
+"Cools the engine",
+1
+],
+[
+"Что такое рулевая машина?",
+"What is the steering gear?",
+1
+],
+[
+"Привод, поворачивающий руль",
+"The drive that turns the rudder",
+1
+],
+[
+"Генератор",
+"Generator",
+1
+],
+[
+"Якорная лебёдка",
+"Anchor winch",
+1
+],
+[
+"Опреснитель",
+"Fresh water generator",
+1
+],
+[
+"Для чего нужен опреснитель?",
+"What is a fresh water generator for?",
+1
+],
+[
+"Получать пресную воду из морской",
+"Making fresh water from sea water",
+1
+],
+[
+"Подогревать каюты",
+"Heating cabins",
+1
+],
+[
+"Очищать трюм",
+"Cleaning the hold",
+1
+],
+[
+"Делать лёд",
+"Making ice",
+1
+],
+[
+"Что такое киль?",
+"What is the keel?",
+1
+],
+[
+"Продольная основа днища судна",
+"The longitudinal backbone of the ship's bottom",
+1
+],
+[
+"Мачта",
+"A mast",
+1
+],
+[
+"Спасательный жилет",
+"A life jacket",
+1
+],
+[
+"Трап",
+"A gangway",
+1
+],
+[
+"Что такое левый борт, если смотреть в нос?",
+"Facing forward, what is the port side?",
+0
+],
+[
+"Левая сторона судна",
+"The left side of the ship",
+1
+],
+[
+"Правая сторона",
+"The right side",
+1
+],
+[
+"Задняя часть",
+"The rear part",
+1
+],
+[
+"Носовая часть",
+"The bow",
+1
+],
+[
+"Какого цвета отличительный огонь на правом борту?",
+"What colour is the sidelight on the starboard side?",
+0
+],
+[
+"Зелёный",
+"Green",
+1
+],
+[
+"Красный",
+"Red",
+1
+],
+[
+"Белый",
+"White",
+1
+],
+[
+"Жёлтый",
+"Yellow",
+1
+],
+[
+"Что называют кормой?",
+"What is the stern?",
+1
+],
+[
+"Заднюю часть судна",
+"The rear part of the ship",
+1
+],
+[
+"Переднюю часть",
+"The front part",
+1
+],
+[
+"Центр судна",
+"The middle of the ship",
+1
+],
+[
+"Днище",
+"The bottom",
+1
+],
+[
+"Какой сигнал подают при общей тревоге на судне?",
+"What is the general alarm signal on a ship?",
+0
+],
+[
+"Семь коротких и один длинный",
+"Seven short blasts and one long",
+1
+],
+[
+"Один длинный",
+"One long blast",
+1
+],
+[
+"Два коротких",
+"Two short blasts",
+1
+],
+[
+"Три длинных",
+"Three long blasts",
+1
+],
+[
+"Что такое EPIRB?",
+"What is an EPIRB?",
+1
+],
+[
+"Аварийный радиобуй, передающий место бедствия",
+"An emergency radio beacon that transmits the distress position",
+0
+],
+[
+"Прибор измерения изоляции",
+"An insulation tester",
+1
+],
+[
+"Система пожарной воды",
+"A fire main system",
+1
+],
+[
+"Тип спасательного плота",
+"A type of life raft",
+1
+],
+[
+"Что такое AIS?",
+"What is AIS?",
+1
+],
+[
+"Автоматическая идентификационная система судов",
+"Automatic Identification System for ships",
+0
+],
+[
+"Аварийный источник света",
+"An emergency light source",
+1
+],
+[
+"Чем нельзя тушить электрооборудование под напряжением?",
+"What must not be used on live electrical equipment?",
+0
+],
+[
+"Водой",
+"Water",
+1
+],
+[
+"Углекислотным огнетушителем",
+"CO2 extinguisher",
+1
+],
+[
+"Порошковым огнетушителем",
+"Dry powder extinguisher",
+1
+],
+[
+"Пожарным одеялом",
+"Fire blanket",
+1
+],
+[
+"Что делают в первую очередь, обнаружив пожар?",
+"What is done first when a fire is discovered?",
+0
+],
+[
+"Подают сигнал тревоги и сообщают на мостик",
+"Raise the alarm and report to the bridge",
+0
+],
+[
+"Уходят домой",
+"Go home",
+1
+],
+[
+"Ждут приказа",
+"Wait for orders",
+1
+],
+[
+"Открывают все двери",
+"Open all doors",
+1
+],
+[
+"Зачем проводят учебные тревоги?",
+"Why are drills carried out?",
+1
+],
+[
+"Чтобы отработать действия при аварии",
+"To practise actions in an emergency",
+1
+],
+[
+"Проверить запасы",
+"To check supplies",
+1
+],
+[
+"Развлечь экипаж",
+"To entertain the crew",
+1
+],
+[
+"Пересчитать пассажиров",
+"To count passengers",
+1
+],
+[
+"Что означает «Man overboard»?",
+"What does \"Man overboard\" mean?",
+1
+],
+[
+"Человек за бортом",
+"A person has fallen overboard",
+1
+],
+[
+"Пожар",
+"Fire",
+1
+],
+[
+"Столкновение",
+"Collision",
+1
+],
+[
+"Потеря питания",
+"Loss of power",
+1
+],
+[
+"Какой газ используют в стационарных системах пожаротушения машинного отделения на многих судах?",
+"Which gas is used in fixed engine room fire-fighting systems on many ships?",
+0
+],
+[
+"Углекислый газ (CO#)",
+"Carbon dioxide (CO#)",
+1
+],
+[
+"Гелий",
+"Helium",
+1
+],
+[
+"Кислород",
+"Oxygen",
+1
+],
+[
+"Водород",
+"Hydrogen",
+1
+],
+[
+"Что обязательно делают перед пуском CO# в помещение?",
+"What must be done before releasing CO# into a space?",
+0
+],
+[
+"Эвакуируют людей и убеждаются, что все вышли",
+"Evacuate everyone and make sure all have left",
+0
+],
+[
+"Включают вентиляцию на максимум",
+"Turn ventilation to maximum",
+1
+],
+[
+"Ничего",
+"Nothing",
+1
+],
+[
+"Кому приписывают мысль, что неисследованная жизнь недостойна человека?",
+"Who is credited with the idea that the unexamined life is not worth living?",
+0
+],
+[
+"Сократу",
+"Socrates",
+1
+],
+[
+"Цезарю",
+"Caesar",
+1
+],
+[
+"Ньютону",
+"Newton",
+1
+],
+[
+"Ломоносову",
+"Lomonosov",
+1
+],
+[
+"Что в стоицизме считают зависящим от нас?",
+"In Stoicism, what is considered up to us?",
+0
+],
+[
+"Наши суждения и действия",
+"Our judgements and actions",
+1
+],
+[
+"Погоду",
+"The weather",
+1
+],
+[
+"Мнение других людей",
+"Other people's opinions",
+1
+],
+[
+"Прошлое",
+"The past",
+1
+],
+[
+"Как, по Аристотелю, приобретаются добродетели?",
+"According to Aristotle, how are virtues acquired?",
+0
+],
+[
+"Упражнением и привычкой",
+"Through practice and habit",
+1
+],
+[
+"Только от рождения",
+"Only by birth",
+1
+],
+[
+"Случайно",
+"By chance",
+1
+],
+[
+"За деньги",
+"For money",
+1
+],
+[
+"К какой школе относят Эпиктета?",
+"Which school does Epictetus belong to?",
+1
+],
+[
+"Стоицизм",
+"Stoicism",
+1
+],
+[
+"Эпикуреизм",
+"Epicureanism",
+1
+],
+[
+"Скептицизм",
+"Scepticism",
+1
+],
+[
+"Кинизм",
+"Cynicism",
+1
+],
+[
+"Для чего нужно аварийное освещение?",
+"What is emergency lighting for?",
+1
+],
+[
+"Для эвакуации при обесточивании",
+"For evacuation during a blackout",
+1
+],
+[
+"Для экономии энергии",
+"To save energy",
+1
+],
+[
+"Для украшения",
+"For decoration",
+1
+],
+[
+"Для подсветки палубы днём",
+"To light the deck by day",
+1
+],
+[
+"Что показывает амперметр?",
+"What does an ammeter show?",
+1
+],
+[
+"Силу тока",
+"Current",
+1
+],
+[
+"Напряжение",
+"Voltage",
+1
+],
+[
+"Сопротивление изоляции",
+"Insulation resistance",
+1
+],
+[
+"Частоту",
+"Frequency",
+1
+],
+[
+"Как подключают амперметр в цепь?",
+"How is an ammeter connected in a circuit?",
+1
+],
+[
+"Последовательно с нагрузкой",
+"In series with the load",
+1
+],
+[
+"Параллельно нагрузке",
+"In parallel with the load",
+1
+],
+[
+"Между фазой и корпусом",
+"Between phase and frame",
+1
+],
+[
+"Не подключают вообще",
+"It isn't connected at all",
+1
+],
+[
+"Для чего нужен предохранитель?",
+"What is a fuse for?",
+1
+],
+[
+"Разорвать цепь при коротком замыкании или перегрузке",
+"To break the circuit on a short circuit or overload",
+0
+],
+[
+"Повысить напряжение",
+"To raise voltage",
+1
+],
+[
+"Измерить ток",
+"To measure current",
+1
+],
+[
+"Включить генератор",
+"To start the generator",
+1
+],
+[
+"Что делает частотный преобразователь?",
+"What does a variable frequency drive do?",
+1
+],
+[
+"Регулирует скорость двигателя, меняя частоту и напряжение",
+"Controls motor speed by changing frequency and voltage",
+0
+],
+[
+"Измеряет изоляцию",
+"Measures insulation",
+1
+],
+[
+"Заряжает аккумуляторы",
+"Charges batteries",
+1
+],
+[
+"Что будет при включении генератора с большой разницей фаз?",
+"What happens if a generator is connected with a large phase difference?",
+0
+],
+[
+"Бросок тока и механический удар по генератору",
+"A current surge and a mechanical shock to the generator",
+0
+],
+[
+"Генератор сразу примет нагрузку плавно",
+"The generator will take the load smoothly",
+1
+],
+[
+"Упадёт частота сети до нуля",
+"The network frequency drops to zero",
+1
+],
+[
+"Какая сеть чаще всего на судах для силовых потребителей?",
+"Which network is most common on ships for power consumers?",
+0
+],
+[
+"Трёхфазная с изолированной нейтралью",
+"Three-phase with isolated neutral",
+1
+],
+[
+"Однофазная # В",
+"Single-phase # V",
+1
+],
+[
+"Постоянного тока # В",
+"DC # V",
+1
+],
+[
+"Трёхфазная с заземлённой нейтралью у каждой каюты",
+"Three-phase with earthed neutral at every cabin",
+0
+],
+[
+"Что показывает сигнализация «замыкание на землю» (earth fault) в изолированной сети?",
+"What does an earth fault alarm show in an isolated network?",
+0
+],
+[
+"Снижение изоляции одной из фаз относительно корпуса",
+"Reduced insulation of one phase to the hull",
+0
+],
+[
+"Обрыв нейтрали на берегу",
+"A broken neutral ashore",
+1
+],
+[
+"Перегрузку генератора",
+"Generator overload",
+1
+],
+[
+"Высокую частоту",
+"High frequency",
+1
+],
+[
+"Чем опасно отсоединение вторичной обмотки трансформатора тока под нагрузкой?",
+"Why is it dangerous to open the secondary of a current transformer under load?",
+0
+],
+[
+"На ней появляется опасно высокое напряжение",
+"A dangerously high voltage appears across it",
+0
+],
+[
+"Трансформатор остынет",
+"The transformer cools down",
+1
+],
+[
+"Упадёт частота",
+"The frequency drops",
+1
+],
+[
+"Для чего нужен шиносоединитель на главном щите?",
+"What is the bus-tie breaker on the main switchboard for?",
+0
+],
+[
+"Соединять или разделять секции шин",
+"To connect or separate busbar sections",
+1
+],
+[
+"Измерять мощность",
+"To measure power",
+1
+],
+[
+"Заземлять генератор",
+"To earth the generator",
+1
+],
+[
+"Включать освещение",
+"To switch on the lighting",
+1
+],
+[
+"Что такое ТНВД?",
+"What is a fuel injection pump (HP fuel pump)?",
+1
+],
+[
+"Топливный насос высокого давления",
+"A high-pressure fuel pump",
+1
+],
+[
+"Теплообменник наддувочного воздуха",
+"A charge air heat exchanger",
+1
+],
+[
+"Турбина низкого давления",
+"A low-pressure turbine",
+1
+],
+[
+"Тормоз валопровода",
+"A shaft line brake",
+1
+],
+[
+"Для чего нужен охладитель наддувочного воздуха?",
+"What is the charge air cooler for?",
+0
+],
+[
+"Охладить воздух после турбокомпрессора, чтобы в цилиндр вошло больше воздуха",
+"To cool the air after the turbocharger so more air enters the cylinder",
+0
+],
+[
+"Подогреть топливо",
+"To heat the fuel",
+1
+],
+[
+"Охладить масло",
+"To cool the oil",
+1
+],
+[
+"Охладить выхлоп перед трубой",
+"To cool the exhaust before the funnel",
+1
+],
+[
+"Что означает вода в картерном масле?",
+"What does water in the crankcase oil indicate?",
+1
+],
+[
+"Протечку охладителя или системы охлаждения",
+"A leak in a cooler or the cooling system",
+0
+],
+[
+"Нормальную работу",
+"Normal operation",
+1
+],
+[
+"Избыток топлива",
+"Excess fuel",
+1
+],
+[
+"Износ поршневых колец",
+"Piston ring wear",
+1
+],
+[
+"Что может привести к взрыву в картере?",
+"What can cause a crankcase explosion?",
+1
+],
+[
+"Масляный туман от перегрева деталей и искра или горячая точка",
+"Oil mist from overheated parts plus a spark or hot spot",
+0
+],
+[
+"Холодная погода",
+"Cold weather",
+1
+],
+[
+"Чистое масло",
+"Clean oil",
+1
+],
+[
+"Работа на малых оборотах в порту",
+"Running at low speed in port",
+1
+],
+[
+"Для чего нужен детектор масляного тумана?",
+"What is an oil mist detector for?",
+0
+],
+[
+"Заранее обнаружить перегрев в картере и предотвратить взрыв",
+"To detect overheating in the crankcase early and prevent an explosion",
+0
+],
+[
+"Измерять уровень масла",
+"To measure the oil level",
+1
+],
+[
+"Контролировать вязкость",
+"To monitor viscosity",
+1
+],
+[
+"Определять воду в топливе",
+"To detect water in fuel",
+1
+],
+[
+"Как работает опреснитель на большинстве судов?",
+"How does the fresh water generator work on most ships?",
+0
+],
+[
+"Кипятит забортную воду при пониженном давлении за счёт тепла двигателя",
+"It boils sea water at reduced pressure using engine heat",
+0
+],
+[
+"Фильтрует воду через песок",
+"It filters water through sand",
+1
+],
+[
+"Замораживает воду",
+"It freezes water",
+1
+],
+[
+"Добавляет химию",
+"It adds chemicals",
+1
+],
+[
+"Для чего пусковой воздух на главном двигателе?",
+"What is starting air on the main engine for?",
+0
+],
+[
+"Чтобы раскрутить двигатель при пуске",
+"To turn the engine over when starting",
+1
+],
+[
+"Для охлаждения цилиндров",
+"To cool the cylinders",
+1
+],
+[
+"Для продувки котла",
+"To blow down the boiler",
+1
+],
+[
+"Для подачи топлива",
+"To supply fuel",
+1
+],
+[
+"Какое давление пускового воздуха обычно в баллонах главного двигателя?",
+"What is the usual starting air pressure in the main engine air receivers?",
+0
+],
+[
+"Около # бар",
+"About # bar",
+1
+],
+[
+"Около # бара",
+"About # bar",
+1
+],
+[
+"Что показывает индикаторная диаграмма?",
+"What does an indicator diagram show?",
+1
+],
+[
+"Давление в цилиндре по ходу поршня",
+"Cylinder pressure over the piston stroke",
+1
+],
+[
+"Уровень топлива",
+"Fuel level",
+1
+],
+[
+"Температуру масла",
+"Oil temperature",
+1
+],
+[
+"Скорость судна",
+"Ship speed",
+1
+],
+[
+"Для чего нужна дейдвудная труба?",
+"What is the stern tube for?",
+1
+],
+[
+"Через неё гребной вал выходит из корпуса с уплотнениями",
+"The propeller shaft passes through it out of the hull, with seals",
+0
+],
+[
+"Для подачи забортной воды",
+"To supply sea water",
+1
+],
+[
+"Для выхлопных газов",
+"For exhaust gases",
+1
+],
+[
+"Для якорной цепи",
+"For the anchor chain",
+1
+],
+[
+"Что делают перед вскрытием картера после остановки двигателя?",
+"What is done before opening the crankcase after stopping the engine?",
+0
+],
+[
+"Ждут остывания, чтобы не впустить воздух к горячим деталям",
+"Wait for it to cool so air doesn't reach hot parts",
+0
+],
+[
+"Сразу открывают для проверки",
+"Open it immediately to inspect",
+1
+],
+[
+"Запускают двигатель",
+"Start the engine",
+1
+],
+[
+"Включают пусковой воздух",
+"Open the starting air",
+1
+],
+[
+"Что такое валоповоротное устройство?",
+"What is the turning gear?",
+1
+],
+[
+"Привод для медленного проворачивания коленчатого вала при обслуживании",
+"A drive for slowly turning the crankshaft during maintenance",
+0
+],
+[
+"Насос для масла",
+"An oil pump",
+1
+],
+[
+"Тормоз гребного винта",
+"A propeller brake",
+1
+],
+[
+"Рулевая машина",
+"Steering gear",
+1
+],
+[
+"Зачем продувают воздушные баллоны от воды?",
+"Why are air receivers drained of water?",
+0
+],
+[
+"Чтобы конденсат не попадал в пусковую систему и не вызывал коррозию",
+"So condensate doesn't enter the starting system and cause corrosion",
+0
+],
+[
+"Чтобы повысить давление",
+"To raise the pressure",
+1
+],
+[
+"Чтобы охладить баллоны",
+"To cool the receivers",
+1
+],
+[
+"Чтобы проверить клапаны",
+"To test the valves",
+1
+],
+[
+"Что измеряют щупом при проверке подшипников?",
+"What is measured with feeler gauges when checking bearings?",
+0
+],
+[
+"Зазоры",
+"Clearances",
+1
+],
+[
+"Температуру",
+"Temperature",
+1
+],
+[
+"Давление масла",
+"Oil pressure",
+1
+],
+[
+"Вязкость",
+"Viscosity",
+1
+],
+[
+"Что такое кавитация в насосе?",
+"What is cavitation in a pump?",
+1
+],
+[
+"Образование и схлопывание пузырьков пара, разрушающее металл",
+"Vapour bubbles forming and collapsing, eroding the metal",
+0
+],
+[
+"Нормальный режим работы",
+"Normal operation",
+1
+],
+[
+"Утечка через сальник",
+"Leakage through the gland",
+1
+],
+[
+"Перегрев электродвигателя",
+"Electric motor overheating",
+1
+],
+[
+"Какие огни несёт судно с механическим двигателем на ходу длиной более # м?",
+"What lights does a power-driven vessel underway over # m long show?",
+0
+],
+[
+"Два топовых, бортовые и кормовой",
+"Two masthead lights, sidelights and a sternlight",
+1
+],
+[
+"Только кормовой",
+"Sternlight only",
+1
+],
+[
+"Красный над белым",
+"Red over white",
+1
+],
+[
+"Три красных по вертикали",
+"Three reds in a vertical line",
+1
+],
+[
+"Что означают три красных огня по вертикали?",
+"What do three red lights in a vertical line mean?",
+0
+],
+[
+"Судно, стеснённое своей осадкой",
+"A vessel constrained by her draught",
+1
+],
+[
+"Судно на якоре",
+"A vessel at anchor",
+1
+],
+[
+"Рыболовное судно",
+"A fishing vessel",
+1
+],
+[
+"Лоцманское судно",
+"A pilot vessel",
+1
+],
+[
+"Что означает звуковой сигнал из пяти коротких звуков?",
+"What does a signal of five short blasts mean?",
+0
+],
+[
+"Сомнение в намерениях другого судна",
+"Doubt about the other vessel's intentions",
+1
+],
+[
+"Изменяю курс влево",
+"I am altering my course to port",
+1
+],
+[
+"Какой знак днём показывает судно на якоре?",
+"Which day shape shows a vessel at anchor?",
+0
+],
+[
+"Чёрный шар в носовой части",
+"One black ball forward",
+1
+],
+[
+"Чёрный ромб",
+"A black diamond",
+1
+],
+[
+"Два конуса вершинами вместе",
+"Two cones with apexes together",
+1
+],
+[
+"Цилиндр",
+"A cylinder",
+1
+],
+[
+"Что такое девиация компаса?",
+"What is compass deviation?",
+1
+],
+[
+"Отклонение магнитного компаса из-за магнетизма судна",
+"The error of the magnetic compass caused by the ship's own magnetism",
+0
+],
+[
+"Разница между истинным и магнитным меридианом",
+"The difference between the true and magnetic meridians",
+0
+],
+[
+"Ошибка гирокомпаса из-за скорости",
+"Gyro compass speed error",
+1
+],
+[
+"Снос течением",
+"Drift from current",
+1
+],
+[
+"Что такое склонение (вариация)?",
+"What is variation?",
+1
+],
+[
+"Угол между истинным и магнитным меридианом",
+"The angle between the true and magnetic meridians",
+0
+],
+[
+"Ошибка от железа судна",
+"Error from the ship's iron",
+1
+],
+[
+"Ошибка лага",
+"Log error",
+1
+],
+[
+"Угол крена",
+"Angle of heel",
+1
+],
+[
+"Что такое UKC (under keel clearance)?",
+"What is UKC (under keel clearance)?",
+1
+],
+[
+"Запас воды под килем",
+"The depth of water under the keel",
+1
+],
+[
+"Ширина фарватера",
+"Fairway width",
+1
+],
+[
+"Высота над мостом",
+"Clearance under a bridge",
+1
+],
+[
+"Дистанция до берега",
+"Distance to shore",
+1
+],
+[
+"Что такое приседание судна (squat)?",
+"What is squat?",
+1
+],
+[
+"Увеличение осадки на ходу, особенно на мелководье",
+"Increased draught when underway, especially in shallow water",
+0
+],
+[
+"Крен при повороте",
+"Heel when turning",
+1
+],
+[
+"Подъём кормы в шторм",
+"Stern lifting in a storm",
+1
+],
+[
+"Дифферент при погрузке",
+"Trim during loading",
+1
+],
+[
+"Какой канал УКВ используют для бедствия и вызова голосом?",
+"Which VHF channel is used for distress and voice calling?",
+0
+],
+[
+"Что делает радиолокационный ответчик SART?",
+"What does a SART do?",
+0
+],
+[
+"Показывает место спасательного средства на экране радара",
+"Shows the position of a survival craft on a radar screen",
+0
+],
+[
+"Передаёт голосовые сообщения",
+"Transmits voice messages",
+1
+],
+[
+"Отслеживает погоду",
+"Tracks the weather",
+1
+],
+[
+"Принимает навигационные предупреждения",
+"Receives navigational warnings",
+1
+],
+[
+"В ограниченную видимость судно слышит сигнал впереди траверза. Что нужно сделать?",
+"In restricted visibility a vessel hears a fog signal forward of the beam. What should be done?",
+0
+],
+[
+"Уменьшить скорость до минимальной и при необходимости остановиться",
+"Reduce speed to the minimum and stop if necessary",
+0
+],
+[
+"Подать сигнал бедствия",
+"Send a distress signal",
+1
+],
+[
+"Только поменять курс влево",
+"Just alter course to port",
+1
+],
+[
+"Что такое NAVTEX?",
+"What is NAVTEX?",
+1
+],
+[
+"Система приёма навигационных и метеопредупреждений",
+"A system for receiving navigational and weather warnings",
+0
+],
+[
+"Тип эхолота",
+"A type of echo sounder",
+1
+],
+[
+"Электронная карта",
+"An electronic chart",
+1
+],
+[
+"Автопилот",
+"An autopilot",
+1
+],
+[
+"Что показывает АИС (AIS)?",
+"What does AIS show?",
+1
+],
+[
+"Данные других судов: название, курс, скорость, размеры",
+"Other ships' data: name, course, speed, dimensions",
+0
+],
+[
+"Глубину",
+"Depth",
+1
+],
+[
+"Только береговые огни",
+"Only shore lights",
+1
+],
+[
+"Где ищут поправки к картам и пособиям?",
+"Where are chart and publication corrections found?",
+1
+],
+[
+"В Извещениях мореплавателям (Notices to Mariners)",
+"In Notices to Mariners",
+0
+],
+[
+"В судовой роли",
+"In the crew list",
+1
+],
+[
+"В журнале нефтяных операций",
+"In the Oil Record Book",
+1
+],
+[
+"В медицинском журнале",
+"In the medical log",
+1
+],
+[
+"Что делать перед сдачей вахты, если идёт манёвр расхождения?",
+"What should you do before handing over the watch during a collision-avoidance manoeuvre?",
+0
+],
+[
+"Закончить манёвр, затем сдавать вахту",
+"Complete the manoeuvre, then hand over",
+1
+],
+[
+"Сдать вахту сразу",
+"Hand over immediately",
+1
+],
+[
+"Уйти с мостика",
+"Leave the bridge",
+1
+],
+[
+"Выключить радар",
+"Switch off the radar",
+1
+],
+[
+"Что удаляет сепаратор из топлива и масла?",
+"What does a purifier remove from fuel and oil?",
+0
+],
+[
+"Воду и механические примеси",
+"Water and solid impurities",
+1
+],
+[
+"Серу",
+"Sulphur",
+1
+],
+[
+"Воздух",
+"Air",
+1
+],
+[
+"Присадки",
+"Additives",
+1
+],
+[
+"Для чего нужен турбокомпрессор?",
+"What is a turbocharger for?",
+1
+],
+[
+"Нагнетать воздух в цилиндры за счёт энергии выхлопных газов",
+"To force air into the cylinders using exhaust gas energy",
+0
+],
+[
+"Охлаждать масло",
+"To cool the oil",
+1
+],
+[
+"Подавать топливо",
+"To supply fuel",
+1
+],
+[
+"Запускать двигатель",
+"To start the engine",
+1
+],
+[
+"Сколько тактов в рабочем цикле малооборотного главного двигателя?",
+"How many strokes are in the working cycle of a slow-speed main engine?",
+0
+],
+[
+"Два",
+"Two",
+1
+],
+[
+"Четыре",
+"Four",
+1
+],
+[
+"Шесть",
+"Six",
+1
+],
+[
+"Один",
+"One",
+1
+],
+[
+"Зачем перед пуском проворачивают двигатель с открытыми индикаторными кранами?",
+"Why is the engine turned over with the indicator cocks open before starting?",
+0
+],
+[
+"Убедиться, что в цилиндрах нет жидкости и вал вращается свободно",
+"To make sure there is no liquid in the cylinders and the shaft turns freely",
+0
+],
+[
+"Прогреть масло",
+"To warm the oil",
+1
+],
+[
+"Зарядить аккумуляторы",
+"To charge the batteries",
+1
+],
+[
+"Проверить топливо",
+"To check the fuel",
+1
+],
+[
+"Какой предел нефтесодержания сброса через сепаратор льяльных вод по МАРПОЛ?",
+"What is the MARPOL oil content limit for discharge through the oily water separator?",
+0
+],
+[
+"Ограничения нет",
+"There is no limit",
+1
+],
+[
+"Зачем подогревают тяжёлое топливо?",
+"Why is heavy fuel oil heated?",
+1
+],
+[
+"Чтобы снизить вязкость для перекачки, очистки и распыла",
+"To lower viscosity for transfer, purification and atomisation",
+0
+],
+[
+"Чтобы повысить вязкость",
+"To raise viscosity",
+1
+],
+[
+"Чтобы убрать серу",
+"To remove sulphur",
+1
+],
+[
+"Чтобы оно не испарялось",
+"So it doesn't evaporate",
+1
+],
+[
+"Температура выхлопа одного цилиндра заметно выше остальных. Что проверить в первую очередь?",
+"One cylinder's exhaust temperature is clearly higher than the others. What do you check first?",
+0
+],
+[
+"Форсунку, топливный насос и выпускной клапан этого цилиндра",
+"That cylinder's injector, fuel pump and exhaust valve",
+0
+],
+[
+"Рулевую машину",
+"The steering gear",
+1
+],
+[
+"Якорную лебёдку",
+"The anchor winch",
+1
+],
+[
+"Зачем двигателю два контура охлаждения: пресной и забортной водой?",
+"Why does an engine have two cooling circuits: fresh water and sea water?",
+0
+],
+[
+"Чтобы соль и накипь не попадали в рубашки двигателя",
+"So salt and scale don't get into the engine jackets",
+0
+],
+[
+"Чтобы экономить топливо",
+"To save fuel",
+1
+],
+[
+"Для красоты схемы",
+"To make the diagram look nice",
+1
+],
+[
+"Чтобы охлаждать воздух в каютах",
+"To cool the air in the cabins",
+1
+],
+[
+"В какой журнал записывают операции с топливом и льяльными водами?",
+"Which book records fuel and bilge water operations?",
+0
+],
+[
+"Журнал нефтяных операций",
+"Oil Record Book",
+1
+],
+[
+"Судовой журнал мостика",
+"Bridge logbook",
+1
+],
+[
+"Медицинский журнал",
+"Medical log",
+1
+],
+[
+"Журнал радиосвязи",
+"Radio log",
+1
+],
+[
+"Чем при пожаре в машинном отделении дистанционно перекрывают топливо из цистерн?",
+"In an engine room fire, what is used to shut off fuel from the tanks remotely?",
+0
+],
+[
+"Быстрозапорными клапанами",
+"Quick-closing valves",
+1
+],
+[
+"Ручным насосом",
+"A hand pump",
+1
+],
+[
+"Кингстоном",
+"A sea valve",
+1
+],
+[
+"Шпигатами",
+"Scuppers",
+1
+],
+[
+"Два судна с механическим двигателем пересекаются курсами. Кто уступает дорогу?",
+"Two power-driven vessels are crossing. Who gives way?",
+0
+],
+[
+"Тот, кто видит другое судно по своему правому борту",
+"The one that has the other on her own starboard side",
+0
+],
+[
+"Тот, кто видит другое судно по левому борту",
+"The one that has the other on her port side",
+0
+],
+[
+"Тот, кто больше",
+"The bigger one",
+1
+],
+[
+"Тот, кто быстрее",
+"The faster one",
+1
+],
+[
+"Какого цвета бортовой огонь левого борта?",
+"What colour is the port sidelight?",
+0
+],
+[
+"Что означает один короткий звук при виде друг друга (МППСС)?",
+"What does one short blast mean when vessels are in sight of one another (COLREG)?",
+0
+],
+[
+"Изменяю курс вправо",
+"I am altering my course to starboard",
+1
+],
+[
+"Работаю движителями назад",
+"I am operating astern propulsion",
+1
+],
+[
+"Сомневаюсь в ваших намерениях",
+"I am in doubt about your intentions",
+1
+],
+[
+"Что такое CPA?",
+"What is CPA?",
+1
+],
+[
+"Дистанция кратчайшего сближения",
+"Closest point of approach",
+1
+],
+[
+"Время до сближения",
+"Time to the closest approach",
+1
+],
+[
+"Путевой угол",
+"Course over ground",
+1
+],
+[
+"Скорость цели",
+"Target speed",
+1
+],
+[
+"Пеленг на сближающееся судно почти не меняется, дистанция уменьшается. Что это значит?",
+"The bearing of an approaching vessel hardly changes and the range is closing. What does it mean?",
+0
+],
+[
+"Существует опасность столкновения",
+"Risk of collision exists",
+1
+],
+[
+"Судно удаляется",
+"The vessel is moving away",
+1
+],
+[
+"Опасности нет",
+"There is no danger",
+1
+],
+[
+"Неисправен радар",
+"The radar is faulty",
+1
+],
+[
+"Как свободная поверхность жидкости в танках влияет на остойчивость?",
+"How does the free surface of liquid in tanks affect stability?",
+0
+],
+[
+"Уменьшает её",
+"It reduces it",
+1
+],
+[
+"Увеличивает её",
+"It increases it",
+1
+],
+[
+"Никак",
+"No effect",
+1
+],
+[
+"Только меняет осадку",
+"It only changes the draught",
+1
+],
+[
+"Какое слово используют в голосовом сигнале бедствия?",
+"Which word is used in a spoken distress signal?",
+0
+],
+[
+"Какой полукруг циклона опасный в северном полушарии?",
+"Which semicircle of a cyclone is dangerous in the northern hemisphere?",
+0
+],
+[
+"Правый",
+"Right",
+1
+],
+[
+"Левый",
+"Left",
+1
+],
+[
+"Передний",
+"Front",
+1
+],
+[
+"Задний",
+"Rear",
+1
+],
+[
+"Когда судно считается обгоняющим?",
+"When is a vessel considered to be overtaking?",
+1
+],
+[
+"Когда подходит с направления более #,#° позади траверза другого судна",
+"When coming up from a direction more than #.#° abaft the other vessel's beam",
+0
+],
+[
+"Когда идёт быстрее",
+"When she is faster",
+1
+],
+[
+"Когда видит зелёный огонь",
+"When she sees a green light",
+1
+],
+[
+"Всегда, если оно больше",
+"Always, if she is bigger",
+1
+],
+[
+"Что показывает безопасный контур в ЭКНИС?",
+"What does the safety contour show in ECDIS?",
+0
+],
+[
+"Границу опасных для своей осадки глубин",
+"The boundary of depths dangerous for your own draught",
+1
+],
+[
+"Маршрут перехода",
+"The passage route",
+1
+],
+[
+"Зону радиосвязи",
+"The radio coverage area",
+1
+],
+[
+"Район лоцманской проводки",
+"The pilotage area",
+1
+],
+[
+"Мини-игра: морской экзамен",
+"Mini-game: sea exam",
+1
+],
+[
+"# вопросов: +# XP за верный ответ и +# за идеальный раунд (не больше # XP в день). Верных ответов всего:",
+"# questions: +# XP per correct answer and +# for a perfect round (max # XP a day). Total correct answers:",
+1
+],
+[
+"⚡ Электромеханика",
+"⚡ Electrical",
+1
+],
+[
+"⚙️ Механика",
+"⚙️ Engineering",
+1
+],
+[
+"🧭 Навигация",
+"🧭 Navigation",
+1
+],
+[
+"Пассажирские суда",
+"Passenger ships",
+1
+],
+[
+"Безопасность",
+"Safety",
+1
+],
+[
+"Философия",
+"Philosophy",
+1
+],
+[
+"Микс",
+"Mix",
+1
+],
+[
+"Повтор ошибок (",
+"Review mistakes (",
+1
+],
+[
+"Вопрос",
+"Question",
+1
+],
+[
+"Верно:",
+"Correct:",
+1
+],
+[
+"Раунд завершён:",
+"Round finished:",
+1
+],
+[
+"Дневной лимит XP за экзамен исчерпан",
+"Daily exam XP limit reached",
+1
+],
+[
+"Ещё раунд",
+"Another round",
+1
+],
+[
+"Нарисуй по памяти топливную систему своего судна от цистерны до форсунки и сверь со схемой. # минут в день на одну систему.",
+"Draw your ship's fuel system from memory, from tank to injector, and check it against the diagram. # minutes a day per system.",
+0
+],
+[
+"Разберись, как настроен твой сепаратор: пуск, остановка, сигналы аварии и что делать при выбросе топлива.",
+"Learn how your purifier is set up: start, stop, alarms and what to do if fuel is discharged.",
+0
+],
+[
+"Сравнивай параметры главного двигателя с ходовыми испытаниями: температура выхлопа по цилиндрам, давления, нагрузка.",
+"Compare main engine parameters with the sea trial data: exhaust temperature per cylinder, pressures, load.",
+0
+],
+[
+"Составь себе чек-лист подготовки главного двигателя к пуску и проговори его вслух.",
+"Make yourself a checklist for preparing the main engine for start and say it aloud.",
+0
+],
+[
+"Узнай, как на судне отбирают пробы масла и что смотрят в анализе: воду, металлы, вязкость.",
+"Find out how oil samples are taken on board and what the analysis looks at: water, metals, viscosity.",
+0
+],
+[
+"Повтори требования к сепаратору льяльных вод и журналу нефтяных операций: ошибки здесь стоят дороже всего.",
+"Review the requirements for the oily water separator and the Oil Record Book: mistakes here cost the most.",
+0
+],
+[
+"Котёл: выучи порядок продувки водоуказательных стёкол и признаки плохого качества котловой воды.",
+"Boiler: learn the gauge glass blow-down procedure and the signs of poor boiler water quality.",
+0
+],
+[
+"Найди на своём судне все быстрозапорные клапаны топливных цистерн и место, откуда их закрывают.",
+"Find all the quick-closing valves of the fuel tanks on your ship and the place they are closed from.",
+0
+],
+[
+"Типовой путь топлива: бункерные цистерны, перекачка в отстойную, сепаратор, расходная цистерна, топливоподкачивающие и циркуляционные насосы, подогреватель, фильтр тонкой очистки, ТНВД и форсунки. Зная путь, быстрее находишь место неисправности.",
+"Typical fuel path: bunker tanks, transfer to the settling tank, purifier, service tank, supply and circulating pumps, heater, fine filter, injection pumps and injectors. Knowing the path helps you find a fault faster.",
+0
+],
+[
+"Сепаратор вращает барабан с большой скоростью, и вода с механическими примесями отбрасываются к стенкам. Важны температура подогрева, производительность и правильный режим разгрузки. Выброс топлива часто связан с потерей водяного затвора или неисправностью клапанов.",
+"The purifier spins its bowl at high speed and water and solid impurities are thrown to the walls. Heating temperature, throughput and the correct discharge mode matter. Fuel overflow is often caused by loss of the water seal or faulty valves.",
+0
+],
+[
+"Неравномерная температура выхлопа по цилиндрам указывает на форсунку, топливный насос или выпускной клапан конкретного цилиндра. Важна не одна цифра, а изменение: записывай параметры и сравнивай с прошлыми рейсами.",
+"Uneven exhaust temperatures between cylinders point to the injector, fuel pump or exhaust valve of that cylinder. What matters is not one number but the trend: record parameters and compare with previous voyages.",
+0
+],
+[
+"Обычно: прокачка маслом, проворачивание валоповоротным устройством с открытыми индикаторными кранами, проверка, что из цилиндров не выходит жидкость, подогрев охлаждающей воды, проверка пускового воздуха. Порядок всегда сверяй с инструкцией изготовителя.",
+"Usually: lube oil priming, turning with the turning gear with the indicator cocks open, checking that no liquid comes out of the cylinders, warming the cooling water, checking the starting air. Always check the order against the maker's manual.",
+0
+],
+[
+"Пробу берут из работающей системы в одном и том же месте, в чистую тару. Вода в масле говорит о протечке охладителя, металлы об износе, падение вязкости о попадании топлива. Сравнивай с прошлыми анализами.",
+"Take the sample from a running system at the same point every time, into a clean container. Water in oil points to a cooler leak, metals to wear, a drop in viscosity to fuel dilution. Compare with previous analyses.",
+0
+],
+[
+"По МАРПОЛ нефтесодержание сброса через сепаратор льяльных вод не больше # ppm, с работающим сигнализатором. Каждая операция записывается в журнал нефтяных операций. Записи должны совпадать с реальными остатками в танках.",
+"Under MARPOL, oil content of discharge through the oily water separator must not exceed # ppm, with a working alarm. Every operation is recorded in the Oil Record Book. Records must match the actual tank quantities.",
+0
+],
+[
+"Продувка водоуказательных стёкол проверяет, что они показывают реальный уровень. Низкий уровень воды в котле опасен перегревом труб. Качество воды контролируют по щёлочности, хлоридам и жёсткости, дозируя присадки.",
+"Blowing down the gauge glasses checks that they show the real level. Low water level in a boiler risks overheating the tubes. Water quality is controlled by alkalinity, chlorides and hardness, dosing chemicals as needed.",
+0
+],
+[
+"При пожаре в машинном отделении топливо перекрывают дистанционно быстрозапорными клапанами, останавливают вентиляцию и топливные насосы. Знать места этих органов управления нужно заранее, а не во время тревоги.",
+"In an engine room fire, fuel is shut off remotely with quick-closing valves, and ventilation and fuel pumps are stopped. Know where these controls are in advance, not during the alarm.",
+0
+],
+[
+"Повтори правила МППСС #–# и #–#: наблюдение, безопасная скорость, опасность столкновения и действия при расхождении.",
+"Review COLREG Rules #–# and #–#: lookout, safe speed, risk of collision and action to avoid collision.",
+0
+],
+[
+"Разбери любой свой переход по четырём этапам: оценка, планирование, исполнение, контроль.",
+"Break down any of your passages into four stages: appraisal, planning, execution, monitoring.",
+0
+],
+[
+"Проверь настройки ЭКНИС: безопасный контур, безопасная глубина и сигналы при пересечении.",
+"Check your ECDIS settings: safety contour, safety depth and crossing alarms.",
+0
+],
+[
+"САРП: каждый раз сверяй CPA и TCPA с визуальным пеленгом. Пеленг не меняется и дистанция падает, значит опасность.",
+"ARPA: always check CPA and TCPA against a visual bearing. If the bearing doesn't change and the range is closing, there is danger.",
+0
+],
+[
+"Остойчивость: научись считать поправку на свободные поверхности и проверять критерии по информации об остойчивости.",
+"Stability: learn to calculate the free surface correction and check the criteria against the stability information.",
+0
+],
+[
+"Повтори закон Бейс-Балло и правила расхождения с циклоном: где опасный полукруг в твоём полушарии.",
+"Review Buys Ballot's law and the rules for avoiding a cyclone: where the dangerous semicircle is in your hemisphere.",
+0
+],
+[
+"ГМССБ: проговори порядок подачи сигнала бедствия через ЦИВ и голосом MAYDAY.",
+"GMDSS: rehearse the distress procedure via DSC and by voice with MAYDAY.",
+0
+],
+[
+"Составь свой чек-лист приёма и сдачи вахты и пользуйся им каждый раз.",
+"Make your own watch handover checklist and use it every time.",
+0
+],
+[
+"Правило #: постоянное наблюдение всеми средствами. Правило #: безопасная скорость. Правило #: опасность столкновения, особенно если пеленг заметно не меняется. Правило #: действия заранее, явно и в достаточных пределах. Правила #–# определяют, кто уступает при обгоне, встречных курсах, пересечении и в ограниченной видимости.",
+"Rule #: proper lookout by all available means. Rule #: safe speed. Rule #: risk of collision, especially if the bearing does not appreciably change. Rule #: action taken in ample time, positively and substantially. Rules #–# set out who gives way when overtaking, head-on, crossing and in restricted visibility.",
+0
+],
+[
+"Резолюция IMO A.# описывает четыре этапа: оценка (информация о маршруте, судне и грузе), планирование от причала до причала, исполнение с учётом обстановки и постоянный контроль места судна. План утверждает капитан.",
+"IMO Resolution A.# describes four stages: appraisal (information on the route, ship and cargo), berth-to-berth planning, execution taking account of conditions, and continuous monitoring of the ship's position. The plan is approved by the master.",
+0
+],
+[
+"Безопасный контур выделяет на карте глубины, опасные для твоей осадки с запасом. Если он настроен неверно, ЭКНИС не предупредит об опасности. Проверяй настройки при приёме вахты и после смены осадки.",
+"The safety contour highlights depths on the chart that are dangerous for your draught with a margin. If it is set wrongly, ECDIS will not warn you of danger. Check the settings when taking over the watch and after any draught change.",
+0
+],
+[
+"CPA — дистанция кратчайшего сближения, TCPA — время до неё. Данные САРП запаздывают после манёвра цели и зависят от точности гирокомпаса и лага. Поэтому радар дополняют визуальным наблюдением и пеленгованием.",
+"CPA is the closest point of approach, TCPA the time to it. ARPA data lag after a target manoeuvres and depend on gyro and log accuracy. That's why radar is backed up with visual lookout and bearings.",
+0
+],
+[
+"Метацентрическая высота GM показывает начальную остойчивость. Жидкость, свободно переливающаяся в частично заполненных танках, уменьшает GM. Перед отходом проверяют критерии по документации судна и учитывают расход топлива и балласта в рейсе.",
+"The metacentric height GM shows initial stability. Liquid moving freely in partly filled tanks reduces GM. Before departure, criteria are checked against the ship's documentation, taking into account fuel and ballast consumption on passage.",
+0
+],
+[
+"В северном полушарии, если стать спиной к ветру, низкое давление будет слева и немного впереди. Опасный полукруг циклона в северном полушарии правый, в южном левый.",
+"In the northern hemisphere, if you stand with your back to the wind, low pressure is on your left and slightly ahead. The dangerous semicircle of a cyclone is the right one in the northern hemisphere and the left one in the southern.",
+0
+],
+[
+"При бедствии нажимают кнопку Distress на станции ЦИВ, затем голосом на # канале: MAYDAY трижды, название и позывной, место, характер бедствия, нужная помощь. Также используют АРБ (EPIRB) и радиолокационный ответчик (SART).",
+"In distress, press the Distress button on the DSC unit, then by voice on channel #: MAYDAY three times, ship name and call sign, position, nature of distress, assistance required. Also use the EPIRB and the SART.",
+0
+],
+[
+"При приёме вахты проверяют место судна, курс, скорость, цели и их CPA, погоду, приказы капитана, работу навигационных приборов и огней. Вахту не принимают, пока глаза не привыкли к темноте и ситуация не понятна.",
+"When taking over the watch, check the ship's position, course, speed, targets and their CPA, weather, master's orders, and the working of navigation equipment and lights. Don't take over until your eyes have adjusted to the dark and the situation is clear.",
+0
+],
+[
+"Однолинейная схема показывает путь энергии: генераторы, главный щит, секции шин, потребители. Читай от источника к потребителю: коммутация, защита, нагрузка. Найди шиносоединитель и питание аварийного щита, а раз в неделю рисуй схему по памяти и сверяй.",
+"A single-line diagram shows the path of energy: generators, main switchboard, busbar sections, consumers. Read from source to consumer: switching, protection, load. Find the bus-tie and the emergency switchboard supply, and once a week draw the diagram from memory and check it.",
+0
+],
+[
+"Перед параллельной работой выравнивают напряжение, частоту и фазовый угол (порядок фаз проверяют при монтаже). На синхроноскопе стрелка должна вращаться медленно, автомат включают у отметки «# часов». Большая разница даёт бросок тока и момента.",
+"Before parallel operation, voltage, frequency and phase angle are matched (phase sequence is checked at installation). On the synchroscope the pointer should rotate slowly, and the breaker is closed at the \"# o'clock\" mark. A large difference causes a surge of current and torque.",
+0
+],
+[
+"Мегомметр подаёт повышенное постоянное напряжение и показывает сопротивление изоляции. Перед замером отключи и разряди объект, отсоедини чувствительную электронику. Нормы бери из инструкций и правил классификационного общества. Важна динамика: падение от замера к замеру сигнал проблемы, ведите журнал.",
+"A megger applies an elevated DC voltage and shows the insulation resistance. Before testing, isolate and discharge the equipment and disconnect sensitive electronics. Take limits from the manuals and class rules. The trend matters: a drop from test to test signals a problem, so keep a log.",
+0
+],
+[
+"Типовой порядок (сверяй с инструкцией судна): доложить на мостик, проверить аварийный генератор, найти причину, снять лишнюю нагрузку, запустить и синхронизировать генератор, по очереди вернуть потребителей. Рулевая, насосы и вентиляция в приоритете. Потом запись в журнал и разбор.",
+"Typical sequence (check against your ship's procedure): report to the bridge, check the emergency generator, find the cause, shed unnecessary load, start and synchronise a generator, restore consumers one by one. Steering gear, pumps and ventilation have priority. Then a log entry and a debrief.",
+0
+],
+[
+"Прямой пуск прост, но ток в несколько раз выше номинального. Звезда–треугольник снижает пусковой ток примерно втрое, но и момент. Частотник даёт плавный пуск и регулировку скорости, но стоит дороже. Мягкий пускатель — золотая середина.",
+"Direct-on-line starting is simple, but the current is several times rated. Star–delta cuts starting current about threefold, but torque too. A VFD gives a smooth start and speed control but costs more. A soft starter is a happy medium.",
+0
+],
+[
+"Начни с паспорта двигателя: напряжение, ток, частота, обороты, мощность. Слишком короткий разгон даёт перегрузку по току, слишком долгий затягивает пуск. Типовые аварии: перегрузка по току, перенапряжение звена постоянного тока при быстром торможении, перегрев, потеря фазы. Таблицу кодов держи в телефоне.",
+"Start with the motor nameplate: voltage, current, frequency, speed, power. Too short a ramp causes overcurrent, too long drags out the start. Typical faults: overcurrent, DC bus overvoltage during fast braking, overheating, phase loss. Keep the fault code table on your phone.",
+0
+],
+[
+"Автомат защищает от короткого замыкания (мгновенный расцепитель) и перегрузки (тепловой). Тепловое реле защищает от перегрузки двигателя. Селективность: ближайший к аварии аппарат отключается первым. Собери таблицу: потребитель, аппарат, уставка, что отключится выше.",
+"A breaker protects against short circuit (instantaneous trip) and overload (thermal). A thermal relay protects a motor from overload. Selectivity: the device closest to the fault trips first. Build a table: consumer, device, setting, what trips upstream.",
+0
+],
+[
+"Подпись цепей связывает схему с реальным щитом: номер фидера, назначение, номинал защиты. Делай это только где разрешают правила судна и не публикуй снимки. Альтернатива: нарисуй щит от руки, а через неделю найди нужный фидер, не глядя в схему.",
+"Labelling circuits links the diagram to the real switchboard: feeder number, purpose, protection rating. Only do this where ship rules allow and don't publish the photos. Alternative: sketch the switchboard by hand and a week later find a feeder without looking at the diagram.",
+0
+],
+[
+"Отношения",
+"Relationships",
+1
+],
+[
+"Слушай, чтобы понять, а не чтобы ответить. Перескажи своими словами услышанное: «Правильно ли я понял, что…?»",
+"Listen to understand, not to reply. Restate what you heard in your own words: \"Did I get it right that…?\"",
+0
+],
+[
+"Сегодня в одном разговоре перескажи суть, прежде чем отвечать.",
+"Today, in one conversation, sum up the point before you answer.",
+0
+],
+[
+"Для моряка главное — предсказуемость на расстоянии. Договоритесь о ритме связи, например короткое сообщение утром и звонок в выходной, а не «когда получится».",
+"For a seafarer the key is predictability at a distance. Agree on a contact rhythm, for example a short message in the morning and a call at the weekend, rather than \"whenever I can\".",
+0
+],
+[
+"Предложи один постоянный ритм связи.",
+"Suggest one fixed contact rhythm.",
+1
+],
+[
+"Конфликт — про потребность, а не про победу. Говори «я» вместо «ты»: «Мне обидно, когда…» вместо «Ты всегда…».",
+"Conflict is about a need, not about winning. Say \"I\" instead of \"you\": \"I feel hurt when…\" instead of \"You always…\".",
+0
+],
+[
+"Переформулируй одну претензию в «я-сообщение».",
+"Rephrase one complaint as an \"I-statement\".",
+0
+],
+[
+"Благодарность вслух сильнее подарков. Называй конкретное: «Спасибо, что дождалась моего звонка».",
+"Gratitude said aloud is stronger than gifts. Name something specific: \"Thank you for waiting for my call.\"",
+0
+],
+[
+"Скажи одно конкретное спасибо.",
+"Say one specific thank you.",
+1
+],
+[
+"Не читай мысли, а спрашивай: «Тебе сейчас нужна поддержка, совет или просто выслушать?»",
+"Don't read minds, ask: \"Do you need support, advice or just someone to listen right now?\"",
+0
+],
+[
+"Задай этот вопрос в ближайшем разговоре.",
+"Ask this question in your next conversation.",
+1
+],
+[
+"«Нет» — полноценный ответ, и твоё, и её. Уважение к границам строит доверие.",
+"\"No\" is a complete answer, both yours and hers. Respecting boundaries builds trust.",
+0
+],
+[
+"Вспомни, где ты настаивал, и пересмотри.",
+"Remember where you pushed and reconsider.",
+1
+],
+[
+"Психология",
+"Psychology",
+1
+],
+[
+"Эмоцию легче контролировать, когда назвал её: «я раздражён», «я устал». Название снижает накал.",
+"An emotion is easier to control once you name it: \"I'm irritated\", \"I'm tired\". Naming it lowers the heat.",
+0
+],
+[
+"Назови вслух своё состояние три раза за день.",
+"Name your state aloud three times a day.",
+0
+],
+[
+"Перед важным ответом в раздражении сделай паузу и подыши: # секунды вдох, # выдох, несколько раз.",
+"Before an important reply when irritated, pause and breathe: # seconds in, # out, several times.",
+0
+],
+[
+"Попробуй при первом же напряжении.",
+"Try it at the first sign of tension.",
+1
+],
+[
+"Усталость часто маскируется под плохое настроение. Сначала сон, еда и вода, потом выводы о жизни.",
+"Tiredness often disguises itself as a bad mood. Sleep, food and water first, conclusions about life later.",
+0
+],
+[
+"Перед тяжёлой мыслью проверь, спал ли ты и ел ли.",
+"Before a heavy thought, check whether you've slept and eaten.",
+0
+],
+[
+"Привычка строится через триггер: «после ужина — # минут чтения». Привязывай новое к уже привычному действию.",
+"A habit is built on a trigger: \"after dinner — # minutes of reading\". Attach the new thing to something you already do.",
+0
+],
+[
+"Привяжи одно действие к ужину или подъёму.",
+"Attach one action to dinner or waking up.",
+0
+],
+[
+"В долгом рейсе держи опоры: режим, связь с близкими, нагрузка, цель. Если апатия или тревога держатся долго, поговори с врачом или специалистом.",
+"On a long voyage keep your supports: routine, contact with loved ones, exercise, a goal. If apathy or anxiety last long, talk to a doctor or a specialist.",
+0
+],
+[
+"Назови свои три опоры и проверь, все ли на месте.",
+"Name your three supports and check they are all in place.",
+0
+],
+[
+"Сравнивай себя с собой вчерашним, а не с другими. Именно это показывает панель «Сегодня и вчера».",
+"Compare yourself with yesterday's you, not with others. That's exactly what the \"Today and yesterday\" panel shows.",
+0
+],
+[
+"Найди одну вещь, которая стала лучше, чем вчера.",
+"Find one thing that is better than yesterday.",
+0
+],
+[
+"Быт",
+"Household",
+1
+],
+[
+"Одно место на вещь: порядок в каюте держится сам, если у каждой вещи есть дом.",
+"One place for each thing: a cabin stays tidy by itself when everything has a home.",
+0
+],
+[
+"Найди и закрепи место для трёх вещей.",
+"Find and assign a place for three things.",
+1
+],
+[
+"Мини-уборка # минут в день лучше, чем большая раз в месяц.",
+"A mini clean-up of # minutes a day beats a big one once a month.",
+0
+],
+[
+"Поставь таймер на # минут и убери один угол.",
+"Set a timer for # minutes and tidy one corner.",
+0
+],
+[
+"Выучи # простых блюд (яйца, крупа с мясом, суп, паста с соусом, запечённые овощи): этого хватает на большинство будней.",
+"Learn # simple dishes (eggs, grain with meat, soup, pasta with sauce, roasted vegetables): enough for most days.",
+0
+],
+[
+"Приготовь одно из них сегодня.",
+"Cook one of them today.",
+1
+],
+[
+"Храни сканы паспорта, моряцких документов и сертификатов в защищённом месте и копию на бумаге отдельно.",
+"Keep scans of your passport, seafarer's documents and certificates in a secure place, and a paper copy separately.",
+0
+],
+[
+"Проверь, что копии есть и актуальны.",
+"Check that the copies exist and are up to date.",
+1
+],
+[
+"Пришить пуговицу и зашить шов — базовый навык. Положи в чемодан иголку и нитки.",
+"Sewing on a button and mending a seam are basic skills. Put a needle and thread in your suitcase.",
+0
+],
+[
+"Научись одному шву по видео и сделай его.",
+"Learn one stitch from a video and do it.",
+0
+],
+[
+"Держи личную аптечку и список лекарств, которые тебе подходят. При сомнениях спрашивай врача.",
+"Keep a personal first-aid kit and a list of medicines that suit you. When in doubt, ask a doctor.",
+0
+],
+[
+"Проверь сроки годности в аптечке.",
+"Check the expiry dates in your first-aid kit.",
+1
+],
+[
+"Деньги",
+"Money",
+1
+],
+[
+"Правило «сначала себе»: сразу после получения денег откладывай фиксированную часть, например #–#%.",
+"The \"pay yourself first\" rule: right after getting paid, set aside a fixed share, for example #–#%.",
+0
+],
+[
+"Выбери процент и сумму на ближайший месяц.",
+"Choose a percentage and an amount for the coming month.",
+0
+],
+[
+"Подушка безопасности: расходы за #–# месяцев. Начни с одного месяца.",
+"Emergency fund: #–# months of expenses. Start with one month.",
+0
+],
+[
+"Посчитай свои расходы за месяц.",
+"Calculate your monthly expenses.",
+1
+],
+[
+"Веди учёт трат один месяц: сразу видно, куда утекают деньги.",
+"Track your spending for one month: you'll immediately see where the money leaks.",
+0
+],
+[
+"Запиши все траты за сегодня.",
+"Write down all of today's spending.",
+1
+],
+[
+"Не бери кредит на потребление без расчёта полной переплаты. Это не финансовая рекомендация, а общее правило осторожности.",
+"Don't take out a consumer loan without calculating the full overpayment. This is not financial advice, just a general rule of caution.",
+0
+],
+[
+"Посчитай переплату по любому своему кредиту или рассрочке.",
+"Calculate the overpayment on any loan or instalment plan you have.",
+0
+],
+[
+"Главная цель дня",
+"Main goal of the day",
+1
+],
+[
+"Одно главное дело на сегодня (+# XP)",
+"One main task for today (+# XP)",
+1
+],
+[
+"Поставить цель",
+"Set goal",
+1
+],
+[
+"Цель выполнена",
+"Goal achieved",
+1
+],
+[
+"Убрать",
+"Remove",
+1
+],
+[
+"Категория",
+"Category",
+1
+],
+[
+"Редактор расписания",
+"Schedule editor",
+1
+],
+[
+"День",
+"Day",
+1
+],
+[
+"+ Строка",
+"+ Row",
+1
+],
+[
+"Вернуть стандарт",
+"Restore default",
+1
+],
+[
+"Копировать этот день на выбранный",
+"Copy this day to the selected one",
+1
+],
+[
+"Время вида #:#–#:#. Меняй расписание заранее: отметки дня привязаны к задачам.",
+"Time format #:#–#:#. Change the schedule in advance: day ticks are tied to tasks.",
+1
+],
+[
+"Время должно начинаться как #:#",
+"Time must start like #:#",
+1
+],
+[
+"Новая задача",
+"New task",
+1
+],
+[
+"Скопировано:",
+"Copied:",
+1
+],
+[
+"Кадет",
+"Cadet",
+1
+],
+[
+"Стажёр",
+"Trainee",
+1
+],
+[
+"Пилот",
+"Pilot",
+1
+],
+[
+"Командир",
+"Commander",
+1
+],
+[
+"Адмирал флота",
+"Fleet Admiral",
+1
+],
+[
+"Легенда космоса",
+"Space Legend",
+1
+],
+[
+"Юнга",
+"Ship's boy",
+1
+],
+[
+"Матрос",
+"Sailor",
+1
+],
+[
+"Старший матрос",
+"Able seaman",
+1
+],
+[
+"Старпом",
+"Chief mate",
+1
+],
+[
+"Капитан",
+"Captain",
+1
+],
+[
+"Адмирал",
+"Admiral",
+1
+],
+[
+"Ур.",
+"Lvl",
+1
+],
+[
+"Свет от Солнца идёт до Земли около # минут.",
+"Sunlight takes about # minutes to reach the Earth.",
+0
+],
+[
+"Морская миля равна # метрам.",
+"A nautical mile equals # metres.",
+1
+],
+[
+"Первый искусственный спутник Земли запустили в # году.",
+"The first artificial Earth satellite was launched in #.",
+0
+],
+[
+"Узел — это одна морская миля в час.",
+"A knot is one nautical mile per hour.",
+1
+],
+[
+"Земля облетает Солнце примерно за #,# суток, поэтому нужны високосные годы.",
+"The Earth orbits the Sun in about #.# days, which is why leap years are needed.",
+0
+],
+[
+"Фитопланктон в океане даёт значительную часть кислорода планеты.",
+"Ocean phytoplankton produces a large share of the planet's oxygen.",
+0
+],
+[
+"Сундук дня",
+"Daily chest",
+1
+],
+[
+"Факт:",
+"Fact:",
+1
+],
+[
+"Выполни # дела за день (квесты, цель, статья, навык), и сундук откроется. Внутри случайный бонус #–# XP и факт. Сейчас:",
+"Complete # things in a day (quests, goal, article, skill) and the chest will open. Inside: a random #–# XP bonus and a fact. Now:",
+1
+],
+[
+"из #.",
+"of #.",
+1
+],
+[
+"Открыть сундук",
+"Open chest",
+1
+],
+[
+"🎁 Сундук: +",
+"🎁 Chest: +",
+1
+],
+[
+"Электромеханика",
+"Electrical",
+1
+],
+[
+"Три фазы простыми словами",
+"Three phases in simple words",
+1
+],
+[
+"Трёхфазная сеть — это три синусоидальных напряжения, сдвинутых на треть периода. Суммарная мощность при симметричной нагрузке постоянна, поэтому двигатели работают ровно, а проводов нужно меньше, чем для трёх отдельных однофазных линий.",
+"A three-phase network is three sinusoidal voltages shifted by a third of a period. Total power with a balanced load is constant, so motors run smoothly and fewer wires are needed than for three separate single-phase lines.",
+0
+],
+[
+"Почему греются контакты",
+"Why contacts heat up",
+1
+],
+[
+"Плохой контакт повышает переходное сопротивление, а тепло растёт как I²R и ещё сильнее портит соединение. При осмотрах щитов смотрят на потемнение, запах и подтяжку клемм моментом, который указал изготовитель.",
+"A poor contact increases contact resistance, and heat grows as I²R, damaging the connection even more. During switchboard inspections, look for discoloration, smell and tighten terminals to the torque specified by the maker.",
+0
+],
+[
+"Реле и контактор",
+"Relay and contactor",
+1
+],
+[
+"Реле коммутирует слабые цепи управления, контактор — силовые цепи двигателей и нагревателей, у него есть дугогасительные камеры. Схема «пуск–стоп» с самоподхватом лежит в основе большинства цепей управления двигателями.",
+"A relay switches low-power control circuits, a contactor switches power circuits of motors and heaters and has arc chutes. The start–stop circuit with a holding contact underlies most motor control circuits.",
+0
+],
+[
+"Резервное питание: аккумуляторы и ИБП",
+"Backup power: batteries and UPS",
+1
+],
+[
+"Батареи и ИБП держат питание управления и связи, пока запускается аварийный генератор. Состояние проверяют по напряжению, по плотности электролита (для свинцовых) и по журналу испытаний.",
+"Batteries and UPS keep control and communications powered while the emergency generator starts. Their condition is checked by voltage, by electrolyte density (for lead-acid) and by the test log.",
+0
+],
+[
+"Механика",
+"Engineering",
+1
+],
+[
+"Как работает малооборотный дизель",
+"How a slow-speed diesel works",
+1
+],
+[
+"Главный двигатель большинства крупных судов — двухтактный малооборотный дизель. Он вращает винт напрямую, без редуктора, примерно #–# оборотов в минуту. Воздух нагнетает турбокомпрессор, работающий на выхлопных газах.",
+"The main engine of most large ships is a two-stroke slow-speed diesel. It turns the propeller directly, without a gearbox, at about #–# rpm. Air is supplied by a turbocharger driven by the exhaust gases.",
+0
+],
+[
+"Зачем нужен сепаратор",
+"Why a purifier is needed",
+1
+],
+[
+"Тяжёлое топливо и масло содержат воду и твёрдые частицы. Сепаратор вращает их с огромной скоростью, и тяжёлые примеси отбрасываются к стенкам барабана. Без очистки быстро изнашиваются форсунки, втулки и кольца.",
+"Heavy fuel and oil contain water and solid particles. The purifier spins them at great speed and heavy impurities are thrown to the bowl walls. Without cleaning, injectors, liners and rings wear quickly.",
+0
+],
+[
+"Охлаждение двигателя",
+"Engine cooling",
+1
+],
+[
+"Обычно два контура: пресная вода охлаждает двигатель, а забортная вода охлаждает пресную в теплообменнике. Так морская соль не попадает в рубашки цилиндров. Следят за температурой, давлением и качеством присадок.",
+"Usually there are two circuits: fresh water cools the engine and sea water cools the fresh water in a heat exchanger. That way sea salt doesn't get into the cylinder jackets. Temperature, pressure and additive levels are monitored.",
+0
+],
+[
+"Пожар в машинном отделении",
+"Engine room fire",
+1
+],
+[
+"Чаще всего горит топливо или масло, попавшее на горячие поверхности, например на выпускной коллектор. Поэтому важны изоляция горячих мест, экраны на топливных трубках и быстрая уборка протечек.",
+"Most often fuel or oil burns after reaching hot surfaces, such as the exhaust manifold. That's why insulation of hot spots, shielding on fuel pipes and prompt cleanup of leaks matter.",
+0
+],
+[
+"Навигация",
+"Navigation",
+1
+],
+[
+"МППСС-# коротко",
+"COLREG-# in brief",
+1
+],
+[
+"Международные правила предупреждения столкновений судов определяют, кто уступает дорогу, какие огни и знаки нести и какие звуковые сигналы подавать. Главное правило — заранее и явно действовать так, чтобы избежать чрезмерного сближения.",
+"The International Regulations for Preventing Collisions at Sea set out who gives way, which lights and shapes to show and which sound signals to give. The main rule: act early and clearly to avoid a close-quarters situation.",
+0
+],
+[
+"Радар и САРП",
+"Radar and ARPA",
+1
+],
+[
+"Радар показывает цели вокруг судна, а САРП (ARPA) сам рассчитывает их курс, скорость, дистанцию кратчайшего сближения (CPA) и время до неё (TCPA). Эти данные помогают решить, есть ли опасность столкновения.",
+"Radar shows targets around the ship, and ARPA calculates their course, speed, closest point of approach (CPA) and time to it (TCPA). This data helps decide whether risk of collision exists.",
+0
+],
+[
+"ЭКНИС (ECDIS)",
+"ECDIS",
+1
+],
+[
+"Электронная карта, которая заменяет бумажные карты при одобренной системе и актуальных обновлениях. Штурман настраивает зоны безопасности и предупреждения, но всё равно сверяет место судна с радаром и визуальными ориентирами.",
+"An electronic chart that replaces paper charts with an approved system and up-to-date corrections. The navigator sets safety zones and alarms, but still cross-checks the ship's position with radar and visual references.",
+0
+],
+[
+"Прокладка рейса",
+"Passage planning",
+1
+],
+[
+"План перехода готовят от причала до причала: маршрут, глубины, течения, погода, районы особых правил и точки, где нужно доложить. Его утверждает капитан, а на вахте штурман следит, чтобы судно шло по плану.",
+"A passage plan is prepared berth to berth: route, depths, currents, weather, areas with special rules and reporting points. The master approves it, and on watch the navigator makes sure the ship follows the plan.",
+0
+],
+[
+"Суда",
+"Ships",
+1
+],
+[
+"Остойчивость",
+"Stability",
+1
+],
+[
+"Это способность судна возвращаться в прямое положение после наклона. Она зависит от формы корпуса и положения центра тяжести. Груз наверху и свободные поверхности жидкости в цистернах остойчивость снижают.",
+"It is the ship's ability to return upright after heeling. It depends on hull shape and the position of the centre of gravity. Cargo high up and free surfaces of liquid in tanks reduce stability.",
+0
+],
+[
+"Как устроено электродвижение",
+"How electric propulsion works",
+1
+],
+[
+"Дизель-генераторы вырабатывают ток для гребных электродвигателей, часто в поворотных гондолах. Плюс: гибкая компоновка и включение нужного числа генераторов под нагрузку. Минус: потери в преобразовании и сложность системы.",
+"Diesel generators produce power for propulsion motors, often in rotating pods. Pros: flexible layout and running just the number of generators the load needs. Cons: conversion losses and system complexity.",
+0
+],
+[
+"Противопожарные зоны",
+"Fire zones",
+1
+],
+[
+"Пассажирские суда делят огнестойкими конструкциями на зоны, чтобы огонь распространялся медленнее, а у экипажа было время на тушение и эвакуацию.",
+"Passenger ships are divided by fire-resistant structures into zones so that fire spreads more slowly and the crew has time to fight it and evacuate.",
+0
+],
+[
+"Лайнер и паром",
+"Cruise ship and ferry",
+1
+],
+[
+"Круизные лайнеры строят ради комфорта и маршрутов, паромы возят людей и транспорт на коротких линиях, у них есть грузовые палубы и рампы. Требования безопасности общие, а операционные риски разные.",
+"Cruise ships are built for comfort and itineraries; ferries carry people and vehicles on short routes and have car decks and ramps. Safety requirements are shared, but operational risks differ.",
+0
+],
+[
+"Стоики: что зависит от нас",
+"Stoics: what is up to us",
+1
+],
+[
+"Эпиктет различал то, что зависит от нас (суждения, намерения, действия), и то, что не зависит (погода, мнение других, прошлое). Идея: силы вкладывать в первое, а второе принимать спокойнее. Это одна из школ, не единственная.",
+"Epictetus distinguished what is up to us (judgements, intentions, actions) from what is not (weather, others' opinions, the past). The idea: put effort into the first and accept the second more calmly. It's one school among many.",
+0
+],
+[
+"Сократ и вопросы",
+"Socrates and questions",
+1
+],
+[
+"В изложении Платона Сократ говорил, что неисследованная жизнь недостойна человека. Метод — не готовые ответы, а точные вопросы себе: почему я так поступаю и на чём это основано?",
+"As Plato tells it, Socrates said that the unexamined life is not worth living. The method is not ready answers but precise questions to yourself: why do I act this way and what is it based on?",
+0
+],
+[
+"Аристотель о привычке",
+"Aristotle on habit",
+1
+],
+[
+"Аристотель считал, что добродетели приобретаются упражнением, как ремёсла: мы становимся справедливыми, делая справедливое. Мысль хорошо ложится на маленькие ежедневные действия.",
+"Aristotle held that virtues are acquired by practice, like crafts: we become just by doing just acts. The idea fits small daily actions well.",
+0
+],
+[
+"Эпикур: покой и умеренность",
+"Epicurus: calm and moderation",
+1
+],
+[
+"Эпикур делил желания на естественные необходимые (еда, кров), естественные ненужные и пустые. Он видел счастье в покое и отсутствии тревоги, а дружбу ценил выше роскоши.",
+"Epicurus divided desires into natural and necessary (food, shelter), natural but unnecessary, and empty ones. He saw happiness in calm and freedom from anxiety, and valued friendship above luxury.",
+0
+],
+[
+"Стирка в рейсе",
+"Laundry at sea",
+1
+],
+[
+"Сортируй по цвету и температуре, не перегружай барабан, тёмное и синтетику стирай прохладнее. Вещи сохнут быстрее, если их хорошо отжать и расправить.",
+"Sort by colour and temperature, don't overload the drum, wash darks and synthetics cooler. Clothes dry faster if well spun and spread out.",
+0
+],
+[
+"Сон и режим",
+"Sleep and routine",
+1
+],
+[
+"Взрослому обычно нужно #–# часов сна, и постоянное время подъёма важнее разовых «отсыпаний». Свет утром, прохлада и темнота вечером помогают засыпать.",
+"An adult usually needs #–# hours of sleep, and a constant wake-up time matters more than occasional catch-up sleep. Light in the morning, coolness and darkness in the evening help you fall asleep.",
+0
+],
+[
+"Недельный набор продуктов",
+"A weekly food set",
+1
+],
+[
+"Крупа, консервы, яйца, долго хранящиеся овощи (морковь, капуста, лук) и замороженные овощи позволяют готовить без сложных рецептов.",
+"Grains, tinned food, eggs, long-keeping vegetables (carrots, cabbage, onions) and frozen vegetables let you cook without complex recipes.",
+0
+],
+[
+"Календарь сроков",
+"Deadline calendar",
+1
+],
+[
+"Занеси сроки паспорта, моряцких документов и сертификатов в календарь с напоминанием за #–# месяцев. Просроченный документ дороже любого напоминания.",
+"Put the expiry dates of your passport, seafarer's documents and certificates into a calendar with a reminder #–# months ahead. An expired document costs more than any reminder.",
+0
+],
+[
+"Сложный процент",
+"Compound interest",
+1
+],
+[
+"Проценты начисляются и на уже начисленные проценты. Пример: # единиц под #% годовых за # лет превращаются примерно в #. Чем раньше начало, тем сильнее эффект.",
+"Interest is earned on interest already earned. Example: # units at #% a year over # years grow to about #. The earlier you start, the stronger the effect.",
+0
+],
+[
+"Инфляция",
+"Inflation",
+1
+],
+[
+"Рост цен снижает покупательную способность денег, поэтому накопления сравнивают с инфляцией, а не только с суммой на счёте. Это общая информация, а не совет.",
+"Rising prices reduce the purchasing power of money, so savings are compared with inflation, not just with the balance. This is general information, not advice.",
+0
+],
+[
+"Бюджет #/#/#",
+"Budget #/#/#",
+1
+],
+[
+"Ориентир: около #% на обязательное, #% на желания, #% на сбережения. Это отправная точка, подстраивай под свою жизнь.",
+"Guideline: about #% for needs, #% for wants, #% for savings. It's a starting point; adjust it to your life.",
+0
+],
+[
+"Защита от мошенников",
+"Protection from scammers",
+1
+],
+[
+"Никому не сообщай коды из СМС и пароли, банк их не спрашивает. Не переходи по ссылкам из неожиданных сообщений, а перезванивай на номер с карты.",
+"Never share SMS codes or passwords with anyone; the bank never asks for them. Don't follow links from unexpected messages; call back on the number on your card.",
+0
+],
+[
+"Предвзятость подтверждения",
+"Confirmation bias",
+1
+],
+[
+"Мы замечаем факты, которые подтверждают наши взгляды. Привычка искать примеры, которые им противоречат, помогает принимать более точные решения.",
+"We notice facts that confirm our views. A habit of looking for counter-examples helps make more accurate decisions.",
+0
+],
+[
+"Прокрастинация",
+"Procrastination",
+1
+],
+[
+"Часто это не лень, а нежелание переживать неприятное чувство. Помогает шаг на # минут: начать с малого, не требуя от себя закончить всё.",
+"Often it's not laziness but reluctance to feel something unpleasant. A #-minute step helps: start small without demanding to finish everything.",
+0
+],
+[
+"Стресс и восстановление",
+"Stress and recovery",
+1
+],
+[
+"Короткие паузы, движение, сон и общение снижают нагрузку. Если стресс не отпускает неделями, стоит обратиться к врачу или психологу.",
+"Short breaks, movement, sleep and social contact reduce the load. If stress doesn't ease for weeks, see a doctor or psychologist.",
+0
+],
+[
+"Выгорание",
+"Burnout",
+1
+],
+[
+"Признаки: истощение, цинизм, падение результата. Помогают режим, отдых, разговор с близкими и коллегами, а при необходимости помощь специалиста.",
+"Signs: exhaustion, cynicism, falling performance. Routine, rest, talking with loved ones and colleagues help, and professional help if needed.",
+0
+],
+[
+"Мастер раздела",
+"Section master",
+1
+],
+[
+"Умный дом",
+"Smart home",
+1
+],
+[
+"Основы Home Assistant",
+"Home Assistant basics",
+1
+],
+[
+"Протоколы: Zigbee, Z-Wave, Matter",
+"Protocols: Zigbee, Z-Wave, Matter",
+1
+],
+[
+"Щиток и слаботочка для умного дома",
+"Distribution board and low-voltage wiring for a smart home",
+1
+],
+[
+"Чтение проектов и схем",
+"Reading projects and diagrams",
+1
+],
+[
+"Нормы безопасности твоей страны",
+"Safety standards in your country",
+1
+],
+[
+"Смета и общение с клиентом",
+"Estimates and working with clients",
+1
+],
+[
+"Монтаж и настройка автоматики для квартир и домов. Опыт электрика и чтение схем у тебя уже есть, добавить нужно протоколы и работу с клиентом.",
+"Installing and configuring automation for flats and houses. You already have electrical experience and can read diagrams; you need to add protocols and client work.",
+0
+],
+[
+"Автоматика",
+"Automation",
+1
+],
+[
+"Электросхемы и обозначения",
+"Wiring diagrams and symbols",
+1
+],
+[
+"Основы ПЛК и релейной логики",
+"PLC and relay logic basics",
+1
+],
+[
+"Ladder или ST на практике",
+"Ladder or ST in practice",
+1
+],
+[
+"HMI и SCADA",
+"HMI and SCADA",
+1
+],
+[
+"Сети: Modbus, Profinet",
+"Networks: Modbus, Profinet",
+1
+],
+[
+"Приводы и частотники",
+"Drives and VFDs",
+1
+],
+[
+"Наладка и обслуживание оборудования на заводах. Близко к судовой электромеханике: приводы, схемы, диагностика.",
+"Commissioning and maintaining equipment in factories. Close to marine electrical work: drives, diagrams, diagnostics.",
+0
+],
+[
+"IT-старт",
+"IT start",
+1
+],
+[
+"Linux в терминале",
+"Linux in the terminal",
+1
+],
+[
+"Сети: TCP/IP, DNS",
+"Networks: TCP/IP, DNS",
+1
+],
+[
+"Python: основы",
+"Python basics",
+1
+],
+[
+"Git и GitHub",
+"Git and GitHub",
+1
+],
+[
+"SQL: основы",
+"SQL basics",
+1
+],
+[
+"Портфолио из #–# проектов",
+"A portfolio of #–# projects",
+1
+],
+[
+"Самый дальний переход: нужны месяцы регулярной учёбы. Реалистичные входы: техподдержка и администрирование, затем автоматизация или DevOps.",
+"The longest leap: months of regular study are needed. Realistic entry points: tech support and administration, then automation or DevOps.",
+0
+],
+[
+"Береговая служба",
+"Shore-based service",
+1
+],
+[
+"ISM, ISPS и SOLAS для береговой службы",
+"ISM, ISPS and SOLAS for shore-based roles",
+1
+],
+[
+"Планирование ремонтов и ПМ",
+"Repair planning and PMS",
+1
+],
+[
+"Бюджеты и закупки запчастей",
+"Budgets and spare parts procurement",
+1
+],
+[
+"Деловой английский",
+"Business English",
+1
+],
+[
+"Отчёты и техдокументация",
+"Reports and technical documentation",
+1
+],
+[
+"Допуски и сертификаты для берега",
+"Licences and certificates for shore work",
+1
+],
+[
+"Технический надзор, сервис оборудования, обучение. Твой морской опыт ценится здесь напрямую.",
+"Technical supervision, equipment service, training. Your sea experience is valued here directly.",
+0
+],
+[
+"Сервис-инженер",
+"Service engineer",
+1
+],
+[
+"Документация изготовителей двигателей",
+"Engine makers' documentation",
+1
+],
+[
+"Диагностика по параметрам и анализам",
+"Diagnostics from parameters and analyses",
+1
+],
+[
+"Планирование ремонтов и запчастей",
+"Planning repairs and spare parts",
+1
+],
+[
+"Деловой английский и отчёты о ремонте",
+"Business English and repair reports",
+1
+],
+[
+"Работа с заказчиком и гарантией",
+"Working with customers and warranty",
+1
+],
+[
+"Допуски и сертификаты для сервиса",
+"Licences and certificates for service work",
+1
+],
+[
+"Сервис двигателей, сепараторов и компрессоров у изготовителей и сервисных компаний, на судах и на берегу. Опыт механика здесь ценится напрямую.",
+"Servicing engines, purifiers and compressors for makers and service companies, on ships and ashore. An engineer's experience is valued here directly.",
+0
+],
+[
+"Порт и VTS",
+"Port and VTS",
+1
+],
+[
+"Правила порта и МППСС с береговой стороны",
+"Port rules and COLREG from the shore side",
+0
+],
+[
+"Работа оператора СУДС (VTS)",
+"Working as a VTS operator",
+1
+],
+[
+"Лоцманское дело: требования и стажировка",
+"Pilotage: requirements and training",
+1
+],
+[
+"Морской английский SMCP",
+"Maritime English SMCP",
+1
+],
+[
+"ISM, ISPS и портовый контроль",
+"ISM, ISPS and port state control",
+1
+],
+[
+"Допуски, медкомиссия и сертификаты",
+"Licences, medical and certificates",
+1
+],
+[
+"Оператор СУДС (VTS), лоцман, капитан порта, морской суперинтендант. Опыт штурмана и вахты на мостике здесь главное.",
+"VTS operator, marine pilot, harbour master, marine superintendent. A navigator's experience and bridge watchkeeping matter most here.",
+0
+],
+[
+"Поиск неисправностей в судовой сети",
+"Troubleshooting the ship's electrical network",
+1
+],
+[
+"Диагностика и ремонт промышленных электросистем",
+"Diagnosing and repairing industrial electrical systems",
+0
+],
+[
+"Вахта и ответственность круглые сутки",
+"Watchkeeping and round-the-clock responsibility",
+1
+],
+[
+"Дежурство и реагирование на инциденты (on-call)",
+"On-call duty and incident response",
+0
+],
+[
+"Журналы и отчёты",
+"Logs and reports",
+1
+],
+[
+"Техническая документация и отчётность",
+"Technical documentation and reporting",
+1
+],
+[
+"Планово-предупредительное обслуживание",
+"Planned preventive maintenance",
+1
+],
+[
+"Планирование профилактики оборудования",
+"Planning equipment maintenance",
+1
+],
+[
+"Работа в международном экипаже",
+"Working in a multinational crew",
+1
+],
+[
+"Английский и межкультурная коммуникация",
+"English and cross-cultural communication",
+1
+],
+[
+"Запасные части и заказы",
+"Spare parts and orders",
+1
+],
+[
+"Склад, закупки, работа с поставщиками",
+"Stores, procurement, working with suppliers",
+1
+],
+[
+"Поиск неисправностей двигателей и механизмов",
+"Troubleshooting engines and machinery",
+0
+],
+[
+"Диагностика и ремонт дизельного и насосного оборудования",
+"Diagnosing and repairing diesel and pump equipment",
+0
+],
+[
+"Вахта в машинном отделении",
+"Engine room watchkeeping",
+1
+],
+[
+"Дежурство и реагирование на аварии (on-call)",
+"On-call duty and emergency response",
+0
+],
+[
+"Машинный журнал и отчёты",
+"Engine room log and reports",
+1
+],
+[
+"Бункеровки, запчасти и заказы",
+"Bunkering, spare parts and orders",
+1
+],
+[
+"Учёт топлива, склад, закупки, поставщики",
+"Fuel accounting, stores, procurement, suppliers",
+1
+],
+[
+"Несение ходовой вахты",
+"Navigational watchkeeping",
+1
+],
+[
+"Управление операциями и принятие решений #/#",
+"Managing operations and making decisions #/#",
+0
+],
+[
+"Прокладка и план перехода",
+"Chartwork and passage planning",
+1
+],
+[
+"Планирование маршрутов и логистики",
+"Route and logistics planning",
+1
+],
+[
+"Грузовые операции и остойчивость",
+"Cargo operations and stability",
+1
+],
+[
+"Планирование погрузки и контроль безопасности",
+"Load planning and safety control",
+0
+],
+[
+"Проверки и аудиты (PSC, вэттинг)",
+"Inspections and audits (PSC, vetting)",
+1
+],
+[
+"Подготовка к инспекциям и соответствие требованиям",
+"Inspection readiness and compliance",
+0
+],
+[
+"Обучение и учения экипажа",
+"Crew training and drills",
+1
+],
+[
+"Обучение персонала и охрана труда",
+"Staff training and occupational safety",
+1
+],
+[
+"Выпиши # вакансий по выбранному направлению и подчеркни повторяющиеся требования.",
+"List # vacancies in your chosen direction and underline the recurring requirements.",
+0
+],
+[
+"Напиши # строки резюме: что ты умеешь и как это звучит на языке берега.",
+"Write # lines of your CV: what you can do and how it sounds in shore language.",
+0
+],
+[
+"Найди двух людей, которые сошли на берег в похожую профессию, и подготовь вопрос к ним.",
+"Find two people who moved ashore into a similar profession and prepare a question for them.",
+0
+],
+[
+"Пройди бесплатный вводный урок по выбранной теме (# минут).",
+"Take a free introductory lesson on your chosen topic (# minutes).",
+0
+],
+[
+"Создай или обнови профиль в профессиональной соцсети: фото, заголовок, # навыка.",
+"Create or update a profile on a professional network: photo, headline, # skills.",
+0
+],
+[
+"Посчитай расходы на жизнь на берегу и сравни с накоплениями.",
+"Calculate your living costs ashore and compare them with your savings.",
+0
+],
+[
+"Составь список своих сертификатов и допусков.",
+"Make a list of your certificates and licences.",
+0
+],
+[
+"Прочитай описание вакансии service engineer или электромонтажника и отметь, что уже знаешь.",
+"Read a job description for a service engineer or electrician and mark what you already know.",
+0
+],
+[
+"Выбери направление, поставь дату конца контракта и иди по дереву навыков. Данные хранятся только на твоём устройстве.",
+"Choose a direction, set your contract end date and follow the skill tree. Data is stored only on your device.",
+1
+],
+[
+"дней до берега",
+"days to shore",
+1
+],
+[
+"готовность",
+"readiness",
+1
+],
+[
+"мес. подушки (цель #)",
+"months of cushion (goal #)",
+1
+],
+[
+"Чтобы успеть, осваивай один навык примерно раз в",
+"To make it, master one skill roughly every",
+1
+],
+[
+"дн. Подушка — ориентир, а не финансовый совет.",
+"days. The cushion is a guideline, not financial advice.",
+1
+],
+[
+"Дерево навыков:",
+"Skill tree:",
+1
+],
+[
+"Шаг дня на берег",
+"Today's step to shore",
+1
+],
+[
+"Сделано ✓",
+"Done ✓",
+1
+],
+[
+"Сделал +# XP",
+"Done +# XP",
+1
+],
+[
+"Переведи морской опыт на язык берега",
+"Translate your sea experience into shore language",
+1
+],
+[
+"На судне:",
+"At sea:",
+1
+],
+[
+"В резюме:",
+"On your CV:",
+1
+],
+[
+"Реактивная мощность",
+"Reactive power",
+1
+],
+[
+"Двигатели и трансформаторы создают магнитные поля и потребляют реактивную мощность. Полезной работы она не совершает, но нагружает кабели и генераторы, поэтому следят за cos φ.",
+"Motors and transformers create magnetic fields and draw reactive power. It does no useful work but loads cables and generators, which is why cos φ is monitored.",
+0
+],
+[
+"Изолированная нейтраль",
+"Isolated neutral",
+1
+],
+[
+"Судовые сети часто делают с изолированной нейтралью: первое замыкание на корпус не отключает потребителя, но его нужно найти. Для этого есть контроль изоляции с сигнализацией.",
+"Ship networks often have an isolated neutral: the first earth fault doesn't trip the consumer, but it has to be found. Insulation monitoring with an alarm is there for that.",
+0
+],
+[
+"Щётки и контактные кольца",
+"Brushes and slip rings",
+1
+],
+[
+"Износ щёток, пыль и масло частая причина искрения. Осмотр длины щёток, пружин и чистоты колец входит в обычную профилактику.",
+"Brush wear, dust and oil are a common cause of sparking. Checking brush length, springs and ring cleanliness is part of routine maintenance.",
+0
+],
+[
+"Подогрев двигателей",
+"Motor heating",
+1
+],
+[
+"Подогрев обмоток в остановленном двигателе держит температуру выше точки росы и защищает изоляцию от конденсата.",
+"Heating the windings of a stopped motor keeps the temperature above the dew point and protects the insulation from condensation.",
+0
+],
+[
+"Ток отключения автомата",
+"Breaker breaking capacity",
+1
+],
+[
+"Автомат должен отключать максимальный ожидаемый ток короткого замыкания в своей точке сети. При изменении схемы питания это нужно пересчитывать.",
+"A breaker must be able to interrupt the maximum prospective short-circuit current at its point in the network. If the supply arrangement changes, this must be recalculated.",
+0
+],
+[
+"Термография щитов",
+"Switchboard thermography",
+1
+],
+[
+"Тепловизор показывает перегретые соединения без отключения. Сравнение однотипных фаз выявляет проблему до аварии. В щитах работают только по допускам и правилам безопасности.",
+"A thermal camera shows overheated connections without a shutdown. Comparing similar phases reveals a problem before failure. Work in switchboards only with permits and under safety rules.",
+0
+],
+[
+"Балластная система",
+"Ballast system",
+1
+],
+[
+"Балласт это вода в цистернах, её принимают и перекачивают для регулирования осадки, крена и остойчивости. Операции ведут строго по инструкции.",
+"Ballast is water in tanks, taken in and transferred to adjust draught, heel and stability. Operations are carried out strictly to procedure.",
+0
+],
+[
+"Кондиционирование",
+"Air conditioning",
+1
+],
+[
+"На пассажирских судах вентиляция и кондиционирование составляют заметную долю электрической нагрузки. Фильтры и клапаны влияют и на комфорт, и на расход топлива.",
+"On passenger ships ventilation and air conditioning make up a noticeable share of the electrical load. Filters and dampers affect both comfort and fuel consumption.",
+0
+],
+[
+"Планирование эвакуации",
+"Evacuation planning",
+1
+],
+[
+"Исходят из времени, за которое люди должны дойти до пунктов сбора. Пути отмечены знаками и освещением, в том числе у пола.",
+"It's based on the time people need to reach muster stations. Routes are marked with signs and lighting, including at floor level.",
+0
+],
+[
+"Очистка стоков",
+"Sewage treatment",
+1
+],
+[
+"На современных пассажирских судах есть установки очистки хозяйственно-бытовых стоков. Для электромеханика это насосы, воздуходувки, автоматика и датчики.",
+"Modern passenger ships have sewage treatment plants. For an ETO this means pumps, blowers, automation and sensors.",
+0
+],
+[
+"Управление энергией",
+"Power management",
+1
+],
+[
+"Система следит за нагрузкой и запускает или останавливает генераторы, чтобы дизели работали в экономичном режиме и резерв мощности был достаточным.",
+"The system monitors the load and starts or stops generators so the diesels run economically and there is enough reserve power.",
+0
+],
+[
+"Береговое питание",
+"Shore power",
+1
+],
+[
+"В порту судно может питаться с берега, выключив дизели. Нужны согласование напряжения и частоты, безопасное подключение кабелей и переключение без блэкаута.",
+"In port a ship can take power from shore and stop its diesels. This needs matching voltage and frequency, safe cable connection and changeover without a blackout.",
+0
+],
+[
+"Платон: пещера",
+"Plato: the cave",
+1
+],
+[
+"В аллегории пещеры люди видят тени на стене и принимают их за реальность. Идея: знание требует усилия и выхода за привычные представления.",
+"In the allegory of the cave, people see shadows on the wall and take them for reality. The idea: knowledge takes effort and stepping beyond familiar notions.",
+0
+],
+[
+"Марк Аврелий: записи для себя",
+"Marcus Aurelius: notes to himself",
+1
+],
+[
+"«Размышления» он вёл для себя: напоминал о долге, терпении и недолговечности жизни. Вечерние записи перекликаются с этой практикой.",
+"He wrote the Meditations for himself, reminding himself of duty, patience and the brevity of life. Evening journal entries echo this practice.",
+0
+],
+[
+"Кант и всеобщее правило",
+"Kant and the universal rule",
+1
+],
+[
+"Категорический императив предлагает спросить: могло бы это правило стать всеобщим? Это один из подходов к этике, у него есть критики.",
+"The categorical imperative suggests asking: could this rule become universal? It's one approach to ethics, and it has critics.",
+0
+],
+[
+"Экзистенциализм: выбор",
+"Existentialism: choice",
+1
+],
+[
+"Сартр считал, что человек сам придаёт смысл жизни через выбор и отвечает за него. Это одна из точек зрения, есть и другие.",
+"Sartre held that people give their lives meaning through choices and are responsible for them. It's one point of view among others.",
+0
+],
+[
+"Конфуций: учение и мысль",
+"Confucius: learning and thought",
+1
+],
+[
+"Учение без размышления бесплодно, размышление без учения опасно. Баланс теории и практики полезен и в технической профессии.",
+"Learning without thought is futile, thought without learning is dangerous. Balancing theory and practice is useful in a technical profession too.",
+0
+],
+[
+"Утилитаризм",
+"Utilitarianism",
+1
+],
+[
+"Оценивает поступки по последствиям: хорошо то, что приносит больше пользы большему числу людей. Критики указывают, что он может оправдать несправедливость к меньшинству.",
+"Judges actions by their consequences: good is what brings the most benefit to the most people. Critics point out it can justify injustice to a minority.",
+0
+],
+[
+"Уход за обувью",
+"Shoe care",
+1
+],
+[
+"Сухая обувь служит дольше: суши при комнатной температуре, не на батарее, используй крем или пропитку по материалу.",
+"Dry shoes last longer: dry them at room temperature, not on a radiator, and use cream or waterproofing suited to the material.",
+0
+],
+[
+"Бытовая аптечка",
+"Home first-aid kit",
+1
+],
+[
+"Проверяй сроки годности и условия хранения, держи инструкции. Назначения лекарств согласовывай с врачом.",
+"Check expiry dates and storage conditions, keep the leaflets. Agree any medication with a doctor.",
+0
+],
+[
+"Список для отпуска",
+"Holiday checklist",
+1
+],
+[
+"Список перед отъездом и после возвращения экономит нервы: документы, зарядки, лекарства, ключи. Храни шаблон в телефоне.",
+"A checklist before leaving and after returning saves nerves: documents, chargers, medicines, keys. Keep the template on your phone.",
+0
+],
+[
+"Безопасность дома",
+"Home safety",
+1
+],
+[
+"Проверь датчики дыма и газа, срок огнетушителя, знай, где отключить воду и электричество. Это # минут раз в полгода.",
+"Check smoke and gas detectors and the extinguisher date, and know where to shut off water and electricity. It takes # minutes twice a year.",
+0
+],
+[
+"Питание и вода",
+"Food and water",
+1
+],
+[
+"Регулярная еда и достаточно воды помогают концентрации. Нормы зависят от человека, ориентируйся на рекомендации врача.",
+"Regular meals and enough water help concentration. Needs vary by person; follow your doctor's advice.",
+0
+],
+[
+"Мелкий ремонт",
+"Small repairs",
+1
+],
+[
+"Базовый набор: отвёртки, мультиметр, плоскогубцы, изолента. Перед работой с электросетью отключи автомат и проверь отсутствие напряжения.",
+"Basic kit: screwdrivers, multimeter, pliers, insulating tape. Before working on the mains, switch off the breaker and check there is no voltage.",
+0
+],
+[
+"Страхование",
+"Insurance",
+1
+],
+[
+"Страховка переносит редкий крупный риск на страховщика за небольшую регулярную плату. Читай исключения и лимиты до покупки.",
+"Insurance transfers a rare large risk to the insurer for a small regular fee. Read the exclusions and limits before buying.",
+0
+],
+[
+"Диверсификация",
+"Diversification",
+1
+],
+[
+"Не стоит держать все накопления в одном месте: распределение снижает зависимость от одного риска. Это общая идея, не рекомендация.",
+"Don't keep all your savings in one place: spreading them reduces dependence on a single risk. This is a general idea, not a recommendation.",
+0
+],
+[
+"Налоги моряка",
+"Seafarer taxes",
+1
+],
+[
+"Налоговый статус зависит от страны и контракта. Уточняй правила у налогового консультанта и храни подтверждающие документы.",
+"Tax status depends on the country and the contract. Check the rules with a tax adviser and keep supporting documents.",
+0
+],
+[
+"Цель, сумма, срок",
+"Goal, amount, deadline",
+1
+],
+[
+"Деньги на ближайшие расходы хранят доступно и безопасно, на отдалённые цели учитывают риск. Начни с записи цели, суммы и срока.",
+"Money for near-term expenses is kept accessible and safe; for distant goals, risk is taken into account. Start by writing down the goal, amount and deadline.",
+0
+],
+[
+"Кредитная история",
+"Credit history",
+1
+],
+[
+"Своевременные платежи формируют кредитную историю, просрочки её портят. Если это возможно в твоей стране, проверяй историю раз в год.",
+"Timely payments build your credit history, late payments damage it. If possible in your country, check your history once a year.",
+0
+],
+[
+"Подписки и мелкие траты",
+"Subscriptions and small spending",
+1
+],
+[
+"Раз в квартал просматривай подписки и регулярные платежи: мелочи незаметны по отдельности, но заметны за год.",
+"Once a quarter review subscriptions and recurring payments: small items are invisible one by one but noticeable over a year.",
+0
+],
+[
+"Режим и самочувствие",
+"Routine and well-being",
+1
+],
+[
+"Сон, движение и еда заметно влияют на настроение и внимание. Начни с одного устойчивого действия, а не со всех сразу.",
+"Sleep, movement and food noticeably affect mood and attention. Start with one sustainable habit, not all at once.",
+0
+],
+[
+"Эффект якоря",
+"Anchoring effect",
+1
+],
+[
+"Первое услышанное число или оценка влияет на дальнейшие суждения. Перед покупкой или переговорами сформулируй свою оценку заранее.",
+"The first number or estimate you hear influences later judgements. Before a purchase or negotiation, form your own estimate in advance.",
+0
+],
+[
+"Одиночество в рейсе",
+"Loneliness at sea",
+1
+],
+[
+"Ограниченное общение и разлука типичная нагрузка моряка. Помогают регулярные звонки, общие дела с экипажем, режим и обращение за помощью, если состояние ухудшается.",
+"Limited contact and separation are a typical strain for seafarers. Regular calls, shared activities with the crew, routine and seeking help if things get worse all help.",
+0
+],
+[
+"Вечерняя запись",
+"Evening entry",
+1
+],
+[
+"Коротко: что получилось, что утомило, что завтра. Привычка помогает заметить усталость раньше, чем она станет сильной.",
+"Briefly: what went well, what was tiring, what's tomorrow. The habit helps you notice fatigue before it gets strong.",
+0
+],
+[
+"Установка на рост",
+"Growth mindset",
+1
+],
+[
+"Исследования Кэрол Дуэк связывают веру в развитие способностей с настойчивостью. Результаты применения в школах неоднозначны, но учиться на ошибках полезно.",
+"Carol Dweck's research links belief in developing abilities with persistence. Results in schools are mixed, but learning from mistakes is useful.",
+0
+],
+[
+"Принятие решений",
+"Decision-making",
+1
+],
+[
+"Для важных решений запиши варианты, критерии и риски, затем дай себе ночь. Срочность часто кажется больше, чем она есть.",
+"For important decisions, write down the options, criteria and risks, then sleep on it. Urgency often seems greater than it is.",
+0
+],
+[
+"Установи Home Assistant на ПК или мини-ПК, подключи #–# устройства, пойми структуру.",
+"Install Home Assistant on a PC or mini PC, connect #–# devices and understand the structure.",
+0
+],
+[
+"Изучи Zigbee и Matter: сеть, координатор, сопряжение. Сделай автоматизацию «свет по датчику».",
+"Study Zigbee and Matter: network, coordinator, pairing. Build a \"light on sensor\" automation.",
+0
+],
+[
+"Разберись в щитке и слаботочке: сечения, защита, схемы реле, всё по нормам твоей страны.",
+"Understand distribution boards and low-voltage wiring: cross-sections, protection, relay circuits, all to your country's standards.",
+0
+],
+[
+"Сделай пробный проект для себя или знакомых: свет, климат, сценарии. Сохрани фото и описание.",
+"Do a trial project for yourself or friends: lighting, climate, scenes. Save photos and a description.",
+0
+],
+[
+"Составь шаблон сметы и изучи требования к лицензиям в твоей стране.",
+"Make an estimate template and study the licensing requirements in your country.",
+0
+],
+[
+"Собери портфолио и найди #–# первых клиентов или вакансию интегратора.",
+"Build a portfolio and find #–# first clients or an integrator vacancy.",
+0
+],
+[
+"Повтори электросхемы и обозначения, найди бесплатный симулятор ПЛК.",
+"Review wiring diagrams and symbols, find a free PLC simulator.",
+0
+],
+[
+"Освой реле, таймеры, счётчики: # учебных программ.",
+"Master relays, timers and counters: # training programs.",
+0
+],
+[
+"Изучи ST или Ladder на задачах: насос, конвейер.",
+"Study ST or Ladder on tasks: a pump, a conveyor.",
+0
+],
+[
+"HMI и SCADA: сделай экран к своей программе.",
+"HMI and SCADA: build a screen for your program.",
+0
+],
+[
+"Сети Modbus и Profinet: опроси устройство, прочитай регистры.",
+"Modbus and Profinet networks: poll a device, read registers.",
+0
+],
+[
+"Резюме, учебный проект, отклики на вакансии наладчика или инженера КИПиА.",
+"CV, a training project, applications for commissioning or instrumentation engineer jobs.",
+0
+],
+[
+"Linux: терминал, файлы, права, ssh, по # минут в день.",
+"Linux: terminal, files, permissions, ssh, # minutes a day.",
+0
+],
+[
+"Сети: IP, DNS, маршрутизация, домашняя лаборатория.",
+"Networks: IP, DNS, routing, a home lab.",
+0
+],
+[
+"Python: основы и скрипты для автоматизации.",
+"Python: basics and automation scripts.",
+0
+],
+[
+"Git, GitHub и SQL, первый проект.",
+"Git, GitHub and SQL, first project.",
+1
+],
+[
+"Второй проект, чтение английской документации, описание в резюме.",
+"Second project, reading English documentation, describing it in your CV.",
+0
+],
+[
+"Отклики на техподдержку и junior-администратора, тренировка собеседования.",
+"Applications for tech support and junior admin roles, interview practice.",
+0
+],
+[
+"Составь список документов, дипломов и допусков и выясни, чего не хватает.",
+"List your documents, diplomas and licences and find out what's missing.",
+0
+],
+[
+"Деловой английский: письма и отчёты по # минут в день.",
+"Business English: letters and reports, # minutes a day.",
+0
+],
+[
+"Изучи ISM, ISPS и SOLAS с точки зрения береговой службы.",
+"Study ISM, ISPS and SOLAS from a shore-based perspective.",
+0
+],
+[
+"Свяжись с коллегами на берегу и узнай реальные требования.",
+"Contact colleagues ashore and find out the real requirements.",
+0
+],
+[
+"Подготовь резюме и рекомендации, изучи вакансии technical superintendent и service engineer.",
+"Prepare your CV and references, study technical superintendent and service engineer vacancies.",
+0
+],
+[
+"Отклики, собеседования и пробное собеседование с коллегой.",
+"Applications, interviews and a mock interview with a colleague.",
+0
+],
+[
+"Выбери #–# типа оборудования, которые хорошо знаешь, и собери по ним документацию изготовителя.",
+"Pick #–# types of equipment you know well and collect the maker's documentation for them.",
+0
+],
+[
+"Разбери # случая неисправностей из своей практики: признаки, причина, ремонт. Это основа резюме.",
+"Analyse # fault cases from your own practice: symptoms, cause, repair. This is the basis of your CV.",
+0
+],
+[
+"Изучи, как сервисные компании планируют работы, запчасти и отчёты.",
+"Study how service companies plan jobs, spare parts and reports.",
+0
+],
+[
+"Деловой английский: пиши короткий отчёт о ремонте по # минут в день.",
+"Business English: write a short repair report, # minutes a day.",
+0
+],
+[
+"Подготовь резюме с цифрами: какое оборудование, сколько ремонтов, какой простой удалось сократить.",
+"Prepare a CV with numbers: what equipment, how many repairs, how much downtime you cut.",
+0
+],
+[
+"Отклики в сервис изготовителей и сервисные компании, пробное собеседование.",
+"Apply to makers' service departments and service companies, do a mock interview.",
+0
+],
+[
+"Узнай требования к оператору СУДС и лоцману в стране, где хочешь работать.",
+"Find out the requirements for VTS operators and pilots in the country where you want to work.",
+0
+],
+[
+"Повтори МППСС, правила порта и SMCP, по # минут в день.",
+"Review COLREG, port rules and SMCP, # minutes a day.",
+0
+],
+[
+"Изучи, как работает центр СУДС: зоны, доклады, рекомендации судам.",
+"Study how a VTS centre works: zones, reports, advice to ships.",
+0
+],
+[
+"Свяжись с лоцманами или операторами СУДС и спроси, как они пришли в профессию.",
+"Contact pilots or VTS operators and ask how they got into the profession.",
+0
+],
+[
+"Подготовь резюме: районы плавания, типы судов, швартовки, опыт с лоцманами.",
+"Prepare your CV: trading areas, ship types, berthings, experience with pilots.",
+0
+],
+[
+"Отклики, курсы и стажировка по требованиям выбранной должности.",
+"Applications, courses and training as required for the chosen position.",
+0
+],
+[
+"Расскажи о себе: опыт, цель.",
+"Tell me about yourself: experience, goal.",
+1
+],
+[
+"Почему уходишь с моря.",
+"Why are you leaving the sea?",
+1
+],
+[
+"Самая сложная техническая проблема.",
+"The hardest technical problem you've faced.",
+1
+],
+[
+"Работа под давлением.",
+"Working under pressure.",
+1
+],
+[
+"Сильные стороны.",
+"Strengths.",
+1
+],
+[
+"Слабая сторона: честно и с планом.",
+"A weakness: honestly and with a plan.",
+1
+],
+[
+"Где ты через пять лет.",
+"Where do you see yourself in five years?",
+1
+],
+[
+"Вопросы к работодателю.",
+"Questions for the employer.",
+1
+],
+[
+"Фокус-таймер",
+"Focus timer",
+1
+],
+[
+"# минут без отвлечений дают +# XP (до # раз в день, сегодня:",
+"# minutes without distractions give +# XP (up to # times a day, today:",
+1
+],
+[
+"). Страницу не закрывай.",
+"). Don't close the page.",
+1
+],
+[
+"Остановить",
+"Stop",
+1
+],
+[
+"Старт",
+"Start",
+1
+],
+[
+"⏱ Время вышло. Отличная работа!",
+"⏱ Time's up. Great work!",
+1
+],
+[
+"Невозможно? Это слово не из французского языка.",
+"Impossible? That word is not French.",
+0
+],
+[
+"Наполеон Бонапарт, письмо # г.",
+"Napoleon Bonaparte, letter, #",
+1
+],
+[
+"От великого до смешного один шаг.",
+"From the sublime to the ridiculous is but a step.",
+1
+],
+[
+"Наполеон Бонапарт, # г.",
+"Napoleon Bonaparte, #",
+1
+],
+[
+"Победа достаётся самым упорным.",
+"Victory belongs to the most persevering.",
+1
+],
+[
+"Наполеон Бонапарт (приписывается)",
+"Napoleon Bonaparte (attributed)",
+1
+],
+[
+"В конечном счёте дух всегда побеждает меч.",
+"In the end, the spirit always conquers the sword.",
+0
+],
+[
+"Кадры решают всё.",
+"Cadres decide everything.",
+1
+],
+[
+"Иосиф Сталин, речь # г. (политик, ответственный за массовые репрессии; цитата дана как исторический факт)",
+"Joseph Stalin, speech, # (a politician responsible for mass repressions; the quote is given as a historical fact)",
+0
+],
+[
+"Самая глубокая точка океана — Марианская впадина, около # километров.",
+"The deepest point of the ocean is the Mariana Trench, about # kilometres.",
+0
+],
+[
+"Сигнал SOS в азбуке Морзе: три точки, три тире, три точки.",
+"SOS in Morse code: three dots, three dashes, three dots.",
+0
+],
+[
+"Первый трансатлантический телеграфный кабель проложили в # году, но он проработал недолго.",
+"The first transatlantic telegraph cable was laid in #, but it didn't work for long.",
+0
+],
+[
+"Home Assistant: первые шаги",
+"Home Assistant: getting started",
+1
+],
+[
+"Официальное руководство: установка, подключение устройств и первая автоматизация.",
+"Official guide: installation, connecting devices and your first automation.",
+0
+],
+[
+"Zigbee в Home Assistant (ZHA)",
+"Zigbee in Home Assistant (ZHA)",
+1
+],
+[
+"Какой адаптер нужен, как подключить датчики и что делать, если устройство не находится.",
+"Which adapter you need, how to connect sensors and what to do if a device isn't found.",
+0
+],
+[
+"Стандарт Matter в Home Assistant",
+"The Matter standard in Home Assistant",
+1
+],
+[
+"Как добавить устройства Matter и решить типичные проблемы.",
+"How to add Matter devices and solve common problems.",
+0
+],
+[
+"Свежие видео: Home Assistant для начинающих",
+"Latest videos: Home Assistant for beginners",
+0
+],
+[
+"Поиск на YouTube, ролики обновляются сами.",
+"YouTube search, videos update by themselves.",
+0
+],
+[
+"Что такое ПЛК (Википедия)",
+"What is a PLC (Wikipedia)",
+1
+],
+[
+"Устройство, виды и языки программирования контроллеров.",
+"Design, types and programming languages of controllers.",
+0
+],
+[
+"Стандарт IEC #-# (PLCopen)",
+"IEC #-# standard (PLCopen)",
+1
+],
+[
+"Официальный сайт стандарта, по которому программируют почти все ПЛК.",
+"Official site of the standard almost all PLCs are programmed to.",
+0
+],
+[
+"CODESYS: скачать среду разработки",
+"CODESYS: download the IDE",
+1
+],
+[
+"Среда для программирования ПЛК, скачивается после регистрации.",
+"A PLC programming environment, downloadable after registration.",
+0
+],
+[
+"Modbus (Википедия)",
+"Modbus (Wikipedia)",
+1
+],
+[
+"Протокол связи судовой и промышленной автоматики, RTU и TCP.",
+"A communication protocol for marine and industrial automation, RTU and TCP.",
+0
+],
+[
+"Преобразователь частоты (Википедия)",
+"Variable frequency drive (Wikipedia)",
+1
+],
+[
+"Как частотник управляет скоростью двигателя.",
+"How a VFD controls motor speed.",
+0
+],
+[
+"Бесплатные короткие уроки Linux: терминал, файлы, права, сеть.",
+"Free short Linux lessons: terminal, files, permissions, networking.",
+0
+],
+[
+"Python: официальный учебник",
+"Python: the official tutorial",
+1
+],
+[
+"Учебник от создателей языка, всегда для последней версии.",
+"A tutorial from the language's creators, always for the latest version.",
+0
+],
+[
+"Pro Git на русском",
+"Pro Git (in Russian)",
+1
+],
+[
+"Бесплатная книга о Git: хранение и история версий кода.",
+"A free book about Git: storing code and its version history.",
+0
+],
+[
+"freeCodeCamp: курсы",
+"freeCodeCamp: courses",
+1
+],
+[
+"Бесплатные курсы программирования с практическими заданиями и сертификатами.",
+"Free programming courses with practical tasks and certificates.",
+0
+],
+[
+"IMO: МКУБ (ISM Code)",
+"IMO: ISM Code",
+1
+],
+[
+"Официальная страница кодекса управления безопасностью и его последние поправки.",
+"Official page of the safety management code and its latest amendments.",
+0
+],
+[
+"IMO: Конвенция ПДНВ (STCW)",
+"IMO: STCW Convention",
+1
+],
+[
+"Требования к подготовке и дипломам моряков, действующие поправки.",
+"Requirements for seafarers' training and certificates, current amendments.",
+0
+],
+[
+"IMO: Кодекс ОСПС (ISPS)",
+"IMO: ISPS Code",
+1
+],
+[
+"Охрана судов и портов: что нужно знать суперинтенданту.",
+"Ship and port security: what a superintendent needs to know.",
+0
+],
+[
+"IMO: Конвенция СОЛАС",
+"IMO: SOLAS Convention",
+1
+],
+[
+"Главные требования к безопасности судов и история поправок.",
+"The main ship safety requirements and the history of amendments.",
+0
+],
+[
+"Свежие видео: работа technical superintendent",
+"Latest videos: working as a technical superintendent",
+0
+],
+[
+"Поиск на YouTube, рассказы людей, которые уже работают на берегу.",
+"YouTube search, stories from people already working ashore.",
+0
+],
+[
+"Everllence PrimeServ (бывший MAN Energy Solutions)",
+"Everllence PrimeServ (formerly MAN Energy Solutions)",
+0
+],
+[
+"Сервис изготовителя: какие работы, запчасти и модернизации делают на судах.",
+"Maker's service: what work, spare parts and upgrades are done on ships.",
+0
+],
+[
+"Alfa Laval: очистка топлива и масла",
+"Alfa Laval: fuel and oil treatment",
+1
+],
+[
+"Сепараторы и их обслуживание у изготовителя.",
+"Purifiers and their servicing by the maker.",
+0
+],
+[
+"Свежие видео: работа marine service engineer",
+"Latest videos: working as a marine service engineer",
+0
+],
+[
+"Поиск на YouTube, рассказы сервисных инженеров.",
+"YouTube search, stories from service engineers.",
+0
+],
+[
+"Vessel traffic service (СУДС)",
+"Vessel traffic service (VTS)",
+1
+],
+[
+"Что такое СУДС, как работает центр и чем занимается оператор.",
+"What VTS is, how a centre works and what an operator does.",
+0
+],
+[
+"Maritime pilot (лоцман)",
+"Maritime pilot",
+1
+],
+[
+"Работа лоцмана, требования и подготовка.",
+"A pilot's work, requirements and training.",
+1
+],
+[
+"Harbourmaster (капитан порта)",
+"Harbourmaster",
+1
+],
+[
+"Обязанности капитана порта и его службы.",
+"Duties of the harbour master and the harbour office.",
+1
+],
+[
+"Свежие видео: работа лоцманом",
+"Latest videos: working as a pilot",
+1
+],
+[
+"Поиск на YouTube, как становятся лоцманами.",
+"YouTube search, how people become pilots.",
+0
+],
+[
+"⚡ Электромеханикам",
+"⚡ For ETOs",
+1
+],
+[
+"Бесплатный учебник: постоянный и переменный ток, полупроводники, цифровая логика.",
+"Free textbook: DC and AC, semiconductors, digital logic.",
+0
+],
+[
+"Полный курс MIT по электрическим цепям: лекции, задачи, экзамены.",
+"The full MIT course on electrical circuits: lectures, problems, exams.",
+0
+],
+[
+"Khan Academy: электротехника",
+"Khan Academy: electrical engineering",
+1
+],
+[
+"Короткие видеоуроки по цепям и электронике с упражнениями.",
+"Short video lessons on circuits and electronics with exercises.",
+0
+],
+[
+"Свежие видео: синхронизация судовых генераторов",
+"Latest videos: synchronising ship generators",
+0
+],
+[
+"Поиск на YouTube по теме судовой электростанции.",
+"YouTube search on ship power plants.",
+0
+],
+[
+"⚙️ Механикам",
+"⚙️ For engineers",
+1
+],
+[
+"Как работает судовой двигатель",
+"How a ship's engine works",
+1
+],
+[
+"Marine Insight: устройство судового дизеля, типы двигателей и обслуживание.",
+"Marine Insight: how a marine diesel is built, engine types and maintenance.",
+0
+],
+[
+"Как сепараторы очищают топливо и масло и защищают двигатель.",
+"How purifiers clean fuel and oil and protect the engine.",
+0
+],
+[
+"IMO: МАРПОЛ Приложение VI (выбросы)",
+"IMO: MARPOL Annex VI (emissions)",
+1
+],
+[
+"Требования к выхлопу судовых двигателей и к сере в топливе.",
+"Requirements for ship engine exhaust and sulphur in fuel.",
+0
+],
+[
+"Свежие видео: малооборотный дизель",
+"Latest videos: slow-speed diesel",
+1
+],
+[
+"Поиск на YouTube, устройство и работа главного двигателя.",
+"YouTube search, how the main engine is built and works.",
+0
+],
+[
+"Свежие видео: сепаратор топлива",
+"Latest videos: fuel purifier",
+1
+],
+[
+"Поиск на YouTube, разборка, чистка и настройка сепаратора.",
+"YouTube search: dismantling, cleaning and adjusting a purifier.",
+0
+],
+[
+"🧭 Штурманам",
+"🧭 For navigators",
+1
+],
+[
+"МППСС-# (COLREG): обзор",
+"COLREG-# overview",
+1
+],
+[
+"Все правила по частям: огни, знаки, звуковые сигналы, кто кому уступает.",
+"All the rules part by part: lights, shapes, sound signals, who gives way to whom.",
+0
+],
+[
+"Классический бесплатный учебник навигации от NGA: астронавигация, электронная навигация, метеорология.",
+"The classic free navigation textbook from NGA: celestial navigation, electronic navigation, meteorology.",
+0
+],
+[
+"JetStream: школа погоды NOAA",
+"JetStream: NOAA's weather school",
+1
+],
+[
+"Бесплатные уроки по метеорологии: циклоны, фронты, ветер и волнение.",
+"Free meteorology lessons: cyclones, fronts, wind and waves.",
+0
+],
+[
+"Свежие видео: МППСС-# с разбором",
+"Latest videos: COLREG-# explained",
+1
+],
+[
+"Поиск на YouTube, ситуации расхождения судов.",
+"YouTube search, collision avoidance situations.",
+0
+],
+[
+"Свежие видео: ЭКНИС (ECDIS) для штурмана",
+"Latest videos: ECDIS for navigators",
+1
+],
+[
+"Поиск на YouTube, настройка и работа с электронной картой.",
+"YouTube search, setting up and working with an electronic chart.",
+0
+],
+[
+"🚢 Всем морякам: суда и конвенции",
+"🚢 For all seafarers: ships and conventions",
+1
+],
+[
+"Энциклопедия Wärtsilä",
+"Wärtsilä Encyclopedia",
+1
+],
+[
+"Словарь морских и энергетических терминов от А до Я с пояснениями.",
+"A dictionary of marine and energy terms from A to Z with explanations.",
+0
+],
+[
+"Как работает электродвижение Azipod и на каких судах оно стоит.",
+"How Azipod electric propulsion works and which ships use it.",
+0
+],
+[
+"IMO: Конвенция МАРПОЛ",
+"IMO: MARPOL Convention",
+1
+],
+[
+"Правила предотвращения загрязнения с судов и действующие приложения.",
+"Rules for preventing pollution from ships and the annexes in force.",
+0
+],
+[
+"Требования к подготовке, дипломам и вахте для всех моряков.",
+"Requirements for training, certificates and watchkeeping for all seafarers.",
+0
+],
+[
+"🏛️ Философия",
+"🏛️ Philosophy",
+1
+],
+[
+"Стоицизм (Stanford Encyclopedia)",
+"Stoicism (Stanford Encyclopedia)",
+1
+],
+[
+"Подробная статья о философии стоиков: этика, логика, влияние.",
+"A detailed article on Stoic philosophy: ethics, logic, influence.",
+0
+],
+[
+"Марк Аврелий (Internet Encyclopedia)",
+"Marcus Aurelius (Internet Encyclopedia)",
+1
+],
+[
+"«Размышления» Марка Аврелия как ежедневная практика.",
+"The Meditations of Marcus Aurelius as a daily practice.",
+0
+],
+[
+"Свежие видео: введение в философию",
+"Latest videos: introduction to philosophy",
+1
+],
+[
+"Поиск на YouTube, лекции и разборы.",
+"YouTube search, lectures and analyses.",
+1
+],
+[
+"🏠💰🧠 Жизнь",
+"🏠💰🧠 Life",
+1
+],
+[
+"SeafarerHelp: помощь морякам #/#",
+"SeafarerHelp: help for seafarers #/#",
+1
+],
+[
+"Бесплатная конфиденциальная линия помощи морякам и их семьям: чат, WhatsApp, телефон.",
+"A free confidential helpline for seafarers and their families: chat, WhatsApp, phone.",
+0
+],
+[
+"Как вести личный бюджет",
+"How to keep a personal budget",
+1
+],
+[
+"Учёт доходов и расходов, модели бюджета, как сократить траты (Финуслуги, Мосбиржа).",
+"Tracking income and expenses, budget models, how to cut spending (in Russian).",
+0
+],
+[
+"Стресс: как с ним справляться (APA)",
+"Stress: how to cope (APA)",
+1
+],
+[
+"Статьи Американской психологической ассоциации о стрессе и восстановлении.",
+"American Psychological Association articles on stress and recovery.",
+0
+],
+[
+"🇬🇧 Английский",
+"🇬🇧 English",
+1
+],
+[
+"IMO: стандартные морские фразы (SMCP)",
+"IMO: Standard Marine Communication Phrases (SMCP)",
+1
+],
+[
+"Официальный морской английский для связи и безопасности.",
+"Official maritime English for communication and safety.",
+0
+],
+[
+"Бесплатные уроки, новые выпуски каждую неделю.",
+"Free lessons, new episodes every week.",
+0
+],
+[
+"Свежие видео: собеседование на английском",
+"Latest videos: job interview in English",
+0
+],
+[
+"Поиск на YouTube, примеры вопросов и ответов.",
+"YouTube search, sample questions and answers.",
+0
+],
+[
+"Электродвигатель",
+"Electric motor",
+1
+],
+[
+"ГРЩ",
+"Main switchboard",
+1
+],
+[
+"Судовой дизель",
+"Marine diesel",
+1
+],
+[
+"Сепаратор",
+"Purifier",
+1
+],
+[
+"Турбокомпрессор",
+"Turbocharger",
+1
+],
+[
+"МППСС-#",
+"COLREG-#",
+1
+],
+[
+"Радар САРП",
+"ARPA radar",
+1
+],
+[
+"электродвигатель",
+"electric motor",
+1
+],
+[
+"Тема, например: электродвигатель",
+"Topic, for example: electric motor",
+1
+],
+[
+"Материалы и видео",
+"Materials and videos",
+1
+],
+[
+"🎬 Найти ролик в TikTok и Instagram",
+"🎬 Find a video on TikTok and Instagram",
+1
+],
+[
+"Покажет список роликов по теме. Нажмите на ролик, и он откроется в TikTok или Instagram. Нужен интернет.",
+"Shows a list of videos on the topic. Tap a video and it opens in TikTok or Instagram. Internet required.",
+1
+],
+[
+"Официальные источники, они сами обновляются на своих сайтах. Ссылки проверены в октябре # г. Нужен интернет, само приложение работает и без него.",
+"Official sources, kept up to date on their own sites. Links checked in October #. Internet required; the app itself works offline.",
+1
+],
+[
+"Старт:",
+"Start:",
+1
+],
+[
+"ты здесь, с опытом",
+"you are here, with experience as",
+1
+],
+[
+"Месяц",
+"Month",
+1
+],
+[
+"Финиш:",
+"Finish:",
+1
+],
+[
+"первая работа или первый клиент на берегу",
+"first job or first client ashore",
+1
+],
+[
+"Материалы по направлению:",
+"Materials for this direction:",
+1
+],
+[
+"Английские термины",
+"English terms",
+1
+],
+[
+"Слово",
+"Word",
+1
+],
+[
+"из #",
+"of #",
+1
+],
+[
+"Знаю:",
+"Known:",
+1
+],
+[
+"Перевод на русском",
+"Translation into Russian",
+1
+],
+[
+"Проверить",
+"Check",
+1
+],
+[
+"Не знаю",
+"Don't know",
+1
+],
+[
+"✅ Верно:",
+"✅ Correct:",
+1
+],
+[
+"❌ Правильно:",
+"❌ Correct answer:",
+1
+],
+[
+"Дальше",
+"Next",
+1
+],
+[
+"Итог:",
+"Result:",
+1
+],
+[
+"из #. Бонус за сегодня: +",
+"of #. Today's bonus: +",
+1
+],
+[
+"Ещё раз",
+"Again",
+1
+],
+[
+"Собеседование на английском",
+"Job interview in English",
+1
+],
+[
+"Ответов написано:",
+"Answers written:",
+1
+],
+[
+"Напиши свой ответ по-английски, #–# предложения",
+"Write your answer in English, #–# sentences",
+1
+],
+[
+"Проверить: показать пример",
+"Check: show a sample",
+1
+],
+[
+"✅ Ответ засчитан. Сравни со своим:",
+"✅ Answer accepted. Compare with yours:",
+1
+],
+[
+"Пример ответа:",
+"Sample answer:",
+1
+],
+[
+"Готово. Написано ответов:",
+"Done. Answers written:",
+1
+],
+[
+". Бонус за сегодня: +",
+". Today's bonus: +",
+1
+],
+[
+"Имя",
+"Name",
+1
+],
+[
+"Добро пожаловать в Fac Modo!",
+"Welcome to Fac Modo!",
+1
+],
+[
+"Это игра-помощник для моряка: расписание, знания, английский и план выхода на берег. Как тебя зовут?",
+"It's a helper game for seafarers: schedule, knowledge, English and a plan for moving ashore. What's your name?",
+1
+],
+[
+"Начать путь",
+"Start the journey",
+1
+],
+[
+"Пропустить",
+"Skip",
+1
+],
+[
+"Поделиться и начать путь",
+"Share and start the journey",
+1
+],
+[
+"Друг получит своё приложение и свой прогресс: твои данные ему не передаются.",
+"A friend gets their own app and their own progress: your data is not shared with them.",
+1
+],
+[
+"Поделиться приложением",
+"Share the app",
+1
+],
+[
+"Онлайн: отправь ссылку на страницу. Офлайн: отправь файл fac-modo.html, он открывается в любом браузере без интернета. Версия #.#. На компьютере клавиши #–# переключают вкладки.",
+"Online: send the page link. Offline: send the file fac-modo.html, it opens in any browser without internet. Version #.#. On a computer, keys #–# switch tabs.",
+1
+],
+[
+"штиль",
+"calm",
+1
+],
+[
+"тихий",
+"light air",
+1
+],
+[
+"лёгкий",
+"light breeze",
+1
+],
+[
+"слабый",
+"gentle breeze",
+1
+],
+[
+"умеренный",
+"moderate breeze",
+1
+],
+[
+"свежий",
+"fresh breeze",
+1
+],
+[
+"сильный",
+"strong breeze",
+1
+],
+[
+"крепкий",
+"near gale",
+1
+],
+[
+"очень крепкий",
+"gale",
+1
+],
+[
+"шторм",
+"strong gale",
+1
+],
+[
+"сильный шторм",
+"storm",
+1
+],
+[
+"жестокий шторм",
+"violent storm",
+1
+],
+[
+"ураган",
+"hurricane",
+1
+],
+[
+"Фраза дня",
+"Quote of the day",
+1
+],
+[
+"Факт дня",
+"Fact of the day",
+1
+],
+[
+"Шкала Бофорта",
+"Beaufort scale",
+1
+],
+[
+"уз.",
+"kn",
+1
+],
+[
+"Ближайшие дела",
+"Upcoming",
+1
+],
+[
+"На сегодня всё 🎉",
+"All done for today 🎉",
+1
+],
+[
+"Шторм недели",
+"Storm of the week",
+1
+],
+[
+"До уровня",
+"To level",
+1
+],
+[
+"XP. Серия:",
+"XP. Streak:",
+1
+],
+[
+"дн.",
+"days",
+1
+],
+[
+"Идея дня",
+"Idea of the day",
+1
+],
+[
+"Переходы",
+"Shortcuts",
+1
+],
+[
+"Код скопирован",
+"Code copied",
+1
+],
+[
+"Код не подошёл",
+"The code didn't work",
+1
+],
+[
+"Нажми ещё раз, чтобы удалить всё",
+"Tap again to delete everything",
+1
+],
+[
+"Напиши перевод или нажми «Не знаю»",
+"Write a translation or tap \"Don't know\"",
+1
+],
+[
+"Напиши хотя бы #–# предложения (от # символов)",
+"Write at least #–# sentences (from # characters)",
+0
+],
+[
+"Попробуй: игра-помощник для моряков — расписание, знания, английский и план выхода на берег.",
+"Try it: a helper game for seafarers — schedule, knowledge, English and a plan for moving ashore.",
+0
+],
+[
+"Ссылка скопирована",
+"Link copied",
+1
+],
+[
+"Отправь другу файл fac-modo.html: он работает без интернета",
+"Send your friend the file fac-modo.html: it works offline",
+0
+],
+[
+"Ночь темнее всего перед рассветом.",
+"The darkest hour is just before the dawn.",
+1
+],
+[
+"Томас Фуллер, #",
+"Thomas Fuller, #",
+1
+],
+[
+"Это тоже пройдёт.",
+"This too shall pass.",
+1
+],
+[
+"Старая притча (приписывается царю Соломону)",
+"An old parable (attributed to King Solomon)",
+0
+],
+[
+"Не потому мы не смеем, что трудно, а потому трудно, что мы не смеем.",
+"It is not because things are difficult that we do not dare; it is because we do not dare that they are difficult.",
+0
+],
+[
+"Вечером водворяется плач, а наутро радость.",
+"Weeping may endure for a night, but joy cometh in the morning.",
+0
+],
+[
+"Библия, Псалом #:#",
+"Bible, Psalm #:#",
+1
+],
+[
+"Жизнь как езда на велосипеде: чтобы сохранять равновесие, нужно двигаться.",
+"Life is like riding a bicycle: to keep your balance you must keep moving.",
+0
+],
+[
+"Альберт Эйнштейн, письмо # г.",
+"Albert Einstein, letter, #",
+1
+],
+[
+"Не бойся идти медленно, бойся стоять на месте.",
+"Do not be afraid of going slowly; be afraid only of standing still.",
+0
+],
+[
+"Китайская пословица",
+"Chinese proverb",
+1
+],
+[
+"Ты властен над своим умом, а не над событиями.",
+"You have power over your mind, not outside events.",
+0
+],
+[
+"Марк Аврелий (приписывается)",
+"Marcus Aurelius (attributed)",
+1
+],
+[
+"После бури всегда наступает штиль.",
+"After a storm comes a calm.",
+1
+],
+[
+"Народная мудрость",
+"Folk wisdom",
+1
+],
+[
+"Плохой день — это ещё не плохая жизнь. Сделай один маленький шаг.",
+"A bad day is not a bad life. Take one small step.",
+0
+],
+[
+"Всё впереди. Сегодня достаточно просто идти дальше.",
+"Everything is ahead. Today it's enough just to keep going.",
+0
+],
+[
+"Что сегодня получилось лучше, чем вчера?",
+"What went better today than yesterday?",
+1
+],
+[
+"За что ты сегодня благодарен?",
+"What are you grateful for today?",
+1
+],
+[
+"Что тебя сегодня удивило?",
+"What surprised you today?",
+1
+],
+[
+"Чему ты научился сегодня?",
+"What did you learn today?",
+1
+],
+[
+"Что хочешь сделать завтра первым делом?",
+"What do you want to do first thing tomorrow?",
+1
+],
+[
+"Кто сегодня помог тебе или кому помог ты?",
+"Who helped you today, or whom did you help?",
+0
+],
+[
+"Что тебя беспокоит и что из этого ты можешь изменить?",
+"What worries you, and what part of it can you change?",
+0
+],
+[
+"Какой момент дня запомнился?",
+"Which moment of the day stayed with you?",
+1
+],
+[
+"Что бы ты сказал себе месячной давности?",
+"What would you tell yourself a month ago?",
+1
+],
+[
+"Какой шаг к берегу ты сегодня сделал?",
+"What step towards shore did you take today?",
+1
+],
+[
+"Нарисуй берег своей мечты",
+"Draw the shore of your dreams",
+1
+],
+[
+"Нарисуй своё судно",
+"Draw your ship",
+1
+],
+[
+"Нарисуй настроение цветом",
+"Draw your mood in colour",
+1
+],
+[
+"Нарисуй дом, в котором хочешь жить",
+"Draw the house you want to live in",
+1
+],
+[
+"Нарисуй карту своего пути",
+"Draw the map of your journey",
+1
+],
+[
+"Нарисуй то, что видел из иллюминатора",
+"Draw what you saw through the porthole",
+1
+],
+[
+"Нарисуй человека, которому благодарен",
+"Draw a person you are grateful to",
+1
+],
+[
+"Нарисуй символ своей цели",
+"Draw a symbol of your goal",
+1
+],
+[
+"Нарисуй любой узор, не думая",
+"Draw any pattern without thinking",
+1
+],
+[
+"Нарисуй щит автоматики как комикс",
+"Draw a switchboard as a comic",
+1
+],
+[
+"Семья и друзья",
+"Family and friends",
+1
+],
+[
+"Спорт",
+"Sport",
+1
+],
+[
+"Прогулка",
+"Walk",
+1
+],
+[
+"Музыка",
+"Music",
+1
+],
+[
+"Работа",
+"Work",
+1
+],
+[
+"Книга",
+"Book",
+1
+],
+[
+"Тишина",
+"Silence",
+1
+],
+[
+"Не унывай, всё впереди",
+"Don't lose heart, everything is ahead",
+1
+],
+[
+"Отметь настроение, энергию, стресс и сон за сегодня: +# XP.",
+"Log your mood, energy, stress and sleep for today: +# XP.",
+1
+],
+[
+"Сегодня непросто, и это нормально. Выбери минимум: вода, еда, # минут тишины или короткий звонок близким. Режим «Тяжёлый день» на вкладке «Миссии» оставит всего # дела.",
+"Today is hard, and that's okay. Choose the minimum: water, food, # minutes of quiet or a short call to someone close. The \"Hard day\" mode on the Missions tab will leave only # tasks.",
+0
+],
+[
+"Мало сна: сегодня не требуй от себя максимума и ляг пораньше.",
+"Little sleep: don't demand your maximum today and go to bed earlier.",
+0
+],
+[
+"Хороший день! Запиши, что помогло, чтобы повторить.",
+"A good day! Write down what helped so you can repeat it.",
+0
+],
+[
+"Ровный день. Маленький шаг вперёд тоже шаг.",
+"A steady day. A small step forward is still a step.",
+0
+],
+[
+"Уже три дня подряд тебе тяжело. Поговори с близким человеком или со специалистом: это не слабость. Приложение не заменяет врача.",
+"It's been hard for three days in a row. Talk to someone close or to a specialist: it's not a weakness. The app does not replace a doctor.",
+0
+],
+[
+"Состояние:",
+"State:",
+1
+],
+[
+"Настроение",
+"Mood",
+1
+],
+[
+"Энергия (# мало, # много)",
+"Energy (# low, # high)",
+1
+],
+[
+"Стресс (# мало, # много)",
+"Stress (# low, # high)",
+1
+],
+[
+"Сон, часов",
+"Sleep, hours",
+1
+],
+[
+"Вода, стаканов:",
+"Water, glasses:",
+1
+],
+[
+"Что помогло сегодня",
+"What helped today",
+1
+],
+[
+"Запись дня",
+"Today's entry",
+1
+],
+[
+"Вопрос дня:",
+"Question of the day:",
+1
+],
+[
+"Пиши как есть. Запись хранится только на этом устройстве.",
+"Write as it is. The entry is stored only on this device.",
+1
+],
+[
+"Что получилось",
+"What went well",
+1
+],
+[
+"Благодарность",
+"Gratitude",
+1
+],
+[
+"Планы",
+"Plans",
+1
+],
+[
+"# минут зарядки в каюте",
+"# minutes of exercise in the cabin",
+1
+],
+[
+"Круги плечами и шеей (# мин), приседания (# мин), отжимания от стены или пола (# мин), планка #–# секунд, растяжка спины и ног (# мин), дыхание: # секунды вдох, # выдох (# мин). Есть противопоказания? Спроси врача.",
+"Shoulder and neck circles (# min), squats (# min), wall or floor push-ups (# min), plank #–# seconds, back and leg stretches (# min), breathing: # seconds in, # out (# min). Any contraindications? Ask a doctor.",
+1
+],
+[
+"Рисунок дня",
+"Drawing of the day",
+1
+],
+[
+"Тема:",
+"Theme:",
+1
+],
+[
+"Холст для рисунка",
+"Drawing canvas",
+1
+],
+[
+". Рисунки хранятся на устройстве и занимают место, держи их небольшими.",
+". Drawings are stored on the device and take up space, keep them small.",
+1
+],
+[
+"Цвет",
+"Colour",
+1
+],
+[
+"Ластик",
+"Eraser",
+1
+],
+[
+"Тонко",
+"Thin",
+1
+],
+[
+"Средне",
+"Medium",
+1
+],
+[
+"Толсто",
+"Thick",
+1
+],
+[
+"Отменить",
+"Undo",
+1
+],
+[
+"Очистить",
+"Clear",
+1
+],
+[
+"Сохранить рисунок",
+"Save drawing",
+1
+],
+[
+"Мои записи и настроение",
+"My entries and mood",
+1
+],
+[
+"Пока пусто. Начни с настроения и пары строк.",
+"Empty so far. Start with your mood and a couple of lines.",
+1
+],
+[
+"Тяжёлый день: хватит # дел",
+"Hard day: # tasks are enough",
+1
+],
+[
+"Тяжёлый день: нужно только # дела",
+"Hard day: only # tasks needed",
+1
+],
+[
+"Настройки",
+"Settings",
+1
+],
+[
+"Крупный текст",
+"Large text",
+1
+],
+[
+"❄️ Заморозить серию на сегодня",
+"❄️ Freeze streak for today",
+1
+],
+[
+"Заморозка использована на этой неделе.",
+"Freeze already used this week.",
+1
+],
+[
+"Раз в # дней можно сохранить серию, если день пропущен.",
+"Once every # days you can keep your streak if you miss a day.",
+0
+],
+[
+"Магазин наград: 🪙",
+"Reward shop: 🪙",
+1
+],
+[
+"# XP = # монета. Награды придумываешь ты, уровень от трат не падает.",
+"# XP = # coin. You make up the rewards; spending doesn't lower your level.",
+1
+],
+[
+"· куплено",
+"· bought",
+1
+],
+[
+"Награда (кофе, фильм…)",
+"Reward (coffee, a film…)",
+1
+],
+[
+"Отправлено",
+"Sent",
+1
+],
+[
+"Ответили",
+"Replied",
+1
+],
+[
+"Собеседование",
+"Interview",
+1
+],
+[
+"Оффер",
+"Offer",
+1
+],
+[
+"Отказ",
+"Rejected",
+1
+],
+[
+"Трекер откликов",
+"Application tracker",
+1
+],
+[
+"Всего:",
+"Total:",
+1
+],
+[
+", собеседований:",
+", interviews:",
+1
+],
+[
+"Компания и должность",
+"Company and position",
+1
+],
+[
+"Генератор резюме",
+"CV generator",
+1
+],
+[
+"Здесь появится черновик. Допиши свои достижения и цифры: работодатель смотрит на результаты.",
+"Your draft will appear here. Add your achievements and numbers: employers look at results.",
+1
+],
+[
+"Собрать на русском",
+"Build in Russian",
+1
+],
+[
+"Собрать на английском",
+"Build in English",
+1
+],
+[
+"Скопировать",
+"Copy",
+1
+],
+[
+"Имя Фамилия",
+"First Last",
+1
+],
+[
+"Судовой электромеханик",
+"Marine electro-technical officer",
+1
+],
+[
+"Судовой механик",
+"Marine engineer",
+1
+],
+[
+"Опыт:",
+"Experience:",
+1
+],
+[
+"Освоено по направлению:",
+"Mastered for the direction:",
+1
+],
+[
+"пока ничего",
+"nothing yet",
+1
+],
+[
+"Календарь активности",
+"Activity calendar",
+1
+],
+[
+"Последние # недель: чем ярче клетка, тем больше XP за день.",
+"Last # weeks: the brighter the cell, the more XP that day.",
+1
+],
+[
+"Глоссарий",
+"Glossary",
+1
+],
+[
+"или",
+"or",
+1
+],
+[
+"Ничего не найдено",
+"Nothing found",
+1
+],
+[
+"Перед отъездом",
+"Before departure",
+1
+],
+[
+"Документы и копии",
+"Documents and copies",
+1
+],
+[
+"Зарядки и павербанк",
+"Chargers and power bank",
+1
+],
+[
+"Личные лекарства",
+"Personal medicines",
+1
+],
+[
+"Одежда по сезону",
+"Seasonal clothes",
+1
+],
+[
+"Деньги и карты",
+"Money and cards",
+1
+],
+[
+"Контакты и адреса",
+"Contacts and addresses",
+1
+],
+[
+"Сход на берег",
+"Signing off for shore",
+1
+],
+[
+"Резюме обновлено",
+"CV updated",
+1
+],
+[
+"Профиль в соцсети",
+"Professional profile",
+1
+],
+[
+"Список вакансий",
+"List of vacancies",
+1
+],
+[
+"Накопления посчитаны",
+"Savings calculated",
+1
+],
+[
+"Допуски и сертификаты",
+"Licences and certificates",
+1
+],
+[
+"Разговор с близкими о планах",
+"Talk about plans with loved ones",
+1
+],
+[
+"Чек-листы",
+"Checklists",
+1
+],
+[
+"Рисунок сохранён",
+"Drawing saved",
+1
+],
+[
+"❄️ Серия заморожена",
+"❄️ Streak frozen",
+1
+],
+[
+"🎁 Награда получена:",
+"🎁 Reward claimed:",
+1
+],
+[
+"Скопировано",
+"Copied",
+1
+],
+[
+"Специальность:",
+"Specialty:",
+1
+],
+[
+"Различай то, что зависит от тебя, и то, что нет. Силы вкладывай в первое, а второе постарайся принять спокойнее (идея стоиков).",
+"Tell apart what depends on you and what doesn't. Put your effort into the first and try to accept the second more calmly (a Stoic idea).",
+0
+],
+[
+"Выпиши одну тревогу и раздели: что в моей власти, а что нет.",
+"Write down one worry and split it: what's in my power and what isn't.",
+0
+],
+[
+"Задавай «почему?» к собственным решениям: на чём основан мой выбор? Это сократовский способ проверять жизнь.",
+"Ask \"why?\" about your own decisions: what is my choice based on? It's the Socratic way of examining life.",
+0
+],
+[
+"Возьми одно сегодняшнее решение и задай ему три «почему».",
+"Take one decision from today and ask it \"why\" three times.",
+0
+],
+[
+"Аристотель считал, что привычки формируют характер: мы становимся тем, что делаем регулярно.",
+"Aristotle believed habits shape character: we become what we do regularly.",
+0
+],
+[
+"Выбери одно маленькое действие и повтори его сегодня намеренно.",
+"Pick one small action and repeat it deliberately today.",
+0
+],
+[
+"Эпикур ценил простые радости и покой. Полезно отличать нужное от лишнего.",
+"Epicurus valued simple pleasures and calm. It helps to tell the necessary from the superfluous.",
+0
+],
+[
+"Назови три вещи, без которых ты спокойно обойдёшься.",
+"Name three things you could easily do without.",
+0
+],
+[
+"Стоики (Сенека, Марк Аврелий) напоминали себе о конечности времени, чтобы ценить день. Это не мрачность, а ясность.",
+"The Stoics (Seneca, Marcus Aurelius) reminded themselves that time is finite in order to value the day. It's not gloom, it's clarity.",
+0
+],
+[
+"Спроси себя вечером: на что я потратил сегодня лучшие часы?",
+"Ask yourself in the evening: what did I spend my best hours on today?",
+0
+],
+[
+"Золотая середина Аристотеля: добродетель часто лежит между крайностями, например между скупостью и расточительностью.",
+"Aristotle's golden mean: virtue often lies between extremes, for example between stinginess and extravagance.",
+0
+],
+[
+"Найди сферу, где ты склоняешься к крайности, и выбери середину.",
+"Find an area where you lean to an extreme and choose the middle.",
+0
+],
+[
+"Жизненные навыки <button type=\"button\" data-l=\"ed\" style=\"",
+"Life skills",
+1
+],
+[
+"Готово",
+"Done",
+1
+],
+[
+"✏️ Править",
+"✏️ Edit",
+1
+],
+[
+"Практика:",
+"Practice:",
+1
+],
+[
+"Применил ✓",
+"Applied ✓",
+1
+],
+[
+"Применил на практике +# XP",
+"Applied in practice +# XP",
+1
+],
+[
+"Другой совет",
+"Another tip",
+1
+],
+[
+"В этой категории пока нет советов. Нажми «Править» и добавь свой.",
+"There are no tips in this category yet. Tap \"Edit\" and add your own.",
+1
+],
+[
+"Название категории",
+"Category name",
+1
+],
+[
+"Переименовать",
+"Rename",
+1
+],
+[
+"← Влево",
+"← Left",
+1
+],
+[
+"Вправо →",
+"Right →",
+1
+],
+[
+"Удалить категорию",
+"Delete category",
+1
+],
+[
+"Удалить совет",
+"Delete tip",
+1
+],
+[
+"Новый совет",
+"New tip",
+1
+],
+[
+"Практика на сегодня",
+"Practice for today",
+1
+],
+[
+"Новая категория",
+"New category",
+1
+],
+[
+"Добавить совет",
+"Add tip",
+1
+],
+[
+"Добавить категорию",
+"Add category",
+1
+],
+[
+"Нужна хотя бы одна категория",
+"At least one category is needed",
+1
+],
+[
+"Подумай, как применить это сегодня.",
+"Think about how to apply this today.",
+1
+],
+[
+"Нажми ещё раз, чтобы вернуть стандартные категории",
+"Tap again to restore the default categories",
+0
+],
+[
+"Генератор переменного тока с тремя обмотками, расположенными под углом #° друг к другу, создаёт три напряжения одинаковой амплитуды, сдвинутые на треть периода. Нагрузку соединяют звездой или треугольником: при звезде линейное напряжение в √# раза больше фазного (например, # В фазное и около # В линейное). Трёхфазный асинхронный двигатель создаёт вращающееся магнитное поле без дополнительных пусковых устройств, поэтому он проще и надёжнее однофазных. Поменяв местами любые две фазы, меняют направление вращения. На судах напряжение и частота могут отличаться от береговых, смотри данные своей электростанции.",
+"An AC generator with three windings placed #° apart creates three voltages of equal amplitude shifted by a third of a period. The load is connected in star or delta: in star the line voltage is √# times the phase voltage (for example # V phase and about # V line). A three-phase induction motor creates a rotating magnetic field without extra starting devices, so it is simpler and more reliable than single-phase ones. Swapping any two phases reverses the rotation. On ships, voltage and frequency may differ from shore values; check your own power plant's data.",
+0
+],
+[
+"Переходное сопротивление контакта зависит от чистоты, силы прижатия и материала. Окисная плёнка, ослабленный винт или вибрация повышают его, и на контакте выделяется тепло. Перегрев ещё больше окисляет металл, и процесс усиливается. Признаки: потемнение изоляции, запах, следы оплавления, разница температур на тепловизоре. Профилактика: подтяжка клемм с контролем момента по данным изготовителя, чистка, правильный подбор наконечников и пружинных шайб, контроль нагрузки. Работы выполняют при обесточенном оборудовании и по допускам.",
+"Contact resistance depends on cleanliness, contact pressure and material. An oxide film, a loose screw or vibration increase it, and heat is released at the contact. Overheating oxidises the metal further, and the process accelerates. Signs: darkened insulation, smell, traces of melting, temperature differences on a thermal camera. Prevention: tightening terminals to the maker's torque, cleaning, correct lugs and spring washers, load monitoring. Work is done on isolated equipment and under permits.",
+0
+],
+[
+"Остойчивость определяется взаимным положением центра тяжести G и метацентра M: чем больше метацентрическая высота GM, тем больше начальная остойчивость. Но слишком большая GM делает качку резкой и неприятной для пассажиров. Свободные поверхности жидкости в частично заполненных цистернах уменьшают эффективную GM, поэтому за уровнями в цистернах следят. На пассажирских судах высокие надстройки поднимают центр тяжести, а расчёты остойчивости для каждой загрузки выполняются по утверждённым документам.",
+"Stability is determined by the relative position of the centre of gravity G and the metacentre M: the greater the metacentric height GM, the greater the initial stability. But too large a GM makes rolling sharp and unpleasant for passengers. Free surfaces of liquid in partly filled tanks reduce the effective GM, so tank levels are monitored. On passenger ships high superstructures raise the centre of gravity, and stability calculations for every loading condition follow approved documents.",
+0
+],
+[
+"В дизель-электрическом судне первичные двигатели вращают генераторы, энергия идёт на главный распределительный щит и дальше к гребным двигателям и общесудовым потребителям. Между щитом и гребными двигателями обычно стоят преобразователи частоты, регулирующие скорость. Азимутальные движители в гондолах поворачиваются на #°, что улучшает маневренность и позволяет отказаться от длинных валов и рулей. Для электромеханика это значит больше внимания к силовой электронике, охлаждению преобразователей, качеству сети и гармоникам, а также к резервированию питания.",
+"On a diesel-electric ship the prime movers drive generators, and power goes to the main switchboard and on to the propulsion motors and ship's consumers. Between the switchboard and the propulsion motors there are usually frequency converters that control speed. Azimuth thrusters in pods rotate through #°, improving manoeuvrability and removing the need for long shafts and rudders. For an ETO this means more attention to power electronics, converter cooling, power quality and harmonics, and supply redundancy.",
+0
+],
+[
+"Эпиктет начинает «Энхиридион» с различения того, что в нашей власти (мнения, стремления, желания — наши собственные действия), и того, что не в нашей власти (тело, имущество, репутация, должности). По его мысли, спокойствие приходит, когда мы не требуем от внешнего того, что нам не принадлежит, и сосредоточены на своих суждениях и поступках. Критики замечают, что такой подход может быть слишком отстранённым и не заменяет действий по изменению несправедливых обстоятельств. Современная когнитивная терапия заимствовала у стоиков идею, что на эмоции влияют наши оценки событий.",
+"Epictetus opens the Enchiridion by distinguishing what is in our power (opinions, aims, desires — our own actions) from what is not (body, property, reputation, office). In his view, calm comes when we don't demand from external things what doesn't belong to us and focus on our own judgements and actions. Critics note that this approach can be too detached and doesn't replace action to change unjust circumstances. Modern cognitive therapy borrowed from the Stoics the idea that our emotions are shaped by how we judge events.",
+0
+],
+[
+"О Сократе мы знаем в основном от Платона и Ксенофонта, сам он ничего не писал. Его метод — диалог: собеседник высказывает мнение, а Сократ задаёт уточняющие вопросы, пока не обнаружится противоречие. Цель не победить, а прояснить, что человек действительно знает. Фраза «я знаю, что ничего не знаю» — упрощённое изложение мысли о том, что мудрость начинается с признания собственного незнания. Приём можно применять к себе: записать убеждение, спросить, на чём оно держится и что могло бы его опровергнуть.",
+"We know Socrates mainly from Plato and Xenophon; he wrote nothing himself. His method is dialogue: the other person states an opinion and Socrates asks clarifying questions until a contradiction appears. The goal is not to win but to clarify what a person really knows. \"I know that I know nothing\" is a simplified version of the idea that wisdom begins with admitting your own ignorance. You can apply it to yourself: write down a belief, ask what it rests on and what could refute it.",
+0
+],
+[
+"Перед стиркой посмотри на ярлыки: символы показывают температуру и режим. Белое, цветное и тёмное лучше стирать отдельно, новые яркие вещи в первые разы отдельно. Барабан заполняй примерно на две трети: тесная загрузка хуже стирает и мнёт вещи. Для синтетики и тёмных тканей подойдёт прохладная вода, для постельного белья и полотенец теплее. Не передозируй порошок: избыток плохо вымывается. После стирки расправь вещи, пока они влажные, и не суши их на горячих батареях, чтобы ткань не села.",
+"Before washing, check the labels: the symbols show temperature and programme. Whites, colours and darks are best washed separately, and new bright items separately the first few times. Fill the drum about two-thirds: a tight load washes worse and creases clothes. Cool water suits synthetics and dark fabrics, warmer water bed linen and towels. Don't overdose detergent: the excess rinses out poorly. After washing, straighten clothes while damp and don't dry them on hot radiators so the fabric doesn't shrink.",
+0
+],
+[
+"Для большинства взрослых ориентиром служат #–# часов сна, но потребность индивидуальна. Режим важнее разового «отсыпания»: постоянное время подъёма помогает внутренним часам. Вечером полезны приглушённый свет, прохлада и темнота в каюте, меньше экрана перед сном и лёгкий ужин за пару часов до сна. Кофеин у многих действует #–# часов, поэтому поздний кофе может мешать засыпанию. При вахтах помогает единый ритуал отхода ко сну. Если бессонница длится неделями или днём мешает безопасно работать, стоит обратиться к врачу.",
+"For most adults the guideline is #–# hours of sleep, but needs vary. Routine matters more than catching up: a constant wake-up time helps the body clock. In the evening, dim light, coolness and darkness in the cabin, less screen time before bed and a light dinner a couple of hours before sleep help. Caffeine acts for #–# hours in many people, so late coffee can disturb sleep. On watches, a consistent bedtime ritual helps. If insomnia lasts for weeks or affects working safely during the day, see a doctor.",
+0
+],
+[
+"Сложный процент означает, что доход начисляется не только на вложенную сумму, но и на ранее начисленный доход. Формула: S = P × (# + r)^n. При #% годовых # единиц через # лет превратятся примерно в #, через # лет примерно в #, через # лет примерно в #. Это работает и против должника: проценты по кредиту тоже копятся. Поэтому важны срок, регулярность взносов и низкие комиссии. Реальная доходность зависит от инфляции, налогов и рисков, а прошлые результаты не гарантируют будущих. Это общая информация, а не совет.",
+"Compound interest means returns are earned not only on the amount invested but also on previously earned returns. Formula: S = P × (# + r)^n. At #% a year, # units grow to about # after # years, about # after # years and about # after # years. It also works against a borrower: loan interest accumulates too. That's why term, regular contributions and low fees matter. Real returns depend on inflation, taxes and risks, and past results don't guarantee future ones. This is general information, not advice.",
+0
+],
+[
+"Инфляция — общий рост цен, из-за которого на ту же сумму можно купить меньше. Если цены растут на #% в год, деньги, лежащие без дохода, за # лет теряют около #% покупательной способности. Поэтому реальную доходность считают с поправкой на инфляцию. Для краткосрочных нужд важнее доступность и надёжность, для долгосрочных защита от инфляции с учётом рисков. Не вкладывай в то, чего не понимаешь, и не вкладывай деньги, которые могут понадобиться в ближайшее время. Для решений по своим деньгам при необходимости обратись к лицензированному консультанту.",
+"Inflation is a general rise in prices that means the same amount buys less. If prices rise #% a year, money earning nothing loses about #% of its purchasing power over # years. That's why real returns are calculated net of inflation. For short-term needs, access and safety matter more; for long-term needs, protection from inflation with risks in mind. Don't invest in what you don't understand, and don't invest money you may need soon. For decisions about your own money, consult a licensed adviser if needed.",
+0
+],
+[
+"Предвзятость подтверждения — склонность искать и запоминать информацию, которая согласуется с уже существующим мнением, и недооценивать противоречащую. Она встречается у всех и усиливается, когда тема эмоциональна. Что помогает: перед решением сознательно искать аргументы против, спрашивать мнение человека с другой позицией, заранее фиксировать, какие данные изменили бы твоё мнение, и проверять источники. В технической работе то же самое: версия причины поломки, которой ты увлёкся, может заслонить другие. Хороший приём — выписать две-три альтернативные гипотезы и проверить каждую.",
+"Confirmation bias is the tendency to seek out and remember information that fits an existing opinion and to underrate contradicting information. Everyone has it, and it gets stronger when the topic is emotional. What helps: before deciding, deliberately look for arguments against, ask someone with a different view, decide in advance what data would change your mind, and check sources. In technical work it's the same: a favourite theory of a fault's cause can hide others. A good technique is to write down two or three alternative hypotheses and test each.",
+0
+],
+[
+"Прокрастинация — откладывание дел, несмотря на понимание, что это навредит. Часто в основе лежит не лень, а желание избежать неприятного чувства: тревоги, скуки, страха ошибки. Помогают: разбить задачу на первый шаг в # минут, убрать отвлекающие факторы, назначить конкретное время и место, договориться с кем-то о сроке, наградить себя после выполнения. Начать важнее, чем сделать идеально: после старта сопротивление обычно ослабевает. Если откладывание сопровождается постоянной подавленностью, стоит обсудить это со специалистом.",
+"Procrastination is putting things off despite knowing it will cause harm. Often it's not laziness but a wish to avoid an unpleasant feeling: anxiety, boredom, fear of error. What helps: break the task into a #-minute first step, remove distractions, set a specific time and place, agree a deadline with someone, reward yourself afterwards. Starting matters more than doing it perfectly: resistance usually weakens once you begin. If putting things off comes with constant low mood, it's worth discussing with a specialist.",
+0
+],
+[
+"Иллюстрация раздела",
+"Section illustration",
+1
+],
+[
+"Отметить прочитанным",
+"Mark as read",
+1
+],
+[
+"Прочитано ✓ (отменить)",
+"Read ✓ (undo)",
+1
+],
+[
+"Уже прочитано ✓",
+"Already read ✓",
+1
+],
+[
+"Библиотека знаний",
+"Knowledge library",
+1
+],
+[
+"Подробнее",
+"More",
+1
+],
+[
+"Другая статья",
+"Another article",
+1
+],
+[
+"Заменить фото",
+"Replace photo",
+1
+],
+[
+"Своё фото",
+"My photo",
+1
+],
+[
+"Ранг раздела:",
+"Section rank:",
+1
+],
+[
+"Всё течёт, всё меняется.",
+"Everything flows, everything changes.",
+1
+],
+[
+"Гераклит (приписывается)",
+"Heraclitus (attributed)",
+1
+],
+[
+"Познай самого себя.",
+"Know thyself.",
+1
+],
+[
+"Надпись в храме Аполлона в Дельфах",
+"Inscription at the Temple of Apollo at Delphi",
+1
+],
+[
+"Мы — то, что мы постоянно делаем. Совершенство — не действие, а привычка.",
+"We are what we repeatedly do. Excellence, then, is not an act, but a habit.",
+0
+],
+[
+"Уилл Дюрант, об Аристотеле",
+"Will Durant, on Aristotle",
+1
+],
+[
+"Пока мы откладываем, жизнь проходит.",
+"While we put things off, life speeds by.",
+1
+],
+[
+"Трудности укрепляют разум так же, как труд укрепляет тело.",
+"Difficulties strengthen the mind, as labour does the body.",
+0
+],
+[
+"Сенека (приписывается)",
+"Seneca (attributed)",
+1
+],
+[
+"То, что не вредит улью, не вредит и пчеле.",
+"What is not good for the hive is not good for the bee.",
+0
+],
+[
+"Людей тревожат не вещи, а мнения о вещах.",
+"Men are disturbed not by things, but by the opinions about things.",
+0
+],
+[
+"Эпиктет",
+"Epictetus",
+1
+],
+[
+"Начало — половина всего.",
+"The beginning is half of the whole.",
+1
+],
+[
+"Платон, «Законы»",
+"Plato, Laws",
+1
+],
+[
+"Кто не думает о далёком, того ждут близкие огорчения.",
+"He who does not think of the distant will have near troubles.",
+0
+],
+[
+"Кто знает других, тот умён; кто знает себя, тот просветлён.",
+"He who knows others is wise; he who knows himself is enlightened.",
+0
+],
+[
+"Мягкое побеждает твёрдое.",
+"The soft overcomes the hard.",
+1
+],
+[
+"Всё, что делаете, делайте от души.",
+"Whatsoever ye do, do it heartily.",
+1
+],
+[
+"Библия, Послание к Колоссянам #:#",
+"Bible, Colossians #:#",
+1
+],
+[
+"Не станем унывать, делая добро, ибо в своё время пожнём, если не ослабеем.",
+"Let us not be weary in well doing: for in due season we shall reap, if we faint not.",
+0
+],
+[
+"Библия, Послание к Галатам #:#",
+"Bible, Galatians #:#",
+1
+],
+[
+"Бодрствуйте, стойте в вере, мужайтесь, укрепляйтесь.",
+"Watch ye, stand fast in the faith, quit you like men, be strong.",
+0
+],
+[
+"Библия, #-е Послание к Коринфянам #:#",
+"Bible, # Corinthians #:#",
+1
+],
+[
+"Важно не переставать задавать вопросы.",
+"The important thing is not to stop questioning.",
+1
+],
+[
+"Альберт Эйнштейн, #",
+"Albert Einstein, #",
+1
+],
+[
+"Если я видел дальше других, то потому, что стоял на плечах гигантов.",
+"If I have seen further, it is by standing on the shoulders of giants.",
+0
+],
+[
+"Исаак Ньютон, письмо # г.",
+"Isaac Newton, letter, #",
+1
+],
+[
+"Гений — это один процент вдохновения и девяносто девять процентов пота.",
+"Genius is one percent inspiration and ninety-nine percent perspiration.",
+0
+],
+[
+"Томас Эдисон",
+"Thomas Edison",
+1
+],
+[
+"Англия ожидает, что каждый исполнит свой долг.",
+"England expects that every man will do his duty.",
+0
+],
+[
+"Адмирал Горацио Нельсон, Трафальгар, #",
+"Admiral Horatio Nelson, Trafalgar, #",
+0
+],
+[
+"Море, однажды околдовав, навсегда опутывает человека сетью чудес.",
+"The sea, once it casts its spell, holds one in its net of wonder forever.",
+0
+],
+[
+"Жак-Ив Кусто (приписывается)",
+"Jacques-Yves Cousteau (attributed)",
+1
+],
+[
+"Море никогда не было другом человека; в лучшем случае оно было сообщником его беспокойства.",
+"The sea has never been friendly to man. At most it has been the accomplice of human restlessness.",
+0
+],
+[
+"Джозеф Конрад, «Зеркало морей»",
+"Joseph Conrad, The Mirror of the Sea",
+1
+],
+[
+"Мы выбираем лететь на Луну не потому, что это легко, а потому, что это трудно.",
+"We choose to go to the Moon not because it is easy, but because it is hard.",
+0
+],
+[
+"Джон Ф. Кеннеди, #",
+"John F. Kennedy, #",
+1
+],
+[
+"Успех — это умение шагать от неудачи к неудаче, не теряя энтузиазма.",
+"Success is going from failure to failure without loss of enthusiasm.",
+0
+],
+[
+"Уинстон Черчилль (приписывается)",
+"Winston Churchill (attributed)",
+1
+],
+[
+"Я проигрывал снова и снова, и именно поэтому добился успеха.",
+"I've failed over and over and over again in my life, and that is why I succeed.",
+0
+],
+[
+"Майкл Джордан",
+"Michael Jordan",
+1
+],
+[
+"Если ты думаешь, что можешь, или думаешь, что не можешь, ты прав.",
+"Whether you think you can, or you think you can't — you're right.",
+0
+],
+[
+"Генри Форд (приписывается)",
+"Henry Ford (attributed)",
+1
+],
+[
+"Тяжело в ученье — легко в бою.",
+"Hard in training, easy in battle.",
+1
+],
+[
+"Александр Суворов (приписывается)",
+"Alexander Suvorov (attributed)",
+1
+],
+[
+"В человеке должно быть всё прекрасно: и лицо, и одежда, и душа, и мысли.",
+"Everything in a person should be beautiful: face, clothes, soul and thoughts.",
+0
+],
+[
+"Антон Чехов, «Дядя Ваня»",
+"Anton Chekhov, Uncle Vanya",
+1
+],
+[
+"Терпение и труд всё перетрут.",
+"Patience and work will grind through everything.",
+1
+],
+[
+"Пословица",
+"Proverb",
+1
+],
+[
+"Дорогу осилит идущий.",
+"The road is conquered by the one who walks it.",
+1
+],
+[
+"Семь раз отмерь, один раз отрежь.",
+"Measure seven times, cut once.",
+1
+],
+[
+"Под лежачий камень вода не течёт.",
+"Water doesn't flow under a lying stone.",
+1
+],
+[
+"Каждый день — маленький шаг. Через год это уже дорога.",
+"Every day is a small step. In a year it's already a road.",
+0
+],
+[
+"Дисциплина — это забота о себе в будущем.",
+"Discipline is caring for your future self.",
+0
+],
+[
+"Усталость — не слабость. Отдых — часть пути.",
+"Tiredness is not weakness. Rest is part of the journey.",
+0
+],
+[
+"Лучше сделать немного сегодня, чем много когда-нибудь.",
+"Better a little today than a lot someday.",
+0
+],
+[
+"Не сравнивай свой первый шаг с чужим сотым.",
+"Don't compare your first step with someone else's hundredth.",
+0
+],
+[
+"Большое дело — это много маленьких, которые ты не бросил.",
+"A big thing is many small things you didn't give up on.",
+0
+],
+[
+"Береговая жизнь начинается с первого письма и первого звонка.",
+"Life ashore begins with the first letter and the first call.",
+0
+],
+[
+"Ты не обязан быть идеальным, ты обязан продолжать.",
+"You don't have to be perfect, you have to keep going.",
+0
+],
+[
+"Реле — аппарат, который при подаче сигнала на катушку замыкает или размыкает контакты в цепи управления: бывают электромагнитные, тепловые, реле времени и напряжения. Контактор рассчитан на коммутацию больших токов нагрузки, имеет главные контакты, дугогасительные камеры и вспомогательные контакты для блокировок. Типовая схема пуска двигателя: кнопка «пуск» подаёт питание на катушку контактора, его вспомогательный контакт шунтирует кнопку (самоподхват), кнопка «стоп» разрывает цепь. Сгоревшая катушка, залипшие или подгоревшие контакты и ослабленные клеммы — частые причины отказа. Проверку выполняют на обесточенной схеме, по инструкциям и допускам.",
+"A relay is a device that opens or closes contacts in a control circuit when its coil is energised: there are electromagnetic, thermal, time and voltage relays. A contactor is designed to switch large load currents and has main contacts, arc chutes and auxiliary contacts for interlocks. Typical motor start circuit: the Start button energises the contactor coil, its auxiliary contact bypasses the button (holding), and the Stop button breaks the circuit. A burnt coil, welded or pitted contacts and loose terminals are common causes of failure. Testing is done on an isolated circuit, following procedures and permits.",
+0
+],
+[
+"Аварийный источник питания на судне должен обеспечивать важнейших потребителей при потере основного питания: освещение, навигационные и радиосредства, сигнализацию, часть насосов. Точный состав и время работы определяют правила. Обычно это аварийный дизель-генератор с автоматическим запуском и аккумуляторные батареи, иногда переходный источник для питания на время запуска. Регулярные испытания (пробный пуск, проверка автоматики и нагрузки, измерение напряжения и состояния батарей) записывают в журнал. Главная проблема резервных систем — когда их не проверяли: в нужный момент оказывается, что батарея села или топливо старое.",
+"A ship's emergency power source must supply the most essential consumers when main power is lost: lighting, navigation and radio equipment, alarms, some pumps. The exact list and duration are set by the rules. Usually it's an emergency diesel generator with automatic start and batteries, sometimes a transitional source to cover the start-up time. Regular tests (trial start, checking automation and load, measuring battery voltage and condition) are recorded in the log. The main problem with backup systems is when they haven't been tested: at the critical moment the battery turns out flat or the fuel old.",
+0
+],
+[
+"Огнестойкие переборки и палубы делят пассажирское судно на главные вертикальные зоны, внутри которых пожар должен удерживаться на время, достаточное для тушения и эвакуации. Конструкции классов А и В характеризуются временем сохранения целостности и теплоизоляции. Огнестойкие двери держат закрытыми либо они закрываются дистанционно и автоматически, а вентиляционные каналы пересекают границы зон через противопожарные заслонки. Системы обнаружения, спринклеры и аварийная сигнализация дополняют конструктивную защиту. Для электромеханика важно: кабельные проходки через переборки должны сохранять огнестойкость, поэтому работы с ними согласуют и восстанавливают по процедуре.",
+"Fire-resistant bulkheads and decks divide a passenger ship into main vertical zones, within which a fire must be contained long enough for fire-fighting and evacuation. Class A and B divisions are rated by how long they keep their integrity and insulation. Fire doors are kept closed or close remotely and automatically, and ventilation ducts cross zone boundaries through fire dampers. Detection systems, sprinklers and alarms complement the structural protection. For an ETO this matters: cable penetrations through bulkheads must keep their fire rating, so any work on them is agreed and restored by procedure.",
+0
+],
+[
+"Круизный лайнер — плавучая гостиница с десятками служб: палубы кают, рестораны, театры, кухни и прачечные, огромные системы вентиляции, водоснабжения и обработки отходов. Паром, особенно ро-ро (с горизонтальной погрузкой), строится вокруг грузовых палуб и рамп, быстрых оборотов в порту и коротких переходов. Отсюда разные акценты: у лайнера комфорт, шум, вибрация и сервис для гостей, у парома остойчивость при грузе на палубе, закрепление транспорта и быстрая швартовка. В электрической нагрузке лайнера много климата и сервиса, у парома подруливающие устройства, рампы и вентиляция грузовых палуб. Оба типа подчиняются СОЛАС.",
+"A cruise ship is a floating hotel with dozens of services: cabin decks, restaurants, theatres, galleys and laundries, huge ventilation, water and waste treatment systems. A ferry, especially a ro-ro (roll-on/roll-off), is built around car decks and ramps, fast turnarounds in port and short crossings. Hence different priorities: for a cruise ship comfort, noise, vibration and guest service; for a ferry stability with cargo on deck, vehicle lashing and fast mooring. A cruise ship's electrical load is dominated by HVAC and hotel services, a ferry's by thrusters, ramps and car deck ventilation. Both are subject to SOLAS.",
+0
+],
+[
+"В «Никомаховой этике» Аристотель различает добродетели ума, которые развиваются обучением, и добродетели характера, которые вырабатываются привычкой. Строителями становятся, строя, а мужественными — поступая мужественно. Он предупреждает: важно не только действие, но и то, как оно совершено: сознательно, из верных побуждений и устойчиво. Хорошая привычка требует повторения и «золотой середины»: избегания крайностей недостатка и избытка. Современные исследования привычек подтверждают значение повторения в стабильном контексте, но скорость формирования привычки сильно различается у разных людей и действий.",
+"In the Nicomachean Ethics Aristotle distinguishes intellectual virtues, developed by teaching, from virtues of character, formed by habit. We become builders by building and brave by acting bravely. He warns that not only the action matters but how it is done: knowingly, from the right motives and consistently. A good habit needs repetition and the \"golden mean\": avoiding the extremes of deficiency and excess. Modern habit research confirms the role of repetition in a stable context, but how quickly habits form varies greatly between people and actions.",
+0
+],
+[
+"Эпикур основал школу в Афинах, «Сад», около # года до н. э. Он считал, что цель жизни — удовольствие, понимаемое прежде всего как отсутствие телесной боли и душевной тревоги (атараксия), а не как излишества. Желания он делил на естественные и необходимые (пища, кров), естественные, но не необходимые, и пустые (слава, богатство ради богатства). Страх богов и смерти, по его учению, снимается пониманием природы: смерть — лишение ощущений. Высоко ценил дружбу. Критики указывали на узкий взгляд на жизнь, но мысль различать нужное и лишнее остаётся практичной.",
+"Epicurus founded his school in Athens, \"the Garden\", around # BC. He held that the aim of life is pleasure, understood above all as the absence of bodily pain and mental disturbance (ataraxia), not as excess. He divided desires into natural and necessary (food, shelter), natural but unnecessary, and empty (fame, wealth for its own sake). Fear of the gods and of death, he taught, is removed by understanding nature: death is the end of sensation. He valued friendship highly. Critics pointed to a narrow view of life, but the idea of telling the necessary from the superfluous remains practical.",
+0
+],
+[
+"Идея в том, чтобы иметь базу, из которой можно собрать приём пищи без похода в магазин. Крупы (рис, гречка, овсянка), макароны, консервы (бобовые, рыба, томаты), яйца, долго хранящиеся овощи (лук, морковь, капуста, картофель), замороженные овощи и ягоды, растительное масло, специи. К этому добавляют свежее по сезону. Планируй #–# базовых блюда на неделю и готовь заготовки заранее: отварную крупу, нарезанные овощи, соус. Это экономит время и деньги и помогает питаться регулярно. Учитывай свои вкусы, здоровье и рекомендации врача, особенно при диете или аллергии.",
+"The idea is to have a base from which you can make a meal without going to the shop. Grains (rice, buckwheat, oats), pasta, tinned food (beans, fish, tomatoes), eggs, long-keeping vegetables (onions, carrots, cabbage, potatoes), frozen vegetables and berries, vegetable oil, spices. Add fresh seasonal food to this. Plan #–# basic dishes for the week and prepare components in advance: cooked grains, chopped vegetables, a sauce. It saves time and money and helps you eat regularly. Take into account your tastes, health and your doctor's advice, especially on a diet or with allergies.",
+0
+],
+[
+"Просроченный документ в рейсе стоит дорого: упущенный контракт, срочные платежи, переносы. Заведи единую таблицу или календарь: что (паспорт, загранпаспорт, моряцкие документы, медкомиссия, сертификаты, страховка, права), номер или место хранения, дата окончания и за какой срок напомнить (обычно за #–# месяцев, для документов с долгим оформлением больше). Храни копии в защищённом месте и на бумаге отдельно от оригиналов. Раз в квартал просматривай список и сразу ставь задачу на подачу. Сроки и порядок оформления проверяй в официальных источниках своей страны и компании.",
+"An expired document during a voyage is costly: a lost contract, urgent payments, delays. Keep one table or calendar: what (passport, international passport, seafarer's documents, medical, certificates, insurance, driving licence), number or storage place, expiry date and how far ahead to be reminded (usually #–# months, more for documents that take long to issue). Keep copies in a secure place and on paper separately from the originals. Review the list once a quarter and immediately set a task to apply. Check deadlines and procedures with official sources in your country and company.",
+0
+],
+[
+"Правило #/#/# предложено как простая отправная точка: около половины дохода на обязательное (жильё, еда, транспорт, платежи по долгам), #% на желания, #% на сбережения и погашение долгов. Для моряка доход может приходить нерегулярно, поэтому полезно считать по среднему за #–# месяцев и держать резерв на периоды без контракта. Если обязательные траты занимают больше #%, правило нужно подстроить, а не отказываться от бюджета вовсе. Раз в месяц сверяй план с фактом и записывай причины расхождений. Это общая методика, а не персональный финансовый совет.",
+"The #/#/# rule is offered as a simple starting point: about half of income for needs (housing, food, transport, debt payments), #% for wants, #% for savings and paying off debt. A seafarer's income may be irregular, so it helps to work from the average over #–# months and keep a reserve for periods between contracts. If needs take more than #%, adjust the rule rather than give up budgeting altogether. Once a month compare the plan with reality and note the reasons for differences. This is a general method, not personal financial advice.",
+0
+],
+[
+"Типичные схемы: звонок «из банка» с просьбой назвать код, сообщение о «блокировке карты» со ссылкой, выгодная «инвестиция» с гарантированной прибылью, просьба срочно перевести деньги якобы от родственника. Признаки: срочность, давление, просьба сообщить коды или установить программу, необычный способ оплаты. Правила: никому не называй коды из СМС и пароли, банк их не запрашивает; не переходи по ссылкам из неожиданных сообщений; положи трубку и перезвони по номеру на карте или на официальном сайте; проверь родственника другим способом; включи уведомления и лимиты по карте. Если обманули, сразу свяжись с банком и правоохранительными органами своей страны.",
+"Typical schemes: a call \"from the bank\" asking for a code, a message about a \"blocked card\" with a link, a lucrative \"investment\" with guaranteed profit, an urgent request for money supposedly from a relative. Signs: urgency, pressure, a request for codes or to install an app, an unusual payment method. Rules: never share SMS codes or passwords, the bank doesn't ask for them; don't follow links from unexpected messages; hang up and call back on the number on your card or the official website; verify a relative another way; turn on card notifications and limits. If you've been scammed, contact your bank and your country's law enforcement immediately.",
+0
+],
+[
+"Стресс — реакция организма на нагрузку. Кратковременный помогает мобилизоваться, а хронический без восстановления снижает внимание, сон и иммунитет. Восстановлению помогают регулярный сон, движение, горячая еда, общение, время вне работы и экранов, дыхание с выдохом длиннее вдоха и простые приятные занятия. В рейсе выручают режим, ритуалы, связь с близкими и разделение рабочего и личного пространства. Стоит обратиться к врачу или психологу, если тревога, подавленность или нарушения сна держатся дольше пары недель и мешают жить, а также при любых мыслях о самоповреждении. Это распространённая и решаемая проблема.",
+"Stress is the body's reaction to load. Short-term stress helps you mobilise, while chronic stress without recovery impairs attention, sleep and immunity. Recovery is helped by regular sleep, movement, hot meals, social contact, time away from work and screens, breathing with an exhale longer than the inhale, and simple enjoyable activities. At sea, routine, rituals, contact with loved ones and separating work and personal space help. See a doctor or psychologist if anxiety, low mood or sleep problems last more than a couple of weeks and get in the way of life, and with any thoughts of self-harm. It's a common and treatable problem.",
+0
+],
+[
+"Выгорание описывают тремя признаками: эмоциональное истощение, цинизм или отстранённость от работы и снижение ощущения эффективности. Оно развивается постепенно при долгом избытке нагрузки, нехватке контроля, вознаграждения и поддержки. Ранние сигналы: усталость, которая не проходит после отдыха, раздражительность, потеря интереса, ошибки по невнимательности. Что помогает: изменить нагрузку там, где это возможно, восстановить сон и отдых, обсудить ситуацию с руководителем или коллегами, вернуть смысл и небольшие победы в работе. Если состояние тяжёлое, нужна помощь врача: выгорание легче предотвратить, чем лечить.",
+"Burnout is described by three signs: emotional exhaustion, cynicism or detachment from work, and a reduced sense of effectiveness. It develops gradually with prolonged overload and a lack of control, reward and support. Early signals: tiredness that doesn't pass after rest, irritability, loss of interest, careless mistakes. What helps: change the load where possible, restore sleep and rest, discuss the situation with your manager or colleagues, bring back meaning and small wins at work. If it's severe, see a doctor: burnout is easier to prevent than to treat.",
+0
+],
+[
+"Сначала впиши:",
+"First enter:",
+1
+],
+[
+"текст",
+"text",
+1
+],
+[
+"Танчики",
+"Tanks",
+1
+],
+[
+"Самолётики",
+"Planes",
+1
+],
+[
+"📚 Книги",
+"📚 Books",
+1
+],
+[
+"Бесплатно и законно: классика, у которой закончился срок авторских прав. Сверху — самые популярные:",
+"Free and legal: classics whose copyright has expired. The most popular are at the top:",
+1
+],
+[
+"по числу скачиваний в Project Gutenberg.",
+"by number of downloads on Project Gutenberg.",
+1
+],
+[
+"по числу читателей в Викитеке за последние # месяцев.",
+"by number of readers on Wikisource over the last # months.",
+0
+],
+[
+"Список собран # октября # г. Для скачивания нужен интернет, файл EPUB открывается в любой читалке на телефоне.",
+"List compiled on # October #. Downloading requires the internet; the EPUB file opens in any reading app on your phone.",
+1
+],
+[
+"🇷🇺 На русском",
+"🇷🇺 In Russian",
+1
+],
+[
+"Жанр",
+"Genre",
+1
+],
+[
+", пер.",
+", transl.",
+1
+],
+[
+"⬇ Скачать EPUB",
+"⬇ Download EPUB",
+1
+],
+[
+"Читать онлайн ↗",
+"Read online ↗",
+1
+],
+[
+"Выбрать издание и скачать ↗",
+"Choose an edition and download ↗",
+1
+],
+[
+"Показать ещё (",
+"Show more (",
+1
+],
+[
+"⬇ Скачано обновление Fac Modo. Оно включится, когда снова откроешь приложение.",
+"⬇ Fac Modo update downloaded. It will turn on the next time you open the app.",
+0
+]
+]
