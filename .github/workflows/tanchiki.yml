@@ -30,8 +30,8 @@ jobs:
             if curl -fsSL -o /tmp/game.html "$1"; then
               R=$(python3 tools/embed_tanchiki.py /tmp/game.html "$2")
               echo "$2: $R"
-              [ "$R" = "changed=true" ] && CHANGED=true
-              [ -n "$3" ] && cp /tmp/game.html "$3"
+              if [ "$R" = "changed=true" ]; then CHANGED=true; fi
+              if [ -n "$3" ]; then cp /tmp/game.html "$3"; fi
             else
               echo "$2: игра пока недоступна по адресу $1 — пропускаю"
             fi
