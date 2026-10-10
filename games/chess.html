@@ -1,0 +1,147 @@
+<!doctype html>
+<html lang="ru"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Шахматы</title>
+<style>
+body{margin:0;font-family:Segoe UI,Arial,sans-serif;background:#2b2b2b;color:#eee;display:flex;flex-direction:column;align-items:center;padding:16px}
+a{color:#9cf}
+#board{display:grid;grid-template-columns:repeat(8,min(11vw,64px));grid-template-rows:repeat(8,min(11vw,64px));border:6px solid #5a3a1a}
+.sq{display:flex;align-items:center;justify-content:center;font-size:min(9vw,50px);cursor:pointer;user-select:none;position:relative;line-height:1}
+.l{background:#f0d9b5}.d{background:#b58863}
+.last{background-image:linear-gradient(rgba(255,230,0,.4),rgba(255,230,0,.4))}
+.sel{box-shadow:inset 0 0 0 4px #1a9}
+.mv::after{content:'';position:absolute;width:30%;height:30%;border-radius:50%;background:rgba(0,110,0,.5)}
+.wp{color:#fff;text-shadow:0 0 2px #000,0 0 2px #000,0 0 1px #000}
+.bp{color:#111}
+#status{margin:12px;font-size:20px;min-height:26px}
+button{font-size:16px;padding:8px 16px;margin:8px;cursor:pointer}
+</style></head><body>
+<h2>Шахматы</h2>
+<div id="status"></div>
+<div id="board"></div>
+<div><button onclick="newGame()">Новая игра</button> <a href="index.html">← Меню</a></div>
+<p style="max-width:520px;color:#aaa">Вы играете белыми. Нажмите на фигуру — зелёные точки покажут, куда можно пойти. Пешка, дошедшая до конца, становится ферзём.</p>
+<script>
+const GL={k:'♚',q:'♛',r:'♜',b:'♝',n:'♞',p:'♟'};
+const VAL={p:100,n:320,b:330,r:500,q:900,k:0};
+let S,sel=-1,legalSel=[],over=false,last=null;
+const col=p=>p==='.'?null:(p===p.toUpperCase()?'w':'b');
+const opp=c=>c==='w'?'b':'w';
+const $=id=>document.getElementById(id);
+const status=t=>$('status').textContent=t;
+
+function newGame(){
+  S={b:("rnbqkbnr"+"pppppppp"+".".repeat(32)+"PPPPPPPP"+"RNBQKBNR").split(''),turn:'w',cr:{K:1,Q:1,k:1,q:1},ep:-1};
+  sel=-1;legalSel=[];over=false;last=null;draw();status('Ваш ход (белые)');
+}
+function attacked(b,sq,by){
+  const r=sq>>3,c=sq&7;
+  const pr=by==='w'?r+1:r-1,pawn=by==='w'?'P':'p';
+  for(const dc of[-1,1]){const cc=c+dc;if(pr>=0&&pr<8&&cc>=0&&cc<8&&b[pr*8+cc]===pawn)return true;}
+  const N=by==='w'?'N':'n',K=by==='w'?'K':'k';
+  for(const[dr,dc]of[[1,2],[2,1],[-1,2],[-2,1],[1,-2],[2,-1],[-1,-2],[-2,-1]]){const rr=r+dr,cc=c+dc;if(rr>=0&&rr<8&&cc>=0&&cc<8&&b[rr*8+cc]===N)return true;}
+  for(let dr=-1;dr<=1;dr++)for(let dc=-1;dc<=1;dc++){if(!dr&&!dc)continue;const rr=r+dr,cc=c+dc;if(rr>=0&&rr<8&&cc>=0&&cc<8&&b[rr*8+cc]===K)return true;}
+  const lines=[[[1,0],[-1,0],[0,1],[0,-1]],[[1,1],[1,-1],[-1,1],[-1,-1]]];
+  const sl=[by==='w'?'RQ':'rq',by==='w'?'BQ':'bq'];
+  for(let i=0;i<2;i++)for(const[dr,dc]of lines[i]){let rr=r+dr,cc=c+dc;
+    while(rr>=0&&rr<8&&cc>=0&&cc<8){const p=b[rr*8+cc];if(p!=='.'){if(sl[i].includes(p))return true;break;}rr+=dr;cc+=dc;}}
+  return false;
+}
+function gen(s){
+  const b=s.b,me=s.turn,out=[];
+  for(let f=0;f<64;f++){
+    const p=b[f];if(col(p)!==me)continue;
+    const r=f>>3,c=f&7,t=p.toLowerCase();
+    const add=(to,extra)=>out.push(Object.assign({f,t:to},extra||{}));
+    if(t==='p'){
+      const d=me==='w'?-1:1,st=me==='w'?6:1,r1=r+d;
+      if(r1<0||r1>7)continue;
+      if(b[r1*8+c]==='.'){add(r1*8+c);if(r===st&&b[(r+2*d)*8+c]==='.')add((r+2*d)*8+c,{dbl:1});}
+      for(const dc of[-1,1]){const cc=c+dc;if(cc<0||cc>7)continue;const tt=r1*8+cc;
+        if(col(b[tt])===opp(me))add(tt);else if(tt===s.ep)add(tt,{ep:1});}
+    }else if(t==='n'||t==='k'){
+      const ds=t==='n'?[[1,2],[2,1],[-1,2],[-2,1],[1,-2],[2,-1],[-1,-2],[-2,-1]]:[[1,0],[-1,0],[0,1],[0,-1],[1,1],[1,-1],[-1,1],[-1,-1]];
+      for(const[dr,dc]of ds){const rr=r+dr,cc=c+dc;if(rr<0||rr>7||cc<0||cc>7)continue;const tt=rr*8+cc;if(col(b[tt])!==me)add(tt);}
+      if(t==='k'){
+        const K=me==='w'?'K':'k',Q=me==='w'?'Q':'q',R=me==='w'?'R':'r',o=opp(me),home=me==='w'?60:4;
+        if(f===home&&!attacked(b,f,o)){
+          if(s.cr[K]&&b[f+1]==='.'&&b[f+2]==='.'&&b[f+3]===R&&!attacked(b,f+1,o)&&!attacked(b,f+2,o))add(f+2,{cs:1});
+          if(s.cr[Q]&&b[f-1]==='.'&&b[f-2]==='.'&&b[f-3]==='.'&&b[f-4]===R&&!attacked(b,f-1,o)&&!attacked(b,f-2,o))add(f-2,{cs:-1});
+        }
+      }
+    }else{
+      const ds=[];if(t!=='b')ds.push([1,0],[-1,0],[0,1],[0,-1]);if(t!=='r')ds.push([1,1],[1,-1],[-1,1],[-1,-1]);
+      for(const[dr,dc]of ds){let rr=r+dr,cc=c+dc;
+        while(rr>=0&&rr<8&&cc>=0&&cc<8){const tt=rr*8+cc;if(b[tt]==='.')add(tt);else{if(col(b[tt])!==me)add(tt);break;}rr+=dr;cc+=dc;}}
+    }
+  }
+  return out;
+}
+function make(s,m){
+  const b=s.b.slice(),p=b[m.f],me=s.turn,cr=Object.assign({},s.cr);
+  b[m.t]=p;b[m.f]='.';
+  if(m.ep)b[(m.f>>3)*8+(m.t&7)]='.';
+  if(m.cs===1){b[m.f+1]=b[m.f+3];b[m.f+3]='.';}
+  if(m.cs===-1){b[m.f-1]=b[m.f-4];b[m.f-4]='.';}
+  if(p.toLowerCase()==='p'&&(m.t<8||m.t>=56))b[m.t]=me==='w'?'Q':'q';
+  if(p==='K'){cr.K=cr.Q=0}
+  if(p==='k'){cr.k=cr.q=0}
+  for(const[sq,k]of[[63,'K'],[56,'Q'],[7,'k'],[0,'q']])if(m.f===sq||m.t===sq)cr[k]=0;
+  return{b,turn:opp(me),cr,ep:m.dbl?(m.f+m.t)/2:-1};
+}
+const kingSq=(b,c)=>b.indexOf(c==='w'?'K':'k');
+function legal(s){return gen(s).filter(m=>{const n=make(s,m);return!attacked(n.b,kingSq(n.b,s.turn),n.turn);});}
+function evalB(b){
+  let v=0;
+  for(let i=0;i<64;i++){const p=b[i];if(p==='.')continue;
+    const t=p.toLowerCase(),w=p!==t,r=i>>3,c=i&7;let x=VAL[t];
+    const cen=(3.5-Math.abs(3.5-c))+(3.5-Math.abs(3.5-r));
+    if(t==='n'||t==='b')x+=cen*5;
+    if(t==='p')x+=(w?6-r:r-1)*8+((c>1&&c<6)?cen*2:0);
+    v+=w?x:-x;}
+  return v;
+}
+function search(s,depth,a,bt){
+  const ms=legal(s);
+  if(!ms.length){const inC=attacked(s.b,kingSq(s.b,s.turn),opp(s.turn));return inC?(s.turn==='w'?-99999-depth:99999+depth):0;}
+  if(depth===0)return evalB(s.b);
+  ms.sort((x,y)=>(s.b[y.t]!=='.')-(s.b[x.t]!=='.'));
+  if(s.turn==='w'){let best=-1e9;for(const m of ms){best=Math.max(best,search(make(s,m),depth-1,a,bt));a=Math.max(a,best);if(a>=bt)break;}return best;}
+  let best=1e9;for(const m of ms){best=Math.min(best,search(make(s,m),depth-1,a,bt));bt=Math.min(bt,best);if(a>=bt)break;}return best;
+}
+function aiMove(){
+  const ms=legal(S).sort(()=>Math.random()-.5);let best=null,bv=1e9;
+  for(const m of ms){const v=search(make(S,m),2,-1e9,1e9);if(v<bv){bv=v;best=m;}}
+  doMove(best);
+}
+function doMove(m){
+  last=m;S=make(S,m);sel=-1;legalSel=[];draw();checkEnd();
+  if(!over&&S.turn==='b'){setTimeout(aiMove,60);}
+}
+function checkEnd(){
+  const ms=legal(S),inC=attacked(S.b,kingSq(S.b,S.turn),opp(S.turn));
+  if(!ms.length){over=true;status(inC?(S.turn==='w'?'Мат. Победил компьютер':'Мат! Вы победили 🎉'):'Пат — ничья');return;}
+  if(S.turn==='w')status(inC?'Шах! Ваш ход':'Ваш ход (белые)');
+  else status(inC?'Шах компьютеру! Компьютер думает…':'Компьютер думает…');
+}
+function draw(){
+  const el=$('board');el.innerHTML='';
+  for(let i=0;i<64;i++){
+    const d=document.createElement('div'),r=i>>3,c=i&7;
+    d.className='sq '+((r+c)%2?'d':'l');
+    if(last&&(last.f===i||last.t===i))d.classList.add('last');
+    if(i===sel)d.classList.add('sel');
+    if(legalSel.some(m=>m.t===i))d.classList.add('mv');
+    const p=S.b[i];
+    if(p!=='.'){d.textContent=GL[p.toLowerCase()]+'\uFE0E';d.classList.add(col(p)==='w'?'wp':'bp');}
+    d.onclick=()=>click(i);el.appendChild(d);
+  }
+}
+function click(i){
+  if(over||S.turn!=='w')return;
+  const m=legalSel.find(m=>m.t===i);
+  if(sel>=0&&m){doMove(m);return;}
+  if(col(S.b[i])==='w'){sel=i;legalSel=legal(S).filter(m=>m.f===i);}else{sel=-1;legalSel=[];}
+  draw();
+}
+newGame();
+</script></body></html>

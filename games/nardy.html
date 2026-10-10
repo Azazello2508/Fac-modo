@@ -1,0 +1,195 @@
+<!doctype html>
+<html lang="ru"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Нарды</title>
+<style>
+body{margin:0;font-family:Segoe UI,Arial,sans-serif;background:#2b2b2b;color:#eee;display:flex;flex-direction:column;align-items:center;padding:12px}
+a{color:#9cf}
+#board{display:grid;grid-template-columns:6fr 1fr 6fr 1fr;grid-template-rows:240px 240px;background:#5a3416;border:8px solid #3e230d;width:min(96vw,640px)}
+.half{display:flex;background:#d9b37a}
+.pt{flex:1;position:relative;display:flex;flex-direction:column;align-items:center;cursor:pointer;padding:2px 0}
+.pt.bot{flex-direction:column-reverse}
+.pt::before{content:'';position:absolute;inset:0;background:var(--c);clip-path:polygon(0 0,100% 0,50% 88%)}
+.pt.bot::before{clip-path:polygon(0 100%,100% 100%,50% 12%)}
+.c1{--c:#8b2d1a}.c2{--c:#2f4f3a}
+.ch{position:relative;z-index:1;width:min(6.2vw,38px);aspect-ratio:1;border-radius:50%;margin:1px;display:flex;align-items:center;justify-content:center;font-weight:bold;font-size:14px;flex-shrink:0}
+.ch.w{background:#fafafa;border:2px solid #888;color:#000}
+.ch.b{background:#1b1b1b;border:2px solid #777;color:#fff}
+.src{box-shadow:inset 0 0 0 2px #ff0}
+.sel{box-shadow:inset 0 0 0 4px #ff0;background-color:rgba(255,255,0,.25)}
+.dst{box-shadow:inset 0 0 0 4px #0f0;background-color:rgba(0,255,0,.25)}
+.bar,.off{display:flex;flex-direction:column;align-items:center;justify-content:center;color:#fff;font-size:13px;text-align:center;cursor:pointer}
+.off{background:#3e230d}
+#dice{font-size:52px;min-height:60px;letter-spacing:6px}
+#status{margin:8px;font-size:19px;min-height:26px;text-align:center}
+button{font-size:16px;padding:8px 16px;margin:6px;cursor:pointer}
+.mode{background:#555;color:#fff;border:2px solid #777;border-radius:8px}
+.mode.on{background:#3d7a4a;border-color:#8f8}
+</style></head><body>
+<h2 id="title">Нарды</h2>
+<div><button class="mode" id="mShort" onclick="setMode('short')">Короткие нарды</button><button class="mode" id="mLong" onclick="setMode('long')">Длинные нарды</button></div>
+<div id="status"></div>
+<div id="dice"></div>
+<div id="board">
+  <div class="half" id="tl"></div><div class="bar" id="barW"></div><div class="half" id="tr"></div><div class="off" id="offB"></div>
+  <div class="half" id="bl"></div><div class="bar" id="barB"></div><div class="half" id="br"></div><div class="off" id="offW"></div>
+</div>
+<div><button id="rollBtn" onclick="playerRoll()">Бросить кубики</button><button onclick="newGame()">Новая игра</button> <a href="index.html">← Меню</a></div>
+<p id="rules" style="max-width:600px;color:#aaa"></p>
+<script>
+let S,left=[],seqs=[],selFrom=null,phase='roll',mode='short',first;
+const $=id=>document.getElementById(id);
+const msg=t=>$('status').textContent=t;
+const A=(pl,k)=>pl==='w'?k:(mode==='long'?(k+12)%24:23-k);
+const RULES={
+ short:'Короткие нарды. Вы — белые, идёте против часовой стрелки: сверху справа → налево → вниз → в свой дом (внизу справа), затем выводите шашки в правую нижнюю ячейку. Одинокую шашку соперника можно «побить» — она уходит на середину (бар). Нажмите шашку (жёлтая рамка), потом зелёное место.',
+ long:'Длинные нарды. Все 15 ваших шашек стоят сверху справа («голова»), шашки компьютера — снизу слева. Оба идут против часовой стрелки. Ваш дом — внизу справа. Бить нельзя: на место, где стоит хоть одна чужая шашка, ходить нельзя. С головы за ход можно снять только одну шашку (кроме первого хода дублем 6-6, 4-4 или 3-3 — тогда две). Нельзя ставить 6 шашек подряд стеной, если впереди неё нет ни одной шашки соперника. Нажмите шашку (жёлтая рамка), потом зелёное место.'
+};
+function setMode(m){mode=m;newGame();}
+const own=(s,pl,a)=>pl==='w'?Math.max(s.p[a],0):Math.max(-s.p[a],0);
+const oth=(s,pl,a)=>pl==='w'?Math.max(-s.p[a],0):Math.max(s.p[a],0);
+const sg=pl=>pl==='w'?1:-1;
+const op=pl=>pl==='w'?'b':'w';
+const DIE='⚀⚁⚂⚃⚄⚅';
+
+function newGame(){
+  const p=Array(24).fill(0);
+  if(mode==='long'){p[23]=15;p[11]=-15;}
+  else{p[23]=2;p[12]=5;p[7]=3;p[5]=5;p[0]=-2;p[11]=-5;p[16]=-3;p[18]=-5;}
+  S={p,bar:{w:0,b:0},off:{w:0,b:0},head:0};first={w:true,b:true};left=[];seqs=[];selFrom=null;phase='roll';
+  $('title').textContent=mode==='long'?'Нарды (длинные)':'Нарды (короткие)';
+  $('mShort').className='mode'+(mode==='short'?' on':'');$('mLong').className='mode'+(mode==='long'?' on':'');
+  $('rules').textContent=RULES[mode];
+  draw();msg('Ваш ход — бросьте кубики');
+}
+// длинные нарды: запрещена стена из 6 шашек подряд, если впереди неё нет шашки соперника
+function badBlock(s,pl){
+  const o=op(pl);
+  for(let k=0;k<=18;k++){
+    let all=true;for(let j=k;j<k+6;j++)if(!own(s,pl,A(pl,j))){all=false;break;}
+    if(!all)continue;
+    const blockOppK=[];for(let j=k;j<k+6;j++){const a=A(pl,j);for(let x=0;x<24;x++)if(A(o,x)===a)blockOppK.push(x);}
+    const mn=Math.min(...blockOppK);
+    let ahead=false;for(let x=0;x<mn;x++)if(own(s,o,A(o,x))){ahead=true;break;}
+    if(!ahead)return true;
+  }
+  return false;
+}
+function allHome(s,pl){if(s.bar[pl])return false;for(let k=6;k<24;k++)if(own(s,pl,A(pl,k)))return false;return true;}
+function singles(s,pl,d,headMax){
+  if(mode==='long')return singlesLong(s,pl,d,headMax);
+  const r=[];
+  if(s.bar[pl]){const t=24-d;if(oth(s,pl,A(pl,t))<=1)r.push({from:24,to:t,d});return r;}
+  const home=allHome(s,pl);
+  for(let k=0;k<24;k++){
+    if(!own(s,pl,A(pl,k)))continue;const t=k-d;
+    if(t>=0){if(oth(s,pl,A(pl,t))<=1)r.push({from:k,to:t,d});}
+    else if(home){let higher=false;for(let j=k+1;j<6;j++)if(own(s,pl,A(pl,j)))higher=true;if(t===-1||!higher)r.push({from:k,to:-1,d});}
+  }
+  return r;
+}
+function singlesLong(s,pl,d,headMax){
+  const r=[],home=allHome(s,pl);
+  for(let k=0;k<24;k++){
+    if(!own(s,pl,A(pl,k)))continue;
+    if(k===23&&s.head>=headMax)continue;
+    const t=k-d;let m=null;
+    if(t>=0){if(oth(s,pl,A(pl,t))===0)m={from:k,to:t,d};}
+    else if(home){let higher=false;for(let j=k+1;j<6;j++)if(own(s,pl,A(pl,j)))higher=true;if(t===-1||!higher)m={from:k,to:-1,d};}
+    if(m&&(m.to<0||!badBlock(applyM(s,pl,m),pl)))r.push(m);
+  }
+  return r;
+}
+function applyM(s,pl,m){
+  const n={p:s.p.slice(),bar:{...s.bar},off:{...s.off},head:(s.head||0)+(mode==='long'&&m.from===23?1:0)};
+  if(m.from===24)n.bar[pl]--;else n.p[A(pl,m.from)]-=sg(pl);
+  if(m.to<0)n.off[pl]++;
+  else{const a=A(pl,m.to);if(oth(n,pl,a)===1){n.p[a]=0;n.bar[op(pl)]++;}n.p[a]+=sg(pl);}
+  return n;
+}
+function sequences(s,pl,ds){
+  const out=[];
+  const orders=ds.length===2&&ds[0]!==ds[1]?[ds,[ds[1],ds[0]]]:[ds];
+  const headMax=(first[pl]&&ds.length===4&&[6,4,3].includes(ds[0]))?2:1;
+  s={...s,head:0};
+  function dfs(st,rem,seq){
+    let moved=false;
+    if(rem.length)for(const m of singles(st,pl,rem[0],headMax)){moved=true;dfs(applyM(st,pl,m),rem.slice(1),[...seq,m]);}
+    if(!moved)out.push({seq,end:st});
+  }
+  for(const o of orders)dfs(s,o,[]);
+  const mx=Math.max(...out.map(x=>x.seq.length));
+  let res=out.filter(x=>x.seq.length===mx);
+  if(mx===1&&ds.length===2&&ds[0]!==ds[1]){const hi=Math.max(...ds);if(res.some(x=>x.seq[0].d===hi))res=res.filter(x=>x.seq[0].d===hi);}
+  return res;
+}
+function rollDice(){const a=(1+Math.random()*6)|0,b=(1+Math.random()*6)|0;return a===b?[a,a,a,a]:[a,b];}
+function pip(s,pl){let t=s.bar[pl]*25;for(let k=0;k<24;k++)t+=own(s,pl,A(pl,k))*(k+1);return t;}
+function evalS(s,pl){
+  let v=pip(s,op(pl))-pip(s,pl);
+  if(mode==='long'){
+    for(let k=0;k<23;k++){const n=own(s,pl,A(pl,k));if(n)v+=4;if(n>4)v-=(n-4)*2;}
+    for(let k=0;k<=18;k++){let run=0;for(let j=k;j<k+5&&own(s,pl,A(pl,j));j++)run++;v+=run*run;}
+    return v+s.off[pl]*3;
+  }
+  for(let k=0;k<24;k++){const n=own(s,pl,A(pl,k));if(n===1)v-=(k<6?3:6);if(n>=2)v+=(k<6?5:3);}
+  return v+s.off[pl]*2;
+}
+function playerRoll(){
+  if(phase!=='roll')return;
+  const ds=rollDice();left=ds.slice();S.head=0;seqs=sequences(S,'w',ds);first.w=false;
+  if(!seqs[0].seq.length){phase='ai';draw();msg('Ходов нет. Ход компьютера…');setTimeout(aiTurn,1400);return;}
+  phase='move';draw();msg('Выберите шашку, затем зелёное место');
+}
+function clickPt(k){
+  if(phase!=='move')return;
+  if(selFrom!==null){const x=seqs.find(x=>x.seq[0].from===selFrom&&x.seq[0].to===k);if(x){doPlayerMove(x.seq[0]);return;}}
+  selFrom=seqs.some(x=>x.seq[0].from===k)?k:null;draw();
+}
+function doPlayerMove(m){
+  S=applyM(S,'w',m);
+  seqs=seqs.filter(x=>x.seq[0].from===m.from&&x.seq[0].to===m.to&&x.seq[0].d===m.d).map(x=>({seq:x.seq.slice(1)}));
+  left.splice(left.indexOf(m.d),1);selFrom=null;
+  if(S.off.w===15)return win('w');
+  if(!seqs[0].seq.length){phase='ai';draw();msg('Ход компьютера…');setTimeout(aiTurn,900);return;}
+  draw();
+}
+function aiTurn(){
+  const ds=rollDice();left=ds.slice();S.head=0;const ss=sequences(S,'b',ds);first.b=false;draw();
+  if(!ss[0].seq.length){msg('У компьютера нет ходов');setTimeout(toPlayer,1400);return;}
+  msg('Ход компьютера…');
+  let best=ss[0],bv=-1e9;for(const x of ss){const v=evalS(x.end,'b');if(v>bv){bv=v;best=x;}}
+  let i=0;
+  const step=()=>{
+    if(i>=best.seq.length){if(S.off.b===15)return win('b');return toPlayer();}
+    const m=best.seq[i++];S=applyM(S,'b',m);left.splice(left.indexOf(m.d),1);draw();setTimeout(step,700);
+  };
+  setTimeout(step,900);
+}
+function toPlayer(){phase='roll';left=[];draw();msg('Ваш ход — бросьте кубики');}
+function win(pl){phase='over';draw();msg(pl==='w'?'Вы победили! 🎉':'Победил компьютер');}
+
+const isSrc=k=>phase==='move'&&seqs.some(x=>x.seq[0].from===k);
+const isDst=k=>phase==='move'&&selFrom!==null&&seqs.some(x=>x.seq[0].from===selFrom&&x.seq[0].to===k);
+function checkers(el,n,cl){
+  for(let i=0;i<Math.min(n,5);i++){const ch=document.createElement('div');ch.className='ch '+cl;if(i===4&&n>5)ch.textContent=n;el.appendChild(ch);}
+}
+function draw(){
+  const mk=(id,idxs,top)=>{
+    const el=$(id);el.innerHTML='';
+    for(const a of idxs){
+      const d=document.createElement('div');d.className='pt '+(top?'top ':'bot ')+(a%2?'c1':'c2');
+      checkers(d,Math.abs(S.p[a]),S.p[a]>0?'w':'b');
+      if(selFrom===a)d.classList.add('sel');else if(isDst(a))d.classList.add('dst');else if(isSrc(a))d.classList.add('src');
+      d.onclick=()=>clickPt(a);el.appendChild(d);
+    }
+  };
+  mk('tl',[12,13,14,15,16,17],1);mk('tr',[18,19,20,21,22,23],1);mk('bl',[11,10,9,8,7,6],0);mk('br',[5,4,3,2,1,0],0);
+  const bw=$('barW');bw.innerHTML='';checkers(bw,S.bar.w,'w');bw.className='bar'+(selFrom===24?' sel':isSrc(24)?' src':'');bw.onclick=()=>clickPt(24);
+  const bb=$('barB');bb.innerHTML='';checkers(bb,S.bar.b,'b');
+  $('offB').textContent='Вывел: '+S.off.b;
+  const ow=$('offW');ow.textContent='Вывести ⇩ '+S.off.w;ow.className='off'+(isDst(-1)?' dst':'');ow.onclick=()=>clickPt(-1);
+  $('dice').textContent=left.map(d=>DIE[d-1]).join('');
+  $('rollBtn').disabled=phase!=='roll';
+}
+newGame();
+</script></body></html>

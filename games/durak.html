@@ -1,0 +1,154 @@
+<!doctype html>
+<html lang="ru"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Дурак</title>
+<style>
+body{margin:0;font-family:Segoe UI,Arial,sans-serif;background:#1f6b3a;color:#fff;display:flex;flex-direction:column;align-items:center;padding:12px}
+a{color:#bdf}
+.row{display:flex;flex-wrap:wrap;justify-content:center;align-items:center;min-height:90px;margin:6px}
+.card{width:56px;height:80px;border-radius:6px;background:#fff;color:#111;border:1px solid #333;display:inline-flex;align-items:center;justify-content:center;font-size:21px;font-weight:bold;margin:3px;user-select:none;box-shadow:1px 2px 4px rgba(0,0,0,.4)}
+.card.red{color:#c00}
+.card.back{background:repeating-linear-gradient(45deg,#2a4d8f,#2a4d8f 5px,#3b62ad 5px,#3b62ad 10px);margin-left:-30px}
+.card.play{cursor:pointer;transform:translateY(-6px);box-shadow:0 0 0 3px #ffd54a}
+.card.dis{opacity:.55}
+.pair{position:relative;width:70px;height:100px;margin:4px}
+.pair .card{position:absolute;left:0;top:0;margin:0}
+.pair .card.d{left:12px;top:18px}
+#deck{display:flex;align-items:center;gap:10px}
+#status{font-size:19px;margin:6px;min-height:26px;text-align:center}
+button{font-size:16px;padding:8px 16px;margin:6px;cursor:pointer}
+.lbl{color:#cfe;font-size:14px}
+</style></head><body>
+<h2>Дурак (подкидной)</h2>
+<div class="lbl">Компьютер</div>
+<div class="row" id="aiHand" style="padding-left:30px"></div>
+<div id="deck"></div>
+<div class="row" id="table"></div>
+<div id="status"></div>
+<div id="btns"></div>
+<div class="row" id="myHand"></div>
+<div class="lbl">Ваши карты</div>
+<div><button onclick="newGame()">Новая игра</button> <a href="index.html">← Меню</a></div>
+<script>
+const SUITS=['♠','♣','♥','♦'],RN={6:'6',7:'7',8:'8',9:'9',10:'10',11:'В',12:'Д',13:'К',14:'Т'};
+let deck,trump,trumpCard,me,ai,table,attacker,taking,limit,busy,over;
+const $=id=>document.getElementById(id);
+const msg=t=>$('status').textContent=t;
+function shuffle(a){for(let i=a.length-1;i>0;i--){const j=Math.random()*(i+1)|0;[a[i],a[j]]=[a[j],a[i]];}return a;}
+const defender=()=>attacker==='me'?'ai':'me';
+const hand=w=>w==='me'?me:ai;
+const beats=(x,y)=>(y.s===x.s&&y.r>x.r)||(y.s===trump&&x.s!==trump);
+const unbeaten=()=>table.filter(p=>!p.d);
+const ranksOnTable=()=>new Set(table.flatMap(p=>p.d?[p.a.r,p.d.r]:[p.a.r]));
+const remove=(h,c)=>h.splice(h.indexOf(c),1);
+
+function newGame(){
+  deck=[];for(const s of SUITS)for(let r=6;r<=14;r++)deck.push({s,r});shuffle(deck);
+  me=deck.splice(-6);ai=deck.splice(-6);trumpCard=deck[0];trump=trumpCard.s;over=false;
+  const low=h=>Math.min(99,...h.filter(c=>c.s===trump).map(c=>c.r));
+  attacker=low(me)<=low(ai)?'me':'ai';
+  startRound();
+}
+function canAdd(c){
+  if(table.length>=limit)return false;
+  if(unbeaten().length>=hand(defender()).length)return false;
+  return table.length===0||ranksOnTable().has(c.r);
+}
+function startRound(){
+  table=[];taking=false;limit=Math.min(6,hand(defender()).length);busy=false;
+  if(attacker==='ai'){busy=true;render();msg('Ходит компьютер…');setTimeout(aiAttack,800);}
+  else{render();msg('Ваш ход: положите карту');}
+}
+function aiAttack(){
+  busy=false;
+  const nt=ai.filter(c=>c.s!==trump).sort((a,b)=>a.r-b.r);
+  const c=nt[0]||ai.slice().sort((a,b)=>a.r-b.r)[0];
+  remove(ai,c);table.push({a:c,d:null});render();msg('Отбейтесь (нажмите карту) или нажмите «Беру»');
+}
+function clickCard(c){
+  if(over||busy)return;
+  if(attacker==='me'){
+    if(!canAdd(c))return;
+    remove(me,c);table.push({a:c,d:null});
+    if(!taking){busy=true;render();msg('Компьютер думает…');setTimeout(aiDefend,700);}
+    else{render();msg('Компьютер берёт. Подкиньте ещё или нажмите «Пусть берёт»');}
+  }else{
+    if(taking)return;
+    const p=unbeaten()[0];if(!p||!beats(p.a,c))return;
+    remove(me,c);p.d=c;busy=true;render();setTimeout(aiThrow,700);
+  }
+}
+function cheapest(h,x){
+  const o=h.filter(c=>beats(x,c));
+  o.sort((a,b)=>((a.s===trump)-(b.s===trump))||a.r-b.r);return o[0];
+}
+function aiDefend(){
+  busy=false;
+  for(const p of unbeaten()){const c=cheapest(ai,p.a);if(!c){taking=true;break;}remove(ai,c);p.d=c;}
+  if(taking){render();msg('Компьютер берёт. Подкиньте ещё или нажмите «Пусть берёт»');return;}
+  if(!deck.length&&(!me.length||!ai.length)){render();return setTimeout(()=>endRound(false),700);}
+  render();msg('Отбито. Подкиньте карту такого же достоинства или нажмите «Бито»');
+}
+function aiPickAdd(){
+  const rs=ranksOnTable();
+  const o=ai.filter(c=>rs.has(c.r)&&(c.s!==trump||deck.length===0)&&(c.r<=11||deck.length===0));
+  o.sort((a,b)=>a.r-b.r);return o[0];
+}
+function aiThrow(){
+  busy=false;
+  if(table.length<limit&&unbeaten().length<me.length){
+    const c=aiPickAdd();
+    if(c){remove(ai,c);table.push({a:c,d:null});render();msg('Компьютер подкинул. Отбейтесь или «Беру»');return;}
+  }
+  msg('Бито!');endRound(false);
+}
+function iTake(){
+  if(attacker!=='ai'||busy||taking||over)return;
+  taking=true;let c;
+  while(table.length<limit&&unbeaten().length<me.length&&(c=aiPickAdd())){remove(ai,c);table.push({a:c,d:null});}
+  busy=true;render();msg('Вы берёте карты');setTimeout(()=>endRound(true),1000);
+}
+function endRound(taken){
+  const cards=table.flatMap(p=>p.d?[p.a,p.d]:[p.a]);
+  if(taken)hand(defender()).push(...cards);
+  for(const w of[attacker,defender()]){const h=hand(w);while(h.length<6&&deck.length)h.push(deck.pop());}
+  if(!taken)attacker=defender();
+  table=[];
+  if(!deck.length){
+    if(!me.length&&!ai.length)return finish('Ничья!');
+    if(!me.length)return finish('Вы победили! 🎉');
+    if(!ai.length)return finish('Вы проиграли — вы дурак 😄');
+  }
+  startRound();
+}
+function finish(t){over=true;busy=false;render();msg(t);}
+function playable(c){
+  if(over||busy)return false;
+  if(attacker==='me')return canAdd(c);
+  const p=unbeaten()[0];return !taking&&!!p&&beats(p.a,c);
+}
+function cardEl(c,cls){
+  const d=document.createElement('div');d.className='card '+(cls||'');
+  if(c){d.textContent=RN[c.r]+c.s;if(c.s==='♥'||c.s==='♦')d.classList.add('red');}
+  else d.classList.add('back');
+  return d;
+}
+function render(){
+  me.sort((a,b)=>((a.s===trump)-(b.s===trump))||SUITS.indexOf(a.s)-SUITS.indexOf(b.s)||a.r-b.r);
+  const ah=$('aiHand');ah.innerHTML='';ai.forEach(()=>ah.appendChild(cardEl(null)));
+  const dk=$('deck');dk.innerHTML='';
+  if(deck.length){dk.appendChild(cardEl(trumpCard));dk.append('В колоде: '+deck.length);}
+  else dk.append('Колода пуста. Козырь: '+trump);
+  const tb=$('table');tb.innerHTML='';
+  for(const p of table){const w=document.createElement('div');w.className='pair';w.appendChild(cardEl(p.a));if(p.d)w.appendChild(cardEl(p.d,'d'));tb.appendChild(w);}
+  const mh=$('myHand');mh.innerHTML='';
+  for(const c of me){const e=cardEl(c,playable(c)?'play':'dis');e.onclick=()=>clickCard(c);mh.appendChild(e);}
+  const bt=$('btns');bt.innerHTML='';
+  const btn=(t,f)=>{const b=document.createElement('button');b.textContent=t;b.onclick=f;bt.appendChild(b);};
+  if(!over&&!busy){
+    if(attacker==='me'&&table.length&&!unbeaten().length&&!taking)btn('Бито',()=>endRound(false));
+    if(attacker==='me'&&taking)btn('Пусть берёт',()=>endRound(true));
+    if(attacker==='ai'&&unbeaten().length&&!taking)btn('Беру',iTake);
+  }
+}
+newGame();
+</script></body></html>

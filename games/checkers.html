@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="ru"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Шашки</title>
+<style>
+body{margin:0;font-family:Segoe UI,Arial,sans-serif;background:#2b2b2b;color:#eee;display:flex;flex-direction:column;align-items:center;padding:16px}
+a{color:#9cf}
+#board{display:grid;grid-template-columns:repeat(8,min(11vw,64px));grid-template-rows:repeat(8,min(11vw,64px));border:6px solid #5a3a1a}
+.sq{display:flex;align-items:center;justify-content:center;position:relative;user-select:none}
+.l{background:#f0d9b5}.d{background:#8b5a2b;cursor:pointer}
+.last{background:#a8742f}
+.pc{width:78%;height:78%;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:min(6vw,30px);box-shadow:0 3px 3px rgba(0,0,0,.5)}
+.w{background:#f7f2e6;border:3px solid #c9b48a;color:#a07a30}
+.b{background:#222;border:3px solid #555;color:#e0b040}
+.sel .pc{outline:4px solid #1d9;outline-offset:1px}
+.can .pc{outline:2px dashed #1d9}
+.mv::after{content:'';position:absolute;width:30%;height:30%;border-radius:50%;background:rgba(0,220,0,.6)}
+#status{margin:12px;font-size:20px;min-height:26px}
+button{font-size:16px;padding:8px 16px;margin:8px;cursor:pointer}
+</style></head><body>
+<h2>Русские шашки</h2>
+<div id="status"></div>
+<div id="board"></div>
+<div><button onclick="newGame()">Новая игра</button> <a href="index.html">← Меню</a></div>
+<p style="max-width:520px;color:#aaa">Вы играете белыми. Бить обязательно (можно назад), несколько шашек — за один ход. Дамка (♛) ходит на любое расстояние по диагонали.</p>
+<script>
+let b,turn,sel=-1,mySel=[],over=false,lastPath=[];
+const $=id=>document.getElementById(id);
+const status=t=>$('status').textContent=t;
+const side=p=>p==='.'?null:p.toLowerCase();
+const isK=p=>p==='W'||p==='B';
+const opp=c=>c==='w'?'b':'w';
+const in8=(r,c)=>r>=0&&r<8&&c>=0&&c<8;
+const DIRS=[[1,1],[1,-1],[-1,1],[-1,-1]];
+
+function newGame(){
+  b=Array(64).fill('.');
+  for(let r=0;r<8;r++)for(let c=0;c<8;c++)if((r+c)%2){if(r<3)b[r*8+c]='b';if(r>4)b[r*8+c]='w';}
+  turn='w';sel=-1;mySel=[];over=false;lastPath=[];draw();status('Ваш ход (белые)');
+}
+function caps(b,from,me){
+  const res=[],bb=b.slice();bb[from]='.';
+  function dfs(pos,king,path,taken){
+    let found=false;const r=pos>>3,c=pos&7;
+    for(const[dr,dc]of DIRS){
+      if(!king){
+        const lr=r+2*dr,lc=c+2*dc;if(!in8(lr,lc))continue;
+        const mi=(r+dr)*8+(c+dc),li=lr*8+lc;
+        if(side(bb[mi])===opp(me)&&!taken.includes(mi)&&bb[li]==='.'){
+          found=true;const nk=(me==='w'&&lr===0)||(me==='b'&&lr===7);
+          dfs(li,nk,[...path,li],[...taken,mi]);}
+      }else{
+        let rr=r+dr,cc=c+dc;
+        while(in8(rr,cc)&&bb[rr*8+cc]==='.'){rr+=dr;cc+=dc;}
+        if(!in8(rr,cc))continue;
+        const mi=rr*8+cc;if(side(bb[mi])!==opp(me)||taken.includes(mi))continue;
+        rr+=dr;cc+=dc;
+        while(in8(rr,cc)&&bb[rr*8+cc]==='.'){found=true;const li=rr*8+cc;dfs(li,true,[...path,li],[...taken,mi]);rr+=dr;cc+=dc;}
+      }
+    }
+    if(!found&&taken.length)res.push({from,path,taken,king});
+  }
+  dfs(from,isK(b[from]),[],[]);
+  return res;
+}
+function simple(b,from,me){
+  const res=[],p=b[from],r=from>>3,c=from&7;
+  for(const[dr,dc]of DIRS){
+    if(!isK(p)){
+      if(dr!==(me==='w'?-1:1))continue;
+      const rr=r+dr,cc=c+dc;
+      if(in8(rr,cc)&&b[rr*8+cc]==='.')res.push({from,path:[rr*8+cc],taken:[],king:(me==='w'&&rr===0)||(me==='b'&&rr===7)});
+    }else{
+      let rr=r+dr,cc=c+dc;
+      while(in8(rr,cc)&&b[rr*8+cc]==='.'){res.push({from,path:[rr*8+cc],taken:[],king:true});rr+=dr;cc+=dc;}
+    }
+  }
+  return res;
+}
+function allMoves(b,me){
+  const cs=[];for(let i=0;i<64;i++)if(side(b[i])===me)cs.push(...caps(b,i,me));
+  if(cs.length)return cs;
+  const ms=[];for(let i=0;i<64;i++)if(side(b[i])===me)ms.push(...simple(b,i,me));
+  return ms;
+}
+function apply(b,m,me){
+  const n=b.slice(),to=m.path[m.path.length-1];
+  n[m.from]='.';for(const t of m.taken)n[t]='.';
+  n[to]=m.king?me.toUpperCase():me;return n;
+}
+function ev(b){
+  let v=0;
+  for(let i=0;i<64;i++){const p=b[i];if(p==='.')continue;const r=i>>3;
+    const x=isK(p)?300:100+(p==='w'?(7-r):r)*3;v+=side(p)==='w'?x:-x;}
+  return v;
+}
+function mm(b,me,d,a,bt){
+  const ms=allMoves(b,me);
+  if(!ms.length)return me==='w'?-1e5-d:1e5+d;
+  if(!d)return ev(b);
+  if(me==='w'){let best=-1e9;for(const m of ms){best=Math.max(best,mm(apply(b,m,'w'),'b',d-1,a,bt));a=Math.max(a,best);if(a>=bt)break;}return best;}
+  let best=1e9;for(const m of ms){best=Math.min(best,mm(apply(b,m,'b'),'w',d-1,a,bt));bt=Math.min(bt,best);if(a>=bt)break;}return best;
+}
+function aiMove(){
+  const ms=allMoves(b,'b').sort(()=>Math.random()-.5);let best=ms[0],bv=1e9;
+  for(const m of ms){const v=mm(apply(b,m,'b'),'w',5,-1e9,1e9);if(v<bv){bv=v;best=m;}}
+  doMove(best,'b');
+}
+function doMove(m,me){
+  b=apply(b,m,me);lastPath=[m.from,...m.path];turn=opp(me);sel=-1;mySel=[];draw();
+  const ms=allMoves(b,turn);
+  if(!ms.length){over=true;status(turn==='w'?'Ходов нет — победил компьютер':'Вы победили! 🎉');return;}
+  if(turn==='b'){status('Компьютер думает…');setTimeout(aiMove,300);}
+  else status(ms[0].taken.length?'Ваш ход — нужно бить!':'Ваш ход (белые)');
+}
+function draw(){
+  const el=$('board');el.innerHTML='';
+  const mine=turn==='w'&&!over?allMoves(b,'w'):[];
+  for(let i=0;i<64;i++){
+    const d=document.createElement('div'),r=i>>3,c=i&7;
+    d.className='sq '+((r+c)%2?'d':'l');
+    if(lastPath.includes(i))d.classList.add('last');
+    if(i===sel)d.classList.add('sel');
+    else if(mine.some(m=>m.from===i))d.classList.add('can');
+    if(mySel.some(m=>m.path[m.path.length-1]===i))d.classList.add('mv');
+    const p=b[i];
+    if(p!=='.'){const pc=document.createElement('div');pc.className='pc '+side(p);if(isK(p))pc.textContent='♛\uFE0E';d.appendChild(pc);}
+    d.onclick=()=>click(i);el.appendChild(d);
+  }
+}
+function click(i){
+  if(over||turn!=='w')return;
+  const m=mySel.find(m=>m.path[m.path.length-1]===i);
+  if(sel>=0&&m){doMove(m,'w');return;}
+  const ms=allMoves(b,'w').filter(m=>m.from===i);
+  if(ms.length){sel=i;mySel=ms;}else{sel=-1;mySel=[];}
+  draw();
+}
+newGame();
+</script></body></html>
