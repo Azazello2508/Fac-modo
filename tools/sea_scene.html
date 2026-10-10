@@ -1,0 +1,86 @@
+<style>/* Живой морской фон (тема «Море»): canvas #seacv внутри #sea. Старые CSS-элементы остаются запасным вариантом. */
+#sea.cv{background:#06223a}#sea.cv::before{display:none}#sea.cv>*:not(#seacv){display:none!important}#seacv{position:absolute;inset:0;width:100%;height:100%;display:block}</style>
+<script>(function(){
+var sea=document.getElementById("sea");if(!sea)return;var cv=document.createElement("canvas");cv.id="seacv";var g=cv.getContext&&cv.getContext("2d");if(!g)return;sea.appendChild(cv);sea.classList.add("cv");
+var W=0,H=0,HZ=0,DPR=1,PI=Math.PI,S=Math.sin,C=Math.cos;
+function rs(){DPR=Math.min(window.devicePixelRatio||1,2);W=innerWidth;H=innerHeight;HZ=Math.round(H*.5);cv.width=W*DPR;cv.height=H*DPR;g.setTransform(DPR,0,0,DPR,0,0)}rs();addEventListener("resize",rs);
+var sd=7;function rnd(){sd=(sd*16807)%2147483647;return(sd-1)/2147483646}
+function hx(c){c=c.replace("#","");return[parseInt(c.substr(0,2),16),parseInt(c.substr(2,2),16),parseInt(c.substr(4,2),16)]}
+function mx(a,b,t){return[a[0]+(b[0]-a[0])*t,a[1]+(b[1]-a[1])*t,a[2]+(b[2]-a[2])*t]}
+function rg(c,a){return"rgba("+(c[0]|0)+","+(c[1]|0)+","+(c[2]|0)+","+(a==null?1:a)+")"}
+function cl(v,a,b){return v<a?a:v>b?b:v}
+/* Палитры по часам: верх неба, середина, у горизонта, вода у горизонта, глубина, облака */
+var K=[[0,"020611","0a1838","1b2f5c","13284e","020a18","1a2440"],[4.8,"060c22","1a2350","4a3f6e","2a3558","06142a","3a3a60"],[6.3,"2b4a8a","d98a7a","ffc89a","6a86ad","0b2a4a","ffd0c0"],[8.5,"1f6fae","5fb0e0","d3ecf8","3d9fd2","05325a","ffffff"],[16.5,"1f6fae","5fb0e0","d3ecf8","3d9fd2","05325a","ffffff"],[18.4,"2d4f8f","e7926a","ffd39a","5a7fa6","0a2a48","ffc6a8"],[19.6,"1c1f4a","7a3d6e","f08a5a","4a4a78","0c1a36","b0708a"],[21,"020611","0a1838","1b2f5c","13284e","020a18","1a2440"],[24,"020611","0a1838","1b2f5c","13284e","020a18","1a2440"]];
+K.forEach(function(k){for(var i=1;i<7;i++)k[i]=hx(k[i])});
+function pal(h){for(var i=0;i<K.length-1;i++)if(h>=K[i][0]&&h<K[i+1][0]){var t=(h-K[i][0])/(K[i+1][0]-K[i][0]),r=[];for(var j=1;j<7;j++)r.push(mx(K[i][j],K[i+1][j],t));return r}return K[0].slice(1)}
+/* Слои волн: доля глубины, амплитуда, длина, скорость */
+var LY=[];for(var q0=0;q0<9;q0++){var f0=q0/8;LY.push([.008+.86*Math.pow(f0,1.7),1+24*Math.pow(f0,1.6),.8+6.5*f0])}
+function wy(i,x,t){var l=LY[i],b=HZ+(H-HZ)*l[0],k=.012/l[2]*3,a=l[1]*(H/800+.4),s=.45+i*.12;return b+a*(.6*S(x*k+t*s+i)+.3*S(x*k*2.3-t*s*1.3+i*2)+.1*S(x*k*5.1+t*s*2.1))}
+var ST=[],GL=[],CL=[],GU=[],MT=[],LT=[];for(var i=0;i<140;i++)ST.push([rnd(),rnd()*.9,rnd()*1.3+.3,rnd()*6]);
+for(i=0;i<170;i++)GL.push([rnd(),rnd(),rnd()*6,rnd()*3+1]);
+for(i=0;i<6;i++){var p=[];for(var j=0;j<6;j++)p.push([rnd()*1.6-.8,rnd()*.5-.25,rnd()*.5+.5]);CL.push([rnd(),.06+rnd()*.32,40+rnd()*60,4+rnd()*8,p])}
+for(i=0;i<5;i++)GU.push([rnd(),.15+rnd()*.3,8+rnd()*7,rnd()*6,14+rnd()*12]);
+for(i=0;i<=24;i++)MT.push(S(i*.9)*.35+S(i*2.3)*.2+rnd()*.25);
+for(i=0;i<26;i++)LT.push([rnd()*.62,rnd()*.7,rnd()*6]);
+var PT=[],EV={d:0,w:0,s:0},ship0=document.getElementById("ship");
+function puff(x,y,n,sp,c){for(var i=0;i<n;i++)PT.push({x:x,y:y,vx:(rnd()-.5)*sp,vy:-rnd()*sp*1.3,l:1,c:c||"255,255,255"})}
+function hour(){if(window.SEA_H!=null)return window.SEA_H;var d=new Date();return d.getHours()+d.getMinutes()/60}
+/* Судно по уровню: лодка/парусник, грузовое, лайнер */
+function kind(){var e=ship0?ship0.textContent:"";return/🛳/.test(e)?2:/🚢|⛴/.test(e)?1:0}
+function vessel(t,x,y,a,L,d,nt){g.save();g.translate(x,y);g.rotate(a);var s=L/120,k=kind();g.scale(s,s);var dk=function(c){return rg(mx(hx(c),[10,20,48],d))};
+if(k==0){g.fillStyle=dk("8a4b2a");g.beginPath();g.moveTo(-50,-6);g.lineTo(52,-6);g.quadraticCurveTo(46,10,30,12);g.lineTo(-40,12);g.quadraticCurveTo(-50,4,-50,-6);g.fill();g.fillStyle=dk("f4efe2");g.fillRect(-48,-8,98,3);
+g.strokeStyle=dk("5a3a22");g.lineWidth=2.4;g.beginPath();g.moveTo(0,-6);g.lineTo(0,-92);g.stroke();
+var fl=S(t*2)*2;g.fillStyle=dk("fbf8ef");g.beginPath();g.moveTo(3,-88);g.quadraticCurveTo(40+fl,-50,44,-12);g.lineTo(3,-12);g.fill();g.fillStyle=dk("eae4d4");g.beginPath();g.moveTo(-3,-84);g.quadraticCurveTo(-30+fl,-48,-40,-14);g.lineTo(-3,-14);g.fill();
+g.fillStyle=dk("d9463c");g.beginPath();g.moveTo(0,-92);g.lineTo(14+S(t*6)*2,-89);g.lineTo(0,-86);g.fill();if(nt){lamp(0,-93,"255,250,220",nt);lamp(48,-8,"80,255,140",nt*.8)}}
+else if(k==1){g.fillStyle=dk("7a1f22");g.beginPath();g.moveTo(-58,0);g.lineTo(60,0);g.lineTo(54,12);g.lineTo(-54,12);g.fill();g.fillStyle=dk("1c2733");g.beginPath();g.moveTo(-60,-12);g.lineTo(64,-12);g.lineTo(60,1);g.lineTo(-58,1);g.fill();
+var cc=["c8384a","2f7fc1","e3a33a","3a9b6a","8a5ac8","d9d4c8"];for(var r=0;r<2;r++)for(var c=0;c<7;c++){g.fillStyle=dk(cc[(c*3+r*2)%6]);g.fillRect(-30+c*12,-22-r*9,11,8.4)}
+g.fillStyle=dk("f2f2ee");g.fillRect(-56,-34,20,22);g.fillRect(-58,-38,26,5);g.fillStyle=dk("c8384a");g.fillRect(-48,-48,8,12);g.fillStyle=dk("1c2733");g.fillRect(-48,-50,8,3);
+if(nt){g.fillStyle="rgba(255,214,120,"+nt+")";for(c=0;c<3;c++)g.fillRect(-54+c*6,-30,3,3);lamp(-44,-52,"255,250,220",nt);lamp(62,-14,"80,255,140",nt*.8)}
+g.fillStyle="rgba(200,220,235,.5)";puffSm(t,-44,-52)}
+else{g.fillStyle=dk("1b2a52");g.beginPath();g.moveTo(-62,2);g.lineTo(66,2);g.lineTo(58,12);g.lineTo(-56,12);g.fill();g.fillStyle=dk("f7f7f4");g.beginPath();g.moveTo(-64,-12);g.lineTo(70,-12);g.lineTo(66,3);g.lineTo(-62,3);g.fill();
+g.fillRect(-50,-22,96,10);g.fillRect(-40,-31,74,9);g.fillRect(-26,-39,44,8);g.fillStyle=dk("d33a3a");g.fillRect(-6,-54,12,15);g.fillStyle=dk("1b2a52");g.fillRect(-6,-56,12,3);
+g.fillStyle=nt?"rgba(255,214,120,"+(.5+nt*.5)+")":dk("3b5a7a");for(var c2=0;c2<14;c2++)g.fillRect(-58+c2*9,-7,4,3);for(c2=0;c2<11;c2++)g.fillRect(-46+c2*8.5,-18,4,3);for(c2=0;c2<8;c2++)g.fillRect(-36+c2*8.5,-27,4,3);
+if(nt){lamp(0,-58,"255,250,220",nt);lamp(68,-10,"80,255,140",nt*.8)}g.fillStyle="rgba(220,230,240,.45)";puffSm(t,0,-56)}
+g.restore()}
+function puffSm(t,x,y){for(var i=0;i<4;i++){var u=(t*.35+i/4)%1;g.globalAlpha=(1-u)*.5;g.beginPath();g.arc(x-u*40,y-u*22,3+u*9,0,7);g.fill()}g.globalAlpha=1}
+function lamp(x,y,c,a){var r=g.createRadialGradient(x,y,0,x,y,12);r.addColorStop(0,"rgba("+c+","+a+")");r.addColorStop(1,"rgba("+c+",0)");g.fillStyle=r;g.fillRect(x-12,y-12,24,24)}
+function dolphin(x,y,a,s,col,fp){g.save();g.translate(x,y);if(fp)g.scale(-1,1);g.rotate(a);g.scale(s,s);g.fillStyle=col;g.beginPath();g.moveTo(-22,0);g.quadraticCurveTo(-5,-9,18,-2);g.quadraticCurveTo(24,-1,27,1);g.lineTo(18,3);g.quadraticCurveTo(0,7,-22,0);g.fill();
+g.beginPath();g.moveTo(-3,-6);g.lineTo(-9,-14);g.lineTo(4,-7);g.fill();g.beginPath();g.moveTo(-20,0);g.lineTo(-31,-7);g.lineTo(-27,0);g.lineTo(-31,7);g.fill();g.fillStyle="rgba(255,255,255,.25)";g.beginPath();g.moveTo(-14,2);g.quadraticCurveTo(2,6,16,2);g.quadraticCurveTo(2,4,-14,2);g.fill();g.restore()}
+var last=0,t0=performance.now(),RM=window.matchMedia&&matchMedia("(prefers-reduced-motion: reduce)").matches;
+function frame(now){requestAnimationFrame(frame);if(document.hidden||sea.offsetParent===null&&getComputedStyle(sea).display=="none")return;var tk=document.getElementById("tkw");if(tk&&!tk.hidden)return;
+if(now-last<(RM?60000:33))return;var dt=Math.min(.1,(now-last)/1000);last=now;var t=(now-t0)/1000;draw(t,dt)}
+function draw(t,dt){var h=hour(),P=pal(h),sp=(h-6.3)/13.3,day=sp>0&&sp<1,L=day?cl(S(PI*sp)*3,0,1):0,nt=1-cl(L*1.6,0,1);
+/* небо */var sk=g.createLinearGradient(0,0,0,HZ);sk.addColorStop(0,rg(P[0]));sk.addColorStop(.62,rg(P[1]));sk.addColorStop(1,rg(P[2]));g.fillStyle=sk;g.fillRect(0,0,W,HZ+2);
+if(nt>.05){for(var i=0;i<ST.length;i++){var s=ST[i];g.fillStyle="rgba(255,255,255,"+(nt*(.45+.55*S(t*1.5+s[3]))*(1-s[1]*.6))+")";g.fillRect(s[0]*W,s[1]*HZ,s[2],s[2])}
+if(t-EV.s>9+rnd()*0){if(rnd()<.004){EV.s=t;EV.sx=rnd()*W*.7+W*.2;EV.sy=rnd()*HZ*.35}}var u=(t-EV.s)/.9;if(EV.sx&&u<1){g.strokeStyle="rgba(255,255,255,"+(nt*(1-u))+")";g.lineWidth=1.4;g.beginPath();g.moveTo(EV.sx-u*160,EV.sy+u*60);g.lineTo(EV.sx-u*160+40,EV.sy+u*60-15);g.stroke()}}
+/* солнце / луна */var lx,ly,lc,mp=((h<6.3?h+24:h)-19.6)/(10.7);if(day){lx=W*(.12+.76*sp);ly=HZ-S(PI*sp)*HZ*.82;lc=mx([255,170,90],[255,246,214],cl(L*1.3,0,1))}else{lx=W*(.12+.76*mp);ly=HZ-S(PI*cl(mp,0,1))*HZ*.78;lc=[226,232,255]}
+var R=day?Math.min(W,H)*.05+10:Math.min(W,H)*.035+8,gr=g.createRadialGradient(lx,ly,0,lx,ly,R*5);gr.addColorStop(0,rg(lc,.55));gr.addColorStop(.2,rg(lc,.18));gr.addColorStop(1,rg(lc,0));g.fillStyle=gr;g.fillRect(lx-R*5,ly-R*5,R*10,R*10);
+g.fillStyle=rg(lc);g.beginPath();g.arc(lx,ly,R,0,7);g.fill();if(!day){g.fillStyle="rgba(170,178,205,.25)";g.beginPath();g.arc(lx-R*.3,ly-R*.2,R*.22,0,7);g.arc(lx+R*.35,ly+R*.25,R*.15,0,7);g.arc(lx+R*.1,ly-R*.45,R*.1,0,7);g.fill()}
+/* облака */for(i=0;i<CL.length;i++){var c=CL[i],cx=((c[0]*(W+400)+t*c[3])%(W+400))-200,cy=c[1]*HZ,cs=c[2]*(W/700+.5);for(var j=0;j<c[4].length;j++){var q=c[4][j],px=cx+q[0]*cs,py=cy+q[1]*cs,pr=cs*q[2],r2=g.createRadialGradient(px,py,0,px,py,pr);r2.addColorStop(0,rg(P[5],.5*(.4+.6*(1-nt*.7))));r2.addColorStop(1,rg(P[5],0));g.fillStyle=r2;g.fillRect(px-pr,py-pr,pr*2,pr*2)}}
+/* горы и мыс с маяком */g.fillStyle=rg(mx(mx(P[2],P[0],.5),[20,40,60],.35));g.beginPath();g.moveTo(0,HZ);for(i=0;i<=24;i++)g.lineTo(i/24*W*.66,HZ-(.6+MT[i])*H*.05-(i<12?(12-i)*H*.003:0));g.lineTo(W*.7,HZ);g.fill();
+if(nt>.2)for(i=0;i<LT.length;i++){var lt=LT[i];g.fillStyle="rgba(255,210,120,"+(nt*(.5+.5*S(t*2+lt[2])))+")";g.fillRect(lt[0]*W,HZ-2-lt[1]*H*.02,1.6,1.6)}
+var cap=rg(mx([16,42,62],[4,10,22],nt*.8));g.fillStyle=cap;g.beginPath();g.moveTo(0,HZ+2);g.lineTo(0,HZ-H*.035);g.quadraticCurveTo(W*.08,HZ-H*.05,W*.16,HZ-H*.04);g.lineTo(W*.22,HZ-H*.042);g.quadraticCurveTo(W*.27,HZ-H*.02,W*.31,HZ+2);g.fill();
+var lhx=W*.2,lhy=HZ-H*.042,th=Math.max(26,H*.05);g.fillStyle=rg(mx([240,244,248],[40,50,70],nt*.7));g.beginPath();g.moveTo(lhx-5,lhy);g.lineTo(lhx-3.4,lhy-th);g.lineTo(lhx+3.4,lhy-th);g.lineTo(lhx+5,lhy);g.fill();g.fillStyle=rg(mx([200,56,74],[60,20,30],nt*.6));for(i=0;i<3;i++)g.fillRect(lhx-4.6+i*.4,lhy-th*(.25+i*.27),9.2-i*.8,th*.12);
+g.fillRect(lhx-5,lhy-th-7,10,3);g.fillStyle=rg(mx([30,50,70],[20,30,45],nt));g.fillRect(lhx-3.5,lhy-th-4,7,4);var ly2=lhy-th-2;
+if(nt>.1){var ba=t*.9,w1=C(ba);[w1,-w1].forEach(function(w){var len=W*.9*Math.abs(w),gb=g.createLinearGradient(lhx,ly2,lhx+w*len,ly2);gb.addColorStop(0,"rgba(255,244,200,"+(.35*nt)+")");gb.addColorStop(1,"rgba(255,244,200,0)");g.fillStyle=gb;g.beginPath();g.moveTo(lhx,ly2-1.5);g.lineTo(lhx+w*len,ly2-18-len*.05);g.lineTo(lhx+w*len,ly2+18+len*.05);g.lineTo(lhx,ly2+1.5);g.fill()});
+var fl=Math.pow(1-Math.abs(w1),6);lamp(lhx,ly2,"255,246,210",nt*(.5+fl*.5));if(fl>.3){var fr=g.createRadialGradient(lhx,ly2,0,lhx,ly2,60*fl);fr.addColorStop(0,"rgba(255,246,210,"+(.5*fl*nt)+")");fr.addColorStop(1,"rgba(255,246,210,0)");g.fillStyle=fr;g.fillRect(lhx-60,ly2-60,120,120)}}else lamp(lhx,ly2,"255,246,210",.5+.5*(S(t*2)>0?1:0)*.5);
+/* чайки */if(L>.15)for(i=0;i<GU.length;i++){var gu=GU[i],gx=((gu[0]*(W+200)+t*gu[4])%(W+200))-100,gy=gu[1]*HZ+S(t*.4+gu[3])*18,gs=gu[2]*(W/900+.6),f=S(t*7+gu[3]*3)*gs*.45;g.strokeStyle=rg(mx([30,50,70],P[1],.15),.85);g.lineWidth=1.6;g.lineCap="round";g.beginPath();g.moveTo(gx-gs,gy+f*.2-gs*.1);g.quadraticCurveTo(gx-gs*.45,gy-f,gx,gy);g.quadraticCurveTo(gx+gs*.45,gy-f,gx+gs,gy+f*.2-gs*.1);g.stroke()}
+/* море */var sg=g.createLinearGradient(0,HZ,0,H);sg.addColorStop(0,rg(P[3]));sg.addColorStop(1,rg(P[4]));g.fillStyle=sg;g.fillRect(0,HZ,W,H-HZ);
+/* дальний танкер на горизонте */var tx=W+60-((t*4)%(W+160));g.fillStyle=rg(mx(P[3],[10,20,35],.6));g.fillRect(tx-22,HZ-3,44,3.4);g.fillRect(tx+12,HZ-8,7,5);g.fillRect(tx-14,HZ-5,3,2);if(nt>.2){g.fillStyle="rgba(255,220,140,"+nt+")";g.fillRect(tx+14,HZ-7,1.4,1.4);g.fillRect(tx-20,HZ-4,1.4,1.4)}
+/* события: дельфины и кит */if(!EV.dn||t>EV.dn){EV.d=t;EV.dn=t+10+rnd()*14;EV.dx=W*(.12+rnd()*.6);EV.dl=rnd()<.5?3:4;EV.dd=rnd()<.5?1:-1;EV.dp=rnd()<.5?2:1}if(!EV.wn||t>EV.wn){EV.w=t;EV.wn=t+28+rnd()*20;EV.wx=W*(.35+rnd()*.5)}
+var Ls=Math.min(180,Math.max(105,W*.3)),sx=W*.42+S(t*.025)*W*.14,shL=5;
+for(var li=0;li<LY.length;li++){var fz=li/(LY.length-1);
+if(li==1){var wu=(t-EV.w)/5;if(wu>=0&&wu<1){var wb=wy(1,EV.wx,t);g.fillStyle=rg(mx([40,55,70],[8,14,25],nt));g.beginPath();g.ellipse(EV.wx,wb+2,14,3.5*S(PI*wu),0,PI,2*PI);g.fill();if(wu>.2&&wu<.7&&rnd()<.6)PT.push({x:EV.wx-6,y:wb-2,vx:(rnd()-.5)*8,vy:-18-rnd()*10,l:1,c:"235,245,255",z:.6})}}
+if(li==EV.dl){for(var n=0;n<EV.dp;n++){var du=(t-EV.d-n*.35)/1.5;if(du>=0&&du<1){var ds=.5+fz*.9,dh=46*ds*(H/800+.4),dx=110*ds,x0=EV.dx+n*24*ds,xx=x0+dx*du*EV.dd,bb=wy(li,xx,t),yy=bb+8*ds-4*dh*du*(1-du),an=Math.atan2(-4*dh*(1-2*du),dx);
+dolphin(xx,yy,an,ds*(W/700+.55),rg(mx([60,95,125],[14,24,40],nt*.8)),EV.dd<0);if(Math.abs(du-.12)<.03||Math.abs(du-.88)<.03)puff(xx,bb,3,40*ds)}}}
+if(li==shL){var bx=sx+Ls*.5,stx=sx-Ls*.5,yb=wy(li,bx,t),ys=wy(li,stx,t),yc=(yb+ys)/2,an2=Math.atan2(yb-ys,Ls)*.8;vessel(t,sx,yc+Ls*.015,an2,Ls,nt*.55,nt>.25?nt:0)}
+var lb=HZ+(H-HZ)*LY[li][0],la=LY[li][1]*(H/800+.4),lc2=mx(mx(P[3],P[4],fz*.85),P[2],(1-fz)*.3),pg=g.createLinearGradient(0,lb-la,0,lb+la*2.2+12);pg.addColorStop(0,rg(mx(lc2,mx(P[2],[255,255,255],.3),.22+fz*.1)));pg.addColorStop(.35,rg(lc2));pg.addColorStop(1,rg(mx(lc2,P[4],.55)));g.fillStyle=pg;g.beginPath();g.moveTo(0,H);var stp=Math.max(6,W/90);for(var x=0;x<=W+stp;x+=stp)g.lineTo(x,wy(li,x,t));g.lineTo(W,H);g.fill();
+g.strokeStyle=rg(mx(P[2],[255,255,255],.5),.06+fz*.22);g.lineWidth=1+fz*1.6;g.beginPath();for(x=0;x<=W+stp;x+=stp){var yy2=wy(li,x,t);x?g.lineTo(x,yy2):g.moveTo(x,yy2)}g.stroke();
+if(li==shL){var wk=wy(li,sx-Ls*.45,t);g.strokeStyle="rgba(255,255,255,.35)";g.lineWidth=1.4;for(var m=1;m<5;m++){g.globalAlpha=1-m/5;g.beginPath();g.moveTo(sx-Ls*.45-m*18,wk+m*1.5);g.quadraticCurveTo(sx-Ls*.45-m*18-10,wk+m*3,sx-Ls*.45-m*18-22,wk+m*1.2);g.stroke()}g.globalAlpha=1;
+var bw=wy(li,sx+Ls*.48,t);g.fillStyle="rgba(255,255,255,.55)";for(m=0;m<5;m++){g.beginPath();g.arc(sx+Ls*.46+S(t*5+m)*4,bw+1+C(t*4+m)*1.5,1.6+m*.3,0,7);g.fill()}}
+if(li==6){var bx2=W*.86,by2=wy(6,bx2,t),ba2=Math.atan2(wy(6,bx2+6,t)-wy(6,bx2-6,t),12);g.save();g.translate(bx2,by2);g.rotate(ba2);var bs=H/800+.5;g.scale(bs,bs);g.fillStyle=rg(mx([200,40,50],[50,15,20],nt*.6));g.beginPath();g.moveTo(-7,2);g.lineTo(-4,-18);g.lineTo(4,-18);g.lineTo(7,2);g.fill();g.fillStyle=rg(mx([240,240,240],[60,60,70],nt*.6));g.fillRect(-5,-11,10,3);g.fillStyle="#222";g.fillRect(-1,-26,2,8);
+if(S(t*2.2)>.6)lamp(0,-27,"255,70,60",1);g.restore()}}
+/* дорожка солнца/луны */var vis=ly<HZ+R;if(vis){var ga=day?.85:.65;for(i=0;i<GL.length;i++){var gq=GL[i],yy3=HZ+gq[1]*gq[1]*(H-HZ),spr=(10+(yy3-HZ)*.55)*(day?1:.8),xq=lx+(gq[0]-.5)*2*spr,al=ga*Math.max(0,S(t*gq[3]+gq[2]))*(1-gq[1]*.5)*(1-Math.abs(gq[0]-.5)*1.6);if(al<=0)continue;g.fillStyle=rg(mx(lc,[255,255,255],.4),al);g.fillRect(xq,yy3,3+gq[1]*14,1+gq[1]*1.4)}}
+/* брызги */for(i=PT.length-1;i>=0;i--){var o=PT[i];o.vy+=60*dt;o.x+=o.vx*dt;o.y+=o.vy*dt;o.l-=dt*(o.z?.7:1.6);if(o.l<=0){PT.splice(i,1);continue}g.fillStyle="rgba("+o.c+","+(o.l*.8)+")";g.beginPath();g.arc(o.x,o.y,1.3+(1-o.l)*1.2,0,7);g.fill()}
+}
+requestAnimationFrame(frame);draw(0,0)})();</script>
