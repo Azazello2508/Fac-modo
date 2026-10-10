@@ -1,7 +1,8 @@
 """Встраивает игру в index.html приложения Fac Modo.
 
 Запуск: python tools/embed_tanchiki.py <путь к index.html игры> [id блока]
-id блока: tk-src — «Танчики» (по умолчанию), sm-src — «Самолётики».
+id блока: tk-src — «Танчики» (по умолчанию), sm-src — «Самолётики»,
+dr-src, db-src, cs-src, cr-src, nd-src — дурак, деберц, шахматы, шашки, нарды.
 Скрипт меняет только блок <script type="text/plain" id="...">…</script>.
 Печатает changed=true, если игра в приложении обновилась.
 """
@@ -17,6 +18,8 @@ s = open(app_path, encoding="utf-8").read()
 g = re.sub(r'<script src="https://telegram\.org/js/telegram-web-app\.js"></script>', "", g)
 g = re.sub(r'<link rel="(manifest|icon|apple-touch-icon)"[^>]*>', "", g)
 g = re.sub(r"if\('serviceWorker' in navigator\)navigator\.serviceWorker\.register\('sw\.js'\)\.catch\(\(\)=>\{\}\);", "", g)
+# Ссылка «← Меню» ведёт на меню игр, которого в приложении нет: выход — кнопка «✕ Выйти».
+g = re.sub(r'\s*<a href="index\.html">← Меню</a>', "", g)
 
 b64 = base64.b64encode(g.encode("utf-8")).decode()
 pat = re.compile(r'(<script type="text/plain" id="' + re.escape(block_id) + r'">)([^<]*)(</script>)')
