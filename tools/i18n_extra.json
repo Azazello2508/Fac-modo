@@ -898,5 +898,140 @@
 "BRM (управление ресурсами мостика)",
 "BRM (bridge resource management)",
 1
+],
+[
+"Раздел защищён PIN-кодом.",
+"This section is protected by a PIN code.",
+1
+],
+[
+"PIN-код",
+"PIN code",
+1
+],
+[
+"Открыть",
+"Open",
+1
+],
+[
+"Забыл PIN-код",
+"Forgot PIN",
+1
+],
+[
+"🔔 Напоминания включены",
+"🔔 Reminders on",
+1
+],
+[
+"🔕 Включить напоминания",
+"🔕 Turn on reminders",
+1
+],
+[
+"Убрать PIN-код",
+"Remove PIN",
+1
+],
+[
+"🔒 Поставить PIN-код",
+"🔒 Set a PIN code",
+1
+],
+[
+"Новый PIN (# цифры)",
+"New PIN (# digits)",
+1
+],
+[
+"Новый PIN",
+"New PIN",
+1
+],
+[
+"Повтори PIN",
+"Repeat PIN",
+1
+],
+[
+"Сохранить",
+"Save",
+1
+],
+[
+"Отмена",
+"Cancel",
+1
+],
+[
+"Напоминания приходят на телефон за #, # и # дней до окончания срока и в день окончания, в #:#. PIN-код защищает раздел от случайного взгляда, но это не шифрование.",
+"Reminders arrive on your phone #, # and # days before expiry and on the expiry day at #:#. The PIN code keeps the section from casual eyes, but it is not encryption.",
+1
+],
+[
+"Слишком много попыток. Подожди минуту",
+"Too many attempts. Wait a minute",
+1
+],
+[
+"Неверный PIN-код",
+"Wrong PIN code",
+1
+],
+[
+"PIN-код должен состоять из # цифр",
+"The PIN code must be # digits",
+1
+],
+[
+"PIN-коды не совпадают",
+"The PIN codes do not match",
+1
+],
+[
+"PIN-код установлен",
+"PIN code set",
+1
+],
+[
+"Напоминания выключены",
+"Reminders off",
+1
+],
+[
+"Напоминания включены",
+"Reminders on",
+1
+],
+[
+"Уведомления работают только в приложении на iPhone",
+"Notifications only work in the iPhone app",
+1
+],
+[
+"Нет разрешения: включи уведомления для Fac Modo в настройках iPhone",
+"Permission denied: turn on notifications for Fac Modo in iPhone settings",
+1
+],
+[
+"Для уведомлений нужна новая версия приложения: установи свежий файл FacModo.ipa",
+"Notifications need the new version of the app: install the latest FacModo.ipa file",
+1
+],
+[
+"Сброс PIN-кода удалит все документы в этом разделе. Продолжить?",
+"Resetting the PIN will delete all documents in this section. Continue?",
+1
+],
+[
+"Убрать PIN-код?",
+"Remove the PIN code?",
+1
+],
+[
+"PIN-код (# цифры)",
+"PIN code (# digits)",
+1
 ]
 ]

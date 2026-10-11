@@ -25,7 +25,7 @@ jobs:
           node-version: 22
 
       - name: Установить Capacitor (обёртка, которая делает из страницы приложение)
-        run: npm install --no-audit --no-fund @capacitor/core@latest @capacitor/cli@latest @capacitor/ios@latest @capacitor/filesystem@latest
+        run: npm install --no-audit --no-fund @capacitor/core@latest @capacitor/cli@latest @capacitor/ios@latest @capacitor/filesystem@latest @capacitor/local-notifications@latest
 
       - name: Подготовить файлы приложения
         run: |
