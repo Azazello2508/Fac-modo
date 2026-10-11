@@ -423,5 +423,80 @@
 "Просрочено: #. Истекают в течение # дней: #.",
 "Expired: #. Expiring within # days: #.",
 1
+],
+[
+"Контракты и стаж",
+"Contracts and sea service",
+1
+],
+[
+"Всего: # дн. (≈ # г. # мес.)",
+"Total: # days (≈ # y. # mo.)",
+1
+],
+[
+"Пока нет контрактов. Добавь судно, должность и даты: стаж посчитается сам.",
+"No contracts yet. Add a vessel, rank and dates: sea time is calculated automatically.",
+1
+],
+[
+"На борту:",
+"Onboard:",
+1
+],
+[
+"Судно",
+"Vessel",
+1
+],
+[
+"Должность",
+"Rank",
+1
+],
+[
+"Начало",
+"Start",
+1
+],
+[
+"Окончание (если закончен)",
+"End (if finished)",
+1
+],
+[
+"Сохранить таблицу (Excel)",
+"Save table (Excel)",
+1
+],
+[
+"Если дату окончания не указать, контракт считается текущим. Закончил рейс: впиши дату в его строке.",
+"If you leave the end date empty, the contract counts as current. When the trip ends, enter the date in its row.",
+1
+],
+[
+"Укажи судно и дату начала",
+"Enter the vessel and start date",
+1
+],
+[
+"Окончание раньше начала",
+"End is before start",
+1
+],
+[
+"Контракт добавлен",
+"Contract added",
+1
+],
+[
+"Удалить контракт?",
+"Delete contract?",
+1
+],
+[
+"Таблица сохранена",
+"Table saved",
+1
 ]
 ]
