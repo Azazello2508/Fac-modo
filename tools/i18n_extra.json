@@ -348,5 +348,80 @@
 "Покажет список роликов по теме. Нажмите на ролик, и он откроется в TikTok, Instagram или YouTube. Нужен интернет.",
 "Shows a list of videos on the topic. Tap a video and it opens in TikTok, Instagram or YouTube. Internet required.",
 1
+],
+[
+"Документы и сроки",
+"Documents and expiry dates",
+1
+],
+[
+"Проверь документы",
+"Check your documents",
+1
+],
+[
+"Открыть документы",
+"Open documents",
+1
+],
+[
+"Пока нет документов. Добавь паспорт, диплом, медкомиссию и сертификаты.",
+"No documents yet. Add your passport, certificate of competency, medical and training certificates.",
+1
+],
+[
+"Документ (паспорт, диплом, медкомиссия…)",
+"Document (passport, certificate, medical…)",
+1
+],
+[
+"Дата окончания",
+"Expiry date",
+1
+],
+[
+"Удалить",
+"Delete",
+1
+],
+[
+"Просрочен на # дн.",
+"Expired # days ago",
+1
+],
+[
+"Истекает сегодня",
+"Expires today",
+1
+],
+[
+"Осталось # дн.",
+"# days left",
+1
+],
+[
+"Укажи документ и дату окончания",
+"Enter the document and its expiry date",
+1
+],
+[
+"Документ добавлен",
+"Document added",
+1
+],
+[
+"Удалить документ?",
+"Delete document?",
+1
+],
+[
+"Чтобы продлить документ, просто поменяй дату. Данные хранятся на устройстве и входят в резервную копию.",
+"To renew a document, just change its date. Data is stored on this device and included in the backup.",
+1
+],
+[
+"Просрочено: #. Истекают в течение # дней: #.",
+"Expired: #. Expiring within # days: #.",
+1
 ]
 ]
