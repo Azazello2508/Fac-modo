@@ -498,5 +498,105 @@
 "Таблица сохранена",
 "Table saved",
 1
+],
+[
+"Часы отдыха",
+"Rest hours",
+1
+],
+[
+"Отмечай часы РАБОТЫ (цветные клетки), остальное считается отдыхом. Каждая клетка — один час, начиная с указанного.",
+"Mark the hours you WORK (coloured cells); everything else counts as rest. Each cell is one hour, starting at the time shown.",
+1
+],
+[
+"Предыдущий день",
+"Previous day",
+1
+],
+[
+"Следующий день",
+"Next day",
+1
+],
+[
+"Дата",
+"Date",
+1
+],
+[
+"Вахты #–# и #–#",
+"Watches #–# and #–#",
+1
+],
+[
+"Выходной (без работы)",
+"Day off (no work)",
+1
+],
+[
+"Сбросить день",
+"Clear day",
+1
+],
+[
+"Отдых за сутки: # ч — в норме",
+"Rest in 24 h: # h — OK",
+1
+],
+[
+"Отдых за сутки: # ч — меньше нормы (# ч)",
+"Rest in 24 h: # h — below the minimum (# h)",
+1
+],
+[
+"Разбивка отдыха — в норме",
+"Rest split — OK",
+1
+],
+[
+"Разбивка отдыха — нарушена (нужно не более # периодов, один не короче # ч)",
+"Rest split — not compliant (at most # periods, one of at least # h)",
+1
+],
+[
+"Работа подряд: # ч — в норме",
+"Continuous work: # h — OK",
+1
+],
+[
+"Работа подряд: # ч — больше # ч",
+"Continuous work: # h — more than # h",
+1
+],
+[
+"За # суток: заполнены не все дни (# из #)",
+"Last # days: not all days are filled in (# of #)",
+1
+],
+[
+"За # суток: # ч отдыха — в норме (не менее #)",
+"Last # days: # h of rest — OK (minimum #)",
+1
+],
+[
+"За # суток: # ч отдыха — меньше нормы (# ч)",
+"Last # days: # h of rest — below the minimum (# h)",
+1
+],
+[
+"День не заполнен. Отметь часы работы или нажми «Выходной».",
+"This day is empty. Mark your working hours or tap “Day off”.",
+1
+],
+[
+"Нормы: отдых не менее # часов за сутки и не менее # часов за # суток (MLC / STCW). Отдых делится не более чем на # периода, один из них не короче # часов, между периодами отдыха не больше # часов. Проверка упрощённая, по календарным суткам: это подсказка для себя, а не официальный документ.",
+"Limits: at least # hours of rest in any 24 hours and at least # hours in any # days (MLC / STCW). Rest may be split into no more than # periods, one of at least # hours, and the interval between rest periods must not exceed # hours. This check is simplified and uses calendar days: it is a personal guide, not an official record.",
+1
+],
+[
+"# ч",
+"# h",
+1
 ]
 ]
