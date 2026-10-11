@@ -598,5 +598,305 @@
 "# ч",
 "# h",
 1
+],
+[
+"Действующее медицинское заключение",
+"Valid medical fitness certificate",
+1
+],
+[
+"Действующий диплом текущего уровня",
+"Valid certificate of competency (current level)",
+1
+],
+[
+"Базовая подготовка по безопасности (BST)",
+"Basic safety training (BST)",
+1
+],
+[
+"Спасательные шлюпки и плоты (PSCRB)",
+"Survival craft and rescue boats (PSCRB)",
+1
+],
+[
+"Расширенная пожарная подготовка (AFF)",
+"Advanced fire fighting (AFF)",
+1
+],
+[
+"Первая медицинская помощь",
+"Medical first aid",
+1
+],
+[
+"Медицинская помощь на судне",
+"Medical care on board",
+1
+],
+[
+"Охрана судна: обязанности (DSD)",
+"Designated security duties (DSD)",
+1
+],
+[
+"Офицер по охране судна (SSO)",
+"Ship Security Officer (SSO)",
+1
+],
+[
+"GMDSS (ГМССБ)",
+"GMDSS",
+1
+],
+[
+"ECDIS (ЭКНИС)",
+"ECDIS",
+1
+],
+[
+"Радар и САРП",
+"Radar and ARPA",
+1
+],
+[
+"BRM: управление ресурсами мостика",
+"BRM: bridge resource management",
+1
+],
+[
+"ERM: управление ресурсами машинного отделения",
+"ERM: engine room resource management",
+1
+],
+[
+"Лидерство и управление",
+"Leadership and managerial skills",
+1
+],
+[
+"Высоковольтные установки (HV)",
+"High-voltage installations (HV)",
+1
+],
+[
+"Книга практики (Training Record Book) заполнена",
+"Training Record Book completed",
+1
+],
+[
+"Третий помощник (вахтенный офицер)",
+"Third Officer (officer of the watch)",
+1
+],
+[
+"Обучение и экзамен на диплом вахтенного помощника (STCW II/#) пройдены",
+"Training and exam for the officer-of-the-watch certificate (STCW II/#) completed",
+1
+],
+[
+"# мес. морского стажа (из них не менее # мес. вахты на мостике) в одобренной программе подготовки",
+"# months of seagoing service (at least # months of bridge watchkeeping) within an approved training programme",
+1
+],
+[
+"Второй помощник",
+"Second Officer",
+1
+],
+[
+"Диплом остаётся того же уровня, что у вахтенного помощника. Повышение до второго помощника зависит от компании: обычно нужен опыт третьего помощника.",
+"The certificate stays at officer-of-the-watch level. Promotion to Second Officer depends on the company: usually experience as Third Officer is needed.",
+1
+],
+[
+"Старший помощник",
+"Chief Officer",
+1
+],
+[
+"Курс и экзамен на диплом старшего помощника (STCW II/#) пройдены",
+"Course and exam for the Chief Mate certificate (STCW II/#) completed",
+1
+],
+[
+"Не менее трети стажа обычно должно быть на судах нужного тоннажа: уточните у своей администрации.",
+"Usually at least one third of the service must be on ships of the required tonnage: check with your administration.",
+1
+],
+[
+"# мес. вахтенным помощником (на судах от # GT)",
+"# months as officer of the watch (on ships of # GT or more)",
+1
+],
+[
+"Капитан",
+"Master",
+1
+],
+[
+"Курс и экзамен на диплом капитана (STCW II/#) пройдены",
+"Course and exam for the Master certificate (STCW II/#) completed",
+1
+],
+[
+"# мес. офицером или # мес. + # мес. старшим помощником (суда от # GT)",
+"# months as an officer, or # months + # months as Chief Officer (ships of # GT or more)",
+1
+],
+[
+"Четвёртый / третий механик (вахтенный)",
+"Fourth / Third Engineer (watchkeeping)",
+1
+],
+[
+"Обучение и экзамен на диплом вахтенного механика (STCW III/#) пройдены",
+"Training and exam for the engineer-officer-of-the-watch certificate (STCW III/#) completed",
+1
+],
+[
+"Не менее # мес. морского стажа с вахтой в машинном отделении (плюс образование и подготовка, всего около # мес.)",
+"At least # months of seagoing service with engine room watchkeeping (plus education and training, about # months in total)",
+1
+],
+[
+"Второй механик",
+"Second Engineer",
+1
+],
+[
+"Курс и экзамен на диплом второго механика (STCW III/#) пройдены",
+"Course and exam for the Second Engineer certificate (STCW III/#) completed",
+1
+],
+[
+"# мес. помощником механика или механиком (судно от # кВт)",
+"# months as assistant engineer or engineer officer (ship of # kW or more)",
+1
+],
+[
+"Старший механик",
+"Chief Engineer",
+1
+],
+[
+"Курс и экзамен на диплом старшего механика (STCW III/#) пройдены",
+"Course and exam for the Chief Engineer certificate (STCW III/#) completed",
+1
+],
+[
+"# мес. морского стажа или # мес. + # мес. вторым механиком (судно от # кВт)",
+"# months of seagoing service, or # months + # months as Second Engineer (ship of # kW or more)",
+1
+],
+[
+"Электрик (электротехнический матрос)",
+"Electrician (electro-technical rating)",
+1
+],
+[
+"Обучение и диплом электротехнического матроса (STCW III/#) получены",
+"Training and certificate as electro-technical rating (STCW III/#) obtained",
+1
+],
+[
+"Требования к стажу и порядок получения диплома уточните в своей администрации.",
+"Check the service requirements and the certification procedure with your administration.",
+1
+],
+[
+"Электромеханик (ETO)",
+"Electro-Technical Officer (ETO)",
+1
+],
+[
+"Курс ETO и диплом электромеханика (STCW III/#) получены",
+"ETO course and Electro-Technical Officer certificate (STCW III/#) obtained",
+1
+],
+[
+"# мес. подготовки (мастерские и практика) и не менее # мес. морского стажа; либо # мес. подготовки и службы",
+"# months of training (workshop and practice) and at least # months of seagoing service; or # months of training and service",
+1
+],
+[
+"Старший электромеханик",
+"Senior ETO",
+1
+],
+[
+"Должности старшего электромеханика нет в STCW: требования задаёт компания (обычно опыт ETO и знание высоковольтных систем).",
+"The Senior ETO rank is not defined in STCW: the company sets the requirements (usually ETO experience and high-voltage knowledge).",
+1
+],
+[
+"Штурман",
+"Navigator",
+1
+],
+[
+"Механик",
+"Engineer",
+1
+],
+[
+"Электрик",
+"Electrician",
+1
+],
+[
+"Чек-лист на должность",
+"Checklist for the next rank",
+1
+],
+[
+"Выбери должность, на которую идёшь:",
+"Choose the rank you are aiming for:",
+1
+],
+[
+"Морской стаж:",
+"Sea service:",
+1
+],
+[
+"У вас по контрактам: # мес.",
+"Your contracts: # months",
+1
+],
+[
+"У вас по контрактам: # мес., из них на нужной должности: # мес.",
+"Your contracts: # months, of which in the required rank: # months",
+1
+],
+[
+"Готово: # из #",
+"Done: # of #",
+1
+],
+[
+"Найден в документах, действует до #.#.#",
+"Found in documents, valid until #.#.#",
+1
+],
+[
+"Просрочен: обнови документ",
+"Expired: renew the document",
+1
+],
+[
+"по месту работы",
+"depending on your job",
+1
+],
+[
+"Это ориентир по Конвенции ПДНВ (STCW). Точные требования устанавливает администрация вашего флага и работодатель: сверься с ними перед подачей документов. Пункты с пометкой «по месту работы» нужны не всем. Документы берутся из раздела «Документы и сроки», стаж из раздела «Контракты и стаж»; остальное отмечай галочкой сам.",
+"This is a guide based on the STCW Convention. The exact requirements are set by your flag administration and employer: check with them before submitting documents. Items marked “depending on your job” are not needed by everyone. Documents are taken from the “Documents and expiry dates” section and sea service from “Contracts and sea service”; tick the rest yourself.",
+1
+],
+[
+"BRM (управление ресурсами мостика)",
+"BRM (bridge resource management)",
+1
 ]
 ]
