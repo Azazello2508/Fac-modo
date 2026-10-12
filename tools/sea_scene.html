@@ -92,7 +92,7 @@ function drawShip(t,cx,cy,an,L,d,nt){var k=kind(),sc=L/120,sw=Math.ceil(L*1.3),s
  SX.setTransform(DPR,0,0,DPR,0,0);SX.clearRect(0,0,sw,shh);SX.translate(sw/2,shh*.86);SX.scale(sc,sc);vessel(SX,t,d,nt,k);
  var fx=k==0?null:k==1?-45:0,fy=k==1?-58:-60;if(fx!=null){for(var i=0;i<6;i++){var u=(t*.3+i/6)%1;SX.fillStyle="rgba("+(nt>.5?"70,75,90":"215,222,230")+","+((1-u)*.4)+")";SX.beginPath();SX.arc(fx-u*55,fy-u*26-S(u*6)*3,3+u*12,0,7);SX.fill()}}
  g.save();g.translate(cx,cy);g.rotate(an);g.drawImage(SP,-sw/2,-shh*.86,sw,shh);g.restore();return[sw,shh]}
-function shipReflect(cx,cy,an,sz,t,a){var sw=sz[0],shh=sz[1],n=14,hh=shh*.86/n;g.save();g.translate(cx,cy);g.rotate(an);g.globalAlpha=a;
+function shipReflect(cx,cy,an,sz,t,a){if(!sz)return;var sw=sz[0],shh=sz[1],n=14,hh=shh*.86/n;g.save();g.translate(cx,cy);g.rotate(an);g.globalAlpha=a;
  for(var i=0;i<n;i++){var sy=shh*.86-(i+1)*hh,dy=i*hh,off=S(t*2.6+i*.9)*(1.2+i*.35);g.drawImage(SP,0,sy*DPR,sw*DPR,hh*DPR,-sw/2+off,dy+2,sw,hh*1.05)}g.restore();g.globalAlpha=1}
 
 /* ---------- Мелкие объекты ---------- */

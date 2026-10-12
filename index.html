@@ -1509,7 +1509,7 @@ function drawShip(t,cx,cy,an,L,d,nt){if(window.st&&st.cfg&&st.cfg.ship=="off")re
  SX.setTransform(DPR,0,0,DPR,0,0);SX.clearRect(0,0,sw,shh);SX.translate(sw/2,shh*.86);SX.scale(sc,sc);vessel(SX,t,d,nt,k);
  var fx=k==0?null:k==1?-45:0,fy=k==1?-58:-60;if(fx!=null){for(var i=0;i<6;i++){var u=(t*.3+i/6)%1;SX.fillStyle="rgba("+(nt>.5?"70,75,90":"215,222,230")+","+((1-u)*.4)+")";SX.beginPath();SX.arc(fx-u*55,fy-u*26-S(u*6)*3,3+u*12,0,7);SX.fill()}}
  g.save();g.translate(cx,cy);g.rotate(an);g.drawImage(SP,-sw/2,-shh*.86,sw,shh);g.restore();return[sw,shh]}
-function shipReflect(cx,cy,an,sz,t,a){var sw=sz[0],shh=sz[1],n=14,hh=shh*.86/n;g.save();g.translate(cx,cy);g.rotate(an);g.globalAlpha=a;
+function shipReflect(cx,cy,an,sz,t,a){if(!sz)return;var sw=sz[0],shh=sz[1],n=14,hh=shh*.86/n;g.save();g.translate(cx,cy);g.rotate(an);g.globalAlpha=a;
  for(var i=0;i<n;i++){var sy=shh*.86-(i+1)*hh,dy=i*hh,off=S(t*2.6+i*.9)*(1.2+i*.35);g.drawImage(SP,0,sy*DPR,sw*DPR,hh*DPR,-sw/2+off,dy+2,sw,hh*1.05)}g.restore();g.globalAlpha=1}
 
 /* ---------- Мелкие объекты ---------- */
@@ -1650,7 +1650,8 @@ var q=0;new MutationObserver(function(){if(q)return;q=1;requestAnimationFrame(fu
 #lgb small{position:absolute;bottom:-4px;right:-4px;background:#ffd23f;color:#10182c;font:800 10px/1 system-ui;padding:3px 4px;border-radius:8px}
 #lgm{position:fixed;right:62px;top:42%;z-index:2147483000;display:none;flex-direction:column;gap:6px;background:#0b2a4af2;padding:8px;border-radius:14px;box-shadow:0 6px 20px #0008}
 #lgm.on{display:flex}#lgm button{min-width:130px;padding:10px 12px;border-radius:10px;border:1px solid #fff4;background:#ffffff14;color:#fff;font-weight:700;text-align:left}
-#lgm button.cur{background:#ffd23f;color:#10182c}</style>
+#lgm button.cur{background:#ffd23f;color:#10182c}
+html.fmo #lgb,html.fmo #lgm{display:none!important}</style>
 <button type="button" id="lgb" translate="no" aria-label="Язык / Language">🌐<small></small></button>
 <div id="lgm" translate="no"><button type="button" data-lang="ru">🇷🇺 Русский</button><button type="button" data-lang="en">🇬🇧 English</button></div>
 <script>(function(){var b=document.getElementById("lgb"),m=document.getElementById("lgm");function cur(){var l=(window.st&&st.lang)||"ru";b.querySelector("small").textContent=l.toUpperCase();m.querySelectorAll("button").forEach(function(x){x.classList.toggle("cur",x.dataset.lang==l)})}cur();b.addEventListener("click",function(e){e.stopPropagation();cur();m.classList.toggle("on")});document.addEventListener("click",function(e){if(!e.target.closest("#lgm,#lgb"))m.classList.remove("on")})})();</script>
