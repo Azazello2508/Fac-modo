@@ -218,7 +218,7 @@ main:not([data-tab="set"])>[data-t="set"]{display:none}
 #ed{scroll-margin-top:70px}
 .ntr{display:flex!important;flex-direction:row!important;align-items:center;gap:8px;flex:none!important;font-size:15px;color:var(--ink)!important}
 #nfc .add input[type=time]{padding:8px;border:1px solid var(--line);background:var(--bg);color:var(--ink);border-radius:8px;font:inherit}
-html.simple:not(.sfull) main[data-tab="today"]>[data-t="today"]:not(#nw):not(#ob){display:none}
+html.simple:not(.sfull) main[data-tab="today"]>[data-t="today"]:not(#nw):not(#ob):not(.quote){display:none}
 html.simple #nav button[data-n="game"],html.simple #nav button[data-n="shore"],html.simple #nav button[data-n="diary"],html.simple #nav button[data-n="me"]{display:none}
 html:not(.simple) #nw{display:none}
 #nw .nwi{display:flex;flex-direction:column;gap:2px;padding:10px 12px;margin:6px 0;border-left:4px solid var(--c,var(--acc));background:var(--bg);border-radius:8px}
@@ -250,12 +250,12 @@ html:not(.simple) #nw{display:none}
 <section class="card" data-t="me" id="wkc"></section>
 <section class="card" data-t="me" id="cmpt"></section>
 <section class="card" data-t="today" id="ob" hidden></section>
+<section class="card quote" data-t="today"><p id="qt"></p><footer><span id="qa"></span><button id="qn" type="button">Другая фраза</button></footer></section>
 <section class="card" data-t="today" id="vdw"></section>
 <section class="card" data-t="today" id="tdy"></section>
 <section class="card" data-t="today" id="nw"></section>
 <section class="card" data-t="today" id="dcw" hidden></section>
 <section class="card" data-t="today" id="hfm"></section>
-<section class="card quote" data-t="today"><p id="qt"></p><footer><span id="qa"></span><button id="qn" type="button">Другая фраза</button></footer></section>
 <section class="card" data-t="today" id="fc"></section>
 <section class="card" data-t="today">
 <h3>Квесты дня</h3>
