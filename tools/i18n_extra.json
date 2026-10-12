@@ -1723,5 +1723,650 @@
 "Записать",
 "Add entry",
 1
+],
+[
+"📜 Конвенции и правила",
+"📜 Conventions and rules",
+1
+],
+[
+"Что должно быть на судне постоянно по МППСС (правило о наблюдении)?",
+"What does the COLREG lookout rule require at all times?",
+1
+],
+[
+"Надлежащее визуальное и слуховое наблюдение",
+"A proper lookout by sight and hearing",
+1
+],
+[
+"Только радиолокационное наблюдение",
+"Radar watch only",
+1
+],
+[
+"Наблюдение только ночью",
+"A lookout at night only",
+1
+],
+[
+"Наблюдение только в узкостях",
+"A lookout in narrow channels only",
+1
+],
+[
+"Как расходятся два судна с механическими двигателями, идущие встречными курсами?",
+"How do two power-driven vessels meeting head-on pass each other?",
+1
+],
+[
+"Каждое поворачивает вправо",
+"Each alters course to starboard",
+1
+],
+[
+"Каждое поворачивает влево",
+"Each alters course to port",
+1
+],
+[
+"Уступает меньшее судно",
+"The smaller vessel gives way",
+1
+],
+[
+"Уступает судно с левым бортом к другому",
+"The vessel with the other on its port side gives way",
+1
+],
+[
+"При пересечении курсов кто уступает дорогу?",
+"In a crossing situation, who gives way?",
+1
+],
+[
+"Судно, у которого другое судно по правому борту",
+"The vessel that has the other on its starboard side",
+1
+],
+[
+"Судно, у которого другое судно по левому борту",
+"The vessel that has the other on its port side",
+1
+],
+[
+"Всегда судно меньшего размера",
+"Always the smaller vessel",
+1
+],
+[
+"Судно, идущее медленнее",
+"The slower vessel",
+1
+],
+[
+"Что должно делать судно, которому уступают дорогу?",
+"What should the stand-on vessel do?",
+1
+],
+[
+"Сохранять курс и скорость",
+"Keep its course and speed",
+1
+],
+[
+"Немедленно останавливаться",
+"Stop immediately",
+1
+],
+[
+"Резко менять курс",
+"Make a sharp alteration of course",
+1
+],
+[
+"Подавать сигнал бедствия",
+"Send a distress signal",
+1
+],
+[
+"Кому судно с механическим двигателем должно уступать дорогу?",
+"Whom must a power-driven vessel give way to?",
+1
+],
+[
+"Судну, лишённому возможности управляться",
+"A vessel not under command",
+1
+],
+[
+"Любому судну больше себя",
+"Any larger vessel",
+1
+],
+[
+"Только парусным судам",
+"Sailing vessels only",
+1
+],
+[
+"Только военным кораблям",
+"Warships only",
+1
+],
+[
+"Какой звуковой сигнал означает «Изменяю курс влево»?",
+"Which sound signal means \"I am altering my course to port\"?",
+1
+],
+[
+"Два коротких звука",
+"Two short blasts",
+1
+],
+[
+"Один короткий звук",
+"One short blast",
+1
+],
+[
+"Три коротких звука",
+"Three short blasts",
+1
+],
+[
+"Один продолжительный звук",
+"One prolonged blast",
+1
+],
+[
+"Что означают три коротких звука?",
+"What do three short blasts mean?",
+1
+],
+[
+"Мои машины работают на задний ход",
+"My engines are going astern",
+1
+],
+[
+"Изменяю курс вправо",
+"I am altering course to starboard",
+1
+],
+[
+"Изменяю курс влево",
+"I am altering course to port",
+1
+],
+[
+"Человек за бортом",
+"Man overboard",
+1
+],
+[
+"Какой сигнал в тумане подаёт судно с механическим двигателем, идущее с ходом?",
+"What fog signal does a power-driven vessel making way give?",
+1
+],
+[
+"Один продолжительный звук не реже чем раз в две минуты",
+"One prolonged blast at intervals of not more than two minutes",
+1
+],
+[
+"Два коротких звука каждую минуту",
+"Two short blasts every minute",
+1
+],
+[
+"Непрерывный звон колокола",
+"Continuous ringing of the bell",
+1
+],
+[
+"Один короткий звук каждые десять секунд",
+"One short blast every ten seconds",
+1
+],
+[
+"Какой угол обзора имеет топовый огонь?",
+"What arc of visibility does a masthead light have?",
+1
+],
+[
+"Двести двадцать пять градусов",
+"Two hundred and twenty-five degrees",
+1
+],
+[
+"Сто двенадцать с половиной градусов",
+"One hundred and twelve and a half degrees",
+1
+],
+[
+"Сто тридцать пять градусов",
+"One hundred and thirty-five degrees",
+1
+],
+[
+"Триста шестьдесят градусов",
+"Three hundred and sixty degrees",
+1
+],
+[
+"Какое приложение МАРПОЛ посвящено предотвращению загрязнения нефтью?",
+"Which MARPOL Annex deals with pollution by oil?",
+1
+],
+[
+"Первое",
+"Annex I",
+1
+],
+[
+"Второе",
+"Annex II",
+1
+],
+[
+"Пятое",
+"Annex V",
+1
+],
+[
+"Шестое",
+"Annex VI",
+1
+],
+[
+"Что регулирует Приложение V МАРПОЛ?",
+"What does MARPOL Annex V regulate?",
+1
+],
+[
+"Загрязнение мусором",
+"Pollution by garbage",
+1
+],
+[
+"Загрязнение нефтью",
+"Pollution by oil",
+1
+],
+[
+"Загрязнение воздуха",
+"Air pollution",
+1
+],
+[
+"Сточные воды",
+"Sewage",
+1
+],
+[
+"Что регулирует Приложение VI МАРПОЛ?",
+"What does MARPOL Annex VI regulate?",
+1
+],
+[
+"Загрязнение воздуха с судов",
+"Air pollution from ships",
+1
+],
+[
+"Перевозку вредных веществ в упаковке",
+"Harmful substances in packaged form",
+1
+],
+[
+"Мусор",
+"Garbage",
+1
+],
+[
+"Какое содержание нефти в воде допускается при сбросе за борт через сепаратор льяльных вод?",
+"What oil content is allowed in bilge water discharged overboard through an oily water separator?",
+1
+],
+[
+"Не более пятнадцати частей на миллион",
+"Not more than fifteen parts per million",
+1
+],
+[
+"Не более пятидесяти частей на миллион",
+"Not more than fifty parts per million",
+1
+],
+[
+"Не более ста частей на миллион",
+"Not more than one hundred parts per million",
+1
+],
+[
+"Любое, если судно в движении",
+"Any, if the ship is under way",
+1
+],
+[
+"Какой в мире предел содержания серы в судовом топливе с # года (вне особых районов)?",
+"What is the global sulphur limit for marine fuel since 2020 (outside emission control areas)?",
+1
+],
+[
+"Ноль целых пять десятых процента",
+"Zero point five per cent",
+1
+],
+[
+"Три целых пять десятых процента",
+"Three point five per cent",
+1
+],
+[
+"Один процент",
+"One per cent",
+1
+],
+[
+"Десять процентов",
+"Ten per cent",
+1
+],
+[
+"Что такое Манильские поправки?",
+"What are the Manila amendments?",
+1
+],
+[
+"Изменения к конвенции ПДНВ (STCW)",
+"Amendments to the STCW Convention",
+1
+],
+[
+"Изменения к конвенции SOLAS о пожарной безопасности",
+"Amendments to SOLAS on fire safety",
+1
+],
+[
+"Правила портового контроля",
+"Port state control rules",
+1
+],
+[
+"Новая редакция МППСС",
+"A new edition of COLREG",
+1
+],
+[
+"Какая конвенция называется «Билль о правах моряков»?",
+"Which convention is called the seafarers' \"bill of rights\"?",
+1
+],
+[
+"Конвенция о труде в морском судоходстве (MLC #)",
+"The Maritime Labour Convention (MLC 2006)",
+1
+],
+[
+"ПДНВ (STCW)",
+"STCW",
+1
+],
+[
+"МАРПОЛ",
+"MARPOL",
+1
+],
+[
+"Конвенция о грузовой марке",
+"The Load Lines Convention",
+1
+],
+[
+"Сколько оплачиваемого отпуска по MLC положено за месяц службы?",
+"How much paid annual leave does MLC give per month of employment?",
+1
+],
+[
+"Два с половиной календарных дня",
+"Two and a half calendar days",
+1
+],
+[
+"Один календарный день",
+"One calendar day",
+1
+],
+[
+"Пять календарных дней",
+"Five calendar days",
+1
+],
+[
+"Семь календарных дней",
+"Seven calendar days",
+1
+],
+[
+"Какой минимум отдыха в любые сутки требуют MLC и ПДНВ?",
+"What minimum rest in any 24-hour period do MLC and STCW require?",
+1
+],
+[
+"Десять часов",
+"Ten hours",
+1
+],
+[
+"Шесть часов",
+"Six hours",
+1
+],
+[
+"Восемь часов",
+"Eight hours",
+1
+],
+[
+"Двенадцать часов",
+"Twelve hours",
+1
+],
+[
+"Что такое DPA по Кодексу ОУБ (ISM)?",
+"What is the DPA under the ISM Code?",
+1
+],
+[
+"Назначенное лицо на берегу",
+"The Designated Person Ashore",
+1
+],
+[
+"Судовой механик",
+"A ship's engineer",
+1
+],
+[
+"Дежурный по палубе",
+"The deck duty officer",
+1
+],
+[
+"Диплом для вахтенного помощника",
+"A diploma for the officer of the watch",
+1
+],
+[
+"Что такое SSO по Кодексу ОПОГ (ISPS)?",
+"What is the SSO under the ISPS Code?",
+1
+],
+[
+"Должностное лицо судна по охране",
+"The Ship Security Officer",
+1
+],
+[
+"Старший помощник по связи",
+"Senior signals officer",
+1
+],
+[
+"Береговой инспектор",
+"A shore inspector",
+1
+],
+[
+"Специалист по спасательным средствам",
+"A life-saving appliances specialist",
+1
+],
+[
+"Какой канал УКВ предназначен для вызова и бедствия?",
+"Which VHF channel is used for distress and calling?",
+1
+],
+[
+"Канал шестнадцать",
+"Channel sixteen",
+1
+],
+[
+"Канал шесть",
+"Channel six",
+1
+],
+[
+"Канал семьдесят",
+"Channel seventy",
+1
+],
+[
+"Канал девять",
+"Channel nine",
+1
+],
+[
+"Что означает радиосигнал «Pan-Pan»?",
+"What does the radio signal \"Pan-Pan\" mean?",
+1
+],
+[
+"Срочность: безопасности судна или человека ничто не угрожает немедленно, но нужна помощь",
+"Urgency: a serious message about safety, but no immediate danger",
+1
+],
+[
+"Бедствие: непосредственная угроза жизни",
+"Distress: immediate danger to life",
+1
+],
+[
+"Навигационное предупреждение",
+"A navigational warning",
+1
+],
+[
+"Конец связи",
+"End of communication",
+1
+],
+[
+"Что означает флаг «O» (Оскар) Международного свода сигналов?",
+"What does the flag \"O\" (Oscar) of the International Code of Signals mean?",
+1
+],
+[
+"У меня водолаз под водой",
+"I have a diver down",
+1
+],
+[
+"Прошу лоцмана",
+"I require a pilot",
+1
+],
+[
+"Судно на карантине",
+"The vessel is in quarantine",
+1
+],
+[
+"Что такое PSC?",
+"What is PSC?",
+1
+],
+[
+"Контроль судов государством порта",
+"Port State Control",
+1
+],
+[
+"Свидетельство о составе экипажа",
+"A crew composition certificate",
+1
+],
+[
+"Система спутниковой связи",
+"A satellite communication system",
+1
+],
+[
+"Правила швартовки",
+"Mooring rules",
+1
+],
+[
+"Что показывает знак Плимсоля (грузовая марка)?",
+"What does the Plimsoll mark (load line) show?",
+1
+],
+[
+"Предельную осадку судна при разных условиях плавания",
+"The maximum permitted draught in different conditions",
+1
+],
+[
+"Скорость судна",
+"The ship's speed",
+1
+],
+[
+"Тоннаж судна",
+"The ship's tonnage",
+1
+],
+[
+"Порт приписки",
+"The port of registry",
+1
+],
+[
+"Какие карты являются официальными для ECDIS?",
+"Which charts are official for ECDIS?",
+1
+],
+[
+"ENC — электронные навигационные карты",
+"ENC — electronic navigational charts",
+1
+],
+[
+"Любые растровые карты из интернета",
+"Any raster charts from the internet",
+1
+],
+[
+"Только бумажные карты",
+"Paper charts only",
+1
+],
+[
+"Карты любительских приложений",
+"Charts from hobby apps",
+1
 ]
 ]
