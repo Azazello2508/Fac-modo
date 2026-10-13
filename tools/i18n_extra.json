@@ -3023,5 +3023,410 @@
 "Найти фото",
 "Find a photo",
 1
+],
+[
+"G: центр тяжести",
+"G: centre of gravity",
+1
+],
+[
+"B: центр плавучести",
+"B: centre of buoyancy",
+1
+],
+[
+"M: метацентр",
+"M: metacentre",
+1
+],
+[
+"Чем выше M над G,",
+"The higher M is above G,",
+1
+],
+[
+"тем крепче судно держится",
+"the firmer the ship stands",
+1
+],
+[
+"Судно на крене: силы тяжести и плавучести создают момент, возвращающий в прямое положение",
+"A heeled ship: gravity and buoyancy create a moment that returns it upright",
+1
+],
+[
+"При крене центр плавучести B смещается, и пара сил G и B возвращает судно. Груз ниже, значит GM больше.",
+"When the ship heels the centre of buoyancy B moves, and the G and B couple rights the ship. Lower cargo means a larger GM.",
+1
+],
+[
+"Генераторы",
+"Generators",
+1
+],
+[
+"дизельные #–#",
+"diesel, #–#",
+1
+],
+[
+"Главный щит",
+"Main switchboard",
+1
+],
+[
+"ГРЩ",
+"MSB",
+1
+],
+[
+"Преобразователь",
+"Converter",
+1
+],
+[
+"частота и ток",
+"frequency and current",
+1
+],
+[
+"Гребной двигатель",
+"Propulsion motor",
+1
+],
+[
+"Гребной винт",
+"Propeller",
+1
+],
+[
+"Нет длинного",
+"No long",
+1
+],
+[
+"вала от дизеля",
+"shaft from the diesel",
+1
+],
+[
+"Генераторы питают главный щит, затем преобразователь, гребной двигатель и винт",
+"Generators feed the main switchboard, then the converter, propulsion motor and propeller",
+1
+],
+[
+"Дизели только вырабатывают ток, а винт крутит электромотор: проще менять режимы и размещать механизмы.",
+"The diesels only make power and an electric motor turns the propeller: easier to change modes and arrange machinery.",
+1
+],
+[
+"очаг",
+"fire",
+1
+],
+[
+"зона #",
+"zone #",
+1
+],
+[
+"Корпус сверху, толстые линии: огнестойкие переборки",
+"Hull from above, thick lines: fire-resisting bulkheads",
+1
+],
+[
+"Вид сверху на судно, разделённое огнестойкими переборками, очаг в одной зоне",
+"Top view of a ship divided by fire-resisting bulkheads, fire in one zone",
+1
+],
+[
+"Судно делят на зоны огнестойкими переборками: пожар остаётся в своей зоне, пока идёт тушение.",
+"The ship is divided into zones by fire-resisting bulkheads: a fire stays in its zone while it is fought.",
+1
+],
+[
+"Паром: автомобильная палуба,",
+"Ferry: vehicle deck,",
+1
+],
+[
+"быстрый заход в порт",
+"quick port calls",
+1
+],
+[
+"Лайнер: много палуб, каюты,",
+"Cruise ship: many decks, cabins,",
+1
+],
+[
+"рестораны, десятки систем",
+"restaurants, dozens of systems",
+1
+],
+[
+"Слева паром с автомобильной палубой, справа круизный лайнер с многоярусными палубами",
+"Left, a ferry with a vehicle deck; right, a cruise ship with many decks",
+1
+],
+[
+"Паром возит людей и машины на короткие рейсы, лайнер это плавучий отель: отсюда разная нагрузка на электрику.",
+"A ferry carries people and cars on short trips, a cruise ship is a floating hotel: hence the different electrical loads.",
+1
+],
+[
+"насос",
+"pump",
+1
+],
+[
+"цистерна левого борта",
+"port tank",
+1
+],
+[
+"правого борта",
+"starboard",
+1
+],
+[
+"Переливаем воду, чтобы выровнять крен и осадку",
+"Water is transferred to correct list and draught",
+1
+],
+[
+"операции по инструкции",
+"operations per instructions",
+1
+],
+[
+"Разрез судна: две балластные цистерны и насос, перекачивающий воду между ними",
+"Ship cross-section: two ballast tanks and a pump transferring water between them",
+1
+],
+[
+"Балласт это вода в цистернах: ею выравнивают осадку и крен, а операции ведут строго по инструкции.",
+"Ballast is water in tanks: it corrects draught and list, and operations strictly follow instructions.",
+1
+],
+[
+"Забор",
+"Air",
+1
+],
+[
+"воздуха",
+"intake",
+1
+],
+[
+"Фильтр",
+"Filter",
+1
+],
+[
+"Охладитель",
+"Cooler",
+1
+],
+[
+"холод/тепло",
+"cool/heat",
+1
+],
+[
+"Вентилятор",
+"Fan",
+1
+],
+[
+"Каюты",
+"Cabins",
+1
+],
+[
+"Заметная часть электронагрузки пассажирского судна",
+"A large share of a passenger ship's electrical load",
+1
+],
+[
+"Чистые фильтры и клапаны: комфорт и расход топлива",
+"Clean filters and valves: comfort and fuel consumption",
+1
+],
+[
+"Путь воздуха: забор, фильтр, охладитель, вентилятор, каюты",
+"Air path: intake, filter, cooler, fan, cabins",
+1
+],
+[
+"Фильтры, клапаны и вентиляторы на пассажирском судне влияют и на комфорт, и на расход топлива.",
+"Filters, valves and fans on a passenger ship affect both comfort and fuel consumption.",
+1
+],
+[
+"пункт",
+"muster",
+1
+],
+[
+"сбора",
+"station",
+1
+],
+[
+"Путь вдоль коридора, знаки и свет у пола",
+"Route along the corridor, signs and floor lighting",
+1
+],
+[
+"время дойти до сбора заложено в расчёт",
+"the time to reach the muster station is calculated",
+1
+],
+[
+"План палубы: коридор со стрелками к пункту сбора",
+"Deck plan: a corridor with arrows to the muster station",
+1
+],
+[
+"Эвакуацию считают по времени, за которое люди дойдут до пункта сбора. Пути отмечены знаками и освещением у пола.",
+"Evacuation is calculated by the time people need to reach the muster station. Routes are marked by signs and floor lighting.",
+1
+],
+[
+"Туалеты, камбуз",
+"Toilets, galley",
+1
+],
+[
+"хозбыт. стоки",
+"sewage",
+1
+],
+[
+"Сборный танк",
+"Holding tank",
+1
+],
+[
+"Биореактор",
+"Bioreactor",
+1
+],
+[
+"воздуходувки",
+"blowers",
+1
+],
+[
+"Обеззараживание",
+"Disinfection",
+1
+],
+[
+"УФ или хлор",
+"UV or chlorine",
+1
+],
+[
+"Сброс по нормам",
+"Discharge to standard",
+1
+],
+[
+"Датчики",
+"Sensors",
+1
+],
+[
+"и автоматика",
+"and automation",
+1
+],
+[
+"Схема очистки: сбор, биореактор, обеззараживание, сброс",
+"Treatment diagram: collection, bioreactor, disinfection, discharge",
+1
+],
+[
+"Для электромеханика очистка стоков это насосы, воздуходувки, датчики и автоматика, которые должны работать без остановок.",
+"For the ETO, sewage treatment means pumps, blowers, sensors and automation that must run without stopping.",
+1
+],
+[
+"ДГ #",
+"DG #",
+1
+],
+[
+"резерв",
+"reserve",
+1
+],
+[
+"Система PMS",
+"PMS",
+1
+],
+[
+"следит за нагрузкой",
+"monitors the load",
+1
+],
+[
+"добавляет генератор",
+"adds a generator",
+1
+],
+[
+"при росте нагрузки",
+"as load rises",
+1
+],
+[
+"и убирает лишний",
+"and removes a spare one",
+1
+],
+[
+"Дизели в экономичном режиме, резерв всегда есть",
+"Diesels run economically, reserve always available",
+1
+],
+[
+"Нагрузка трёх дизель-генераторов и система управления энергией",
+"Load of three diesel generators and the power management system",
+1
+],
+[
+"Система сама запускает и останавливает генераторы, чтобы дизели работали экономично и резерв мощности был достаточным.",
+"The system starts and stops generators by itself so the diesels run economically and there is enough spare power.",
+1
+],
+[
+"берег",
+"shore",
+1
+],
+[
+"Дизели остановлены, питание с берега",
+"Diesels stopped, power from shore",
+1
+],
+[
+"нужны одинаковые напряжение и частота, переключение без блэкаута",
+"voltage and frequency must match, changeover without blackout",
+1
+],
+[
+"Судно у причала подключено кабелем к береговой сети",
+"A ship at the berth connected by cable to the shore grid",
+1
+],
+[
+"В порту дизели можно выключить: судно питается с берега. Нужно согласовать напряжение и частоту и переключиться без блэкаута.",
+"In port the diesels can be stopped and the ship fed from shore. Voltage and frequency must match and the changeover must be made without a blackout.",
+1
 ]
 ]

@@ -2068,5 +2068,655 @@
 "В исключительных случаях, например при угрозе пиратства, с записью в журнал.",
 "In exceptional cases, such as a piracy threat, with an entry in the log.",
 0
+],
+[
+"Остойчивость — способность судна, накренённого внешней силой, вернуться в прямое положение. На судно действуют сила тяжести, приложенная в центре тяжести G, и сила плавучести, приложенная в центре величины B — центре подводного объёма.",
+"Stability is a ship's ability to return upright after being heeled by an external force. Two forces act on the ship: gravity at the centre of gravity G and buoyancy at the centre of buoyancy B, the centre of the underwater volume.",
+0
+],
+[
+"При крене подводная часть меняет форму, и центр величины смещается в сторону крена. Вертикаль через новый B пересекает диаметральную плоскость в метацентре M. Если M выше G, пара сил возвращает судно; расстояние GM — метацентрическая высота, главный показатель начальной остойчивости.",
+"When the ship heels the underwater shape changes and the centre of buoyancy moves towards the low side. The vertical through the new B crosses the centreline at the metacentre M. If M is above G, the couple of forces rights the ship; the distance GM is the metacentric height, the main measure of initial stability.",
+0
+],
+[
+"Большая GM даёт резкую и неприятную качку с большими ускорениями, малая — плавную, но опасно слабую остойчивость. На больших углах крена остойчивость оценивают по диаграмме статической остойчивости — кривой плеча GZ.",
+"A large GM gives a stiff, jerky roll with high accelerations; a small one gives a gentle roll but dangerously weak stability. At large angles of heel stability is judged from the statical stability curve, the GZ curve.",
+0
+],
+[
+"Перед каждым рейсом штурман считает остойчивость по грузовому плану в программе, одобренной классификационным обществом, и проверяет соответствие критериям. Грузы закрепляют, чтобы они не сместились на качке.",
+"Before every voyage the officer calculates stability for the cargo plan in software approved by the classification society and checks it against the criteria. Cargo is secured so it cannot shift in a seaway.",
+0
+],
+[
+"Свободные поверхности жидкостей в частично заполненных цистернах уменьшают остойчивость: жидкость переливается в сторону крена. Поэтому цистерны стараются держать полными или пустыми.",
+"Free surfaces of liquids in partly filled tanks reduce stability: the liquid flows to the low side. That is why tanks are kept either full or empty where possible.",
+0
+],
+[
+"Опасны смещение груза, вода на палубе и в помещениях, обледенение надстройки, частично заполненные цистерны и подъём тяжестей судовыми кранами, который поднимает центр тяжести.",
+"Dangers include cargo shift, water on deck and inside spaces, icing of the superstructure, partly filled tanks and lifting heavy loads with ship's cranes, which raises the centre of gravity.",
+0
+],
+[
+"Резонанс бортовой качки с волной может раскачать судно до опасных углов, а на попутной волне возможна потеря остойчивости на гребне. Изменение курса и скорости часто помогает выйти из опасного режима.",
+"Resonance between the roll and the waves can build up dangerous angles, and in following seas stability may be lost on a wave crest. Changing course and speed often gets the ship out of the dangerous condition.",
+0
+],
+[
+"Что такое метацентрическая высота?",
+"What is the metacentric height?",
+0
+],
+[
+"Расстояние между центром тяжести G и метацентром M; чем она больше, тем выше начальная остойчивость.",
+"The distance between the centre of gravity G and the metacentre M; the larger it is, the greater the initial stability.",
+0
+],
+[
+"Почему опасны частично заполненные цистерны?",
+"Why are partly filled tanks dangerous?",
+0
+],
+[
+"Свободная поверхность жидкости смещается при крене и уменьшает остойчивость.",
+"The free surface of the liquid shifts when the ship heels and reduces stability.",
+0
+],
+[
+"Как обледенение влияет на остойчивость?",
+"How does icing affect stability?",
+0
+],
+[
+"Лёд добавляет вес высоко над центром тяжести и поднимает его, остойчивость падает.",
+"Ice adds weight high up and raises the centre of gravity, so stability falls.",
+0
+],
+[
+"При электродвижении дизель-генераторы работают на общий главный щит, а гребной винт вращает электродвигатель через преобразователь частоты. Механической связи между дизелями и винтом нет.",
+"With electric propulsion, diesel generators feed a common main switchboard and the propeller is turned by an electric motor through a frequency converter. There is no mechanical link between the diesels and the propeller.",
+0
+],
+[
+"Преобразователь частоты плавно меняет обороты и направление вращения гребного двигателя, без реверса дизеля. Часто используют винторулевые колонки (азиподы): двигатель стоит в поворотной гондоле под корпусом и одновременно толкает и рулит.",
+"The frequency converter changes propulsion motor speed and direction smoothly, without reversing a diesel. Azimuth thrusters (pods) are common: the motor sits in a rotating pod under the hull that both pushes and steers.",
+0
+],
+[
+"Число работающих генераторов подбирают под нагрузку, поэтому дизели работают в экономичном режиме. Такую схему применяют на круизных лайнерах, ледоколах, судах снабжения с динамическим позиционированием и паромах.",
+"The number of running generators is matched to the load, so the diesels run economically. This arrangement is used on cruise ships, icebreakers, offshore vessels with dynamic positioning and ferries.",
+0
+],
+[
+"Электромеханик обслуживает высоковольтное оборудование (часто #,# кВ или # кВ), преобразователи частоты и их охлаждение, гребные двигатели и токосъёмные узлы колонок. Работы на высоком напряжении выполняются только по нарядам и со специальным допуском.",
+"The ETO maintains high-voltage equipment (often #.# kV or # kV), frequency converters and their cooling, propulsion motors and pod slip rings. High-voltage work is done only under permits and with special authorisation.",
+0
+],
+[
+"Система управления энергией следит, чтобы мощности генераторов хватало и при пиках гребной нагрузки, и ограничивает гребную мощность при нехватке, чтобы не было блэкаута.",
+"The power management system makes sure generator capacity covers propulsion peaks, and limits propulsion power when capacity is short to prevent a blackout.",
+0
+],
+[
+"Блэкаут на судне с электродвижением означает одновременную потерю хода и управляемости. Поэтому важны резерв мощности, правильная настройка защит и разделение шин на секции в стеснённых водах.",
+"A blackout on an electrically propelled ship means losing propulsion and steering at the same time. That is why spare capacity, correct protection settings and splitting the busbars into sections in confined waters matter.",
+0
+],
+[
+"Высокое напряжение не прощает ошибок: заземление, проверка отсутствия напряжения специальными указателями и средства защиты обязательны. Преобразователи хранят заряд в конденсаторах и после отключения, поэтому выжидают время разряда.",
+"High voltage does not forgive mistakes: earthing, proving dead with special testers and protective equipment are mandatory. Converters keep charge in their capacitors after switch-off, so wait for the discharge time.",
+0
+],
+[
+"Чем электродвижение выгоднее прямой передачи?",
+"What are the advantages of electric propulsion over direct drive?",
+0
+],
+[
+"Дизели работают в экономичном режиме, винт управляется плавно, механизмы можно разместить свободнее.",
+"Diesels run economically, propeller control is smooth and machinery can be placed more freely.",
+0
+],
+[
+"Что такое винторулевая колонка?",
+"What is an azimuth pod?",
+0
+],
+[
+"Поворотная гондола с гребным двигателем под корпусом, которая и толкает, и рулит.",
+"A rotating pod with a propulsion motor under the hull that both pushes and steers.",
+0
+],
+[
+"Почему шкаф преобразователя нельзя открывать сразу после отключения?",
+"Why must a converter cabinet not be opened right after switch-off?",
+0
+],
+[
+"Конденсаторы ещё хранят заряд: нужно выждать время разряда и проверить отсутствие напряжения.",
+"The capacitors still hold charge: wait for the discharge time and prove dead.",
+0
+],
+[
+"Пассажирские суда делят огнестойкими переборками и палубами на главные вертикальные зоны длиной обычно не более # м. Конструкции класса A сдерживают огонь и дым не менее часа в стандартном испытании, конструкции класса B — меньше, их применяют внутри зон.",
+"Passenger ships are divided by fire-resisting bulkheads and decks into main vertical zones usually no longer than # m. A-class divisions contain fire and smoke for at least an hour in a standard test; B-class divisions resist for less time and are used within zones.",
+0
+],
+[
+"Проходы кабелей и труб через переборки уплотняют сертифицированными уплотнениями, двери в переборках — противопожарные и самозакрывающиеся. Вентиляционные каналы на границах зон перекрываются заслонками.",
+"Cable and pipe penetrations through bulkheads are sealed with certified transits, and doors in the bulkheads are fire doors that close by themselves. Ventilation ducts at zone boundaries are closed by dampers.",
+0
+],
+[
+"Внутри помещений работают датчики дыма и тепла, спринклеры или водяной туман. Сигналы сводятся на пульт пожарной сигнализации на мостике.",
+"Inside spaces there are smoke and heat detectors and sprinklers or water mist. Signals are gathered at the fire alarm panel on the bridge.",
+0
+],
+[
+"Электромеханик проверяет пожарную сигнализацию, датчики, удерживающие магниты противопожарных дверей и заслонки. Новый кабель через переборку прокладывают только через уплотнение, восстанавливая огнестойкость по процедуре.",
+"The ETO tests the fire alarm system, detectors, fire door holding magnets and dampers. A new cable through a bulkhead is laid only through a transit, restoring fire integrity per procedure.",
+0
+],
+[
+"При пожаре двери зоны закрываются, вентиляция зоны останавливается, а людей выводят в соседнюю зону или на палубу сбора.",
+"In a fire the zone doors close, the zone's ventilation stops and people are moved to the next zone or to the muster deck.",
+0
+],
+[
+"Нельзя подпирать противопожарные двери клиньями или привязывать их: зона потеряет защиту. Незаделанное отверстие в переборке после ремонта полностью сводит на нет её огнестойкость.",
+"Fire doors must never be wedged or tied open: the zone loses its protection. An unsealed hole in a bulkhead after repairs completely defeats its fire resistance.",
+0
+],
+[
+"Датчики, отключённые на время работ и не включённые обратно, — частая причина позднего обнаружения пожара. Отключения записывают и восстанавливают сразу после работ.",
+"Detectors isolated for work and not reinstated are a common cause of late fire detection. Isolations are logged and reinstated right after the work.",
+0
+],
+[
+"Для чего судно делят на главные вертикальные зоны?",
+"Why is a ship divided into main vertical zones?",
+0
+],
+[
+"Чтобы пожар и дым оставались в одной зоне, пока идёт тушение.",
+"So fire and smoke stay in one zone while firefighting goes on.",
+0
+],
+[
+"Почему противопожарные двери нельзя подпирать?",
+"Why must fire doors not be wedged open?",
+0
+],
+[
+"Открытая дверь пропускает огонь и дым в соседнюю зону.",
+"An open door lets fire and smoke into the next zone.",
+0
+],
+[
+"Что делают с отверстием в переборке после прокладки кабеля?",
+"What is done with a hole in a bulkhead after laying a cable?",
+0
+],
+[
+"Заделывают сертифицированным уплотнением, восстанавливая огнестойкость.",
+"It is sealed with a certified transit, restoring fire integrity.",
+0
+],
+[
+"Круизный лайнер — плавучий город: тысячи пассажиров, рестораны, театры, бассейны. Большая часть энергии уходит не на ход, а на гостиничную нагрузку: кондиционирование, камбузы, освещение, лифты.",
+"A cruise ship is a floating town: thousands of passengers, restaurants, theatres, pools. Most of the energy goes not to propulsion but to the hotel load: air conditioning, galleys, lighting, lifts.",
+0
+],
+[
+"Паром возит пассажиров и автомобили по коротким линиям с частыми заходами. Ему важны быстрая погрузка через носовые и кормовые рампы, маневренность у причала и вентиляция грузовых палуб, где работают двигатели машин.",
+"A ferry carries passengers and vehicles on short routes with frequent port calls. Fast loading over bow and stern ramps, manoeuvrability at the berth and ventilation of vehicle decks where engines run are what matter.",
+0
+],
+[
+"Оба типа подчиняются требованиям СОЛАС для пассажирских судов: противопожарные зоны, деление на отсеки, аварийное питание, спасательные средства на всех людей.",
+"Both types follow SOLAS rules for passenger ships: fire zones, subdivision, emergency power and life-saving appliances for everyone on board.",
+0
+],
+[
+"На пароме у электромеханика много работы с рампами, вентиляцией автопалуб, подруливающими устройствами и системами контроля дверей. На лайнере — со сложными системами гостиничного хозяйства, освещения и автоматики.",
+"On a ferry the ETO works a lot with ramps, vehicle deck ventilation, thrusters and door monitoring systems. On a cruise ship, with complex hotel systems, lighting and automation.",
+0
+],
+[
+"На пароме с автопалубой обязательны датчики и видеонаблюдение за закрытием носовых и кормовых дверей: открытая дверь в рейсе привела к нескольким крупным катастрофам.",
+"A ro-ro ferry must have sensors and video monitoring of bow and stern door closure: a door left open at sea has caused several major disasters.",
+0
+],
+[
+"Закрытие и задраивание дверей автопалубы проверяют перед выходом по индикаторам и визуально. Вода на открытой автопалубе быстро растекается и может опрокинуть судно.",
+"Closing and securing of vehicle deck doors is checked before departure on indicators and visually. Water on an open vehicle deck spreads fast and can capsize the ship.",
+0
+],
+[
+"Машины на автопалубе крепят: сорвавшиеся на качке автомобили смещают центр тяжести и могут повредить баки с утечкой топлива.",
+"Vehicles on the car deck are lashed: cars breaking loose in a seaway shift the centre of gravity and may damage fuel tanks, causing leaks.",
+0
+],
+[
+"На что лайнер тратит большую часть энергии?",
+"What does a cruise ship spend most of its energy on?",
+0
+],
+[
+"На гостиничную нагрузку: кондиционирование, камбузы, освещение, лифты.",
+"The hotel load: air conditioning, galleys, lighting, lifts.",
+0
+],
+[
+"Почему опасна вода на автопалубе парома?",
+"Why is water on a ferry's vehicle deck dangerous?",
+0
+],
+[
+"Она растекается по большой открытой палубе и резко снижает остойчивость.",
+"It spreads across the large open deck and sharply reduces stability.",
+0
+],
+[
+"Что проверяют перед выходом парома?",
+"What is checked before a ferry departs?",
+0
+],
+[
+"Закрытие и задраивание носовых и кормовых дверей по индикаторам и визуально.",
+"Closing and securing of bow and stern doors on indicators and visually.",
+0
+],
+[
+"Балласт — забортная вода в специальных цистернах. Её принимают и откачивают, чтобы держать нужные осадку, дифферент, крен и остойчивость, когда меняется количество груза и запасов.",
+"Ballast is sea water in dedicated tanks. It is taken in and pumped out to keep the right draught, trim, list and stability as cargo and stores change.",
+0
+],
+[
+"Система состоит из балластных насосов, магистрали, клапанов с дистанционным управлением и датчиков уровня. Операции ведут с пульта управления грузовыми и балластными операциями.",
+"The system consists of ballast pumps, a main line, remotely operated valves and level sensors. Operations are run from the cargo and ballast control console.",
+0
+],
+[
+"Конвенция ИМО об управлении балластными водами требует очищать балласт от организмов, чтобы не переносить их в другие моря. Для этого на судах стоят системы очистки: фильтры и ультрафиолет или электрохлорирование.",
+"The IMO Ballast Water Management Convention requires ballast to be treated against organisms so they are not carried to other seas. Ships have treatment systems for this: filters plus ultraviolet light or electrochlorination.",
+0
+],
+[
+"Каждая операция с балластом записывается в журнал: время, координаты, цистерны, объём, способ очистки. Портовые власти проверяют журнал и могут взять пробы.",
+"Every ballast operation is logged: time, position, tanks, volume and treatment method. Port authorities check the record and may take samples.",
+0
+],
+[
+"Электромеханик обслуживает насосы, клапаны, датчики уровня и установку очистки: ультрафиолетовые лампы, фильтры, датчики. Неисправная установка может задержать судно в порту.",
+"The ETO maintains pumps, valves, level sensors and the treatment plant: UV lamps, filters and sensors. A faulty plant can get the ship detained in port.",
+0
+],
+[
+"Ошибка в выборе цистерны или неплотный клапан дают нежелательный крен или дифферент. Во время операций следят за осадкой и креном по приборам.",
+"A wrong tank or a leaking valve produces unwanted list or trim. During operations draught and list are watched on the instruments.",
+0
+],
+[
+"Вход в балластные цистерны — работа в замкнутом пространстве: только по наряду, после вентиляции и замера кислорода и газов, с наблюдающим у входа.",
+"Entering ballast tanks is enclosed space work: only under a permit, after ventilation and testing for oxygen and gases, with an attendant at the entrance.",
+0
+],
+[
+"Зачем судну балласт?",
+"Why does a ship need ballast?",
+0
+],
+[
+"Чтобы держать нужные осадку, дифферент, крен и остойчивость при изменении загрузки.",
+"To keep the right draught, trim, list and stability as the loading changes.",
+0
+],
+[
+"Что требует конвенция об управлении балластными водами?",
+"What does the Ballast Water Management Convention require?",
+0
+],
+[
+"Очищать балласт от организмов, чтобы не переносить их в другие моря.",
+"Treating ballast against organisms so they are not carried to other seas.",
+0
+],
+[
+"Что нужно перед входом в балластную цистерну?",
+"What is needed before entering a ballast tank?",
+0
+],
+[
+"Наряд, вентиляция, замер кислорода и газов и наблюдающий у входа.",
+"A permit, ventilation, testing for oxygen and gases and an attendant at the entrance.",
+0
+],
+[
+"Система кондиционирования забирает наружный воздух, очищает его фильтрами, охлаждает или подогревает, при необходимости осушает и подаёт вентиляторами по каналам в каюты и помещения. Часть воздуха возвращают и смешивают со свежим, чтобы экономить энергию.",
+"The air conditioning system takes in outside air, filters it, cools or heats it, dries it if needed and fans blow it through ducts to cabins and spaces. Part of the air is recirculated and mixed with fresh air to save energy.",
+0
+],
+[
+"Холод дают холодильные машины: компрессор сжимает хладагент, конденсатор отдаёт тепло забортной воде, а испаритель охлаждает воду или воздух. Охлаждённая вода по трубам идёт к воздухоохладителям.",
+"Cooling comes from chiller units: a compressor compresses the refrigerant, a condenser rejects heat to sea water and an evaporator chills water or air. Chilled water is piped to the air coolers.",
+0
+],
+[
+"На пассажирских судах кондиционирование — одна из крупнейших электрических нагрузок, особенно в тропиках.",
+"On passenger ships air conditioning is one of the largest electrical loads, especially in the tropics.",
+0
+],
+[
+"Обслуживание: замена и чистка фильтров, проверка ремней вентиляторов, давлений и температур в холодильных машинах, дренажей конденсата, работы заслонок и датчиков.",
+"Maintenance: changing and cleaning filters, checking fan belts, chiller pressures and temperatures, condensate drains, dampers and sensors.",
+0
+],
+[
+"Жалобы на жару часто связаны не с машиной, а с грязным фильтром, закрытой заслонкой или неисправным датчиком в каюте.",
+"Complaints about heat are often caused not by the machinery but by a dirty filter, a closed damper or a faulty cabin sensor.",
+0
+],
+[
+"Хладагент находится под давлением; его утечки вредны, а некоторые хладагенты вытесняют кислород в низких местах. Работы с контуром выполняют только аттестованные специалисты, утечки ищут и устраняют.",
+"Refrigerant is under pressure; leaks are harmful, and some refrigerants displace oxygen in low spaces. Only certified personnel work on the circuit, and leaks are found and fixed.",
+0
+],
+[
+"Застоявшийся конденсат в поддонах — среда для бактерий, включая легионеллу. Поддоны и дренажи держат чистыми и проверяют по плану.",
+"Stagnant condensate in drip trays breeds bacteria, including Legionella. Trays and drains are kept clean and checked as planned.",
+0
+],
+[
+"Куда холодильная машина отдаёт тепло?",
+"Where does a chiller reject its heat?",
+0
+],
+[
+"Через конденсатор забортной воде.",
+"Through the condenser to sea water.",
+0
+],
+[
+"Почему в каюте может быть жарко при исправной холодильной машине?",
+"Why can a cabin be hot when the chiller works fine?",
+0
+],
+[
+"Грязный фильтр, закрытая заслонка или неисправный датчик.",
+"A dirty filter, a closed damper or a faulty sensor.",
+0
+],
+[
+"Чем опасен конденсат в поддонах?",
+"Why is condensate in drip trays dangerous?",
+0
+],
+[
+"В нём размножаются бактерии, включая легионеллу.",
+"Bacteria breed in it, including Legionella.",
+0
+],
+[
+"Эвакуацию пассажирского судна рассчитывают ещё при проектировании: сколько людей пройдёт по каждому коридору и трапу, где возникнут заторы и за какое время все дойдут до пунктов сбора и спасательных средств.",
+"Evacuation of a passenger ship is analysed at the design stage: how many people each corridor and stairway can take, where bottlenecks form and how long it takes everyone to reach the muster stations and life-saving appliances.",
+0
+],
+[
+"Пути эвакуации отмечены знаками, а у пола есть световые указатели, которые видны в дыму, когда верхний свет не помогает. Аварийное освещение питается от аварийного источника.",
+"Escape routes are marked with signs, and low-location lighting near the floor stays visible in smoke when ceiling lights do not help. Emergency lighting is fed from the emergency source.",
+0
+],
+[
+"Спасательных шлюпок и плотов должно хватать на всех людей на борту с запасом, а спуск шлюпок ведут по командам с мостика.",
+"Lifeboats and liferafts must be enough for everyone on board with a margin, and boats are launched on orders from the bridge.",
+0
+],
+[
+"Для экипажа эвакуация — это расписание по тревогам: у каждого своё место и обязанности, например проверка кают, сопровождение пассажиров, подготовка шлюпки. Учения проводятся регулярно.",
+"For the crew, evacuation means the muster list: everyone has a station and duties, such as searching cabins, guiding passengers or preparing a lifeboat. Drills are held regularly.",
+0
+],
+[
+"Электромеханик отвечает за аварийное освещение, низко расположенные указатели, громкоговорящую связь и сигнализацию: в нужный момент они должны работать.",
+"The ETO is responsible for emergency lighting, low-location lighting, the public address system and alarms: they must work when needed.",
+0
+],
+[
+"Загромождённые проходы и запертые двери на путях эвакуации — серьёзное нарушение. Двери на этих путях должны открываться без ключа в сторону выхода.",
+"Blocked passages and locked doors on escape routes are a serious violation. Doors on these routes must open without a key in the direction of escape.",
+0
+],
+[
+"Паника опаснее огня: экипаж должен говорить уверенно и знать маршрут. Если член экипажа не знает своих обязанностей, это видно на учениях, и отрабатывать их нужно заранее.",
+"Panic is more dangerous than fire: the crew must speak confidently and know the route. If a crew member does not know their duties, it shows in drills, and they must be practised beforehand.",
+0
+],
+[
+"Зачем световые указатели у пола?",
+"Why is there lighting near the floor?",
+0
+],
+[
+"Они видны в дыму, когда верхний свет не помогает.",
+"It stays visible in smoke when ceiling lights do not help.",
+0
+],
+[
+"Откуда питается аварийное освещение?",
+"What feeds the emergency lighting?",
+0
+],
+[
+"От аварийного источника питания.",
+"The emergency source of power.",
+0
+],
+[
+"Где член экипажа узнаёт свои обязанности при тревоге?",
+"Where does a crew member find their emergency duties?",
+0
+],
+[
+"В расписании по тревогам.",
+"In the muster list.",
+0
+],
+[
+"Хозяйственно-бытовые стоки (туалеты, камбуз, прачечная) нельзя сбрасывать в море без очистки, кроме случаев, разрешённых приложением IV МАРПОЛ на расстоянии от берега и на ходу. Поэтому на судах стоят установки очистки или сборные танки.",
+"Sewage (toilets, galley, laundry) may not be discharged into the sea untreated, except in cases allowed by MARPOL Annex IV at a distance from land and while underway. That is why ships have treatment plants or holding tanks.",
+0
+],
+[
+"Биологическая установка работает как городская очистная станция: бактерии в аэрационной камере разлагают органику, воздуходувки подают им кислород, затем вода отстаивается и обеззараживается хлором или ультрафиолетом.",
+"A biological plant works like a town sewage works: bacteria in an aeration chamber break down organic matter, blowers supply them with oxygen, then the water settles and is disinfected with chlorine or ultraviolet light.",
+0
+],
+[
+"Серые воды (душ, стирка) и чёрные (туалеты) на крупных пассажирских судах часто очищают в мембранных установках, чтобы выполнять строгие требования особых районов.",
+"On large passenger ships grey water (showers, laundry) and black water (toilets) are often treated in membrane plants to meet the strict standards of special areas.",
+0
+],
+[
+"Электромеханику достаются насосы, воздуходувки, датчики уровня, дозаторы и автоматика. Остановка воздуходувки на несколько часов может погубить бактерии, и установка надолго потеряет эффективность.",
+"The ETO looks after pumps, blowers, level sensors, dosing units and automation. Stopping a blower for a few hours can kill the bacteria, and the plant loses its effectiveness for a long time.",
+0
+],
+[
+"Сбросы записывают, а проверяющие в портах могут взять пробу. Накопленные стоки в порту сдают на берег через приёмные устройства.",
+"Discharges are logged, and port inspectors may take samples. Collected sewage is delivered ashore to reception facilities in port.",
+0
+],
+[
+"В танках стоков образуется сероводород: он смертельно ядовит, а при высокой концентрации перестаёт ощущаться по запаху. Вход в танки — только как в замкнутое пространство, с замерами и наблюдающим.",
+"Hydrogen sulphide forms in sewage tanks: it is deadly poisonous, and at high concentration it can no longer be smelled. Tanks are entered only as enclosed spaces, with gas testing and an attendant.",
+0
+],
+[
+"Ошибка — бросать в туалеты тряпки, пластик и средства, убивающие бактерии: установка забивается и перестаёт очищать.",
+"A mistake is to throw rags, plastics and bacteria-killing chemicals into toilets: the plant clogs and stops treating.",
+0
+],
+[
+"Как работает биологическая установка очистки?",
+"How does a biological sewage plant work?",
+0
+],
+[
+"Бактерии при подаче воздуха разлагают органику, затем вода отстаивается и обеззараживается.",
+"Bacteria supplied with air break down organic matter, then the water settles and is disinfected.",
+0
+],
+[
+"Чем опасны танки стоков?",
+"Why are sewage tanks dangerous?",
+0
+],
+[
+"Сероводородом, который смертельно ядовит.",
+"Because of hydrogen sulphide, which is deadly poisonous.",
+0
+],
+[
+"Почему нельзя надолго останавливать воздуходувки?",
+"Why must blowers not be stopped for long?",
+0
+],
+[
+"Без кислорода бактерии погибнут, и установка перестанет очищать.",
+"Without oxygen the bacteria die and the plant stops treating.",
+0
+],
+[
+"Система управления энергией (PMS) следит за нагрузкой на шины и автоматически запускает, синхронизирует и подключает генератор, когда нагрузка растёт, и отключает лишний, когда она падает. Так дизели работают в экономичной зоне, а резерв мощности есть всегда.",
+"The power management system (PMS) watches busbar load and automatically starts, synchronises and connects a generator when load rises, and disconnects a spare one when it falls. This keeps the diesels in their economical range with spare power always available.",
+0
+],
+[
+"Перед включением крупного потребителя, например подруливающего устройства, PMS проверяет, хватит ли мощности, и при нехватке сначала запускает генератор, а потом разрешает пуск.",
+"Before a large consumer such as a bow thruster starts, the PMS checks that there is enough power; if not, it starts a generator first and then allows the start.",
+0
+],
+[
+"При перегрузке PMS отключает неответственных потребителей по приоритету (камбуз, кондиционирование), чтобы сохранить питание ответственных и не допустить блэкаута.",
+"On overload the PMS sheds non-essential consumers in order of priority (galley, air conditioning) to keep essential ones supplied and prevent a blackout.",
+0
+],
+[
+"Электромеханик настраивает уставки: при какой нагрузке запускать следующий генератор, через какое время останавливать лишний и в каком порядке. Нагрузка между генераторами должна распределяться равномерно.",
+"The ETO sets the thresholds: at what load to start the next generator, how long before stopping a spare one, and in what order. Load must be shared evenly between generators.",
+0
+],
+[
+"В режиме маневров и в стеснённых водах в работе держат больше генераторов, чем нужно по нагрузке, ради резерва.",
+"During manoeuvring and in confined waters more generators are kept running than the load requires, for reserve.",
+0
+],
+[
+"Ошибка — перевести систему в ручной режим и забыть об этом: при росте нагрузки генератор не запустится сам.",
+"A mistake is to switch the system to manual and forget it: when load rises, no generator will start by itself.",
+0
+],
+[
+"Неправильно выставленный приоритет может отключить ответственного потребителя раньше второстепенного.",
+"A wrongly set priority can shed an essential consumer before a non-essential one.",
+0
+],
+[
+"Что делает PMS при росте нагрузки?",
+"What does the PMS do when load rises?",
+0
+],
+[
+"Запускает, синхронизирует и подключает ещё один генератор.",
+"It starts, synchronises and connects another generator.",
+0
+],
+[
+"Зачем нужен приоритет отключения потребителей?",
+"Why is load-shedding priority needed?",
+0
+],
+[
+"Чтобы при перегрузке сначала отключались второстепенные потребители и не было блэкаута.",
+"So that on overload non-essential consumers go first and there is no blackout.",
+0
+],
+[
+"Почему в узкостях держат больше генераторов?",
+"Why are more generators run in confined waters?",
+0
+],
+[
+"Ради резерва мощности на случай отказа одного из них или пиковой нагрузки.",
+"For spare power in case one fails or the load peaks.",
+0
+],
+[
+"У причала судно может выключить дизели и питаться от береговой сети. Это убирает выбросы и шум в порту; во многих портах это уже требование для отдельных типов судов.",
+"At the berth a ship can stop its diesels and take power from the shore grid. This removes emissions and noise in port; in many ports it is already required for certain ship types.",
+0
+],
+[
+"Мощные установки, например для круизных лайнеров и контейнеровозов, работают на высоком напряжении #,# кВ или # кВ по стандарту IEC/IEEE #. Частота сети порта и судна может различаться (# и # Гц), тогда на берегу ставят преобразователь частоты.",
+"High-power installations, for example for cruise ships and container ships, run at a high voltage of #.# kV or # kV under the IEC/IEEE # standard. Port and ship frequencies may differ (# and # Hz), in which case a frequency converter is installed ashore.",
+0
+],
+[
+"Переход на береговое питание делают без блэкаута: генераторы синхронизируют с береговой сетью, кратковременно работают параллельно, переводят нагрузку на берег и затем отключаются.",
+"The changeover to shore power is made without a blackout: generators are synchronised with the shore grid, run briefly in parallel, transfer the load ashore and then disconnect.",
+0
+],
+[
+"Перед подключением проверяют совпадение напряжения, частоты и порядка фаз, заземление и защиту. Кабели подают с берега краном или кабельной катушкой и подключают в специальном распределительном шкафу.",
+"Before connection voltage, frequency and phase sequence are matched and earthing and protection are checked. Cables are brought from shore by crane or cable reel and connected in a dedicated switchboard.",
+0
+],
+[
+"Подключение и отключение ведут по процедуре вместе с оператором порта, связь поддерживают всё время.",
+"Connection and disconnection follow a procedure together with the port operator, with communication kept throughout.",
+0
+],
+[
+"Неправильный порядок фаз заставит двигатели вращаться в обратную сторону, что опасно для насосов и вентиляторов. Поэтому порядок фаз проверяют до подключения нагрузки.",
+"A wrong phase sequence makes motors run backwards, which is dangerous for pumps and fans. That is why phase sequence is checked before load is connected.",
+0
+],
+[
+"Натяжение высоковольтных кабелей меняется с приливом и осадкой. Кабель должен иметь запас длины и защиту от натяжения.",
+"Tension on high-voltage cables changes with tide and draught. The cable must have spare length and strain protection.",
+0
+],
+[
+"Зачем нужно береговое питание?",
+"What is shore power for?",
+0
+],
+[
+"Чтобы выключить дизели в порту и убрать выбросы и шум.",
+"To stop the diesels in port and remove emissions and noise.",
+0
+],
+[
+"Что проверяют перед подключением к берегу?",
+"What is checked before connecting to shore power?",
+0
+],
+[
+"Напряжение, частоту, порядок фаз, заземление и защиту.",
+"Voltage, frequency, phase sequence, earthing and protection.",
+0
+],
+[
+"Как переходят на береговое питание без блэкаута?",
+"How is shore power taken without a blackout?",
+0
+],
+[
+"Синхронизируют генераторы с берегом, кратковременно работают параллельно и переводят нагрузку.",
+"Generators are synchronised with the shore, run briefly in parallel and transfer the load.",
+0
 ]
 ]
