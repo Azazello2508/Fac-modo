@@ -1,0 +1,261 @@
+{"sec": "ho", "articles": [
+{"i": 0,
+ "w": [
+  ["На судне стирают в общей прачечной по графику или в свободное время. Начинай с бирки: на ней значки температуры, отжима и сушки. Хлопок и рабочую одежду можно стирать горячее, синтетику и термобельё — при 30–40 °C.",
+   "On board, laundry is done in the shared laundry room by schedule or in free time. Start with the care label: it shows temperature, spin and drying symbols. Cotton and work clothes can be washed hotter, synthetics and thermal underwear at 30–40 °C."],
+  ["Раздели вещи: белое, цветное, тёмное, а рабочую одежду в масле — отдельно. Мазут и масло не отстирываются вместе с обычными вещами и портят машину; для спецодежды на многих судах есть отдельная машина или средство для обезжиривания.",
+   "Sort the items: whites, colours, darks, and oily work clothes separately. Fuel and oil do not wash out together with ordinary clothes and ruin the machine; many ships have a separate machine or a degreasing agent for overalls."],
+  ["Не перегружай барабан: бельё должно свободно двигаться, иначе оно не отстирывается и мнётся. Дозируй порошок по инструкции: лишний плохо выполаскивается и раздражает кожу.",
+   "Do not overload the drum: clothes must move freely or they will not get clean and will crease. Dose detergent per the instructions: extra detergent rinses out poorly and irritates the skin."]],
+ "p": [
+  ["Заведи простую привычку: стирка раз в неделю в один и тот же день после вахты. Сушка на воздухе продлевает жизнь вещам, а сушильная машина экономит время, но хлопок в ней может сесть.",
+   "Make it a simple habit: laundry once a week on the same day after a watch. Air drying makes clothes last longer; a dryer saves time but cotton may shrink in it."],
+  ["Рабочую одежду стирают отдельно и чаще: пропитанная маслом спецодежда пожароопасна и вредна для кожи.",
+   "Work clothes are washed separately and more often: oil-soaked overalls are a fire hazard and bad for the skin."]],
+ "e": [
+  ["Нельзя надолго оставлять мокрое бельё в машине: появятся запах и плесень. Чистый фильтр сушильной машины — вопрос пожарной безопасности: скопившийся ворс горит.",
+   "Do not leave wet laundry in the machine for long: it will smell and go mouldy. A clean dryer filter is a fire safety matter: accumulated lint burns."],
+  ["Ошибка — стирать новую цветную вещь вместе с белым: она может полинять.",
+   "A mistake is washing a new coloured item with whites: the colour may run."]],
+ "q": [
+  [["Почему спецодежду в масле стирают отдельно?", "Why are oily overalls washed separately?"],
+   ["Масло не отстирывается с обычными вещами и портит машину, а промасленная одежда пожароопасна.", "Oil does not wash out with ordinary clothes and ruins the machine, and oily clothing is a fire hazard."]],
+  [["Чем опасен забитый фильтр сушильной машины?", "Why is a clogged dryer filter dangerous?"],
+   ["Скопившийся ворс может загореться.", "Accumulated lint can catch fire."]],
+  [["Чем вредит лишний порошок?", "What harm does extra detergent do?"],
+   ["Он плохо выполаскивается и раздражает кожу.", "It rinses out poorly and irritates the skin."]]]},
+
+{"i": 1,
+ "w": [
+  ["Сон состоит из циклов примерно по 90 минут: лёгкий сон, глубокий и быстрый, со сновидениями. За ночь обычно проходит 4–6 циклов. Глубокий сон восстанавливает тело, быстрый важен для памяти и настроения.",
+   "Sleep consists of cycles of about 90 minutes: light sleep, deep sleep and REM sleep with dreams. A night usually has 4–6 cycles. Deep sleep restores the body, REM sleep matters for memory and mood."],
+  ["Режим задают внутренние часы, которые настраиваются светом. Утренний свет помогает проснуться, а яркий экран и свет перед сном откладывают засыпание.",
+   "The daily rhythm is set by an internal clock tuned by light. Morning light helps you wake up, while bright screens and light before bed delay sleep."],
+  ["Вахты 4/8 или 6/6 дробят сон на части. Это нагрузка, но её можно смягчить: держать постоянное время для каждой части сна и защищать его.",
+   "Watches of 4/8 or 6/6 split sleep into parts. It is a strain, but it can be eased: keep a fixed time for each sleep period and protect it."]],
+ "p": [
+  ["Перед сном нужны темнота, тишина и прохлада в каюте: маска для глаз и беруши заметно помогают. Кофеин действует несколько часов, поэтому кофе ближе ко сну мешает уснуть, даже если кажется, что нет.",
+   "Before sleep you need a dark, quiet, cool cabin: an eye mask and earplugs help a lot. Caffeine lasts several hours, so coffee close to bedtime makes it harder to fall asleep, even if it doesn't feel that way."],
+  ["Если не спится больше 20 минут, лучше встать и заняться спокойным делом при неярком свете, а не ворочаться.",
+   "If you can't sleep for more than 20 minutes, get up and do something calm in dim light rather than tossing and turning."]],
+ "e": [
+  ["Ошибка — компенсировать недосып кофе и энергетиками. Усталость никуда не девается, а внимание может пропасть внезапно, микросном.",
+   "A mistake is making up for lost sleep with coffee and energy drinks. The fatigue does not go away, and attention can vanish suddenly in a microsleep."],
+  ["Хроническая бессонница, сильный храп с остановками дыхания или дневная сонливость — повод обратиться к врачу.",
+   "Chronic insomnia, heavy snoring with pauses in breathing or daytime sleepiness are reasons to see a doctor."]],
+ "q": [
+  [["Сколько длится цикл сна?", "How long is a sleep cycle?"],
+   ["Около 90 минут.", "About 90 minutes."]],
+  [["Почему яркий экран перед сном мешает уснуть?", "Why does a bright screen before bed make sleep harder?"],
+   ["Свет сдвигает внутренние часы и откладывает засыпание.", "Light shifts the internal clock and delays falling asleep."]],
+  [["Что делать, если не спится больше 20 минут?", "What should you do if you can't sleep for more than 20 minutes?"],
+   ["Встать и заняться спокойным делом при неярком свете.", "Get up and do something calm in dim light."]]]},
+
+{"i": 2,
+ "w": [
+  ["Идея — держать дома базу, из которой можно собрать еду без похода в магазин: крупы, макароны, консервы, яйца, замороженные овощи, масло, специи. К базе добавляют свежие продукты на неделю.",
+   "The idea is to keep a base at home from which a meal can be made without going shopping: grains, pasta, tins, eggs, frozen vegetables, oil, spices. Fresh food for the week is added to the base."],
+  ["Удобно планировать по тарелке: половина — овощи и фрукты, четверть — белок (мясо, рыба, яйца, бобовые), четверть — крупы и хлеб. Так проще составить список и не забыть про овощи.",
+   "Planning by the plate is handy: half vegetables and fruit, a quarter protein (meat, fish, eggs, pulses), a quarter grains and bread. It makes the list easier and you won't forget the vegetables."],
+  ["Сначала план меню на неделю, потом список по отделам магазина. Так меньше лишних покупок и выброшенных продуктов.",
+   "First the menu for the week, then the list by shop sections. That means fewer extra purchases and less food thrown away."]],
+ "p": [
+  ["Дома после рейса начни с проверки холодильника и шкафов: что есть, что заканчивается, что скоро испортится.",
+   "At home after a voyage, start by checking the fridge and cupboards: what you have, what is running out and what will soon go off."],
+  ["Готовь сразу на несколько раз: суп или рагу на пару дней экономят время. Храни готовое в холодильнике в закрытых контейнерах и съедай за пару дней.",
+   "Cook for several meals at once: a soup or stew for a couple of days saves time. Keep cooked food in the fridge in closed containers and eat it within a couple of days."]],
+ "e": [
+  ["Ошибка — ходить в магазин голодным и без списка: покупок становится вдвое больше.",
+   "A mistake is going shopping hungry and without a list: you end up buying twice as much."],
+  ["Повторное размораживание и хранение готовой еды при комнатной температуре — частые причины пищевых отравлений.",
+   "Refreezing and keeping cooked food at room temperature are common causes of food poisoning."]],
+ "q": [
+  [["Как составлять список по «тарелке»?", "How do you plan by the plate?"],
+   ["Половина — овощи и фрукты, четверть — белок, четверть — крупы.", "Half vegetables and fruit, a quarter protein, a quarter grains."]],
+  [["С чего начать план покупок?", "Where should a shopping plan start?"],
+   ["С проверки того, что уже есть дома, и меню на неделю.", "With checking what you already have and the menu for the week."]],
+  [["Почему не стоит ходить в магазин голодным?", "Why shouldn't you shop hungry?"],
+   ["Покупаешь больше лишнего.", "You buy more things you don't need."]]]},
+
+{"i": 3,
+ "w": [
+  ["У моряка много документов с ограниченным сроком: паспорт моряка, загранпаспорт, диплом и подтверждения, сертификаты ПДНВ, медицинское свидетельство, визы. Просрочка одного может сорвать контракт.",
+   "A seafarer has many documents with expiry dates: the seaman's book, passport, certificate of competency and endorsements, STCW certificates, medical certificate, visas. One expired document can cost a contract."],
+  ["Идея календаря проста: один список всех документов с датами окончания и напоминания заранее. На продление часто уходят недели или месяцы, поэтому напоминание ставят за два-три месяца.",
+   "The calendar idea is simple: one list of all documents with expiry dates and reminders in advance. Renewal often takes weeks or months, so reminders are set two to three months ahead."],
+  ["Туда же вносят платежи (кредиты, налоги, страховки), медосмотры, техосмотр машины и дни рождения близких.",
+   "Add payments (loans, taxes, insurance), medical checks, car inspections and family birthdays too."]],
+ "p": [
+  ["В приложении есть раздел «Документы и сроки»: занеси туда все документы, и главный экран будет напоминать о приближающихся датах.",
+   "The app has a Documents and deadlines section: enter all your documents there and the main screen will remind you of upcoming dates."],
+  ["Храни сканы документов в защищённом облаке и на телефоне: при потере оригинала копия ускорит восстановление.",
+   "Keep scans of documents in secure cloud storage and on your phone: if the original is lost, a copy speeds up replacement."]],
+ "e": [
+  ["Ошибка — проверять сроки только перед поездкой. Многие процедуры продления требуют записи заранее и не ускоряются.",
+   "A mistake is checking dates only before a trip. Many renewals need an appointment in advance and cannot be rushed."],
+  ["Правила и сроки оформления различаются по странам и компаниям: уточняй их в официальных источниках.",
+   "Rules and processing times vary by country and company: check them with official sources."]],
+ "q": [
+  [["За сколько напоминать об окончании документа?", "How far ahead should a document expiry reminder be set?"],
+   ["За два-три месяца: продление может занять много времени.", "Two to three months: renewal can take a long time."]],
+  [["Что, кроме документов, стоит вносить в календарь?", "What besides documents is worth adding to the calendar?"],
+   ["Платежи, медосмотры, техосмотр, важные даты близких.", "Payments, medical checks, car inspections, family dates."]],
+  [["Зачем хранить сканы документов?", "Why keep scans of documents?"],
+   ["Чтобы быстрее восстановить документ при потере.", "To replace a document faster if it is lost."]]]},
+
+{"i": 4,
+ "w": [
+  ["Обувь портят влага, жар и соль. Кожа после намокания и сушки у батареи трескается и садится, а клей подошвы разрушается.",
+   "Shoes are ruined by moisture, heat and salt. Leather that gets wet and is dried on a radiator cracks and shrinks, and the sole adhesive breaks down."],
+  ["Правильно так: набить мокрую обувь бумагой, менять её, сушить при комнатной температуре, затем обработать кремом или пропиткой. Кожу питают кремом, замшу и нубук чистят щёткой и защищают пропиткой, тканевую обувь моют и пропитывают водоотталкивающим средством.",
+   "The right way: stuff wet shoes with paper, change it, dry them at room temperature, then treat with polish or spray. Leather is fed with cream, suede and nubuck are brushed and protected with spray, fabric shoes are washed and treated with water repellent."],
+  ["Рабочая обувь моряка — защитная: с металлическим или композитным подноском и маслостойкой подошвой. Её проверяют на износ и меняют, когда подошва стёрта или подносок повреждён.",
+   "A seafarer's work boots are safety footwear with a steel or composite toecap and an oil-resistant sole. They are checked for wear and replaced when the sole is worn or the toecap damaged."]],
+ "p": [
+  ["Две пары, которые чередуются каждый день, успевают высохнуть и служат дольше.",
+   "Two pairs worn on alternate days have time to dry and last longer."],
+  ["Стельки вынимают и сушат отдельно; при грибке нужны специальные средства и смена носков, а не только дезодорант.",
+   "Insoles are taken out and dried separately; for fungal infection use proper treatment and change socks, not just deodorant."]],
+ "e": [
+  ["Ошибка — сушить обувь на батарее или феном вплотную: кожа и клей портятся.",
+   "A mistake is drying shoes on a radiator or with a hairdryer up close: leather and glue get damaged."],
+  ["Изношенная защитная обувь с треснувшим подноском уже не защищает ноги: её меняют, а не латают.",
+   "Worn safety boots with a cracked toecap no longer protect your feet: they are replaced, not patched."]],
+ "q": [
+  [["Как правильно сушить мокрую обувь?", "How should wet shoes be dried?"],
+   ["Набить бумагой, менять её и сушить при комнатной температуре.", "Stuff them with paper, change it and dry them at room temperature."]],
+  [["Чем ухаживают за замшей?", "How is suede looked after?"],
+   ["Щёткой и пропиткой.", "With a brush and protective spray."]],
+  [["Когда менять защитную обувь?", "When should safety boots be replaced?"],
+   ["Когда стёрта подошва или повреждён подносок.", "When the sole is worn or the toecap is damaged."]]]},
+
+{"i": 5,
+ "w": [
+  ["Домашняя аптечка нужна для мелких травм и первых минут до врача. Основа: пластыри, стерильные бинты и салфетки, эластичный бинт, антисептик, термометр, ножницы, перчатки, средство от ожогов.",
+   "A home first-aid kit is for minor injuries and the first minutes before medical help. The basics: plasters, sterile bandages and dressings, an elastic bandage, antiseptic, a thermometer, scissors, gloves and a burn remedy."],
+  ["Лекарства подбирают вместе с врачом с учётом здоровья и аллергий, хранят с инструкциями и проверяют сроки годности. Аптечку держат в сухом прохладном месте, недоступном детям.",
+   "Medicines are chosen together with a doctor, taking health and allergies into account, kept with their leaflets and checked for expiry. The kit is stored in a dry, cool place out of children's reach."],
+  ["На судне есть своя судовая аптечка и офицер, ответственный за медицинскую помощь. Личные лекарства при хронических болезнях берут в рейс с запасом и рецептом.",
+   "A ship has its own medical chest and an officer in charge of medical care. Personal medicines for chronic conditions are taken on board with a margin and a prescription."]],
+ "p": [
+  ["Раз в полгода просматривай аптечку: выброси просроченное, докупи использованное. Положи туда листок с телефонами экстренных служб и списком аллергий членов семьи.",
+   "Every six months go through the kit: throw out expired items and replace used ones. Add a note with emergency numbers and family members' allergies."],
+  ["Пройди курс первой помощи: на судне это требование ПДНВ, а дома умение остановить кровотечение и сделать сердечно-лёгочную реанимацию спасает жизни.",
+   "Take a first-aid course: on board it is an STCW requirement, and at home knowing how to stop bleeding and do CPR saves lives."]],
+ "e": [
+  ["Ошибка — назначать себе лекарства по совету знакомых или интернета. Назначения делает только врач.",
+   "A mistake is prescribing yourself medicines on advice from friends or the internet. Only a doctor prescribes."],
+  ["Просроченные и неправильно хранившиеся лекарства могут не подействовать или навредить.",
+   "Expired or badly stored medicines may not work or may cause harm."]],
+ "q": [
+  [["Кто подбирает лекарства для аптечки?", "Who chooses the medicines for the kit?"],
+   ["Врач, с учётом здоровья и аллергий.", "A doctor, taking health and allergies into account."]],
+  [["Как часто проверять аптечку?", "How often should the kit be checked?"],
+   ["Раз в полгода: сроки годности и использованное.", "Every six months: expiry dates and used items."]],
+  [["Что положить в аптечку, кроме средств?", "What should go in the kit besides supplies?"],
+   ["Телефоны экстренных служб и список аллергий.", "Emergency numbers and a list of allergies."]]]},
+
+{"i": 6,
+ "w": [
+  ["Сборы перед рейсом и после него проходят в спешке, и важное забывается. Решение — постоянный шаблон списка, который хранится в телефоне и уточняется после каждой поездки.",
+   "Packing before and after a voyage is rushed and important things get forgotten. The solution is a permanent checklist template kept on your phone and refined after every trip."],
+  ["В шаблон входят: документы (паспорта, диплом, сертификаты, медицинское свидетельство, билеты), деньги и карты, зарядки и адаптеры, лекарства, одежда по сезону, рабочая обувь, мелочи для каюты.",
+   "The template includes: documents (passports, certificate of competency, certificates, medical, tickets), money and cards, chargers and adapters, medicines, seasonal clothes, work boots and small items for the cabin."],
+  ["Отдельный список — дом перед отъездом: перекрыть воду и газ, отключить приборы, оплатить счета вперёд, передать ключи, вынести мусор.",
+   "A separate list is for the home before leaving: shut off water and gas, unplug appliances, pay bills in advance, hand over keys, take out the rubbish."]],
+ "p": [
+  ["Собирайся за день до выезда, а не в последний час. Документы и деньги — в одну папку, которая едет в ручной клади.",
+   "Pack the day before, not in the last hour. Documents and money go into one folder in your hand luggage."],
+  ["После рейса допиши в шаблон то, чего не хватало, и вычеркни то, что не понадобилось.",
+   "After the voyage add what was missing to the template and cross out what you didn't need."]],
+ "e": [
+  ["Ошибка — класть документы в сдаваемый багаж: если чемодан потеряется, рейс может сорваться.",
+   "A mistake is putting documents in checked baggage: if the suitcase is lost, the voyage may fall through."],
+  ["Забытая зарядка — мелочь, забытый сертификат — потерянный контракт. Документы проверяют по списку дважды.",
+   "A forgotten charger is a trifle; a forgotten certificate is a lost contract. Check documents against the list twice."]],
+ "q": [
+  [["Где хранить документы в дороге?", "Where should documents travel?"],
+   ["В одной папке в ручной клади.", "In one folder in your hand luggage."]],
+  [["Что сделать с домом перед отъездом?", "What should be done at home before leaving?"],
+   ["Перекрыть воду и газ, отключить приборы, оплатить счета, передать ключи.", "Shut off water and gas, unplug appliances, pay bills, hand over keys."]],
+  [["Как улучшать шаблон списка?", "How do you improve the checklist template?"],
+   ["После каждой поездки дописывать недостающее и убирать лишнее.", "After each trip add what was missing and remove what wasn't needed."]]]},
+
+{"i": 7,
+ "w": [
+  ["Пока моряк в рейсе, дом остаётся пустым или с семьёй, которой нужно знать базовые вещи: где перекрывается вода, газ и где электрический щиток.",
+   "While a seafarer is away the home stands empty or with family who need to know the basics: where the water and gas shut-offs are and where the electrical panel is."],
+  ["Датчик дыма — самая дешёвая защита от пожара в жилье. Его проверяют кнопкой и вовремя меняют батарейку. Огнетушитель держат на кухне и в машине.",
+   "A smoke detector is the cheapest fire protection at home. It is tested with its button and its battery replaced in time. Keep an extinguisher in the kitchen and in the car."],
+  ["Хороший замок, договорённость с соседями и таймер освещения снижают риск кражи, когда дома никого нет.",
+   "A good lock, an arrangement with neighbours and a light timer reduce the risk of burglary when nobody is home."]],
+ "p": [
+  ["Раз в полгода делай короткий обход: датчики, огнетушитель, розетки и удлинители без перегрева, краны и шланги без подтеканий.",
+   "Every six months do a short round: detectors, extinguisher, sockets and extension leads without overheating, taps and hoses without leaks."],
+  ["Не перегружай удлинители и не включай мощные приборы через тройники: это частая причина пожаров.",
+   "Do not overload extension leads or run powerful appliances through multi-plug adapters: it is a common cause of fires."]],
+ "e": [
+  ["Ошибка — оставлять включённые обогреватели, утюг и зарядки без присмотра.",
+   "A mistake is leaving heaters, irons and chargers on unattended."],
+  ["Не пиши в соцсетях, что дом пустует месяцами: этим пользуются воры.",
+   "Do not post on social media that your home is empty for months: burglars use it."]],
+ "q": [
+  [["Что должен знать каждый член семьи?", "What should every family member know?"],
+   ["Где перекрываются вода и газ и где электрический щиток.", "Where the water and gas shut-offs and the electrical panel are."]],
+  [["Как проверить датчик дыма?", "How do you check a smoke detector?"],
+   ["Нажать кнопку теста и при необходимости заменить батарейку.", "Press the test button and replace the battery if needed."]],
+  [["Почему опасны тройники с мощными приборами?", "Why are multi-plug adapters with powerful appliances dangerous?"],
+   ["Перегрев проводов и контактов может вызвать пожар.", "Overheating wires and contacts can start a fire."]]]},
+
+{"i": 8,
+ "w": [
+  ["Регулярная еда держит ровный уровень энергии и внимания. Долгий перерыв, а потом тяжёлый обед дают сонливость, опасную на вахте.",
+   "Regular meals keep energy and attention steady. A long gap followed by a heavy meal brings drowsiness, which is dangerous on watch."],
+  ["Вода нужна для работы мозга и мышц, особенно в жарком машинном отделении: при сильном потоотделении теряется много воды и солей. Пить лучше понемногу в течение дня, а не залпом.",
+   "Water is needed for the brain and muscles, especially in a hot engine room: heavy sweating loses a lot of water and salts. It is better to drink a little throughout the day than a lot at once."],
+  ["Нормы еды и воды индивидуальны и зависят от веса, нагрузки, климата и здоровья. Общие советы не заменяют рекомендаций врача.",
+   "Food and water needs are individual and depend on weight, workload, climate and health. General advice does not replace a doctor's recommendations."]],
+ "p": [
+  ["На вахте держи бутылку воды под рукой, особенно в жару. Признаки нехватки воды: жажда, тёмная моча, головная боль, усталость.",
+   "Keep a bottle of water at hand on watch, especially in the heat. Signs of dehydration: thirst, dark urine, headache, tiredness."],
+  ["Перед ночной вахтой лучше лёгкий перекус, а не плотный ужин. Сладкое даёт быстрый подъём и такой же быстрый спад.",
+   "Before a night watch a light snack is better than a heavy dinner. Sweets give a quick lift and an equally quick drop."]],
+ "e": [
+  ["Ошибка — заменять воду кофе и энергетиками. Кофеин в больших дозах вызывает сердцебиение и мешает сну.",
+   "A mistake is replacing water with coffee and energy drinks. Large doses of caffeine cause palpitations and disturb sleep."],
+  ["Тепловой удар в машинном отделении — реальная опасность: головокружение, тошнота, спутанность сознания. Нужно выйти в прохладу, пить, сообщить и получить помощь.",
+   "Heat stroke in the engine room is a real danger: dizziness, nausea, confusion. Get to a cool place, drink, report it and get help."]],
+ "q": [
+  [["Почему тяжёлый обед опасен перед вахтой?", "Why is a heavy meal dangerous before a watch?"],
+   ["Он вызывает сонливость и снижает внимание.", "It causes drowsiness and lowers attention."]],
+  [["Как лучше пить воду?", "How is it best to drink water?"],
+   ["Понемногу в течение дня.", "A little at a time throughout the day."]],
+  [["Каковы признаки нехватки воды?", "What are the signs of dehydration?"],
+   ["Жажда, тёмная моча, головная боль, усталость.", "Thirst, dark urine, headache, tiredness."]]]},
+
+{"i": 9,
+ "w": [
+  ["Базовый набор инструментов дома: отвёртки, плоскогубцы, разводной ключ, молоток, рулетка, мультиметр или индикатор напряжения, изолента, герметик.",
+   "A basic home tool kit: screwdrivers, pliers, an adjustable spanner, a hammer, a tape measure, a multimeter or voltage tester, insulating tape and sealant."],
+  ["Многие поломки простые: подтекающий кран (прокладка или картридж), шатающаяся розетка, выбитый автомат, засор сифона. Их можно исправить самому, если понимаешь, что делаешь.",
+   "Many breakdowns are simple: a dripping tap (washer or cartridge), a loose socket, a tripped breaker, a blocked sink trap. You can fix them yourself if you know what you are doing."],
+  ["Электромеханику проще: правила безопасности те же, что на судне. Перед работой отключи автомат, проверь отсутствие напряжения индикатором и исключи случайное включение.",
+   "It is easier for an ETO: the safety rules are the same as on board. Before work switch off the breaker, prove dead with a tester and prevent accidental switch-on."]],
+ "p": [
+  ["Перед ремонтом крана перекрой воду и подставь ёмкость. Возьми старую деталь в магазин, чтобы купить такую же.",
+   "Before repairing a tap, shut off the water and put a container underneath. Take the old part to the shop to buy the same one."],
+  ["Если не уверен, вызови специалиста. Газ, несущие стены и вводной щиток не трогают без допуска и разрешений.",
+   "If unsure, call a professional. Gas, load-bearing walls and the incoming supply panel are not touched without qualification and permission."]],
+ "e": [
+  ["Ошибка — работать с проводкой под напряжением «по-быстрому». Дома ток так же опасен, как на судне.",
+   "A mistake is working on live wiring 'just quickly'. Electricity at home is as dangerous as on a ship."],
+  ["Нельзя ставить «жучки» вместо предохранителей или автоматы на больший ток, чем рассчитана проводка.",
+   "Never bridge fuses with wire or fit breakers rated higher than the wiring can take."]],
+ "q": [
+  [["Что сделать перед работой с розеткой?", "What must be done before working on a socket?"],
+   ["Отключить автомат и проверить отсутствие напряжения.", "Switch off the breaker and prove dead."]],
+  [["Что нужно перед ремонтом крана?", "What is needed before repairing a tap?"],
+   ["Перекрыть воду.", "Shut off the water."]],
+  [["Какие работы нельзя делать самому?", "Which jobs must you not do yourself?"],
+   ["С газом, несущими конструкциями и вводным щитком без допуска.", "Gas, load-bearing structures and the incoming supply panel without qualification."]]]}
+]}

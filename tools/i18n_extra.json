@@ -3758,5 +3758,360 @@
 "Утилитаризм оценивает поступок по результатам. Критики напоминают, что он может быть несправедлив к меньшинству.",
 "Utilitarianism judges an action by its results. Critics note that it can be unfair to a minority.",
 1
+],
+[
+"Бирка на одежде",
+"Care label",
+1
+],
+[
+"отжим слабый",
+"gentle spin",
+1
+],
+[
+"Цвета отдельно",
+"Colours separately",
+1
+],
+[
+"Стиральная машина и бирка ухода с температурой и режимом отжима",
+"A washing machine and a care label with temperature and spin setting",
+1
+],
+[
+"Прочитай бирку, раздели цветное и белое, не перегружай барабан: так вещи служат дольше.",
+"Read the label, separate colours from whites and don't overload the drum: clothes last longer that way.",
+1
+],
+[
+"Цикл сна около # минут: # циклов, это #–# часов",
+"A sleep cycle is about # minutes: # cycles make #–# hours",
+1
+],
+[
+"Ступенчатый график цикла сна: лёгкий, глубокий и быстрый сон повторяются около пяти раз",
+"A stepped sleep cycle chart: light, deep and REM sleep repeat about five times",
+1
+],
+[
+"Ночь состоит из циклов по # минут. Стабильное время отбоя и подъёма важнее, чем разовый «отсып».",
+"A night consists of #-minute cycles. A steady bedtime and wake-up time matter more than a one-off lie-in.",
+1
+],
+[
+"Овощи и фрукты:",
+"Vegetables and fruit:",
+1
+],
+[
+"половина тарелки",
+"half the plate",
+1
+],
+[
+"Белок: четверть",
+"Protein: a quarter",
+1
+],
+[
+"Крупы: четверть",
+"Grains: a quarter",
+1
+],
+[
+"Покупай по этой тарелке на всю неделю",
+"Shop by this plate for the whole week",
+1
+],
+[
+"Тарелка: половина овощи и фрукты, четверть белок, четверть крупы",
+"A plate: half vegetables and fruit, a quarter protein, a quarter grains",
+1
+],
+[
+"Список на неделю проще составлять по «тарелке»: сначала овощи, потом белок и крупы.",
+"A weekly list is easier to make by the plate: vegetables first, then protein and grains.",
+1
+],
+[
+"Пн",
+"Mon",
+1
+],
+[
+"Вт",
+"Tue",
+1
+],
+[
+"Ср",
+"Wed",
+1
+],
+[
+"Чт",
+"Thu",
+1
+],
+[
+"Пт",
+"Fri",
+1
+],
+[
+"Сб",
+"Sat",
+1
+],
+[
+"Вс",
+"Sun",
+1
+],
+[
+"Документы",
+"Documents",
+1
+],
+[
+"Медосмотр",
+"Medical",
+1
+],
+[
+"Платежи",
+"Payments",
+1
+],
+[
+"Календарь с отмеченными сроками документов, медосмотра и платежей",
+"A calendar with document, medical and payment deadlines marked",
+1
+],
+[
+"Занеси сроки в календарь с напоминанием за месяц: просроченный документ бьёт по рейсу.",
+"Put deadlines in a calendar with a reminder a month ahead: an expired document hits the voyage.",
+1
+],
+[
+"крем",
+"polish",
+1
+],
+[
+"сушить при комнатной",
+"dry at room",
+1
+],
+[
+"температуре",
+"temperature",
+1
+],
+[
+"Не на батарее!",
+"Not on a radiator!",
+1
+],
+[
+"Ботинок, щётка и банка крема",
+"A boot, a brush and a tin of polish",
+1
+],
+[
+"Обувь сушат при комнатной температуре, не на батарее, и ухаживают кремом или пропиткой по материалу.",
+"Shoes are dried at room temperature, not on a radiator, and cared for with polish or spray to suit the material.",
+1
+],
+[
+"пластырь, бинт",
+"plasters, bandage",
+1
+],
+[
+"антисептик",
+"antiseptic",
+1
+],
+[
+"инструкции",
+"leaflets",
+1
+],
+[
+"сроки годности",
+"expiry dates",
+1
+],
+[
+"Назначения —",
+"Prescriptions",
+1
+],
+[
+"только от врача",
+"only from a doctor",
+1
+],
+[
+"Аптечка с красным крестом и список содержимого",
+"A first-aid kit with a red cross and a list of contents",
+1
+],
+[
+"Проверяй сроки годности и условия хранения, держи инструкции. Назначения лекарств согласуй с врачом.",
+"Check expiry dates and storage conditions and keep the leaflets. Agree any medicines with a doctor.",
+1
+],
+[
+"Зарядки",
+"Chargers",
+1
+],
+[
+"Лекарства",
+"Medicines",
+1
+],
+[
+"Ключи",
+"Keys",
+1
+],
+[
+"Шаблон хранится в телефоне",
+"The template lives on your phone",
+1
+],
+[
+"Чемодан и чек-лист: документы, зарядки, лекарства, ключи",
+"A suitcase and a checklist: documents, chargers, medicines, keys",
+1
+],
+[
+"Список перед отъездом и после возвращения экономит нервы. Храни шаблон в телефоне.",
+"A list before leaving and after returning saves nerves. Keep the template on your phone.",
+1
+],
+[
+"дым",
+"smoke",
+1
+],
+[
+"замок",
+"lock",
+1
+],
+[
+"розетка",
+"socket",
+1
+],
+[
+"Раз в полгода,",
+"Every six months,",
+1
+],
+[
+"# минут",
+"# minutes",
+1
+],
+[
+"знай, где вода,",
+"know where the water,",
+1
+],
+[
+"газ и автомат",
+"gas and breaker are",
+1
+],
+[
+"Дом с отмеченными точками проверки: дымовой датчик, замок, розетки",
+"A house with check points marked: smoke detector, lock, sockets",
+1
+],
+[
+"Раз в полгода проверь датчики дыма и газа, огнетушитель и знай, где отключаются вода и электричество.",
+"Every six months check smoke and gas detectors and the extinguisher, and know where water and power are shut off.",
+1
+],
+[
+"утро",
+"morning",
+1
+],
+[
+"день",
+"day",
+1
+],
+[
+"вечер",
+"evening",
+1
+],
+[
+"Вода и еда",
+"Water and food",
+1
+],
+[
+"равномерно",
+"evenly",
+1
+],
+[
+"в течение дня",
+"through the day",
+1
+],
+[
+"нормы индивидуальны: советуйся с врачом",
+"needs are individual: ask a doctor",
+1
+],
+[
+"Бутылка с отметками, показывающими питьё в течение дня",
+"A bottle with marks showing drinking through the day",
+1
+],
+[
+"Регулярная еда и достаточно воды помогают концентрации. Нормы индивидуальны, ориентируйся на рекомендации врача.",
+"Regular meals and enough water help concentration. Needs are individual, follow a doctor's advice.",
+1
+],
+[
+"набор",
+"kit",
+1
+],
+[
+"отвёртки, ключи, мультиметр, изолента",
+"screwdrivers, spanners, multimeter, tape",
+1
+],
+[
+"Перед работой с сетью:",
+"Before working on the mains:",
+1
+],
+[
+"отключи автомат, проверь отсутствие напряжения",
+"switch off the breaker, prove dead",
+1
+],
+[
+"Ящик с инструментами: отвёртка, ключ, мультиметр",
+"A toolbox: screwdriver, spanner, multimeter",
+1
+],
+[
+"Базовый набор: отвёртки, мультиметр, плоскогубцы, изолента. Перед работой с электросетью отключи автомат и проверь отсутствие напряжения.",
+"Basic kit: screwdrivers, multimeter, pliers, tape. Before working on the mains switch off the breaker and prove dead.",
+1
 ]
 ]
