@@ -5,7 +5,7 @@
 import json, re, sys, struct
 
 p = sys.argv[1]
-s = open(p, encoding='utf-8').read()
+s = open(p, encoding='utf-8', newline='').read()
 items = json.load(open('tools/i18n_en.json', encoding='utf-8'))
 items += json.load(open('tools/i18n_extra.json', encoding='utf-8'))
 
@@ -33,5 +33,5 @@ data = 'var I18N={x:' + json.dumps(X, ensure_ascii=False, separators=(',', ':'))
 a = s.find('/*I18N-DATA*/'); b = s.find('/*I18N-DATA-END*/')
 assert a > 0 and b > a, 'markers not found'
 s = s[:a + len('/*I18N-DATA*/')] + data + s[b:]
-open(p, 'w', encoding='utf-8').write(s)
+open(p, 'w', encoding='utf-8', newline='').write(s)
 print('entries', len(X), len(H), 'bytes', len(data.encode('utf-8')))

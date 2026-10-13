@@ -30,6 +30,9 @@ def js_literals(code):
             while j < n and code[j] != c:
                 if code[j] == '\\' and j + 1 < n:
                     e = code[j + 1]
+                    if e == 'u' and code[j + 2:j + 3] == '{':
+                        k = code.find('}', j + 3)
+                        buf.append(chr(int(code[j + 3:k], 16))); j = k + 1; continue
                     if e == 'u':
                         buf.append(chr(int(code[j + 2:j + 6], 16))); j += 6; continue
                     buf.append({'n': '\n', 't': '\t'}.get(e, e)); j += 2; continue

@@ -2548,5 +2548,30 @@
 "Скрыть",
 "Hide",
 1
+],
+[
+"Тип",
+"Type",
+1
+],
+[
+"Сумма, USD",
+"Amount, USD",
+1
+],
+[
+"Моряк",
+"Sailor",
+1
+],
+[
+"Код друга",
+"Friend's code",
+1
+],
+[
+"Вставь сюда код, который начинается с FMR#:",
+"Paste the code that starts with FMR#: here",
+1
 ]
 ]
