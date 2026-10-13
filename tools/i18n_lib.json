@@ -4018,5 +4018,655 @@
 "С газом, несущими конструкциями и вводным щитком без допуска.",
 "Gas, load-bearing structures and the incoming supply panel without qualification.",
 0
+],
+[
+"Простой процент начисляется только на исходную сумму. Сложный — ещё и на уже начисленные проценты: деньги растут не по прямой, а всё быстрее. Например, # под #% годовых через # лет при простом проценте дадут #, а при сложном, с ежегодной капитализацией, — около #.",
+"Simple interest is paid only on the original sum. Compound interest is also paid on interest already earned: money grows not in a straight line but faster and faster. For example, # at #% a year after # years gives # with simple interest and about # with compound interest capitalised annually.",
+0
+],
+[
+"Правило # помогает прикинуть срок удвоения: раздели # на годовую ставку в процентах. При #% деньги удвоятся примерно за # лет, при #% — примерно за #.",
+"The rule of # estimates the doubling time: divide # by the annual rate in percent. At #% money doubles in about # years, at #% in about #.",
+0
+],
+[
+"Сложный процент работает и против: по кредитам и картам долг тоже растёт на проценты от процентов. Поэтому дорогие долги гасят в первую очередь.",
+"Compound interest also works against you: on loans and cards debt grows by interest on interest. That is why expensive debts are paid off first.",
+0
+],
+[
+"Главный ресурс сложного процента — время. Небольшая сумма, которую регулярно откладывают с ранних лет, часто вырастает больше, чем крупная, отложенная позже.",
+"The main resource of compound interest is time. A small sum saved regularly from an early age often grows larger than a big sum saved later.",
+0
+],
+[
+"Сравнивая вклады, смотри на эффективную ставку с учётом капитализации, а не только на объявленную. И учитывай инфляцию: реальный рост — это ставка минус инфляция.",
+"When comparing deposits, look at the effective rate including capitalisation, not just the advertised one. And account for inflation: real growth is the rate minus inflation.",
+0
+],
+[
+"Ошибка — верить обещаниям очень высокой «гарантированной» доходности. Высокая доходность всегда связана с высоким риском, а «гарантии» — частый признак мошенничества.",
+"A mistake is believing promises of very high 'guaranteed' returns. High returns always come with high risk, and 'guarantees' are a common sign of fraud.",
+0
+],
+[
+"Это общая информация, а не финансовая рекомендация. Решения о вложениях принимают с учётом своей ситуации, при необходимости — вместе с лицензированным специалистом.",
+"This is general information, not financial advice. Investment decisions are made according to your own situation, if needed with a licensed professional.",
+0
+],
+[
+"Чем сложный процент отличается от простого?",
+"How does compound interest differ from simple interest?",
+0
+],
+[
+"Проценты начисляются и на ранее начисленные проценты.",
+"Interest is also paid on interest already earned.",
+0
+],
+[
+"За сколько лет удвоятся деньги при #% годовых по правилу #?",
+"In how many years does money double at #% a year by the rule of #?",
+0
+],
+[
+"Примерно за # лет.",
+"In about # years.",
+0
+],
+[
+"Как сложный процент работает против заёмщика?",
+"How does compound interest work against a borrower?",
+0
+],
+[
+"Долг по кредиту растёт на проценты от процентов.",
+"Loan debt grows by interest on interest.",
+0
+],
+[
+"Инфляция — общий рост цен, из-за которого на те же деньги можно купить меньше. Её измеряют индексом потребительских цен: стоимостью типичной корзины товаров и услуг.",
+"Inflation is a general rise in prices, so the same money buys less. It is measured by the consumer price index: the cost of a typical basket of goods and services.",
+0
+],
+[
+"При инфляции #% в год цены за # лет вырастут примерно в #,# раза, и прежняя сумма купит около #% того, что покупала раньше. Деньги «под матрасом» тихо теряют ценность.",
+"At #% a year, prices over # years grow about #.# times, and the same sum buys about #% of what it used to. Money under the mattress quietly loses value.",
+0
+],
+[
+"Реальная доходность — это доходность минус инфляция. Вклад под #% при инфляции #% увеличивает покупательную способность лишь примерно на #% в год.",
+"Real return is the return minus inflation. A deposit at #% with inflation at #% increases purchasing power by only about #% a year.",
+0
+],
+[
+"Моряки часто получают зарплату в долларах или евро, а тратят в местной валюте. Колебания курса и инфляция в разных странах влияют на реальную ценность заработка.",
+"Seafarers are often paid in dollars or euros but spend in local currency. Exchange rate swings and inflation in different countries affect the real value of earnings.",
+0
+],
+[
+"Деньги на крупную цель через несколько лет стоит защищать от инфляции, а запас на непредвиденные расходы держат доступным, понимая, что он немного теряет в цене.",
+"Money for a big goal several years away is worth protecting from inflation, while the emergency reserve is kept accessible, accepting that it loses a little value.",
+0
+],
+[
+"Ошибка — оценивать доход по номиналу: рост зарплаты на #% при инфляции #% означает снижение реального дохода.",
+"A mistake is judging income at face value: a #% pay rise with #% inflation means a fall in real income.",
+0
+],
+[
+"Это общая информация, а не финансовая рекомендация; у инструментов защиты от инфляции есть свои риски.",
+"This is general information, not financial advice; inflation-protection instruments carry their own risks.",
+0
+],
+[
+"Что такое реальная доходность?",
+"What is real return?",
+0
+],
+[
+"Доходность минус инфляция.",
+"Return minus inflation.",
+0
+],
+[
+"Вклад под #% при инфляции #%: насколько растёт покупательная способность?",
+"A deposit at #% with #% inflation: how much does purchasing power grow?",
+0
+],
+[
+"Примерно на #% в год.",
+"By about #% a year.",
+0
+],
+[
+"Почему невыгодно долго хранить деньги наличными?",
+"Why is keeping cash for a long time a poor idea?",
+0
+],
+[
+"Инфляция постепенно снижает их покупательную способность.",
+"Inflation gradually reduces its purchasing power.",
+0
+],
+[
+"Правило #/#/# даёт простую отправную точку: около #% дохода на необходимое (жильё, еда, связь, транспорт, обязательные платежи), около #% на желания (отдых, покупки, развлечения) и #% на накопления и досрочное погашение долгов.",
+"The #/#/# rule gives a simple starting point: about #% of income for needs (housing, food, phone, transport, fixed payments), about #% for wants (leisure, shopping, entertainment) and #% for savings and paying off debt early.",
+0
+],
+[
+"Это не строгий закон, а ориентир. Если жильё дорогое, пропорции сдвигаются, но важно, чтобы доля на будущее не исчезала совсем.",
+"It is a guide, not a strict law. If housing is expensive the proportions shift, but the share for the future should not disappear altogether.",
+0
+],
+[
+"Бюджет начинают с учёта: месяц записывают все траты, потом раскладывают их по категориям и смотрят, куда на самом деле уходят деньги.",
+"A budget starts with tracking: record every expense for a month, then sort them by category and see where the money really goes.",
+0
+],
+[
+"У моряка доход неровный: месяцы в рейсе с зарплатой и месяцы на берегу без неё. Удобно считать бюджет на год: годовой доход делят на # месяцев и живут на эту среднюю сумму.",
+"A seafarer's income is uneven: months at sea with pay and months ashore without. It helps to budget for the year: divide annual income by # months and live on that average.",
+0
+],
+[
+"Откладывай в день получки, а не то, что осталось в конце месяца: автоматический перевод на отдельный счёт работает лучше силы воли. Для учёта в приложении есть раздел «Деньги и накопления».",
+"Save on payday, not whatever is left at the end of the month: an automatic transfer to a separate account works better than willpower. The app has a Money and savings section for tracking.",
+0
+],
+[
+"Ошибка — жить на берегу так, будто зарплата приходит каждый месяц. К концу отпуска деньги заканчиваются, и приходится занимать до следующего контракта.",
+"A mistake is living ashore as if pay arrives every month. By the end of leave the money runs out and you have to borrow until the next contract.",
+0
+],
+[
+"Это общая методика, а не персональный финансовый совет.",
+"This is a general method, not personal financial advice.",
+0
+],
+[
+"Как делятся деньги по правилу #/#/#?",
+"How is money split under the #/#/# rule?",
+0
+],
+[
+"#% на необходимое, #% на желания, #% на накопления.",
+"#% for needs, #% for wants, #% for savings.",
+0
+],
+[
+"Как считать бюджет при неровном доходе моряка?",
+"How should a seafarer budget with uneven income?",
+0
+],
+[
+"На год: годовой доход разделить на # месяцев.",
+"For the year: divide annual income by # months.",
+0
+],
+[
+"Когда лучше откладывать деньги?",
+"When is it best to save?",
+0
+],
+[
+"В день получки, автоматически.",
+"On payday, automatically.",
+0
+],
+[
+"Мошенники давят на эмоции: срочность («счёт заблокирован, действуйте сейчас»), страх («с карты списывают деньги»), выгоду («вы выиграли») или доверие («я из службы безопасности банка»).",
+"Fraudsters play on emotions: urgency ('your account is blocked, act now'), fear ('money is being taken from your card'), gain ('you've won') or trust ('I'm from the bank's security department').",
+0
+],
+[
+"Типичные схемы: звонок «из банка» с просьбой назвать код из СМС, сообщение о блокировке карты со ссылкой на поддельный сайт, работа на судне за предоплату, «инвестиции» с гарантированной высокой доходностью, просьба «друга» в мессенджере срочно перевести деньги.",
+"Typical schemes: a call 'from the bank' asking for an SMS code, a message about a blocked card with a link to a fake site, a job on a ship for an upfront fee, 'investments' with guaranteed high returns, a 'friend' on a messenger urgently asking for money.",
+0
+],
+[
+"Главное правило: код из СМС, пароль, ПИН и данные карты никому не сообщают. Настоящий банк никогда их не спрашивает.",
+"The main rule: never give anyone an SMS code, password, PIN or card details. A real bank never asks for them.",
+0
+],
+[
+"Получил тревожный звонок — положи трубку и перезвони в банк сам по номеру с карты или с официального сайта. Просьбу знакомого о деньгах проверь, позвонив ему лично.",
+"Got an alarming call? Hang up and call the bank yourself on the number from your card or the official website. Check a friend's request for money by calling the friend directly.",
+0
+],
+[
+"Для моряков есть отдельная угроза — фальшивые крюинговые агентства, которые берут деньги за трудоустройство. По MLC моряк не платит за трудоустройство; проверяй агентство и контракт до любых платежей.",
+"Seafarers face a special threat: fake crewing agencies that charge for job placement. Under MLC seafarers do not pay for recruitment; check the agency and contract before any payment.",
+0
+],
+[
+"Ошибка — думать «со мной такого не случится». Мошенники хорошо готовятся и используют реальные данные из утечек.",
+"A mistake is thinking 'it won't happen to me'. Fraudsters prepare well and use real data from leaks.",
+0
+],
+[
+"Если деньги уже ушли, сразу звони в банк, блокируй карту и пиши заявление в полицию: чем быстрее, тем больше шансов вернуть.",
+"If money has already gone, call the bank at once, block the card and report to the police: the faster you act, the better the chance of recovery.",
+0
+],
+[
+"Можно ли назвать код из СМС сотруднику банка?",
+"May you give an SMS code to a bank employee?",
+0
+],
+[
+"Нет, настоящий банк никогда его не спрашивает.",
+"No, a real bank never asks for it.",
+0
+],
+[
+"Что делать при тревожном звонке «из банка»?",
+"What do you do after an alarming call 'from the bank'?",
+0
+],
+[
+"Положить трубку и самому перезвонить по номеру с карты.",
+"Hang up and call back yourself on the number from your card.",
+0
+],
+[
+"Платит ли моряк за трудоустройство по MLC?",
+"Does a seafarer pay for recruitment under MLC?",
+0
+],
+[
+"Нет, брать с моряков сборы за трудоустройство нельзя.",
+"No, recruitment fees must not be charged to seafarers.",
+0
+],
+[
+"Страховка переносит редкий крупный риск на страховщика за небольшую регулярную плату. Она нужна там, где потеря будет слишком тяжёлой: здоровье, жильё, ответственность перед другими, машина.",
+"Insurance transfers a rare large risk to an insurer for a small regular payment. It is needed where a loss would be too heavy: health, home, liability to others, car.",
+0
+],
+[
+"Ключевые понятия: страховая сумма — максимум выплаты; франшиза — часть ущерба, которую платишь сам; исключения — случаи, когда страховка не платит; лимиты по видам расходов.",
+"Key terms: sum insured, the maximum payout; deductible, the part of the loss you pay yourself; exclusions, cases where the policy does not pay; limits by type of expense.",
+0
+],
+[
+"В рейсе моряк обычно застрахован работодателем по требованиям MLC и коллективного договора, но эта защита касается работы. Жильё, семья и время на берегу часто остаются без защиты.",
+"At sea a seafarer is usually insured by the employer under MLC and the collective agreement, but this cover relates to work. Home, family and time ashore are often left uncovered.",
+0
+],
+[
+"Перед покупкой прочитай исключения и лимиты, а не только цену. Узнай, как сообщать о страховом случае и какие документы понадобятся.",
+"Before buying, read the exclusions and limits, not just the price. Find out how to report a claim and what documents will be needed.",
+0
+],
+[
+"Храни полисы и контакты страховщика вместе с остальными документами и внеси даты продления в календарь сроков.",
+"Keep policies and the insurer's contacts with your other documents and put renewal dates in your deadline calendar.",
+0
+],
+[
+"Ошибка — страховать мелочи и оставлять без защиты крупные риски. Мелкие потери проще покрыть из резерва.",
+"A mistake is insuring small things while leaving big risks uncovered. Small losses are easier to cover from a reserve.",
+0
+],
+[
+"Это общая информация; условия страховок различаются по странам и компаниям, читай договор.",
+"This is general information; insurance terms vary by country and company, so read the contract.",
+0
+],
+[
+"Что такое франшиза?",
+"What is a deductible?",
+0
+],
+[
+"Часть ущерба, которую оплачиваешь сам.",
+"The part of the loss you pay yourself.",
+0
+],
+[
+"Что читать в полисе, кроме цены?",
+"What should you read in a policy besides the price?",
+0
+],
+[
+"Исключения и лимиты.",
+"Exclusions and limits.",
+0
+],
+[
+"Покрывает ли страховка работодателя время на берегу?",
+"Does the employer's insurance cover time ashore?",
+0
+],
+[
+"Обычно нет, она касается работы по контракту.",
+"Usually not; it relates to work under the contract.",
+0
+],
+[
+"Диверсификация — распределение накоплений по разным местам и инструментам, чтобы неудача одного не уничтожила всё. Как в пословице: не клади все яйца в одну корзину.",
+"Diversification means spreading savings across different places and instruments so one failure does not wipe out everything. As the saying goes: don't put all your eggs in one basket.",
+0
+],
+[
+"Распределяют по видам (вклады, облигации, акции, недвижимость), по валютам, по банкам и странам, по срокам. Разные инструменты по-разному реагируют на события, и общий результат становится ровнее.",
+"Savings are spread by type (deposits, bonds, shares, property), by currency, by bank and country, by term. Different instruments react differently to events, so the overall result is smoother.",
+0
+],
+[
+"Диверсификация снижает риск отдельной неудачи, но не убирает риск полностью: в кризис многие рынки падают одновременно.",
+"Diversification reduces the risk of a single failure but does not remove risk entirely: in a crisis many markets fall at once.",
+0
+],
+[
+"Первый шаг — резерв на #–# месяцев расходов на доступном счёте. Только после этого есть смысл думать о долгосрочных вложениях.",
+"The first step is a reserve of #–# months of expenses in an accessible account. Only after that does it make sense to think about long-term investments.",
+0
+],
+[
+"Вкладывай только в то, что понимаешь. Если продавец не может просто объяснить, как продукт зарабатывает и чем ты рискуешь, — откажись.",
+"Invest only in what you understand. If the seller cannot simply explain how the product earns money and what you are risking, say no.",
+0
+],
+[
+"Ошибка — считать диверсификацией много похожих продуктов одной компании или одного рынка.",
+"A mistake is calling many similar products from one company or one market diversification.",
+0
+],
+[
+"Это общая идея, а не рекомендация вкладывать. Решения о вложениях принимают с учётом своей ситуации, при необходимости — с лицензированным консультантом.",
+"This is a general idea, not a recommendation to invest. Investment decisions are made according to your own situation, if needed with a licensed adviser.",
+0
+],
+[
+"Зачем нужна диверсификация?",
+"Why diversify?",
+0
+],
+[
+"Чтобы неудача одного вложения не уничтожила все накопления.",
+"So that one failed investment does not wipe out all your savings.",
+0
+],
+[
+"Что сделать до долгосрочных вложений?",
+"What should be done before long-term investing?",
+0
+],
+[
+"Создать резерв на #–# месяцев расходов.",
+"Build a reserve of #–# months of expenses.",
+0
+],
+[
+"Убирает ли диверсификация риск полностью?",
+"Does diversification remove risk completely?",
+0
+],
+[
+"Нет, в кризис многие рынки падают одновременно.",
+"No, in a crisis many markets fall at the same time.",
+0
+],
+[
+"Налоговый статус моряка зависит от страны резидентства, числа дней в стране, места регистрации работодателя и судна, договоров об избежании двойного налогообложения. Правила сильно различаются по странам.",
+"A seafarer's tax status depends on the country of residence, the number of days spent there, where the employer and ship are registered, and double taxation treaties. Rules vary greatly between countries.",
+0
+],
+[
+"В одних странах доход моряков в международных рейсах льготный или освобождён при выполнении условий, в других облагается как обычный доход. Иногда важно, сколько дней в году ты провёл за границей.",
+"In some countries seafarers' income from international voyages is taxed at a reduced rate or exempt if conditions are met; in others it is taxed as ordinary income. Sometimes the number of days spent abroad in a year matters.",
+0
+],
+[
+"Ответственность за правильную декларацию лежит на самом моряке, даже если работодатель иностранный.",
+"Responsibility for a correct tax return lies with the seafarer, even if the employer is foreign.",
+0
+],
+[
+"Храни контракты, выписки о зарплате, справки о стаже и записи в послужной книжке, билеты и подтверждения дней за границей. Они понадобятся для декларации и подтверждения статуса.",
+"Keep contracts, pay slips, sea service records and discharge book entries, tickets and proof of days abroad. You will need them for the tax return and to prove your status.",
+0
+],
+[
+"Уточни правила у налогового консультанта, который работает с моряками, или в налоговой службе своей страны. Сделай это до первой декларации, а не после претензии.",
+"Check the rules with a tax adviser who works with seafarers or with your country's tax office. Do it before your first return, not after a claim.",
+0
+],
+[
+"Ошибка — полагаться на советы коллег из других стран: их правила могут к тебе не подходить.",
+"A mistake is relying on advice from colleagues in other countries: their rules may not apply to you.",
+0
+],
+[
+"Это общая информация, а не налоговая консультация.",
+"This is general information, not tax advice.",
+0
+],
+[
+"От чего зависит налоговый статус моряка?",
+"What does a seafarer's tax status depend on?",
+0
+],
+[
+"От страны резидентства, дней в стране, работодателя, судна и международных договоров.",
+"Country of residence, days in the country, the employer, the ship and international treaties.",
+0
+],
+[
+"Какие документы хранить для налогов?",
+"Which documents should be kept for tax?",
+0
+],
+[
+"Контракты, выписки о зарплате, справки о стаже, подтверждения дней за границей.",
+"Contracts, pay slips, sea service records and proof of days abroad.",
+0
+],
+[
+"Кто отвечает за правильную декларацию?",
+"Who is responsible for a correct tax return?",
+0
+],
+[
+"Сам моряк.",
+"The seafarer.",
+0
+],
+[
+"Копить легче, когда у накоплений есть понятная цель: что купить, сколько стоит и к какому сроку. Цель «накопить побольше» не работает, цель «первый взнос за квартиру через # года» работает.",
+"Saving is easier with a clear goal: what to buy, how much it costs and by when. 'Save as much as possible' does not work; 'a flat deposit in # years' does.",
+0
+],
+[
+"Формула простая: сумма делится на число месяцев. Например, # # за # месяца — это # в месяц. Если взнос не по силам, меняют срок или сумму.",
+"The formula is simple: divide the amount by the number of months. For example, #,# over # months is # a month. If the payment is too much, change the deadline or the amount.",
+0
+],
+[
+"Близкие цели, до года-двух, хранят надёжно и доступно; для далёких можно рассматривать инструменты с риском, понимая, что их стоимость колеблется.",
+"Near goals, within a year or two, are kept safe and accessible; for distant ones riskier instruments may be considered, knowing their value fluctuates.",
+0
+],
+[
+"Запиши цель в приложении в разделе «Деньги и накопления» и отмечай взносы: видимый прогресс поддерживает мотивацию.",
+"Record the goal in the app's Money and savings section and log contributions: visible progress keeps you motivated.",
+0
+],
+[
+"Моряку удобно привязать взносы к контракту: часть каждой зарплаты автоматически уходит на цель.",
+"For a seafarer it helps to tie contributions to the contract: part of every pay automatically goes to the goal.",
+0
+],
+[
+"Ошибка — копить сразу на всё. Лучше одна-две главные цели, чем десять размытых.",
+"A mistake is saving for everything at once. One or two main goals are better than ten vague ones.",
+0
+],
+[
+"Неожиданные расходы ломают план, если нет резерва. Сначала резерв, потом цели.",
+"Unexpected expenses break the plan if there is no reserve. Reserve first, goals second.",
+0
+],
+[
+"Как посчитать ежемесячный взнос?",
+"How do you calculate the monthly contribution?",
+0
+],
+[
+"Разделить сумму цели на число месяцев.",
+"Divide the goal amount by the number of months.",
+0
+],
+[
+"Сколько в месяц нужно откладывать, чтобы собрать # # за # месяца?",
+"How much a month is needed to save #,# in # months?",
+0
+],
+[
+"#.",
+"#.",
+0
+],
+[
+"Что сделать раньше целей?",
+"What comes before goals?",
+0
+],
+[
+"Создать резерв на непредвиденные расходы.",
+"Building a reserve for unexpected expenses.",
+0
+],
+[
+"Кредитная история — запись о том, как ты брал и возвращал кредиты: суммы, сроки, просрочки. Банки смотрят её, решая, дать ли кредит и под какой процент.",
+"A credit history is a record of how you borrowed and repaid: amounts, terms, late payments. Banks look at it when deciding whether to lend and at what rate.",
+0
+],
+[
+"Хорошую историю строят платежи вовремя и умеренная долговая нагрузка. Просрочки, особенно долгие, и много одновременных заявок её портят.",
+"A good history is built by paying on time and keeping debt moderate. Late payments, especially long ones, and many simultaneous applications damage it.",
+0
+],
+[
+"Отсутствие истории — тоже минус: банку не на что опереться. Небольшой кредит или кредитная карта, погашаемая вовремя, создают историю.",
+"Having no history is also a minus: the bank has nothing to go on. A small loan or a credit card repaid on time builds a history.",
+0
+],
+[
+"Моряку важно настроить автоплатежи на время рейса: пропуск платежа из-за отсутствия связи в море — частая причина просрочек.",
+"A seafarer should set up automatic payments for the voyage: a missed payment due to no connection at sea is a common cause of arrears.",
+0
+],
+[
+"Если есть возможность, проверяй свою кредитную историю раз в год: в ней бывают ошибки или чужие кредиты, оформленные мошенниками.",
+"If possible, check your credit history once a year: it may contain errors or loans taken out by fraudsters.",
+0
+],
+[
+"Ошибка — брать кредиты без необходимости, чтобы «улучшить историю», и платить лишние проценты.",
+"A mistake is taking loans you don't need to 'improve your history' and paying extra interest.",
+0
+],
+[
+"Порядок проверки истории и правила различаются по странам; узнавай их в официальных источниках.",
+"How to check your history and the rules vary by country; find out from official sources.",
+0
+],
+[
+"Что портит кредитную историю?",
+"What damages a credit history?",
+0
+],
+[
+"Просрочки и много одновременных заявок на кредит.",
+"Late payments and many simultaneous loan applications.",
+0
+],
+[
+"Как моряку не пропустить платёж в рейсе?",
+"How can a seafarer avoid missing a payment at sea?",
+0
+],
+[
+"Настроить автоплатежи.",
+"Set up automatic payments.",
+0
+],
+[
+"Зачем проверять свою кредитную историю?",
+"Why check your credit history?",
+0
+],
+[
+"Чтобы найти ошибки и кредиты, оформленные мошенниками.",
+"To find errors and loans taken out by fraudsters.",
+0
+],
+[
+"Мелкие регулярные платежи по отдельности незаметны: сервисы, приложения, подписки, кофе. Но они складываются: пять подписок по # в месяц — это # # в год.",
+"Small regular payments go unnoticed one by one: services, apps, subscriptions, coffee. But they add up: five subscriptions at # a month make #,# a year.",
+0
+],
+[
+"Многие подписки продлеваются автоматически после бесплатного периода, и о них забывают, особенно в рейсе, когда сервисом никто не пользуется.",
+"Many subscriptions renew automatically after a free trial and get forgotten, especially at sea when nobody uses the service.",
+0
+],
+[
+"Это не значит, что мелкие радости вредны. Вопрос в осознанности: платить за то, чем действительно пользуешься.",
+"This does not mean small pleasures are harmful. It is about awareness: paying for what you actually use.",
+0
+],
+[
+"Раз в квартал открывай выписку и список подписок и отменяй то, чем не пользовался месяц. Перед рейсом приостанавливай сервисы, которые в море не понадобятся.",
+"Once a quarter open your statement and subscription list and cancel anything you haven't used for a month. Before a voyage, pause services you won't need at sea.",
+0
+],
+[
+"Оформляя бесплатный пробный период, сразу ставь напоминание за день до его окончания.",
+"When you start a free trial, set a reminder for the day before it ends right away.",
+0
+],
+[
+"Ошибка — экономить на мелочах, которые приносят радость, и не замечать крупных лишних трат. Начинай с самых больших статей.",
+"A mistake is cutting small things that bring joy while missing big unnecessary expenses. Start with the largest items.",
+0
+],
+[
+"Привязывать основную карту ко множеству сервисов рискованно: при утечке данных пострадает она. Для подписок удобна отдельная карта.",
+"Linking your main card to many services is risky: if data leaks, that card suffers. A separate card for subscriptions is convenient.",
+0
+],
+[
+"Сколько стоят пять подписок по # в месяц за год?",
+"How much do five subscriptions at # a month cost per year?",
+0
+],
+[
+"# #.",
+"#,#.",
+0
+],
+[
+"Как часто пересматривать подписки?",
+"How often should subscriptions be reviewed?",
+0
+],
+[
+"Раз в квартал.",
+"Once a quarter.",
+0
+],
+[
+"Что сделать с подписками перед рейсом?",
+"What should be done with subscriptions before a voyage?",
+0
+],
+[
+"Приостановить те, что в море не понадобятся.",
+"Pause the ones you won't need at sea.",
+0
 ]
 ]

@@ -4113,5 +4113,335 @@
 "Базовый набор: отвёртки, мультиметр, плоскогубцы, изолента. Перед работой с электросетью отключи автомат и проверь отсутствие напряжения.",
 "Basic kit: screwdrivers, multimeter, pliers, tape. Before working on the mains switch off the breaker and prove dead.",
 1
+],
+[
+"сложный %",
+"compound %",
+1
+],
+[
+"простой %",
+"simple %",
+1
+],
+[
+"годы",
+"years",
+1
+],
+[
+"деньги",
+"money",
+1
+],
+[
+"Две линии: простой процент растёт ровно, сложный всё круче",
+"Two lines: simple interest grows steadily, compound ever more steeply",
+1
+],
+[
+"Проценты начисляются и на прошлые проценты, поэтому ранний старт даёт больше, чем размер взноса.",
+"Interest is earned on past interest too, so an early start matters more than the size of the payment.",
+1
+],
+[
+"# г.",
+"# y",
+1
+],
+[
+"Что купишь на ту же сумму при инфляции #% в год",
+"What the same sum buys with #% inflation a year",
+1
+],
+[
+"Столбцы показывают, как падает покупательная способность денег при инфляции # процентов",
+"Bars show how the purchasing power of money falls with # percent inflation",
+1
+],
+[
+"За # лет при #% годовых цены вырастут примерно в #,# раза: те же деньги купят около #% прежнего.",
+"Over # years at #% a year prices grow about #.# times: the same money buys about #% of what it used to.",
+1
+],
+[
+"#% нужное",
+"#% needs",
+1
+],
+[
+"#% хочу",
+"#% wants",
+1
+],
+[
+"жильё, еда, связь",
+"housing, food, phone",
+1
+],
+[
+"отдых, покупки",
+"leisure, shopping",
+1
+],
+[
+"накопления",
+"savings",
+1
+],
+[
+"Из каждой зарплаты",
+"From every pay",
+1
+],
+[
+"Зарплата, разделённая на три части: #, # и # процентов",
+"Pay divided into three parts: #, # and # percent",
+1
+],
+[
+"Половина на необходимое, #% на желания, #% в накопления. Начни с отложенных #% в день получки.",
+"Half for needs, #% for wants, #% for savings. Start by putting aside #% on payday.",
+1
+],
+[
+"Код из СМС:",
+"SMS code:",
+1
+],
+[
+"Банк никогда",
+"A bank never",
+1
+],
+[
+"не просит код",
+"asks for the code",
+1
+],
+[
+"Не спеши:",
+"Don't rush:",
+1
+],
+[
+"положи трубку",
+"hang up",
+1
+],
+[
+"Телефон с кодом из СМС, перечёркнутый красным крестом",
+"A phone with an SMS code, crossed out with a red cross",
+1
+],
+[
+"Код из СМС, пароли и данные карты не называют никому, даже «сотруднику банка».",
+"Never give anyone an SMS code, passwords or card details, not even a 'bank employee'.",
+1
+],
+[
+"риск",
+"risk",
+1
+],
+[
+"малый взнос",
+"small premium",
+1
+],
+[
+"крупный убыток",
+"large loss",
+1
+],
+[
+"читай исключения и лимиты до покупки",
+"read exclusions and limits before buying",
+1
+],
+[
+"Зонт над домом: небольшой взнос защищает от крупной потери",
+"An umbrella over a house: a small premium protects against a large loss",
+1
+],
+[
+"Страховка переносит редкий крупный риск на страховщика за небольшую плату. Читай исключения и лимиты до покупки.",
+"Insurance moves a rare large risk to the insurer for a small fee. Read exclusions and limits before buying.",
+1
+],
+[
+"корзина A",
+"basket A",
+1
+],
+[
+"корзина B",
+"basket B",
+1
+],
+[
+"корзина C",
+"basket C",
+1
+],
+[
+"Не держи всё в одном месте",
+"Don't keep everything in one place",
+1
+],
+[
+"общая идея, а не совет вкладывать",
+"a general idea, not investment advice",
+1
+],
+[
+"Яйца распределены по трём корзинам",
+"Eggs spread across three baskets",
+1
+],
+[
+"Не держи все накопления в одном месте: распределение снижает зависимость от одного риска. Это общая идея, не рекомендация.",
+"Don't keep all your savings in one place: spreading them reduces dependence on one risk. This is a general idea, not a recommendation.",
+1
+],
+[
+"Налог",
+"Tax",
+1
+],
+[
+"дни в стране",
+"days in the country",
+1
+],
+[
+"контракт",
+"contract",
+1
+],
+[
+"страна",
+"country",
+1
+],
+[
+"→ налоговый статус",
+"→ tax status",
+1
+],
+[
+"уточни у консультанта и храни документы",
+"check with an adviser and keep documents",
+1
+],
+[
+"Налоговый бланк и условия, от которых зависит налоговый статус",
+"A tax form and the factors that decide tax status",
+1
+],
+[
+"Налоговый статус зависит от страны и контракта. Уточни правила у консультанта и храни подтверждающие документы.",
+"Tax status depends on the country and the contract. Check the rules with an adviser and keep supporting documents.",
+1
+],
+[
+"что купить",
+"what to buy",
+1
+],
+[
+"Срок",
+"Term",
+1
+],
+[
+"месяцев",
+"months",
+1
+],
+[
+"Взнос",
+"Payment",
+1
+],
+[
+"в месяц",
+"per month",
+1
+],
+[
+"Запиши цель, сумму и срок",
+"Write down the goal, amount and term",
+1
+],
+[
+"Близкие траты хранят доступно, далёкие учитывают риск",
+"Near spending kept accessible, distant goals consider risk",
+1
+],
+[
+"Формула: цель делится на срок, получается ежемесячный взнос",
+"Formula: the goal divided by the term gives the monthly payment",
+1
+],
+[
+"Начни с записи цели, суммы и срока: разделив сумму на число месяцев, получишь ежемесячный взнос.",
+"Start by writing down the goal, amount and term: divide the amount by the number of months to get the monthly payment.",
+1
+],
+[
+"Платежи вовремя",
+"Payments on time",
+1
+],
+[
+"плохо",
+"poor",
+1
+],
+[
+"хорошо",
+"good",
+1
+],
+[
+"Шкала кредитной истории: стрелка в зелёной зоне при своевременных платежах",
+"A credit history gauge: the needle in the green zone with on-time payments",
+1
+],
+[
+"Платежи в срок строят кредитную историю, просрочки портят. Если можно, проверяй её раз в год.",
+"On-time payments build a credit history, late ones damage it. If possible, check it once a year.",
+1
+],
+[
+"Пять мелких подписок по # в месяц:",
+"Five small subscriptions at # a month:",
+1
+],
+[
+"в квартал",
+"per quarter",
+1
+],
+[
+"# # в год",
+"#,# a year",
+1
+],
+[
+"Раз в квартал просматривай подписки и регулярные платежи",
+"Review subscriptions and regular payments once a quarter",
+1
+],
+[
+"Пять подписок складываются в заметную сумму за год",
+"Five subscriptions add up to a noticeable sum over a year",
+1
+],
+[
+"Мелкие платежи незаметны по отдельности, но складываются: пять подписок по # в месяц это # # в год.",
+"Small payments go unnoticed one by one but add up: five subscriptions at # a month make #,# a year.",
+1
 ]
 ]
