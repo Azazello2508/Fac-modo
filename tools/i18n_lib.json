@@ -1358,5 +1358,715 @@
 "Перекладку руля на оба борта, оба насоса, сигнализацию, указатели и связь.",
 "Hard over to both sides, both pumps, alarms, indicators and communication.",
 0
+],
+[
+"МППСС-# (COLREG) — международные правила предупреждения столкновений судов. Главные правила для любой вахты: правило # — постоянное наблюдение зрением, слухом и всеми средствами; правило # — безопасная скорость, при которой можно вовремя остановиться или разойтись; правило # — риск столкновения.",
+"COLREG # are the international rules for preventing collisions at sea. The key rules for any watch: Rule #, a proper lookout by sight, hearing and all available means; Rule #, a safe speed at which you can stop or pass clear in time; Rule #, risk of collision.",
+0
+],
+[
+"Риск столкновения есть, если пеленг на приближающееся судно заметно не меняется. Даже при меняющемся пеленге риск возможен, особенно с очень крупным судном, буксиром с возом или на малой дистанции. Скудную информацию радара нельзя считать достаточной.",
+"Risk of collision exists if the compass bearing of an approaching vessel does not change appreciably. Risk may exist even when the bearing changes, especially with a very large ship, a tow or at close range. Scanty radar information must not be relied on.",
+0
+],
+[
+"Расхождение: при встрече на контркурсах оба судна отворачивают вправо; при пересечении курсов уступает то судно, которое видит другое у себя справа; обгоняющее уступает всегда. Уступающее действует заранее и решительно, а судно, которому уступают, сохраняет курс и скорость, но обязано действовать само, если уступающее не делает этого.",
+"Passing: in a head-on situation both vessels alter to starboard; in a crossing situation the vessel that has the other on her starboard side keeps out of the way; an overtaking vessel always keeps clear. The give-way vessel acts early and substantially, while the stand-on vessel keeps course and speed but must act herself if the give-way vessel does not.",
+0
+],
+[
+"Маневр расхождения должен быть крупным и хорошо заметным с другого судна: небольшие последовательные изменения курса на радаре не видны. После маневра проверяют, что дистанция кратчайшего сближения стала безопасной, и только потом ложатся на прежний курс.",
+"An avoiding action must be large and readily apparent to the other vessel: a series of small course changes cannot be seen on radar. After the manoeuvre check that the closest point of approach is now safe, and only then return to the original course.",
+0
+],
+[
+"Правило # задаёт старшинство: судно на ходу с механическим двигателем уступает судну, лишённому возможности управляться, ограниченному в возможности маневрировать, занятому ловом рыбы и парусному. Судну, стеснённому своей осадкой, по возможности не мешают.",
+"Rule # sets responsibilities: a power-driven vessel underway keeps out of the way of a vessel not under command, a vessel restricted in her ability to manoeuvre, a vessel engaged in fishing and a sailing vessel. A vessel constrained by her draught should not be impeded where possible.",
+0
+],
+[
+"Самая опасная ошибка — отворот влево при встрече или пересечении: другое судно по правилам отворачивает вправо, и суда сближаются. Изменения курса влево на судно впереди траверза допустимы только при обгоне.",
+"The most dangerous mistake is turning to port in a head-on or crossing situation: the other vessel turns to starboard under the rules and the ships close in. A turn to port for a vessel forward of the beam is only acceptable when overtaking.",
+0
+],
+[
+"Ошибка — надеяться на договорённость по УКВ. Разговор отнимает время, судно может быть опознано неверно, а договорённость не отменяет правил. Сначала действуй по МППСС.",
+"A mistake is to rely on arrangements by VHF. Talking takes time, the vessel may be wrongly identified, and an agreement does not override the rules. Act by COLREG first.",
+0
+],
+[
+"Как определить, что есть риск столкновения?",
+"How can you tell there is a risk of collision?",
+0
+],
+[
+"Пеленг на приближающееся судно заметно не меняется.",
+"The compass bearing of the approaching vessel does not change appreciably.",
+0
+],
+[
+"Что делают два судна при встрече на контркурсах?",
+"What do two vessels do when meeting head-on?",
+0
+],
+[
+"Оба отворачивают вправо и расходятся левыми бортами.",
+"Both alter to starboard and pass port to port.",
+0
+],
+[
+"Кто уступает при пересечении курсов?",
+"Who gives way in a crossing situation?",
+0
+],
+[
+"Судно, которое видит другое у себя по правому борту.",
+"The vessel that has the other on her own starboard side.",
+0
+],
+[
+"Радар излучает короткие импульсы и измеряет время возвращения эха: так получаются дистанция и пеленг. На судах стоят радары диапазона X (# см) с высокой чёткостью и диапазона S (# см), которые лучше видят в дождь и при волнении.",
+"Radar sends short pulses and measures the echo return time to get range and bearing. Ships carry X-band (# cm) radars with high resolution and S-band (# cm) radars that see better in rain and rough seas.",
+0
+],
+[
+"САРП (ARPA) сопровождает цели и считает их курс, скорость, дистанцию кратчайшего сближения (CPA) и время до неё (TCPA). Векторы бывают истинными и относительными: относительный вектор сразу показывает, пройдёт ли цель опасно близко.",
+"ARPA tracks targets and calculates their course, speed, closest point of approach (CPA) and time to CPA (TCPA). Vectors can be true or relative: a relative vector shows at once whether a target will pass dangerously close.",
+0
+],
+[
+"Помехи от волн и дождя подавляют регулировками, но слишком сильное подавление стирает и малые цели: лодки, буи, льдины. Мёртвая зона у борта и теневые секторы за мачтами тоже скрывают цели.",
+"Sea and rain clutter are suppressed with controls, but too much suppression wipes out small targets too: boats, buoys, ice. The blind zone close to the ship and shadow sectors behind masts also hide targets.",
+0
+],
+[
+"На вахте радар работает постоянно. Шкалу дальности меняют: дальняя для раннего обнаружения, ближняя для мелких целей. Опасные цели отмечают в САРП и следят за CPA и TCPA, а пеленг проверяют и визуально.",
+"On watch the radar runs all the time. Range scales are switched: long range for early detection, short range for small targets. Dangerous targets are acquired in ARPA, CPA and TCPA are watched, and bearings are also checked visually.",
+0
+],
+[
+"Перед маневром его проверяют функцией пробного маневра: САРП показывает, какими станут CPA при новом курсе или скорости.",
+"Before a manoeuvre, check it with the trial manoeuvre function: ARPA shows what the CPAs will be with the new course or speed.",
+0
+],
+[
+"САРП ошибается, если неправильно введены курс и скорость своего судна или цель только что взята на сопровождение: данным нужно время, чтобы устояться. После маневра цели расчёт снова неточен несколько минут.",
+"ARPA is wrong if own course and speed are entered incorrectly or a target has only just been acquired: the data need time to settle. After a target manoeuvres, the calculation is again inaccurate for a few minutes.",
+0
+],
+[
+"Ошибка — полагаться только на радар в ясную погоду и забывать о визуальном наблюдении, или только на АИС: не у всех судов есть АИС, и его данные могут быть неверными.",
+"A mistake is to rely only on radar in clear weather and forget visual lookout, or only on AIS: not every vessel has AIS, and its data may be wrong.",
+0
+],
+[
+"Что показывает CPA?",
+"What does CPA show?",
+0
+],
+[
+"Дистанцию кратчайшего сближения с целью, если курсы и скорости не изменятся.",
+"The closest distance to the target if courses and speeds stay the same.",
+0
+],
+[
+"Какой радар лучше видит в сильный дождь?",
+"Which radar sees better in heavy rain?",
+0
+],
+[
+"Радар диапазона S (# см).",
+"The S-band (# cm) radar.",
+0
+],
+[
+"Почему опасно сильно подавлять помехи от волн?",
+"Why is heavy sea clutter suppression dangerous?",
+0
+],
+[
+"Вместе с помехами пропадают малые цели: лодки, буи, лёд.",
+"Small targets such as boats, buoys and ice disappear along with the clutter.",
+0
+],
+[
+"ЭКНИС (ECDIS) — электронная картографическая навигационно-информационная система. Она показывает официальные векторные карты (ENC), положение судна от спутникового приёмника, курс, маршрут и цели радара и АИС. При утверждённой резервной системе ЭКНИС заменяет бумажные карты.",
+"ECDIS is the electronic chart display and information system. It shows official vector charts (ENC), the ship's position from the satellite receiver, heading, route and radar and AIS targets. With an approved backup, ECDIS replaces paper charts.",
+0
+],
+[
+"Главная настройка — контур безопасности: изобата, мельче которой судну нельзя. Её выбирают по осадке, запасу под килем и приливу. Система предупреждает, если маршрут или прогноз движения пересекает контур безопасности или опасность.",
+"The key setting is the safety contour: the depth contour shallower than which the ship must not go. It is chosen from draught, under-keel clearance and tide. The system warns if the route or the predicted track crosses the safety contour or a danger.",
+0
+],
+[
+"Векторная карта многослойна: детали можно показать или скрыть. Режим «базовый» прячет часть информации, поэтому для навигации используют стандартный или полный режим.",
+"A vector chart is layered: details can be shown or hidden. The base display hides some information, so navigation is done in standard or full display.",
+0
+],
+[
+"Маршрут в ЭКНИС проверяют функцией автоматической проверки и глазами по всей длине, на крупном масштабе. Карты корректируют еженедельно, проверяют лицензии и навигационные предупреждения.",
+"A route in ECDIS is checked with the automatic route check and by eye along its whole length at a large scale. Charts are updated weekly, licences and navigational warnings are checked.",
+0
+],
+[
+"Вахтенный штурман сверяет место от спутника с другими способами: радарными дистанциями и пеленгами, визуальными пеленгами. Каждый штурман проходит обучение по конкретной модели ЭКНИС на судне.",
+"The officer of the watch cross-checks the satellite position by other means: radar ranges and bearings, visual bearings. Every officer is trained on the specific ECDIS model on board.",
+0
+],
+[
+"Аварии с ЭКНИС часто связаны с неверно выставленным контуром безопасности, отключёнными сигналами или проверкой маршрута на мелком масштабе, где опасности не видны.",
+"ECDIS accidents are often linked to a wrong safety contour, alarms switched off or a route checked at a small scale where dangers are not visible.",
+0
+],
+[
+"Ошибка — слепо доверять точке от спутника. Сбой или помехи сигнала могут сместить место, а ЭКНИС покажет судно уверенно, но не там. Регулярная сверка другими способами обязательна.",
+"A mistake is to trust the satellite position blindly. A fault or signal interference can shift the position, and ECDIS will show the ship confidently in the wrong place. Regular cross-checking by other means is a must.",
+0
+],
+[
+"Что такое контур безопасности?",
+"What is the safety contour?",
+0
+],
+[
+"Изобата, отделяющая безопасные для судна глубины от опасных, с учётом осадки и запаса под килем.",
+"The depth contour separating safe from unsafe water for the ship, taking draught and under-keel clearance into account.",
+0
+],
+[
+"Как проверять маршрут в ЭКНИС?",
+"How should a route be checked in ECDIS?",
+0
+],
+[
+"Автоматической проверкой и визуально по всей длине на крупном масштабе.",
+"With the automatic check and visually along its whole length at a large scale.",
+0
+],
+[
+"Почему нельзя полагаться только на место от спутника?",
+"Why must the satellite position not be relied on alone?",
+0
+],
+[
+"Сигнал может сбоить или искажаться, поэтому место сверяют радаром и визуальными пеленгами.",
+"The signal may fail or be distorted, so the position is cross-checked by radar and visual bearings.",
+0
+],
+[
+"Прокладка рейса (план перехода) составляется от причала до причала до выхода в рейс. Руководство ИМО делит работу на четыре этапа: оценка, планирование, выполнение и контроль.",
+"A passage plan is made berth to berth before sailing. IMO guidelines divide the work into four stages: appraisal, planning, execution and monitoring.",
+0
+],
+[
+"На этапе оценки собирают всё: карты и корректуры, лоции, огни и знаки, приливы и течения, погоду, правила районов и систем разделения движения, требования портов и ограничения по осадке.",
+"At the appraisal stage everything is gathered: charts and corrections, sailing directions, lights and marks, tides and currents, weather, area rules and traffic separation schemes, port requirements and draught limits.",
+0
+],
+[
+"В плане отмечают маршрут, запретные районы, запас под килем, точки смены курса, точки невозврата, места, где нужен лоцман, изменения режима работы машины и запасные планы на случай отказа или непогоды.",
+"The plan marks the route, no-go areas, under-keel clearance, wheel-over points, abort points, where a pilot is needed, changes in engine readiness and contingency plans for failures or bad weather.",
+0
+],
+[
+"План утверждает капитан, и с ним знакомятся все штурманы. На переходе место определяют с частотой, соответствующей обстановке, и сверяют с планом. Отклонения записывают, а план обновляют, если обстоятельства изменились.",
+"The plan is approved by the master and briefed to all officers. On passage the position is fixed as often as the situation requires and compared with the plan. Deviations are logged and the plan is updated if circumstances change.",
+0
+],
+[
+"В узкостях полезны параллельные индексы на радаре: линия на заданной дистанции от ориентира сразу показывает, что судно сходит с линии пути.",
+"In confined waters parallel indexing on radar is useful: a line at a set distance from a landmark shows at once if the ship drifts off track.",
+0
+],
+[
+"Ошибка — план, составленный формально или скопированный с прошлого рейса без проверки новых корректур, осадки и погоды.",
+"A mistake is a plan made as a formality or copied from a previous voyage without checking new corrections, draught and weather.",
+0
+],
+[
+"Опасно, когда точка невозврата не определена: судно входит в узкость, откуда уже нельзя безопасно отказаться от захода, а обстановка ухудшилась.",
+"It is dangerous when no abort point is defined: the ship enters confined waters from which it can no longer safely turn back, while conditions get worse.",
+0
+],
+[
+"Назови четыре этапа планирования перехода.",
+"Name the four stages of passage planning.",
+0
+],
+[
+"Оценка, планирование, выполнение и контроль.",
+"Appraisal, planning, execution and monitoring.",
+0
+],
+[
+"Что такое точка невозврата?",
+"What is an abort point?",
+0
+],
+[
+"Последнее место, где можно безопасно отказаться от дальнейшего движения по плану.",
+"The last place where the ship can safely abandon the planned manoeuvre.",
+0
+],
+[
+"Кто утверждает план перехода?",
+"Who approves the passage plan?",
+0
+],
+[
+"Капитан.",
+"The master.",
+0
+],
+[
+"Огни и знаки",
+"Lights and shapes",
+0
+],
+[
+"Огни ночью и знаки днём говорят, что за судно перед тобой, чем оно занято и в какую сторону идёт. По ним решают, кто кому уступает.",
+"Lights at night and shapes by day tell you what vessel is ahead, what it is doing and which way it is heading. They decide who gives way to whom.",
+0
+],
+[
+"Судно с механическим двигателем на ходу несёт белый топовый огонь вперёд на дугу #°, бортовые огни — красный слева и зелёный справа на дугу по #,#°, и белый кормовой огонь на дугу #°. Судно длиной # м и более несёт второй топовый огонь, выше и в корме.",
+"A power-driven vessel underway shows a white masthead light forward over an arc of #°, sidelights, red to port and green to starboard, over #.#° each, and a white sternlight over #°. A vessel of # m or more shows a second masthead light, higher and further aft.",
+0
+],
+[
+"Лишённое возможности управляться: два красных круговых огня по вертикали, днём два шара. Ограниченное в возможности маневрировать: красный, белый, красный; днём шар, ромб, шар. Стеснённое осадкой: три красных огня или цилиндр.",
+"Not under command: two all-round red lights in a vertical line, by day two balls. Restricted in ability to manoeuvre: red, white, red; by day ball, diamond, ball. Constrained by draught: three red lights or a cylinder.",
+0
+],
+[
+"На якоре: белый круговой огонь в носу, а у судов # м и более ещё один в корме ниже; днём один шар. На мели: якорные огни и два красных; днём три шара. Траулер: зелёный над белым, другое рыболовное судно: красный над белым; днём два конуса вершинами друг к другу.",
+"At anchor: an all-round white light forward, and for vessels of # m or more another lower one aft; by day one ball. Aground: anchor lights plus two red; by day three balls. A trawler: green over white, another fishing vessel: red over white; by day two cones with apexes together.",
+0
+],
+[
+"Ночью сначала определяют, какой бортовой огонь виден: видишь красный — судно идёт слева направо относительно тебя, видишь оба бортовых и топовый — оно идёт прямо на тебя. Два топовых огня показывают курс точнее: если они расходятся, судно поворачивает.",
+"At night first see which sidelight is visible: a red light means the vessel is crossing from your left to right; both sidelights and the masthead light mean it is heading straight at you. Two masthead lights show the heading more precisely: if they open apart, the vessel is turning.",
+0
+],
+[
+"Перед вахтой полезно повторить огни по карточкам: на вахте времени вспоминать нет. Сомневаешься, что за огни, — считай ситуацию опасной и наблюдай внимательнее.",
+"Revising lights with cards before a watch helps: there is no time to recall them on watch. If you are unsure what the lights mean, treat the situation as dangerous and watch more closely.",
+0
+],
+[
+"Огни судна легко спутать с береговыми огнями, особенно у порта. Ошибка — опознать судно по одному огню, не дождавшись полной картины.",
+"Ship lights are easily confused with shore lights, especially near ports. A mistake is to identify a vessel by one light without waiting for the full picture.",
+0
+],
+[
+"Своё судно тоже должно правильно показывать огни и знаки: неверный сигнал вводит других в заблуждение и создаёт ответственность.",
+"Your own ship must also show the right lights and shapes: a wrong signal misleads others and creates liability.",
+0
+],
+[
+"Какой сектор у бортового огня?",
+"What is the arc of a sidelight?",
+0
+],
+[
+"#,#°: от прямо по носу до #,#° позади траверза своего борта.",
+"#.#°: from right ahead to #.#° abaft the beam on its side.",
+0
+],
+[
+"Что означают два красных круговых огня по вертикали?",
+"What do two all-round red lights in a vertical line mean?",
+0
+],
+[
+"Судно лишено возможности управляться.",
+"A vessel not under command.",
+0
+],
+[
+"Как днём обозначается судно на якоре?",
+"How is a vessel at anchor marked by day?",
+0
+],
+[
+"Одним чёрным шаром в носовой части.",
+"With one black ball forward.",
+0
+],
+[
+"Ограниченная видимость",
+"Restricted visibility",
+0
+],
+[
+"В тумане, снегопаде и сильном дожде правила меняются: нет судна, которому уступают, все действуют сами. Главное — безопасная скорость, радар и звуковые сигналы.",
+"In fog, snow and heavy rain the rules change: there is no stand-on vessel, everyone must act. The keys are safe speed, radar and sound signals.",
+0
+],
+[
+"Правило # действует для судов, которые не видят друг друга. Если судно обнаружено только радаром и есть риск столкновения, маневр делают заранее. Избегают поворота влево на судно впереди траверза (кроме обгоняемого) и поворота в сторону судна на траверзе или позади него.",
+"Rule # applies to vessels not in sight of one another. If a vessel is detected by radar alone and there is a risk of collision, action is taken early. Avoid a turn to port for a vessel forward of the beam (except one being overtaken) and a turn towards a vessel abeam or abaft the beam.",
+0
+],
+[
+"Если услышан туманный сигнал впереди траверза, а риск столкновения не исключён, уменьшают скорость до минимальной, при которой судно слушается руля, а при необходимости останавливаются.",
+"If a fog signal is heard forward of the beam and a risk of collision cannot be ruled out, reduce speed to the minimum at which the ship can be steered, and stop if necessary.",
+0
+],
+[
+"Туманные сигналы: судно с механическим двигателем на ходу и с ходом — один продолжительный звук не реже чем через # минуты; на ходу без хода — два продолжительных. Лишённое возможности управляться, ограниченное в маневре, рыболовное, парусное и буксирующее — один продолжительный и два коротких.",
+"Fog signals: a power-driven vessel making way, one prolonged blast at intervals of not more than # minutes; underway but stopped, two prolonged blasts. Not under command, restricted in ability to manoeuvre, fishing, sailing and towing vessels: one prolonged followed by two short.",
+0
+],
+[
+"При ухудшении видимости вызывают капитана, ставят машину в готовность к маневрам, включают туманные сигналы и навигационные огни, выставляют дополнительного наблюдателя, по возможности на баке, и переходят на ручное управление рулём.",
+"When visibility drops the master is called, the engine is put on standby, fog signals and navigation lights are switched on, an extra lookout is posted, on the forecastle if possible, and the steering is switched to hand.",
+0
+],
+[
+"Работают оба радара на разных шкалах, все опасные цели на сопровождении, а безопасная скорость выбирается так, чтобы остановиться в пределах видимости.",
+"Both radars run on different ranges, all dangerous targets are tracked, and safe speed is chosen so the ship can stop within the visible distance.",
+0
+],
+[
+"Самая известная ошибка — поворот влево на радарную цель впереди траверза. Если встречное судно отвернёт вправо, как обычно, суда сойдутся. Многие столкновения в тумане случились именно так.",
+"The best-known mistake is turning to port for a radar target forward of the beam. If the other vessel turns to starboard as usual, the ships will close. Many collisions in fog happened exactly this way.",
+0
+],
+[
+"Ошибка — идти полным ходом в тумане, полагаясь на радар. Малые суда и лёд радар может не увидеть, а на большой скорости не хватит времени на маневр.",
+"A mistake is to run at full speed in fog relying on radar. Radar may miss small craft and ice, and at high speed there is not enough time to manoeuvre.",
+0
+],
+[
+"Есть ли в тумане судно, которому уступают?",
+"Is there a stand-on vessel in restricted visibility?",
+0
+],
+[
+"Нет, при радарном обнаружении маневрировать должно каждое судно.",
+"No, when detected by radar every vessel must take action.",
+0
+],
+[
+"Какой сигнал подаёт судно с механическим двигателем на ходу и с ходом в тумане?",
+"What fog signal does a power-driven vessel making way give?",
+0
+],
+[
+"Один продолжительный звук не реже чем через # минуты.",
+"One prolonged blast at intervals of not more than # minutes.",
+0
+],
+[
+"Что делают, услышав туманный сигнал впереди траверза?",
+"What do you do on hearing a fog signal forward of the beam?",
+0
+],
+[
+"Уменьшают скорость до минимальной для управления, при необходимости останавливаются.",
+"Reduce to the minimum steering speed and stop if necessary.",
+0
+],
+[
+"Ходовая вахта",
+"Navigational watch",
+0
+],
+[
+"Вахтенный помощник отвечает за безопасность плавания от приёма вахты до сдачи. Наблюдение, контроль места и вовремя вызванный капитан — основа вахты.",
+"The officer of the watch is responsible for safe navigation from taking over to handing over. Lookout, position monitoring and calling the master in time are the basis of the watch.",
+0
+],
+[
+"Приём вахты: место судна, курс и скорость, план перехода, суда вокруг, навигационные предупреждения, погода, состояние оборудования и распоряжения капитана. Вахту не принимают, если принимающий не готов или идёт маневр: её сдают после завершения маневра.",
+"Taking over: the ship's position, course and speed, passage plan, surrounding traffic, navigational warnings, weather, equipment status and the master's orders. The watch is not handed over if the relieving officer is not fit or a manoeuvre is in progress: it is handed over after the manoeuvre.",
+0
+],
+[
+"Наблюдение ведут постоянно, зрением и слухом. В тёмное время на мостике кроме вахтенного помощника есть впередсмотрящий. Система контроля бдительности (BNWAS) подаёт сигнал, если вахтенный долго не подтверждает активность, и затем вызывает капитана.",
+"Lookout is kept constantly by sight and hearing. In darkness there is a lookout on the bridge besides the officer of the watch. The bridge watch alarm system (BNWAS) sounds if the officer does not confirm activity for too long, and then calls the master.",
+0
+],
+[
+"Капитана вызывают в случаях из его постоянных распоряжений: ухудшение видимости, сомнения в действиях встречного судна, отказ оборудования, неожиданно появившийся берег или опасность, расхождение места с планом.",
+"The master is called in the cases listed in the standing orders: reduced visibility, doubt about another vessel's actions, equipment failure, land or danger sighted unexpectedly, the position deviating from the plan.",
+0
+],
+[
+"На вахте регулярно определяют место, сверяют компасы, проверяют работу рулевого и сигнализации, следят за погодой, записывают события в журнал. Телефон и посторонние дела не должны отвлекать от наблюдения.",
+"On watch the position is fixed regularly, compasses compared, steering and alarms checked, the weather watched and events logged. Phones and other distractions must not take attention away from the lookout.",
+0
+],
+[
+"Усталость опасна так же, как алкоголь. Часы отдыха по МОТ и ПДНВ нужны для безопасности, а не для отчётности.",
+"Fatigue is as dangerous as alcohol. Rest hours under MLC and STCW exist for safety, not for paperwork.",
+0
+],
+[
+"Ошибка — не вызвать капитана из опасения побеспокоить. Капитан всегда предпочтёт лишний вызов позднему.",
+"A mistake is not calling the master for fear of disturbing the master. A master always prefers an unnecessary call to a late one.",
+0
+],
+[
+"Вахта в одиночку ночью, работа на компьютере или с документами на мостике и сон на вахте — частые причины навигационных аварий.",
+"Sole watchkeeping at night, computer or paper work on the bridge and falling asleep on watch are common causes of navigational accidents.",
+0
+],
+[
+"Можно ли сдать вахту во время маневра?",
+"May the watch be handed over during a manoeuvre?",
+0
+],
+[
+"Нет, вахту сдают после его завершения.",
+"No, it is handed over after the manoeuvre is completed.",
+0
+],
+[
+"Для чего нужна BNWAS?",
+"What is BNWAS for?",
+0
+],
+[
+"Она проверяет бдительность вахтенного и вызывает капитана, если тот не отвечает.",
+"It checks the alertness of the officer of the watch and calls the master if there is no response.",
+0
+],
+[
+"Когда вызывают капитана?",
+"When is the master called?",
+0
+],
+[
+"В случаях из его постоянных распоряжений и всегда при сомнении.",
+"In the cases listed in the standing orders and always when in doubt.",
+0
+],
+[
+"ГМССБ: связь при бедствии",
+"GMDSS: distress communications",
+0
+],
+[
+"ГМССБ — глобальная система, которая автоматически передаёт сигнал бедствия с координатами и связывает судно со спасателями. Важно знать, какой кнопкой и на каком канале действовать.",
+"GMDSS is a global system that automatically sends a distress alert with position and connects a ship with rescuers. You need to know which button and which channel to use.",
+0
+],
+[
+"Морские районы ГМССБ: A# — зона береговых УКВ-станций, A# — ПВ-станций, A# — зона спутников Инмарсат, A# — полярные районы. От района плавания зависит состав радиооборудования.",
+"GMDSS sea areas: A# is the coverage of shore VHF stations, A# of MF stations, A# of Inmarsat satellites, A# the polar regions. The ship's radio equipment depends on the sea area.",
+0
+],
+[
+"Цифровой избирательный вызов (ЦИВ, DSC) передаёт сигнал бедствия с координатами одной кнопкой: на УКВ по # каналу, на ПВ на частоте #,# кГц. Затем голосом передают Mayday на # канале УКВ или # кГц.",
+"Digital selective calling (DSC) sends a distress alert with position at the press of one button: on VHF channel #, on MF #.# kHz. Then a Mayday call follows by voice on VHF channel # or # kHz.",
+0
+],
+[
+"Аварийный радиобуй (EPIRB) на частоте # МГц передаёт сигнал на спутники КОСПАС-САРСАТ и включается сам, если всплывает при затоплении. Радиолокационный или АИС-ответчик (SART) помогает найти спасательный плот вблизи. Навтекс принимает навигационные и метеопредупреждения.",
+"The EPIRB transmits on # MHz to COSPAS-SARSAT satellites and activates itself if it floats free when the ship sinks. A radar or AIS transponder (SART) helps find a liferaft at close range. NAVTEX receives navigational and weather warnings.",
+0
+],
+[
+"Голосовое сообщение о бедствии: Mayday трижды, название и позывной, место, характер бедствия, нужная помощь, число людей и другая важная информация. Сообщения о срочности начинаются словами Pan-Pan, о безопасности — Securité.",
+"A distress voice message: Mayday three times, name and call sign, position, nature of distress, assistance required, number of persons and other useful information. Urgency messages start with Pan-Pan, safety messages with Securité.",
+0
+],
+[
+"Радиооборудование проверяют по графику: ежедневные тесты ЦИВ, проверка батарей, сроки обслуживания радиобуя и гидростата, учебные сообщения с береговыми станциями без передачи настоящего сигнала бедствия.",
+"Radio equipment is tested on schedule: daily DSC tests, battery checks, service dates of the EPIRB and its hydrostatic release, test calls with shore stations without sending a real distress alert.",
+0
+],
+[
+"Ложные сигналы бедствия от случайного нажатия — частая проблема. Если сигнал ушёл по ошибке, его немедленно отменяют по процедуре: голосом на канале бедствия сообщают об ошибочной передаче.",
+"False distress alerts from accidental button presses are a common problem. If an alert was sent by mistake, cancel it at once per procedure: announce the false alert by voice on the distress channel.",
+0
+],
+[
+"Ошибка — не знать, где на мостике кнопка бедствия и как её включить, или держать радиобуй с просроченным обслуживанием.",
+"A mistake is not knowing where the distress button is on the bridge and how to use it, or keeping an EPIRB with overdue servicing.",
+0
+],
+[
+"На каком канале УКВ работает ЦИВ?",
+"Which VHF channel is used for DSC?",
+0
+],
+[
+"На # канале.",
+"Channel #.",
+0
+],
+[
+"На какой частоте работает аварийный радиобуй?",
+"What frequency does the EPIRB use?",
+0
+],
+[
+"# МГц, сигнал принимают спутники КОСПАС-САРСАТ.",
+"# MHz, received by COSPAS-SARSAT satellites.",
+0
+],
+[
+"Что делать, если сигнал бедствия ушёл по ошибке?",
+"What do you do if a distress alert was sent by mistake?",
+0
+],
+[
+"Сразу отменить его по процедуре и сообщить голосом на канале бедствия.",
+"Cancel it at once per procedure and announce it by voice on the distress channel.",
+0
+],
+[
+"Гирокомпас и магнитный компас",
+"Gyro and magnetic compass",
+0
+],
+[
+"Гирокомпас указывает на истинный север, магнитный — на магнитный. У каждого свои поправки, и их сверяют на каждой вахте.",
+"A gyro compass points to true north, a magnetic compass to magnetic north. Each has its own error, and they are compared every watch.",
+0
+],
+[
+"Гирокомпас — быстро вращающийся ротор, который под действием вращения Земли устанавливает ось по меридиану. Он не зависит от магнитных полей, но после включения ему нужно несколько часов, чтобы прийти в меридиан, а на ход судна и широту вводят поправки.",
+"A gyro compass is a fast-spinning rotor which, through the Earth's rotation, aligns its axis with the meridian. It is not affected by magnetic fields, but after switching on it needs several hours to settle, and corrections are applied for ship's speed and latitude.",
+0
+],
+[
+"Магнитный компас показывает магнитный курс. Склонение — разница между истинным и магнитным севером, указано на карте. Девиация — отклонение из-за железа самого судна, она меняется с курсом и записана в таблице девиации.",
+"A magnetic compass shows the magnetic heading. Variation is the difference between true and magnetic north and is printed on the chart. Deviation is the error caused by the ship's own iron; it changes with heading and is recorded on the deviation card.",
+0
+],
+[
+"Магнитный компас не требует питания и поэтому остаётся главным резервом. Гирокомпас передаёт курс на радар, ЭКНИС, авторулевой и АИС.",
+"The magnetic compass needs no power, so it remains the main backup. The gyro compass feeds heading to the radar, ECDIS, autopilot and AIS.",
+0
+],
+[
+"Поправку гирокомпаса определяют по створам, по пеленгу на небесное светило или сравнением с другими системами и записывают в журнал. Курсы по гиро- и магнитному компасу сравнивают каждую вахту и после каждого крупного изменения курса.",
+"Gyro error is found by transits, by an azimuth of a celestial body or by comparison with other systems, and it is logged. Gyro and magnetic headings are compared every watch and after every large course change.",
+0
+],
+[
+"Девиацию уничтожают и определяют заново после ремонта корпуса, погрузки магнитных грузов или долгой стоянки на одном курсе.",
+"Deviation is adjusted and redetermined after hull repairs, loading magnetic cargo or a long time on one heading.",
+0
+],
+[
+"Сбой гирокомпаса уводит авторулевой и разворачивает картинку на радаре и в ЭКНИС. Сигнализация отказа есть, но рост расхождения с магнитным компасом часто замечают раньше, если сверяют регулярно.",
+"A gyro failure drags the autopilot off course and rotates the radar and ECDIS picture. There is a failure alarm, but a growing difference with the magnetic compass is often noticed earlier if they are compared regularly.",
+0
+],
+[
+"Ошибка — класть рядом с магнитным компасом телефоны, инструмент и динамики: они меняют девиацию.",
+"A mistake is to place phones, tools or loudspeakers near the magnetic compass: they change the deviation.",
+0
+],
+[
+"Чем склонение отличается от девиации?",
+"How does variation differ from deviation?",
+0
+],
+[
+"Склонение вызвано магнитным полем Земли и дано на карте, девиация — железом судна и зависит от курса.",
+"Variation comes from the Earth's magnetic field and is on the chart; deviation comes from the ship's iron and depends on heading.",
+0
+],
+[
+"Почему магнитный компас остаётся на судах?",
+"Why do ships still carry a magnetic compass?",
+0
+],
+[
+"Он работает без питания и служит резервом при отказе гирокомпаса.",
+"It works without power and serves as a backup if the gyro fails.",
+0
+],
+[
+"Как часто сравнивают курсы по компасам?",
+"How often are compass headings compared?",
+0
+],
+[
+"Каждую вахту и после крупных изменений курса.",
+"Every watch and after large course changes.",
+0
+],
+[
+"АИС",
+"AIS",
+0
+],
+[
+"АИС автоматически обменивается с другими судами и берегом данными: кто ты, где ты и куда идёшь. Это помощь в наблюдении, но не замена радару и глазам.",
+"AIS automatically exchanges data with other ships and the shore: who you are, where you are and where you are going. It aids the lookout but does not replace radar and eyes.",
+0
+],
+[
+"Автоматическая идентификационная система передаёт данные по УКВ. Класс А обязателен для судов СОЛАС: судов от # рег. т в международных рейсах и всех пассажирских. Малые суда часто несут упрощённый класс B, который передаёт реже.",
+"The automatic identification system transmits data by VHF. Class A is mandatory for SOLAS ships: ships of # GT and over on international voyages and all passenger ships. Small craft often carry the simpler Class B, which transmits less often.",
+0
+],
+[
+"Данные бывают статические (название, позывной, номер ИМО, размеры), динамические (место, курс, скорость, угловая скорость поворота) и рейсовые (осадка, груз, порт назначения, время прибытия). Динамические передаются автоматически, рейсовые вводит штурман.",
+"Data are static (name, call sign, IMO number, dimensions), dynamic (position, course, speed, rate of turn) and voyage-related (draught, cargo, destination, ETA). Dynamic data are sent automatically, voyage data are entered by the officer.",
+0
+],
+[
+"Цели АИС отображаются на радаре и в ЭКНИС, их можно опознать по названию и вызвать по УКВ. Береговые службы используют АИС для управления движением.",
+"AIS targets are shown on radar and ECDIS, can be identified by name and called by VHF. Shore services use AIS for vessel traffic management.",
+0
+],
+[
+"Каждый рейс проверяют рейсовые данные: осадку, порт назначения, статус (на ходу, на якоре, у причала). Неверный статус вводит в заблуждение других.",
+"Voyage data are checked every voyage: draught, destination, navigational status (underway, at anchor, moored). A wrong status misleads others.",
+0
+],
+[
+"Курс и скорость по АИС берутся от приёмника места цели и могут отличаться от данных САРП. Для решения о расхождении данные сравнивают и следят за пеленгом визуально.",
+"AIS course and speed come from the target's position receiver and may differ from ARPA data. For collision avoidance decisions the data are compared and the bearing watched visually.",
+0
+],
+[
+"Не у всех судов есть АИС: малые суда, рыбаки и военные корабли могут не передавать данные. Решения о расхождении нельзя принимать только по АИС.",
+"Not all vessels have AIS: small craft, fishing boats and warships may not transmit. Collision avoidance decisions must not be based on AIS alone.",
+0
+],
+[
+"Ошибки в данных АИС встречаются часто: неверные размеры, старый порт назначения, неправильная привязка антенны. Отключать АИС можно только в исключительных случаях, например при угрозе пиратства, и это записывают в журнал.",
+"Errors in AIS data are common: wrong dimensions, an old destination, wrong antenna position. AIS may be switched off only in exceptional cases, such as a piracy threat, and this is logged.",
+0
+],
+[
+"Какие данные АИС вводит штурман?",
+"Which AIS data does the officer enter?",
+0
+],
+[
+"Рейсовые: осадку, груз, порт назначения, время прибытия, статус.",
+"Voyage data: draught, cargo, destination, ETA, navigational status.",
+0
+],
+[
+"Можно ли расходиться только по АИС?",
+"Can collision avoidance rely on AIS alone?",
+0
+],
+[
+"Нет: не у всех есть АИС, данные бывают ошибочными, нужны радар и визуальное наблюдение.",
+"No: not everyone has AIS and data can be wrong; radar and visual lookout are needed.",
+0
+],
+[
+"Когда допускается отключить АИС?",
+"When may AIS be switched off?",
+0
+],
+[
+"В исключительных случаях, например при угрозе пиратства, с записью в журнал.",
+"In exceptional cases, such as a piracy threat, with an entry in the log.",
+0
 ]
 ]
