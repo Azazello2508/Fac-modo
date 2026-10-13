@@ -2718,5 +2718,655 @@
 "Синхронизируют генераторы с берегом, кратковременно работают параллельно и переводят нагрузку.",
 "Generators are synchronised with the shore, run briefly in parallel and transfer the load.",
 0
+],
+[
+"Стоицизм — философская школа Древней Греции и Рима: Зенон, Сенека, Эпиктет, Марк Аврелий. Главная мысль Эпиктета: одни вещи в нашей власти — суждения, желания, поступки; другие не в нашей власти — тело, имущество, репутация, погода, решения других людей.",
+"Stoicism is a philosophical school of ancient Greece and Rome: Zeno, Seneca, Epictetus, Marcus Aurelius. Epictetus' main idea: some things are within our power — our judgements, desires and actions; others are not — the body, property, reputation, the weather, other people's decisions.",
+0
+],
+[
+"Беспокойство, по стоикам, рождается, когда мы пытаемся управлять неподвластным и забываем о своём. Спокойствие приходит, когда силы направлены на свой выбор и отношение, а остальное принимается как условие задачи.",
+"For the Stoics, anxiety is born when we try to control what is not ours to control and neglect what is. Calm comes when effort goes into our own choices and attitudes, and the rest is accepted as part of the situation.",
+0
+],
+[
+"Это не равнодушие: стоики ценили долг, справедливость и заботу о людях. Речь о том, чтобы действовать в полную силу там, где можешь, и не изводить себя там, где не можешь.",
+"This is not indifference: the Stoics valued duty, justice and care for others. The point is to act with full effort where you can and not torment yourself where you cannot.",
+0
+],
+[
+"Задержка рейса, шторм, решение компании о смене — не в твоей власти. В твоей власти то, как ты подготовишься, что скажешь, как проведёшь время. Перед трудным делом полезно спросить себя: что здесь зависит от меня?",
+"A delayed voyage, a storm, the company's crew change decision are not in your power. How you prepare, what you say and how you spend your time are. Before a hard task it helps to ask: what here depends on me?",
+0
+],
+[
+"Стоики советовали заранее представлять неприятности, которые могут случиться: так они меньше выбивают из колеи. Вечером можно разобрать день: что сделал хорошо, что можно было лучше.",
+"The Stoics advised imagining possible troubles in advance, so they knock you off balance less. In the evening you can review the day: what went well and what could have been better.",
+0
+],
+[
+"Ошибка — превращать стоицизм в подавление чувств. Чувства нормальны; стоики учили не поддаваться им слепо, а замечать их и выбирать действие.",
+"A mistake is to turn Stoicism into suppressing feelings. Feelings are normal; the Stoics taught not to follow them blindly but to notice them and choose an action.",
+0
+],
+[
+"Другая крайность — считать, что от тебя ничего не зависит. Отношение, усилие и поступки зависят от тебя всегда.",
+"The opposite extreme is to think nothing depends on you. Your attitude, effort and actions always do.",
+0
+],
+[
+"Что, по Эпиктету, в нашей власти?",
+"According to Epictetus, what is within our power?",
+0
+],
+[
+"Наши суждения, желания и поступки.",
+"Our judgements, desires and actions.",
+0
+],
+[
+"Откуда, по стоикам, берётся беспокойство?",
+"Where does anxiety come from, according to the Stoics?",
+0
+],
+[
+"Из попыток управлять тем, что нам неподвластно.",
+"From trying to control what is not in our power.",
+0
+],
+[
+"Значит ли стоицизм равнодушие?",
+"Does Stoicism mean indifference?",
+0
+],
+[
+"Нет, стоики ценили долг и заботу о людях; речь о том, куда направлять силы.",
+"No, the Stoics valued duty and care for others; it is about where to direct your effort.",
+0
+],
+[
+"Сократ жил в Афинах в V веке до н. э. и не написал ни одной книги; о нём известно из диалогов Платона. Он ходил по городу и расспрашивал людей о, казалось бы, простых вещах: что такое смелость, справедливость, добродетель.",
+"Socrates lived in Athens in the fifth century BC and wrote no books; we know him from Plato's dialogues. He walked around the city asking people about seemingly simple things: what is courage, justice, virtue.",
+0
+],
+[
+"Его метод — цепочка вопросов. Собеседник даёт определение, Сократ находит пример, который в него не укладывается, определение уточняют, и так до тех пор, пока не станет ясно, что мы знаем, а что лишь думаем, что знаем.",
+"His method is a chain of questions. The other person gives a definition, Socrates finds an example that does not fit it, the definition is refined, and so on until it is clear what we know and what we only think we know.",
+0
+],
+[
+"Сократу приписывают слова «я знаю, что ничего не знаю». Честное признание незнания — начало настоящего понимания.",
+"Socrates is credited with the words 'I know that I know nothing'. Honestly admitting ignorance is the start of real understanding.",
+0
+],
+[
+"Метод Сократа хорошо работает в учёбе: объясни тему себе вслух и на каждый шаг задай вопрос «почему?». Там, где ответа нет, и есть пробел.",
+"The Socratic method works well for study: explain a topic to yourself aloud and ask 'why?' at every step. Where there is no answer, there is a gap.",
+0
+],
+[
+"В споре вопросы полезнее утверждений: «что ты имеешь в виду?», «а если вот такой случай?». Это снижает накал и помогает понять другого.",
+"In an argument questions help more than statements: 'what do you mean?', 'what about this case?'. It lowers the heat and helps you understand the other person.",
+0
+],
+[
+"Ошибка — превращать вопросы в допрос, чтобы поймать собеседника. Цель Сократа — найти истину вместе, а не выиграть спор.",
+"A mistake is to turn questions into an interrogation to catch someone out. Socrates' aim was to find the truth together, not to win the argument.",
+0
+],
+[
+"Другая ошибка — путать уверенность со знанием. Чем увереннее звучит мнение, тем полезнее проверить его вопросами.",
+"Another mistake is confusing confidence with knowledge. The more confident an opinion sounds, the more useful it is to test it with questions.",
+0
+],
+[
+"Что Сократ делал с определениями собеседника?",
+"What did Socrates do with people's definitions?",
+0
+],
+[
+"Находил примеры, которые в них не укладываются, и вместе с собеседником уточнял определение.",
+"He found examples that did not fit and refined the definition together with the other person.",
+0
+],
+[
+"Откуда мы знаем о Сократе?",
+"How do we know about Socrates?",
+0
+],
+[
+"Из диалогов его ученика Платона и других авторов.",
+"From the dialogues of his student Plato and other writers.",
+0
+],
+[
+"Как применить метод Сократа в учёбе?",
+"How can the Socratic method be used in study?",
+0
+],
+[
+"Объяснять тему и на каждый шаг спрашивать «почему?», чтобы найти пробелы.",
+"Explain the topic and ask 'why?' at each step to find the gaps.",
+0
+],
+[
+"Аристотель, ученик Платона, в «Никомаховой этике» различает добродетели ума, которые развиваются обучением, и добродетели характера — смелость, щедрость, умеренность, — которые развиваются привычкой.",
+"Aristotle, Plato's student, distinguishes in the Nicomachean Ethics between intellectual virtues, developed by teaching, and virtues of character — courage, generosity, moderation — developed by habit.",
+0
+],
+[
+"Мы становимся справедливыми, совершая справедливые поступки, и смелыми, совершая смелые. Повторение делает поступок естественным, и он становится частью характера.",
+"We become just by doing just acts and brave by doing brave ones. Repetition makes an action natural, and it becomes part of our character.",
+0
+],
+[
+"Добродетель — середина между двумя крайностями: смелость между трусостью и безрассудством, щедрость между скупостью и расточительностью. Середину находят не по формуле, а практическим умом в конкретной ситуации.",
+"Virtue is the mean between two extremes: courage between cowardice and recklessness, generosity between meanness and extravagance. The mean is found not by formula but by practical wisdom in each situation.",
+0
+],
+[
+"На судне привычки решают многое: проверять отсутствие напряжения перед работой, записывать в журнал сразу, делать обход по одному маршруту. Сначала это усилие, потом автоматизм.",
+"On a ship habits decide a lot: proving dead before work, logging things at once, doing rounds along the same route. At first it takes effort, then it becomes automatic.",
+0
+],
+[
+"Начинай с маленького действия, которое легко повторять каждый день, и привязывай его к уже существующему: например, после вахты — пять минут английского.",
+"Start with a small action that is easy to repeat every day and attach it to something you already do: for example, five minutes of English after each watch.",
+0
+],
+[
+"Ошибка — ждать мотивации. Аристотель сказал бы: действуй, и характер подтянется за поступками.",
+"A mistake is waiting for motivation. Aristotle would say: act, and character will follow your actions.",
+0
+],
+[
+"Плохие привычки строятся так же, как хорошие. Маленькие ежедневные уступки тоже становятся характером.",
+"Bad habits are built the same way as good ones. Small daily concessions also become character.",
+0
+],
+[
+"Как, по Аристотелю, развиваются добродетели характера?",
+"How, according to Aristotle, do virtues of character develop?",
+0
+],
+[
+"Привычкой, через повторение поступков.",
+"Through habit, by repeating actions.",
+0
+],
+[
+"Что такое добродетель по Аристотелю?",
+"What is virtue for Aristotle?",
+0
+],
+[
+"Середина между двумя крайностями, найденная практическим умом.",
+"The mean between two extremes, found by practical wisdom.",
+0
+],
+[
+"Между какими крайностями лежит смелость?",
+"Between which extremes does courage lie?",
+0
+],
+[
+"Между трусостью и безрассудством.",
+"Between cowardice and recklessness.",
+0
+],
+[
+"Эпикур основал в Афинах школу «Сад» около # года до н. э. Он считал целью жизни удовольствие, но понимал его как отсутствие боли в теле и тревоги в душе, а не как роскошь.",
+"Epicurus founded his school, the Garden, in Athens around # BC. He held pleasure to be the goal of life, but understood it as the absence of pain in the body and anxiety in the soul, not as luxury.",
+0
+],
+[
+"Желания он делил на естественные и необходимые (еда, кров, друзья), естественные, но не необходимые (изысканная еда) и пустые (слава, богатство без меры). Первые легко удовлетворить, пустые не насыщаются никогда.",
+"He divided desires into natural and necessary (food, shelter, friends), natural but unnecessary (fine food) and empty (fame, boundless wealth). The first are easy to satisfy; the empty ones are never satisfied.",
+0
+],
+[
+"Он учил не бояться смерти и богов: «когда мы есть, смерти нет, а когда смерть есть, нас нет». Дружбу он считал одним из главных благ жизни.",
+"He taught not to fear death or the gods: 'where we are, death is not; where death is, we are not'. He considered friendship one of the greatest goods in life.",
+0
+],
+[
+"Перед покупкой полезно спросить: это нужно, просто приятно или пусто? Часто радость от покупки быстро проходит, а деньги и время уходят.",
+"Before buying something ask: is it necessary, merely pleasant or empty? The joy of a purchase often fades fast while the money and time are gone.",
+0
+],
+[
+"В рейсе простые вещи — сон, еда, звонок домой, разговор с другом — дают больше спокойствия, чем кажется. Эпикур советовал ценить их сознательно.",
+"At sea simple things — sleep, food, a call home, a talk with a friend — give more calm than you might think. Epicurus advised valuing them consciously.",
+0
+],
+[
+"Ошибка — понимать эпикурейство как обжорство и праздность. Эпикур жил очень скромно и советовал умеренность.",
+"A mistake is to read Epicureanism as gluttony and idleness. Epicurus lived very modestly and advised moderation.",
+0
+],
+[
+"Другая крайность — отказ от всех удовольствий. Эпикур не против радости, он против желаний, которые приносят больше тревоги, чем пользы.",
+"The other extreme is giving up all pleasures. Epicurus was not against joy, only against desires that bring more anxiety than benefit.",
+0
+],
+[
+"Что Эпикур называл удовольствием?",
+"What did Epicurus call pleasure?",
+0
+],
+[
+"Отсутствие боли в теле и тревоги в душе.",
+"The absence of pain in the body and anxiety in the soul.",
+0
+],
+[
+"Какие желания Эпикур считал пустыми?",
+"Which desires did Epicurus consider empty?",
+0
+],
+[
+"Славу и богатство без меры: они никогда не насыщаются.",
+"Fame and boundless wealth: they are never satisfied.",
+0
+],
+[
+"Что Эпикур ценил особенно высоко?",
+"What did Epicurus value especially highly?",
+0
+],
+[
+"Дружбу.",
+"Friendship.",
+0
+],
+[
+"В «Государстве» Платон описывает людей, которые с рождения прикованы в пещере лицом к стене. За ними горит огонь, и они видят только тени предметов, которые проносят мимо огня. Тени они считают единственной реальностью.",
+"In the Republic Plato describes people chained in a cave from birth, facing a wall. A fire burns behind them, and they see only the shadows of objects carried past it. They take the shadows for the only reality.",
+0
+],
+[
+"Если одного освободить и вывести наружу, свет сначала ослепит его, и он не поверит, что настоящие вещи там. Привыкнув, он поймёт, что тени были лишь отражениями. Вернувшись, он не сможет убедить остальных.",
+"If one prisoner is freed and led outside, the light is blinding at first and the real things seem unbelievable. Once used to the light, the prisoner understands the shadows were only reflections, but back in the cave cannot convince the others.",
+0
+],
+[
+"Платон показывает путь знания: от привычных мнений к пониманию. Этот путь требует усилий и вызывает сопротивление, в том числе у самого человека.",
+"Plato shows the path of knowledge: from familiar opinions to understanding. This path takes effort and meets resistance, including from within the person.",
+0
+],
+[
+"Тени в пещере — это и слухи, и заголовки, и короткие ролики, и собственные привычные убеждения. Полезно спрашивать: откуда я это знаю? видел ли я сам предмет или только его тень?",
+"The shadows in the cave are rumours, headlines, short videos and our own habitual beliefs. It is worth asking: how do I know this? did I see the thing itself or only its shadow?",
+0
+],
+[
+"Изучение новой профессии похоже на выход из пещеры: сначала всё непонятно и хочется вернуться к привычному, потом картина становится ясной.",
+"Learning a new profession is like leaving the cave: at first nothing makes sense and you want to go back to the familiar, then the picture becomes clear.",
+0
+],
+[
+"Ошибка — считать себя единственным, кто вышел из пещеры, и смотреть на других свысока. Платон показывает, что убеждать надо терпеливо.",
+"A mistake is to see yourself as the only one who has left the cave and look down on others. Plato shows that persuasion takes patience.",
+0
+],
+[
+"Другая ошибка — путать непривычное с истиной. Не всякое необычное утверждение верно, его тоже нужно проверять.",
+"Another mistake is confusing the unfamiliar with the true. Not every unusual claim is right; it must be checked too.",
+0
+],
+[
+"Что видят узники в пещере?",
+"What do the prisoners in the cave see?",
+0
+],
+[
+"Только тени предметов на стене.",
+"Only shadows of objects on the wall.",
+0
+],
+[
+"Почему освобождённый сначала не верит тому, что видит снаружи?",
+"Why does the freed prisoner at first not believe what is outside?",
+0
+],
+[
+"Свет ослепляет его, а новое противоречит привычному.",
+"The light is blinding and the new contradicts the familiar.",
+0
+],
+[
+"Чему учит миф о пещере?",
+"What does the allegory of the cave teach?",
+0
+],
+[
+"Знание требует усилия и выхода за привычные мнения.",
+"Knowledge takes effort and stepping beyond familiar opinions.",
+0
+],
+[
+"Марк Аврелий — римский император II века н. э. и философ-стоик. В походах он вёл записи на греческом, которые теперь называют «Размышления». Он писал не для читателей, а для себя: напоминал себе о долге, терпении и краткости жизни.",
+"Marcus Aurelius was a Roman emperor of the second century AD and a Stoic philosopher. On campaign he kept notes in Greek, now called the Meditations. He wrote not for readers but for himself, reminding himself of duty, patience and the shortness of life.",
+0
+],
+[
+"Главные темы записей: делай своё дело хорошо, не трать время на то, что о тебе думают другие, относись к людям с пониманием; их ошибки — не повод для гнева, а всё происходящее — материал для добродетели.",
+"The main themes: do your work well, do not waste time on what others think of you, treat people with understanding; their mistakes are no reason for anger, and everything that happens is material for virtue.",
+0
+],
+[
+"Утром он готовил себя к встрече с трудными людьми, вечером проверял, как прошёл день. Это практика внимания к себе, а не сборник красивых цитат.",
+"In the morning he prepared himself to meet difficult people; in the evening he reviewed the day. It is a practice of self-attention, not a collection of nice quotes.",
+0
+],
+[
+"Такие записи легко вести в рейсе: утром — что сегодня главное и что от меня зависит, вечером — что получилось, что нет, что сделаю иначе. Хватит пяти минут.",
+"Such notes are easy to keep at sea: in the morning, what matters today and what depends on me; in the evening, what worked, what did not and what I will do differently. Five minutes is enough.",
+0
+],
+[
+"Запись дня в этом приложении продолжает эту практику: короткие честные строки помогают заметить усталость и раздражение раньше, чем они станут большими.",
+"The daily entry in this app continues the practice: short honest lines help you notice tiredness and irritation before they grow big.",
+0
+],
+[
+"Ошибка — превращать записи в самобичевание. Марк Аврелий был требователен к себе, но и терпелив.",
+"A mistake is to turn the notes into self-punishment. Marcus Aurelius was demanding of himself, but patient too.",
+0
+],
+[
+"Другая ошибка — писать в расчёте на чужую оценку. Записи для себя честнее, когда их никто не прочитает.",
+"Another mistake is writing for someone else's approval. Notes for yourself are more honest when nobody will read them.",
+0
+],
+[
+"Для кого Марк Аврелий писал «Размышления»?",
+"For whom did Marcus Aurelius write the Meditations?",
+0
+],
+[
+"Для себя, как напоминания.",
+"For himself, as reminders.",
+0
+],
+[
+"Что он делал утром и вечером?",
+"What did he do in the morning and evening?",
+0
+],
+[
+"Утром готовился к трудному дню, вечером проверял, как он прошёл.",
+"In the morning he prepared for a hard day, in the evening he reviewed how it went.",
+0
+],
+[
+"Как применить его практику в рейсе?",
+"How can his practice be used at sea?",
+0
+],
+[
+"Пять минут записей утром и вечером: главное дня, что получилось и что сделать иначе.",
+"Five minutes of notes morning and evening: the day's priority, what worked and what to do differently.",
+0
+],
+[
+"Иммануил Кант, немецкий философ XVIII века, искал правило морали, не зависящее от выгоды и чувств. Он сформулировал категорический императив: поступай только по такому правилу, которое ты мог бы хотеть сделать всеобщим законом.",
+"Immanuel Kant, an eighteenth-century German philosopher, looked for a moral rule independent of advantage and feelings. He formulated the categorical imperative: act only on a rule that you could will to become a universal law.",
+0
+],
+[
+"Проверка простая: представь, что так поступают все. Если хочешь солгать, чтобы выкрутиться, — что будет, если лгать будут все? Доверие исчезнет, и сама ложь перестанет работать. Значит, правило не годится.",
+"The test is simple: imagine everyone acting this way. If you want to lie to get out of trouble, what if everyone lied? Trust would vanish and lying itself would stop working. So the rule fails.",
+0
+],
+[
+"Другая формулировка: относись к человеку всегда как к цели и никогда только как к средству. Работать вместе ради дела можно, но нельзя пренебрегать достоинством людей.",
+"Another formulation: always treat a person as an end and never merely as a means. Working together for a task is fine, but people's dignity must not be ignored.",
+0
+],
+[
+"На работе это помогает в трудных выборах: «а если так будет делать каждый в экипаже?» Пропустить проверку, не записать неисправность, переложить работу — правило «так можно» быстро ломает безопасность всех.",
+"At work it helps with hard choices: 'what if everyone in the crew did this?' Skipping a check, not logging a defect, passing work on — the rule 'that's fine' quickly breaks everyone's safety.",
+0
+],
+[
+"Это не единственный подход к этике: есть утилитаризм, этика добродетели. Но проверка всеобщностью хорошо отрезвляет в момент соблазна.",
+"This is not the only approach to ethics: there is utilitarianism and virtue ethics. But the universality test is sobering at a moment of temptation.",
+0
+],
+[
+"Ошибка — применять правило механически, без учёта ситуации; за это Канта и критиковали. Например, спор о том, можно ли солгать ради спасения человека, философы ведут до сих пор.",
+"A mistake is applying the rule mechanically without regard to the situation; Kant was criticised for exactly this. For example, philosophers still argue about lying to save a life.",
+0
+],
+[
+"Другая ошибка — мерить всеобщим правилом только чужие поступки, а свои оправдывать обстоятельствами.",
+"Another mistake is judging only other people's actions by the universal rule while excusing your own by circumstances.",
+0
+],
+[
+"Как звучит категорический императив?",
+"What does the categorical imperative say?",
+0
+],
+[
+"Поступай только по правилу, которое ты мог бы хотеть сделать всеобщим законом.",
+"Act only on a rule you could will to become a universal law.",
+0
+],
+[
+"Как проверить поступок по Канту?",
+"How do you test an action Kant's way?",
+0
+],
+[
+"Представить, что так поступают все, и посмотреть, не разрушится ли само правило.",
+"Imagine everyone doing it and see whether the rule destroys itself.",
+0
+],
+[
+"Что значит относиться к человеку как к цели?",
+"What does treating a person as an end mean?",
+0
+],
+[
+"Уважать его достоинство и не использовать только как средство.",
+"Respecting their dignity and not using them merely as a means.",
+0
+],
+[
+"Экзистенциализм — направление философии XX века: Жан-Поль Сартр, Альбер Камю, Симона де Бовуар. Сартр формулировал так: существование предшествует сущности. Человек не рождается с готовым смыслом, он создаёт себя своими выборами.",
+"Existentialism is a twentieth-century philosophy: Jean-Paul Sartre, Albert Camus, Simone de Beauvoir. Sartre put it this way: existence precedes essence. A person is not born with a ready meaning but creates themselves through their choices.",
+0
+],
+[
+"Из этого следуют свобода и ответственность: даже отказ выбирать — тоже выбор. Ссылки на обстоятельства, характер или «так принято» Сартр называл самообманом.",
+"Freedom and responsibility follow from this: even refusing to choose is a choice. Sartre called appeals to circumstances, character or 'that's how it's done' bad faith.",
+0
+],
+[
+"Камю писал об абсурде — разрыве между желанием человека найти смысл и молчаливым миром. Его ответ — не отчаяние, а жить полно, честно и солидарно с другими.",
+"Camus wrote about the absurd, the gap between our wish to find meaning and a silent world. His answer was not despair but to live fully, honestly and in solidarity with others.",
+0
+],
+[
+"Морская профессия — пример выбора: контракт, специальность, когда сойти на берег. Полезно помнить, что выбор есть всегда, даже когда варианты неприятные, и что ответственность за него твоя.",
+"A seafaring career is full of choices: the contract, the speciality, when to move ashore. It helps to remember there is always a choice, even when the options are unpleasant, and that the responsibility is yours.",
+0
+],
+[
+"Когда решение пугает, помогает вопрос: что я выберу, если за мою жизнь отвечаю я, а не обстоятельства?",
+"When a decision is frightening, ask: what would I choose if I, not the circumstances, were responsible for my life?",
+0
+],
+[
+"Ошибка — понимать свободу как «делай что хочешь». У экзистенциалистов свобода неотделима от ответственности за последствия.",
+"A mistake is reading freedom as 'do whatever you like'. For the existentialists freedom is inseparable from responsibility for the consequences.",
+0
+],
+[
+"Это одна из философских точек зрения, а не научная истина. Она полезна как взгляд на выбор, но не объясняет всего.",
+"This is one philosophical point of view, not a scientific truth. It is useful as a way of looking at choice but does not explain everything.",
+0
+],
+[
+"Что значит «существование предшествует сущности»?",
+"What does 'existence precedes essence' mean?",
+0
+],
+[
+"Человек не получает готовый смысл при рождении, а создаёт себя выборами.",
+"A person does not receive a ready meaning at birth but creates themselves through choices.",
+0
+],
+[
+"Можно ли не выбирать?",
+"Is it possible not to choose?",
+0
+],
+[
+"Нет: отказ от выбора — тоже выбор.",
+"No: refusing to choose is also a choice.",
+0
+],
+[
+"Что Камю называл абсурдом?",
+"What did Camus call the absurd?",
+0
+],
+[
+"Разрыв между желанием найти смысл и молчаливым миром.",
+"The gap between the wish to find meaning and a silent world.",
+0
+],
+[
+"Конфуций — китайский мыслитель VI–V веков до н. э. Его высказывания ученики собрали в книге «Лунь юй» («Беседы и суждения»). Он учил, что человек совершенствуется через учёбу, самодисциплину и правильные отношения с людьми.",
+"Confucius was a Chinese thinker of the sixth to fifth centuries BC. His students collected his sayings in the Analects. He taught that a person improves through study, self-discipline and right relations with others.",
+0
+],
+[
+"Знаменитая мысль: «Учиться и не размышлять — напрасно терять время; размышлять и не учиться — опасно». Знания без осмысления остаются чужими, а рассуждения без знаний уводят в заблуждения.",
+"A famous saying: 'Learning without thinking is wasted effort; thinking without learning is dangerous.' Knowledge without reflection stays foreign, and reasoning without knowledge leads astray.",
+0
+],
+[
+"Конфуций ценил уважение в отношениях — к родителям, старшим, учителям, друзьям — и требовал от правителя быть примером. Его «золотое правило»: не делай другим того, чего не желаешь себе.",
+"Confucius valued respect in relationships — towards parents, elders, teachers, friends — and demanded that a ruler set an example. His golden rule: do not do to others what you do not want done to yourself.",
+0
+],
+[
+"В технической профессии это значит: прочитал инструкцию — подумай, как это устроено и почему; разобрался в принципе — проверь знания по документации и на практике.",
+"In a technical profession this means: after reading the manual, think about how and why it works; once you understand the principle, check your knowledge against documentation and practice.",
+0
+],
+[
+"Полезная привычка: после изучения темы закрыть книгу и объяснить её своими словами. Так учение превращается в понимание.",
+"A useful habit: after studying a topic, close the book and explain it in your own words. That is how learning turns into understanding.",
+0
+],
+[
+"Ошибка — зубрить без понимания перед экзаменом. Такое знание быстро уходит и не помогает в нештатной ситуации.",
+"A mistake is cramming without understanding before an exam. Such knowledge fades fast and does not help in an emergency.",
+0
+],
+[
+"Другая крайность — рассуждать о технике, не зная фактов. Мнение без опоры на данные опасно, особенно в машинном отделении.",
+"The other extreme is reasoning about machinery without knowing the facts. Opinion without data is dangerous, especially in the engine room.",
+0
+],
+[
+"Что Конфуций говорил об учёбе без размышления?",
+"What did Confucius say about learning without thinking?",
+0
+],
+[
+"Это напрасная трата времени.",
+"It is wasted effort.",
+0
+],
+[
+"А о размышлении без учёбы?",
+"And about thinking without learning?",
+0
+],
+[
+"Это опасно: рассуждения уводят в заблуждения.",
+"It is dangerous: reasoning leads astray.",
+0
+],
+[
+"Как звучит «золотое правило» Конфуция?",
+"What is Confucius' golden rule?",
+0
+],
+[
+"Не делай другим того, чего не желаешь себе.",
+"Do not do to others what you do not want done to yourself.",
+0
+],
+[
+"Утилитаризм — этическая теория Иеремии Бентама и Джона Стюарта Милля, философов XVIII–XIX веков. Поступок хорош, если приносит наибольшее счастье наибольшему числу людей. Оценивают последствия, а не намерения.",
+"Utilitarianism is the ethical theory of Jeremy Bentham and John Stuart Mill, philosophers of the eighteenth and nineteenth centuries. An action is good if it brings the greatest happiness to the greatest number. Consequences are judged, not intentions.",
+0
+],
+[
+"Милль уточнил, что удовольствия различаются по качеству: радость понимания, дружбы и творчества выше простых удовольствий. Утилитаризм сильно повлиял на право, экономику и здравоохранение — на оценку пользы и вреда при решениях.",
+"Mill added that pleasures differ in quality: the joys of understanding, friendship and creativity are higher than simple pleasures. Utilitarianism strongly influenced law, economics and healthcare, through weighing benefits and harms in decisions.",
+0
+],
+[
+"Критики указывают, что подсчёт пользы может оправдать несправедливость к меньшинству. Поэтому утилитаризм часто дополняют правилами о правах и достоинстве.",
+"Critics point out that counting benefits can justify injustice to a minority. So utilitarianism is often supplemented by rules about rights and dignity.",
+0
+],
+[
+"Принцип полезен при выборе между вариантами: кто выиграет, кто пострадает, насколько сильно и надолго. Например, при планировании ремонта — какой отказ ударит по наибольшему числу систем и людей.",
+"The principle helps when choosing between options: who gains, who suffers, how much and for how long. For example, when planning repairs: which failure would hit the most systems and people.",
+0
+],
+[
+"В аварийной ситуации логика «лучше для большинства» лежит в основе сортировки пострадавших и приоритетов спасения.",
+"In an emergency the logic of 'best for the most' underlies triage of casualties and rescue priorities.",
+0
+],
+[
+"Ошибка — считать только то, что легко измерить: деньги и время. Безопасность, доверие и здоровье тоже входят в последствия.",
+"A mistake is counting only what is easy to measure: money and time. Safety, trust and health are consequences too.",
+0
+],
+[
+"Другая ошибка — оправдывать любые средства хорошей целью. Даже утилитаристы признают, что нарушение прав подрывает общее благо.",
+"Another mistake is justifying any means by a good end. Even utilitarians accept that violating rights undermines the common good.",
+0
+],
+[
+"Как утилитаризм оценивает поступок?",
+"How does utilitarianism judge an action?",
+0
+],
+[
+"По последствиям: приносит ли он наибольшее счастье наибольшему числу людей.",
+"By its consequences: whether it brings the greatest happiness to the greatest number.",
+0
+],
+[
+"Что добавил Милль?",
+"What did Mill add?",
+0
+],
+[
+"Удовольствия различаются по качеству.",
+"That pleasures differ in quality.",
+0
+],
+[
+"В чём главная критика утилитаризма?",
+"What is the main criticism of utilitarianism?",
+0
+],
+[
+"Он может оправдать несправедливость к меньшинству.",
+"It can justify injustice to a minority.",
+0
 ]
 ]

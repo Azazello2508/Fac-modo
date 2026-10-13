@@ -3428,5 +3428,335 @@
 "В порту дизели можно выключить: судно питается с берега. Нужно согласовать напряжение и частоту и переключиться без блэкаута.",
 "In port the diesels can be stopped and the ship fed from shore. Voltage and frequency must match and the changeover must be made without a blackout.",
 1
+],
+[
+"💡 Суть идеи",
+"💡 The idea",
+1
+],
+[
+"📍 Как применить",
+"📍 How to apply",
+1
+],
+[
+"⚠️ Частые ошибки",
+"⚠️ Common mistakes",
+1
+],
+[
+"Зависит от нас",
+"Up to us",
+1
+],
+[
+"мнения и решения",
+"opinions and decisions",
+1
+],
+[
+"действия",
+"actions",
+1
+],
+[
+"отношение к делу",
+"attitude to the task",
+1
+],
+[
+"Не зависит от нас",
+"Not up to us",
+1
+],
+[
+"погода и шторм",
+"weather and storms",
+1
+],
+[
+"чужие решения",
+"other people's decisions",
+1
+],
+[
+"прошлое",
+"the past",
+1
+],
+[
+"Силы вкладывай в левый круг",
+"Put your effort into the left circle",
+1
+],
+[
+"Два круга: что зависит от нас и что не зависит",
+"Two circles: what is up to us and what is not",
+1
+],
+[
+"Стоики делили мир на подвластное и неподвластное и советовали тратить силы только на первое.",
+"The Stoics divided the world into what we control and what we don't, and advised spending effort only on the first.",
+1
+],
+[
+"Что такое смелость?",
+"What is courage?",
+1
+],
+[
+"А если нет страха?",
+"And if there is no fear?",
+1
+],
+[
+"Определение шире",
+"A wider definition",
+1
+],
+[
+"Цепочка вопросов, каждый уточняет предыдущий ответ",
+"A chain of questions, each refining the previous answer",
+1
+],
+[
+"Сократ не давал готовых ответов: цепочка вопросов выявляет, что ты на самом деле знаешь.",
+"Socrates gave no ready answers: a chain of questions reveals what you really know.",
+1
+],
+[
+"Поступок",
+"Action",
+1
+],
+[
+"Привычка",
+"Habit",
+1
+],
+[
+"Характер",
+"Character",
+1
+],
+[
+"Мы то, что делаем",
+"We are what we do",
+1
+],
+[
+"постоянно",
+"repeatedly",
+1
+],
+[
+"Цикл: поступок, привычка, характер, снова поступок",
+"Cycle: action, habit, character, action again",
+1
+],
+[
+"Повторяющиеся поступки складываются в привычки, а привычки в характер.",
+"Repeated actions become habits, and habits become character.",
+1
+],
+[
+"Естественные и необходимые: еда, сон, друзья",
+"Natural and necessary: food, sleep, friends",
+1
+],
+[
+"Естественные, но не нужные: изыски",
+"Natural but unnecessary: delicacies",
+1
+],
+[
+"Пустые: слава, роскошь",
+"Empty: fame, luxury",
+1
+],
+[
+"Чем ниже, тем меньше счастья на каждую цену",
+"The lower, the less happiness for the price",
+1
+],
+[
+"Три уровня желаний по Эпикуру: от необходимых к пустым",
+"Epicurus' three levels of desire: from necessary to empty",
+1
+],
+[
+"Эпикур советовал удовлетворять необходимое и не гнаться за пустыми желаниями.",
+"Epicurus advised satisfying what is necessary and not chasing empty desires.",
+1
+],
+[
+"узники",
+"prisoners",
+1
+],
+[
+"тени",
+"shadows",
+1
+],
+[
+"выход к свету",
+"way out to the light",
+1
+],
+[
+"знание: усилие",
+"knowledge: effort",
+1
+],
+[
+"огонь",
+"fire",
+1
+],
+[
+"Пещера: люди видят на стене тени, за ними огонь, снаружи свет",
+"The cave: people see shadows on the wall, a fire behind them, light outside",
+1
+],
+[
+"Платон: тени на стене принимают за реальность. Чтобы узнать больше, нужно усилие и выход за привычное.",
+"Plato: shadows on the wall are taken for reality. Knowing more takes effort and stepping beyond the familiar.",
+1
+],
+[
+"Дневник",
+"Journal",
+1
+],
+[
+"Утром: что зависит от меня?  Вечером: что сделал?",
+"Morning: what depends on me?  Evening: what did I do?",
+1
+],
+[
+"Тетрадь с записями и перо",
+"A notebook with notes and a pen",
+1
+],
+[
+"Марк Аврелий вёл записи для себя: долг, терпение, цель дня. Вечерняя запись в приложении продолжает эту практику.",
+"Marcus Aurelius kept notes for himself: duty, patience, the day's aim. The evening entry in the app continues this practice.",
+1
+],
+[
+"Правило поступка",
+"The rule of an action",
+1
+],
+[
+"а если так сделают все?",
+"what if everyone did it?",
+1
+],
+[
+"Если мир станет хуже, правило не подходит",
+"If the world gets worse, the rule fails",
+1
+],
+[
+"Одно правило превращается во всеобщее: его применяют все",
+"One rule becomes universal: everyone applies it",
+1
+],
+[
+"Проверка Канта: пусть правило, которым ты оправдываешь поступок, станет всеобщим. Это один из этических подходов.",
+"Kant's test: let the rule that justifies your action become universal. This is one approach to ethics.",
+1
+],
+[
+"путь А",
+"path A",
+1
+],
+[
+"путь Б",
+"path B",
+1
+],
+[
+"Выбор делаю я,",
+"I make the choice,",
+1
+],
+[
+"ответственность моя",
+"the responsibility is mine",
+1
+],
+[
+"Развилка дорог: выбор и ответственность за него",
+"A fork in the road: choice and responsibility for it",
+1
+],
+[
+"Сартр: человек сам придаёт жизни смысл через выбор и отвечает за него. Это одна из точек зрения.",
+"Sartre: people give their lives meaning through choice and are responsible for it. This is one point of view.",
+1
+],
+[
+"Учиться",
+"Learn",
+1
+],
+[
+"Думать",
+"Think",
+1
+],
+[
+"понять",
+"understand",
+1
+],
+[
+"Учение без мысли бесплодно, мысль без учения опасна",
+"Learning without thought is fruitless, thought without learning is dangerous",
+1
+],
+[
+"Две пересекающиеся области: учение и размышление, в пересечении понимание",
+"Two overlapping areas: learning and thinking, with understanding where they overlap",
+1
+],
+[
+"Конфуций советует соединять учение и размышление. Теория плюс практика работают и в технической профессии.",
+"Confucius advises combining learning and thinking. Theory plus practice works in a technical profession too.",
+1
+],
+[
+"польза",
+"benefit",
+1
+],
+[
+"вред",
+"harm",
+1
+],
+[
+"Больше пользы для большего числа людей",
+"More benefit for more people",
+1
+],
+[
+"но кого-то могут обойти",
+"but someone may be left out",
+1
+],
+[
+"Весы: на одной чаше польза, на другой вред",
+"Scales: benefit on one side, harm on the other",
+1
+],
+[
+"Утилитаризм оценивает поступок по результатам. Критики напоминают, что он может быть несправедлив к меньшинству.",
+"Utilitarianism judges an action by its results. Critics note that it can be unfair to a minority.",
+1
 ]
 ]
