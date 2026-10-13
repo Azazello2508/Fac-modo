@@ -4443,5 +4443,295 @@
 "Мелкие платежи незаметны по отдельности, но складываются: пять подписок по # в месяц это # # в год.",
 "Small payments go unnoticed one by one but add up: five subscriptions at # a month make #,# a year.",
 1
+],
+[
+"«я и так прав»",
+"'I'm right anyway'",
+1
+],
+[
+"Красные факты отсеялись, остались согласные",
+"Red facts filtered out, agreeing ones remain",
+1
+],
+[
+"Фильтр пропускает только факты, согласные с мнением",
+"A filter lets through only facts that agree with an opinion",
+1
+],
+[
+"Мозг пропускает то, что подтверждает мнение, и отсеивает остальное. Ищи аргументы против.",
+"The brain lets through what confirms an opinion and filters out the rest. Look for arguments against.",
+1
+],
+[
+"старт",
+"start",
+1
+],
+[
+"дело",
+"the task",
+1
+],
+[
+"Первый шаг маленький",
+"The first step is small",
+1
+],
+[
+"Лестница, у которой первая ступенька выделена: начни с пяти минут",
+"A staircase with the first step highlighted: start with five minutes",
+1
+],
+[
+"Дело страшит размером. Договорись с собой на пять минут: сопротивление обычно слабеет после старта.",
+"A task scares by its size. Agree with yourself on five minutes: resistance usually weakens after you start.",
+1
+],
+[
+"нагрузка",
+"load",
+1
+],
+[
+"восстановление",
+"recovery",
+1
+],
+[
+"рост формы",
+"growth in fitness",
+1
+],
+[
+"исходный уровень",
+"starting level",
+1
+],
+[
+"Кривая: после нагрузки спад, затем восстановление и превышение прежнего уровня",
+"A curve: a dip after the load, then recovery rising above the previous level",
+1
+],
+[
+"Нагрузка без отдыха не даёт роста. Рост появляется на этапе восстановления, поэтому сон не лень.",
+"Load without rest brings no growth. Growth comes during recovery, so sleep is not laziness.",
+1
+],
+[
+"#. перегруз",
+"#. overload",
+1
+],
+[
+"#. усталость",
+"#. fatigue",
+1
+],
+[
+"#. безразличие",
+"#. indifference",
+1
+],
+[
+"Если не хочется ничего долго: сначала сон, отпуск, разговор",
+"If you've wanted nothing for a long time: first sleep, leave, a talk",
+1
+],
+[
+"Батарейка почти разряжена и три стадии выгорания",
+"A nearly empty battery and three stages of burnout",
+1
+],
+[
+"Выгорание накапливается: перегруз, усталость, безразличие. Лучше замечать его на первой стадии.",
+"Burnout builds up: overload, fatigue, indifference. It is best noticed at the first stage.",
+1
+],
+[
+"режим",
+"routine",
+1
+],
+[
+"без режима",
+"no routine",
+1
+],
+[
+"самочувствие",
+"wellbeing",
+1
+],
+[
+"начни с одного устойчивого действия",
+"start with one sustainable action",
+1
+],
+[
+"Две линии: ровная при режиме и рваная без него",
+"Two lines: steady with a routine and jagged without",
+1
+],
+[
+"Сон, движение и еда влияют на настроение и внимание. Начни с одного устойчивого действия, а не со всех сразу.",
+"Sleep, movement and food affect mood and attention. Start with one sustainable action, not all at once.",
+1
+],
+[
+"первая цифра",
+"first number",
+1
+],
+[
+"моя оценка",
+"my estimate",
+1
+],
+[
+"Первая названная цифра тянет оценку к себе",
+"The first number named pulls the estimate towards it",
+1
+],
+[
+"Заранее реши, сколько это стоит для тебя",
+"Decide in advance what it is worth to you",
+1
+],
+[
+"Первая цифра тянет оценку к себе, как якорь",
+"The first number pulls the estimate like an anchor",
+1
+],
+[
+"Первое услышанное число влияет на дальнейшие суждения. Перед покупкой или переговорами сформулируй свою оценку заранее.",
+"The first number you hear affects later judgements. Before a purchase or negotiation, form your own estimate in advance.",
+1
+],
+[
+"дом",
+"home",
+1
+],
+[
+"Связь по графику: звонки, общие дела с экипажем",
+"Contact on a schedule: calls, shared activities with the crew",
+1
+],
+[
+"Если состояние ухудшается, обратись за помощью",
+"If you feel worse, ask for help",
+1
+],
+[
+"Моряк на судне, сигнал связи и дом на берегу",
+"A seafarer on a ship, a signal and a home ashore",
+1
+],
+[
+"Разлука и ограниченное общение типичная нагрузка моряка. Помогают регулярные звонки, общие дела, режим и обращение за помощью.",
+"Separation and limited contact are a typical strain for seafarers. Regular calls, shared activities, a routine and asking for help all help.",
+1
+],
+[
+"✓ что получилось",
+"✓ what went well",
+1
+],
+[
+"… что утомило",
+"… what wore me out",
+1
+],
+[
+"→ что завтра",
+"→ what's next tomorrow",
+1
+],
+[
+"Три строки перед сном, чтобы заметить усталость раньше",
+"Three lines before sleep to notice fatigue earlier",
+1
+],
+[
+"Страница вечерней записи с тремя строками",
+"An evening journal page with three lines",
+1
+],
+[
+"Коротко запиши, что получилось, что утомило, что завтра. Так усталость заметна раньше, чем станет сильной.",
+"Briefly write what went well, what wore you out and what's next. That way fatigue shows before it becomes severe.",
+1
+],
+[
+"«Я не умею»",
+"'I can't do it'",
+1
+],
+[
+"«Я пока не умею»",
+"'I can't do it yet'",
+1
+],
+[
+"учусь на ошибках",
+"learning from mistakes",
+1
+],
+[
+"результаты неоднозначны",
+"results are mixed",
+1
+],
+[
+"Две фразы: «не умею» зачёркнуто, «пока не умею» ведёт вверх",
+"Two phrases: 'can't' crossed out, 'can't yet' leads upward",
+1
+],
+[
+"Кэрол Дуэк связывает веру в развитие способностей с настойчивостью. Результаты в школах неоднозначны, но учиться на ошибках полезно.",
+"Carol Dweck links belief in developing abilities with persistence. School results are mixed, but learning from mistakes is useful.",
+1
+],
+[
+"Вариант А",
+"Option A",
+1
+],
+[
+"+ плюсы",
+"+ pros",
+1
+],
+[
+"− риски",
+"− risks",
+1
+],
+[
+"Вариант Б",
+"Option B",
+1
+],
+[
+"подожди ночь",
+"wait a night",
+1
+],
+[
+"срочность часто кажется больше, чем она есть",
+"urgency often seems bigger than it is",
+1
+],
+[
+"Таблица вариантов с плюсами и рисками и часы для паузы",
+"A table of options with pros and risks and a clock for a pause",
+1
+],
+[
+"Для важного решения запиши варианты, критерии и риски, потом дай себе ночь: срочность часто кажется больше.",
+"For an important decision write down the options, criteria and risks, then give yourself a night: urgency often seems bigger.",
+1
 ]
 ]

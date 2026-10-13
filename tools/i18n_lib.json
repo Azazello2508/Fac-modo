@@ -4668,5 +4668,655 @@
 "Приостановить те, что в море не понадобятся.",
 "Pause the ones you won't need at sea.",
 0
+],
+[
+"Предвзятость подтверждения — склонность замечать, искать и запоминать то, что подтверждает уже имеющееся мнение, и пропускать то, что ему противоречит. Это не глупость, а экономия сил мозга: он отсеивает лишнее по привычному фильтру.",
+"Confirmation bias is the tendency to notice, seek and remember what confirms an existing opinion and to miss what contradicts it. It is not stupidity but the brain saving effort by filtering through a familiar lens.",
+0
+],
+[
+"Эффект сильнее, когда тема лично важна, вызывает эмоции или связана с принадлежностью к группе. Новостные ленты и соцсети подстраиваются под интересы и делают фильтр ещё плотнее.",
+"The effect is stronger when a topic matters personally, stirs emotion or is tied to group belonging. News feeds and social media adapt to your interests and make the filter even tighter.",
+0
+],
+[
+"В технике предвзятость опасна: инженер, уверенный в причине неисправности, может не заметить признаков другой причины.",
+"In engineering this bias is dangerous: an engineer sure of a fault's cause may miss the signs of another cause.",
+0
+],
+[
+"Полезный приём — специально искать аргументы против своей версии: «что должно быть правдой, если я ошибаюсь?» При поиске неисправности сначала перечисли все возможные причины, потом проверяй их по очереди.",
+"A useful technique is to look deliberately for arguments against your own view: 'what would have to be true if I'm wrong?' When fault-finding, first list all possible causes, then check them one by one.",
+0
+],
+[
+"В споре попроси собеседника привести самый сильный довод и перескажи его своими словами, прежде чем отвечать.",
+"In an argument, ask the other person for their strongest point and restate it in your own words before replying.",
+0
+],
+[
+"Ошибка — считать, что предвзятость бывает только у других. Она есть у всех, и знание о ней не отменяет её действия.",
+"A mistake is believing only others are biased. Everyone is, and knowing about the bias does not switch it off.",
+0
+],
+[
+"Другая крайность — сомневаться во всём и не принимать решений. Цель — проверять важные выводы, а не застыть.",
+"The other extreme is doubting everything and never deciding. The aim is to test important conclusions, not to freeze.",
+0
+],
+[
+"Что такое предвзятость подтверждения?",
+"What is confirmation bias?",
+0
+],
+[
+"Склонность замечать то, что подтверждает уже имеющееся мнение, и пропускать противоречащее.",
+"The tendency to notice what confirms an existing opinion and to miss what contradicts it.",
+0
+],
+[
+"Какой вопрос помогает с ней бороться?",
+"Which question helps counter it?",
+0
+],
+[
+"«Что должно быть правдой, если я ошибаюсь?»",
+"'What would have to be true if I'm wrong?'",
+0
+],
+[
+"Чем она опасна при поиске неисправности?",
+"Why is it dangerous in fault-finding?",
+0
+],
+[
+"Можно не заметить признаки другой, настоящей причины.",
+"You may miss the signs of a different, real cause.",
+0
+],
+[
+"Прокрастинация — откладывание важного дела, хотя понимаешь, что откладывание навредит. Обычно дело не в лени, а в неприятных чувствах: скуке, страхе неудачи, неясности, с чего начать.",
+"Procrastination is putting off something important even though you know delay will hurt. It is usually not laziness but unpleasant feelings: boredom, fear of failure, not knowing where to start.",
+0
+],
+[
+"Мозг выбирает быстрое облегчение — переключиться на телефон или лёгкое дело. Но неприятное чувство возвращается и растёт по мере приближения срока.",
+"The brain chooses quick relief: switching to the phone or an easy task. But the unpleasant feeling comes back and grows as the deadline approaches.",
+0
+],
+[
+"Чем крупнее и размытее задача, тем сильнее тянет её отложить. Поэтому помогает делить её на маленькие конкретные шаги.",
+"The bigger and vaguer a task, the stronger the pull to postpone it. That is why splitting it into small concrete steps helps.",
+0
+],
+[
+"Правило пяти минут: договорись с собой поработать над делом всего пять минут. Сопротивление обычно сильнее до старта, чем после него.",
+"The five-minute rule: agree with yourself to work on the task for just five minutes. Resistance is usually stronger before you start than after.",
+0
+],
+[
+"Сформулируй первый шаг так, чтобы его можно было сделать прямо сейчас: не «подготовиться к экзамену», а «открыть тест по МППСС и решить # вопросов». Убери телефон из поля зрения.",
+"Phrase the first step so it can be done right now: not 'prepare for the exam' but 'open the COLREG test and answer # questions'. Put your phone out of sight.",
+0
+],
+[
+"Ошибка — ругать себя за откладывание. Самокритика усиливает неприятные чувства и делает следующую попытку ещё труднее.",
+"A mistake is scolding yourself for putting things off. Self-criticism strengthens the unpleasant feelings and makes the next attempt harder.",
+0
+],
+[
+"Если откладывается почти всё и при этом нет сил, это может быть признаком усталости или депрессии — стоит поговорить со специалистом.",
+"If almost everything gets put off and you have no energy, it may be a sign of exhaustion or depression, and it is worth talking to a professional.",
+0
+],
+[
+"Что обычно стоит за прокрастинацией?",
+"What usually lies behind procrastination?",
+0
+],
+[
+"Неприятные чувства: скука, страх неудачи, неясность.",
+"Unpleasant feelings: boredom, fear of failure, uncertainty.",
+0
+],
+[
+"В чём правило пяти минут?",
+"What is the five-minute rule?",
+0
+],
+[
+"Начать дело всего на пять минут: после старта сопротивление слабеет.",
+"Start a task for just five minutes: resistance weakens once you begin.",
+0
+],
+[
+"Как сформулировать первый шаг?",
+"How should the first step be phrased?",
+0
+],
+[
+"Конкретно и так, чтобы его можно было сделать прямо сейчас.",
+"Concretely, so it can be done right now.",
+0
+],
+[
+"Стресс — реакция организма на нагрузку: учащается пульс, выделяются гормоны, внимание сужается. Короткий стресс помогает собраться в аварийной ситуации.",
+"Stress is the body's response to demand: the pulse quickens, hormones are released, attention narrows. Short-term stress helps you focus in an emergency.",
+0
+],
+[
+"Проблема начинается, когда нагрузка не сменяется восстановлением. Как в спорте: форма растёт не во время тренировки, а во время отдыха после неё.",
+"The problem begins when strain is not followed by recovery. As in sport: fitness grows not during training but during the rest after it.",
+0
+],
+[
+"Восстановление — это сон, движение, общение, занятия, которые полностью отвлекают, и время без экрана. Бесцельное листание ленты почти не восстанавливает.",
+"Recovery means sleep, movement, socialising, activities that fully absorb you and time away from screens. Aimless scrolling restores almost nothing.",
+0
+],
+[
+"В рейсе полезно планировать восстановление так же, как работу: регулярный сон, тренировка, звонок домой, хобби. Даже двадцать минут прогулки по палубе помогают.",
+"At sea it helps to plan recovery like work: regular sleep, exercise, a call home, a hobby. Even twenty minutes walking on deck helps.",
+0
+],
+[
+"Простое упражнение при остром стрессе: несколько раз подряд делать медленный выдох длиннее вдоха. Это успокаивает нервную систему.",
+"A simple exercise for acute stress: several times in a row, breathe out slowly, longer than you breathe in. It calms the nervous system.",
+0
+],
+[
+"Ошибка — «снимать стресс» алкоголем. Он ухудшает сон, а на судне ещё и ограничен правилами компании и опасен.",
+"A mistake is 'relieving stress' with alcohol. It worsens sleep, and on board it is also restricted by company rules and dangerous.",
+0
+],
+[
+"Если тревога, бессонница и раздражительность длятся неделями, это повод обратиться к врачу или психологу. Для моряков есть бесплатные конфиденциальные линии поддержки.",
+"If anxiety, insomnia and irritability last for weeks, it is a reason to see a doctor or psychologist. There are free, confidential support lines for seafarers.",
+0
+],
+[
+"Когда стресс становится вредным?",
+"When does stress become harmful?",
+0
+],
+[
+"Когда нагрузка не сменяется восстановлением.",
+"When strain is not followed by recovery.",
+0
+],
+[
+"Что относится к восстановлению?",
+"What counts as recovery?",
+0
+],
+[
+"Сон, движение, общение и занятия, которые полностью отвлекают.",
+"Sleep, movement, socialising and activities that fully absorb you.",
+0
+],
+[
+"Какое дыхание помогает при остром стрессе?",
+"What breathing helps with acute stress?",
+0
+],
+[
+"Медленный выдох длиннее вдоха.",
+"A slow out-breath longer than the in-breath.",
+0
+],
+[
+"Выгорание — хроническое истощение от работы, когда силы долго тратятся больше, чем восстанавливаются. Его признаки: постоянная усталость, отстранённость и цинизм к работе, ощущение, что ничего не получается.",
+"Burnout is chronic exhaustion from work, when energy is spent faster than it is restored for a long time. Its signs: constant tiredness, detachment and cynicism about work, a feeling that nothing works out.",
+0
+],
+[
+"Оно развивается постепенно: сначала перегрузка и стремление всё успеть, потом усталость, которую не снимает отдых, затем безразличие.",
+"It develops gradually: first overload and trying to do everything, then fatigue that rest does not relieve, then indifference.",
+0
+],
+[
+"Выгоранию способствуют долгие контракты без отдыха, недосып, конфликты, отсутствие контроля над своей работой и ощущение, что усилия не замечают.",
+"Burnout is fed by long contracts without rest, lack of sleep, conflicts, no control over your own work and a feeling that your efforts go unnoticed.",
+0
+],
+[
+"Выгорание лучше замечать на первой стадии: если отдых перестал восстанавливать, пора менять режим, а не терпеть дальше. Короткая вечерняя запись помогает увидеть тенденцию.",
+"Burnout is best noticed at the first stage: if rest no longer restores you, it is time to change your routine, not to keep enduring. A short evening entry helps you see the trend.",
+0
+],
+[
+"Помогают границы между работой и отдыхом, поддержка людей, разговор с руководителем о нагрузке и полноценный отпуск между контрактами.",
+"Boundaries between work and rest, support from people, a talk with your superior about workload and proper leave between contracts all help.",
+0
+],
+[
+"Ошибка — пытаться лечить выгорание ещё большей работой или считать его слабостью.",
+"A mistake is trying to cure burnout with even more work or seeing it as weakness.",
+0
+],
+[
+"Выгорание бывает трудно отличить от депрессии. Если долго ничего не радует, нарушены сон и аппетит, появляются мрачные мысли, нужна помощь специалиста.",
+"Burnout can be hard to tell from depression. If nothing brings joy for a long time, sleep and appetite are disturbed and dark thoughts appear, professional help is needed.",
+0
+],
+[
+"Назови три признака выгорания.",
+"Name three signs of burnout.",
+0
+],
+[
+"Постоянная усталость, отстранённость от работы, ощущение, что ничего не получается.",
+"Constant tiredness, detachment from work, a feeling that nothing works out.",
+0
+],
+[
+"Когда стоит менять режим?",
+"When is it time to change your routine?",
+0
+],
+[
+"Когда отдых перестал восстанавливать силы.",
+"When rest no longer restores your energy.",
+0
+],
+[
+"Что делать, если долго ничего не радует и появляются мрачные мысли?",
+"What should you do if nothing brings joy for a long time and dark thoughts appear?",
+0
+],
+[
+"Обратиться к специалисту.",
+"Seek professional help.",
+0
+],
+[
+"Сон, движение и еда сильно влияют на настроение и внимание. Недосып ухудшает реакцию и самоконтроль, регулярная физическая активность снижает тревогу, а скачки сахара в крови дают перепады энергии.",
+"Sleep, movement and food strongly affect mood and attention. Lack of sleep worsens reactions and self-control, regular exercise reduces anxiety, and blood sugar swings cause energy dips.",
+0
+],
+[
+"Мозг любит предсказуемость: постоянное время сна, еды и тренировок облегчает каждое из этих дел, потому что меньше решений приходится принимать заново.",
+"The brain likes predictability: fixed times for sleep, meals and exercise make each of them easier, because fewer decisions have to be made afresh.",
+0
+],
+[
+"Перемены работают лучше по одной. Попытка изменить всё сразу обычно заканчивается через неделю.",
+"Changes work better one at a time. Trying to change everything at once usually ends within a week.",
+0
+],
+[
+"Выбери одно устойчивое действие — например, ложиться в одно время или двадцать минут движения в день — и держи его две недели, прежде чем добавлять следующее.",
+"Pick one sustainable action, such as going to bed at the same time or twenty minutes of movement a day, and keep it for two weeks before adding the next.",
+0
+],
+[
+"В рейсе полезные действия удобно привязать к вахтам: после вахты — душ и растяжка, перед сном — без телефона.",
+"At sea it helps to tie good habits to watches: after a watch, a shower and stretching; before sleep, no phone.",
+0
+],
+[
+"Ошибка — ждать идеальных условий: смены часовых поясов и вахт всё равно будут. Режим — это то, что ты сохраняешь вопреки им.",
+"A mistake is waiting for perfect conditions: time zone and watch changes will always happen. A routine is what you keep in spite of them.",
+0
+],
+[
+"Резкий спорт после долгого перерыва без подготовки приводит к травмам. Нагрузку увеличивают постепенно.",
+"Sudden intense exercise after a long break without preparation leads to injuries. Increase the load gradually.",
+0
+],
+[
+"Почему мозгу нравится постоянный режим?",
+"Why does the brain like a fixed routine?",
+0
+],
+[
+"Меньше решений приходится принимать заново.",
+"Fewer decisions have to be made afresh.",
+0
+],
+[
+"Сколько изменений вводить одновременно?",
+"How many changes should be made at once?",
+0
+],
+[
+"Лучше по одному.",
+"One at a time is best.",
+0
+],
+[
+"Как связать полезные действия с вахтами?",
+"How can good habits be tied to watches?",
+0
+],
+[
+"Привязать их к началу или концу вахты.",
+"Attach them to the start or end of a watch.",
+0
+],
+[
+"Эффект якоря — влияние первого услышанного числа на дальнейшие оценки. Даже случайное число сдвигает суждение в свою сторону: если продавец назвал высокую цену, скидка от неё кажется выгодной.",
+"The anchoring effect is the influence of the first number you hear on later estimates. Even a random number pulls judgement towards it: if a seller names a high price, a discount from it seems like a good deal.",
+0
+],
+[
+"Эффект описали Амос Тверски и Даниэль Канеман в # году. Он действует и на специалистов: оценщиков, судей, экспертов.",
+"The effect was described by Amos Tversky and Daniel Kahneman in #. It affects professionals too: appraisers, judges, experts.",
+0
+],
+[
+"Якорем может стать стартовая цена, первое предложение в переговорах, чужая оценка или прошлогодняя цифра.",
+"An anchor can be a starting price, the first offer in a negotiation, someone else's estimate or last year's figure.",
+0
+],
+[
+"Перед покупкой или разговором о зарплате заранее определи свою оценку по фактам: рыночные данные, сравнение вариантов. Тогда чужое первое число меньше на тебя давит.",
+"Before a purchase or a salary talk, form your own estimate from facts in advance: market data, comparing options. Then someone else's first number puts less pressure on you.",
+0
+],
+[
+"В переговорах полезно первым назвать обоснованную цифру: тогда якорь будет твоим.",
+"In negotiations it helps to name a well-founded figure first: then the anchor is yours.",
+0
+],
+[
+"Ошибка — считать, что знание об эффекте защищает от него. Защищает подготовка: собственная оценка до разговора.",
+"A mistake is thinking that knowing about the effect protects you. Preparation does: your own estimate before the conversation.",
+0
+],
+[
+"Не путай якорь с информацией: первая цифра может быть просто приёмом продавца, а не отражением реальной цены.",
+"Do not confuse an anchor with information: the first figure may just be a sales tactic, not a reflection of the real price.",
+0
+],
+[
+"Что такое эффект якоря?",
+"What is the anchoring effect?",
+0
+],
+[
+"Влияние первого услышанного числа на дальнейшие оценки.",
+"The influence of the first number heard on later estimates.",
+0
+],
+[
+"Как от него защититься?",
+"How can you protect yourself from it?",
+0
+],
+[
+"Заранее подготовить собственную оценку по фактам.",
+"Prepare your own fact-based estimate in advance.",
+0
+],
+[
+"Кто описал этот эффект?",
+"Who described this effect?",
+0
+],
+[
+"Амос Тверски и Даниэль Канеман.",
+"Amos Tversky and Daniel Kahneman.",
+0
+],
+[
+"Разлука с близкими, небольшой экипаж из разных стран, ограниченный интернет и похожие друг на друга дни — типичная нагрузка моряка. Одиночество ухудшает настроение, сон и иммунитет и повышает раздражительность.",
+"Separation from loved ones, a small crew from different countries, limited internet and days that look alike are a typical strain for seafarers. Loneliness worsens mood, sleep and immunity and increases irritability.",
+0
+],
+[
+"Одиночество — это не количество людей вокруг, а ощущение, что тебя не понимают и не с кем поговорить. Можно быть одиноким и в полном экипаже.",
+"Loneliness is not about how many people are around but the feeling that nobody understands you and there is no one to talk to. You can be lonely in a full crew.",
+0
+],
+[
+"Его снижают регулярный контакт с домом, общие дела на борту и ощущение, что ты нужен.",
+"Regular contact with home, shared activities on board and a sense of being needed reduce it.",
+0
+],
+[
+"Договорись с семьёй о ритме связи: предсказуемые звонки лучше редких длинных. Участвуй в общих делах на судне: спорт, кино, праздники.",
+"Agree a rhythm of contact with your family: predictable calls are better than rare long ones. Join shared activities on board: sport, films, celebrations.",
+0
+],
+[
+"Если в компании есть программа поддержки или линия психологической помощи для моряков, запиши номер заранее. Многие такие линии бесплатные и конфиденциальные.",
+"If your company has a support programme or a helpline for seafarers, save the number in advance. Many such lines are free and confidential.",
+0
+],
+[
+"Ошибка — замыкаться в каюте и в телефоне: одиночество от этого только растёт.",
+"A mistake is shutting yourself away in the cabin with your phone: loneliness only grows.",
+0
+],
+[
+"Если состояние ухудшается — бессонница, мрачные мысли, нежелание что-либо делать, — сообщи капитану или доверенному человеку и обратись за помощью. Это не слабость, а забота о безопасности.",
+"If things get worse — insomnia, dark thoughts, no wish to do anything — tell the master or someone you trust and seek help. It is not weakness but care for safety.",
+0
+],
+[
+"Что такое одиночество?",
+"What is loneliness?",
+0
+],
+[
+"Ощущение, что тебя не понимают и не с кем поговорить, а не количество людей вокруг.",
+"A feeling that nobody understands you and there is no one to talk to, not the number of people around.",
+0
+],
+[
+"Какой ритм связи с домом лучше?",
+"What rhythm of contact with home is better?",
+0
+],
+[
+"Предсказуемые регулярные звонки.",
+"Predictable regular calls.",
+0
+],
+[
+"Что делать, если состояние ухудшается?",
+"What should you do if things get worse?",
+0
+],
+[
+"Сообщить капитану или доверенному человеку и обратиться за помощью.",
+"Tell the master or someone you trust and seek help.",
+0
+],
+[
+"Короткая вечерняя запись — три строки: что получилось, что утомило, что завтра. Она занимает пару минут и помогает завершить день, а не прокручивать его перед сном.",
+"A short evening entry is three lines: what went well, what wore you out, what's next tomorrow. It takes a couple of minutes and helps close the day instead of replaying it before sleep.",
+0
+],
+[
+"Записанные мысли перестают крутиться в голове. Со временем записи показывают тенденции: какие дни тяжелее, что помогает, когда начинается усталость.",
+"Thoughts written down stop spinning in your head. Over time the entries show trends: which days are harder, what helps, when fatigue begins.",
+0
+],
+[
+"Исследования связывают регулярное выражение мыслей и чувств на бумаге с меньшим уровнем тревоги, хотя у разных людей эффект разный.",
+"Research links regularly putting thoughts and feelings on paper with lower anxiety, although the effect varies between people.",
+0
+],
+[
+"В приложении есть «Запись дня»: пиши как есть, запись хранится только на этом устройстве. Удобно делать её в одно и то же время, например после последней вахты.",
+"The app has a Today's entry: write as it is, the entry is stored only on this device. It helps to do it at the same time each day, for example after the last watch.",
+0
+],
+[
+"Раз в неделю перечитывай записи и находи одну вещь, которую стоит изменить, и одну, которую стоит сохранить.",
+"Once a week reread the entries and find one thing to change and one thing to keep.",
+0
+],
+[
+"Ошибка — превращать запись в длинный отчёт или в список самокритики. Три честные строки работают лучше.",
+"A mistake is turning the entry into a long report or a list of self-criticism. Three honest lines work better.",
+0
+],
+[
+"Запись помогает, но не заменяет помощь специалиста, если состояние тяжёлое.",
+"Writing helps but does not replace professional help if you are in a bad way.",
+0
+],
+[
+"Какие три строки в вечерней записи?",
+"What are the three lines of an evening entry?",
+0
+],
+[
+"Что получилось, что утомило, что завтра.",
+"What went well, what wore you out, what's next tomorrow.",
+0
+],
+[
+"Зачем перечитывать записи?",
+"Why reread the entries?",
+0
+],
+[
+"Чтобы увидеть тенденции и найти, что изменить и что сохранить.",
+"To see trends and find what to change and what to keep.",
+0
+],
+[
+"Где хранится запись дня в приложении?",
+"Where is the daily entry stored in the app?",
+0
+],
+[
+"Только на этом устройстве.",
+"Only on this device.",
+0
+],
+[
+"Психолог Кэрол Дуэк описала две установки. При фиксированной человек считает способности данными от природы, и ошибка доказывает, что «я не умею». При установке на рост способности развиваются усилием и обучением, а ошибка — часть процесса.",
+"Psychologist Carol Dweck described two mindsets. With a fixed mindset a person sees abilities as given by nature, and a mistake proves 'I can't do it'. With a growth mindset abilities develop through effort and learning, and a mistake is part of the process.",
+0
+],
+[
+"Люди с установкой на рост чаще берутся за трудные задачи и не сдаются после неудач. Разница видна даже в словах: «я не умею» и «я пока не умею».",
+"People with a growth mindset take on hard tasks more often and do not give up after failures. The difference shows even in words: 'I can't do it' versus 'I can't do it yet'.",
+0
+],
+[
+"Результаты школьных программ по развитию такой установки неоднозначны: эффект есть не везде и часто небольшой. Но сама идея учиться на ошибках полезна в любой профессии.",
+"Results of school programmes building this mindset are mixed: the effect is not universal and often small. But the idea of learning from mistakes is useful in any profession.",
+0
+],
+[
+"Новая должность или новый тип судна — время, когда ошибки неизбежны. Полезно разбирать их по шагам: что случилось, почему, что сделаю иначе.",
+"A new rank or a new ship type is a time when mistakes are inevitable. It helps to go through them step by step: what happened, why, what I will do differently.",
+0
+],
+[
+"Хвали себя и других за усилия и способ, а не за «талант»: «ты разобрался в схеме», а не «ты гений».",
+"Praise yourself and others for effort and method, not 'talent': 'you worked out the circuit', not 'you're a genius'.",
+0
+],
+[
+"Ошибка — понимать установку на рост как «всё получится, если верить». Нужны правильная практика, обратная связь и время.",
+"A mistake is reading the growth mindset as 'it will work out if you believe'. It takes the right practice, feedback and time.",
+0
+],
+[
+"Другая ошибка — стыдиться ошибок и скрывать их. На судне скрытая ошибка может стать аварией, а честный разбор делает всех безопаснее.",
+"Another mistake is being ashamed of errors and hiding them. On a ship a hidden mistake can become an accident, while an honest review makes everyone safer.",
+0
+],
+[
+"Чем установка на рост отличается от фиксированной?",
+"How does a growth mindset differ from a fixed one?",
+0
+],
+[
+"Способности считаются развиваемыми усилием, а ошибка — частью обучения.",
+"Abilities are seen as developed by effort, and a mistake as part of learning.",
+0
+],
+[
+"Какая фраза отражает установку на рост?",
+"Which phrase reflects a growth mindset?",
+0
+],
+[
+"«Я пока не умею».",
+"'I can't do it yet.'",
+0
+],
+[
+"Почему на судне важно не скрывать ошибки?",
+"Why is it important not to hide mistakes on a ship?",
+0
+],
+[
+"Скрытая ошибка может стать аварией, а честный разбор повышает безопасность.",
+"A hidden mistake can become an accident, while an honest review improves safety.",
+0
+],
+[
+"Важные решения — контракт, переезд, крупная покупка — хуже принимать в спешке, усталости и сильных эмоциях. В таком состоянии мозг упрощает и хватается за первый вариант.",
+"Important decisions — a contract, a move, a big purchase — are worse when made in a hurry, tired or in strong emotion. In that state the brain simplifies and grabs the first option.",
+0
+],
+[
+"Помогает структура: записать варианты (обычно их больше двух), важные для тебя критерии, плюсы и риски каждого варианта. Часто уже при записи становится ясно, что важно.",
+"Structure helps: write down the options (there are usually more than two), the criteria that matter to you, and the pros and risks of each. Often it becomes clear what matters while writing.",
+0
+],
+[
+"Срочность часто кажется больше, чем есть на самом деле. Если решение можно отложить на ночь, утром оно обычно яснее.",
+"Urgency often seems greater than it really is. If a decision can wait overnight, it is usually clearer in the morning.",
+0
+],
+[
+"Для решения о контракте сравни зарплату, срок, тип судна и компанию, условия смены и отпуска, отзывы коллег. Спроси себя, как будешь чувствовать себя через год при каждом варианте.",
+"For a contract decision compare pay, length, ship type and company, crew change and leave terms, and colleagues' reviews. Ask yourself how you would feel in a year with each option.",
+0
+],
+[
+"Если давят сроком «решайте сейчас» без причины, это тревожный знак, особенно в денежных вопросах.",
+"If you are pushed with 'decide now' for no reason, it is a warning sign, especially with money.",
+0
+],
+[
+"Ошибка — принимать важные решения ночью после тяжёлой вахты или в гневе.",
+"A mistake is making important decisions at night after a hard watch or in anger.",
+0
+],
+[
+"Другая ошибка — бесконечно собирать информацию и не решать. Для обратимых решений хватает разумной оценки, тщательность нужна для необратимых.",
+"Another mistake is gathering information endlessly and never deciding. For reversible decisions a reasonable estimate is enough; thoroughness is for irreversible ones.",
+0
+],
+[
+"Почему решения в спешке хуже?",
+"Why are hasty decisions worse?",
+0
+],
+[
+"Мозг упрощает и хватается за первый вариант.",
+"The brain simplifies and grabs the first option.",
+0
+],
+[
+"Что записать для важного решения?",
+"What should be written down for an important decision?",
+0
+],
+[
+"Варианты, критерии, плюсы и риски каждого варианта.",
+"The options, criteria, and the pros and risks of each.",
+0
+],
+[
+"Что значит давление «решайте сейчас» без причины?",
+"What does pressure to 'decide now' for no reason mean?",
+0
+],
+[
+"Это тревожный знак, особенно в денежных вопросах.",
+"It is a warning sign, especially with money.",
+0
 ]
 ]
