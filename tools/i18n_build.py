@@ -2,12 +2,14 @@
 Запуск: python3 tools/i18n_build.py index.html
 Словарь: tools/i18n_en.json (из i18n_extract.py + перевод) и tools/i18n_extra.json (ручные дополнения).
 Каждая запись: [русский текст, английский текст, 1 если это короткий фрагмент]. Цифры в текстах заменены на #."""
-import json, re, sys, struct
+import json, os, re, sys, struct
 
 p = sys.argv[1]
 s = open(p, encoding='utf-8', newline='').read()
 items = json.load(open('tools/i18n_en.json', encoding='utf-8'))
 items += json.load(open('tools/i18n_extra.json', encoding='utf-8'))
+if os.path.exists('tools/i18n_lib.json'):  # статьи библиотеки знаний (tools/library_build.py)
+    items += json.load(open('tools/i18n_lib.json', encoding='utf-8'))
 
 def fnv(t):
     b = t.encode('utf-16-le')

@@ -2573,5 +2573,455 @@
 "Вставь сюда код, который начинается с FMR#:",
 "Paste the code that starts with FMR#: here",
 1
+],
+[
+"Найдено статей: #",
+"Articles found: #",
+1
+],
+[
+"Ничего не найдено. Попробуй другое слово.",
+"Nothing found. Try another word.",
+1
+],
+[
+"📌 Статья дня",
+"📌 Article of the day",
+1
+],
+[
+"Статья дня",
+"Article of the day",
+1
+],
+[
+"Все статьи раздела",
+"All articles in this topic",
+1
+],
+[
+"← Все статьи",
+"← All articles",
+1
+],
+[
+"⚙️ Как это работает",
+"⚙️ How it works",
+1
+],
+[
+"📍 На практике",
+"📍 In practice",
+1
+],
+[
+"⚠️ Ошибки и опасности",
+"⚠️ Mistakes and hazards",
+1
+],
+[
+"❓ Проверь себя",
+"❓ Test yourself",
+1
+],
+[
+"⚙️ Подробнее",
+"⚙️ More",
+1
+],
+[
+"Следующая статья →",
+"Next article →",
+1
+],
+[
+"📷 К статье можно прикрепить своё фото: например, этот механизм или щит на твоём судне. Фото хранится только на этом телефоне.",
+"📷 You can attach your own photo to the article: for example, this machine or switchboard on your ship. The photo is stored only on this phone.",
+1
+],
+[
+"📷 Прикрепить фото",
+"📷 Attach a photo",
+1
+],
+[
+"📷 Заменить фото",
+"📷 Replace photo",
+1
+],
+[
+"Прикрепить фото",
+"Attach a photo",
+1
+],
+[
+"🔎 Поиск по всем статьям",
+"🔎 Search all articles",
+1
+],
+[
+"сдвиг на #/# периода",
+"shift of #/# period",
+1
+],
+[
+"Три синусоиды, сдвинутые на # градусов",
+"Three sine waves shifted by # degrees",
+1
+],
+[
+"Три напряжения одной частоты, сдвинутые на #°: в сумме они дают ровную мощность.",
+"Three voltages of the same frequency shifted by #°: together they give smooth power.",
+1
+],
+[
+"ток I",
+"current I",
+1
+],
+[
+"Грязь, окисление, слабая затяжка: сопротивление R растёт",
+"Dirt, oxidation, loose clamping: resistance R rises",
+1
+],
+[
+"Нагрев P = I² · R: вдвое больше ток, вчетверо больше тепла",
+"Heating P = I² · R: twice the current, four times the heat",
+1
+],
+[
+"место перегрева",
+"hot spot",
+1
+],
+[
+"Соединение шин с плохим контактом, в месте контакта нагрев",
+"A busbar joint with a bad contact heating up at the contact point",
+1
+],
+[
+"Чем хуже контакт, тем больше сопротивление, а тепло растёт пропорционально квадрату тока.",
+"The worse the contact, the higher the resistance, and heat grows with the square of the current.",
+1
+],
+[
+"Катушка",
+"Coil",
+1
+],
+[
+"слабый сигнал # В",
+"weak signal # V",
+1
+],
+[
+"Электромагнит",
+"Electromagnet",
+1
+],
+[
+"тянет якорь",
+"pulls the armature",
+1
+],
+[
+"Контакты",
+"Contacts",
+1
+],
+[
+"сильный ток # В",
+"heavy current # V",
+1
+],
+[
+"кнопка, ПЛК, реле",
+"button, PLC, relay",
+1
+],
+[
+"двигатель, насос",
+"motor, pump",
+1
+],
+[
+"Реле и контактор: принцип один, токи разные",
+"Relay and contactor: same principle, different currents",
+1
+],
+[
+"Слабый сигнал управления включает катушку, она замыкает силовые контакты",
+"A weak control signal energises the coil, which closes the power contacts",
+1
+],
+[
+"Маленький ток катушки управляет большим током нагрузки: так включают двигатели и насосы.",
+"A small coil current controls a large load current: this is how motors and pumps are switched on.",
+1
+],
+[
+"Сеть",
+"Mains",
+1
+],
+[
+"~ # В",
+"~ # V",
+1
+],
+[
+"Выпрямитель",
+"Rectifier",
+1
+],
+[
+"переменный → пост.",
+"AC → DC",
+1
+],
+[
+"Инвертор",
+"Inverter",
+1
+],
+[
+"пост. → ~",
+"DC → ~",
+1
+],
+[
+"Нагрузка",
+"Load",
+1
+],
+[
+"не гаснет",
+"stays on",
+1
+],
+[
+"АКБ",
+"Battery",
+1
+],
+[
+"при пропадании сети нагрузку держит аккумулятор",
+"if the mains fails, the battery carries the load",
+1
+],
+[
+"Сеть, выпрямитель, аккумулятор, инвертор и нагрузка",
+"Mains, rectifier, battery, inverter and load",
+1
+],
+[
+"ИБП держит нагрузку от аккумулятора, пока не запустится резервный генератор.",
+"The UPS carries the load from the battery until the standby generator starts.",
+1
+],
+[
+"P: полезная, кВт",
+"P: useful, kW",
+1
+],
+[
+"Q: реактивная",
+"Q: reactive",
+1
+],
+[
+"квар",
+"kvar",
+1
+],
+[
+"S: полная, кВА",
+"S: apparent, kVA",
+1
+],
+[
+"ближе к #, меньше лишней нагрузки",
+"closer to #, less extra load",
+1
+],
+[
+"Треугольник мощностей: активная, реактивная и полная",
+"Power triangle: active, reactive and apparent",
+1
+],
+[
+"Реактивная мощность греет кабели и загружает генератор, хотя работу не совершает. Её мерят через cos φ.",
+"Reactive power heats cables and loads the generator although it does no work. It is measured through cos φ.",
+1
+],
+[
+"#-е замыкание:",
+"#st fault:",
+1
+],
+[
+"ток мал, не отключает",
+"current is small, no trip",
+1
+],
+[
+"контроль изоляции: сигнал",
+"insulation monitor: alarm",
+1
+],
+[
+"нейтраль",
+"neutral",
+1
+],
+[
+"не заземлена",
+"not earthed",
+1
+],
+[
+"Три фазы от генератора, замыкание одной фазы на корпус не вызывает отключение, но срабатывает сигнал",
+"Three phases from the generator; a fault from one phase to the hull does not trip anything but raises an alarm",
+1
+],
+[
+"При первом замыкании на корпус судно работает дальше, но дефект нужно найти, пока нет второго замыкания.",
+"After a first fault to the hull the ship keeps running, but the defect must be found before a second fault occurs.",
+1
+],
+[
+"Кольцо",
+"Ring",
+1
+],
+[
+"щётка",
+"brush",
+1
+],
+[
+"пружина",
+"spring",
+1
+],
+[
+"вращение",
+"rotation",
+1
+],
+[
+"искра: износ, пыль, масло",
+"sparking: wear, dust, oil",
+1
+],
+[
+"Контактное кольцо с угольной щёткой и пружиной, прижимающей щётку",
+"A slip ring with a carbon brush and a spring pressing the brush",
+1
+],
+[
+"Щётка должна плотно прилегать к чистому кольцу. Короткая щётка, слабая пружина или грязь дают искрение.",
+"The brush must sit firmly on a clean ring. A short brush, a weak spring or dirt cause sparking.",
+1
+],
+[
+"подогрев обмоток",
+"winding heater",
+1
+],
+[
+"конденсат",
+"condensation",
+1
+],
+[
+"выше",
+"above",
+1
+],
+[
+"точки росы",
+"dew point",
+1
+],
+[
+"двигатель стоит",
+"motor stopped",
+1
+],
+[
+"Остановленный двигатель с подогревом обмоток, капли конденсата и термометр",
+"A stopped motor with winding heating, condensation drops and a thermometer",
+1
+],
+[
+"Тёплые обмотки не покрываются росой, значит изоляция остаётся сухой и двигатель запускается без риска пробоя.",
+"Warm windings do not collect dew, so the insulation stays dry and the motor starts without risk of breakdown.",
+1
+],
+[
+"короткое замыкание",
+"short circuit",
+1
+],
+[
+"время",
+"time",
+1
+],
+[
+"ток, кратность",
+"current, multiple",
+1
+],
+[
+"перегрузка:",
+"overload:",
+1
+],
+[
+"отключит не сразу",
+"trips with a delay",
+1
+],
+[
+"КЗ: за доли секунды",
+"short circuit: in a fraction of a second",
+1
+],
+[
+"Времятоковая характеристика автомата: при перегрузке отключение с задержкой, при коротком замыкании мгновенно",
+"Breaker time-current curve: delayed trip on overload, instant trip on short circuit",
+1
+],
+[
+"Автомат должен отключать самый большой ток КЗ в своей точке. Поменяли схему питания, значит пересчитывай.",
+"A breaker must interrupt the largest short-circuit current at its point. If the supply arrangement changes, recalculate.",
+1
+],
+[
+"Однотипные соединения: один цвет",
+"Similar joints: same colour",
+1
+],
+[
+"горячая точка",
+"hot spot",
+1
+],
+[
+"Тепловое изображение щита, одно соединение заметно горячее остальных",
+"Thermal image of a switchboard, one joint clearly hotter than the rest",
+1
+],
+[
+"Тепловизор показывает перегретые соединения без отключения. Выделяющееся пятно значит плохой контакт.",
+"A thermal camera shows overheated joints without a shutdown. A spot that stands out means a bad contact.",
+1
+],
+[
+"Найти фото",
+"Find a photo",
+1
 ]
 ]

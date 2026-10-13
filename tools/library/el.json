@@ -1,0 +1,261 @@
+{"sec": "el", "articles": [
+{"i": 0,
+ "w": [
+  ["Судовой генератор имеет три обмотки, сдвинутые в пространстве на 120°. Вращающийся ротор наводит в них три синусоидальных напряжения одинаковой амплитуды и частоты, но каждое отстаёт от предыдущего на треть периода. Поэтому в любой момент сумма токов симметричной нагрузки равна нулю, а суммарная мощность постоянна: нет пульсаций, двигатель тянет ровно.",
+   "A ship's generator has three windings spaced 120° apart. The rotating rotor induces three sinusoidal voltages of equal amplitude and frequency, each lagging the previous one by a third of a period. So at any instant the currents of a balanced load add up to zero and the total power is constant: no pulsation, the motor pulls smoothly."],
+  ["Обмотки и нагрузку соединяют звездой или треугольником. В звезде линейное напряжение между фазами в √3 раза больше фазного: при 230 В фазного получается 400 В линейного. В треугольнике фазное и линейное напряжения равны, а линейный ток в √3 раза больше фазного.",
+   "Windings and loads are connected in star (wye) or delta. In star the line voltage between phases is √3 times the phase voltage: 230 V phase gives 400 V line. In delta phase and line voltages are equal, and the line current is √3 times the phase current."],
+  ["Три фазы создают в статоре асинхронного двигателя вращающееся магнитное поле. Ротор увлекается этим полем, поэтому двигателю не нужны щётки и коллектор. Если поменять местами любые две фазы, поле и двигатель начнут вращаться в обратную сторону.",
+   "Three phases create a rotating magnetic field in the stator of an induction motor. The rotor is dragged along by this field, so the motor needs no brushes or commutator. Swap any two phases and the field and the motor will turn the other way."]],
+ "p": [
+  ["На судах распространены сети 440 В 60 Гц и 380–400 В 50 Гц для силовых потребителей, а освещение и бытовые приборы питают через трансформаторы 220–230 В. Крупные суда с электродвижением используют высокое напряжение 6,6 кВ или 11 кВ.",
+   "Ships commonly use 440 V 60 Hz and 380–400 V 50 Hz networks for power consumers, while lighting and domestic appliances are fed through 220–230 V transformers. Large ships with electric propulsion use high voltage of 6.6 kV or 11 kV."],
+  ["Главный распределительный щит следит за напряжением, частотой и симметрией фаз. Перед подключением второго генератора к шинам его синхронизируют: совпасть должны напряжение, частота, порядок и угол фаз. Это делает автоматика или вахтенный по синхроскопу.",
+   "The main switchboard monitors voltage, frequency and phase balance. Before a second generator is connected to the busbars it is synchronised: voltage, frequency, phase sequence and phase angle must match. This is done by automation or by the watchkeeper using the synchroscope."]],
+ "e": [
+  ["Потеря одной фазы опасна: трёхфазный двигатель продолжает вращаться на двух фазах, ток в оставшихся обмотках резко растёт, и двигатель перегревается. Защита от обрыва фазы и правильно настроенное тепловое реле обязательны.",
+   "Losing one phase is dangerous: a three-phase motor keeps turning on two phases, the current in the remaining windings rises sharply and the motor overheats. Phase-loss protection and a correctly set thermal overload relay are a must."],
+  ["Включение генератора на шины без синхронизации вызывает бросок тока и механический удар по валу, может повредить генератор и обесточить судно. Работы в щитах выполняют только на обесточенном оборудовании, с проверкой отсутствия напряжения и по допуску.",
+   "Closing a generator onto the busbars without synchronising causes a current surge and a mechanical shock to the shaft, can damage the generator and black out the ship. Work in switchboards is done only on dead equipment, after proving it dead, and under a permit."]],
+ "q": [
+  [["Во сколько раз линейное напряжение больше фазного при соединении звездой?", "How many times is the line voltage higher than the phase voltage in a star connection?"],
+   ["В √3, то есть примерно в 1,73 раза: 230 В фазного дают 400 В линейного.", "√3 times, about 1.73: 230 V phase gives 400 V line."]],
+  [["Как изменить направление вращения асинхронного двигателя?", "How do you reverse an induction motor?"],
+   ["Поменять местами любые две фазы питания.", "Swap any two supply phases."]],
+  [["Что нужно проверить перед включением генератора на параллельную работу?", "What must be checked before paralleling a generator?"],
+   ["Равенство напряжений и частот, одинаковый порядок фаз и совпадение фаз по синхроскопу.", "Equal voltages and frequencies, the same phase sequence and phase coincidence on the synchroscope."]]]},
+
+{"i": 1,
+ "w": [
+  ["Ток проходит через контакт не по всей площади, а через мелкие точки касания. Их суммарная площадь зависит от силы прижатия и чистоты поверхностей. Чем меньше точек, тем выше переходное сопротивление.",
+   "Current does not flow through the whole contact area but through tiny points of touch. Their total area depends on the clamping force and the cleanliness of the surfaces. The fewer the points, the higher the contact resistance."],
+  ["Тепло на контакте выделяется по закону P = I²·R: при вдвое большем токе нагрев растёт вчетверо. Нагрев ускоряет окисление, окисная плёнка ещё сильнее повышает сопротивление, и процесс разгоняется сам. Поэтому слабый контакт со временем только ухудшается.",
+   "Heat at a contact follows P = I²·R: double the current and the heating grows fourfold. Heat speeds up oxidation, the oxide film raises the resistance further, and the process feeds itself. That is why a loose contact only gets worse with time."],
+  ["Основные причины: ослабленный винт или болт, вибрация, разные металлы (медь и алюминий без переходных элементов), плохо обжатый наконечник, перегрузка и загрязнение.",
+   "Main causes: a loose screw or bolt, vibration, dissimilar metals (copper and aluminium without transition parts), a badly crimped lug, overload and dirt."]],
+ "p": [
+  ["Признаки плохого контакта: потемнение и оплавление изоляции, цвета побежалости на шинах, запах горелого, треск, мигание света, корпус автомата заметно теплее соседних. На судне вибрация от главного двигателя постоянно ослабляет соединения, поэтому их проверяют по плану ТО.",
+   "Signs of a bad contact: darkened or melted insulation, heat tint on busbars, a burning smell, crackling, flickering lights, a breaker body noticeably warmer than its neighbours. On a ship vibration from the main engine keeps loosening connections, so they are checked under the maintenance plan."],
+  ["Профилактика: протяжка клемм динамометрическим ключом с моментом от изготовителя, контактная смазка там, где её разрешает изготовитель, правильные наконечники и обжимной инструмент, контроль нагрузки и тепловизионное обследование под нагрузкой.",
+   "Prevention: tightening terminals with a torque wrench to the manufacturer's torque, contact grease where the manufacturer allows it, correct lugs and crimping tools, load monitoring and thermal imaging under load."]],
+ "e": [
+  ["Нельзя протягивать соединения под напряжением: сначала отключить, вывесить плакат, проверить отсутствие напряжения указателем. Перетяжка вредна так же, как недотяжка: медь течёт, резьба срывается, и контакт снова ослабнет.",
+   "Never tighten connections live: first isolate, hang a warning sign and prove dead with a tester. Over-tightening is as harmful as under-tightening: copper creeps, threads strip and the contact loosens again."],
+  ["Ошибка — заменить обгоревший наконечник и не выяснить причину. Если провод потемнел от перегрева, его зачищают до чистой меди или заменяют участок.",
+   "A common mistake is to replace a burnt lug without finding the cause. If the wire has darkened from overheating, it is cut back to clean copper or the section is replaced."]],
+ "q": [
+  [["Как изменится нагрев контакта, если ток вырастет вдвое?", "How does contact heating change if the current doubles?"],
+   ["Вырастет примерно вчетверо, потому что тепло пропорционально квадрату тока.", "It grows about fourfold, because heat is proportional to the square of the current."]],
+  [["Почему плохой контакт со временем становится ещё хуже?", "Why does a bad contact get worse over time?"],
+   ["Нагрев ускоряет окисление, оксидная плёнка повышает сопротивление, а это даёт ещё больше тепла.", "Heat speeds up oxidation, the oxide film raises resistance, and that produces even more heat."]],
+  [["Можно ли подтянуть клемму в щите под напряжением?", "May you tighten a terminal in a live switchboard?"],
+   ["Нет. Только после отключения, проверки отсутствия напряжения и по допуску.", "No. Only after isolation, proving dead and under a permit."]]]},
+
+{"i": 2,
+ "w": [
+  ["Реле и контактор устроены одинаково: катушка, магнитопровод, подвижный якорь и контакты. Когда на катушку подают управляющее напряжение, якорь притягивается и переключает контакты. Маленьким током катушки можно управлять большим током нагрузки.",
+   "A relay and a contactor are built the same way: a coil, a magnetic core, a moving armature and contacts. When control voltage is applied to the coil, the armature is pulled in and switches the contacts. A small coil current controls a large load current."],
+  ["Реле рассчитано на слабые токи цепей управления и сигнализации. Контактор рассчитан на силовые цепи двигателей, насосов и нагревателей: у него мощные главные контакты, дугогасительные камеры и блок-контакты для схемы управления.",
+   "A relay is designed for the small currents of control and alarm circuits. A contactor is designed for power circuits of motors, pumps and heaters: it has heavy main contacts, arc chutes and auxiliary contacts for the control circuit."],
+  ["Контакты бывают нормально открытыми (замыкаются при включении катушки) и нормально закрытыми (размыкаются). Самоподхват — блок-контакт параллельно кнопке «Пуск» — держит контактор включённым после отпускания кнопки.",
+   "Contacts are normally open (they close when the coil is energised) or normally closed (they open). A holding contact, an auxiliary contact in parallel with the Start button, keeps the contactor on after the button is released."]],
+ "p": [
+  ["Типовая схема пуска насоса: кнопки «Пуск» и «Стоп», контактор, тепловое реле в силовой цепи и его контакт в цепи катушки. При перегрузке тепловое реле размыкает цепь катушки, контактор отпадает, и двигатель останавливается.",
+   "A typical pump starter: Start and Stop buttons, a contactor, a thermal overload relay in the power circuit and its contact in the coil circuit. On overload the relay opens the coil circuit, the contactor drops out and the motor stops."],
+  ["Катушки бывают на переменное и постоянное напряжение разной величины, например 24 В постоянного или 230 В переменного. При замене катушки или реле сверяют напряжение, род тока и номер по каталогу.",
+   "Coils are made for AC and DC of different voltages, for example 24 V DC or 230 V AC. When replacing a coil or relay, check the voltage, the type of current and the catalogue number."]],
+ "e": [
+  ["Гудение и дребезг контактора говорят о пониженном напряжении на катушке, грязи на торцах магнитопровода или повреждённом короткозамкнутом витке. Подгоревшие главные контакты повышают сопротивление и греются; их меняют комплектом, если так требует изготовитель, а не зачищают напильником.",
+   "A humming or chattering contactor points to low coil voltage, dirt on the core faces or a damaged shading ring. Burnt main contacts raise resistance and overheat; they are replaced as a set if the manufacturer requires it, not filed down."],
+  ["Опасно блокировать контактор механически или ставить перемычку вместо теплового реле: защита перестанет работать, и двигатель сгорит при первой перегрузке.",
+   "It is dangerous to block a contactor mechanically or to bridge the overload relay: the protection stops working and the motor will burn out on the first overload."]],
+ "q": [
+  [["Чем контактор отличается от реле?", "How does a contactor differ from a relay?"],
+   ["Контактор коммутирует силовые токи нагрузки и имеет дугогашение, реле работает в слабых цепях управления.", "A contactor switches power load currents and has arc quenching; a relay works in low-current control circuits."]],
+  [["Что такое самоподхват?", "What is a holding contact?"],
+   ["Блок-контакт контактора параллельно кнопке «Пуск», который держит катушку под напряжением после отпускания кнопки.", "An auxiliary contact of the contactor in parallel with the Start button that keeps the coil energised after the button is released."]],
+  [["Почему контактор может гудеть?", "Why can a contactor hum?"],
+   ["Пониженное напряжение на катушке, грязь на магнитопроводе или повреждён короткозамкнутый виток.", "Low coil voltage, dirt on the magnetic core or a damaged shading ring."]]]},
+
+{"i": 3,
+ "w": [
+  ["По СОЛАС на судне есть основной источник питания, аварийный источник (обычно аварийный дизель-генератор в отдельном помещении выше палубы переборок) и переходный источник — аккумуляторы. Аккумуляторы держат важнейших потребителей, пока аварийный генератор запускается и принимает нагрузку.",
+   "Under SOLAS a ship has a main source of power, an emergency source (usually an emergency diesel generator in a separate room above the bulkhead deck) and a transitional source, the batteries. Batteries keep the most important consumers running while the emergency generator starts and takes the load."],
+  ["ИБП (источник бесперебойного питания) состоит из выпрямителя, аккумуляторной батареи и инвертора. В схеме с двойным преобразованием нагрузка всегда питается от инвертора, поэтому при пропадании сети переход происходит без разрыва. Через ИБП питают навигационное оборудование, связь, компьютеры автоматики и сигнализацию.",
+   "A UPS (uninterruptible power supply) consists of a rectifier, a battery and an inverter. In a double-conversion design the load is always fed from the inverter, so there is no break when the mains fails. Navigation equipment, communications, automation computers and alarms are fed through UPS units."],
+  ["Батареи бывают свинцово-кислотные, в том числе необслуживаемые, никель-кадмиевые и литий-ионные. Ёмкость измеряется в ампер-часах и падает с возрастом и на холоде.",
+   "Batteries may be lead-acid, including maintenance-free types, nickel-cadmium or lithium-ion. Capacity is measured in ampere-hours and falls with age and in the cold."]],
+ "p": [
+  ["Аварийный генератор и автоматический переход на аварийный щит регулярно проверяют пуском и работой под нагрузкой по плану ТО и процедурам компании. Батареи осматривают: напряжение, плотность электролита у обслуживаемых, состояние клемм, вентиляцию помещения и работу зарядного устройства.",
+   "The emergency generator and the automatic changeover to the emergency switchboard are tested regularly by starting and running on load under the maintenance plan and company procedures. Batteries are inspected: voltage, electrolyte density for serviceable types, terminals, room ventilation and the charger."],
+  ["Журнал проверок нужен не для бумаги: по нему видно, что ёмкость батареи падает, и её меняют заранее, а не в момент блэкаута.",
+   "The test log is not just paperwork: it shows when battery capacity is falling, so the battery is replaced in advance, not during a blackout."]],
+ "e": [
+  ["Свинцово-кислотные батареи при заряде выделяют водород. Курение, открытый огонь и искры в аккумуляторной запрещены, вентиляция должна работать. Электролит вызывает химические ожоги: работают в очках и перчатках, рядом держат воду для промывки.",
+   "Lead-acid batteries give off hydrogen while charging. Smoking, open flames and sparks are forbidden in the battery room, and ventilation must run. Electrolyte causes chemical burns: wear goggles and gloves and keep water for rinsing nearby."],
+  ["Типичная ошибка — считать батарею исправной, раз напряжение в норме. Без нагрузки старая батарея показывает нормальное напряжение, но под нагрузкой быстро садится. Ёмкость проверяют контрольным разрядом или тестером под нагрузкой.",
+   "A typical mistake is to think a battery is fine because its voltage is normal. Off load an old battery shows normal voltage but drops quickly under load. Capacity is checked by a test discharge or a load tester."]],
+ "q": [
+  [["Зачем на судне аккумуляторы, если есть аварийный генератор?", "Why does a ship need batteries if it has an emergency generator?"],
+   ["Генератору нужно время на пуск и приём нагрузки; аккумуляторы питают важнейших потребителей без перерыва в этот промежуток.", "The generator needs time to start and take the load; batteries feed the most important consumers without a break during that time."]],
+  [["Что опасно в аккумуляторной при заряде?", "What is dangerous in a battery room during charging?"],
+   ["Выделяется водород, поэтому запрещены огонь и искры, и должна работать вентиляция.", "Hydrogen is released, so flames and sparks are forbidden and ventilation must run."]],
+  [["Почему нормальное напряжение без нагрузки не гарантирует исправность батареи?", "Why doesn't normal off-load voltage prove a battery is healthy?"],
+   ["Старая батарея теряет ёмкость и садится под нагрузкой; проверять нужно под нагрузкой или контрольным разрядом.", "An old battery loses capacity and drops under load; it must be tested under load or by a test discharge."]]]},
+
+{"i": 4,
+ "w": [
+  ["Двигатели и трансформаторы создают магнитное поле, и на это уходит реактивная мощность. Она не превращается в работу, а перекачивается между источником и нагрузкой, но загружает генераторы и кабели током. Полная мощность S складывается из активной P и реактивной Q: S² = P² + Q².",
+   "Motors and transformers build a magnetic field, and that takes reactive power. It does no work, it flows back and forth between source and load, but it loads generators and cables with current. Apparent power S combines active P and reactive Q: S² = P² + Q²."],
+  ["Коэффициент мощности cos φ = P / S показывает, какая доля полной мощности совершает работу. Судовые генераторы обычно рассчитаны на cos φ 0,8: генератор на 1000 кВА выдаёт не больше 800 кВт активной мощности.",
+   "Power factor cos φ = P / S shows what share of apparent power does useful work. Ship generators are usually rated for cos φ 0.8: a 1000 kVA generator delivers no more than 800 kW of active power."],
+  ["Активную мощность генератору даёт приводной дизель через подачу топлива, а реактивную регулирует возбуждение генератора через автоматический регулятор напряжения (АРН).",
+   "Active power comes from the prime mover through fuel supply, while reactive power is controlled by generator excitation through the automatic voltage regulator (AVR)."]],
+ "p": [
+  ["При параллельной работе генераторов следят, чтобы и активная, и реактивная нагрузка делились пропорционально их мощности. Если один генератор забирает почти всю реактивную нагрузку, его ток растёт, хотя киловатты в норме, и он может перегреться.",
+   "With generators in parallel, both active and reactive load must be shared in proportion to their ratings. If one generator takes almost all the reactive load, its current rises even though the kilowatts look normal, and it may overheat."],
+  ["Малозагруженные асинхронные двигатели сильно ухудшают cos φ. Поэтому лишние двигатели не держат на холостом ходу, а в некоторых сетях ставят компенсирующие конденсаторные установки.",
+   "Lightly loaded induction motors worsen cos φ a lot. So spare motors are not left idling, and some networks use power factor correction capacitor banks."]],
+ "e": [
+  ["Ошибка — смотреть только на киловатты. Ток генератора определяется полной мощностью, и при низком cos φ генератор перегружается по току раньше, чем по мощности. Смотри и на амперметр, и на указатель cos φ или вар.",
+   "A mistake is to watch only the kilowatts. Generator current depends on apparent power, so at low cos φ a generator is overloaded by current before it is overloaded by power. Watch both the ammeter and the cos φ or kvar meter."],
+  ["Неисправность АРН или обрыв в цепи возбуждения при параллельной работе вызывает перекос реактивной нагрузки и срабатывание защиты, вплоть до обесточивания.",
+   "An AVR fault or a broken excitation circuit in parallel operation causes reactive load imbalance and protection trips, up to a blackout."]],
+ "q": [
+  [["Генератор 1000 кВА при cos φ 0,8: сколько активной мощности он может отдать?", "A 1000 kVA generator at cos φ 0.8: how much active power can it supply?"],
+   ["Около 800 кВт.", "About 800 kW."]],
+  [["Что регулирует реактивную нагрузку генератора?", "What controls a generator's reactive load?"],
+   ["Возбуждение генератора через автоматический регулятор напряжения.", "Generator excitation through the automatic voltage regulator."]],
+  [["Почему опасно ориентироваться только на киловатты?", "Why is it dangerous to watch only the kilowatts?"],
+   ["При низком cos φ ток генератора может превысить номинал, хотя киловатты в норме.", "At low cos φ generator current can exceed its rating while the kilowatts look normal."]]]},
+
+{"i": 5,
+ "w": [
+  ["На большинстве судов силовая сеть низкого напряжения выполнена с изолированной нейтралью (система IT): ни одна фаза не соединена с корпусом. Первое замыкание фазы на корпус не создаёт тока короткого замыкания, автомат не срабатывает, и потребитель продолжает работать.",
+   "On most ships the low-voltage power network has an insulated neutral (IT system): no phase is connected to the hull. A first phase-to-hull fault creates no short-circuit current, the breaker does not trip and the consumer keeps running."],
+  ["Такая схема выбрана ради живучести: рулевое устройство, насосы и навигация не отключаются от одного повреждения изоляции. Но после первого замыкания сеть уже фактически заземлена, и второе замыкание на другой фазе даёт короткое замыкание.",
+   "This design is chosen for survivability: steering gear, pumps and navigation are not tripped by a single insulation fault. But after the first fault the network is effectively earthed, and a second fault on another phase causes a short circuit."],
+  ["Поэтому на ГРЩ стоит контроль изоляции: прибор постоянного контроля сопротивления изоляции и лампы «земли». При снижении сопротивления срабатывает сигнализация.",
+   "That is why the main switchboard has insulation monitoring: a continuous insulation resistance monitor and earth lamps. When the resistance drops, an alarm is raised."]],
+ "p": [
+  ["При сигнале «низкая изоляция» вахтенный электромеханик ищет повреждённый фидер: по согласованию с мостиком и машиной поочерёдно ненадолго отключает неответственные фидеры и смотрит, когда показания восстановятся. Затем поиск продолжают внутри найденной цепи.",
+   "On a low insulation alarm the ETO looks for the faulty feeder: in agreement with the bridge and engine room, non-essential feeders are switched off briefly one by one while watching for the reading to recover. The search then continues inside the circuit found."],
+  ["Частые причины: вода в клеммных коробках и светильниках на открытой палубе, повреждённые кабели, влага в двигателях после стоянки, грязь и масло в щитах.",
+   "Common causes: water in junction boxes and lights on open deck, damaged cables, moisture in motors after standing idle, dirt and oil in switchboards."]],
+ "e": [
+  ["Ошибка — игнорировать сигнал, раз всё работает. Пока замыкание одно, всё работает, но второе на другой фазе отключит сразу два потребителя, а на корпусе оборудования может появиться опасное напряжение.",
+   "A mistake is to ignore the alarm because everything works. With one fault everything does work, but a second fault on another phase will trip two consumers at once, and dangerous voltage may appear on equipment frames."],
+  ["Отключать фидеры для поиска без согласования нельзя: можно обесточить рулевое, пожарный насос или навигацию. Мегаомметром измеряют только отключённую цепь, отсоединив электронику, которую испытательное напряжение может повредить.",
+   "Feeders must not be switched off for fault finding without agreement: you could cut power to steering, the fire pump or navigation. Insulation testers are used only on isolated circuits, with electronics disconnected, as the test voltage can damage them."]],
+ "q": [
+  [["Почему первое замыкание фазы на корпус не отключает потребитель?", "Why doesn't a first phase-to-hull fault trip the consumer?"],
+   ["В сети с изолированной нейтралью нет замкнутого контура для тока короткого замыкания.", "In an insulated-neutral network there is no closed loop for short-circuit current."]],
+  [["Чем опасно второе замыкание?", "Why is a second fault dangerous?"],
+   ["На другой фазе оно образует короткое замыкание через корпус, срабатывает защита и отключаются потребители.", "On another phase it forms a short circuit through the hull, protection trips and consumers are lost."]],
+  [["Как найти фидер с низкой изоляцией?", "How do you find a feeder with low insulation?"],
+   ["По согласованию поочерёдно отключать неответственные фидеры и следить за прибором контроля изоляции.", "With agreement, switch off non-essential feeders one by one and watch the insulation monitor."]]]},
+
+{"i": 6,
+ "w": [
+  ["Щёточный узел передаёт ток на вращающийся ротор: на контактные кольца генераторов с возбуждением через кольца, на коллектор машин постоянного тока и на кольца двигателей с фазным ротором. Щётки делают из графита или меди с графитом и прижимают пружинами.",
+   "The brush gear carries current to a rotating rotor: to the slip rings of generators excited through rings, to the commutator of DC machines and to the rings of slip-ring induction motors. Brushes are made of graphite or copper-graphite and are pressed on by springs."],
+  ["Многие современные судовые генераторы бесщёточные: возбудитель на валу и вращающиеся диоды подают ток в обмотку ротора без колец. Щётки остаются на старых генераторах, машинах постоянного тока, некоторых кранах и лебёдках, а также в устройствах заземления гребного вала.",
+   "Many modern ship generators are brushless: an exciter on the shaft and rotating diodes feed the rotor winding without rings. Brushes remain on older generators, DC machines, some cranes and winches, and in propeller shaft earthing devices."],
+  ["Хороший контакт держится на правильном нажатии пружин, чистой поверхности кольца с ровной тёмной политурой и свободном ходе щётки в щёткодержателе.",
+   "Good contact depends on correct spring pressure, a clean ring surface with an even dark patina and free movement of the brush in its holder."]],
+ "p": [
+  ["При осмотре проверяют длину щёток по отметке износа, силу нажатия, искрение, состояние колец и коллектора, отсутствие угольной пыли. Пыль проводит ток и снижает изоляцию, её удаляют пылесосом, а не сжатым воздухом, который загоняет её внутрь.",
+   "An inspection checks brush length against the wear mark, spring pressure, sparking, the condition of rings and commutator, and carbon dust. Dust conducts and lowers insulation; it is removed with a vacuum cleaner, not compressed air, which blows it inside."],
+  ["Новую щётку притирают к кольцу полоской мелкой шлифовальной бумаги, проложенной под щёткой, а не напильником. Ставят щётки той марки, которую указал изготовитель: разные марки по-разному изнашиваются и проводят ток.",
+   "A new brush is bedded to the ring with a strip of fine abrasive paper laid under it, not with a file. Use the brush grade specified by the manufacturer: different grades wear and conduct differently."]],
+ "e": [
+  ["Сильное искрение, борозды и подгар на кольцах говорят о слабом нажатии, неправильной марке щёток, биении кольца или перегрузке. Если не устранить причину, кольцо придётся протачивать.",
+   "Heavy sparking, grooves and burn marks on rings point to weak spring pressure, the wrong brush grade, ring run-out or overload. If the cause is not fixed, the ring will have to be machined."],
+  ["Работы на щёточном узле — только на остановленной и отключённой машине, с защитой от случайного пуска. Свободная одежда и украшения рядом с вращающимися частями недопустимы.",
+   "Work on brush gear is done only on a stopped and isolated machine, secured against accidental start. Loose clothing and jewellery near rotating parts are not allowed."]],
+ "q": [
+  [["Почему угольную пыль не выдувают сжатым воздухом?", "Why isn't carbon dust blown out with compressed air?"],
+   ["Воздух загоняет проводящую пыль внутрь машины, где она снижает изоляцию обмоток.", "Air drives the conductive dust into the machine, where it lowers winding insulation."]],
+  [["О чём говорит сильное искрение щёток?", "What does heavy brush sparking indicate?"],
+   ["О слабом нажатии, неправильной марке щёток, загрязнении или биении кольца, иногда о перегрузке.", "Weak pressure, the wrong brush grade, dirt or ring run-out, sometimes overload."]],
+  [["Как правильно притереть новую щётку?", "How is a new brush bedded correctly?"],
+   ["Мелкой шлифовальной бумагой между щёткой и кольцом, абразивом к щётке.", "With fine abrasive paper between brush and ring, abrasive side towards the brush."]]]},
+
+{"i": 7,
+ "w": [
+  ["Когда двигатель или генератор остановлен, обмотки остывают, и на них конденсируется влага из воздуха. Влажная изоляция теряет сопротивление, и при пуске возможен пробой. Чтобы этого не было, в машины ставят антиконденсатные нагреватели.",
+   "When a motor or generator stops, its windings cool and moisture from the air condenses on them. Damp insulation loses resistance and may break down on start. To prevent this, machines are fitted with anti-condensation heaters."],
+  ["Нагреватель включается автоматически при остановке машины и отключается при пуске через блок-контакт контактора или автомата. Он держит обмотки на несколько градусов теплее окружающего воздуха, и роса не выпадает.",
+   "The heater switches on automatically when the machine stops and off when it starts, through an auxiliary contact of the contactor or breaker. It keeps the windings a few degrees warmer than the surrounding air, so no dew forms."],
+  ["Подогрев есть у генераторов, крупных двигателей насосов и компрессоров, палубных механизмов и в некоторых щитах. Особенно он важен на палубе: механизмы там долго стоят в сыром и холодном воздухе.",
+   "Heaters are fitted in generators, large pump and compressor motors, deck machinery and some switchboards. They matter most on deck, where machinery stands for long periods in damp, cold air."]],
+ "p": [
+  ["При обходе проверяют, что у остановленных машин горит лампа подогрева или нагреватель потребляет ток. Корпус остановленного двигателя с подогревом слегка тёплый на ощупь.",
+   "During rounds, check that stopped machines show the heater lamp on or that the heater draws current. The frame of a stopped heated motor feels slightly warm."],
+  ["Перед пуском машины, которая долго стояла, особенно без подогрева, измеряют сопротивление изоляции. Если оно низкое, машину сушат подогревом или током по процедуре изготовителя и только потом пускают.",
+   "Before starting a machine that has stood for a long time, especially without heating, insulation resistance is measured. If it is low, the machine is dried with heaters or current per the manufacturer's procedure before starting."]],
+ "e": [
+  ["Если нагреватель неисправен или отключён его автомат, проблема проявится не сразу, а при следующем пуске после стоянки: низкая изоляция, сигнализация, иногда пробой обмотки.",
+   "If a heater is faulty or its breaker is off, the problem shows up not at once but at the next start after standing: low insulation, an alarm, sometimes a winding failure."],
+  ["На клеммах нагревателя есть напряжение, даже когда сама машина отключена. Перед работами в клеммной коробке отключают и питание подогрева, иначе можно получить удар током.",
+   "Heater terminals are live even when the machine itself is switched off. Before working in the terminal box, isolate the heater supply too, or you may get a shock."]],
+ "q": [
+  [["Зачем нужен антиконденсатный подогрев?", "Why is anti-condensation heating needed?"],
+   ["Чтобы на обмотках остановленной машины не конденсировалась влага и не падала изоляция.", "To stop moisture condensing on the windings of a stopped machine and lowering insulation."]],
+  [["Когда подогрев должен работать?", "When should the heater be on?"],
+   ["Когда машина остановлена; при пуске он отключается автоматически.", "When the machine is stopped; it switches off automatically on start."]],
+  [["Что опасно в клеммной коробке отключённого двигателя с подогревом?", "What is dangerous in the terminal box of a switched-off heated motor?"],
+   ["Питание нагревателя может оставаться под напряжением, его тоже нужно отключить.", "The heater supply may still be live and must be isolated too."]]]},
+
+{"i": 8,
+ "w": [
+  ["У автоматического выключателя два разных параметра. Номинальный ток — какой ток он пропускает длительно. Отключающая способность — какой наибольший ток короткого замыкания он может разорвать и остаться целым. Её указывают в килоамперах.",
+   "A circuit breaker has two different ratings. Rated current is the current it carries continuously. Breaking capacity is the largest short-circuit current it can interrupt and survive. It is given in kiloamperes."],
+  ["На судне ток короткого замыкания велик: генераторы работают параллельно, кабели короткие, а двигатели при КЗ сами подпитывают место повреждения. У ГРЩ ток может достигать десятков килоампер, поэтому там стоят автоматы с высокой отключающей способностью.",
+   "On a ship short-circuit current is high: generators run in parallel, cables are short and motors feed the fault themselves. At the main switchboard it can reach tens of kiloamperes, so breakers there have a high breaking capacity."],
+  ["Защиту строят селективно: ближайший к повреждению автомат должен отключиться первым, а вышестоящий остаться включённым. Для этого настраивают уставки по току и выдержки времени.",
+   "Protection is made selective: the breaker nearest the fault must trip first while the upstream one stays closed. This is done by setting current thresholds and time delays."]],
+ "p": [
+  ["При замене автомата сверяют не только номинальный ток, но и отключающую способность, характеристику расцепителя и тип. Автомат с тем же номиналом, но меньшей отключающей способностью может разрушиться при коротком замыкании.",
+   "When replacing a breaker, check not only the rated current but also the breaking capacity, the trip characteristic and the type. A breaker with the same rating but a lower breaking capacity may be destroyed in a short circuit."],
+  ["Изменения схемы, например новый генератор или мощное береговое питание, меняют ток короткого замыкания. После таких изменений расчёт токов КЗ и селективности пересматривают.",
+   "Changes to the system, such as a new generator or a large shore supply, change the short-circuit current. After such changes the short-circuit and selectivity calculations are reviewed."]],
+ "e": [
+  ["Повторно включать автомат, который отключился по короткому замыканию, нельзя, пока не найдена и не устранена причина. Каждое такое отключение изнашивает контакты и дугогасительные камеры.",
+   "A breaker that tripped on a short circuit must not be reclosed until the cause is found and cleared. Every such trip wears the contacts and arc chutes."],
+  ["Ошибка — ставить автомат на больший ток, чтобы он перестал выбивать. Кабель рассчитан на свой ток и начнёт перегреваться, а защита перестанет его защищать.",
+   "A mistake is to fit a higher-rated breaker so it stops tripping. The cable is rated for its own current and will overheat, and the protection will no longer protect it."]],
+ "q": [
+  [["Чем номинальный ток автомата отличается от отключающей способности?", "How does a breaker's rated current differ from its breaking capacity?"],
+   ["Номинальный — длительный рабочий ток; отключающая способность — наибольший ток КЗ, который автомат может безопасно разорвать.", "Rated current is the continuous working current; breaking capacity is the largest short-circuit current it can safely interrupt."]],
+  [["Что такое селективность защиты?", "What is protection selectivity?"],
+   ["При повреждении отключается только ближайший к нему автомат, а остальная сеть продолжает работать.", "On a fault only the nearest breaker trips and the rest of the network keeps running."]],
+  [["Можно ли поставить автомат на больший ток, если старый часто срабатывает?", "May you fit a higher-rated breaker if the old one trips often?"],
+   ["Нет: нужно искать причину, иначе кабель останется без защиты от перегрузки.", "No: find the cause, otherwise the cable is left without overload protection."]]]},
+
+{"i": 9,
+ "w": [
+  ["Тепловизор показывает распределение температуры поверхности. Плохой контакт, перегруженная фаза или неисправный автомат греются сильнее соседних, и на снимке это видно как яркое пятно. Обследование выполняют без отключения, под рабочей нагрузкой.",
+   "A thermal camera shows the temperature pattern of a surface. A bad contact, an overloaded phase or a faulty breaker runs hotter than its neighbours and shows up as a bright spot. The survey is done without shutting down, under working load."],
+  ["Главный приём — сравнение. Сравнивают три фазы одного присоединения, однотипные автоматы и соединения. Разница в несколько градусов при одинаковой нагрузке уже повод проверить, а большая разница требует срочных мер.",
+   "The key method is comparison. Compare the three phases of one feeder and similar breakers and joints. A difference of a few degrees at equal load is a reason to check; a large difference calls for urgent action."],
+  ["На точность влияет излучательная способность: блестящая медь и алюминий отражают тепло окружающих предметов и выглядят холоднее, чем есть. Измерять лучше по изоляции, окрашенным поверхностям или специальным меткам.",
+   "Accuracy depends on emissivity: shiny copper and aluminium reflect heat from surrounding objects and look cooler than they are. It is better to measure on insulation, painted surfaces or special markers."]],
+ "p": [
+  ["Обследование проводят при нагрузке, близкой к обычной рабочей: без нагрузки плохой контакт не греется. Записывают ток в момент съёмки, чтобы сравнивать с прошлыми обследованиями.",
+   "Surveys are done at close to normal working load: without load a bad contact does not heat up. Record the current at the time of the image to compare with earlier surveys."],
+  ["Для каждой находки фиксируют место, обычное и тепловое фото, температуру и ток. Ремонт планируют на ближайшую возможность с отключением, а после ремонта делают контрольный снимок.",
+   "For each finding record the location, a normal and a thermal photo, the temperature and the current. Repair is planned for the next shutdown opportunity, and a check image is taken after the repair."]],
+ "e": [
+  ["Открывать щиты под напряжением можно только по допуску, с защитой лица и рук от электрической дуги и с соблюдением безопасных расстояний. Многие щиты оборудуют смотровыми окнами, чтобы снимать без открытия дверей.",
+   "Live switchboards may be opened only under a permit, with arc-flash protection for face and hands and safe distances kept. Many switchboards have inspection windows so images can be taken without opening the doors."],
+  ["Ошибка — измерить блестящую шину и успокоиться, что температура низкая. Отражение искажает картину, и опасный нагрев можно пропустить.",
+   "A mistake is to measure a shiny busbar and relax because the reading is low. Reflection distorts the picture and dangerous heating can be missed."]],
+ "q": [
+  [["Почему термографию делают под нагрузкой?", "Why is thermography done under load?"],
+   ["Без тока плохой контакт не выделяет тепла, и дефект не виден.", "Without current a bad contact makes no heat and the defect is invisible."]],
+  [["Как понять, что соединение перегрето, если нормы под рукой нет?", "How can you tell a joint is overheating if no limit value is at hand?"],
+   ["Сравнить с однотипными соединениями и другими фазами при той же нагрузке.", "Compare it with similar joints and the other phases at the same load."]],
+  [["Почему блестящая медь на тепловизоре выглядит холоднее?", "Why does shiny copper look cooler on a thermal camera?"],
+   ["У неё низкая излучательная способность, она отражает тепло окружающих предметов.", "It has low emissivity and reflects heat from surrounding objects."]]]}
+]}
