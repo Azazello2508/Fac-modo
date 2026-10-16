@@ -14,12 +14,17 @@ a{color:#9cf}
 .bp{color:#111}
 #status{margin:12px;font-size:20px;min-height:26px}
 button{font-size:16px;padding:8px 16px;margin:8px;cursor:pointer}
+#opts{display:flex;flex-wrap:wrap;justify-content:center;gap:6px;margin:2px 0 6px}
+#opts button{margin:0;font-size:15px;padding:6px 12px;background:#444;color:#eee;border:2px solid #666;border-radius:8px}
+#opts button.on{background:#3d7a4a;border-color:#8f8;color:#fff}
+#opts .sep{width:100%}
 </style></head><body>
 <h2>Шахматы</h2>
+<div id="opts"></div>
 <div id="status"></div>
 <div id="board"></div>
 <div><button onclick="newGame()">Новая игра</button> <a href="index.html">← Меню</a></div>
-<p style="max-width:520px;color:#aaa">Вы играете белыми. Нажмите на фигуру — зелёные точки покажут, куда можно пойти. Пешка, дошедшая до конца, становится ферзём.</p>
+<p style="max-width:520px;color:#aaa">С компьютером вы играете белыми. Вдвоём — ходите по очереди на одном устройстве: сначала белые, потом чёрные. Нажмите на фигуру — зелёные точки покажут, куда можно пойти. Пешка, дошедшая до конца, становится ферзём.</p>
 <script>
 const GL={k:'♚',q:'♛',r:'♜',b:'♝',n:'♞',p:'♟'};
 const VAL={p:100,n:320,b:330,r:500,q:900,k:0};
@@ -28,10 +33,21 @@ const col=p=>p==='.'?null:(p===p.toUpperCase()?'w':'b');
 const opp=c=>c==='w'?'b':'w';
 const $=id=>document.getElementById(id);
 const status=t=>$('status').textContent=t;
+const GKEY='fm_chess';
+let MODE='ai',LVL=1,GID=0;
+try{const o=JSON.parse(localStorage.getItem(GKEY)||'{}');if(o.m==='2p')MODE='2p';if(o.l>=0&&o.l<=2)LVL=o.l;}catch(e){}
+function setOpt(m,l){if(m)MODE=m;if(l!==undefined)LVL=l;try{localStorage.setItem(GKEY,JSON.stringify({m:MODE,l:LVL}))}catch(e){}opts();newGame();}
+function opts(){
+  const el=$('opts');el.innerHTML='';
+  const b=(t,on,f)=>{const x=document.createElement('button');x.textContent=t;if(on)x.className='on';x.onclick=f;el.appendChild(x);};
+  b('🤖 С компьютером',MODE==='ai',()=>setOpt('ai'));b('👥 Вдвоём',MODE==='2p',()=>setOpt('2p'));
+  if(MODE==='ai'){const s=document.createElement('div');s.className='sep';el.appendChild(s);['Лёгкий','Средний','Тяжёлый'].forEach((t,i)=>b(t,LVL===i,()=>setOpt(undefined,i)));}
+}
+const later=(f,ms)=>{const g=GID;setTimeout(()=>{if(g===GID)f();},ms);};
 
 function newGame(){
   S={b:("rnbqkbnr"+"pppppppp"+".".repeat(32)+"PPPPPPPP"+"RNBQKBNR").split(''),turn:'w',cr:{K:1,Q:1,k:1,q:1},ep:-1};
-  sel=-1;legalSel=[];over=false;last=null;draw();status('Ваш ход (белые)');
+  GID++;sel=-1;legalSel=[];over=false;last=null;draw();status(MODE==='2p'?'Ход белых':'Ваш ход (белые)');
 }
 function attacked(b,sq,by){
   const r=sq>>3,c=sq&7;
@@ -104,21 +120,30 @@ function search(s,depth,a,bt){
   const ms=legal(s);
   if(!ms.length){const inC=attacked(s.b,kingSq(s.b,s.turn),opp(s.turn));return inC?(s.turn==='w'?-99999-depth:99999+depth):0;}
   if(depth===0)return evalB(s.b);
-  ms.sort((x,y)=>(s.b[y.t]!=='.')-(s.b[x.t]!=='.'));
+  ms.sort((x,y)=>cap(s.b,y)-cap(s.b,x));
   if(s.turn==='w'){let best=-1e9;for(const m of ms){best=Math.max(best,search(make(s,m),depth-1,a,bt));a=Math.max(a,best);if(a>=bt)break;}return best;}
   let best=1e9;for(const m of ms){best=Math.min(best,search(make(s,m),depth-1,a,bt));bt=Math.min(bt,best);if(a>=bt)break;}return best;
 }
+const cap=(b,m)=>b[m.t]==='.'?0:VAL[b[m.t].toLowerCase()]*10-VAL[b[m.f].toLowerCase()]/10+1;
+// Уровни: лёгкий — смотрит на 1 ход и часто ошибается, средний — на 3 полухода, тяжёлый — на 4
 function aiMove(){
-  const ms=legal(S).sort(()=>Math.random()-.5);let best=null,bv=1e9;
-  for(const m of ms){const v=search(make(S,m),2,-1e9,1e9);if(v<bv){bv=v;best=m;}}
+  const ms=legal(S).sort(()=>Math.random()-.5);
+  if(LVL===0&&Math.random()<0.35)return doMove(ms[0]);
+  const depth=[0,2,3][LVL];
+  ms.sort((x,y)=>cap(S.b,y)-cap(S.b,x));
+  let best=ms[0],bv=1e9,bt=1e9;
+  for(const m of ms){const v=search(make(S,m),depth,-1e9,bt)+(LVL===0?Math.random()*120:0);if(v<bv){bv=v;best=m;}if(LVL&&v<bt)bt=v;}
   doMove(best);
 }
 function doMove(m){
   last=m;S=make(S,m);sel=-1;legalSel=[];draw();checkEnd();
-  if(!over&&S.turn==='b'){setTimeout(aiMove,60);}
+  if(!over&&MODE==='ai'&&S.turn==='b'){later(aiMove,60);}
 }
 function checkEnd(){
   const ms=legal(S),inC=attacked(S.b,kingSq(S.b,S.turn),opp(S.turn));
+  if(MODE==='2p'){const w=S.turn==='w'?'белых':'чёрных';
+    if(!ms.length){over=true;status(inC?'Мат! Победили '+(S.turn==='w'?'чёрные':'белые')+' 🎉':'Пат — ничья');return;}
+    status(inC?'Шах! Ход '+w:'Ход '+w);return;}
   if(!ms.length){over=true;status(inC?(S.turn==='w'?'Мат. Победил компьютер':'Мат! Вы победили 🎉'):'Пат — ничья');return;}
   if(S.turn==='w')status(inC?'Шах! Ваш ход':'Ваш ход (белые)');
   else status(inC?'Шах компьютеру! Компьютер думает…':'Компьютер думает…');
@@ -137,11 +162,11 @@ function draw(){
   }
 }
 function click(i){
-  if(over||S.turn!=='w')return;
+  if(over||(MODE==='ai'&&S.turn!=='w'))return;
   const m=legalSel.find(m=>m.t===i);
   if(sel>=0&&m){doMove(m);return;}
-  if(col(S.b[i])==='w'){sel=i;legalSel=legal(S).filter(m=>m.f===i);}else{sel=-1;legalSel=[];}
+  if(col(S.b[i])===S.turn){sel=i;legalSel=legal(S).filter(m=>m.f===i);}else{sel=-1;legalSel=[];}
   draw();
 }
-newGame();
+opts();newGame();
 </script></body></html>

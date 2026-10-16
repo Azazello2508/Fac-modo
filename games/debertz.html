@@ -7,69 +7,121 @@ a{color:#bdf}
 .row{display:flex;flex-wrap:wrap;justify-content:center;align-items:center;min-height:90px;margin:6px}
 .card{width:56px;height:80px;border-radius:6px;background:#fff;color:#111;border:1px solid #333;display:inline-flex;align-items:center;justify-content:center;font-size:21px;font-weight:bold;margin:3px;user-select:none;box-shadow:1px 2px 4px rgba(0,0,0,.4)}
 .card.red{color:#c00}
-.card.back{background:repeating-linear-gradient(45deg,#8f2a2a,#8f2a2a 5px,#ad3b3b 5px,#ad3b3b 10px);margin-left:-30px}
+.card.back{background:repeating-linear-gradient(45deg,#8f2a2a,#8f2a2a 5px,#ad3b3b 5px,#ad3b3b 10px)}
 .card.play{cursor:pointer;transform:translateY(-6px);box-shadow:0 0 0 3px #ffd54a}
 .card.dis{opacity:.55}
-#score{font-size:18px;margin:4px}
+.card.sm{width:26px;height:38px;margin:0 0 0 -14px;font-size:12px}
+.card.sm.one{margin:0 4px 0 0}
+.seat .backs{align-items:center}
+#score{font-size:18px;margin:4px;text-align:center}
 #info{max-width:620px;text-align:center;color:#dff;min-height:22px}
 #status{font-size:19px;margin:6px;min-height:26px;text-align:center}
 button{font-size:16px;padding:8px 16px;margin:4px;cursor:pointer}
 .lbl{color:#cfe;font-size:14px}
+#opts{display:flex;flex-wrap:wrap;justify-content:center;gap:6px;margin:2px 0 6px}
+#opts button{margin:0;font-size:15px;padding:6px 12px;background:#244;color:#eee;border:2px solid #577;border-radius:8px}
+#opts button.on{background:#3d7a4a;border-color:#8f8;color:#fff}
+#opts .sep{width:100%}
+#felt{display:grid;grid-template-columns:1fr auto 1fr;grid-template-rows:auto auto;align-items:center;justify-items:center;width:min(96vw,620px);gap:4px}
+.seat{text-align:center;font-size:13px;color:#cfe;padding:4px 6px;border-radius:8px;min-width:60px}
+.seat .backs{display:flex;justify-content:center;padding-left:14px;margin-top:3px}
+.seat.act{box-shadow:0 0 0 2px #ffd54a;background:rgba(255,213,74,.12)}
+.seat .bid{color:#ffe08a;font-size:12px;min-height:15px}
+.seat.mate .nm{color:#9f9}
+#table{position:relative;width:200px;height:190px;background:rgba(0,0,0,.15);border-radius:12px}
+#table .slot{position:absolute;text-align:center;font-size:11px;color:#cfe}
+#table .p_me{left:72px;bottom:0}#table .p_t,#table .p_ai{left:72px;top:0}#table .p_l{left:4px;top:52px}#table .p_r{right:4px;top:52px}
+#table .turned{left:60px;top:46px;font-size:13px}
+#table .slot.win .card{box-shadow:0 0 0 3px #7f7}
 </style></head><body>
-<h2>Деберц (на двоих)</h2>
+<h2 id="ttl">Деберц</h2>
+<div id="opts"></div>
 <div id="score"></div>
 <div id="info"></div>
-<div class="lbl">Компьютер</div>
-<div class="row" id="aiHand" style="padding-left:30px"></div>
-<div class="row" id="table"></div>
+<div id="felt">
+  <div></div><div class="seat" id="seat_top"></div><div></div>
+  <div class="seat" id="seat_l"></div><div id="table"></div><div class="seat" id="seat_r"></div>
+</div>
 <div id="status"></div>
 <div id="btns"></div>
 <div class="row" id="myHand"></div>
 <div class="lbl">Ваши карты</div>
 <div><button onclick="newGame()">Новая игра</button> <a href="index.html">← Меню</a></div>
-<p style="max-width:620px;color:#bcd;font-size:14px">Упрощённые правила: колода 32 карты, по 9 карт. Козыри по старшинству: В(20) 9(14) Т(11) 10(10) К(4) Д(3) 8 7. Остальные: Т 10 К Д В 9 8 7. Терц = 20, четыре подряд = 50 (засчитываются только у того, чья комбинация старше), бэла (К+Д козыря) = 20, последняя взятка +10. Кто заказал козырь и набрал меньше — «бит», его очки уходят сопернику. Игра до 510.</p>
+<p id="rules" style="max-width:620px;color:#bcd;font-size:14px"></p>
 <script>
 const SUITS=['♠','♣','♥','♦'],RN={7:'7',8:'8',9:'9',10:'10',11:'В',12:'Д',13:'К',14:'Т'};
 const ORD_N=[7,8,9,11,12,13,10,14],ORD_T=[7,8,12,13,10,14,9,11];
 const PT_N={14:11,10:10,13:4,12:3,11:2},PT_T={11:20,9:14,14:11,10:10,13:4,12:3};
-let trump,turned,deck,hands,dealer,taker,score,dp,tricks,turn,table,phase,comb,bids,info='';
 const $=id=>document.getElementById(id);
 const msg=t=>$('status').textContent=t;
-const other=w=>w==='me'?'ai':'me';
+// Настройки: вчетвером (вы и партнёр-бот против двух ботов) или один на один; уровень ботов
+let NP=4,LVL=1,GID=0;
+try{const o=JSON.parse(localStorage.getItem('fm_debertz')||'{}');if(o.n===2)NP=2;if(o.l>=0&&o.l<=2)LVL=o.l;}catch(e){}
+function setOpt(n,l){if(n)NP=n;if(l!==undefined)LVL=l;try{localStorage.setItem('fm_debertz',JSON.stringify({n:NP,l:LVL}))}catch(e){}opts();newGame();}
+function opts(){
+  const el=$('opts');el.innerHTML='';
+  const b=(t,on,f)=>{const x=document.createElement('button');x.textContent=t;if(on)x.className='on';x.onclick=f;el.appendChild(x);};
+  b('👥 Вчетвером (вы + 3 бота)',NP===4,()=>setOpt(4));b('🤖 Один на один',NP===2,()=>setOpt(2));
+  const s=document.createElement('div');s.className='sep';el.appendChild(s);
+  ['Лёгкий','Средний','Тяжёлый'].forEach((t,i)=>b(t,LVL===i,()=>setOpt(undefined,i)));
+}
+const later=(f,ms)=>{const g=GID;setTimeout(()=>{if(g===GID)f();},ms);};
+
+// Игроки по кругу (против часовой стрелки): вы → справа → напротив → слева
+let P,trump,turned,deck,hands,dealer,taker,score,dp,tricks,turn,table,phase,comb,bids,info='',said,played,voids,lastWin=null;
+const NAME={me:'Вы',r:'Справа',t:'Партнёр',l:'Слева',ai:'Компьютер'};
+const team=p=>NP===2?(p==='me'?0:1):(p==='me'||p==='t'?0:1);
+const nextP=p=>P[(P.indexOf(p)+1)%P.length];
 const pts=c=>(c.s===trump?PT_T:PT_N)[c.r]||0;
 const pow=c=>c.s===trump?100+ORD_T.indexOf(c.r):ORD_N.indexOf(c.r);
 const nm=c=>RN[c.r]+c.s;
+const TN=()=>NP===2?['вы','компьютер']:['вы с партнёром','соперники'];
 function shuffle(a){for(let i=a.length-1;i>0;i--){const j=Math.random()*(i+1)|0;[a[i],a[j]]=[a[j],a[i]];}return a;}
 
-function newGame(){score={me:0,ai:0};dealer='ai';newDeal();}
+function newGame(){
+  GID++;P=NP===2?['me','ai']:['me','r','t','l'];
+  score=[0,0];dealer=P[P.length-1];
+  $('ttl').textContent=NP===2?'Деберц (один на один)':'Деберц (вчетвером, 2 на 2)';
+  $('rules').textContent=(NP===2?'Колода 32 карты, по 9 карт (6 + 3 после заказа). ':'Вы и партнёр (напротив) играете против двух ботов. Колода 32 карты: сначала по 5 карт, после заказа козыря заказавший берёт открытую карту и ещё 2, остальные — по 3. Если ваш партнёр уже берёт взятку, бить не обязательно. ')+
+    'Козыри по старшинству: В(20) 9(14) Т(11) 10(10) К(4) Д(3) 8 7. Остальные: Т 10 К Д В 9 8 7. Нужно ходить в масть; нет масти — бить козырем; на козырь — перебивать, если можете. Терц = 20, четыре подряд = 50 (засчитываются только у той стороны, чья комбинация старше), бэла (К+Д козыря) = 20, последняя взятка +10. Кто заказал козырь и набрал меньше — «бит», его очки уходят соперникам. Игра до 510.';
+  newDeal();
+}
 function newDeal(){
+  GID++;
   deck=[];for(const s of SUITS)for(let r=7;r<=14;r++)deck.push({s,r});shuffle(deck);
-  hands={me:deck.splice(-6),ai:deck.splice(-6)};turned=deck.pop();trump=null;taker=null;table=[];phase='bid';
-  bids={round:1,idx:0};info='Раздаёт '+(dealer==='me'?'вы':'компьютер')+'. Открыта карта: '+nm(turned);
-  bidNext();
+  hands={};for(const p of P)hands[p]=deck.splice(-(NP===2?6:5));
+  turned=deck.pop();trump=null;taker=null;table=[];phase='bid';lastWin=null;
+  said={};played=[];voids={};for(const p of P)voids[p]={};
+  dealer=nextP(dealer);bids={round:1,who:nextP(dealer),n:0};
+  info='Раздаёт: '+NAME[dealer].toLowerCase()+'. Открыта карта: '+nm(turned);
+  sortH();bidNext();
 }
-const bidOrder=()=>[other(dealer),dealer];
 function bidNext(){
-  const who=bidOrder()[bids.idx];render();
+  const who=bids.who;render();
   if(who==='me')msg(bids.round===1?'Берёте козырь '+turned.s+'?':'Назовите другую масть козырем или пас');
-  else{msg('Компьютер решает…');setTimeout(aiBid,800);}
+  else{msg(NAME[who]+' думает…');later(()=>aiBid(who),800);}
 }
+// Оценка руки для заказа козыря: очки козырей, тузы, комбинации
 function suitScore(h,s){
-  let v=0;for(const c of h){if(c.s===s)v+=(PT_T[c.r]||0)+6;else if(c.r===14)v+=8;}
+  let v=0;for(const c of h){if(c.s===s)v+=(PT_T[c.r]||0)+6;else if(c.r===14)v+=8;else if(c.r===10&&LVL===2&&h.some(x=>x.s===c.s&&x.r===14))v+=5;}
+  if(LVL===2){if(h.some(c=>c.s===s&&c.r===11)&&h.some(c=>c.s===s&&c.r===9))v+=8;if(h.some(c=>c.s===s&&c.r===13)&&h.some(c=>c.s===s&&c.r===12))v+=6;}
   return v;
 }
-function aiBid(){
-  let s=null;
-  if(bids.round===1){if(suitScore(hands.ai,turned.s)>=45)s=turned.s;}
-  else{let best=0,bs=null;for(const x of SUITS){if(x===turned.s)continue;const v=suitScore(hands.ai,x);if(v>best){best=v;bs=x;}}if(best>=45)s=bs;}
-  info+=' | Компьютер: '+(s?'играю '+s:'пас');
-  bidAnswer('ai',s);
+function aiBid(who){
+  const h=hands[who],thr=(LVL===0?52:LVL===1?45:(NP===4?54:46))*h.length/6,cand=bids.round===1?[turned.s]:SUITS.filter(x=>x!==turned.s);
+  let best=-1,bs=null;
+  for(const x of cand){const v=suitScore(round1Hand(who,x),x)+(LVL===0?Math.random()*12-6:0);if(v>best){best=v;bs=x;}}
+  const s=best>=thr?bs:null;
+  said[who]=s?'играю '+s:'пас';
+  bidAnswer(who,s);
 }
+// В первом круге заказавший получит открытую карту — умный бот это учитывает
+const round1Hand=(who,s)=>LVL===2&&NP===4&&bids.round===1?[...hands[who],turned]:hands[who];
 function bidAnswer(who,s){
   if(s){trump=s;taker=who;return startPlay();}
-  bids.idx++;
-  if(bids.idx>1){bids.idx=0;bids.round++;
-    if(bids.round>2){render();msg('Все спасовали — пересдача');setTimeout(()=>{dealer=other(dealer);newDeal();},1500);return;}}
+  bids.n++;bids.who=nextP(bids.who);
+  if(bids.n>=P.length){bids.n=0;bids.round++;
+    if(bids.round>2){render();msg('Все спасовали — пересдача');later(newDeal,1500);return;}}
   bidNext();
 }
 function sortH(){hands.me.sort((a,b)=>((a.s===trump)-(b.s===trump))||SUITS.indexOf(a.s)-SUITS.indexOf(b.s)||pow(a)-pow(b));}
@@ -81,76 +133,138 @@ function runs(h){
   }
   return res;
 }
-function bestRun(rs){return rs.reduce((b,x)=>!b||x.val>b.val||(x.val===b.val&&(x.top>b.top||(x.top===b.top&&x.s===trump)))?x:b,null);}
+const better=(x,b)=>!b||x.val>b.val||(x.val===b.val&&(x.top>b.top||(x.top===b.top&&x.s===trump)));
 function calcComb(){
-  const r={me:runs(hands.me),ai:runs(hands.ai)},bm=bestRun(r.me),ba=bestRun(r.ai);let win=null;
-  if(bm&&!ba)win='me';else if(ba&&!bm)win='ai';
-  else if(bm&&ba){
-    if(bm.val!==ba.val)win=bm.val>ba.val?'me':'ai';
-    else if(bm.top!==ba.top)win=bm.top>ba.top?'me':'ai';
-    else if(bm.s===trump)win='me';else if(ba.s===trump)win='ai';
+  const r={},bt=[null,null];
+  for(const p of P){r[p]=runs(hands[p]);for(const x of r[p])if(better(x,bt[team(p)]))bt[team(p)]=x;}
+  let win=null;const[b0,b1]=bt;
+  if(b0&&!b1)win=0;else if(b1&&!b0)win=1;
+  else if(b0&&b1){
+    if(b0.val!==b1.val)win=b0.val>b1.val?0:1;
+    else if(b0.top!==b1.top)win=b0.top>b1.top?0:1;
+    else if(b0.s===trump)win=0;else if(b1.s===trump)win=1;
   }
-  const out={me:0,ai:0,text:''};
-  if(win){out[win]=r[win].reduce((a,x)=>a+x.val,0);
-    out.text=(win==='me'?'Ваши комбинации':'Комбинации компьютера')+': '+r[win].map(x=>(x.val===50?'полтинник':'терц')+' '+x.s).join(', ')+' (+'+out[win]+'). ';}
-  for(const w of['me','ai'])if(hands[w].some(c=>c.s===trump&&c.r===13)&&hands[w].some(c=>c.s===trump&&c.r===12)){out[w]+=20;out.text+=(w==='me'?'У вас':'У компьютера')+' бэла (+20). ';}
-  return out;
+  const out=[0,0];let text='';
+  if(win!==null){const list=P.filter(p=>team(p)===win).flatMap(p=>r[p].map(x=>({p,x})));
+    out[win]=list.reduce((a,o)=>a+o.x.val,0);
+    text='Комбинации: '+list.map(o=>NAME[o.p]+' — '+(o.x.val===50?'полтинник':'терц')+' '+o.x.s).join(', ')+' (+'+out[win]+'). ';}
+  for(const p of P)if(hands[p].some(c=>c.s===trump&&c.r===13)&&hands[p].some(c=>c.s===trump&&c.r===12)){out[team(p)]+=20;text+=NAME[p]+': бэла (+20). ';}
+  return{t:out,text};
 }
 function startPlay(){
-  for(const w of['me','ai'])hands[w].push(...deck.splice(-3));
   let note='';
-  if(turned.s===trump)for(const w of['me','ai']){const i=hands[w].findIndex(c=>c.s===trump&&c.r===7);
-    if(i>=0){hands[w][i]=turned;note=(w==='me'?'Вы поменяли':'Компьютер поменял')+' козырную 7 на '+nm(turned)+'. ';}}
-  sortH();comb=calcComb();dp={me:0,ai:0};tricks=0;turn=other(dealer);table=[];phase='play';
-  info='Козырь '+trump+'. Заказал: '+(taker==='me'?'вы':'компьютер')+'. '+note+comb.text;
+  if(NP===2){
+    for(const p of P)hands[p].push(...deck.splice(-3));
+    if(turned.s===trump)for(const p of P){const i=hands[p].findIndex(c=>c.s===trump&&c.r===7);
+      if(i>=0){hands[p][i]=turned;note=(p==='me'?'Вы поменяли':'Компьютер поменял')+' козырную 7 на '+nm(turned)+'. ';}}
+  }else{
+    for(const p of P)hands[p].push(...(p===taker?[turned,...deck.splice(-2)]:deck.splice(-3)));
+    note=NAME[taker]+' забирает '+nm(turned)+'. ';
+  }
+  sortH();comb=calcComb();dp=[0,0];tricks=0;turn=nextP(dealer);table=[];phase='play';
+  info='Козырь '+trump+'. Заказал: '+NAME[taker].toLowerCase()+'. '+note+comb.text;
   next();
 }
-function legalCards(h){
-  if(!table.length)return h;
-  const lead=table[0].c,same=h.filter(c=>c.s===lead.s);
-  if(same.length){if(lead.s===trump){const hi=same.filter(c=>pow(c)>pow(lead));return hi.length?hi:same;}return same;}
-  const tr=h.filter(c=>c.s===trump);return tr.length?tr:h;
+// Кто сейчас берёт взятку
+function winnerIdx(tb){let w=0;for(let i=1;i<tb.length;i++){const a=tb[w].c,b=tb[i].c;if((b.s===a.s&&pow(b)>pow(a))||(b.s===trump&&a.s!==trump))w=i;}return w;}
+function legalCards(p){
+  const h=hands[p];if(!table.length)return h;
+  const lead=table[0].c,same=h.filter(c=>c.s===lead.s),top=table[winnerIdx(table)];
+  if(same.length){if(lead.s===trump){const hi=same.filter(c=>pow(c)>pow(top.c));return hi.length?hi:same;}return same;}
+  if(NP===4&&team(top.who)===team(p))return h;           // партнёр уже берёт — можно сбросить любую
+  const tr=h.filter(c=>c.s===trump);if(!tr.length)return h;
+  if(top.c.s===trump){const hi=tr.filter(c=>pow(c)>pow(top.c));if(hi.length)return hi;}
+  return tr;
 }
-function next(){render();if(phase!=='play')return;if(turn==='ai'){msg('Ходит компьютер…');setTimeout(aiPlay,800);}else msg('Ваш ход');}
+function next(){
+  render();if(phase!=='play')return;
+  if(turn!=='me'){msg('Ходит: '+NAME[turn].toLowerCase()+'…');later(()=>aiPlay(turn),750);}
+  else msg(table.length&&NP===4&&team(table[winnerIdx(table)].who)===0?'Ваш ход (партнёр пока берёт взятку)':'Ваш ход');
+}
 function play(who,c){
-  hands[who].splice(hands[who].indexOf(c),1);table.push({who,c});
-  if(table.length===2){turn=null;render();setTimeout(resolve,1200);}else{turn=other(who);next();}
+  hands[who].splice(hands[who].indexOf(c),1);
+  if(table.length){const lead=table[0].c;if(c.s!==lead.s){voids[who][lead.s]=1;if(c.s!==trump)voids[who][trump]=1;}}
+  table.push({who,c});played.push(c);
+  if(table.length===P.length){turn=null;lastWin=table[winnerIdx(table)].who;render();later(resolve,1300);}else{turn=nextP(who);next();}
 }
 function resolve(){
-  const[a,b]=table;
-  const bw=(b.c.s===a.c.s&&pow(b.c)>pow(a.c))||(b.c.s===trump&&a.c.s!==trump);
-  const w=bw?b.who:a.who;
-  dp[w]+=pts(a.c)+pts(b.c);tricks++;table=[];
-  if(tricks===9){dp[w]+=10;return endDeal();}
+  const w=lastWin;
+  dp[team(w)]+=table.reduce((a,x)=>a+pts(x.c),0);tricks++;table=[];lastWin=null;
+  if(!hands.me.length){dp[team(w)]+=10;return endDeal();}
   turn=w;next();
 }
-function aiPlay(){
-  const L=legalCards(hands.ai);let c;
-  const cheap=arr=>arr.slice().sort((x,y)=>(pts(x)-pts(y))||(pow(x)-pow(y)))[0];
+// ---------- Боты ----------
+const cheap=arr=>arr.slice().sort((x,y)=>(pts(x)-pts(y))||(pow(x)-pow(y)))[0];
+const dear=arr=>arr.slice().sort((x,y)=>(pts(y)-pts(x))||(pow(y)-pow(x)))[0];
+// Карта старшая в масти: все более сильные карты уже вышли или у самого игрока
+function master(c,p){
+  for(let r=7;r<=14;r++){const x={s:c.s,r};if(pow(x)<=pow(c))continue;
+    if(!played.some(y=>y.s===c.s&&y.r===r)&&!hands[p].some(y=>y.s===c.s&&y.r===r))return false;}
+  return true;
+}
+const trumpsOut=p=>{let n=0;for(let r=7;r<=14;r++)if(!played.some(y=>y.s===trump&&y.r===r)&&!hands[p].some(y=>y.s===trump&&y.r===r))n++;return n;};
+function aiPlay(p){
+  const L=legalCards(p);let c;
+  if(LVL===0)c=Math.random()<0.7?L[Math.random()*L.length|0]:cheap(L);
+  else if(LVL===1)c=aiMedium(p,L);
+  else c=aiHard(p,L);
+  play(p,c);
+}
+function aiMedium(p,L){
   if(!table.length){
     const aces=L.filter(x=>x.s!==trump&&x.r===14),trs=L.filter(x=>x.s===trump);
-    if(aces.length)c=aces[0];
-    else if(taker==='ai'&&trs.length>=3&&trs.some(x=>x.r===11))c=trs.find(x=>x.r===11);
-    else c=cheap(L);
-  }else{
-    const lead=table[0].c;
-    const win=L.filter(x=>(x.s===lead.s&&pow(x)>pow(lead))||(x.s===trump&&lead.s!==trump)).sort((x,y)=>pow(x)-pow(y));
-    if(win.length&&(pts(lead)>=3||win[0].s!==trump))c=win[0];else c=cheap(L);
+    if(aces.length)return aces[0];
+    if(team(taker)===team(p)&&trs.length>=3&&trs.some(x=>x.r===11))return trs.find(x=>x.r===11);
+    return cheap(L);
   }
-  play('ai',c);
+  const top=table[winnerIdx(table)];
+  if(NP===4&&team(top.who)===team(p))return cheap(L);
+  const win=L.filter(x=>(x.s===top.c.s&&pow(x)>pow(top.c))||(x.s===trump&&top.c.s!==trump)).sort((x,y)=>pow(x)-pow(y));
+  const onTable=table.reduce((a,x)=>a+pts(x.c),0);
+  if(win.length&&(onTable>=3||win[0].s!==trump))return win[0];
+  return cheap(L);
 }
+function aiHard(p,L){
+  const opps=P.filter(x=>team(x)!==team(p)),pos=table.length,last=pos===P.length-1;
+  const cheapH=arr=>{const nt=arr.filter(x=>x.s!==trump);return cheap(nt.length?nt:arr);};
+  const oppTrump=s=>opps.some(o=>voids[o][s]&&!voids[o][trump]&&trumpsOut(p)>0);
+  if(!pos){
+    // старшая карта в масти, которую соперники не перебьют козырем
+    const safe=L.filter(x=>x.s!==trump&&master(x,p)&&!oppTrump(x.s));
+    if(safe.length)return dear(safe);
+    const low=L.filter(x=>x.s!==trump&&pts(x)<10);
+    return cheapH(low.length?low:L);
+  }
+  const top=table[winnerIdx(table)],onTable=table.reduce((a,x)=>a+pts(x.c),0);
+  const rest=P.slice(P.indexOf(p)+1).concat(P.slice(0,P.indexOf(p))).slice(0,P.length-1-pos);
+  const restOpp=rest.filter(x=>team(x)!==team(p));
+  const holds=c=>c.s===trump?master(c,p):master(c,p)&&!restOpp.some(o=>voids[o][c.s]&&!voids[o][trump]);
+  if(NP===4&&team(top.who)===team(p)){
+    // партнёр берёт: если взятка точно наша — «подмазываем» очки
+    if(!restOpp.length||holds(top.c)){const sm=L.filter(x=>x.s!==trump&&!master(x,p));if(sm.length)return dear(sm);}
+    return cheapH(L);
+  }
+  const win=L.filter(x=>(x.s===top.c.s&&pow(x)>pow(top.c))||(x.s===trump&&top.c.s!==trump)).sort((x,y)=>pow(x)-pow(y));
+  if(!win.length)return cheapH(L);
+  if(last)return (onTable>=2||win[0].s!==trump)?win[0]:cheapH(L);
+  const m=win.filter(holds);
+  if(m.length&&(onTable>=3||m[0].s!==trump))return m[0];
+  if(onTable>=3||win[0].s!==trump)return win[0];
+  return cheapH(L);
+}
+// ---------- Подсчёт ----------
 function endDeal(){
   phase='end';
-  const tot={me:dp.me+comb.me,ai:dp.ai+comb.ai},o=other(taker);
-  let t='Итог раздачи: вы '+tot.me+', компьютер '+tot.ai+'. ';
-  if(tot[taker]<tot[o]){tot[o]+=tot[taker];tot[taker]=0;t+=(taker==='me'?'Вы заказали и проиграли — «бит», ваши очки ушли компьютеру. ':'Компьютер заказал и проиграл — «бит», его очки ваши. ');}
-  score.me+=tot.me;score.ai+=tot.ai;
-  if(score.me>=510||score.ai>=510){phase='over';t+=score.me>score.ai?'Вы выиграли партию! 🎉':'Партию выиграл компьютер.';}
-  dealer=other(dealer);info=t;render();msg(phase==='over'?'Конец игры':'Нажмите «Следующая раздача»');
+  const tot=[dp[0]+comb.t[0],dp[1]+comb.t[1]],tt=team(taker),o=1-tt,tn=TN();
+  let t='Итог раздачи: '+tn[0]+' '+tot[0]+', '+tn[1]+' '+tot[1]+'. ';
+  if(tot[tt]<tot[o]){tot[o]+=tot[tt];tot[tt]=0;t+=tt===0?'Ваша сторона заказала и проиграла — «бит», очки ушли соперникам. ':'Соперники заказали и проиграли — «бит», их очки ваши. ';}
+  score[0]+=tot[0];score[1]+=tot[1];
+  if(score[0]>=510||score[1]>=510){phase='over';t+=score[0]>score[1]?'Вы выиграли партию! 🎉':'Партию выиграли '+(NP===2?'компьютер':'соперники')+'.';}
+  info=t;render();msg(phase==='over'?'Конец игры':'Нажмите «Следующая раздача»');
 }
 function clickCard(c){
   if(phase!=='play'||turn!=='me')return;
-  if(!legalCards(hands.me).includes(c))return;
+  if(!legalCards('me').includes(c))return;
   play('me',c);
 }
 function cardEl(c,cls){
@@ -158,25 +272,37 @@ function cardEl(c,cls){
   if(c){d.textContent=nm(c);if(c.s==='♥'||c.s==='♦')d.classList.add('red');}else d.classList.add('back');
   return d;
 }
+function seat(id,p){
+  const el=$(id);el.innerHTML='';el.className='seat';if(!p)return;
+  if(team(p)===0)el.classList.add('mate');
+  if((phase==='play'&&turn===p)||(phase==='bid'&&bids.who===p))el.classList.add('act');
+  const n=document.createElement('div');n.className='nm';n.textContent=NAME[p]+(p===dealer?' 🂠':'')+(p===taker?' ★':'');el.appendChild(n);
+  const bk=document.createElement('div');bk.className='backs';
+  if(id==='seat_top')hands[p].forEach(()=>bk.appendChild(cardEl(null,'sm')));
+  else if(hands[p].length){bk.appendChild(cardEl(null,'sm one'));bk.append(' ×'+hands[p].length);}   // сбоку мало места — одна рубашка и число карт
+  el.appendChild(bk);
+  const bd=document.createElement('div');bd.className='bid';bd.textContent=phase==='bid'?(said[p]||''):'';el.appendChild(bd);
+}
 function render(){
-  $('score').textContent='Счёт: вы '+score.me+' — компьютер '+score.ai+(phase==='play'?'   |   Взятки: вы '+dp.me+', комп. '+dp.ai:'');
+  const tn=TN();
+  $('score').textContent='Счёт: '+tn[0]+' '+score[0]+' — '+tn[1]+' '+score[1]+(phase==='play'?'. Взятки в раздаче: '+dp[0]+' : '+dp[1]:'');
   $('info').textContent=info;
-  const ah=$('aiHand');ah.innerHTML='';hands.ai.forEach(()=>ah.appendChild(cardEl(null)));
+  seat('seat_top',NP===2?'ai':'t');seat('seat_l',NP===2?null:'l');seat('seat_r',NP===2?null:'r');
   const tb=$('table');tb.innerHTML='';
-  if(phase==='bid'){tb.append('Открытая карта: ');tb.appendChild(cardEl(turned));}
-  for(const p of table){const w=document.createElement('div');w.style.textAlign='center';w.appendChild(cardEl(p.c));w.append(document.createElement('br'),p.who==='me'?'вы':'комп.');tb.appendChild(w);}
-  const L=phase==='play'&&turn==='me'?legalCards(hands.me):[];
+  if(phase==='bid'){const w=document.createElement('div');w.className='slot turned';w.append('Открытая карта');w.appendChild(document.createElement('br'));w.appendChild(cardEl(turned));tb.appendChild(w);}
+  for(const x of table){const w=document.createElement('div');w.className='slot p_'+x.who+(x.who===lastWin?' win':'');w.appendChild(cardEl(x.c));tb.appendChild(w);}
+  const L=phase==='play'&&turn==='me'?legalCards('me'):[];
   const mh=$('myHand');mh.innerHTML='';
   for(const c of hands.me){const e=cardEl(c,L.includes(c)?'play':(phase==='play'?'dis':''));e.onclick=()=>clickCard(c);mh.appendChild(e);}
   const bt=$('btns');bt.innerHTML='';
   const btn=(t,f)=>{const b=document.createElement('button');b.textContent=t;b.onclick=f;bt.appendChild(b);};
-  if(phase==='bid'&&bidOrder()[bids.idx]==='me'){
-    const ans=s=>{info+=' | Вы: '+(s?'играю '+s:'пас');bidAnswer('me',s);};
+  if(phase==='bid'&&bids.who==='me'){
+    const ans=s=>{said.me=s?'играю '+s:'пас';bidAnswer('me',s);};
     if(bids.round===1)btn('Играю '+turned.s,()=>ans(turned.s));
     else for(const s of SUITS)if(s!==turned.s)btn('Козырь '+s,()=>ans(s));
     btn('Пас',()=>ans(null));
   }
   if(phase==='end')btn('Следующая раздача',newDeal);
 }
-newGame();
+opts();newGame();
 </script></body></html>
