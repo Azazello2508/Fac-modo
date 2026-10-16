@@ -16,16 +16,32 @@ a{color:#9cf}
 .mv::after{content:'';position:absolute;width:30%;height:30%;border-radius:50%;background:rgba(0,220,0,.6)}
 #status{margin:12px;font-size:20px;min-height:26px}
 button{font-size:16px;padding:8px 16px;margin:8px;cursor:pointer}
+#opts{display:flex;flex-wrap:wrap;justify-content:center;gap:6px;margin:2px 0 6px}
+#opts button{margin:0;font-size:15px;padding:6px 12px;background:#444;color:#eee;border:2px solid #666;border-radius:8px}
+#opts button.on{background:#3d7a4a;border-color:#8f8;color:#fff}
+#opts .sep{width:100%}
 </style></head><body>
 <h2>Русские шашки</h2>
+<div id="opts"></div>
 <div id="status"></div>
 <div id="board"></div>
 <div><button onclick="newGame()">Новая игра</button> <a href="index.html">← Меню</a></div>
-<p style="max-width:520px;color:#aaa">Вы играете белыми. Бить обязательно (можно назад), несколько шашек — за один ход. Дамка (♛) ходит на любое расстояние по диагонали.</p>
+<p style="max-width:520px;color:#aaa">С компьютером вы играете белыми. Вдвоём — ходите по очереди на одном устройстве: сначала белые, потом чёрные. Бить обязательно (можно назад), несколько шашек — за один ход. Дамка (♛) ходит на любое расстояние по диагонали.</p>
 <script>
 let b,turn,sel=-1,mySel=[],over=false,lastPath=[];
 const $=id=>document.getElementById(id);
 const status=t=>$('status').textContent=t;
+const GKEY='fm_checkers';
+let MODE='ai',LVL=1,GID=0;
+try{const o=JSON.parse(localStorage.getItem(GKEY)||'{}');if(o.m==='2p')MODE='2p';if(o.l>=0&&o.l<=2)LVL=o.l;}catch(e){}
+function setOpt(m,l){if(m)MODE=m;if(l!==undefined)LVL=l;try{localStorage.setItem(GKEY,JSON.stringify({m:MODE,l:LVL}))}catch(e){}opts();newGame();}
+function opts(){
+  const el=$('opts');el.innerHTML='';
+  const b=(t,on,f)=>{const x=document.createElement('button');x.textContent=t;if(on)x.className='on';x.onclick=f;el.appendChild(x);};
+  b('🤖 С компьютером',MODE==='ai',()=>setOpt('ai'));b('👥 Вдвоём',MODE==='2p',()=>setOpt('2p'));
+  if(MODE==='ai'){const s=document.createElement('div');s.className='sep';el.appendChild(s);['Лёгкий','Средний','Тяжёлый'].forEach((t,i)=>b(t,LVL===i,()=>setOpt(undefined,i)));}
+}
+const later=(f,ms)=>{const g=GID;setTimeout(()=>{if(g===GID)f();},ms);};
 const side=p=>p==='.'?null:p.toLowerCase();
 const isK=p=>p==='W'||p==='B';
 const opp=c=>c==='w'?'b':'w';
@@ -35,7 +51,7 @@ const DIRS=[[1,1],[1,-1],[-1,1],[-1,-1]];
 function newGame(){
   b=Array(64).fill('.');
   for(let r=0;r<8;r++)for(let c=0;c<8;c++)if((r+c)%2){if(r<3)b[r*8+c]='b';if(r>4)b[r*8+c]='w';}
-  turn='w';sel=-1;mySel=[];over=false;lastPath=[];draw();status('Ваш ход (белые)');
+  GID++;turn='w';sel=-1;mySel=[];over=false;lastPath=[];draw();status(MODE==='2p'?'Ход белых':'Ваш ход (белые)');
 }
 function caps(b,from,me){
   const res=[],bb=b.slice();bb[from]='.';
@@ -101,20 +117,26 @@ function mm(b,me,d,a,bt){
   let best=1e9;for(const m of ms){best=Math.min(best,mm(apply(b,m,'b'),'w',d-1,a,bt));bt=Math.min(bt,best);if(a>=bt)break;}return best;
 }
 function aiMove(){
+  // Уровни: лёгкий — видит 1 ход и иногда ошибается, средний — 4 полухода, тяжёлый — 8
   const ms=allMoves(b,'b').sort(()=>Math.random()-.5);let best=ms[0],bv=1e9;
-  for(const m of ms){const v=mm(apply(b,m,'b'),'w',5,-1e9,1e9);if(v<bv){bv=v;best=m;}}
+  if(LVL===0&&Math.random()<0.3)return doMove(ms[0],'b');
+  const d=[0,3,7][LVL];
+  for(const m of ms){const v=mm(apply(b,m,'b'),'w',d,-1e9,LVL?bv:1e9)+(LVL===0?Math.random()*60:0);if(v<bv){bv=v;best=m;}}
   doMove(best,'b');
 }
 function doMove(m,me){
   b=apply(b,m,me);lastPath=[m.from,...m.path];turn=opp(me);sel=-1;mySel=[];draw();
   const ms=allMoves(b,turn);
+  if(MODE==='2p'){const w=turn==='w'?'белых':'чёрных';
+    if(!ms.length){over=true;status('Победили '+(turn==='w'?'чёрные':'белые')+'! 🎉');return;}
+    status(ms[0].taken.length?'Ход '+w+' — нужно бить!':'Ход '+w);return;}
   if(!ms.length){over=true;status(turn==='w'?'Ходов нет — победил компьютер':'Вы победили! 🎉');return;}
-  if(turn==='b'){status('Компьютер думает…');setTimeout(aiMove,300);}
+  if(turn==='b'){status('Компьютер думает…');later(aiMove,300);}
   else status(ms[0].taken.length?'Ваш ход — нужно бить!':'Ваш ход (белые)');
 }
 function draw(){
   const el=$('board');el.innerHTML='';
-  const mine=turn==='w'&&!over?allMoves(b,'w'):[];
+  const mine=(turn==='w'||MODE==='2p')&&!over?allMoves(b,turn):[];
   for(let i=0;i<64;i++){
     const d=document.createElement('div'),r=i>>3,c=i&7;
     d.className='sq '+((r+c)%2?'d':'l');
@@ -128,12 +150,12 @@ function draw(){
   }
 }
 function click(i){
-  if(over||turn!=='w')return;
+  if(over||(MODE==='ai'&&turn!=='w'))return;
   const m=mySel.find(m=>m.path[m.path.length-1]===i);
-  if(sel>=0&&m){doMove(m,'w');return;}
-  const ms=allMoves(b,'w').filter(m=>m.from===i);
+  if(sel>=0&&m){doMove(m,turn);return;}
+  const ms=allMoves(b,turn).filter(m=>m.from===i);
   if(ms.length){sel=i;mySel=ms;}else{sel=-1;mySel=[];}
   draw();
 }
-newGame();
+opts();newGame();
 </script></body></html>

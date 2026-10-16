@@ -1,7 +1,7 @@
 # Каждый час проверяет игры на GitHub:
 #   «Танчики»    — Azazello2508/Tanchiki
 #   «Самолётики» — Azazello2508/Samolety
-#   Карты и настольные игры — Azazello2508/Nastolki (durak, debertz, chess, checkers, nardy)
+#   Карты и настольные игры (durak, debertz, chess, checkers, nardy) — из папки games/ этого репозитория
 # Если игра изменилась — встраивает новую версию в Fac Modo, публикует сайт и пересобирает приложение для iPhone.
 name: Обновление игр
 
@@ -39,11 +39,12 @@ jobs:
           }
           embed https://raw.githubusercontent.com/Azazello2508/Tanchiki/main/index.html tk-src ""
           embed https://raw.githubusercontent.com/Azazello2508/Samolety/main/index.html sm-src games/samolety.html
-          embed https://raw.githubusercontent.com/Azazello2508/Nastolki/main/durak.html dr-src games/durak.html
-          embed https://raw.githubusercontent.com/Azazello2508/Nastolki/main/debertz.html db-src games/debertz.html
-          embed https://raw.githubusercontent.com/Azazello2508/Nastolki/main/chess.html cs-src games/chess.html
-          embed https://raw.githubusercontent.com/Azazello2508/Nastolki/main/checkers.html cr-src games/checkers.html
-          embed https://raw.githubusercontent.com/Azazello2508/Nastolki/main/nardy.html nd-src games/nardy.html
+          # Настольные игры правятся прямо здесь, в games/*.html (оба разработчика могут их менять)
+          for g in durak:dr-src debertz:db-src chess:cs-src checkers:cr-src nardy:nd-src; do
+            R=$(python3 tools/embed_tanchiki.py "games/${g%%:*}.html" "${g##*:}")
+            echo "${g##*:}: $R"
+            if [ "$R" = "changed=true" ]; then CHANGED=true; fi
+          done
           echo "changed=$CHANGED" >> "$GITHUB_OUTPUT"
 
       - name: Сохранить обновление
@@ -52,7 +53,7 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add -A
-          git commit -m "Обновлены игры из Tanchiki, Samolety и Nastolki"
+          git commit -m "Обновлены игры из Tanchiki, Samolety и games/"
           git push
 
   ios:
