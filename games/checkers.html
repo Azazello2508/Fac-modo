@@ -26,20 +26,24 @@ button{font-size:16px;padding:8px 16px;margin:8px;cursor:pointer}
 <div id="status"></div>
 <div id="board"></div>
 <div><button onclick="newGame()">Новая игра</button> <a href="index.html">← Меню</a></div>
-<p style="max-width:520px;color:#aaa">С компьютером вы играете белыми. Вдвоём — ходите по очереди на одном устройстве: сначала белые, потом чёрные. Бить обязательно (можно назад), несколько шашек — за один ход. Дамка (♛) ходит на любое расстояние по диагонали.</p>
+<p style="max-width:520px;color:#aaa">С компьютером вы играете белыми. Вдвоём — ходите по очереди на одном устройстве: сначала белые, потом чёрные; доска поворачивается к тому, чей ход (кнопка «🔄 Поворот доски»). Бить обязательно (можно назад), несколько шашек — за один ход. Дамка (♛) ходит на любое расстояние по диагонали.</p>
 <script>
 let b,turn,sel=-1,mySel=[],over=false,lastPath=[];
 const $=id=>document.getElementById(id);
 const status=t=>$('status').textContent=t;
 const GKEY='fm_checkers';
-let MODE='ai',LVL=1,GID=0;
-try{const o=JSON.parse(localStorage.getItem(GKEY)||'{}');if(o.m==='2p')MODE='2p';if(o.l>=0&&o.l<=2)LVL=o.l;}catch(e){}
-function setOpt(m,l){if(m)MODE=m;if(l!==undefined)LVL=l;try{localStorage.setItem(GKEY,JSON.stringify({m:MODE,l:LVL}))}catch(e){}opts();newGame();}
+let MODE='ai',LVL=1,GID=0,ROT=true,FL=false;
+try{const o=JSON.parse(localStorage.getItem(GKEY)||'{}');if(o.m==='2p')MODE='2p';if(o.l>=0&&o.l<=2)LVL=o.l;if(o.r===0)ROT=false;}catch(e){}
+function setOpt(m,l){if(m)MODE=m;if(l!==undefined)LVL=l;try{localStorage.setItem(GKEY,JSON.stringify({m:MODE,l:LVL,r:ROT?1:0}))}catch(e){}opts();newGame();}
+// Поворот доски во «Вдвоём»: доска разворачивается к тому, чей ход
+function togRot(){ROT=!ROT;try{localStorage.setItem(GKEY,JSON.stringify({m:MODE,l:LVL,r:ROT?1:0}))}catch(e){}FL=ROT&&MODE==='2p'&&turn==='b'&&!over;opts();draw();}
+function rotLater(){const t=MODE==='2p'&&ROT&&turn==='b'&&!over;if(t!==FL)later(()=>{FL=t;draw();},450);}
 function opts(){
   const el=$('opts');el.innerHTML='';
   const b=(t,on,f)=>{const x=document.createElement('button');x.textContent=t;if(on)x.className='on';x.onclick=f;el.appendChild(x);};
   b('🤖 С компьютером',MODE==='ai',()=>setOpt('ai'));b('👥 Вдвоём',MODE==='2p',()=>setOpt('2p'));
   if(MODE==='ai'){const s=document.createElement('div');s.className='sep';el.appendChild(s);['Лёгкий','Средний','Тяжёлый'].forEach((t,i)=>b(t,LVL===i,()=>setOpt(undefined,i)));}
+  else{const s=document.createElement('div');s.className='sep';el.appendChild(s);b(ROT?'🔄 Поворот доски: вкл':'🔄 Поворот доски: выкл',ROT,togRot);}
 }
 const later=(f,ms)=>{const g=GID;setTimeout(()=>{if(g===GID)f();},ms);};
 const side=p=>p==='.'?null:p.toLowerCase();
@@ -51,7 +55,7 @@ const DIRS=[[1,1],[1,-1],[-1,1],[-1,-1]];
 function newGame(){
   b=Array(64).fill('.');
   for(let r=0;r<8;r++)for(let c=0;c<8;c++)if((r+c)%2){if(r<3)b[r*8+c]='b';if(r>4)b[r*8+c]='w';}
-  GID++;turn='w';sel=-1;mySel=[];over=false;lastPath=[];draw();status(MODE==='2p'?'Ход белых':'Ваш ход (белые)');
+  GID++;FL=false;turn='w';sel=-1;mySel=[];over=false;lastPath=[];draw();status(MODE==='2p'?'Ход белых':'Ваш ход (белые)');
 }
 function caps(b,from,me){
   const res=[],bb=b.slice();bb[from]='.';
@@ -126,7 +130,7 @@ function aiMove(){
 }
 function doMove(m,me){
   b=apply(b,m,me);lastPath=[m.from,...m.path];turn=opp(me);sel=-1;mySel=[];draw();
-  const ms=allMoves(b,turn);
+  const ms=allMoves(b,turn);rotLater();
   if(MODE==='2p'){const w=turn==='w'?'белых':'чёрных';
     if(!ms.length){over=true;status('Победили '+(turn==='w'?'чёрные':'белые')+'! 🎉');return;}
     status(ms[0].taken.length?'Ход '+w+' — нужно бить!':'Ход '+w);return;}
@@ -137,8 +141,8 @@ function doMove(m,me){
 function draw(){
   const el=$('board');el.innerHTML='';
   const mine=(turn==='w'||MODE==='2p')&&!over?allMoves(b,turn):[];
-  for(let i=0;i<64;i++){
-    const d=document.createElement('div'),r=i>>3,c=i&7;
+  for(let k=0;k<64;k++){
+    const i=FL?63-k:k,d=document.createElement('div'),r=i>>3,c=i&7;
     d.className='sq '+((r+c)%2?'d':'l');
     if(lastPath.includes(i))d.classList.add('last');
     if(i===sel)d.classList.add('sel');
