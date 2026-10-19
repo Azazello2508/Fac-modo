@@ -4820,8 +4820,8 @@
 1
 ],
 [
-"🇷🇺 Наше кино",
-"🇷🇺 Russian and Soviet films",
+"🎥 Наше кино",
+"🎥 Russian and Soviet films",
 1
 ],
 [
@@ -5027,6 +5027,66 @@
 [
 "Приложение работает без интернета: всё хранится на устройстве. Сохраняй копию, чтобы не потерять прогресс при очистке браузера. Значок 📶 означает, что для этого нужен интернет.",
 "The app works offline: everything is stored on the device. Save a backup so you don't lose progress if the browser data is cleared. The 📶 icon means an internet connection is needed.",
+1
+],
+[
+"📂 Мой файл",
+"📂 My file",
+1
+],
+[
+"⬇ Где скачать",
+"⬇ Where to download",
+1
+],
+[
+"▶ Смотреть",
+"▶ Watch",
+1
+],
+[
+"▶ Смотреть (#)",
+"▶ Watch (#)",
+1
+],
+[
+"➕ Добавить файл",
+"➕ Add file",
+1
+],
+[
+"Удалить файл",
+"Delete file",
+1
+],
+[
+"Сохраняю в приложение…",
+"Saving to the app…",
+1
+],
+[
+"Не хватило места в памяти телефона: файл открыт, но не сохранён. Освободи место и добавь его снова.",
+"Not enough space on the phone: the file is open but not saved. Free up space and add it again.",
+1
+],
+[
+"Телефон не может показать этот формат. Подойдут видео MP# и MOV.",
+"The phone can't play this format. MP# and MOV videos work.",
+1
+],
+[
+"Файл не найден, добавь его заново.",
+"File not found, add it again.",
+1
+],
+[
+"Не удалось открыть файл.",
+"Could not open the file.",
+1
+],
+[
+"Файлы хранятся в приложении и смотрятся без интернета. Подходят видео MP# и MOV. Для сериала можно добавить несколько серий.",
+"Files are stored in the app and play offline. MP# and MOV videos work. For a series you can add several episodes.",
 1
 ]
 ]
