@@ -5018,5 +5018,15 @@
 "Зал",
 "Gym",
 1
+],
+[
+"Значок 📶 означает, что для этого нужен интернет.",
+"The 📶 icon means an internet connection is needed.",
+1
+],
+[
+"Приложение работает без интернета: всё хранится на устройстве. Сохраняй копию, чтобы не потерять прогресс при очистке браузера. Значок 📶 означает, что для этого нужен интернет.",
+"The app works offline: everything is stored on the device. Save a backup so you don't lose progress if the browser data is cleared. The 📶 icon means an internet connection is needed.",
+1
 ]
 ]
