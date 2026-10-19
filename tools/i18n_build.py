@@ -37,3 +37,20 @@ assert a > 0 and b > a, 'markers not found'
 s = s[:a + len('/*I18N-DATA*/')] + data + s[b:]
 open(p, 'w', encoding='utf-8', newline='').write(s)
 print('entries', len(X), len(H), 'bytes', len(data.encode('utf-8')))
+
+# Украинский словарь: tools/i18n_uk.json ([русский, украинский, 1 если короткий фрагмент]) → I18NUK
+if os.path.exists('tools/i18n_uk.json'):
+    uk = json.load(open('tools/i18n_uk.json', encoding='utf-8'))
+    UX, UH = {}, {}
+    for ru, ua, frag in uk:
+        if frag or len(ru) <= 60: UX[ru] = ua
+        else: UH[fnv(ru)] = ua
+    have = set(r for r, _, _ in uk)
+    miss = [ru for ru, _, _ in items if ru not in have and re.search('[А-Яа-яЁё]', ru)]
+    data = 'var I18NUK={x:' + json.dumps(UX, ensure_ascii=False, separators=(',', ':')) + ',h:' + json.dumps(UH, ensure_ascii=False, separators=(',', ':')) + '};'
+    a = s.find('/*I18N-UK*/'); b = s.find('/*I18N-UK-END*/')
+    assert a > 0 and b > a, 'uk markers not found'
+    s = s[:a + len('/*I18N-UK*/')] + data + s[b:]
+    open(p, 'w', encoding='utf-8', newline='').write(s)
+    print('uk entries', len(UX), len(UH), 'bytes', len(data.encode('utf-8')), 'no uk translation', len(miss))
+    for ru in miss[:20]: print('  нет перевода на украинский:', ru[:80])
