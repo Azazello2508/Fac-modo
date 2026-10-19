@@ -2044,45 +2044,155 @@ draw()})();
 #gym .gyp>summary{cursor:pointer;font-weight:700;list-style:none}#gym .gyp>summary::-webkit-details-marker{display:none}
 #gym .gyp>summary small{display:block;font-weight:400;color:var(--mute);font-size:12.5px;margin-top:2px}
 #gym .gyp h4{margin:12px 0 4px;font-size:14px}
-#gym table{width:100%;border-collapse:collapse;font-size:13.5px}#gym td{padding:5px 4px;border-top:1px solid var(--line);vertical-align:top}#gym td+td{text-align:right;white-space:nowrap;color:var(--acc);font-weight:700}
-#gym ul{margin:4px 0 8px;padding-left:20px}#gym li{margin:3px 0;font-size:14px}
+#gym ul{display:block;list-style:disc;margin:4px 0 8px;padding-left:20px}#gym li{display:list-item;background:none;border:0;border-radius:0;padding:0;box-shadow:none;margin:3px 0;font-size:14px}
 #gym .gyn{color:var(--mute);font-size:12.5px;margin:6px 0 0}
-#gym .gyc{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin:0 0 8px}
+#gym .gye{display:flex;gap:10px;padding:8px 0;border-top:1px solid var(--line)}
+#gym .gyf{flex:none;width:92px;height:76px;border-radius:10px;background:var(--card);border:1px solid var(--line)}
+#gym .gyf line{stroke:var(--ink);stroke-width:4.5;stroke-linecap:round}#gym .gyf circle{fill:var(--ink)}
+#gym .gyf .q{stroke:var(--acc);fill:var(--acc)}#gym .gyf .fl{stroke:var(--line);stroke-width:2}
+#gym .gyf .sc{stroke:var(--mute);stroke-width:4;opacity:.55}#gym .gyf rect.sc{fill:var(--mute);stroke:none}
+#gym .gyi{flex:1;min-width:0}#gym .gyi b{display:block;font-size:14.5px}
+#gym .gys{display:inline-block;margin:2px 0 3px;font-size:12.5px;font-weight:800;color:var(--acc)}
+#gym .gyi small{display:block;color:var(--mute);font-size:12.5px;line-height:1.35}
+#gym .gyv{margin-top:6px;padding:5px 10px;font-size:12.5px;font-weight:700;border-radius:99px;border:1px solid var(--acc);background:transparent;color:var(--acc)}
+#gym .gyg{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin:0 0 10px}
+#gym .gyg button{padding:10px 4px;border-radius:12px;border:1px solid var(--line);background:var(--bg);color:var(--ink);font:inherit;font-size:13px;font-weight:700;line-height:1.25}
+#gym .gyg button span{display:block;font-size:22px}#gym .gyg button.on{border-color:var(--acc);background:color-mix(in srgb,var(--acc) 18%,var(--bg))}
+#gym .gyh{display:flex;gap:14px;align-items:center;padding:14px;border-radius:16px;margin:0 0 10px;background:linear-gradient(135deg,color-mix(in srgb,var(--acc) 22%,var(--bg)),var(--bg));border:1px solid var(--line)}
+#gym .gyd{flex:none;width:112px;height:112px;border-radius:50%;display:grid;place-items:center}
+#gym .gyd>div{width:80px;height:80px;border-radius:50%;background:var(--bg);display:flex;flex-direction:column;align-items:center;justify-content:center}
+#gym .gyd b{font-size:22px;line-height:1}#gym .gyd small{color:var(--mute);font-size:11.5px}
+#gym .gyl{flex:1;min-width:0;display:flex;flex-direction:column;gap:7px}
+#gym .gyl div{display:flex;align-items:center;gap:7px;font-size:13.5px}#gym .gyl i{flex:none;width:11px;height:11px;border-radius:50%}
+#gym .gyl b{margin-left:auto;font-size:15px}
+#gym .gyb{border:1px solid var(--line);border-radius:14px;padding:10px 12px;margin:0 0 10px;background:var(--bg)}
+#gym .gyb h4{margin:0 0 8px;font-size:15px;display:flex;justify-content:space-between;gap:8px;align-items:baseline}
+#gym .gyb h4 small{font-weight:600;color:var(--mute);font-size:12.5px}
+#gym .gyw{display:flex;flex-wrap:wrap;gap:5px}
+#gym .gyw button{width:30px;height:38px;padding:0;border-radius:4px 4px 9px 9px;border:2px solid #4fc3f7;background:transparent;font-size:0}
+#gym .gyw button.on{background:linear-gradient(#4fc3f7cc,#0288d1)}
+#gym .gyw+small{display:block;margin-top:6px;color:var(--mute);font-size:12.5px}
+#gym .gym{border-top:1px solid var(--line);padding:7px 0}#gym .gym:first-of-type{border-top:0}
+#gym .gym b{display:flex;justify-content:space-between;gap:6px;font-size:14px}#gym .gym b small{color:var(--mute);font-weight:600;font-size:12px;white-space:nowrap}
+#gym .gym ul{margin:3px 0 0;padding-left:18px}#gym .gym li{font-size:13.5px;margin:1px 0}
+#gym .gyx{margin-top:6px;padding:6px 12px;font-size:13px;font-weight:700;border-radius:99px;border:1px solid var(--line);background:var(--card);color:var(--ink)}
+#gym .gyt{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}
+#gym .gyt div{border:1px solid var(--line);border-radius:12px;padding:8px 4px;text-align:center;font-size:12px;line-height:1.3;background:var(--card)}#gym .gyt span{display:block;font-size:24px}
+#gym .gypw{display:flex;gap:12px;align-items:center}
+#gym .gypl{flex:none;width:96px;height:96px;border-radius:50%;border:5px solid var(--line);background:conic-gradient(#81c784 0 180deg,#ff8a65 0 270deg,#4fc3f7 0)}
+#gym .gypw ul{margin:0;padding:0;list-style:none}#gym .gypw li{display:flex;gap:6px;align-items:center;font-size:13px}#gym .gypw i{flex:none;width:10px;height:10px;border-radius:50%}
+#gym .gyc{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin:8px 0 0}
 #gym .gyc label{font-size:12.5px;color:var(--mute);display:flex;flex-direction:column;gap:3px}
 #gym .gyc input,#gym .gyc select{padding:9px 10px;border:1px solid var(--line);background:var(--bg);color:var(--ink);border-radius:10px;font:inherit;font-size:14px;min-width:0}
-#gym .gyr{display:grid;grid-template-columns:repeat(2,1fr);gap:6px;margin:0 0 10px}
-#gym .gyr div{border:1px solid var(--line);border-radius:12px;padding:8px 10px;background:var(--bg)}#gym .gyr b{display:block;font-size:19px}#gym .gyr small{color:var(--mute);font-size:12px}
+#gym .gyk li{list-style:none;margin-left:-20px}
 </style>
 <script id="gym-js">
-/* Досуг: зал — программы тренировок, питание (калькулятор калорий, st.gym — данные для расчёта), сон, советы. Тексты сразу на ru/en */
+/* Досуг: зал — программы тренировок с анимированными схемами упражнений и видео (data-vd → поиск YouTube),
+   питание (калькулятор, вода за день, меню на день; st.gym), сон, советы. Тексты сразу на ru/en, раздел translate="no" */
 (function(){var c=$("gym");if(!c)return;
-var en=window.st&&st.lang=="en",tab="pr";function T(r,e){return en?e:r}
-/* программа: [название ru, en, для кого ru, en, [[день ru, en, [[упражнение ru, en, подходы×повторы]]]], примечание ru, en] */
+var en=window.st&&st.lang=="en",tab="pr",mn=0;function T(r,e){return en?e:r}
+/* Схемы упражнений: человечек сбоку, позы a и b (точки: h голова, n шея, p таз, k колено, f стопа, e локоть, w кисть; k2,f2,e2,w2 — вторая нога/рука),
+   e — снаряд у точки (bb штанга, db гантель, bs малая штанга, hb рукоять, pd валик, pl платформа, cb трос к точке), s — неподвижный тренажёр */
+function M(b,o){var r={};for(var k in b)r[k]=b[k];for(k in o)r[k]=o[k];return r}
+var ST={h:[61,18],n:[60,25],p:[58,50],k:[62,67],f:[59,84],e:[63,38],w:[66,50]},SC=function(s){return s.replace(/L(\S+) (\S+) (\S+) (\S+)/g,'<line class="sc" x1="$1" y1="$2" x2="$3" y2="$4"/>').replace(/R(\S+) (\S+) (\S+) (\S+)/g,'<rect class="sc" x="$1" y="$2" width="$3" height="$4" rx="1.5"/>')};
+var PS={
+sq:{a:M(ST,{e:[50,33],w:[52,25]}),b:{h:[60,34],n:[57,41],p:[44,62],k:[64,64],f:[60,84],e:[46,49],w:[48,41]},e:[["bb","w"]]},
+bw:{a:ST,b:{h:[60,34],n:[57,41],p:[44,62],k:[64,64],f:[60,84],e:[70,40],w:[82,40]}},
+lp:{a:{h:[20,37],n:[24,44],p:[40,66],k:[54,50],f:[70,60],e:[34,56],w:[42,64]},b:{h:[20,37],n:[24,44],p:[40,66],k:[60,58],f:[80,50],e:[34,56],w:[42,64]},e:[["pl","f"]],s:"L14 38 30 70 L30 70 50 70 L40 70 40 84"},
+bp:{a:{h:[31,54],n:[38,57],p:[66,57],k:[82,60],f:[84,84],e:[39,44],w:[39,31]},b:{h:[31,54],n:[38,57],p:[66,57],k:[82,60],f:[84,84],e:[48,62],w:[42,48]},e:[["bb","w"]],s:"R26 61 52 5 L34 66 34 84 L70 66 70 84"},
+ip:{a:{h:[41,34],n:[46,40],p:[68,62],k:[84,60],f:[86,84],e:[48,26],w:[50,12]},b:{h:[41,34],n:[46,40],p:[68,62],k:[84,60],f:[86,84],e:[58,40],w:[54,30]},e:[["db","w"]],s:"L40 38 66 68 L66 68 80 68 L66 68 66 84"},
+pu:{a:{h:[88,51],n:[82,56],p:[52,66],k:[36,72],f:[20,82],e:[82,69],w:[82,82]},b:{h:[88,68],n:[82,72],p:[52,77],k:[36,80],f:[20,82],e:[72,70],w:[82,82]}},
+dp:{a:{h:[61,10],n:[60,17],p:[58,42],k:[58,60],f:[50,70],e:[61,32],w:[62,47]},b:{h:[61,22],n:[60,29],p:[58,54],k:[58,72],f:[50,82],e:[48,36],w:[62,47]},s:"L48 49 78 49 L52 49 52 84 L74 49 74 84"},
+cd:{a:{h:[49,24],n:[49,31],p:[51,56],k:[69,58],f:[73,84],e:[46,42],w:[44,51]},b:{h:[49,36],n:[49,43],p:[51,68],k:[69,66],f:[73,84],e:[37,46],w:[44,51]},s:"R22 52 24 4 L25 56 25 84 L43 56 43 84"},
+op:{a:M(ST,{e:[66,34],w:[65,22]}),b:M(ST,{e:[62,10],w:[62,-3]}),e:[["bb","w"]]},
+sp:{a:{h:[58,24],n:[57,31],p:[55,57],k:[73,58],f:[74,84],e:[66,38],w:[64,26]},b:{h:[58,24],n:[57,31],p:[55,57],k:[73,58],f:[74,84],e:[61,17],w:[60,4]},e:[["db","w"]],s:"R42 59 26 4 L46 63 46 84 L42 59 40 26"},
+lr:{a:{h:[60,18],n:[60,25],p:[60,50],k:[56,67],f:[55,84],k2:[64,67],f2:[65,84],e:[55,38],w:[53,51],e2:[65,38],w2:[67,51]},b:{h:[60,18],n:[60,25],p:[60,50],k:[56,67],f:[55,84],k2:[64,67],f2:[65,84],e:[47,27],w:[34,28],e2:[73,27],w2:[86,28]},e:[["db","w"],["db","w2"]],fr:1},
+pd:{a:{h:[57,27],n:[56,34],p:[56,60],k:[72,60],f:[72,84],e:[55,20],w:[54,7]},b:{h:[57,27],n:[56,34],p:[56,60],k:[72,60],f:[72,84],e:[46,44],w:[54,33]},e:[["cb","w",56,-10],["hb","w"]],s:"R44 62 26 4 L56 66 56 84 R64 52 14 4"},
+pl:{a:{h:[63,18],n:[60,25],p:[60,51],k:[60,68],f:[53,80],e:[60,13],w:[60,1]},b:{h:[63,-4],n:[60,4],p:[60,30],k:[60,47],f:[53,59],e:[51,12],w:[60,1]},s:"L34 0 86 0"},
+rw:{a:{h:[83,37],n:[76,40],p:[50,52],k:[62,67],f:[60,84],e:[76,54],w:[76,67]},b:{h:[83,37],n:[76,40],p:[50,52],k:[62,67],f:[60,84],e:[62,36],w:[70,50]},e:[["bb","w"]]},
+cr:{a:{h:[46,31],n:[44,38],p:[40,64],k:[57,56],f:[72,64],e:[58,44],w:[71,50]},b:{h:[46,31],n:[44,38],p:[40,64],k:[57,56],f:[72,64],e:[32,46],w:[47,52]},e:[["cb","w",116,56],["hb","w"]],s:"R28 66 26 4 L41 70 41 84 L75 56 75 72"},
+fp:{a:M(ST,{e:[74,24],w:[87,22]}),b:M(ST,{e:[48,22],w:[64,16]}),e:[["cb","w",116,20],["hb","w"]]},
+cu:{a:M(ST,{e:[60,40],w:[61,53]}),b:M(ST,{e:[60,40],w:[69,30]}),e:[["db","w"]]},
+te:{a:M(ST,{e:[63,10],w:[63,-3]}),b:M(ST,{e:[63,10],w:[52,18]}),e:[["db","w"]]},
+rd:{a:M(ST,{e:[62,38],w:[62,51]}),b:{h:[77,35],n:[70,38],p:[46,50],k:[62,66],f:[60,84],e:[70,51],w:[70,64]},e:[["bb","w"]]},
+dl:{a:M(ST,{e:[62,38],w:[62,51]}),b:{h:[79,40],n:[72,43],p:[46,58],k:[66,66],f:[60,84],e:[72,56],w:[72,69]},e:[["bb","w"]]},
+lu:{a:M(ST,{k2:[60,67],f2:[60,84]}),b:{h:[62,30],n:[62,37],p:[62,62],k:[54,80],f:[40,83],k2:[80,66],f2:[80,84],e:[62,50],w:[62,63]}},
+le:{a:{h:[52,25],n:[52,32],p:[54,58],k:[72,58],f:[73,78],e:[54,45],w:[60,58]},b:{h:[52,25],n:[52,32],p:[54,58],k:[72,58],f:[92,56],e:[54,45],w:[60,58]},e:[["pd","f"]],s:"R40 60 30 4 L42 60 46 30 L54 64 54 84"},
+lc:{a:{h:[22,48],n:[30,54],p:[56,54],k:[74,54],f:[94,54],e:[26,64],w:[18,64]},b:{h:[22,48],n:[30,54],p:[56,54],k:[74,54],f:[80,35],e:[26,64],w:[18,64]},e:[["pd","f"]],s:"R14 58 62 4 L20 62 20 84 L70 62 70 84"},
+ca:{a:ST,b:{h:[60,12],n:[60,19],p:[60,44],k:[60,62],f:[60,84],e:[61,32],w:[62,45]}},
+pk:{a:{h:[88,60],n:[82,64],p:[54,66],k:[37,71],f:[20,82],e:[82,83],w:[94,83]},b:{h:[88,60],n:[82,64],p:[54,64],k:[37,70],f:[20,82],e:[82,83],w:[94,83]}},
+cn:{a:{h:[30,78],n:[37,80],p:[60,80],k:[74,64],f:[86,83],e:[40,70],w:[31,74]},b:{h:[34,63],n:[40,69],p:[60,80],k:[74,64],f:[86,83],e:[46,60],w:[36,61]}},
+br:{a:{h:[23,79],n:[30,80],p:[54,80],k:[70,63],f:[80,83],e:[42,83],w:[54,83]},b:{h:[23,79],n:[30,80],p:[54,66],k:[70,61],f:[80,83],e:[42,83],w:[54,83]}},
+sm:{a:{h:[26,77],n:[33,80],p:[58,80],k:[76,81],f:[94,81],e:[21,81],w:[9,81]},b:{h:[25,70],n:[33,75],p:[58,80],k:[76,79],f:[93,73],e:[21,72],w:[9,67]}},
+mc:{a:{h:[88,51],n:[82,56],p:[52,64],k:[66,72],f:[56,82],k2:[36,72],f2:[20,82],e:[82,69],w:[82,82]},b:{h:[88,51],n:[82,56],p:[52,64],k:[36,72],f:[20,82],k2:[66,72],f2:[56,82],e:[82,69],w:[82,82]},t:1.2}};
+PS.rdd=M(PS.rd,{e:[["db","w"]]});PS.dr=M(PS.rw,{e:[["db","w"]]});PS.ld=M(PS.lu,{e:[["db","w"]]});PS.bc=M(PS.cu,{e:[["bs","w"]]});
+function fig(key){var d=PS[key];if(!d)return"";var a=d.a,b=d.b||d.a,t=(d.t||2.6)+"s";
+ function an(at,x,y){return x==y?"":'<animate attributeName="'+at+'" values="'+x+";"+y+";"+x+'" dur="'+t+'" repeatCount="indefinite" calcMode="spline" keyTimes="0;.5;1" keySplines=".45 0 .55 1;.45 0 .55 1"/>'}
+ function L(p,q,x2,y2,cl){if(!a[p]||(q&&!a[q]))return"";var A=[a[p][0],a[p][1],q?a[q][0]:x2,q?a[q][1]:y2],B=[b[p][0],b[p][1],q?b[q][0]:x2,q?b[q][1]:y2];
+  return'<line'+(cl?' class="'+cl+'"':'')+' x1="'+A[0]+'" y1="'+A[1]+'" x2="'+A[2]+'" y2="'+A[3]+'">'+an("x1",A[0],B[0])+an("y1",A[1],B[1])+an("x2",A[2],B[2])+an("y2",A[3],B[3])+'</line>'}
+ function C(p,r,cl){return'<circle'+(cl?' class="'+cl+'"':'')+' cx="'+a[p][0]+'" cy="'+a[p][1]+'" r="'+r+'">'+an("cx",a[p][0],b[p][0])+an("cy",a[p][1],b[p][1])+'</circle>'}
+ var s='<svg class="gyf" viewBox="0 -10 120 100" aria-hidden="true"><line class="fl" x1="0" y1="86" x2="120" y2="86"/>'+SC(d.s||"");
+ (d.e||[]).forEach(function(q){if(q[0]=="cb")s+=L(q[1],0,q[2],q[3],"sc")});
+ function FT(f,k){if(d.fr||!a[f]||a[f][1]<80||a[k][1]>a[f][1]-10)return"";var x=a[f][0],y=a[f][1],X=b[f][0],Y=b[f][1];
+  return'<line x1="'+x+'" y1="'+y+'" x2="'+(x+7)+'" y2="'+y+'">'+an("x1",x,X)+an("y1",y,Y)+an("x2",x+7,X+7)+an("y2",y,Y)+'</line>'}
+ s+=FT("f2","k2")+FT("f","k")+L("p","k2")+L("k2","f2")+L("n","e2")+L("e2","w2")+L("n","p")+L("p","k")+L("k","f")+C("h",6.5)+L("n","e")+L("e","w");
+ (d.e||[]).forEach(function(q){var p=q[1];if(q[0]=="bb")s+=C(p,7.5,"q");else if(q[0]=="bs")s+=C(p,5,"q");else if(q[0]=="db"||q[0]=="hb")s+=C(p,q[0]=="db"?4:3,"q");else if(q[0]=="pd")s+=C(p,4,"q");
+  else if(q[0]=="pl"){var A=a[p],B=b[p];s+='<rect class="q" x="'+(A[0]+2)+'" y="'+(A[1]-11)+'" width="4" height="22" rx="2">'+an("x",A[0]+2,B[0]+2)+an("y",A[1]-11,B[1]-11)+'</rect>'}});
+ return s+'</svg>'}
+/* Подсказки по технике: ключ схемы → [ru, en] */
+var CU={sq:["Стопы на ширине плеч, спина ровная, колени смотрят туда же, куда носки. Опускайся до параллели бёдер с полом.","Feet shoulder-width, neutral back, knees track over toes. Go down until thighs are parallel to the floor."],
+bw:["Таз назад, будто садишься на стул; пятки не отрываются, руки вперёд для баланса.","Hips back as if sitting on a chair; heels down, arms forward for balance."],
+lp:["Поясница прижата к спинке, колени не сводятся внутрь, вверху не выпрямляй ноги до щелчка.","Lower back pressed into the pad, knees don't cave in, don't lock your knees at the top."],
+bp:["Лопатки сведены, стопы на полу, гриф опускай к низу груди, локти примерно под 45° к телу.","Shoulder blades squeezed, feet on the floor, lower the bar to the lower chest, elbows about 45° from the body."],
+ip:["Скамья под 30–45°, гантели опускай к верху груди, лопатки прижаты.","Bench at 30–45°, lower the dumbbells to the upper chest, shoulder blades pinned."],
+pu:["Тело — прямая линия от головы до пяток, локти под 45°, грудь почти касается пола.","Body in a straight line from head to heels, elbows at 45°, chest nearly touches the floor."],
+dp:["Корпус чуть вперёд, опускайся до 90° в локтях, плечи не поднимай к ушам.","Lean slightly forward, lower until elbows reach 90°, keep shoulders away from your ears."],
+cd:["Спина близко к стулу, опускайся до 90° в локтях, поднимайся за счёт ладоней.","Keep your back close to the chair, lower to 90° at the elbows, push up through the palms."],
+op:["Ягодицы и пресс напряжены, гриф идёт вертикально вверх, без прогиба в пояснице.","Squeeze glutes and abs, press the bar straight up, no arching of the lower back."],
+sp:["Спина прижата к спинке, гантели выжимай от уровня ушей вверх.","Back against the pad, press the dumbbells up from ear level."],
+lr:["Локти чуть согнуты, поднимай до уровня плеч, без рывков и раскачки.","Elbows slightly bent, raise to shoulder height, no swinging."],
+pd:["Тяни рукоять к верху груди, локти идут вниз, корпус чуть назад. Не за голову.","Pull the bar to the upper chest, elbows down, lean back slightly. Never behind the neck."],
+pl:["Хват чуть шире плеч, тянись грудью к перекладине, опускайся полностью.","Grip slightly wider than shoulders, pull your chest to the bar, lower all the way."],
+rw:["Наклон около 45°, спина ровная, тяни к поясу, сводя лопатки.","Hinge to about 45°, flat back, row to your waist squeezing the shoulder blades."],
+cr:["Спина прямая, тяни рукоять к животу, своди лопатки, не раскачивайся.","Straight back, pull the handle to your stomach, squeeze shoulder blades, no rocking."],
+fp:["Трос на уровне лица, тяни к глазам, разводя локти в стороны и вверх.","Cable at face height, pull towards your eyes with elbows out and high."],
+cu:["Локти прижаты к корпусу и неподвижны, без раскачки спиной.","Elbows pinned to your sides and still, no swinging with the back."],
+te:["Локти смотрят вверх и не разъезжаются, двигаются только предплечья.","Elbows point up and stay in, only the forearms move."],
+rd:["Ноги почти прямые, таз уходит назад, спина ровная, вес скользит вдоль ног.","Legs almost straight, push hips back, flat back, the weight slides along your legs."],
+dl:["Гриф над серединой стопы, спина ровная, встаёшь ногами, а не спиной.","Bar over mid-foot, flat back, stand up by pushing with your legs, not your back."],
+lu:["Шаг широкий, оба колена под 90°, переднее колено не уходит за носок.","Long step, both knees at 90°, front knee stays behind the toes."],
+le:["Спина прижата, разгибай ногу плавно, опускай медленно.","Back against the pad, extend smoothly, lower slowly."],
+lc:["Таз прижат к скамье, сгибай плавно, опускай медленно.","Hips pressed into the bench, curl smoothly, lower slowly."],
+ca:["Поднимайся на носки как можно выше, задержись на секунду, опускайся медленно.","Rise as high as you can on your toes, pause for a second, lower slowly."],
+pk:["Локти под плечами, тело прямое, живот втянут, таз не проваливается.","Elbows under shoulders, body straight, abs tight, hips don't sag."],
+cn:["Поясница прижата к полу, поднимай только плечи, шею руками не тяни.","Lower back on the floor, lift only your shoulders, don't pull on your neck."],
+br:["Стопы ближе к тазу, поднимай таз ягодицами, вверху задержись.","Feet close to your hips, lift with your glutes, pause at the top."],
+sm:["Поднимай руки и ноги одновременно, взгляд в пол, задержка 2–3 секунды.","Lift arms and legs together, look at the floor, hold for 2–3 seconds."],
+mc:["Положение как в отжимании, по очереди подтягивай колени к груди, таз не поднимай.","Push-up position, drive your knees to your chest one at a time, keep hips down."]};
+CU.rdd=CU.rd;CU.dr=["Колено и рука на скамье, спина ровная, тяни гантель к поясу, локоть вдоль тела.","Knee and hand on the bench, flat back, pull the dumbbell to your hip, elbow close to the body."];CU.ld=CU.lu;CU.bc=CU.cu;
+/* программа: [название ru, en, для кого ru, en, [[день ru, en, [[упражнение ru, en, подходы×повторы, схема]]]], примечание ru, en] */
 var P=[
 ["Новичок: всё тело, 3 раза в неделю","Beginner: full body, 3 times a week","Первые 2–3 месяца в зале. Тренировки А и Б по очереди, например пн — А, ср — Б, пт — А.","Your first 2–3 months in the gym. Alternate workouts A and B, e.g. Mon A, Wed B, Fri A.",[
- ["Тренировка А","Workout A",[["Приседания со штангой","Barbell squat","3×8–10"],["Жим лёжа","Bench press","3×8–10"],["Тяга верхнего блока к груди","Lat pulldown","3×10–12"],["Румынская тяга с гантелями","Dumbbell Romanian deadlift","3×10"],["Планка","Plank","3×30–45 с"]]],
- ["Тренировка Б","Workout B",[["Жим ногами","Leg press","3×10–12"],["Жим гантелей сидя","Seated dumbbell press","3×10"],["Тяга гантели в наклоне","One-arm dumbbell row","3×10"],["Выпады","Lunges","3×10 на ногу"],["Скручивания","Crunches","3×12–15"]]]],
+ ["Тренировка А","Workout A",[["Приседания со штангой","Barbell squat","3×8–10","sq"],["Жим лёжа","Bench press","3×8–10","bp"],["Тяга верхнего блока к груди","Lat pulldown","3×10–12","pd"],["Румынская тяга с гантелями","Dumbbell Romanian deadlift","3×10","rdd"],["Планка","Plank","3×30–45 с","pk"]]],
+ ["Тренировка Б","Workout B",[["Жим ногами","Leg press","3×10–12","lp"],["Жим гантелей сидя","Seated dumbbell press","3×10","sp"],["Тяга гантели в наклоне","One-arm dumbbell row","3×10","dr"],["Выпады","Lunges","3×10 на ногу","lu"],["Скручивания","Crunches","3×12–15","cn"]]]],
  "Отдых между подходами 1,5–2 минуты. Когда все подходы получаются на верхней границе повторов — добавь 2,5 кг.","Rest 1.5–2 minutes between sets. When you hit the top of the rep range in every set, add 2.5 kg."],
 ["Верх / низ, 4 раза в неделю","Upper / lower, 4 times a week","После 3–6 месяцев регулярных тренировок. Пн — верх, вт — низ, чт — верх, пт — низ.","After 3–6 months of regular training. Mon upper, Tue lower, Thu upper, Fri lower.",[
- ["Верх","Upper",[["Жим лёжа","Bench press","4×6–8"],["Тяга штанги в наклоне","Barbell row","4×8"],["Жим штанги стоя","Overhead press","3×8–10"],["Подтягивания или тяга блока","Pull-ups or lat pulldown","3×макс."],["Сгибания на бицепс","Biceps curl","2×12"],["Разгибания на трицепс","Triceps extension","2×12"]]],
- ["Низ","Lower",[["Приседания со штангой","Barbell squat","4×6–8"],["Румынская тяга","Romanian deadlift","3×8–10"],["Жим ногами","Leg press","3×12"],["Сгибания ног в тренажёре","Leg curl","3×12"],["Подъёмы на носки","Calf raise","3×15"],["Планка","Plank","3×45 с"]]]],
+ ["Верх","Upper",[["Жим лёжа","Bench press","4×6–8","bp"],["Тяга штанги в наклоне","Barbell row","4×8","rw"],["Жим штанги стоя","Overhead press","3×8–10","op"],["Подтягивания или тяга блока","Pull-ups or lat pulldown","3×макс.","pl"],["Сгибания на бицепс","Biceps curl","2×12","cu"],["Разгибания на трицепс","Triceps extension","2×12","te"]]],
+ ["Низ","Lower",[["Приседания со штангой","Barbell squat","4×6–8","sq"],["Румынская тяга","Romanian deadlift","3×8–10","rd"],["Жим ногами","Leg press","3×12","lp"],["Сгибания ног в тренажёре","Leg curl","3×12","lc"],["Подъёмы на носки","Calf raise","3×15","ca"],["Планка","Plank","3×45 с","pk"]]]],
  "В тяжёлых упражнениях (6–8 повторов) отдыхай 2–3 минуты, в остальных — 1–1,5.","Rest 2–3 minutes on the heavy lifts (6–8 reps) and 1–1.5 minutes on the rest."],
 ["Тяни — толкай — ноги","Push — pull — legs","Для опытных: 3 дня подряд и день отдыха, или 6 дней в неделю. Каждая мышца получает отдельный день.","For experienced lifters: 3 days on, 1 day off, or 6 days a week. Each muscle group gets its own day.",[
- ["Толкай (грудь, плечи, трицепс)","Push (chest, shoulders, triceps)",[["Жим лёжа","Bench press","4×6–8"],["Жим гантелей на наклонной скамье","Incline dumbbell press","3×8–10"],["Жим стоя","Overhead press","3×8–10"],["Махи гантелями в стороны","Lateral raise","3×12–15"],["Отжимания на брусьях","Dips","3×8–12"]]],
- ["Тяни (спина, бицепс)","Pull (back, biceps)",[["Становая тяга","Deadlift","3×5"],["Подтягивания","Pull-ups","3×макс."],["Тяга горизонтального блока","Seated cable row","3×10"],["Тяга к лицу","Face pull","3×15"],["Сгибания со штангой","Barbell curl","3×10"]]],
- ["Ноги","Legs",[["Приседания","Squat","4×6–8"],["Румынская тяга","Romanian deadlift","3×8–10"],["Выпады с гантелями","Dumbbell lunges","3×10 на ногу"],["Разгибания ног","Leg extension","3×12"],["Подъёмы на носки","Calf raise","4×15"]]]],
- "Становую тягу и приседания делай только с отработанной техникой — лучше сначала с тренером.","Only deadlift and squat heavy once your technique is solid — ideally learn them with a coach first."],
+ ["Толкай (грудь, плечи, трицепс)","Push (chest, shoulders, triceps)",[["Жим лёжа","Bench press","4×6–8","bp"],["Жим гантелей на наклонной скамье","Incline dumbbell press","3×8–10","ip"],["Жим стоя","Overhead press","3×8–10","op"],["Махи гантелями в стороны","Lateral raise","3×12–15","lr"],["Отжимания на брусьях","Dips","3×8–12","dp"]]],
+ ["Тяни (спина, бицепс)","Pull (back, biceps)",[["Становая тяга","Deadlift","3×5","dl"],["Подтягивания","Pull-ups","3×макс.","pl"],["Тяга горизонтального блока","Seated cable row","3×10","cr"],["Тяга к лицу","Face pull","3×15","fp"],["Сгибания со штангой","Barbell curl","3×10","bc"]]],
+ ["Ноги","Legs",[["Приседания","Squat","4×6–8","sq"],["Румынская тяга","Romanian deadlift","3×8–10","rd"],["Выпады с гантелями","Dumbbell lunges","3×10 на ногу","ld"],["Разгибания ног","Leg extension","3×12","le"],["Подъёмы на носки","Calf raise","4×15","ca"]]]],
+ "Становую тягу и приседания делай тяжело только с отработанной техникой — лучше сначала с тренером.","Only deadlift and squat heavy once your technique is solid — ideally learn them with a coach first."],
 ["Без зала: каюта, палуба, дом","No gym: cabin, deck, home","Ничего не нужно, кроме пола. Круговая тренировка: упражнения подряд без отдыха, 1–2 минуты отдыха между кругами, 3–4 круга. 3–4 раза в неделю.","Nothing needed but the floor. Circuit: exercises back to back, 1–2 minutes rest between rounds, 3–4 rounds. 3–4 times a week.",[
- ["Круг","Round",[["Приседания","Squats","15–20"],["Отжимания (можно с колен)","Push-ups (knees if needed)","10–20"],["Выпады назад","Reverse lunges","10 на ногу"],["Ягодичный мост","Glute bridge","15–20"],["Отжимания от стула на трицепс","Chair dips","10–15"],["«Супермен» лёжа на животе","Superman hold","10 × 3 с"],["Планка","Plank","30–60 с"],["Альпинист","Mountain climbers","30 с"]]]],
- "На качке — без прыжков и упражнений стоя на одной ноге, держись за поручень, тренируйся у переборки. Отжимания от пола можно делать с узкой постановкой рук, приседания — у стены.","In heavy seas skip jumps and single-leg standing moves, hold a handrail and train next to a bulkhead. Do push-ups with a narrow grip and squats against a wall."]];
-var N=[[
-"Белок — главное для мышц: 1,6–2 г на кг веса в день. Источники: курица, индейка, рыба, яйца, творог, греческий йогурт, говядина, бобовые.","Protein matters most for muscle: 1.6–2 g per kg of body weight a day. Sources: chicken, turkey, fish, eggs, cottage cheese, Greek yogurt, beef, legumes."],
-["Тарелка на каждый приём пищи: половина — овощи, четверть — белок, четверть — крупы или картофель, плюс немного полезного жира (масло, орехи, авокадо).","Every meal: half the plate vegetables, a quarter protein, a quarter grains or potatoes, plus a little healthy fat (oil, nuts, avocado)."],
-["Вода: примерно 30–35 мл на кг веса, в жару и в машинном отделении — больше. Моча светлая — воды хватает.","Water: about 30–35 ml per kg of body weight, more in hot weather or the engine room. Pale urine means you are drinking enough."],
-["До тренировки (за 1,5–2 часа): обычная еда с углеводами и белком. После: в течение пары часов — белок и углеводы, например рис с курицей или творог с фруктами.","Before training (1.5–2 hours): a normal meal with carbs and protein. After: within a couple of hours have protein and carbs, e.g. rice and chicken or cottage cheese with fruit."],
-["Чтобы похудеть — ешь на 300–500 ккал меньше нормы, чтобы набрать — на 200–300 больше. Резкие диеты съедают мышцы.","To lose fat eat 300–500 kcal below maintenance; to gain, 200–300 above. Crash diets burn muscle."],
-["На судне: на камбузе выбирай белок и овощи, меньше жареного и выпечки. Сладкое и газировку на вахте замени фруктами, орехами, йогуртом.","On board: pick protein and vegetables at the galley, less fried food and pastry. Swap sweets and soda on watch for fruit, nuts or yogurt."],
-["Добавки не обязательны. Если нужны — протеин (просто удобный белок) и креатин 3–5 г в день — самые изученные и безопасные.","Supplements are optional. If you want them, protein powder (just convenient protein) and creatine 3–5 g a day are the best studied and safest."]];
+ ["Круг","Round",[["Приседания","Squats","15–20","bw"],["Отжимания (можно с колен)","Push-ups (knees if needed)","10–20","pu"],["Выпады назад","Reverse lunges","10 на ногу","lu"],["Ягодичный мост","Glute bridge","15–20","br"],["Отжимания от стула на трицепс","Chair dips","10–15","cd"],["«Супермен» лёжа на животе","Superman hold","10 × 3 с","sm"],["Планка","Plank","30–60 с","pk"],["Альпинист","Mountain climbers","30 с","mc"]]]],
+ "На качке — без прыжков и упражнений стоя на одной ноге, держись за поручень, тренируйся у переборки.","In heavy seas skip jumps and single-leg standing moves, hold a handrail and train next to a bulkhead."]];
+var N=[["🥩","Белок — главное для мышц: 1,6–2 г на кг веса в день. Раздели его на 3–4 приёма пищи.","Protein matters most for muscle: 1.6–2 g per kg of body weight a day. Split it over 3–4 meals."],
+["⏱️","До тренировки (за 1,5–2 часа): обычная еда с углеводами и белком. После: в течение пары часов — белок и углеводы.","Before training (1.5–2 hours): a normal meal with carbs and protein. After: protein and carbs within a couple of hours."],
+["⚖️","Худеть — минус 300–500 ккал от нормы, набирать — плюс 200–300. Резкие диеты съедают мышцы.","To lose fat eat 300–500 kcal below maintenance; to gain, 200–300 above. Crash diets burn muscle."],
+["🚢","На судне: на камбузе выбирай белок и овощи, меньше жареного и выпечки. На вахте вместо сладкого — фрукты, орехи, йогурт.","On board: pick protein and vegetables at the galley, less fried food and pastry. On watch swap sweets for fruit, nuts or yogurt."],
+["💊","Добавки не обязательны. Самые изученные — протеин (просто удобный белок) и креатин 3–5 г в день.","Supplements are optional. The best studied are protein powder (just convenient protein) and creatine 3–5 g a day."]];
 var S=[["7–9 часов сна — основа восстановления: мышцы растут во время отдыха, а не на тренировке.","7–9 hours of sleep is the foundation of recovery: muscles grow while you rest, not while you train."],
 ["Ложись и вставай в одно и то же время, даже в выходные. Режим важнее, чем один долгий «отсып».","Go to bed and wake up at the same time, even on days off. A steady schedule beats one long lie-in."],
 ["Кофе, энергетики и крепкий чай — не позже чем за 6–8 часов до сна.","Coffee, energy drinks and strong tea — no later than 6–8 hours before sleep."],
@@ -2099,27 +2209,67 @@ var A=[["Техника важнее веса. Начни с лёгкого ве
 ["Минимум 1–2 дня отдыха в неделю. Если сил нет неделями — сократи нагрузку на 7 дней.","Take at least 1–2 rest days a week. If you feel drained for weeks, cut the load for 7 days."],
 ["Результат заметен через 6–8 недель регулярных тренировок. Главное — не пропускать.","Results show after 6–8 weeks of regular training. Consistency is what counts."],
 ["При болезнях сердца, давлении, травмах — сначала посоветуйся с врачом.","If you have heart problems, high blood pressure or injuries, check with a doctor first."]];
+/* Меню на день: [приём ru, en, [[продукт ru, en, количество, ккал, белок (на 100 г или на 1 шт.), шт?]]] — граммы подгоняются под цель */
+var MN=[[["🍳 Завтрак","🍳 Breakfast",[["Овсянка (сухая)","Oats (dry)",70,370,13],["Яйца","Eggs",3,75,6.3,1],["Банан","Banana",1,105,1.3,1]]],
+ ["🍛 Обед","🍛 Lunch",[["Рис (сухой)","Rice (dry)",80,350,7],["Куриная грудка","Chicken breast",150,165,31],["Овощи","Vegetables",200,25,1.2]]],
+ ["🥜 Перекус","🥜 Snack",[["Творог 5%","Cottage cheese 5%",200,120,17],["Орехи","Nuts",20,600,18]]],
+ ["🐟 Ужин","🐟 Dinner",[["Рыба","Fish",150,140,22],["Картофель","Potatoes",250,80,2],["Салат с оливковым маслом","Salad with olive oil",150,85,1]]]],
+[["🍳 Завтрак","🍳 Breakfast",[["Омлет","Omelette",3,90,6.5,1],["Хлеб цельнозерновой","Wholegrain bread",60,250,9],["Сыр","Cheese",30,350,25]]],
+ ["🍲 Обед","🍲 Lunch",[["Гречка (сухая)","Buckwheat (dry)",80,340,13],["Говядина тушёная","Stewed beef",150,180,26],["Овощи","Vegetables",200,25,1.2]]],
+ ["🍎 Перекус","🍎 Snack",[["Греческий йогурт","Greek yogurt",200,75,10],["Яблоко","Apple",1,80,0.4,1]]],
+ ["🍝 Ужин","🍝 Dinner",[["Макароны (сухие)","Pasta (dry)",80,350,12],["Индейка","Turkey",150,150,30],["Салат с оливковым маслом","Salad with olive oil",150,85,1]]]],
+[["🥣 Завтрак","🥣 Breakfast",[["Творог 5%","Cottage cheese 5%",200,120,17],["Ягоды или фрукты","Berries or fruit",150,50,0.8],["Мёд","Honey",15,320,0]]],
+ ["🐠 Обед","🐠 Lunch",[["Картофель","Potatoes",300,80,2],["Рыба","Fish",170,140,22],["Овощи","Vegetables",200,25,1.2]]],
+ ["🥛 Перекус","🥛 Snack",[["Кефир 1%","Kefir 1%",300,40,3],["Хлеб цельнозерновой","Wholegrain bread",40,250,9]]],
+ ["🍚 Ужин","🍚 Dinner",[["Рис (сухой)","Rice (dry)",70,350,7],["Тунец консервированный","Canned tuna",120,110,24],["Яйца","Eggs",2,75,6.3,1],["Овощи","Vegetables",150,25,1.2]]]]];
+function G(){var g=st.gym=st.gym||{};if(!g.w){g.w=75;g.h=178;g.a=30;g.s="m";g.k=1.55;g.g=0}return g}
+function R(){var g=G(),b=10*g.w+6.25*g.h-5*g.a+(g.s=="f"?-161:5),m=Math.round(b*g.k/10)*10,k=m+(g.g<0?-400:g.g>0?250:0),p=Math.round(g.w*1.8),f=Math.round(g.w*0.9);
+ return{m:m,k:k,p:p,f:f,c:Math.max(0,Math.round((k-p*4-f*9)/4)),l:Math.round(g.w*0.033*4)/4}}
+function n1(v){return String(v).replace(".",en?".":",")}
+function opt(L,cur){return L.map(function(o){return'<option value="'+o[0]+'"'+(o[0]==cur?" selected":"")+'>'+T(o[1],o[2])+'</option>'}).join("")}
+function menu(r){var D=MN[mn%MN.length],base=0;D.forEach(function(m){m[2].forEach(function(x){base+=x[5]?x[2]*x[3]:x[2]*x[3]/100})});var q=r.k/base,tk=0,tp=0;
+ var h=D.map(function(m){var mk=0,mp=0,li=m[2].map(function(x){var v=x[5]?Math.max(1,Math.round(x[2]*q)):Math.max(10,Math.round(x[2]*q/10)*10),u=x[5]?v:v/100;mk+=u*x[3];mp+=u*x[4];
+  return'<li>'+esc(T(x[0],x[1]))+' — '+v+' '+(x[5]?T("шт.","pcs"):T("г","g"))+'</li>'}).join("");tk+=mk;tp+=mp;
+  return'<div class="gym"><b>'+T(m[0],m[1])+'<small>'+Math.round(mk/10)*10+' '+T("ккал","kcal")+' · '+Math.round(mp)+' '+T("г белка","g protein")+'</small></b><ul>'+li+'</ul></div>'}).join("");
+ return'<div class="gyb"><h4>'+T("📋 Меню на день","📋 Menu for the day")+'<small>'+Math.round(tk/10)*10+' '+T("ккал","kcal")+' · '+Math.round(tp)+' '+T("г белка","g protein")+'</small></h4>'+h+'<button type="button" class="gyx" data-gm="1">🔄 '+T("Другое меню","Another menu")+' ('+(mn%MN.length+1)+'/'+MN.length+')</button><p class="gyn">'+T("Порции уже подогнаны под твою цель. Крупы и макароны — в сухом виде.","Portions are already scaled to your goal. Grains and pasta are weighed dry.")+'</p></div>'}
+function nut(){var g=G(),r=R(),pk=r.p*4,fk=r.f*9,P1=Math.round(pk/r.k*360),F1=P1+Math.round(fk/r.k*360),wd=g.wd&&g.wd.d==today?g.wd.n:0,wn=Math.round(r.l/0.25),h="";
+ h+='<div class="gyh"><div class="gyd" style="background:conic-gradient(#ff8a65 0 '+P1+'deg,#ffd54f 0 '+F1+'deg,#4fc3f7 0)"><div><b>'+r.k+'</b><small>'+T("ккал в день","kcal / day")+'</small></div></div><div class="gyl">'+
+  [["#ff8a65",T("Белки","Protein"),r.p],["#ffd54f",T("Жиры","Fat"),r.f],["#4fc3f7",T("Углеводы","Carbs"),r.c]].map(function(x){return'<div><i style="background:'+x[0]+'"></i>'+x[1]+'<b>'+x[2]+' '+T("г","g")+'</b></div>'}).join("")+
+  '<div style="color:var(--mute);font-size:12px">'+T("Норма без цели","Maintenance")+': '+r.m+' '+T("ккал","kcal")+'</div></div></div>';
+ h+='<div class="gyb"><h4>'+T("💧 Вода сегодня","💧 Water today")+'<small>'+n1(wd*0.25)+' '+T("из","of")+' '+n1(r.l)+' '+T("л","l")+'</small></h4><div class="gyw">'+
+  Array.apply(null,Array(wn)).map(function(x,i){return'<button type="button" data-gw="'+(i+1)+'" class="'+(i<wd?"on":"")+'" aria-label="'+(i+1)+'">'+(i+1)+'</button>'}).join("")+'</div><small>'+
+  (wd>=wn?T("🎉 Норма воды на сегодня выполнена!","🎉 You've hit today's water goal!"):T("Нажимай на стакан (250 мл), когда выпьешь. Завтра счёт начнётся заново.","Tap a glass (250 ml) each time you drink one. The count resets tomorrow."))+'</small></div>';
+ h+=menu(r);
+ h+='<div class="gyb"><h4>'+T("🍽️ Правильная тарелка","🍽️ The right plate")+'</h4><div class="gypw"><div class="gypl"></div><ul><li><i style="background:#81c784"></i>'+T("½ — овощи и зелень","½ vegetables and greens")+'</li><li><i style="background:#ff8a65"></i>'+T("¼ — белок: мясо, рыба, яйца, творог","¼ protein: meat, fish, eggs, cottage cheese")+'</li><li><i style="background:#4fc3f7"></i>'+T("¼ — крупы, картофель, макароны","¼ grains, potatoes, pasta")+'</li><li>🫒 '+T("плюс ложка масла или горсть орехов","plus a spoon of oil or a handful of nuts")+'</li></ul></div></div>';
+ h+='<div class="gyb"><h4>'+T("🥩 30 г белка — это…","🥩 30 g of protein is…")+'</h4><div class="gyt">'+[["🍗","100 г куриной грудки","100 g chicken breast"],["🥚","5 яиц","5 eggs"],["🧀","180 г творога","180 g cottage cheese"],["🐟","130 г тунца","130 g tuna"],["🥛","300 г греческого йогурта","300 g Greek yogurt"],["🥩","115 г говядины","115 g beef"]].map(function(x){return'<div><span>'+x[0]+'</span>'+T(x[1],x[2])+'</div>'}).join("")+'</div></div>';
+ h+='<div class="gyb"><h4>'+T("💡 Коротко о главном","💡 The essentials")+'</h4><ul class="gyk">'+N.map(function(x){return'<li>'+x[0]+' '+esc(T(x[1],x[2]))+'</li>'}).join("")+'</ul></div>';
+ return h}
 function li(L){return'<ul>'+L.map(function(x){return'<li>'+esc(T(x[0],x[1]))+'</li>'}).join("")+'</ul>'}
-function G(){return st.gym=st.gym||{w:75,h:178,a:30,s:"m",k:1.55,g:0}}
-function calc(){var g=G(),b=10*g.w+6.25*g.h-5*g.a+(g.s=="f"?-161:5),m=Math.round(b*g.k/10)*10,k=m+(g.g<0?-400:g.g>0?250:0),p=Math.round(g.w*1.8),f=Math.round(g.w*0.9),cb=Math.max(0,Math.round((k-p*4-f*9)/4));
- return'<div class="gyr"><div><b>'+k+'</b><small>'+T("ккал в день","kcal a day")+'</small></div><div><b>'+p+' '+T("г","g")+'</b><small>'+T("белка","protein")+'</small></div><div><b>'+f+' '+T("г","g")+'</b><small>'+T("жиров","fat")+'</small></div><div><b>'+cb+' '+T("г","g")+'</b><small>'+T("углеводов","carbs")+'</small></div></div><p class="gyn">'+T("Норма без цели — ","Maintenance — ")+m+T(" ккал. Вода — около "," kcal. Water — about ")+(Math.round(g.w*0.033*10)/10)+T(" л в день."," l a day.")+'</p>'}
-function opt(v,L,cur){return L.map(function(o){return'<option value="'+o[0]+'"'+(o[0]==cur?" selected":"")+'>'+T(o[1],o[2])+'</option>'}).join("")}
-function draw(){var h='<h3>'+T("🏋️ Зал","🏋️ Gym")+'</h3><p class="note" style="margin:0 0 10px">'+T("Программы тренировок, питание, сон и полезные советы — всё в одном месте. Работает без интернета.","Workout programs, nutrition, sleep and useful tips — all in one place. Works offline.")+'</p>';
+function draw(){var h='<h3>'+T("🏋️ Зал","🏋️ Gym")+'</h3><p class="note" style="margin:0 0 10px">'+T("Программы тренировок, питание, сон и полезные советы — всё в одном месте.","Workout programs, nutrition, sleep and useful tips — all in one place.")+'</p>';
  h+='<div class="chips">'+[["pr","🏋️ Программы","🏋️ Programs"],["nu","🍗 Питание","🍗 Nutrition"],["sl","😴 Сон","😴 Sleep"],["tp","💡 Советы","💡 Tips"]].map(function(x){return'<button type="button" data-gy="'+x[0]+'" class="'+(tab==x[0]?"on":"")+'">'+T(x[1],x[2])+'</button>'}).join("")+'</div>';
- if(tab=="pr")h+=P.map(function(p){return'<details class="gyp"><summary>'+esc(T(p[0],p[1]))+'<small>'+esc(T(p[2],p[3]))+'</small></summary>'+p[4].map(function(d){return'<h4>'+esc(T(d[0],d[1]))+'</h4><table>'+d[2].map(function(x){return'<tr><td>'+esc(T(x[0],x[1]))+'</td><td>'+esc(en?x[2].replace(" на ногу"," per leg").replace("макс.","max").replace(" с"," s"):x[2])+'</td></tr>'}).join("")+'</table>'}).join("")+'<p class="gyn">'+esc(T(p[5],p[6]))+'</p></details>'}).join("")+'<p class="gyn">'+T("3×10 — три подхода по 10 повторов. Последние 1–2 повтора должны даваться тяжело, но с правильной техникой.","3×10 means three sets of 10 reps. The last 1–2 reps should feel hard but keep good form.")+'</p>';
- else if(tab=="nu"){var g=G();h+='<h4 style="margin:4px 0 6px">'+T("Калькулятор калорий","Calorie calculator")+'</h4><div class="gyc">'+
+ if(tab=="pr")h+=P.map(function(p,pi){return'<details class="gyp" data-gp="'+pi+'"><summary>'+esc(T(p[0],p[1]))+'<small>'+esc(T(p[2],p[3]))+'</small></summary><div class="gyq"></div><p class="gyn">'+esc(T(p[5],p[6]))+'</p></details>'}).join("")+'<p class="gyn">'+T("3×10 — три подхода по 10 повторов. Последние 1–2 повтора должны даваться тяжело, но с правильной техникой. Кнопка «Видео» открывает ролики на YouTube (нужен интернет).","3×10 means three sets of 10 reps. The last 1–2 reps should feel hard but keep good form. The “Video” button opens YouTube clips (internet needed).")+'</p>';
+ else if(tab=="nu"){var g=G();
+  h+='<div class="gyg">'+[["-1","🔥","Похудеть","Lose fat"],["0","⚖️","Держать вес","Maintain"],["1","💪","Набрать мышцы","Build muscle"]].map(function(x){return'<button type="button" data-gg="'+x[0]+'" class="'+(String(g.g)==x[0]?"on":"")+'"><span>'+x[1]+'</span>'+T(x[2],x[3])+'</button>'}).join("")+'</div>';
+  h+='<details class="gyp"'+(g.ok?'':' open')+'><summary>⚙️ '+T("Мои данные","My details")+'<small id="gyds">'+g.w+' '+T("кг","kg")+' · '+g.h+' '+T("см","cm")+' · '+g.a+' '+T("лет","y.o.")+(g.ok?'':' — '+T("впиши свои, чтобы расчёт был точным","enter yours for an accurate result"))+'</small></summary><div class="gyc">'+
   '<label>'+T("Вес, кг","Weight, kg")+'<input type="number" inputmode="decimal" min="35" max="250" data-gk="w" value="'+g.w+'"></label>'+
   '<label>'+T("Рост, см","Height, cm")+'<input type="number" inputmode="numeric" min="130" max="230" data-gk="h" value="'+g.h+'"></label>'+
   '<label>'+T("Возраст","Age")+'<input type="number" inputmode="numeric" min="14" max="90" data-gk="a" value="'+g.a+'"></label>'+
-  '<label>'+T("Пол","Sex")+'<select data-gk="s">'+opt(0,[["m","Мужской","Male"],["f","Женский","Female"]],g.s)+'</select></label>'+
-  '<label>'+T("Активность","Activity")+'<select data-gk="k">'+opt(0,[["1.2","Мало движения","Sedentary"],["1.375","1–2 тренировки в неделю","1–2 workouts a week"],["1.55","3–4 тренировки в неделю","3–4 workouts a week"],["1.725","5–6 тренировок или тяжёлая работа","5–6 workouts or hard physical work"]],String(g.k))+'</select></label>'+
-  '<label>'+T("Цель","Goal")+'<select data-gk="g">'+opt(0,[["-1","Похудеть","Lose fat"],["0","Держать вес","Maintain"],["1","Набрать мышцы","Build muscle"]],String(g.g))+'</select></label></div><div id="gyo">'+calc()+'</div>'+li(N)}
+  '<label>'+T("Пол","Sex")+'<select data-gk="s">'+opt([["m","Мужской","Male"],["f","Женский","Female"]],g.s)+'</select></label>'+
+  '<label style="grid-column:1/-1">'+T("Активность","Activity")+'<select data-gk="k">'+opt([["1.2","Мало движения","Sedentary"],["1.375","1–2 тренировки в неделю","1–2 workouts a week"],["1.55","3–4 тренировки в неделю","3–4 workouts a week"],["1.725","5–6 тренировок или тяжёлая работа","5–6 workouts or hard physical work"]],String(g.k))+'</select></label></div></details><div id="gyo">'+nut()+'</div>'}
  else if(tab=="sl")h+=li(S);else h+=li(A);
  c.innerHTML=h}
-c.addEventListener("click",function(e){var b=e.target.closest("[data-gy]");if(b){tab=b.dataset.gy;draw()}});
+function prog(d){var p=P[+d.dataset.gp],q=d.querySelector(".gyq");if(!p||q.firstChild)return;
+ q.innerHTML=p[4].map(function(dd){return'<h4>'+esc(T(dd[0],dd[1]))+'</h4>'+dd[2].map(function(x){var cu=CU[x[3]]||["",""];
+  return'<div class="gye">'+fig(x[3])+'<div class="gyi"><b>'+esc(T(x[0],x[1]))+'</b><span class="gys">'+esc(en?x[2].replace(" на ногу"," per leg").replace("макс.","max").replace(/ с$/," s"):x[2])+'</span><small>'+esc(T(cu[0],cu[1]))+'</small><button type="button" class="gyv" data-vd="'+esc(en?x[1]+" proper form":x[0]+" техника выполнения")+'">▶ '+T("Видео: как делать","Video: how to")+'</button></div></div>'}).join("")}).join("")}
+c.addEventListener("toggle",function(e){if(e.target.dataset&&e.target.dataset.gp!=null&&e.target.open)prog(e.target)},true);
+c.addEventListener("click",function(e){var b=e.target.closest("[data-gy],[data-gg],[data-gw],[data-gm]");if(!b)return;var d=b.dataset,g=G();
+ if(d.gy){tab=d.gy;draw();return}
+ if(d.gg!=null){g.g=+d.gg;save();draw();return}
+ if(d.gm){mn++;$("gyo").innerHTML=nut();return}
+ if(d.gw){var n=+d.gw,cur=g.wd&&g.wd.d==today?g.wd.n:0;g.wd={d:today,n:cur==n?n-1:n};save();$("gyo").innerHTML=nut()}});
 c.addEventListener("input",function(e){var k=e.target.dataset.gk;if(!k)return;var g=G(),v=e.target.value;
- if(k=="s")g.s=v=="f"?"f":"m";else{v=parseFloat(v);if(!isFinite(v))return;var lim={w:[35,250],h:[130,230],a:[14,90],k:[1.2,1.725],g:[-1,1]}[k];if(v<lim[0]||v>lim[1])return;g[k]=v}
- save();$("gyo").innerHTML=calc()});
+ if(k=="s")g.s=v=="f"?"f":"m";else{v=parseFloat(v);if(!isFinite(v))return;var lim={w:[35,250],h:[130,230],a:[14,90],k:[1.2,1.725]}[k];if(v<lim[0]||v>lim[1])return;g[k]=v}
+ g.ok=1;save();$("gyo").innerHTML=nut();var s=$("gyds");if(s)s.textContent=g.w+" "+T("кг","kg")+" · "+g.h+" "+T("см","cm")+" · "+g.a+" "+T("лет","y.o.")});
 draw()})();
 </script>
 <style id="fmore-css">html:not(.fmall) main>button.fmt[data-sec]{display:none}.fmore{grid-column:1/-1;margin:2px 0 6px;padding:12px;border-radius:14px;border:1px dashed var(--line);background:transparent;color:inherit;font:inherit;font-weight:700;cursor:pointer}</style>
