@@ -5103,5 +5103,55 @@
 "✓ Скачан в приложение",
 "✓ Downloaded to the app",
 1
+],
+[
+"📚 Все жанры",
+"📚 All genres",
+1
+],
+[
+"Уровень английского:",
+"English level:",
+1
+],
+[
+"Все уровни",
+"All levels",
+1
+],
+[
+"A# — лёгкий",
+"A2 — easy",
+1
+],
+[
+"B# — средний",
+"B1 — intermediate",
+1
+],
+[
+"B# — выше среднего",
+"B2 — upper-intermediate",
+1
+],
+[
+"C# — продвинутый",
+"C1 — advanced",
+1
+],
+[
+"C# — очень сложный",
+"C2 — very hard",
+1
+],
+[
+"Уровень посчитан по самой книге: сколько в ней редких и длинных слов; у авторов со старым языком он повышен. A#–B# — можно читать со словарём на начальном уровне, C#–C# — старый или сложный язык.",
+"The level is measured from the book itself: how many rare and long words it has; for authors with old-fashioned language it is raised. A2–B1 can be read with a dictionary at a beginner level, C1–C2 means old or difficult language.",
+1
+],
+[
+"В этом жанре нет книг такого уровня — выберите другой жанр или «Все жанры».",
+"There are no books of this level in this genre — choose another genre or “All genres”.",
+1
 ]
 ]
