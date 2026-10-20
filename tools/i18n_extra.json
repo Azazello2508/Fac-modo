@@ -5153,5 +5153,450 @@
 "В этом жанре нет книг такого уровня — выберите другой жанр или «Все жанры».",
 "There are no books of this level in this genre — choose another genre or “All genres”.",
 1
+],
+[
+"📄 Генератор резюме",
+"📄 CV generator",
+1
+],
+[
+"Заполни анкету — резюме соберётся ниже и сразу будет готово к отправке в крюинг или работодателю: аккуратный PDF с настоящим текстом. Данные хранятся только на этом телефоне, интернет не нужен.",
+"Fill in the form — your CV is assembled below and is ready to send to a crewing agency or employer right away: a neat PDF with real text. Your data stays on this phone only, no internet needed.",
+1
+],
+[
+"Язык резюме:",
+"CV language:",
+1
+],
+[
+"Для чего:",
+"Purpose:",
+1
+],
+[
+"🚢 Работа в море",
+"🚢 Job at sea",
+1
+],
+[
+"🏠 Работа на берегу",
+"🏠 Job ashore",
+1
+],
+[
+"Качество резюме: # из #",
+"CV quality: # of #",
+1
+],
+[
+"Нужно доработать",
+"Needs work",
+1
+],
+[
+"Почти готово",
+"Almost ready",
+1
+],
+[
+"Готово к отправке",
+"Ready to send",
+1
+],
+[
+"Имя и фамилия полностью",
+"Full first and last name",
+1
+],
+[
+"Телефон и email — чтобы с тобой могли связаться",
+"Phone and email, so they can contact you",
+1
+],
+[
+"Желаемая должность под именем",
+"Target position under your name",
+1
+],
+[
+"«О себе»: #–# предложений (сейчас # знаков)",
+"“About me”: #–# sentences (now # characters)",
+1
+],
+[
+"У каждого места работы: должность, компания или судно, даты",
+"Every job has a position, company or vessel, and dates",
+1
+],
+[
+"Не меньше # обязанностей и достижений на каждом месте",
+"At least # duties and achievements for each job",
+1
+],
+[
+"Цифры в половине пунктов опыта (сейчас # из #): кВт, DWT, сколько проверок, сколько людей",
+"Numbers in half of the experience points (now # of #): kW, DWT, how many inspections, how many people",
+1
+],
+[
+"Замени подсказки в [квадратных скобках] своими данными (осталось #)",
+"Replace the hints in [square brackets] with your own data (# left)",
+1
+],
+[
+"Резюме на английском, а строк на русском: #. Переведи их, имя — латиницей, как в паспорте моряка.",
+"The CV is in English, but # lines are in Russian. Translate them; write your name in Latin letters as in your seaman's passport.",
+1
+],
+[
+"Резюме на украинском, а строк с русскими буквами (ы, э, ъ, ё): #.",
+"The CV is in Ukrainian, but # lines contain Russian letters (ы, э, ъ, ё).",
+1
+],
+[
+"#–# ключевых навыков (сейчас #)",
+"#–# key skills (now #)",
+1
+],
+[
+"Дипломы и сертификаты: для работы в море — не меньше #",
+"Certificates: at least # for a job at sea",
+1
+],
+[
+"Хотя бы один диплом или сертификат",
+"At least one diploma or certificate",
+1
+],
+[
+"Уровень английского указан",
+"English level is given",
+1
+],
+[
+"Резюме занимает # страницы — лучше уложиться в #: сократи старые места работы",
+"The CV takes # pages — better keep it to #: shorten older jobs",
+1
+],
+[
+"Выполнено пунктов: # из #",
+"Points done: # of #",
+1
+],
+[
+"👤 Контакты",
+"👤 Contacts",
+1
+],
+[
+"Имя и фамилия",
+"First and last name",
+1
+],
+[
+"Желаемая должность",
+"Target position",
+1
+],
+[
+"Город, страна",
+"City, country",
+1
+],
+[
+"Телефон",
+"Phone",
+1
+],
+[
+"Телефон с кодом страны",
+"Phone with country code",
+1
+],
+[
+"LinkedIn или сайт",
+"LinkedIn or website",
+1
+],
+[
+"LinkedIn или сайт (если есть)",
+"LinkedIn or website (optional)",
+1
+],
+[
+"Фото из профиля в резюме",
+"Profile photo in the CV",
+1
+],
+[
+"Фото из профиля в резюме (сначала добавь фото в «Я»)",
+"Profile photo in the CV (add a photo in “Me” first)",
+1
+],
+[
+"Для работы в море фото обычно нужно, для берега — по желанию.",
+"A photo is usually required for jobs at sea and optional ashore.",
+1
+],
+[
+"✍️ О себе",
+"✍️ About me",
+1
+],
+[
+"✨ Составить по моим данным",
+"✨ Write it from my data",
+1
+],
+[
+"#–# предложений: кто ты, сколько опыта, что умеешь лучше всего и какую работу ищешь.",
+"#–# sentences: who you are, how much experience you have, what you do best and what job you are looking for.",
+1
+],
+[
+"🚢 Опыт работы (#)",
+"🚢 Work experience (#)",
+1
+],
+[
+"Начни с последнего места работы. Пиши, что сделал и какой результат, с цифрами: «сократил простой на # %» лучше, чем «отвечал за оборудование».",
+"Start with your latest job. Write what you did and the result, with numbers: “cut downtime by #%” is better than “was responsible for equipment”.",
+1
+],
+[
+"Место работы #",
+"Job #",
+1
+],
+[
+"Должность, например: Второй механик",
+"Position, e.g. Second Engineer",
+1
+],
+[
+"Компания",
+"Company",
+1
+],
+[
+"Компания, например: Anglo-Eastern Ship Management",
+"Company, e.g. Anglo-Eastern Ship Management",
+1
+],
+[
+"Судно: тип, DWT, двигатель, флаг",
+"Vessel: type, DWT, engine, flag",
+1
+],
+[
+"С",
+"From",
+1
+],
+[
+"С (#.#)",
+"From (#.#)",
+1
+],
+[
+"По",
+"To",
+1
+],
+[
+"По (пусто — по наст. время)",
+"To (empty = present)",
+1
+],
+[
+"Обязанности и достижения — каждое с новой строки",
+"Duties and achievements, one per line",
+1
+],
+[
+"💡 Готовые формулировки — нажми, чтобы добавить",
+"💡 Ready-made phrases — tap to add",
+1
+],
+[
+"После добавления замени [скобки] своими цифрами и названиями.",
+"After adding, replace the [brackets] with your own numbers and names.",
+1
+],
+[
+"Выше",
+"Move up",
+1
+],
+[
+"+ Место работы",
+"+ Job",
+1
+],
+[
+"🛠 Ключевые навыки (#)",
+"🛠 Key skills (#)",
+1
+],
+[
+"Выбери #–# главных. Нажми ещё раз, чтобы убрать.",
+"Pick the #–# most important. Tap again to remove.",
+1
+],
+[
+"Свой навык",
+"Your own skill",
+1
+],
+[
+"📜 Сертификаты и допуски (#)",
+"📜 Certificates (#)",
+1
+],
+[
+"Название",
+"Name",
+1
+],
+[
+"Номер, срок действия (по желанию)",
+"Number, valid until (optional)",
+1
+],
+[
+"Нажми, чтобы добавить:",
+"Tap to add:",
+1
+],
+[
+"+ Свой сертификат",
+"+ Your own certificate",
+1
+],
+[
+"🎓 Образование",
+"🎓 Education",
+1
+],
+[
+"Учёба #",
+"Study #",
+1
+],
+[
+"Специальность",
+"Specialty",
+1
+],
+[
+"Специальность, диплом",
+"Degree or specialty",
+1
+],
+[
+"Учебное заведение",
+"School or university",
+1
+],
+[
+"Годы",
+"Years",
+1
+],
+[
+"Годы, например: #–#",
+"Years, e.g. #–#",
+1
+],
+[
+"+ Учёба или курсы",
+"+ Study or courses",
+1
+],
+[
+"🌍 Языки",
+"🌍 Languages",
+1
+],
+[
+"Язык",
+"Language",
+1
+],
+[
+"Уровень",
+"Level",
+1
+],
+[
+"+ Язык",
+"+ Language",
+1
+],
+[
+"➕ Дополнительно",
+"➕ Additional",
+1
+],
+[
+"Например: водительские права кат. B; визы США C#/D; готов к контрактам #–# месяцев",
+"E.g. driving licence B; US C#/D visa; available for #–# month contracts",
+1
+],
+[
+"📄 Скачать PDF",
+"📄 Download PDF",
+1
+],
+[
+"📋 Скопировать текстом",
+"📋 Copy as text",
+1
+],
+[
+"Предпросмотр",
+"Preview",
+1
+],
+[
+"🗑 Начать заново",
+"🗑 Start over",
+1
+],
+[
+"PDF сохранён",
+"PDF saved",
+1
+],
+[
+"Не получилось собрать PDF",
+"Could not build the PDF",
+1
+],
+[
+"Готово. Проверь текст и поправь под себя",
+"Done. Check the text and adjust it to fit you",
+1
+],
+[
+"Образцы переведены. Свои записи переведи сам — список в «Качестве резюме»",
+"The samples are translated. Translate your own entries yourself — see the list under “CV quality”",
+1
+],
+[
+"Удалить это место работы?",
+"Delete this job?",
+1
+],
+[
+"В резюме остались подсказки в [квадратных скобках]. Всё равно скачать?",
+"The CV still has hints in [square brackets]. Download anyway?",
+1
+],
+[
+"Стереть анкету резюме и начать заново?",
+"Erase the CV form and start over?",
+1
 ]
 ]
