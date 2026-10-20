@@ -2121,10 +2121,10 @@ if(window.flmDraw)flmDraw()})();
 #gym ul{display:block;list-style:disc;margin:4px 0 8px;padding-left:20px}#gym li{display:list-item;background:none;border:0;border-radius:0;padding:0;box-shadow:none;margin:3px 0;font-size:14px}
 #gym .gyn{color:var(--mute);font-size:12.5px;margin:6px 0 0}
 #gym .gye{display:flex;gap:10px;padding:8px 0;border-top:1px solid var(--line)}
-#gym .gyf{flex:none;width:92px;height:76px;border-radius:10px;background:var(--card);border:1px solid var(--line)}
-#gym .gyf line{stroke:var(--ink);stroke-width:4.5;stroke-linecap:round}#gym .gyf circle{fill:var(--ink)}
-#gym .gyf .q{stroke:var(--acc);fill:var(--acc)}#gym .gyf .fl{stroke:var(--line);stroke-width:2}
-#gym .gyf .sc{stroke:var(--mute);stroke-width:4;opacity:.55}#gym .gyf rect.sc{fill:var(--mute);stroke:none}
+#gym .gyf{flex:none;width:118px;height:102px;border-radius:12px;background:linear-gradient(#eef3f8,#d9e2ec);border:1px solid var(--line)}
+#gym .gyf line{stroke-linecap:round}
+#gym .gyf .sk{fill:#f0c08f}#gym .gyf .kn{stroke:#f0c08f}#gym .gyf .kf{stroke:#c98f5e}#gym .gyf .sd{fill:#c98f5e}#gym .gyf .ey{fill:#2b2b2b}#gym .gyf .hr{fill:#4a2f1d}#gym .gyf .tn{stroke:#2d7fd3}#gym .gyf .tf{stroke:#1d5a9c}#gym .gyf .pn{stroke:#2c3340;fill:#2c3340}#gym .gyf .pf{stroke:#1b2028}#gym .gyf .sh{stroke:#3a3f48}#gym .gyf .pt{fill:#2a2f38;stroke:#7b8797;stroke-width:1.4}#gym .gyf .pc{fill:#b8c1cc}#gym .gyf .hb{stroke:#2a2f38}#gym .gyf .rl{fill:#c0563a}#gym .gyf .cbl{stroke:#6b7480;stroke-width:1}#gym .gyf .pu{fill:#59636f}#gym .gyf .pf2{fill:#59636f}#gym .gyf .fl{stroke:#9aa8b6;stroke-width:2}
+#gym .gyf .sc{stroke:#8a96a4;stroke-width:3}#gym .gyf rect.sc{fill:#7a3b3b;stroke:#5a2a2a;stroke-width:1}
 #gym .gyi{flex:1;min-width:0}#gym .gyi b{display:block;font-size:14.5px}
 #gym .gys{display:inline-block;margin:2px 0 3px;font-size:12.5px;font-weight:800;color:var(--acc)}
 #gym .gyi small{display:block;color:var(--mute);font-size:12.5px;line-height:1.35}
@@ -2200,18 +2200,37 @@ br:{a:{h:[23,79],n:[30,80],p:[54,80],k:[70,63],f:[80,83],e:[42,83],w:[54,83]},b:
 sm:{a:{h:[26,77],n:[33,80],p:[58,80],k:[76,81],f:[94,81],e:[21,81],w:[9,81]},b:{h:[25,70],n:[33,75],p:[58,80],k:[76,79],f:[93,73],e:[21,72],w:[9,67]}},
 mc:{a:{h:[88,51],n:[82,56],p:[52,64],k:[66,72],f:[56,82],k2:[36,72],f2:[20,82],e:[82,69],w:[82,82]},b:{h:[88,51],n:[82,56],p:[52,64],k:[36,72],f:[20,82],k2:[66,72],f2:[56,82],e:[82,69],w:[82,82]},t:1.2}};
 PS.rdd=M(PS.rd,{e:[["db","w"]]});PS.dr=M(PS.rw,{e:[["db","w"]]});PS.ld=M(PS.lu,{e:[["db","w"]]});PS.bc=M(PS.cu,{e:[["bs","w"]]});
-function fig(key){var d=PS[key];if(!d)return"";var a=d.a,b=d.b||d.a,t=(d.t||2.6)+"s";
+function fig(key){var d=PS[key];if(!d)return"";var t=(d.t||2.6)+"s",fr=!!d.fr,pr=key=="lc"||key=="sm"?-1:1;
  function an(at,x,y){return x==y?"":'<animate attributeName="'+at+'" values="'+x+";"+y+";"+x+'" dur="'+t+'" repeatCount="indefinite" calcMode="spline" keyTimes="0;.5;1" keySplines=".45 0 .55 1;.45 0 .55 1"/>'}
- function L(p,q,x2,y2,cl){if(!a[p]||(q&&!a[q]))return"";var A=[a[p][0],a[p][1],q?a[q][0]:x2,q?a[q][1]:y2],B=[b[p][0],b[p][1],q?b[q][0]:x2,q?b[q][1]:y2];
-  return'<line'+(cl?' class="'+cl+'"':'')+' x1="'+A[0]+'" y1="'+A[1]+'" x2="'+A[2]+'" y2="'+A[3]+'">'+an("x1",A[0],B[0])+an("y1",A[1],B[1])+an("x2",A[2],B[2])+an("y2",A[3],B[3])+'</line>'}
- function C(p,r,cl){return'<circle'+(cl?' class="'+cl+'"':'')+' cx="'+a[p][0]+'" cy="'+a[p][1]+'" r="'+r+'">'+an("cx",a[p][0],b[p][0])+an("cy",a[p][1],b[p][1])+'</circle>'}
- var s='<svg class="gyf" viewBox="0 -10 120 100" aria-hidden="true"><line class="fl" x1="0" y1="86" x2="120" y2="86"/>'+SC(d.s||"");
- (d.e||[]).forEach(function(q){if(q[0]=="cb")s+=L(q[1],0,q[2],q[3],"sc")});
- function FT(f,k){if(d.fr||!a[f]||a[f][1]<80||a[k][1]>a[f][1]-10)return"";var x=a[f][0],y=a[f][1],X=b[f][0],Y=b[f][1];
-  return'<line x1="'+x+'" y1="'+y+'" x2="'+(x+7)+'" y2="'+y+'">'+an("x1",x,X)+an("y1",y,Y)+an("x2",x+7,X+7)+an("y2",y,Y)+'</line>'}
- s+=FT("f2","k2")+FT("f","k")+L("p","k2")+L("k2","f2")+L("n","e2")+L("e2","w2")+L("n","p")+L("p","k")+L("k","f")+C("h",6.5)+L("n","e")+L("e","w");
- (d.e||[]).forEach(function(q){var p=q[1];if(q[0]=="bb")s+=C(p,7.5,"q");else if(q[0]=="bs")s+=C(p,5,"q");else if(q[0]=="db"||q[0]=="hb")s+=C(p,q[0]=="db"?4:3,"q");else if(q[0]=="pd")s+=C(p,4,"q");
-  else if(q[0]=="pl"){var A=a[p],B=b[p];s+='<rect class="q" x="'+(A[0]+2)+'" y="'+(A[1]-11)+'" width="4" height="22" rx="2">'+an("x",A[0]+2,B[0]+2)+an("y",A[1]-11,B[1]-11)+'</rect>'}});
+ function R(v){return Math.round(v*10)/10}
+ function sub(p,q){return[p[0]-q[0],p[1]-q[1]]}function ad(p,q,k){return[p[0]+q[0]*k,p[1]+q[1]*k]}function nr(v){var l=Math.hypot(v[0],v[1])||1;return[v[0]/l,v[1]/l]}function lp(p,q,k){return[p[0]+(q[0]-p[0])*k,p[1]+(q[1]-p[1])*k]}
+ /* Точки тела для одной позы: перед тела (f) — поворот направления «шея → голова» */
+ function G(P){var o={},k;for(k in P)o[k]=P[k];var u=nr(sub(P.h,P.n)),f=fr?[0,0]:[-u[1]*pr,u[0]*pr];
+  if(!o.k2){o.k2=ad(P.k,f,-1.8);o.f2=ad(P.f,f,-1.8)}if(!o.e2){o.e2=ad(P.e,f,-1.6);o.w2=ad(P.w,f,-1.6)}
+  o.c0=lp(P.n,P.p,.5);o.hp=lp(P.n,P.p,.86);o.nk=lp(P.n,P.h,.55);
+  o.hr=ad(ad(P.h,f,-1.3),u,.9);o.fc=ad(P.h,f,.5);o.ey=ad(ad(P.h,f,3.4),u,.9);o.er=ad(P.h,f,-.6);
+  ["","2"].forEach(function(s){var E=o["e"+s],W=o["w"+s],K=o["k"+s],F=o["f"+s];o["s"+s]=lp(P.n,E,.5);o["t"+s]=lp(P.p,K,.62);
+   var sh=nr(sub(F,K)),tw=[sh[1],-sh[0]];if(tw[0]*f[0]+tw[1]*f[1]<-.3)tw=[-tw[0],-tw[1]];if(fr)tw=[1,0];
+   o["ha"+s]=ad(F,tw,fr?-2.6:-1.2);o["to"+s]=ad(F,tw,fr?2.6:6);
+   var fa=nr(sub(W,E));o["g1"+s]=ad(W,[-fa[1],fa[0]],3.6);o["g2"+s]=ad(W,[-fa[1],fa[0]],-3.6)});
+  return o}
+ var A=G(d.a),B=G(d.b||d.a),s='<svg class="gyf" viewBox="0 -14 120 104" aria-hidden="true"><line class="fl" x1="0" y1="86" x2="120" y2="86"/>'+SC(d.s||"");
+ function L(p,q,w,c){if(!A[p]||!A[q])return"";var a1=A[p],a2=A[q],b1=B[p],b2=B[q];
+  return'<line class="'+c+'" stroke-width="'+w+'" x1="'+R(a1[0])+'" y1="'+R(a1[1])+'" x2="'+R(a2[0])+'" y2="'+R(a2[1])+'">'+an("x1",R(a1[0]),R(b1[0]))+an("y1",R(a1[1]),R(b1[1]))+an("x2",R(a2[0]),R(b2[0]))+an("y2",R(a2[1]),R(b2[1]))+'</line>'}
+ function C(p,r,c){if(!A[p])return"";return'<circle class="'+c+'" r="'+r+'" cx="'+R(A[p][0])+'" cy="'+R(A[p][1])+'">'+an("cx",R(A[p][0]),R(B[p][0]))+an("cy",R(A[p][1]),R(B[p][1]))+'</circle>'}
+ function leg(x,far){return L("p","t"+x,8.6,far?"pf":"pn")+L("t"+x,"k"+x,7.6,far?"kf":"kn")+L("k"+x,"f"+x,6.2,far?"kf":"kn")+L("ha"+x,"to"+x,4.6,"sh")}
+ function arm(x,far){return L("n","s"+x,6,far?"tf":"tn")+L("s"+x,"e"+x,5.2,far?"kf":"kn")+L("e"+x,"w"+x,4.4,far?"kf":"kn")}
+ var two=!!d.a.e2,eq=d.e||[];
+ function gear(back){var r="";eq.forEach(function(q){var p=q[1],z=q[0];
+  if(back&&z=="bb")r+=C(p,10,"pt")+C(p,3,"pc");if(back&&z=="bs")r+=C(p,6.5,"pt")+C(p,2,"pc");
+  if(back&&z=="cb")r+='<circle class="pu" r="3" cx="'+q[2]+'" cy="'+q[3]+'"/><line class="cbl" x1="'+q[2]+'" y1="'+q[3]+'" x2="'+R(A[p][0])+'" y2="'+R(A[p][1])+'">'+an("x2",R(A[p][0]),R(B[p][0]))+an("y2",R(A[p][1]),R(B[p][1]))+'</line>';
+  if(!back&&z=="db")r+=C(p,4.8,"pt")+C(p,1.6,"pc");
+  if(!back&&z=="hb"){var x=p=="w2"?"2":"";r+=L("g1"+x,"g2"+x,2.6,"hb")}
+  if(!back&&z=="pd")r+=C(p,4.8,"rl");
+  if(back&&z=="pl"){var a1=A[p],b1=B[p];r+='<rect class="pf2" x="'+R(a1[0]+3)+'" y="'+R(a1[1]-12)+'" width="5" height="24" rx="2">'+an("x",R(a1[0]+3),R(b1[0]+3))+an("y",R(a1[1]-12),R(b1[1]-12))+'</rect>'}});return r}
+ s+=gear(1)+leg("2",!fr)+(two?"":arm("2",1))+L("n","c0",15,"tn")+L("c0","hp",13,"tn")+C("p",5.4,"pn")+leg("",0)+L("n","nk",4.6,"kn")+C("hr",6.6,"hr")+C("fc",5.8,"sk")+(fr?"":C("er",1.3,"sd")+C("ey",.9,"ey"))
+  +(two?arm("2",0)+C("w2",2.9,"sk"):"")+gear(0)+arm("",0)+C("w",2.9,"sk");
+ eq.forEach(function(q){if(q[0]=="db"&&q[1]=="w2")s+=C("w2",2.9,"sk")});
  return s+'</svg>'}
 /* Подсказки по технике: ключ схемы → [ru, en] */
 var CU={sq:["Стопы на ширине плеч, спина ровная, колени смотрят туда же, куда носки. Опускайся до параллели бёдер с полом.","Feet shoulder-width, neutral back, knees track over toes. Go down until thighs are parallel to the floor."],
