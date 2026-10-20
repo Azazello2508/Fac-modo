@@ -257,6 +257,9 @@ html:not(.simple) #nw{display:none}
 <section class="card" data-t="today" id="dcw" hidden></section>
 <section class="card" data-t="today" id="hfm"></section>
 <section class="card" data-t="today" id="wch" translate="no"></section>
+<section class="card" data-t="today" id="cth" translate="no"></section>
+<section class="card" data-t="today" id="ktr" translate="no"></section>
+<section class="card" data-t="today" id="stk" translate="no"></section>
 <section class="card" data-t="today" id="fc"></section>
 <section class="card" data-t="today">
 <h3>Квесты дня</h3>
@@ -283,6 +286,8 @@ html:not(.simple) #nw{display:none}
 <section class="card" data-t="know" id="mat"></section>
 <section class="card" data-t="know" id="gl"></section>
 <section class="card" data-t="know" id="ck"></section>
+<section class="card" data-t="know" id="clc" translate="no"></section>
+<section class="card" data-t="know" id="rlg" translate="no"></section>
 <section class="card" data-t="know" id="cvm"></section>
 <section class="card" data-t="know" id="iv"></section>
 <section class="card" data-t="know" id="en"></section>
@@ -1664,6 +1669,7 @@ for(var i=0;i<e.length;i++){var s=e[i][1],n=i+1<e.length?e[i+1][0]:e[0][0]+1440,
 function alloc(gs){gs.forEach(function(x){x.x=0});var left=420,act=gs.slice();for(var it=0;it<6&&left>0.5&&act.length;it++){var W=act.reduce(function(s,x){return s+x.w},0),nx=[];act.forEach(function(x){x.x+=left*x.w/W});left=0;act.forEach(function(x){if(x.x>x.L){left+=x.x-x.L;x.x=x.L}else nx.push(x)});act=nx}}
 alloc(g);while(g.length>1){var sm=g.reduce(function(a,x){return x.x<a.x?x:a});if(sm.x>=60)break;g.splice(g.indexOf(sm),1);alloc(g)}
 var r=[];g.forEach(function(x){var len=Math.min(Math.floor(x.L/15)*15,Math.round(x.x/15)*15);if(len<45)return;var best=x.a,bo=-1;for(var st0=x.a;st0+len<=x.a+x.L;st0+=15){var o=ovl(st0,len,1260,420);if(o>bo){bo=o;best=st0}}r.push([best%1440,len])});return r.sort(function(a,b){return a[0]-b[0]})}
+window.fm3.wd=function(){var w=WC(),ws=w.p?(w.p=="c"?wcParse(w.w):wcParse(WP[w.p])):[];return{ws:ws,sl:wcSleep(ws),m:wcNow(),off:w.off||0,inR:inR}};
 function wcNow(){var w=WC();if(w.pc&&Date.now()>=w.pc.at){w.off=(w.off||0)+w.pc.h*60;var h=w.pc.h;delete w.pc;save();toast(fmL("🕐 Судовые часы переведены на ","🕐 Ship clocks changed by ","🕐 Суднові годинники переведено на ")+(h>0?"+1":"−1")+fmL(" ч"," h"," год"))}var d=new Date(Date.now()+(w.off||0)*60000);return d.getHours()*60+d.getMinutes()}
 function wcr(){var el=$("wch");if(!el)return;var w=WC(),ws=w.p?(w.p=="c"?wcParse(w.w):wcParse(WP[w.p])):[],sl=wcSleep(ws),m=wcNow(),s=fmL('<h3>⚓ Вахта и сон</h3>','<h3>⚓ Watch and sleep</h3>','<h3>⚓ Вахта і сон</h3>');
 s+=fmL('<div class="add"><select id="wcp" aria-label="График вахт"><option value="">Выбери график вахт</option>','<div class="add"><select id="wcp" aria-label="Watch schedule"><option value="">Choose your watch schedule</option>','<div class="add"><select id="wcp" aria-label="Графік вахт"><option value="">Обери графік вахт</option>')+Object.keys(WN).map(function(k){return'<option value="'+k+'"'+(w.p==k?" selected":"")+'>'+WN[k]+'</option>'}).join("")+'</select></div>';
@@ -1781,6 +1787,153 @@ if(sel>=0&&mv.length){move(mv.filter(function(m){return!m.p||m.p=="q"})[0]);retu
 var p=pos.b[i];if(p&&p==p.toUpperCase()){sel=i;mvs=C.legal(pos).filter(function(m){return m.f==i})}else{sel=-1;mvs=[]}draw()});
 reset();var s0=S();if(s0.r){var x=C.fromUci(Z[1]),y=C.fromUci(Z[2]),z=C.fromUci(Z[3]);pos=C.play(C.play(C.play(P0,x),y),z);last=z;ph=3;say(s0.r=="ok"?fmL("Задача решена ✅ Завтра будет новая.","Puzzle solved ✅ A new one tomorrow.","Задачу розв’язано ✅ Завтра буде нова."):fmL("Решение показано. Завтра будет новая задача.","Solution shown. A new puzzle tomorrow.","Розв’язок показано. Завтра буде нова задача."),s0.r=="ok"?"ok":"")}
 draw()})();
+</script>
+<style id="fm4-css">
+#clc .cltb{display:flex;flex-wrap:wrap;gap:6px;margin:0 0 10px}#clc .cltb button{padding:7px 10px;font-size:13.5px}
+#clc .clg{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:8px}
+#clc label,#rlg label,#cth label,#ktr label{display:flex;flex-direction:column;gap:4px;font-size:13px;color:var(--mute)}
+#clc input,#clc select,#rlg input,#rlg textarea,#cth select,#cth input,#ktr input,#ktr select{padding:9px;border:1px solid var(--line);background:var(--bg);color:var(--ink);border-radius:8px;font:inherit;min-width:0;width:100%;box-sizing:border-box}
+#clc .clr{margin:10px 0 4px;padding:10px 12px;border-left:4px solid var(--ok);background:var(--bg);border-radius:8px;font-size:15px;line-height:1.5}#clc .clr b{font-size:18px}
+#clc .clr.bad{border-color:var(--gym)}
+#rlg .rlf{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:8px}#rlg textarea{min-height:56px;resize:vertical}
+#rlg .rli{padding:10px 12px;margin:8px 0;border:1px solid var(--line);border-radius:10px;background:var(--bg)}#rlg .rli h4{margin:0 0 4px;font-size:15px}
+#rlg .rli p{margin:3px 0;font-size:14px}#rlg .rli small{color:var(--mute)}#rlg .rli img{max-width:100%;max-height:220px;border-radius:8px;margin-top:6px;display:block}
+#rlg .rlh{display:flex;justify-content:space-between;gap:8px;align-items:start}#rlg .rlh button{padding:4px 9px}
+#cth .ctb{padding:10px 12px;margin:8px 0;border-left:4px solid var(--acc);background:var(--bg);border-radius:8px}#cth .ctb b{font-size:18px}
+#cth ul,#ktr ul{list-style:none;margin:6px 0;padding:0;display:grid;gap:4px}#cth li{display:flex;justify-content:space-between;gap:8px;padding:6px 10px;border:1px solid var(--line);border-radius:8px;background:var(--bg);font-size:14px}
+#cth .cto{color:var(--ok)}#cth .ctx{color:var(--mute)}
+#ktr .kbig{display:flex;align-items:baseline;gap:8px;margin:6px 0}#ktr .kbig b{font-size:34px}#ktr .kbar{height:12px;border-radius:7px;background:var(--bg);border:1px solid var(--line);overflow:hidden;margin:6px 0}#ktr .kbar i{display:block;height:100%;background:linear-gradient(90deg,var(--acc),var(--ok))}
+#ktr .kgr{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:8px;margin:8px 0}#ktr .kgr div{padding:8px 10px;border:1px solid var(--line);border-radius:10px;background:var(--bg)}#ktr .kgr small{display:block;color:var(--mute);font-size:12px}#ktr .kgr b{font-size:17px}
+#stk .sfl{display:flex;align-items:center;gap:14px;margin:4px 0 8px}#stk .sfl span{line-height:1;filter:drop-shadow(0 0 10px #ff8a3d88)}#stk .sfl b{font-size:30px}
+#stk .swk{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;margin:8px 0;text-align:center;font-size:12px;color:var(--mute)}#stk .swk i{display:block;font-style:normal;font-size:20px;margin-top:2px}
+#stk .sms{display:flex;flex-wrap:wrap;gap:6px;margin:6px 0}#stk .sms span{padding:4px 9px;border-radius:999px;border:1px solid var(--line);font-size:13px}#stk .sms .on{background:var(--ok);color:#0b1a14;border-color:var(--ok)}
+</style>
+<script id="fm4-js">
+/* Калькуляторы электромеханика, журнал ремонтов, связь с домом, счётчик контракта, огонёк серии (префиксы cl, rl, cth, kt, sk). */
+(function(){
+var L=function(r,e,u){return fmL(r,e,u)};
+function num(id){var v=$(id);if(!v)return NaN;v=String(v.value).replace(",",".").trim();return v===""?NaN:+v}
+function f(x,d){if(!isFinite(x))return"—";var p=Math.pow(10,d==null?2:d);return String(Math.round(x*p)/p).replace(".",L(",",".",","))}
+function inp(id,lab,val,ph){return'<label>'+lab+'<input id="'+id+'" inputmode="decimal" value="'+(val==null?"":val)+'"'+(ph?' placeholder="'+ph+'"':'')+'></label>'}
+function hm(m){return fm3.hm(m)}
+
+/* ---------- Калькуляторы ---------- */
+var CL={t:"mot",v:{}};try{CL=JSON.parse(localStorage.getItem("fm_clc"))||CL}catch(e){}if(["mot","pf","cab","rpm"].indexOf(CL.t)<0)CL.t="mot";CL.v=CL.v||{};
+function clSave(){try{localStorage.setItem("fm_clc",JSON.stringify(CL))}catch(e){}}
+var CAB=[[1.5,19],[2.5,27],[4,38],[6,46],[10,70],[16,85],[25,115],[35,135],[50,175],[70,215],[95,260],[120,300],[150,340],[185,390],[240,465]];
+var CT=function(){return[["mot",L("Ток двигателя","Motor current","Струм двигуна")],["pf","cos φ"],["cab",L("Сечение кабеля","Cable size","Переріз кабелю")],["rpm",L("Обороты","Speed (rpm)","Оберти")]]};
+function clForm(){var v=CL.v[CL.t]||{},h="";
+if(CL.t=="ohm")h='<p class="note" style="margin:0 0 6px">'+L("Впиши любые две величины, третья и мощность посчитаются.","Enter any two values; the third and the power are calculated.","Впиши будь-які дві величини, третя й потужність порахуються.")+'</p><div class="clg">'+inp("cl_cu",L("Напряжение U, В","Voltage U, V","Напруга U, В"),v.cl_cu)+inp("cl_ci",L("Ток I, А","Current I, A","Струм I, А"),v.cl_ci)+inp("cl_cr",L("Сопротивление R, Ом","Resistance R, Ω","Опір R, Ом"),v.cl_cr)+'</div>';
+else if(CL.t=="mot")h='<p class="note" style="margin:0 0 6px">'+L("Трёхфазный двигатель: ток по мощности с шильдика.","Three-phase motor: current from the nameplate power.","Трифазний двигун: струм за потужністю з таблички.")+'</p><div class="clg">'+inp("cl_mp",L("Мощность P, кВт","Power P, kW","Потужність P, кВт"),v.cl_mp)+inp("cl_mu",L("Напряжение U, В","Voltage U, V","Напруга U, В"),v.cl_mu||440)+inp("cl_mc","cos φ",v.cl_mc||0.85)+inp("cl_me",L("КПД, %","Efficiency, %","ККД, %"),v.cl_me||90)+'</div>';
+else if(CL.t=="pf")h='<p class="note" style="margin:0 0 6px">'+L("Активная P и реактивная Q мощность: полная мощность S и cos φ.","Active power P and reactive power Q: apparent power S and cos φ.","Активна P і реактивна Q потужність: повна потужність S і cos φ.")+'</p><div class="clg">'+inp("cl_pp",L("P, кВт","P, kW","P, кВт"),v.cl_pp)+inp("cl_pq",L("Q, квар","Q, kvar","Q, квар"),v.cl_pq)+'</div>';
+else if(CL.t=="cab")h='<p class="note" style="margin:0 0 6px">'+L("Медь, изоляция ПВХ, открытая прокладка, 3 фазы. Подбирает сечение по току и по падению напряжения.","Copper, PVC insulation, open laying, 3 phases. Picks the size by current and by voltage drop.","Мідь, ізоляція ПВХ, відкрите прокладання, 3 фази. Підбирає переріз за струмом і за падінням напруги.")+'</p><div class="clg">'+inp("cl_ki",L("Ток I, А","Current I, A","Струм I, А"),v.cl_ki)+inp("cl_kl",L("Длина линии, м","Line length, m","Довжина лінії, м"),v.cl_kl||30)+inp("cl_ku",L("Напряжение U, В","Voltage U, V","Напруга U, В"),v.cl_ku||440)+inp("cl_kd",L("Допустимое падение, %","Allowed drop, %","Допустиме падіння, %"),v.cl_kd||5)+'</div>';
+else if(CL.t=="rpm")h='<p class="note" style="margin:0 0 6px">'+L("Синхронная скорость n = 60·f / p. Если знаешь реальные обороты, посчитается скольжение.","Synchronous speed n = 60·f / p. If you know the real speed, slip is calculated.","Синхронна швидкість n = 60·f / p. Якщо знаєш реальні оберти, порахується ковзання.")+'</p><div class="clg">'+inp("cl_rf",L("Частота f, Гц","Frequency f, Hz","Частота f, Гц"),v.cl_rf||60)+inp("cl_rp",L("Пар полюсов p","Pole pairs p","Пар полюсів p"),v.cl_rp||2)+inp("cl_rn",L("Реальные обороты, об/мин","Actual speed, rpm","Реальні оберти, об/хв"),v.cl_rn)+'</div>';
+else{var U=clUnits();h='<div class="clg"><label>'+L("Что переводим","Convert","Що переводимо")+'<select id="cl_uk">'+U.map(function(u,i){return'<option value="'+i+'"'+(+(v.cl_uk||0)==i?" selected":"")+'>'+u[0]+' → '+u[1]+'</option>'}).join("")+'</select></label>'+inp("cl_uv",L("Значение","Value","Значення"),v.cl_uv)+'</div>'}
+return h}
+function clUnits(){return[[L("кВт","kW","кВт"),L("л.с.","hp","к.с."),function(x){return x*1.341}],[L("л.с.","hp","к.с."),L("кВт","kW","кВт"),function(x){return x/1.341}],["°C","°F",function(x){return x*9/5+32}],["°F","°C",function(x){return(x-32)*5/9}],[L("бар","bar","бар"),"psi",function(x){return x*14.504}],["psi",L("бар","bar","бар"),function(x){return x/14.504}],[L("бар","bar","бар"),L("МПа","MPa","МПа"),function(x){return x/10}],[L("м³/ч","m³/h","м³/год"),L("л/мин","l/min","л/хв"),function(x){return x*1000/60}],[L("узлы","knots","вузли"),L("км/ч","km/h","км/год"),function(x){return x*1.852}],[L("мили (морские)","nautical miles","милі (морські)"),L("км","km","км"),function(x){return x*1.852}],[L("кВт·ч","kWh","кВт·год"),L("МДж","MJ","МДж"),function(x){return x*3.6}],["inch",L("мм","mm","мм"),function(x){return x*25.4}]]}
+function clCalc(){var t=CL.t,v=CL.v[t]=CL.v[t]||{},r="",bad=0;[].forEach.call(document.querySelectorAll("#clc input,#clc select"),function(e){v[e.id]=e.value});clSave();
+if(t=="ohm"){var U=num("cl_cu"),I=num("cl_ci"),R=num("cl_cr"),n=[U,I,R].filter(isFinite).length;
+if(n<2)r=L("Впиши две величины.","Enter two values.","Впиши дві величини.");else{if(!isFinite(U))U=I*R;else if(!isFinite(I))I=U/R;else if(!isFinite(R))R=U/I;
+r='U = <b>'+f(U)+'</b> '+L("В","V","В")+' · I = <b>'+f(I,3)+'</b> '+L("А","A","А")+' · R = <b>'+f(R,3)+'</b> '+L("Ом","Ω","Ом")+'<br>'+L("Мощность","Power","Потужність")+' P = U·I = <b>'+f(U*I)+'</b> '+L("Вт","W","Вт")+(n==3&&Math.abs(U-I*R)>0.02*Math.abs(U)?'<br>'+L("Три величины не сходятся: U ≠ I·R. Проверь замеры.","The three values do not match: U ≠ I·R. Check your readings.","Три величини не сходяться: U ≠ I·R. Перевір заміри."):'')}}
+else if(t=="mot"){var P=num("cl_mp"),Um=num("cl_mu"),c=num("cl_mc"),e=num("cl_me")/100;if(!(P>0&&Um>0&&c>0&&e>0))r=L("Впиши мощность, напряжение, cos φ и КПД.","Enter power, voltage, cos φ and efficiency.","Впиши потужність, напругу, cos φ і ККД.");
+else{var Im=P*1000/(Math.sqrt(3)*Um*c*e);r=L("Номинальный ток","Rated current","Номінальний струм")+' I ≈ <b>'+f(Im,1)+'</b> '+L("А","A","А")+'<br>'+L("Пусковой ток прямого пуска ≈ 6–7 × I: ","Direct-on-line starting current ≈ 6–7 × I: ","Пусковий струм прямого пуску ≈ 6–7 × I: ")+f(Im*6,0)+'–'+f(Im*7,0)+' '+L("А","A","А")+'<br>'+L("Потребляет из сети: ","Draws from the grid: ","Споживає з мережі: ")+f(P/e,1)+' '+L("кВт","kW","кВт")+', '+f(P/e/c,1)+' '+L("кВА","kVA","кВА")}}
+else if(t=="pf"){var Pp=num("cl_pp"),Q=num("cl_pq");if(!(Pp>=0&&Q>=0)||!(Pp+Q>0))r=L("Впиши P и Q.","Enter P and Q.","Впиши P і Q.");else{var S=Math.sqrt(Pp*Pp+Q*Q);r='S = <b>'+f(S,1)+'</b> '+L("кВА","kVA","кВА")+' · cos φ = <b>'+f(Pp/S,3)+'</b>'+(Pp/S<0.8?'<br>'+L("cos φ ниже 0,8: генератор и кабели нагружены лишним реактивным током.","cos φ is below 0.8: generators and cables carry extra reactive current.","cos φ нижче 0,8: генератор і кабелі навантажені зайвим реактивним струмом."):'')}}
+else if(t=="cab"){var I2=num("cl_ki"),Lm=num("cl_kl"),U2=num("cl_ku"),dp=num("cl_kd");if(!(I2>0&&Lm>0&&U2>0&&dp>0))r=L("Впиши ток, длину, напряжение и допустимое падение.","Enter current, length, voltage and allowed drop.","Впиши струм, довжину, напругу й допустиме падіння.");
+else{var pick=null,dU=0;for(var i=0;i<CAB.length;i++){var Sx=CAB[i][0];dU=Math.sqrt(3)*I2*Lm*0.0175*0.85/Sx/U2*100;if(CAB[i][1]>=I2&&dU<=dp){pick=CAB[i];break}}
+if(pick)r=L("Сечение не меньше","Size at least","Переріз не менше")+' <b>'+f(pick[0],1)+' '+L("мм²","mm²","мм²")+'</b> ('+L("допустимо до","rated up to","допустимо до")+' '+pick[1]+' '+L("А","A","А")+')<br>'+L("Падение напряжения","Voltage drop","Падіння напруги")+' ≈ '+f(dU,2)+' %';else{bad=1;r=L("Больше 240 мм² на одну жилу: нужны параллельные кабели. Посчитай с инженером.","More than 240 mm² per core: parallel cables are needed. Check with an engineer.","Понад 240 мм² на одну жилу: потрібні паралельні кабелі. Порахуй з інженером.")}
+r+='<br><small>'+L("Расчёт примерный. Окончательно проверяй по правилам классификационного общества и таблицам производителя кабеля.","This is an estimate. Always check against the class society rules and the cable maker's tables.","Розрахунок приблизний. Остаточно перевіряй за правилами класифікаційного товариства й таблицями виробника кабелю.")+'</small>'}}
+else if(t=="rpm"){var fr=num("cl_rf"),pp2=num("cl_rp"),rn=num("cl_rn");if(!(fr>0&&pp2>0))r=L("Впиши частоту и число пар полюсов.","Enter frequency and pole pairs.","Впиши частоту й кількість пар полюсів.");else{var ns=60*fr/pp2;r=L("Синхронная скорость","Synchronous speed","Синхронна швидкість")+' <b>'+f(ns,0)+'</b> '+L("об/мин","rpm","об/хв")+(rn>0?'<br>'+L("Скольжение","Slip","Ковзання")+' s = <b>'+f((ns-rn)/ns*100,1)+' %</b>':'')}}
+else{var U3=clUnits(),k=+$("cl_uk").value,x=num("cl_uv");r=isFinite(x)?f(x,3)+' '+U3[k][0]+' = <b>'+f(U3[k][2](x),3)+'</b> '+U3[k][1]:L("Впиши значение.","Enter a value.","Впиши значення.")}
+var o=$("clo");if(o){o.innerHTML=r;o.className="clr"+(bad?" bad":"")}}
+function clr(){var el=$("clc");if(!el)return;var fo=document.activeElement&&el.contains(document.activeElement);if(fo&&el.innerHTML)return;
+el.innerHTML=L('<h3>🧮 Калькуляторы электромеханика</h3>','<h3>🧮 ETO calculators</h3>','<h3>🧮 Калькулятори електромеханіка</h3>')+'<div class="cltb add">'+CT().map(function(x){return'<button type="button" class="alt'+(CL.t==x[0]?" cur":"")+'" data-cl="'+x[0]+'">'+x[1]+'</button>'}).join("")+'</div>'+clForm()+'<div id="clo" class="clr"></div><p class="note" style="margin:8px 0 0">'+L("Закон Ома, перевод единиц и расчёт рейса есть в разделе «🧮 Расчёты».","Ohm's law, unit conversion and voyage maths are in the Calculations section.","Закон Ома, переведення одиниць і розрахунок рейсу є в розділі «🧮 Розрахунки».")+'</p>';clCalc()}
+document.addEventListener("click",function(e){var b=e.target.closest("[data-cl]");if(!b)return;CL.t=b.dataset.cl;clSave();var el=$("clc");el.innerHTML="";clr()});
+document.addEventListener("input",function(e){if(e.target.closest&&e.target.closest("#clc"))clCalc()});
+document.addEventListener("change",function(e){if(e.target.closest&&e.target.closest("#clc"))clCalc()});
+
+/* ---------- Журнал ремонтов ---------- */
+var rlPh="",rlQ="",rlN=10;
+function RL(){return st.rl=st.rl||[]}
+function rlr(){var el=$("rlg");if(!el)return;if(document.activeElement&&el.contains(document.activeElement)&&el.innerHTML)return;
+var q=rlQ.toLowerCase(),list=RL().filter(function(x){return!q||[x.eq,x.pr,x.cs,x.fx].join(" ").toLowerCase().indexOf(q)>=0}),h=L('<h3>🛠️ Журнал ремонтов</h3>','<h3>🛠️ Repair log</h3>','<h3>🛠️ Журнал ремонтів</h3>')+'<p class="note" style="margin:0 0 8px">'+L("Записывай, что сломалось, как нашёл причину и как починил. Пригодится в следующий раз и на собеседовании на берегу.","Write down what broke, how you found the cause and how you fixed it. Useful next time and at a shore job interview.","Записуй, що зламалося, як знайшов причину і як полагодив. Знадобиться наступного разу і на співбесіді на березі.")+'</p>';
+h+='<div class="rlf"><label>'+L("Дата","Date","Дата")+'<input type="date" id="rld" value="'+today+'"></label><label>'+L("Оборудование","Equipment","Обладнання")+'<input id="rle" maxlength="60" placeholder="'+L("Например: насос охлаждения №2","For example: cooling pump No. 2","Наприклад: насос охолодження №2")+'"></label><label>'+L("Часов работы","Hours spent","Годин роботи")+'<input id="rlh" inputmode="decimal" maxlength="5"></label></div>';
+h+='<label>'+L("Что случилось","What happened","Що сталося")+'<textarea id="rlp" maxlength="400"></textarea></label><label>'+L("Причина","Cause","Причина")+'<textarea id="rlc" maxlength="400"></textarea></label><label>'+L("Что сделал","What I did","Що зробив")+'<textarea id="rlx" maxlength="600"></textarea></label>';
+h+='<div class="add"><button type="button" class="alt" data-rl="ph">📷 '+(rlPh?L("Фото добавлено","Photo added","Фото додано"):L("Добавить фото","Add photo","Додати фото"))+'</button><button type="button" data-rl="add">'+L("Сохранить запись","Save entry","Зберегти запис")+'</button></div><input type="file" id="rlf" accept="image/*" hidden>';
+var tot=RL().reduce(function(a,x){return a+(+x.h||0)},0);
+h+='<h4 style="margin:14px 0 4px">'+L("Записей: ","Entries: ","Записів: ")+RL().length+(tot?L(" · часов ремонта: "," · repair hours: "," · годин ремонту: ")+f(tot,1):"")+'</h4>';
+if(RL().length>3)h+='<div class="add"><input id="rlq" type="search" value="'+esc(rlQ)+'" placeholder="'+L("Поиск по журналу","Search the log","Пошук у журналі")+'"></div>';
+h+=list.slice(0,rlN).map(function(x){return'<div class="rli"><div class="rlh"><div><h4 translate="no">'+esc(x.eq||"—")+'</h4><small>'+x.d.split("-").reverse().join(".")+(x.h?' · '+f(+x.h,1)+L(" ч"," h"," год"):"")+'</small></div><button type="button" class="alt" data-rl="del" data-v="'+x.id+'" aria-label="'+L("Удалить","Delete","Видалити")+'">×</button></div>'+(x.pr?'<p translate="no"><b>'+L("Что: ","What: ","Що: ")+'</b>'+esc(x.pr)+'</p>':'')+(x.cs?'<p translate="no"><b>'+L("Причина: ","Cause: ","Причина: ")+'</b>'+esc(x.cs)+'</p>':'')+(x.fx?'<p translate="no"><b>'+L("Сделал: ","Done: ","Зробив: ")+'</b>'+esc(x.fx)+'</p>':'')+(x.ph&&okImg(x.ph)?'<img alt="" src="'+x.ph+'">':'')+'</div>'}).join("");
+if(list.length>rlN)h+='<div class="add"><button type="button" class="alt" data-rl="more">'+L("Показать ещё","Show more","Показати ще")+'</button></div>';
+if(RL().length)h+='<div class="add"><button type="button" class="alt" data-rl="csv">'+L("Сохранить журнал (Excel)","Save log (Excel)","Зберегти журнал (Excel)")+'</button></div>';
+el.innerHTML=h}
+document.addEventListener("click",function(e){var b=e.target.closest("[data-rl]");if(!b)return;var a=b.dataset.rl;
+if(a=="ph"){$("rlf").click();return}
+if(a=="add"){var x={id:"r"+Date.now().toString(36),d:$("rld").value||today,eq:$("rle").value.trim(),h:$("rlh").value.replace(",",".").trim(),pr:$("rlp").value.trim(),cs:$("rlc").value.trim(),fx:$("rlx").value.trim()};
+if(!x.eq&&!x.pr){toast(L("Впиши хотя бы оборудование или что случилось","Enter at least the equipment or what happened","Впиши хоча б обладнання або що сталося"));return}if(!/^\d+(\.\d+)?$/.test(x.h))x.h="";if(rlPh)x.ph=rlPh;
+RL().unshift(x);RL().sort(function(p,q){return p.d<q.d?1:p.d>q.d?-1:0});rlPh="";save();document.activeElement.blur();rlr();toast(L("Запись сохранена","Entry saved","Запис збережено"));return}
+if(a=="del"){if(!confirm(L("Удалить эту запись?","Delete this entry?","Видалити цей запис?")))return;st.rl=RL().filter(function(x){return x.id!=b.dataset.v});save();rlr();return}
+if(a=="more"){rlN+=10;rlr();return}
+if(a=="csv"){var q=function(v){return'"'+String(v==null?"":v).replace(/"/g,'""')+'"'},r=[["Date","Equipment","Hours","Problem","Cause","Fix"].map(q).join(";")];RL().forEach(function(x){r.push([x.d,x.eq,x.h,x.pr,x.cs,x.fx].map(q).join(";"))});
+var bl=new Blob(["﻿"+r.join("\r\n")],{type:"text/csv"}),l=document.createElement("a");l.href=URL.createObjectURL(bl);l.download="fac-modo-repairs-"+today+".csv";document.body.appendChild(l);l.click();l.remove()}});
+document.addEventListener("change",function(e){if(e.target.id!="rlf")return;var fl=e.target.files[0];if(!fl)return;var im=new Image(),u=URL.createObjectURL(fl);
+im.onload=function(){var z=640,k=Math.min(1,z/Math.max(im.width,im.height)),cv=document.createElement("canvas");cv.width=Math.round(im.width*k);cv.height=Math.round(im.height*k);cv.getContext("2d").drawImage(im,0,0,cv.width,cv.height);rlPh=cv.toDataURL("image/jpeg",.6);URL.revokeObjectURL(u);var bt=document.querySelector('[data-rl="ph"]');if(bt)bt.textContent="📷 "+L("Фото добавлено","Photo added","Фото додано")};im.src=u;e.target.value=""});
+document.addEventListener("input",function(e){if(e.target.id=="rlq"){rlQ=e.target.value;var el=$("rlg"),p=e.target.selectionStart;e.target.blur();rlr();var n=$("rlq");if(n){n.focus();try{n.setSelectionRange(p,p)}catch(x){}}}});
+
+/* ---------- Связь с домом ---------- */
+var TZ=[["Europe/Kyiv",L("Киев","Kyiv","Київ")],["Europe/Moscow",L("Москва","Moscow","Москва")],["Europe/Minsk",L("Минск","Minsk","Мінськ")],["Europe/Odessa",L("Одесса","Odesa","Одеса")],["Europe/Riga",L("Рига","Riga","Рига")],["Europe/Vilnius",L("Вильнюс","Vilnius","Вільнюс")],["Europe/Tallinn",L("Таллин","Tallinn","Таллінн")],["Europe/Warsaw",L("Варшава","Warsaw","Варшава")],["Europe/Bucharest",L("Бухарест","Bucharest","Бухарест")],["Europe/Istanbul",L("Стамбул","Istanbul","Стамбул")],["Asia/Tbilisi",L("Тбилиси","Tbilisi","Тбілісі")],["Asia/Baku",L("Баку","Baku","Баку")],["Europe/Samara",L("Самара","Samara","Самара")],["Asia/Yekaterinburg",L("Екатеринбург","Yekaterinburg","Єкатеринбург")],["Asia/Novosibirsk",L("Новосибирск","Novosibirsk","Новосибірськ")],["Asia/Vladivostok",L("Владивосток","Vladivostok","Владивосток")],["Asia/Almaty",L("Алматы","Almaty","Алмати")],["Europe/London",L("Лондон","London","Лондон")],["Europe/Berlin",L("Берлин","Berlin","Берлін")],["Asia/Manila",L("Манила","Manila","Маніла")],["Asia/Kolkata",L("Мумбаи","Mumbai","Мумбаї")],["America/New_York",L("Нью-Йорк","New York","Нью-Йорк")]];
+function CTH(){return st.cth=st.cth||{z:"",a:"08:00",b:"22:30",n:""}}
+function tzMin(z){try{var p=new Intl.DateTimeFormat("en-GB",{timeZone:z,hour:"2-digit",minute:"2-digit",hour12:false}).formatToParts(new Date()),h=0,m=0;p.forEach(function(x){if(x.type=="hour")h=+x.value%24;if(x.type=="minute")m=+x.value});return h*60+m}catch(e){return null}}
+function tm(s){var p=String(s||"").split(":");return(+p[0]||0)*60+(+p[1]||0)}
+function cthr(){var el=$("cth");if(!el)return;if(document.activeElement&&el.contains(document.activeElement)&&el.innerHTML)return;var c=CTH(),W=fm3.wd(),sm=W.m,h=L('<h3>📞 Когда позвонить домой</h3>','<h3>📞 When to call home</h3>','<h3>📞 Коли зателефонувати додому</h3>');
+h+='<div class="clg" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:8px"><label>'+L("Где дом","Home is in","Де дім")+'<select id="cthz"><option value="">'+L("Выбери город","Choose a city","Обери місто")+'</option>'+TZ.map(function(z){return'<option value="'+z[0]+'"'+(c.z==z[0]?" selected":"")+'>'+z[1]+'</option>'}).join("")+'</select></label><label>'+L("Дома не спят с","Home is awake from","Вдома не сплять з")+'<input type="time" id="ctha" value="'+c.a+'"></label><label>'+L("до","until","до")+'<input type="time" id="cthb" value="'+c.b+'"></label></div>';
+if(!c.z){el.innerHTML=h+'<p class="note">'+L("Выбери город, где живут родные: приложение покажет, когда им удобно позвонить.","Choose the city where your family lives and the app will show when it is a good time to call.","Обери місто, де живуть рідні: застосунок покаже, коли їм зручно зателефонувати.")+'</p>';return}
+var hmN=tzMin(c.z);if(hmN==null){el.innerHTML=h;return}var df=hmN-sm,aw=tm(c.a),bw=tm(c.b),inA=function(x){x=((x%1440)+1440)%1440;return bw>aw?x>=aw&&x<bw:x>=aw||x<bw};
+var awake=inA(hmN);h+='<div class="ctb"><b>'+(awake?"☀️ ":"🌙 ")+L("Дома сейчас ","At home now ","Вдома зараз ")+hm(hmN)+'</b><br>'+(awake?L("Родные не спят.","Your family is awake.","Рідні не сплять."):L("Дома ночь, родные спят.","It is night at home, your family is asleep.","Вдома ніч, рідні сплять."))+' '+L("Судовое время ","Ship time ","Судновий час ")+hm(sm)+(df%1440?' · '+L("разница ","difference ","різниця ")+(((df+720)%1440+1440)%1440-720>=0?"+":"−")+f(Math.abs((((df+720)%1440+1440)%1440-720)/60),1)+L(" ч"," h"," год"):'')+'</div>';
+var free=function(x){if(W.ws.some(function(w){return W.inR(x,w[0],w[1]%1440)}))return 0;if(W.sl.some(function(s){return W.inR(x,s[0],(s[0]+s[1])%1440)}))return 0;return inA(x+df)};
+var win=[],st0=-1;for(var i=0;i<=96;i++){var x=(sm+i*15)%1440,ok=i<96&&free(x);if(ok&&st0<0)st0=i;if(!ok&&st0>=0){if(i-st0>=2)win.push([(sm+st0*15)%1440,(i-st0)*15]);st0=-1}}
+h+='<h4 style="margin:12px 0 4px">'+L("Когда звонить в ближайшие сутки","Good times to call in the next 24 h","Коли телефонувати найближчу добу")+'</h4>';
+if(!W.ws.length)h+='<p class="note">'+L("Укажи график вахт в «Вахта и сон», и время вахт и сна не попадёт в список.","Set your watch schedule in Watch and sleep, and watch and sleep times will be left out.","Вкажи графік вахт у «Вахта і сон», і час вахт і сну не потрапить до списку.")+'</p>';
+h+=win.length?'<ul>'+win.slice(0,6).map(function(w,i){return'<li'+(i==0&&w[0]==sm%1440?' class="cto"':'')+'><span>'+hm(w[0])+'–'+hm(w[0]+w[1])+' <span class="ctx">'+L("на судне","ship","на судні")+'</span></span><span>'+hm(w[0]+df)+'–'+hm(w[0]+w[1]+df)+' <span class="ctx">'+L("дома","home","вдома")+'</span></span></li>'}).join("")+'</ul>':'<p class="note">'+L("В ближайшие сутки нет общего свободного времени. Попробуй написать сообщение.","No shared free time in the next 24 hours. Try sending a message.","Найближчу добу немає спільного вільного часу. Спробуй написати повідомлення.")+'</p>';
+el.innerHTML=h}
+document.addEventListener("change",function(e){var id=e.target.id;if(id!="cthz"&&id!="ctha"&&id!="cthb")return;var c=CTH();if(id=="cthz")c.z=e.target.value;if(id=="ctha"&&e.target.value)c.a=e.target.value;if(id=="cthb"&&e.target.value)c.b=e.target.value;save();e.target.blur();cthr()});
+
+/* ---------- Счётчик контракта ---------- */
+function KT(){var k=st.kt;if(!k){k=st.kt={a:"",b:"",s:"",c:"$",p:""};var cur=(st.ct||[]).filter(function(x){return x&&!x.b&&/^\d{4}-\d\d-\d\d$/.test(x.a)})[0];if(cur)k.a=cur.a}return k}
+function dd(a,b){return Math.round((new Date(b+"T12:00:00")-new Date(a+"T12:00:00"))/864e5)}
+function money(x,c){return(c=="₽"||c=="₴"||c=="€")?f(Math.round(x),0).replace(/\B(?=(\d{3})+(?!\d))/g," ")+" "+c:c+f(Math.round(x),0).replace(/\B(?=(\d{3})+(?!\d))/g," ")}
+function ktr(){var el=$("ktr");if(!el)return;if(document.activeElement&&el.contains(document.activeElement)&&el.innerHTML)return;var k=KT();if(st.fam&&/^\d{4}-\d\d-\d\d$/.test(st.fam.d||""))k.b=st.fam.d;var h=L('<h3>⏳ До дома</h3>','<h3>⏳ Until home</h3>','<h3>⏳ До дому</h3>'),ok=/^\d{4}-\d\d-\d\d$/;
+if(ok.test(k.a)&&ok.test(k.b)&&k.b>k.a){var all=dd(k.a,k.b),done=Math.max(0,Math.min(all,dd(k.a,today))),left=Math.max(0,dd(today,k.b)),pc=Math.round(done/all*100),sal=+String(k.s).replace(",",".")||0,pp=+String(k.p).replace(",",".")||0;
+h+=left?'<div class="kbig"><b>'+left+'</b><span>'+L("дн. до списания","days until sign-off","дн. до списання")+' · '+k.b.split("-").reverse().join(".")+'</span></div>':'<div class="kbig"><b>🏠</b><span>'+L("Контракт закончен. С возвращением домой!","Contract finished. Welcome home!","Контракт закінчено. З поверненням додому!")+'</span></div>';
+h+='<div class="kbar"><i style="width:'+pc+'%"></i></div><p class="note" style="margin:0">'+L("Пройдено ","Done ","Пройдено ")+pc+'% · '+done+L(" из "," of "," з ")+all+L(" дн."," days"," дн.")+(left&&left<=all/2&&left>14?L(" · больше половины позади!"," · more than halfway!"," · більше половини позаду!"):left&&left<=14?L(" · скоро домой!"," · going home soon!"," · скоро додому!"):"")+'</p>';
+if(sal>0){var ear=sal*12/365*done,tot=sal*12/365*all;h+='<div class="kgr"><div><small>'+L("Заработано","Earned","Зароблено")+'</small><b>'+money(ear,k.c)+'</b></div><div><small>'+L("За весь контракт","Whole contract","За весь контракт")+'</small><b>'+money(tot,k.c)+'</b></div>'+(pp>0?'<div><small>'+L("Отложено","Saved","Відкладено")+' ('+f(pp,0)+'%)</small><b>'+money(ear*pp/100,k.c)+'</b></div><div><small>'+L("Отложишь к концу","Saved by the end","Відкладеш до кінця")+'</small><b>'+money(tot*pp/100,k.c)+'</b></div>':'')+'</div>'}
+var wk=Math.floor(left/7);if(left>7)h+='<p class="note">'+L("Это примерно ","That is about ","Це приблизно ")+wk+L(" недель и "," weeks and "," тижнів і ")+(left%7)+L(" дн."," days"," дн.")+'</p>'}
+else h+='<p class="note" style="margin:0 0 6px">'+L("Впиши даты контракта: приложение покажет, сколько дней до дома, сколько заработано и отложено.","Enter your contract dates and the app will show the days until home, money earned and saved.","Впиши дати контракту: застосунок покаже, скільки днів до дому, скільки зароблено й відкладено.")+'</p>';
+h+='<div class="kgr" style="grid-template-columns:repeat(auto-fit,minmax(130px,1fr))"><label>'+L("Начало контракта","Sign-on","Початок контракту")+'<input type="date" id="kta" value="'+(k.a||"")+'"></label><label>'+L("Домой (дата списания)","Home (sign-off date)","Додому (дата списання)")+'<input type="date" id="ktb" value="'+(k.b||"")+'"></label><label>'+L("Зарплата в месяц","Salary per month","Зарплата на місяць")+'<input id="kts" inputmode="decimal" value="'+esc(k.s)+'"></label><label>'+L("Валюта","Currency","Валюта")+'<select id="ktc">'+["$","€","₽","₴"].map(function(c){return'<option'+(k.c==c?" selected":"")+'>'+c+'</option>'}).join("")+'</select></label><label>'+L("Откладываю, %","I save, %","Відкладаю, %")+'<input id="ktp" inputmode="decimal" value="'+esc(k.p)+'"></label></div><p class="note">'+L("Данные хранятся только на телефоне.","Data stays on your phone only.","Дані зберігаються лише на телефоні.")+'</p>';
+el.innerHTML=h}
+document.addEventListener("change",function(e){var m={kta:"a",ktb:"b",kts:"s",ktc:"c",ktp:"p"}[e.target.id];if(!m)return;KT()[m]=e.target.value;if(m=="b"){st.fam=st.fam||{};st.fam.d=/^\d{4}-\d\d-\d\d$/.test(e.target.value)?e.target.value:""}save();e.target.blur();render()});
+
+/* ---------- Огонёк серии ---------- */
+var SKM=[[3,30],[7,70],[14,150],[30,300],[60,600],[100,1000]];
+function SK(){var s=st.fsk=st.fsk||{b:0,r:{}};s.r=s.r||{};return s}
+var _c4=calc;calc=function(){var c=_c4(),s=SK(),x=0;for(var k in s.r)x+=+s.r[k]||0;c.xp+=x;c.raw=(c.raw||0)+x;c.skx=x;return c};
+function skCheck(c){var s=SK(),n=c.streak,ch=0,got=[];if(n>s.b){s.b=n;ch=1}SKM.forEach(function(m){if(n>=m[0]&&!s.r[m[0]]){s.r[m[0]]=m[1];got.push(m);ch=1}});if(ch)save();
+if(got.length)setTimeout(function(){toast("🔥 "+L("Серия ","Streak ","Серія ")+got[got.length-1][0]+L(" дней! +"," days! +"," днів! +")+got.reduce(function(a,m){return a+m[1]},0)+" XP")},600);return got.length}
+function skr(){var el=$("stk");if(!el)return;var c=calc();if(skCheck(c))c=calc();var n=c.streak,s=SK(),sz=Math.min(64,26+n*2),nx=SKM.filter(function(m){return n<m[0]})[0];
+var h=L('<h3>🔥 Серия дней</h3>','<h3>🔥 Day streak</h3>','<h3>🔥 Серія днів</h3>')+'<div class="sfl"><span style="font-size:'+sz+'px">'+(n?"🔥":"🪵")+'</span><div><b>'+n+'</b> '+L("дн. подряд","days in a row","дн. поспіль")+'<br><small class="note">'+L("Лучшая серия: ","Best streak: ","Найкраща серія: ")+Math.max(s.b,n)+'</small></div></div>';
+h+='<p class="note" style="margin:0 0 6px">'+L("Огонёк растёт за каждый день, когда закрыты все квесты (в тяжёлый день хватит трёх). Пропуск гасит серию.","The flame grows for every day with all quests done (on a hard day three are enough). A missed day puts it out.","Вогник росте за кожен день, коли закриті всі квести (у важкий день вистачить трьох). Пропуск гасить серію.")+'</p>';
+var m0=shift0(today);h+='<div class="swk">'+[0,1,2,3,4,5,6].map(function(i){var k=sh(m0,i),ic=st.bonus[k]?"🔥":st.fz&&st.fz[k]?"❄️":k<today?"·":k==today?"○":"";return'<div>'+fmL(D[i],["Mon","Tue","Wed","Thu","Fri","Sat","Sun"][i],["Пн","Вт","Ср","Чт","Пт","Сб","Нд"][i])+'<i>'+ic+'</i></div>'}).join("")+'</div>';
+h+='<div class="sms">'+SKM.map(function(m){return'<span class="'+(s.r[m[0]]?"on":"")+'">'+m[0]+L(" дн."," d"," дн.")+' · +'+m[1]+'</span>'}).join("")+'</div>';
+if(nx)h+='<p class="note">'+L("До награды +","Next reward +","До нагороди +")+nx[1]+' XP: '+L("ещё ","","ще ")+(nx[0]-n)+L(" дн."," more days"," дн.")+'</p>';
+var rec=Object.keys(st.fz||{}).some(function(k){return(new Date(today)-new Date(k))/864e5<7});
+h+='<div class="add"><button type="button" data-x="freeze" class="alt"'+(rec||st.bonus[today]?" disabled":"")+'>❄️ '+L("Заморозить серию на сегодня","Freeze the streak for today","Заморозити серію на сьогодні")+'</button></div><p class="note">'+(rec?L("Заморозка уже была на этой неделе.","The freeze was already used this week.","Заморозка вже була цього тижня."):L("Раз в 7 дней можно сохранить серию, если день не получился.","Once every 7 days you can keep the streak after a bad day.","Раз на 7 днів можна зберегти серію, якщо день не вдався."))+'</p>';
+el.innerHTML=h}
+function shift0(k){var d=new Date(k+"T12:00:00");d.setDate(d.getDate()-((d.getDay()+6)%7));return iso(d)}
+function sh(k,n){var d=new Date(k+"T12:00:00");d.setDate(d.getDate()+n);return iso(d)}
+
+function all4(){try{clr();rlr();cthr();ktr();skr()}catch(e){console.error(e)}}
+var _r4=render;render=function(m){_r4(m);all4()};
+all4();document.addEventListener("DOMContentLoaded",all4);setInterval(function(){try{cthr();ktr()}catch(e){}},60000);
+})();
 </script>
 <script>
 /* Английский язык: при st.lang=="en" переводит весь текст на экране по словарю I18N (tools/i18n_*.json) */
@@ -2046,7 +2199,7 @@ main>section.fmc{display:none!important}
 html.fmo,html.fmo body{overflow:hidden}#toast{z-index:40}</style>
 <div id="fmm"><div id="fmb" role="dialog" aria-modal="true"><div id="fmh"><button type="button" id="fmx">✕ Закрыть</button></div><div id="fmc"></div></div></div>
 <script>(function(){var mn=document.getElementById("mn"),m=document.getElementById("fmm"),box=document.getElementById("fmc"),cur=null,ph=document.createComment("fm"),tiles=[],de=document.documentElement;mn.appendChild(m);
-var IC={fc:"🎯",pnl:"⚖️",wch:"⚓",mt2:"♟️",flm:"🎬",gym:"🏋️",cmp:"📊",prf:"👤",prf2:"👤",tip:"💡",ls:"🧭",pom:"⏱️",lib:"🗂️",bk:"📚",mat:"🎬",gl:"📖",ck:"☑️",shop:"🛒",iv:"🎤",en:"🔤",ch:"🎁",qz:"❓",hm:"📅",opt:"⚙️",shr:"🔗",ed:"🗓️",dq:"🌤️",d1:"😊",d2:"✍️",d3:"🎨",d4:"📔",sh1:"🧭",sh2:"🌳",sh5:"🗺️",sh4:"👣",ap:"📨",rz:"📄",sh3:"🔄",stats:"📈",ach:"🏅",th:"🎨",sn:"💾",days:"✅",cfg:"🖥️",nfc:"🔔",wkc:"📈",cmpt:"🏆",abt:"ℹ️"};
+var IC={fc:"🎯",pnl:"⚖️",wch:"⚓",mt2:"♟️",clc:"🧮",rlg:"🛠️",cth:"📞",ktr:"⏳",stk:"🔥",flm:"🎬",gym:"🏋️",cmp:"📊",prf:"👤",prf2:"👤",tip:"💡",ls:"🧭",pom:"⏱️",lib:"🗂️",bk:"📚",mat:"🎬",gl:"📖",ck:"☑️",shop:"🛒",iv:"🎤",en:"🔤",ch:"🎁",qz:"❓",hm:"📅",opt:"⚙️",shr:"🔗",ed:"🗓️",dq:"🌤️",d1:"😊",d2:"✍️",d3:"🎨",d4:"📔",sh1:"🧭",sh2:"🌳",sh5:"🗺️",sh4:"👣",ap:"📨",rz:"📄",sh3:"🔄",stats:"📈",ach:"🏅",th:"🎨",sn:"💾",days:"✅",cfg:"🖥️",nfc:"🔔",wkc:"📈",cmpt:"🏆",abt:"ℹ️"};
 function ico(s){if(IC[s.id])return IC[s.id];for(var k in IC)if(s.querySelector("#"+k))return IC[k];return"📌"}
 function ttl(s){var h=s.querySelector("h2,h3,h4");if(h){h=h.cloneNode(true);[].forEach.call(h.querySelectorAll("button,input,select,textarea"),function(x){x.remove()})}var t=(h?h.textContent:"").replace(/\s+/g," ").trim();return t.length>48?t.slice(0,46)+"…":t}
 function split(t){var r=t.match(/^((?:\p{Extended_Pictographic}|[\u{1F1E6}-\u{1F1FF}])[️‍\u{1F3FB}-\u{1F3FF}\p{Extended_Pictographic}\u{1F1E6}-\u{1F1FF}]*)\s*(.*)$/u);return r&&r[2]?[r[1],r[2]]:[null,t]}
