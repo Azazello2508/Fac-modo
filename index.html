@@ -1766,7 +1766,7 @@ function S(){var s=st.m2;if(!s||s.d!==today){s=st.m2={d:today,e:0,r:"",n:(st.m2&
 function nm(P,m){var p=P.b[m.f],a="abcdefgh";return RU[p.toLowerCase()]+a[m.f%8]+(1+(m.f>>3))+(P.b[m.t]?"×":"–")+a[m.t%8]+(1+(m.t>>3))+(m.p&&m.p!="q"?"="+RU[m.p]:m.p?fmL("=Ф","=Q","=Ф"):"")}
 function line(){var a=C.fromUci(Z[1]),Q=C.play(P0,a),b=C.fromUci(Z[2]),R=C.play(Q,b),c=C.fromUci(Z[3]);return"1. "+nm(P0,a)+" "+nm(Q,b)+" 2. "+nm(R,c)+"#"}
 function reset(){pos=P0;ph=0;sel=-1;mvs=[];last=null;hint=-1}
-function draw(){var el=$("mt2");if(!el)return;var s=S(),h=fmL('<h3>♟️ Задача дня: мат в 2 хода</h3><p class="note" style="margin:0 0 8px">Белые начинают и ставят мат в два хода. Нажми на фигуру, потом на клетку. Решишь без ошибок: +30 XP, с ошибками: +15 XP. Каждый день новая задача.</p><div class="m2w"><div class="m2b">','<h3>♟️ Puzzle of the day: mate in 2</h3><p class="note" style="margin:0 0 8px">White to move and mate in two moves. Tap a piece, then a square. Solve with no mistakes: +30 XP, with mistakes: +15 XP. A new puzzle every day.</p><div class="m2w"><div class="m2b">','<h3>♟️ Задача дня: мат у 2 ходи</h3><p class="note" style="margin:0 0 8px">Білі починають і ставлять мат у два ходи. Натисни на фігуру, потім на клітинку. Розв’яжеш без помилок: +30 XP, з помилками: +15 XP. Щодня нова задача.</p><div class="m2w"><div class="m2b">');
+function draw(){var el=$("mt2");if(!el)return;var s=S(),h=fmL('<h3>🧠 Задача дня: мат в 2 хода</h3><p class="note" style="margin:0 0 8px">Белые начинают и ставят мат в два хода. Нажми на фигуру, потом на клетку. Решишь без ошибок: +30 XP, с ошибками: +15 XP. Каждый день новая задача.</p><div class="m2w"><div class="m2b">','<h3>🧠 Puzzle of the day: mate in 2</h3><p class="note" style="margin:0 0 8px">White to move and mate in two moves. Tap a piece, then a square. Solve with no mistakes: +30 XP, with mistakes: +15 XP. A new puzzle every day.</p><div class="m2w"><div class="m2b">','<h3>🧠 Задача дня: мат у 2 ходи</h3><p class="note" style="margin:0 0 8px">Білі починають і ставлять мат у два ходи. Натисни на фігуру, потім на клітинку. Розв’яжеш без помилок: +30 XP, з помилками: +15 XP. Щодня нова задача.</p><div class="m2w"><div class="m2b">');
 for(var k=0;k<64;k++){var r=7-(k>>3),f=k%8,i=r*8+f,p=pos.b[i],c=(r+f)%2?"l":"d";
 if(last&&(last.f==i||last.t==i))c+=" ls";if(i==sel)c+=" sel";if(i==hint)c+=" hn";if(mvs.some(function(m){return m.t==i}))c+=" mv";
 h+='<button type="button" data-m2="'+i+'" class="'+c+'" aria-label="'+"abcdefgh"[f]+(r+1)+'">'+(p?'<span class="'+(p==p.toUpperCase()?"wp":"bp")+'">'+GL[p.toLowerCase()]+'︎</span>':"")+(f==0?'<small class="cr">'+(r+1)+'</small>':"")+(r==0?'<small class="cf" style="left:auto;right:2px">'+"abcdefgh"[f]+'</small>':"")+'</button>'}
@@ -2425,15 +2425,51 @@ main>section.fmc{display:none!important}
 #fmh{display:flex;justify-content:flex-end;padding:10px 12px 6px}#fmx{min-width:0;padding:8px 14px;border-radius:99px;font-weight:800}
 #fmc{overflow:auto;-webkit-overflow-scrolling:touch;overscroll-behavior:contain;padding:0 12px calc(18px + env(safe-area-inset-bottom,0px))}
 html.fmo,html.fmo body{overflow:hidden}#toast{z-index:40}</style>
+<style id="tgx-css">/* Компактные плитки по группам: по 3 в ряд, все видны сразу, «Показать ещё» не нужно */
+main{grid-template-columns:repeat(3,minmax(0,1fr))!important;column-gap:10px!important;row-gap:10px!important}main>*{grid-column:1/-1}main>.fmt{grid-column:auto}
+@media(min-width:600px){main{grid-template-columns:repeat(4,minmax(0,1fr))!important}}
+main>.fmt{min-height:80px;padding:9px 7px;gap:6px;border-radius:14px;justify-content:flex-start}
+main>.fmt i{font-size:24px}main>.fmt b{width:100%;font-size:12px;letter-spacing:-.01em;line-height:1.2;overflow-wrap:break-word;-webkit-hyphens:auto;hyphens:auto}
+.big main>.fmt b{font-size:14px}
+main>.tgxh{margin:8px 2px -2px;font-size:12px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:inherit;opacity:.85;text-shadow:0 1px 4px #000c}
+main>.tgxh[hidden]{display:none!important}
+.fmore{display:none!important}
+#vdw .vs input{width:100%;min-width:0;box-sizing:border-box}#vdw .vc,#vdw .vb{display:flex;flex-wrap:wrap;gap:6px}#vdw .vb a{flex:1 1 auto;min-width:0}</style>
+<script id="tgx-js">/* Группы плиток и перенос разделов между вкладками. Разделы не удаляются: меняется только вкладка (data-t) и порядок.
+ Новый раздел, которого нет в списке, попадает в группу «Ещё» в конце своей вкладки. */
+(function(){var mn=document.getElementById("mn");if(!mn)return;var L=window.fmL||function(r){return r};
+var MV={rh:"today",vdw:"know",vis:"me"};
+var G={today:[[L("День","Day","День"),["#days","fc","pnl","stk","cmp","ed"]],[L("Вахта и дом","Watch and home","Вахта і дім"),["wch","rh","cth","hfm","ktr","dcw"]]],
+know:[[L("Учёба","Study","Навчання"),["lib","gl","en","iv","qz","vdw","mat"]],[L("Работа на судне","Work on board","Робота на судні"),["clc","cvm","rlg","ck","prf"]],[L("Для себя","For yourself","Для себе"),["tip","ls","pom"]]],
+game:[[L("Игры","Games","Ігри"),["tk","sm","bg","mt2","pzl"]],[L("Отдых","Rest","Відпочинок"),["bk","flm","snd","brt","sky","gym"]],[L("Награды","Rewards","Нагороди"),["ch","shop"]]],
+shore:[[L("Путь на берег","Path ashore","Шлях на берег"),["sh1","sh4","sh2","sh5","prf2"]],[L("Работа","Job","Робота"),["rz","ap","sh3"]]],
+me:[[L("Документы и деньги","Documents and money","Документи й гроші"),["dc","ct","fnm","rk"]],[L("Прогресс","Progress","Прогрес"),["#stats","#ach","wkc","hm","cmpt","vis","shr"]]]};
+function sec(k){var e=k.charAt(0)=="#"?document.getElementById(k.slice(1)):document.getElementById(k);if(e&&k.charAt(0)=="#")e=e.closest("#mn>section");return e&&e.parentNode==mn?e:null}
+function tiled(s){return s.tagName=="SECTION"&&!s.classList.contains("hero")&&!s.classList.contains("quote")&&s.id!="ob"&&s.id!="nw"&&s.id!="tdy"}
+var mvd=[];Object.keys(MV).forEach(function(k){var s=sec(k);if(s){s.setAttribute("data-t",MV[k]);mvd.push(s)}});
+Object.keys(G).forEach(function(t){var all=[].filter.call(mn.children,function(s){return s.getAttribute("data-t")==t&&tiled(s)});if(!all.length)return;
+ var ph=document.createComment("tgx");var top=[].filter.call(mn.children,function(s){return s.getAttribute("data-t")==t&&s.tagName=="SECTION"&&!tiled(s)});mn.insertBefore(ph,top.length?top[top.length-1].nextSibling:all.filter(function(s){return mvd.indexOf(s)<0})[0]||all[0]);var used=[],grp=G[t].slice();
+ grp.forEach(function(g){g[1].forEach(function(k){var s=sec(k);if(s&&s.getAttribute("data-t")==t)used.push(s)})});
+ var rest=all.filter(function(s){return used.indexOf(s)<0});if(rest.length)grp.push([L("Ещё","More","Ще"),null]);
+ grp.forEach(function(g){var h=document.createElement("div");h.className="tgxh";h.setAttribute("data-t",t);h.setAttribute("translate","no");h.textContent=g[0];mn.insertBefore(h,ph);
+  (g[1]?g[1].map(sec).filter(function(s){return s&&s.getAttribute("data-t")==t}):rest).forEach(function(s){mn.insertBefore(s,ph)})});
+ mn.removeChild(ph)});
+/* Заголовок группы прячется, если все её плитки скрыты */
+function hd(){[].forEach.call(mn.querySelectorAll(":scope>.tgxh"),function(h){var n=h.nextElementSibling,v=false;while(n&&!n.classList.contains("tgxh")){if(n.classList.contains("fmt")&&!n.hidden)v=true;n=n.nextElementSibling}h.hidden=!v})}
+document.addEventListener("DOMContentLoaded",function(){[].forEach.call(mn.querySelectorAll(":scope>.fmt[data-sec]"),function(b){b.removeAttribute("data-sec")});hd();
+ try{new MutationObserver(hd).observe(mn,{attributes:true,attributeFilter:["hidden"],subtree:true})}catch(e){}});
+/* Переходы из «Сегодня» ведут на вкладку, где раздел лежит сейчас */
+document.addEventListener("click",function(e){var b=e.target.closest&&e.target.closest("[data-td]");if(!b)return;var q=b.dataset.td.split("|"),s=q[0]&&document.getElementById(q[0]);if(s&&s.getAttribute("data-t")&&s.getAttribute("data-t")!=q[1])b.dataset.td=q[0]+"|"+s.getAttribute("data-t")},true);
+})();</script>
 <div id="fmm"><div id="fmb" role="dialog" aria-modal="true"><div id="fmh"><button type="button" id="fmx">✕ Закрыть</button></div><div id="fmc"></div></div></div>
 <script>(function(){var mn=document.getElementById("mn"),m=document.getElementById("fmm"),box=document.getElementById("fmc"),cur=null,ph=document.createComment("fm"),tiles=[],de=document.documentElement;mn.appendChild(m);
-var IC={pzl:"🧩",snd:"🌙",brt:"🫁",sky:"✨",vis:"🗺️",fc:"🎯",pnl:"⚖️",wch:"⚓",mt2:"♟️",clc:"🧮",rlg:"🛠️",cth:"📞",ktr:"⏳",stk:"🔥",flm:"🎬",gym:"🏋️",cmp:"📊",prf:"👤",prf2:"👤",tip:"💡",ls:"🧭",pom:"⏱️",lib:"🗂️",bk:"📚",mat:"🎬",gl:"📖",ck:"☑️",shop:"🛒",iv:"🎤",en:"🔤",ch:"🎁",qz:"❓",hm:"📅",opt:"⚙️",shr:"🔗",ed:"🗓️",dq:"🌤️",d1:"😊",d2:"✍️",d3:"🎨",d4:"📔",sh1:"🧭",sh2:"🌳",sh5:"🗺️",sh4:"👣",ap:"📨",rz:"📄",sh3:"🔄",stats:"📈",ach:"🏅",th:"🎨",sn:"💾",days:"✅",cfg:"🖥️",nfc:"🔔",wkc:"📈",cmpt:"🏆",abt:"ℹ️"};
+var IC={pzl:"🧩",snd:"🌙",brt:"🫁",sky:"✨",vis:"🗺️",fc:"🎯",pnl:"⚖️",wch:"⚓",mt2:"🧠",clc:"🧮",rlg:"🛠️",cth:"📞",ktr:"⏳",stk:"🔥",flm:"🎬",gym:"🏋️",cmp:"📊",prf:"👤",prf2:"👤",tip:"💡",ls:"🧭",pom:"⏱️",lib:"🗂️",bk:"📚",mat:"🎬",gl:"📖",ck:"☑️",shop:"🛒",iv:"🎤",en:"🔤",ch:"🎁",qz:"❓",hm:"📅",opt:"⚙️",shr:"🔗",ed:"🗓️",dq:"🌤️",d1:"😊",d2:"✍️",d3:"🎨",d4:"📔",sh1:"🧭",sh2:"🌳",sh5:"🗺️",sh4:"👣",ap:"📨",rz:"📄",sh3:"🔄",stats:"📈",ach:"🏅",th:"🎨",sn:"💾",days:"✅",cfg:"🖥️",nfc:"🔔",wkc:"📈",cmpt:"🏆",abt:"ℹ️"};
 function ico(s){if(IC[s.id])return IC[s.id];for(var k in IC)if(s.querySelector("#"+k))return IC[k];return"📌"}
 function ttl(s){var h=s.querySelector("h2,h3,h4");if(h){h=h.cloneNode(true);[].forEach.call(h.querySelectorAll("button,input,select,textarea"),function(x){x.remove()})}var t=(h?h.textContent:"").replace(/\s+/g," ").trim();return t.length>48?t.slice(0,46)+"…":t}
 function split(t){var r=t.match(/^((?:\p{Extended_Pictographic}|[\u{1F1E6}-\u{1F1FF}])[️‍\u{1F3FB}-\u{1F3FF}\p{Extended_Pictographic}\u{1F1E6}-\u{1F1FF}]*)\s*(.*)$/u);return r&&r[2]?[r[1],r[2]]:[null,t]}
 function set(e,v){if(e.textContent!=v)e.textContent=v}
 function upd(){tiles.forEach(function(p){var b=p[0],s=p[1],t=ttl(s),hd=!t||s.hidden;if(b.hidden!=hd)b.hidden=hd;if(hd)return;var q=split(t);set(b.firstChild,q[0]||ico(s));set(b.lastChild,q[1])})}
-[].slice.call(mn.children).forEach(function(s){if(s.tagName!="SECTION"||s.classList.contains("hero")||s.classList.contains("quote")||s.id=="ob"||s.id=="nw"||s.id=="tdy"||s.id=="vdw")return;var b=document.createElement("button");b.type="button";b.className="fmt";b.setAttribute("data-t",s.getAttribute("data-t"));b.innerHTML="<i></i><b></b>";mn.insertBefore(b,s);s.classList.add("fmc");b.onclick=function(){open(s)};tiles.push([b,s])});
+[].slice.call(mn.children).forEach(function(s){if(s.tagName!="SECTION"||s.classList.contains("hero")||s.classList.contains("quote")||s.id=="ob"||s.id=="nw"||s.id=="tdy")return;var b=document.createElement("button");b.type="button";b.className="fmt";b.setAttribute("data-t",s.getAttribute("data-t"));b.innerHTML="<i></i><b></b>";mn.insertBefore(b,s);s.classList.add("fmc");b.onclick=function(){open(s)};tiles.push([b,s])});
 function open(s){close();cur=s;mn.insertBefore(ph,s);box.appendChild(s);s.classList.remove("fmc");m.classList.add("on");de.classList.add("fmo");box.scrollTop=0}
 function close(){if(!cur)return;cur.classList.add("fmc");mn.insertBefore(cur,ph);mn.removeChild(ph);cur=null;m.classList.remove("on");de.classList.remove("fmo");upd()}
 window.fmClose=close;document.getElementById("fmx").onclick=close;m.addEventListener("click",function(e){if(e.target==m)close()});
