@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="ru"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Пятнашки</title>
+<style>
+body{margin:0;font-family:Segoe UI,Arial,sans-serif;background:#0d2236;color:#eef;display:flex;flex-direction:column;align-items:center;padding:12px 8px 24px}
+h2{margin:6px 0}a{color:#9cf}
+#opts{display:flex;flex-wrap:wrap;justify-content:center;gap:6px;margin:2px 0 6px}
+button{font-size:15px;padding:7px 12px;background:#24405c;color:#eef;border:2px solid #3b6488;border-radius:8px;cursor:pointer}
+button.on{background:#2f7a5a;border-color:#7fe0b0;color:#fff}
+#status{margin:8px;font-size:17px;min-height:22px;text-align:center}
+#bd{display:grid;gap:5px;padding:6px;background:#123552;border-radius:10px;user-select:none}
+#bd div{display:flex;align-items:center;justify-content:center;font-weight:bold;background:#2d6a9a;border-radius:8px;cursor:pointer;color:#fff;box-shadow:inset 0 -3px 0 #1d4a70}
+#bd div.e{background:none;box-shadow:none;cursor:default}#bd div.ok{background:#2f7a5a;box-shadow:inset 0 -3px 0 #1e5a40}
+p.help{max-width:460px;color:#9ab;font-size:14px;text-align:center}
+</style></head><body>
+<h2>🧩 Пятнашки</h2>
+<div id="opts"></div>
+<div id="status"></div>
+<div id="bd"></div>
+<div style="margin-top:10px"><button onclick="newGame()">Перемешать</button> <a href="index.html">← Меню</a></div>
+<p class="help">Расставь фишки по порядку: 1, 2, 3… слева направо и сверху вниз, пустая клетка — в правом нижнем углу. Нажми фишку рядом с пустой клеткой, чтобы сдвинуть её. Можно сдвигать сразу несколько фишек в ряду.</p>
+<script>
+const $=id=>document.getElementById(id),KEY='fm_15';
+let S={n:4,best:{}},T=null;
+try{const o=JSON.parse(localStorage.getItem(KEY)||'{}');if(o&&(o.n===3||o.n===4))S=Object.assign(S,o)}catch(e){}
+const save=()=>{try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}};
+function solvable(a,n){let inv=0;const f=a.filter(x=>x);for(let i=0;i<f.length;i++)for(let j=i+1;j<f.length;j++)if(f[i]>f[j])inv++;
+ if(n%2)return inv%2===0;const rowFromBottom=n-Math.floor(a.indexOf(0)/n);return(inv+rowFromBottom)%2===1}
+const solved=a=>a.every((v,i)=>v===(i===a.length-1?0:i+1));
+function newGame(){const n=S.n,a=[...Array(n*n).keys()].map(i=>(i+1)%(n*n));
+ do{for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}}while(!solvable(a,n)||solved(a));
+ S.a=a;S.m=0;S.t=0;S.st=0;S.won=0;save();draw()}
+function setN(n){S.n=n;opts();newGame()}
+function opts(){const el=$('opts');el.innerHTML='';[[3,'3×3 лёгкие'],[4,'4×4 классика']].forEach(([n,t])=>{const b=document.createElement('button');b.textContent=t;if(S.n===n)b.className='on';b.onclick=()=>setN(n);el.appendChild(b)})}
+const fmt=s=>Math.floor(s/60)+':'+String(s%60).padStart(2,'0');
+function secs(){return S.t+(S.st?Math.floor((Date.now()-S.st)/1000):0)}
+function move(i){if(S.won)return;const n=S.n,e=S.a.indexOf(0),r=Math.floor(i/n),c=i%n,er=Math.floor(e/n),ec=e%n;
+ if(r!==er&&c!==ec)return;if(i===e)return;const step=r===er?(c<ec?-1:1):(r<er?-n:n);
+ let p=e;while(p!==i){S.a[p]=S.a[p+step];p+=step}S.a[i]=0;S.m++;if(!S.st)S.st=Date.now();
+ if(solved(S.a)){S.t=secs();S.st=0;S.won=1;const b=S.best[n];if(!b||S.m<b.m||(S.m===b.m&&S.t<b.t))S.best[n]={m:S.m,t:S.t}}
+ save();draw()}
+function draw(){const n=S.n,el=$('bd'),sz=n===3?'min(26vw,100px)':'min(20vw,78px)';el.style.gridTemplateColumns='repeat('+n+','+sz+')';el.style.gridTemplateRows='repeat('+n+','+sz+')';el.innerHTML='';
+ S.a.forEach((v,i)=>{const d=document.createElement('div');d.style.fontSize=n===3?'min(10vw,40px)':'min(8vw,30px)';
+  if(!v)d.className='e';else{d.textContent=v;if(v===i+1)d.className='ok'}d.onclick=()=>move(i);el.appendChild(d)});
+ status()}
+function status(){const b=S.best[S.n];const best=b?' · рекорд: '+b.m+' ходов, '+fmt(b.t):'';
+ $('status').textContent=(S.won?'🎉 Собрано за '+S.m+' ходов, '+fmt(S.t):'Ходов: '+S.m+' · время '+fmt(secs()))+best}
+setInterval(()=>{if(S.st&&!S.won)status()},1000);
+document.addEventListener('visibilitychange',()=>{if(document.hidden&&S.st){S.t=secs();S.st=0;save()}});
+opts();if(S.a&&S.a.length===S.n*S.n){if(!S.won&&S.m)S.st=Date.now();draw()}else newGame();
+</script></body></html>

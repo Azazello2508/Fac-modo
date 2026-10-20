@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="ru"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Судоку</title>
+<style>
+body{margin:0;font-family:Segoe UI,Arial,sans-serif;background:#0d2236;color:#eef;display:flex;flex-direction:column;align-items:center;padding:12px 8px 24px}
+h2{margin:6px 0}a{color:#9cf}
+#opts{display:flex;flex-wrap:wrap;justify-content:center;gap:6px;margin:2px 0 6px}
+button{font-size:15px;padding:7px 12px;background:#24405c;color:#eef;border:2px solid #3b6488;border-radius:8px;cursor:pointer}
+button.on{background:#2f7a5a;border-color:#7fe0b0;color:#fff}
+#status{margin:6px;font-size:17px;min-height:22px;text-align:center}
+#bd{display:grid;grid-template-columns:repeat(9,min(10vw,42px));grid-template-rows:repeat(9,min(10vw,42px));border:3px solid #9bc;user-select:none}
+#bd div{display:flex;align-items:center;justify-content:center;font-size:min(6vw,24px);background:#17466e;border:1px solid #2c5a80;cursor:pointer}
+#bd div.g{color:#fff;font-weight:bold;background:#1d3a55}#bd div.u{color:#9fe0ff}
+#bd div.r3{border-right:3px solid #9bc}#bd div.b3{border-bottom:3px solid #9bc}
+#bd div.hl{background:#23608f}#bd div.sel{background:#3a7fb5}#bd div.same{color:#ffd76a}#bd div.err{color:#ff7b7b}
+#pad{display:grid;grid-template-columns:repeat(5,min(16vw,64px));gap:6px;margin:12px}
+#pad button{font-size:22px;padding:8px 0}
+p.help{max-width:480px;color:#9ab;font-size:14px;text-align:center}
+</style></head><body>
+<h2>🔢 Судоку</h2>
+<div id="opts"></div>
+<div id="status"></div>
+<div id="bd"></div>
+<div id="pad"></div>
+<div><button onclick="newGame()">Новая игра</button> <a href="index.html">← Меню</a></div>
+<p class="help">Заполни клетки цифрами 1–9 так, чтобы в каждой строке, каждом столбце и каждом квадрате 3×3 цифры не повторялись. Нажми клетку, потом цифру. Ошибки подсвечиваются красным.</p>
+<script>
+const $=id=>document.getElementById(id),KEY='fm_sudoku',LV=['Лёгкий','Средний','Тяжёлый'],CLUES=[40,32,26];
+let S={l:0},sel=-1;
+try{const o=JSON.parse(localStorage.getItem(KEY)||'{}');if(o&&o.l>=0&&o.l<=2)S=o}catch(e){}
+const save=()=>{try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}};
+const sh=a=>{for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a};
+function ok(g,i,v){const r=Math.floor(i/9),c=i%9,br=r-r%3,bc=c-c%3;for(let k=0;k<9;k++){if(g[r*9+k]===v||g[k*9+c]===v)return false;
+ if(g[(br+Math.floor(k/3))*9+bc+k%3]===v)return false}return true}
+function fill(g){const i=g.indexOf(0);if(i<0)return true;for(const v of sh([1,2,3,4,5,6,7,8,9]))if(ok(g,i,v)){g[i]=v;if(fill(g))return true;g[i]=0}return false}
+function count(g,lim){let best=-1,bc=10;for(let i=0;i<81;i++)if(!g[i]){let n=0;for(let v=1;v<=9;v++)if(ok(g,i,v))n++;if(n<bc){bc=n;best=i;if(!n)return 0}}
+ if(best<0)return 1;let t=0;for(let v=1;v<=9&&t<lim;v++)if(ok(g,best,v)){g[best]=v;t+=count(g,lim-t);g[best]=0}return t}
+function make(l){const sol=Array(81).fill(0);fill(sol);const p=sol.slice();let n=81;
+ for(const i of sh([...Array(81).keys()])){if(n<=CLUES[l])break;const v=p[i];p[i]=0;if(count(p.slice(),2)!==1)p[i]=v;else n--}
+ return{sol,p}}
+function newGame(){const{sol,p}=make(S.l);S={l:S.l,sol,p,u:p.slice(),t:0,bs:S.bs||{}};sel=-1;save();draw()}
+function setL(l){S.l=l;opts();newGame()}
+function opts(){const el=$('opts');el.innerHTML='';LV.forEach((t,i)=>{const b=document.createElement('button');b.textContent=t;if(S.l===i)b.className='on';b.onclick=()=>setL(i);el.appendChild(b)})}
+function conflict(i){const v=S.u[i];if(!v)return false;S.u[i]=0;const r=!ok(S.u,i,v);S.u[i]=v;return r}
+function draw(){const el=$('bd');el.innerHTML='';const sv=sel>=0?S.u[sel]:0;
+ for(let i=0;i<81;i++){const d=document.createElement('div'),r=Math.floor(i/9),c=i%9;let cl=S.p[i]?'g':'u';
+  if(c%3===2&&c<8)cl+=' r3';if(r%3===2&&r<8)cl+=' b3';
+  if(sel>=0){const sr=Math.floor(sel/9),sc=sel%9;if(i===sel)cl+=' sel';else if(r===sr||c===sc||(Math.floor(r/3)===Math.floor(sr/3)&&Math.floor(c/3)===Math.floor(sc/3)))cl+=' hl'}
+  if(sv&&S.u[i]===sv)cl+=' same';if(!S.p[i]&&conflict(i))cl+=' err';
+  d.className=cl;d.textContent=S.u[i]||'';d.onclick=()=>{sel=i;draw()};el.appendChild(d)}
+ const left=S.u.filter(x=>!x).length;
+ if(!left&&S.u.every((v,i)=>v===S.sol[i])){const b=S.bs[S.l];$('status').textContent='🎉 Решено! '+LV[S.l]+' уровень';if(!S.done){S.done=1;S.bs[S.l]=(b||0)+1;save()}}
+ else $('status').textContent=LV[S.l]+' · осталось клеток: '+left+(S.bs[S.l]?' · решено раньше: '+S.bs[S.l]:'')}
+function put(v){if(sel<0||S.p[sel]||S.done)return;S.u[sel]=v;save();draw()}
+function pad(){const el=$('pad');for(let v=1;v<=9;v++){const b=document.createElement('button');b.textContent=v;b.onclick=()=>put(v);el.appendChild(b)}
+ const x=document.createElement('button');x.textContent='⌫';x.onclick=()=>put(0);el.appendChild(x)}
+document.addEventListener('keydown',e=>{if(e.key>='1'&&e.key<='9')put(+e.key);else if(e.key==='Backspace'||e.key==='0')put(0)});
+opts();pad();if(S.p&&S.u&&S.sol)draw();else newGame();
+</script></body></html>

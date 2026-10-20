@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="ru"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Морской бой</title>
+<style>
+body{margin:0;font-family:Segoe UI,Arial,sans-serif;background:#0d2236;color:#eef;display:flex;flex-direction:column;align-items:center;padding:12px 8px 24px}
+h2{margin:6px 0}a{color:#9cf}
+#opts{display:flex;flex-wrap:wrap;justify-content:center;gap:6px;margin:2px 0 6px}
+#opts button,.btn{margin:0;font-size:15px;padding:7px 12px;background:#24405c;color:#eef;border:2px solid #3b6488;border-radius:8px;cursor:pointer}
+#opts button.on{background:#2f7a5a;border-color:#7fe0b0;color:#fff}#opts .sep{width:100%}
+#status{margin:8px;font-size:18px;min-height:24px;text-align:center}
+.bd{display:grid;grid-template-columns:repeat(11,min(8.4vw,34px));grid-template-rows:repeat(11,min(8.4vw,34px));gap:1px;margin:4px auto 10px;user-select:none}
+.bd div{display:flex;align-items:center;justify-content:center;font-size:min(4.6vw,18px);background:#17466e;border-radius:3px}
+.bd .h{background:none;color:#9bc;font-size:min(3.4vw,13px)}
+.bd .s{background:#7a8ea3}.bd .m{background:#123552;color:#8ab}.bd .m::after{content:"•"}
+.bd .x{background:#b23a3a}.bd .x::after{content:"✕";color:#fff}.bd .k{background:#5c1f1f}.bd .k::after{content:"✕";color:#f99}
+.bd.en div:not(.h):not(.m):not(.x):not(.k){cursor:pointer}.bd.en div:not(.h):not(.m):not(.x):not(.k):hover{background:#23608f}
+.lbl{font-size:14px;color:#9bc;text-align:center}
+#cover{position:fixed;inset:0;background:#0d2236;display:none;flex-direction:column;align-items:center;justify-content:center;gap:14px;z-index:5;text-align:center;padding:20px}
+#cover.on{display:flex}#cover b{font-size:22px}
+p.help{max-width:520px;color:#9ab;font-size:14px}
+</style></head><body>
+<h2>⚓ Морской бой</h2>
+<div id="opts"></div>
+<div id="status"></div>
+<div class="lbl" id="l1">Поле противника</div><div class="bd en" id="b1"></div>
+<div class="lbl" id="l2">Мой флот</div><div class="bd" id="b2"></div>
+<div><button class="btn" onclick="newGame()">Новая игра</button> <button class="btn" id="shuf" onclick="reshuffle()">🔀 Расставить заново</button> <a href="index.html">← Меню</a></div>
+<p class="help">Флот: один четырёхпалубный, два трёхпалубных, три двухпалубных и четыре однопалубных корабля, корабли не касаются друг друга. Попал — стреляешь ещё раз. Вокруг потопленного корабля клетки закрашиваются сами. Вдвоём: каждый ходит по очереди, между ходами передавайте телефон.</p>
+<div id="cover"><b id="cvt"></b><span>Передай телефон и не подглядывай 🙂</span><button class="btn" onclick="uncover()">Я готов</button></div>
+<script>
+const $=id=>document.getElementById(id),N=10,FLEET=[4,3,3,2,2,2,1,1,1,1],L="АБВГДЕЖЗИК";
+const GKEY='fm_morboy';let MODE='ai',LVL=1,GID=0;
+try{const o=JSON.parse(localStorage.getItem(GKEY)||'{}');if(o.m==='2p')MODE='2p';if(o.l>=0&&o.l<=2)LVL=o.l;}catch(e){}
+let P,turn,over,started,busy,ai;
+function setOpt(m,l){if(m)MODE=m;if(l!==undefined)LVL=l;try{localStorage.setItem(GKEY,JSON.stringify({m:MODE,l:LVL}))}catch(e){}opts();newGame();}
+function opts(){const el=$('opts');el.innerHTML='';const b=(t,on,f)=>{const x=document.createElement('button');x.textContent=t;if(on)x.className='on';x.onclick=f;el.appendChild(x)};
+b('🤖 С компьютером',MODE==='ai',()=>setOpt('ai'));b('👥 Вдвоём',MODE==='2p',()=>setOpt('2p'));
+if(MODE==='ai'){const s=document.createElement('div');s.className='sep';el.appendChild(s);['Лёгкий','Средний','Тяжёлый'].forEach((t,i)=>b(t,LVL===i,()=>setOpt(undefined,i)))}}
+const later=(f,ms)=>{const g=GID;setTimeout(()=>{if(g===GID)f()},ms)};
+function place(){for(let t=0;t<200;t++){const g=Array(N*N).fill(0),ships=[];let ok=true;
+ for(const len of FLEET){let put=false;for(let k=0;k<300&&!put;k++){const h=Math.random()<.5,r=Math.floor(Math.random()*(h?N:N-len+1)),c=Math.floor(Math.random()*(h?N-len+1:N)),cells=[];
+  for(let i=0;i<len;i++)cells.push((r+(h?0:i))*N+c+(h?i:0));
+  if(cells.every(x=>{const xr=Math.floor(x/N),xc=x%N;for(let dr=-1;dr<=1;dr++)for(let dc=-1;dc<=1;dc++){const rr=xr+dr,cc=xc+dc;if(rr>=0&&rr<N&&cc>=0&&cc<N&&g[rr*N+cc])return false}return true})){
+   const id=ships.length+1;cells.forEach(x=>g[x]=id);ships.push({cells,hits:0});put=true}}
+  if(!put){ok=false;break}}
+ if(ok)return{g,ships,shot:Array(N*N).fill(0)}}}
+function newGame(){GID++;P=[place(),place()];turn=0;over=false;started=false;busy=false;ai={q:[]};$('shuf').disabled=false;
+ $('cover').classList.remove('on');draw();status(MODE==='2p'?'Ход игрока 1. Стреляй по полю противника':'Твой ход: стреляй по полю противника')}
+function reshuffle(){if(started)return;P[MODE==='2p'?turn:0]=place();draw()}
+function status(t){$('status').textContent=t}
+function around(p,s){s.cells.forEach(x=>{const xr=Math.floor(x/N),xc=x%N;for(let dr=-1;dr<=1;dr++)for(let dc=-1;dc<=1;dc++){const rr=xr+dr,cc=xc+dc;if(rr>=0&&rr<N&&cc>=0&&cc<N&&!p.shot[rr*N+cc])p.shot[rr*N+cc]=1}})}
+// shot: 0 — не стреляли, 1 — мимо, 2 — попал, 3 — потоплен
+function fire(p,x){if(p.shot[x])return null;const id=p.g[x];if(!id){p.shot[x]=1;return'miss'}const s=p.ships[id-1];s.hits++;p.shot[x]=2;
+ if(s.hits===s.cells.length){s.cells.forEach(c=>p.shot[c]=3);around(p,s);return'sunk'}return'hit'}
+const alive=p=>p.ships.some(s=>s.hits<s.cells.length);
+function cell(p,x,showShips){const d=document.createElement('div'),v=p.shot[x];if(v===1)d.className='m';else if(v===2)d.className='x';else if(v===3)d.className='k';else if(showShips&&p.g[x])d.className='s';return d}
+function grid(el,p,showShips,click){el.innerHTML='';el.appendChild(Object.assign(document.createElement('div'),{className:'h'}));
+ for(let c=0;c<N;c++)el.appendChild(Object.assign(document.createElement('div'),{className:'h',textContent:L[c]}));
+ for(let r=0;r<N;r++){el.appendChild(Object.assign(document.createElement('div'),{className:'h',textContent:r+1}));
+  for(let c=0;c<N;c++){const x=r*N+c,d=cell(p,x,showShips);if(click)d.onclick=()=>click(x);el.appendChild(d)}}}
+function draw(){const me=MODE==='2p'?turn:0,en=1-me;grid($('b1'),P[en],over,x=>shoot(x));grid($('b2'),P[me],true,null);
+ $('l1').textContent=MODE==='2p'?'Поле игрока '+(en+1):'Поле противника';$('l2').textContent=MODE==='2p'?'Флот игрока '+(me+1):'Мой флот';
+ $('shuf').style.display=started||over?'none':''}
+function shoot(x){if(over||busy)return;const me=MODE==='2p'?turn:0,en=1-me;if(MODE==='ai'&&turn!==0)return;
+ const r=fire(P[en],x);if(!r)return;started=true;draw();
+ if(!alive(P[en])){over=true;draw();status(MODE==='2p'?'🎉 Победил игрок '+(me+1)+'!':'🎉 Победа! Весь флот противника потоплен');return}
+ if(r==='hit'){status('Попал! Стреляй ещё');return}if(r==='sunk'){status('Потопил! Стреляй ещё');return}
+ if(MODE==='2p'){status('Мимо');busy=true;later(()=>{turn=1-turn;busy=false;$('cvt').textContent='Ход игрока '+(turn+1);$('cover').classList.add('on')},700)}
+ else{turn=1;status('Мимо. Стреляет компьютер…');busy=true;later(aiShot,600)}}
+function uncover(){$('cover').classList.remove('on');draw();status('Ход игрока '+(turn+1)+'. Стреляй по полю противника')}
+// Компьютер: лёгкий — наугад, средний — добивает раненый корабль, тяжёлый — ещё и считает, где корабли вероятнее
+function aiPick(){const p=P[0],free=[];for(let i=0;i<N*N;i++)if(!p.shot[i])free.push(i);
+ if(LVL===0&&Math.random()<.7)return free[Math.floor(Math.random()*free.length)];
+ const hits=[];for(let i=0;i<N*N;i++)if(p.shot[i]===2)hits.push(i);
+ if(hits.length){let cand=[];const nb=x=>[[-1,0],[1,0],[0,-1],[0,1]].map(([dr,dc])=>[Math.floor(x/N)+dr,x%N+dc]).filter(([r,c])=>r>=0&&r<N&&c>=0&&c<N).map(([r,c])=>r*N+c);
+  if(hits.length>1){const hor=Math.floor(hits[0]/N)===Math.floor(hits[1]/N);hits.forEach(h=>nb(h).forEach(y=>{if(!p.shot[y]&&(hor?Math.floor(y/N)===Math.floor(h/N):y%N===h%N))cand.push(y)}))}
+  if(!cand.length)hits.forEach(h=>nb(h).forEach(y=>{if(!p.shot[y])cand.push(y)}));
+  if(cand.length)return cand[Math.floor(Math.random()*cand.length)]}
+ if(LVL===2){const left=p.ships.filter(s=>s.hits<s.cells.length).map(s=>s.cells.length),sc=Array(N*N).fill(0);
+  for(const len of left)for(let r=0;r<N;r++)for(let c=0;c<N;c++)for(const h of[0,1]){const cells=[];for(let i=0;i<len;i++){const rr=r+(h?0:i),cc=c+(h?i:0);if(rr>=N||cc>=N){cells.length=0;break}cells.push(rr*N+cc)}
+   if(cells.length&&cells.every(x=>!p.shot[x]))cells.forEach(x=>sc[x]++)}
+  let best=-1,bx=free[0];free.forEach(x=>{const v=sc[x]+Math.random()*.5;if(v>best){best=v;bx=x}});return bx}
+ const par=free.filter(x=>(Math.floor(x/N)+x%N)%2===0);const pool=par.length?par:free;return pool[Math.floor(Math.random()*pool.length)]}
+function aiShot(){if(over)return;const x=aiPick(),r=fire(P[0],x);draw();
+ if(!alive(P[0])){over=true;busy=false;draw();status('Компьютер потопил весь твой флот. Попробуй ещё раз');return}
+ if(r==='hit'||r==='sunk'){status(r==='sunk'?'Компьютер потопил твой корабль…':'Компьютер попал…');later(aiShot,650);return}
+ turn=0;busy=false;status('Компьютер промахнулся. Твой ход')}
+opts();newGame();
+</script></body></html>
