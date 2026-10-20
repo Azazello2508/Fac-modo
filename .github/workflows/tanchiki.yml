@@ -40,7 +40,7 @@ jobs:
           embed https://raw.githubusercontent.com/Azazello2508/Tanchiki/main/index.html tk-src ""
           embed https://raw.githubusercontent.com/Azazello2508/Samolety/main/index.html sm-src games/samolety.html
           # Настольные игры правятся прямо здесь, в games/*.html (оба разработчика могут их менять)
-          for g in durak:dr-src debertz:db-src chess:cs-src checkers:cr-src nardy:nd-src; do
+          for g in durak:dr-src debertz:db-src chess:cs-src checkers:cr-src nardy:nd-src morboy:mb-src sudoku:su-src pyatnashki:p15-src krossvord:kw-src; do
             R=$(python3 tools/embed_tanchiki.py "games/${g%%:*}.html" "${g##*:}")
             echo "${g##*:}: $R"
             if [ "$R" = "changed=true" ]; then CHANGED=true; fi

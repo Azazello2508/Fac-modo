@@ -51,6 +51,10 @@ jobs:
           /usr/libexec/PlistBuddy -c "Add :UIStatusBarStyle string UIStatusBarStyleLightContent" "$PL"
           /usr/libexec/PlistBuddy -c "Delete :UIViewControllerBasedStatusBarAppearance" "$PL" || true
           /usr/libexec/PlistBuddy -c "Add :UIViewControllerBasedStatusBarAppearance bool false" "$PL"
+          # Звуки для сна играют и при заблокированном экране
+          /usr/libexec/PlistBuddy -c "Delete :UIBackgroundModes" "$PL" || true
+          /usr/libexec/PlistBuddy -c "Add :UIBackgroundModes array" "$PL"
+          /usr/libexec/PlistBuddy -c "Add :UIBackgroundModes:0 string audio" "$PL"
 
       - name: Собрать приложение
         run: |

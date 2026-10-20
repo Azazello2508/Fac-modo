@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="ru"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Морской кроссворд</title>
+<style>
+body{margin:0;font-family:Segoe UI,Arial,sans-serif;background:#0d2236;color:#eef;display:flex;flex-direction:column;align-items:center;padding:12px 8px 24px}
+h2{margin:6px 0}a{color:#9cf}
+button{font-size:15px;padding:7px 12px;background:#24405c;color:#eef;border:2px solid #3b6488;border-radius:8px;cursor:pointer;margin:2px}
+#status{margin:6px;font-size:17px;min-height:22px;text-align:center}
+#wrap{max-width:100%;overflow:auto}
+#bd{display:grid;gap:2px;user-select:none;margin:4px auto}
+#bd div{position:relative;display:flex;align-items:center;justify-content:center;font-weight:bold;text-transform:uppercase;border-radius:3px}
+#bd div.c{background:#eef4fa;color:#0d2236;cursor:pointer}#bd div.c.hl{background:#bfe0ff}#bd div.c.sel{background:#ffd76a}
+#bd div.c.bad{color:#c22}#bd div.c.good{background:#bdeccd}
+#bd div i{position:absolute;left:2px;top:0;font-size:9px;font-style:normal;font-weight:normal;color:#456}
+#clue{min-height:44px;max-width:520px;text-align:center;background:#17466e;border-radius:8px;padding:8px 12px;margin:8px 0;font-size:16px}
+#kb{display:flex;flex-direction:column;align-items:center;gap:4px;margin:6px 0}
+#kb div{display:flex;gap:3px}#kb button{margin:0;padding:9px 0;width:min(7.8vw,36px);font-size:16px}
+#list{max-width:520px;font-size:14px;color:#bcd;columns:2;column-gap:18px}#list p{margin:3px 0;break-inside:avoid;cursor:pointer}#list p.ok{color:#7fe0b0;text-decoration:line-through}
+#list h4{margin:4px 0;color:#fff}
+</style></head><body>
+<h2>⚓ Морской кроссворд</h2>
+<div id="status"></div>
+<div id="wrap"><div id="bd"></div></div>
+<div id="clue"></div>
+<div id="kb"></div>
+<div><button onclick="check()">✔ Проверить</button><button onclick="hint()">💡 Буква</button><button onclick="newGame()">Новый кроссворд</button> <a href="index.html">← Меню</a></div>
+<div id="list"></div>
+<script>
+const $=id=>document.getElementById(id),KEY='fm_kross';
+const W=[["ЯКОРЬ","Удерживает судно на месте, отдают с брашпиля"],["КОМПАС","Прибор, показывающий направление на север"],["ШТУРВАЛ","Колесо для управления рулём"],["КАЮТА","Жилое помещение на судне"],["КАМБУЗ","Судовая кухня"],["ТРЮМ","Помещение для груза ниже палубы"],["ПАЛУБА","Горизонтальное перекрытие корпуса судна"],["КОРМА","Задняя часть судна"],["НОС","Передняя часть судна"],["МАЧТА","Вертикальная опора для антенн, огней и парусов"],["РУБКА","Надстройка, откуда управляют судном"],["ЛОЦМАН","Проводит суда в порт по сложному фарватеру"],["БОЦМАН","Старший над палубной командой"],["МАТРОС","Рядовой член палубной команды"],["КАПИТАН","Главный на судне"],["ШТУРМАН","Отвечает за курс и прокладку"],["МЕХАНИК","Отвечает за главный двигатель и машины"],["ВАХТА","Дежурство на судне по графику"],["КУРС","Направление движения судна"],["УЗЕЛ","Одна морская миля в час"],["МИЛЯ","Морская мера длины, 1852 метра"],["ЛАГ","Прибор для измерения скорости судна"],["ЛОТ","Прибор для измерения глубины"],["ПРИЧАЛ","Место у берега для стоянки судов"],["ПОРТ","Место для погрузки, выгрузки и стоянки судов"],["ГАВАНЬ","Защищённая от волн часть порта"],["МАЯК","Башня с огнём, указывающая путь"],["БУЙ","Плавучий знак на якоре"],["ФАРВАТЕР","Безопасный проход для судов"],["ШТОРМ","Сильный ветер и большие волны"],["ШТИЛЬ","Полное безветрие на море"],["ПРИЛИВ","Подъём уровня моря из-за Луны"],["ОТЛИВ","Понижение уровня моря"],["ВОЛНА","Её высоту меряют в баллах"],["ЛЕЕР","Ограждение по краю палубы"],["ТРАП","Лестница для схода на берег"],["ИЛЛЮМИНАТОР","Круглое окно на судне"],["ГАЛС","Курс судна относительно ветра"],["КИЛЬ","Продольная балка по днищу судна"],["ВИНТ","Гребной движитель судна"],["РУЛЬ","Им меняют направление движения"],["ШВАРТОВ","Трос для крепления судна к причалу"],["КНЕХТ","Тумба на палубе для швартовов"],["БРАШПИЛЬ","Лебёдка для подъёма якоря"],["ШЛЮПКА","Небольшая спасательная лодка"],["ПЛОТ","Спасательный надувной ..."],["ЖИЛЕТ","Спасательный ... надевают при оставлении судна"],["РЕЙД","Водное пространство у порта для стоянки на якоре"],["ДОК","Сооружение для ремонта судна"],["ЛОЦИЯ","Описание морского района для мореплавателей"],["КАРТА","Морская ... для прокладки курса"],["РАДАР","Видит суда и берег в тумане"],["ЭХОЛОТ","Меряет глубину звуком"],["СЕКСТАН","Прибор для измерения высоты светил"],["ПЕЛЕНГ","Направление с судна на предмет"],["ДРЕЙФ","Снос судна ветром"],["КРЕН","Наклон судна на борт"],["БОРТ","Боковая стенка корпуса судна"],["ФЛАГ","Им показывают, под какой страной идёт судно"],["ЭКИПАЖ","Вся команда судна"],["РЕЙС","Плавание из одного порта в другой"],["ТАНКЕР","Судно для перевозки нефти"],["ПАРОМ","Судно для перевозки машин и людей через пролив"],["ЛАЙНЕР","Большое пассажирское судно"],["АВРАЛ","Срочная работа для всей команды"],["ГЕНЕРАТОР","Вырабатывает электричество на судне"]];
+const KB=["ЙЦУКЕНГШЩЗХ","ФЫВАПРОЛДЖЭ","ЯЧСМИТЬБЮЪ"];
+let S=null,sel=null,dir=0;
+const save=()=>{try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}};
+const sh=a=>{for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a};
+// Раскладка: слова по очереди ставятся так, чтобы пересекаться с уже стоящими и не касаться их боками
+function layout(words){const g=new Map(),P=[],k=(r,c)=>r+','+c;
+ const can=(w,r,c,d)=>{let cross=0;for(let i=-1;i<=w.length;i++){const rr=r+(d?i:0),cc=c+(d?0:i),v=g.get(k(rr,cc));
+  if(i<0||i===w.length){if(v)return-1;continue}
+  if(v){if(v!==w[i])return-1;cross++;continue}
+  const a=d?[[rr,cc-1],[rr,cc+1]]:[[rr-1,cc],[rr+1,cc]];if(a.some(([x,y])=>g.has(k(x,y))))return-1}return cross};
+ const put=(w,r,c,d,clue)=>{for(let i=0;i<w.length;i++)g.set(k(r+(d?i:0),c+(d?0:i)),w[i]);P.push({w,r,c,d,clue})};
+ put(words[0][0],0,0,0,words[0][1]);
+ for(const [w,clue] of words.slice(1)){if(P.length>=12)break;let best=null;
+  for(const p of P)for(let i=0;i<p.w.length;i++)for(let j=0;j<w.length;j++){if(p.w[i]!==w[j])continue;const d=1-p.d,r=p.r+(p.d?i:0)-(d?j:0),c=p.c+(p.d?0:i)-(d?0:j),x=can(w,r,c,d);
+   if(x>0){const sc=x*10+Math.random();if(!best||sc>best.sc)best={r,c,d,sc}}}
+  if(best)put(w,best.r,best.c,best.d,clue)}
+ let r0=1e9,c0=1e9,r1=-1e9,c1=-1e9;P.forEach(p=>{r0=Math.min(r0,p.r);c0=Math.min(c0,p.c);r1=Math.max(r1,p.r+(p.d?p.w.length-1:0));c1=Math.max(c1,p.c+(p.d?0:p.w.length-1))});
+ P.forEach(p=>{p.r-=r0;p.c-=c0});return{P,R:r1-r0+1,C:c1-c0+1}}
+function newGame(){let best=null;for(let t=0;t<60;t++){const L=layout(sh(W.slice()));L.s=L.P.length*100-Math.max(L.R,L.C)*4-L.R*L.C/10;if(!best||L.s>best.s)best=L}
+ const st=[...new Set(best.P.flatMap(p=>[p.r*100+p.c]))].sort((a,b)=>a-b);
+ best.P.forEach(p=>p.n=st.indexOf(p.r*100+p.c)+1);S={P:best.P,R:best.R,C:best.C,u:{},chk:0,won:0};sel=null;save();draw()}
+const at=(r,c)=>S.P.filter(p=>p.d?(p.c===c&&r>=p.r&&r<p.r+p.w.length):(p.r===r&&c>=p.c&&c<p.c+p.w.length));
+const letter=(r,c)=>{const p=at(r,c)[0];return p?p.w[p.d?r-p.r:c-p.c]:null};
+const cur=()=>{if(!sel)return null;const a=at(sel[0],sel[1]);return a.find(p=>p.d===dir)||a[0]};
+const wordOk=p=>[...p.w].every((ch,i)=>S.u[(p.r+(p.d?i:0))+','+(p.c+(p.d?0:i))]===ch);
+function draw(){const el=$('bd'),sz=Math.max(20,Math.min(34,Math.floor((Math.min(innerWidth,560)-24)/S.C)-2));
+ el.style.gridTemplateColumns='repeat('+S.C+','+sz+'px)';el.style.gridTemplateRows='repeat('+S.R+','+sz+'px)';el.innerHTML='';
+ const cp=cur(),inW=(r,c)=>cp&&(cp.d?(cp.c===c&&r>=cp.r&&r<cp.r+cp.w.length):(cp.r===r&&c>=cp.c&&c<cp.c+cp.w.length));
+ for(let r=0;r<S.R;r++)for(let c=0;c<S.C;c++){const d=document.createElement('div'),L=letter(r,c);el.appendChild(d);if(!L)continue;
+  const u=S.u[r+','+c]||'';let cl='c';if(sel&&sel[0]===r&&sel[1]===c)cl+=' sel';else if(inW(r,c))cl+=' hl';
+  if(S.won||at(r,c).some(wordOk))cl+=' good';else if(S.chk&&u&&u!==L)cl+=' bad';
+  d.className=cl;d.style.fontSize=Math.round(sz*.55)+'px';d.textContent=u;
+  const s=S.P.find(p=>p.r===r&&p.c===c);if(s){const i=document.createElement('i');i.textContent=s.n;d.appendChild(i)}
+  d.onclick=()=>{if(sel&&sel[0]===r&&sel[1]===c&&at(r,c).length>1)dir=1-dir;else{sel=[r,c];const a=at(r,c);if(!a.some(p=>p.d===dir))dir=a[0].d}draw()}}
+ const p=cur();$('clue').textContent=p?p.n+(p.d?' ↓ ':' → ')+p.clue+' ('+p.w.length+' букв)':'Нажми на клетку, чтобы увидеть вопрос';
+ const done=S.P.filter(wordOk).length;if(done===S.P.length&&!S.won){S.won=1;save()}
+ $('status').textContent=S.won?'🎉 Кроссворд разгадан!':'Отгадано слов: '+done+' из '+S.P.length;
+ const ls=$('list');ls.innerHTML='';[[0,'→ По горизонтали'],[1,'↓ По вертикали']].forEach(([d,t])=>{const h=document.createElement('h4');h.textContent=t;ls.appendChild(h);
+  S.P.filter(p=>p.d===d).sort((a,b)=>a.n-b.n).forEach(p=>{const x=document.createElement('p');x.textContent=p.n+'. '+p.clue;if(wordOk(p))x.className='ok';x.onclick=()=>{sel=[p.r,p.c];dir=p.d;draw()};ls.appendChild(x)})})}
+function type(ch){if(!sel||S.won)return;S.u[sel[0]+','+sel[1]]=ch;S.chk=0;const p=cur();
+ if(ch&&p){const i=p.d?sel[0]-p.r:sel[1]-p.c;if(i<p.w.length-1)sel=p.d?[sel[0]+1,sel[1]]:[sel[0],sel[1]+1]}
+
+ save();draw()}
+function back(){if(!sel)return;const k=sel[0]+','+sel[1],p=cur();if(S.u[k]){S.u[k]='';}else if(p){const i=p.d?sel[0]-p.r:sel[1]-p.c;if(i>0){sel=p.d?[sel[0]-1,sel[1]]:[sel[0],sel[1]-1];S.u[sel[0]+','+sel[1]]=''}}save();draw()}
+function check(){S.chk=1;draw()}
+function hint(){const p=cur();if(!p)return;for(let i=0;i<p.w.length;i++){const r=p.r+(p.d?i:0),c=p.c+(p.d?0:i),k=r+','+c;if(S.u[k]!==p.w[i]){S.u[k]=p.w[i];sel=[r,c];break}}save();draw()}
+function kb(){const el=$('kb');KB.forEach((row,ri)=>{const d=document.createElement('div');[...row].forEach(ch=>{const b=document.createElement('button');b.textContent=ch;b.onclick=()=>type(ch);d.appendChild(b)});
+ if(ri===2){const b=document.createElement('button');b.textContent='⌫';b.style.width="min(10vw,48px)";b.onclick=back;d.appendChild(b)}el.appendChild(d)})}
+document.addEventListener('keydown',e=>{const k=e.key.toUpperCase().replace('Ё','Е');if(/^[А-Я]$/.test(k))type(k);else if(e.key==='Backspace')back()});
+addEventListener('resize',()=>S&&draw());
+kb();try{S=JSON.parse(localStorage.getItem(KEY)||'null')}catch(e){S=null}if(S&&S.P&&S.P.length)draw();else newGame();
+</script></body></html>
