@@ -1,0 +1,97 @@
+# Сборка Fac Modo для App Store: подписывает приложение и отправляет его в App Store Connect (TestFlight).
+# Запускается только вручную: Actions → «Отправка в App Store» → Run workflow.
+# Нужны секреты репозитория (Settings → Secrets and variables → Actions):
+#   APPLE_TEAM_ID  — Team ID из developer.apple.com → Membership (10 символов)
+#   ASC_KEY_ID     — Key ID ключа App Store Connect API (Users and Access → Integrations → Keys, роль Admin)
+#   ASC_ISSUER_ID  — Issuer ID с той же страницы
+#   ASC_KEY_P8     — содержимое скачанного файла AuthKey_XXXX.p8 целиком
+# Подпись автоматическая: Xcode сам создаёт сертификат и профиль через этот ключ.
+# Номер версии для магазина — "version" в package.json (1.0.0, 1.0.1 …), номер сборки — время коммита.
+name: Отправка в App Store
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  store:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+
+      - name: Проверить секреты
+        env:
+          T: ${{ secrets.APPLE_TEAM_ID }}
+          K: ${{ secrets.ASC_KEY_ID }}
+          I: ${{ secrets.ASC_ISSUER_ID }}
+          P: ${{ secrets.ASC_KEY_P8 }}
+        run: |
+          miss=""; [ -n "$T" ] || miss="$miss APPLE_TEAM_ID"; [ -n "$K" ] || miss="$miss ASC_KEY_ID"; [ -n "$I" ] || miss="$miss ASC_ISSUER_ID"; [ -n "$P" ] || miss="$miss ASC_KEY_P8"
+          if [ -n "$miss" ]; then echo "::error::Не заданы секреты:$miss"; exit 1; fi
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Установить Capacitor
+        run: npm install --no-audit --no-fund @capacitor/core@latest @capacitor/cli@latest @capacitor/ios@latest @capacitor/filesystem@latest @capacitor/local-notifications@latest
+
+      - name: Подготовить проект iOS
+        run: bash tools/ios_prepare.sh
+
+      - name: Ключ App Store Connect
+        env:
+          P: ${{ secrets.ASC_KEY_P8 }}
+        run: |
+          mkdir -p "$RUNNER_TEMP/asc"
+          printf '%s\n' "$P" > "$RUNNER_TEMP/asc/key.p8"
+
+      - name: Собрать архив с подписью
+        env:
+          TEAM: ${{ secrets.APPLE_TEAM_ID }}
+          KID: ${{ secrets.ASC_KEY_ID }}
+          IID: ${{ secrets.ASC_ISSUER_ID }}
+        run: |
+          cd ios/App
+          if [ -d App.xcworkspace ]; then TARGET="-workspace App.xcworkspace"; else TARGET="-project App.xcodeproj"; fi
+          set -o pipefail
+          xcodebuild $TARGET -scheme App -configuration Release -sdk iphoneos \
+            -destination 'generic/platform=iOS' -archivePath "$RUNNER_TEMP/FacModo.xcarchive" \
+            -allowProvisioningUpdates \
+            -authenticationKeyPath "$RUNNER_TEMP/asc/key.p8" -authenticationKeyID "$KID" -authenticationKeyIssuerID "$IID" \
+            DEVELOPMENT_TEAM="$TEAM" CODE_SIGN_STYLE=Automatic TARGETED_DEVICE_FAMILY=1 \
+            MARKETING_VERSION=$(node -p "require('../../package.json').version") CURRENT_PROJECT_VERSION=$(git -C ../.. log -1 --format=%ct) \
+            archive | tail -n 60
+
+      - name: Отправить в App Store Connect
+        env:
+          TEAM: ${{ secrets.APPLE_TEAM_ID }}
+          KID: ${{ secrets.ASC_KEY_ID }}
+          IID: ${{ secrets.ASC_ISSUER_ID }}
+        run: |
+          cat > "$RUNNER_TEMP/export.plist" <<EOF
+          <?xml version="1.0" encoding="UTF-8"?>
+          <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+          <plist version="1.0"><dict>
+            <key>method</key><string>app-store-connect</string>
+            <key>destination</key><string>upload</string>
+            <key>teamID</key><string>$TEAM</string>
+            <key>signingStyle</key><string>automatic</string>
+            <key>uploadSymbols</key><true/>
+            <key>manageAppVersionAndBuildNumber</key><false/>
+          </dict></plist>
+          EOF
+          set -o pipefail
+          xcodebuild -exportArchive -archivePath "$RUNNER_TEMP/FacModo.xcarchive" \
+            -exportOptionsPlist "$RUNNER_TEMP/export.plist" -exportPath "$RUNNER_TEMP/out" \
+            -allowProvisioningUpdates \
+            -authenticationKeyPath "$RUNNER_TEMP/asc/key.p8" -authenticationKeyID "$KID" -authenticationKeyIssuerID "$IID" | tail -n 60
+          echo "Готово: сборка отправлена. Через 10–30 минут она появится в App Store Connect → TestFlight."
+
+      - name: Удалить ключ
+        if: always()
+        run: rm -rf "$RUNNER_TEMP/asc"
