@@ -24,17 +24,17 @@ p.help{max-width:520px;color:#9ab;font-size:14px}
 <div id="status"></div>
 <div class="lbl" id="l1">Поле противника</div><div class="bd en" id="b1"></div>
 <div class="lbl" id="l2">Мой флот</div><div class="bd" id="b2"></div>
-<div><button class="btn" onclick="newGame()">Новая игра</button> <button class="btn" id="shuf" onclick="reshuffle()">🔀 Расставить заново</button> <a href="index.html">← Меню</a></div>
-<p class="help">Флот: один четырёхпалубный, два трёхпалубных, три двухпалубных и четыре однопалубных корабля, корабли не касаются друг друга. Попал — стреляешь ещё раз. Вокруг потопленного корабля клетки закрашиваются сами. Вдвоём: каждый ходит по очереди, между ходами передавайте телефон.</p>
+<div><button class="btn" onclick="netNew()">Новая игра</button> <button class="btn" id="shuf" onclick="reshuffle()">🔀 Расставить заново</button> <a href="index.html">← Меню</a></div>
+<p class="help">Флот: один четырёхпалубный, два трёхпалубных, три двухпалубных и четыре однопалубных корабля, корабли не касаются друг друга. Попал — стреляешь ещё раз. Вокруг потопленного корабля клетки закрашиваются сами. Вдвоём: каждый ходит по очереди, между ходами передавайте телефон. По сети — каждый играет на своём телефоне: оба подключены к одному Wi‑Fi или к точке доступа одного из телефонов, интернет не нужен.</p>
 <div id="cover"><b id="cvt"></b><span>Передай телефон и не подглядывай 🙂</span><button class="btn" onclick="uncover()">Я готов</button></div>
 <script>
 const $=id=>document.getElementById(id),N=10,FLEET=[4,3,3,2,2,2,1,1,1,1],L="АБВГДЕЖЗИК";
 const GKEY='fm_morboy';let MODE='ai',LVL=1,GID=0;
 try{const o=JSON.parse(localStorage.getItem(GKEY)||'{}');if(o.m==='2p')MODE='2p';if(o.l>=0&&o.l<=2)LVL=o.l;}catch(e){}
 let P,turn,over,started,busy,ai;
-function setOpt(m,l){if(m)MODE=m;if(l!==undefined)LVL=l;try{localStorage.setItem(GKEY,JSON.stringify({m:MODE,l:LVL}))}catch(e){}opts();newGame();}
+function setOpt(m,l){if(m){MODE=m;netQuit();}if(l!==undefined)LVL=l;try{localStorage.setItem(GKEY,JSON.stringify({m:MODE,l:LVL}))}catch(e){}opts();newGame();}
 function opts(){const el=$('opts');el.innerHTML='';const b=(t,on,f)=>{const x=document.createElement('button');x.textContent=t;if(on)x.className='on';x.onclick=f;el.appendChild(x)};
-b('🤖 С компьютером',MODE==='ai',()=>setOpt('ai'));b('👥 Вдвоём',MODE==='2p',()=>setOpt('2p'));
+b('🤖 С компьютером',MODE==='ai',()=>setOpt('ai'));b('👥 Вдвоём',MODE==='2p',()=>setOpt('2p'));b('📶 По сети',MODE==='net',netOpen);
 if(MODE==='ai'){const s=document.createElement('div');s.className='sep';el.appendChild(s);['Лёгкий','Средний','Тяжёлый'].forEach((t,i)=>b(t,LVL===i,()=>setOpt(undefined,i)))}}
 const later=(f,ms)=>{const g=GID;setTimeout(()=>{if(g===GID)f()},ms)};
 function place(){for(let t=0;t<200;t++){const g=Array(N*N).fill(0),ships=[];let ok=true;
@@ -44,9 +44,10 @@ function place(){for(let t=0;t<200;t++){const g=Array(N*N).fill(0),ships=[];let 
    const id=ships.length+1;cells.forEach(x=>g[x]=id);ships.push({cells,hits:0});put=true}}
   if(!put){ok=false;break}}
  if(ok)return{g,ships,shot:Array(N*N).fill(0)}}}
-function newGame(){GID++;P=[place(),place()];turn=0;over=false;started=false;busy=false;ai={q:[]};$('shuf').disabled=false;
- $('cover').classList.remove('on');draw();status(MODE==='2p'?'Ход игрока 1. Стреляй по полю противника':'Твой ход: стреляй по полю противника')}
-function reshuffle(){if(started)return;P[MODE==='2p'?turn:0]=place();draw()}
+const BLANK=()=>({g:Array(N*N).fill(0),ships:[],shot:Array(N*N).fill(0),wait:1});
+function newGame(){GID++;P=MODE==='net'?[place(),BLANK()]:[place(),place()];turn=MODE==='net'&&NET&&!NET.host?1:0;over=false;started=false;busy=false;ai={q:[]};$('shuf').disabled=false;
+ $('cover').classList.remove('on');draw();if(MODE==='net'){netFleet();status('Ждём, пока соперник расставит флот…')}else status(MODE==='2p'?'Ход игрока 1. Стреляй по полю противника':'Твой ход: стреляй по полю противника')}
+function reshuffle(){if(started)return;P[MODE==='2p'?turn:0]=place();if(MODE==='net')netFleet();draw()}
 function status(t){$('status').textContent=t}
 function around(p,s){s.cells.forEach(x=>{const xr=Math.floor(x/N),xc=x%N;for(let dr=-1;dr<=1;dr++)for(let dc=-1;dc<=1;dc++){const rr=xr+dr,cc=xc+dc;if(rr>=0&&rr<N&&cc>=0&&cc<N&&!p.shot[rr*N+cc])p.shot[rr*N+cc]=1}})}
 // shot: 0 — не стреляли, 1 — мимо, 2 — попал, 3 — потоплен
@@ -59,13 +60,15 @@ function grid(el,p,showShips,click){el.innerHTML='';el.appendChild(Object.assign
  for(let r=0;r<N;r++){el.appendChild(Object.assign(document.createElement('div'),{className:'h',textContent:r+1}));
   for(let c=0;c<N;c++){const x=r*N+c,d=cell(p,x,showShips);if(click)d.onclick=()=>click(x);el.appendChild(d)}}}
 function draw(){const me=MODE==='2p'?turn:0,en=1-me;grid($('b1'),P[en],over,x=>shoot(x));grid($('b2'),P[me],true,null);
- $('l1').textContent=MODE==='2p'?'Поле игрока '+(en+1):'Поле противника';$('l2').textContent=MODE==='2p'?'Флот игрока '+(me+1):'Мой флот';
+ $('l1').textContent=MODE==='net'?'Поле соперника':MODE==='2p'?'Поле игрока '+(en+1):'Поле противника';$('l2').textContent=MODE==='2p'?'Флот игрока '+(me+1):'Мой флот';
  $('shuf').style.display=started||over?'none':''}
 function shoot(x){if(over||busy)return;const me=MODE==='2p'?turn:0,en=1-me;if(MODE==='ai'&&turn!==0)return;
+ if(MODE==='net'){if(turn!==0||P[1].wait||P[1].shot[x])return;netSend({t:'shot',x})}
  const r=fire(P[en],x);if(!r)return;started=true;draw();
- if(!alive(P[en])){over=true;draw();status(MODE==='2p'?'🎉 Победил игрок '+(me+1)+'!':'🎉 Победа! Весь флот противника потоплен');return}
+ if(!alive(P[en])){over=true;draw();status(MODE==='net'?'🎉 Победа! Весь флот соперника потоплен':MODE==='2p'?'🎉 Победил игрок '+(me+1)+'!':'🎉 Победа! Весь флот противника потоплен');return}
  if(r==='hit'){status('Попал! Стреляй ещё');return}if(r==='sunk'){status('Потопил! Стреляй ещё');return}
  if(MODE==='2p'){status('Мимо');busy=true;later(()=>{turn=1-turn;busy=false;$('cvt').textContent='Ход игрока '+(turn+1);$('cover').classList.add('on')},700)}
+ else if(MODE==='net'){turn=1;status('Мимо. Стреляет соперник…')}
  else{turn=1;status('Мимо. Стреляет компьютер…');busy=true;later(aiShot,600)}}
 function uncover(){$('cover').classList.remove('on');draw();status('Ход игрока '+(turn+1)+'. Стреляй по полю противника')}
 // Компьютер: лёгкий — наугад, средний — добивает раненый корабль, тяжёлый — ещё и считает, где корабли вероятнее
@@ -85,5 +88,23 @@ function aiShot(){if(over)return;const x=aiPick(),r=fire(P[0],x);draw();
  if(!alive(P[0])){over=true;busy=false;draw();status('Компьютер потопил весь твой флот. Попробуй ещё раз');return}
  if(r==='hit'||r==='sunk'){status(r==='sunk'?'Компьютер потопил твой корабль…':'Компьютер попал…');later(aiShot,650);return}
  turn=0;busy=false;status('Компьютер промахнулся. Твой ход')}
+// ---- Игра по сети (📶): связь между телефонами держит приложение Fac Modo, сюда приходят только ходы соперника ----
+let NET=null;
+function netOpen(){if(window.parent===window){alert('Игра по сети работает внутри приложения Fac Modo');return}parent.postMessage({fm:'net-open',g:'morboy',t:document.title},'*')}
+function netSend(d){if(NET&&!NET.lost)parent.postMessage({fm:'net-send',d},'*')}
+function netQuit(){if(NET){NET=null;parent.postMessage({fm:'net-close'},'*')}}
+function netNew(){if(MODE==='net')netSend({t:'new'});newGame()}
+addEventListener('message',e=>{const m=e.data;if(!m||typeof m!=='object'||!m.fm||e.source!==window.parent)return;
+ if(m.fm==='net-ready'){NET={host:!!m.host};MODE='net';netReady()}
+ else if(m.fm==='net-msg'&&NET){const d=m.d||{};if(d.t==='new')newGame();else netGot(d)}
+ else if(m.fm==='net-closed'&&NET){NET.lost=1;(typeof status==='function'?status:msg)('📶 Связь с соперником потеряна. Выбери режим заново')}});
+function netReady(){opts();newGame();}
+function netFleet(){netSend({t:'fleet',s:P[0].ships.map(x=>x.cells)})}
+function netTurnMsg(){status(turn===0?'Твой ход: стреляй по полю соперника':'Стреляет соперник…')}
+function netGot(d){
+ if(d.t==='fleet'){if(started)return;const g=Array(N*N).fill(0),ships=(d.s||[]).map((c,i)=>{c.forEach(x=>g[x]=i+1);return{cells:c,hits:0}});P[1]={g,ships,shot:Array(N*N).fill(0)};draw();netTurnMsg();return}
+ if(d.t==='shot'&&!over&&turn===1){const r=fire(P[0],d.x);if(!r)return;started=true;draw();
+  if(!alive(P[0])){over=true;draw();status('Соперник потопил весь твой флот. Попробуй ещё раз');return}
+  if(r==='miss'){turn=0;status('Соперник промахнулся. Твой ход')}else status(r==='sunk'?'Соперник потопил твой корабль…':'Соперник попал…')}}
 opts();newGame();
 </script></body></html>

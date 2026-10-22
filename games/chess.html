@@ -23,8 +23,8 @@ button{font-size:16px;padding:8px 16px;margin:8px;cursor:pointer}
 <div id="opts"></div>
 <div id="status"></div>
 <div id="board"></div>
-<div><button onclick="newGame()">Новая игра</button> <a href="index.html">← Меню</a></div>
-<p style="max-width:520px;color:#aaa">С компьютером вы играете белыми. Вдвоём — ходите по очереди на одном устройстве: сначала белые, потом чёрные; доска поворачивается к тому, чей ход (кнопка «🔄 Поворот доски»). Нажмите на фигуру — зелёные точки покажут, куда можно пойти. Пешка, дошедшая до конца, становится ферзём.</p>
+<div><button onclick="netNew()">Новая игра</button> <a href="index.html">← Меню</a></div>
+<p style="max-width:520px;color:#aaa">С компьютером вы играете белыми. Вдвоём — ходите по очереди на одном устройстве: сначала белые, потом чёрные; доска поворачивается к тому, чей ход (кнопка «🔄 Поворот доски»). Нажмите на фигуру — зелёные точки покажут, куда можно пойти. Пешка, дошедшая до конца, становится ферзём. По сети — каждый играет на своём телефоне: оба подключены к одному Wi‑Fi или к точке доступа одного из телефонов, интернет не нужен.</p>
 <script>
 const GL={k:'♚',q:'♛',r:'♜',b:'♝',n:'♞',p:'♟'};
 const VAL={p:100,n:320,b:330,r:500,q:900,k:0};
@@ -36,22 +36,23 @@ const status=t=>$('status').textContent=t;
 const GKEY='fm_chess';
 let MODE='ai',LVL=1,GID=0,ROT=true,FL=false;
 try{const o=JSON.parse(localStorage.getItem(GKEY)||'{}');if(o.m==='2p')MODE='2p';if(o.l>=0&&o.l<=2)LVL=o.l;if(o.r===0)ROT=false;}catch(e){}
-function setOpt(m,l){if(m)MODE=m;if(l!==undefined)LVL=l;try{localStorage.setItem(GKEY,JSON.stringify({m:MODE,l:LVL,r:ROT?1:0}))}catch(e){}opts();newGame();}
+function setOpt(m,l){if(m){MODE=m;netQuit();}if(l!==undefined)LVL=l;try{localStorage.setItem(GKEY,JSON.stringify({m:MODE,l:LVL,r:ROT?1:0}))}catch(e){}opts();newGame();}
 // Поворот доски во «Вдвоём»: доска разворачивается к тому, чей ход
 function togRot(){ROT=!ROT;try{localStorage.setItem(GKEY,JSON.stringify({m:MODE,l:LVL,r:ROT?1:0}))}catch(e){}FL=ROT&&MODE==='2p'&&S.turn==='b'&&!over;opts();draw();}
-function rotLater(){const t=MODE==='2p'&&ROT&&S.turn==='b'&&!over;if(t!==FL)later(()=>{FL=t;draw();},450);}
+function rotLater(){if(MODE==='net')return;const t=MODE==='2p'&&ROT&&S.turn==='b'&&!over;if(t!==FL)later(()=>{FL=t;draw();},450);}
 function opts(){
   const el=$('opts');el.innerHTML='';
   const b=(t,on,f)=>{const x=document.createElement('button');x.textContent=t;if(on)x.className='on';x.onclick=f;el.appendChild(x);};
-  b('🤖 С компьютером',MODE==='ai',()=>setOpt('ai'));b('👥 Вдвоём',MODE==='2p',()=>setOpt('2p'));
+  b('🤖 С компьютером',MODE==='ai',()=>setOpt('ai'));b('👥 Вдвоём',MODE==='2p',()=>setOpt('2p'));b('📶 По сети',MODE==='net',netOpen);
   if(MODE==='ai'){const s=document.createElement('div');s.className='sep';el.appendChild(s);['Лёгкий','Средний','Тяжёлый'].forEach((t,i)=>b(t,LVL===i,()=>setOpt(undefined,i)));}
+  else if(MODE==='net'){const s=document.createElement('div');s.className='sep';el.appendChild(s);const t=document.createElement('span');t.textContent=NET?(NET.host?'Вы играете белыми ♔':'Вы играете чёрными ♚'):'';el.appendChild(t);}
   else{const s=document.createElement('div');s.className='sep';el.appendChild(s);b(ROT?'🔄 Поворот доски: вкл':'🔄 Поворот доски: выкл',ROT,togRot);}
 }
 const later=(f,ms)=>{const g=GID;setTimeout(()=>{if(g===GID)f();},ms);};
 
 function newGame(){
   S={b:("rnbqkbnr"+"pppppppp"+".".repeat(32)+"PPPPPPPP"+"RNBQKBNR").split(''),turn:'w',cr:{K:1,Q:1,k:1,q:1},ep:-1};
-  GID++;FL=false;sel=-1;legalSel=[];over=false;last=null;draw();status(MODE==='2p'?'Ход белых':'Ваш ход (белые)');
+  GID++;FL=MODE==='net'&&NET&&!NET.host;sel=-1;legalSel=[];over=false;last=null;draw();status(MODE==='net'?(NET&&NET.host?'Ваш ход (белые)':'Ход соперника (белые)…'):MODE==='2p'?'Ход белых':'Ваш ход (белые)');
 }
 function attacked(b,sq,by){
   const r=sq>>3,c=sq&7;
@@ -139,12 +140,16 @@ function aiMove(){
   for(const m of ms){const v=search(make(S,m),depth,-1e9,bt)+(LVL===0?Math.random()*120:0);if(v<bv){bv=v;best=m;}if(LVL&&v<bt)bt=v;}
   doMove(best);
 }
-function doMove(m){
+function doMove(m,remote){
+  if(MODE==='net'&&!remote)netSend({t:'mv',f:m.f,to:m.t});
   last=m;S=make(S,m);sel=-1;legalSel=[];draw();checkEnd();rotLater();
   if(!over&&MODE==='ai'&&S.turn==='b'){later(aiMove,60);}
 }
 function checkEnd(){
   const ms=legal(S),inC=attacked(S.b,kingSq(S.b,S.turn),opp(S.turn));
+  if(MODE==='net'){const my=S.turn===NET.me;
+    if(!ms.length){over=true;status(inC?(my?'Мат. Победил соперник':'Мат! Вы победили 🎉'):'Пат — ничья');return;}
+    status(my?(inC?'Шах! Ваш ход':'Ваш ход'):(inC?'Шах сопернику! Ход соперника…':'Ход соперника…'));return;}
   if(MODE==='2p'){const w=S.turn==='w'?'белых':'чёрных';
     if(!ms.length){over=true;status(inC?'Мат! Победили '+(S.turn==='w'?'чёрные':'белые')+' 🎉':'Пат — ничья');return;}
     status(inC?'Шах! Ход '+w:'Ход '+w);return;}
@@ -166,11 +171,23 @@ function draw(){
   }
 }
 function click(i){
-  if(over||(MODE==='ai'&&S.turn!=='w'))return;
+  if(over||(MODE==='ai'&&S.turn!=='w')||(MODE==='net'&&S.turn!==NET.me))return;
   const m=legalSel.find(m=>m.t===i);
   if(sel>=0&&m){doMove(m);return;}
   if(col(S.b[i])===S.turn){sel=i;legalSel=legal(S).filter(m=>m.f===i);}else{sel=-1;legalSel=[];}
   draw();
 }
+// ---- Игра по сети (📶): связь между телефонами держит приложение Fac Modo, сюда приходят только ходы соперника ----
+let NET=null;
+function netOpen(){if(window.parent===window){alert('Игра по сети работает внутри приложения Fac Modo');return}parent.postMessage({fm:'net-open',g:'chess',t:document.title},'*')}
+function netSend(d){if(NET&&!NET.lost)parent.postMessage({fm:'net-send',d},'*')}
+function netQuit(){if(NET){NET=null;parent.postMessage({fm:'net-close'},'*')}}
+function netNew(){if(MODE==='net')netSend({t:'new'});newGame()}
+addEventListener('message',e=>{const m=e.data;if(!m||typeof m!=='object'||!m.fm||e.source!==window.parent)return;
+ if(m.fm==='net-ready'){NET={host:!!m.host};MODE='net';netReady()}
+ else if(m.fm==='net-msg'&&NET){const d=m.d||{};if(d.t==='new')newGame();else netGot(d)}
+ else if(m.fm==='net-closed'&&NET){NET.lost=1;(typeof status==='function'?status:msg)('📶 Связь с соперником потеряна. Выбери режим заново')}});
+function netReady(){NET.me=NET.host?'w':'b';opts();newGame();}
+function netGot(d){if(d.t==='mv'&&!over){const m=legal(S).find(x=>x.f===d.f&&x.t===d.to);if(m)doMove(m,true);}}
 opts();newGame();
 </script></body></html>
