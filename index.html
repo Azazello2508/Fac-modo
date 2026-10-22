@@ -2267,12 +2267,18 @@ window.gnClose=function(){reset();hide();GN.sink=null};
 })();
 </script>
 <style id="fm6-css">
-#rwd .rwg{display:grid;grid-template-columns:repeat(auto-fill,minmax(64px,1fr));gap:6px;margin:8px 0}
-#rwd .rwc{position:relative;border:1px solid var(--line);border-radius:10px;background:var(--bg);padding:6px 2px 4px;text-align:center;font-size:24px;line-height:1.1;min-height:58px;cursor:default}
-#rwd .rwc small{display:block;font-size:11px;color:var(--mute);margin-top:3px}
-#rwd .rwc.lk{opacity:.45;filter:grayscale(1)}#rwd .rwc.nw{border-color:var(--xp);box-shadow:0 0 10px var(--xp);cursor:pointer;animation:rwp 1.4s infinite}
-#rwd .rwc.op{cursor:pointer}#rwd .rwc.cur{outline:2px solid var(--ok)}
-@keyframes rwp{50%{transform:scale(1.06)}}
+#rwd .rwr button.lk{opacity:.4;filter:grayscale(1)}#rwd .rwr button small{font-size:10px;margin-left:2px;color:var(--mute)}
+#xb.xb1{background:linear-gradient(90deg,#0a6fb0,#29c4e8)}#xb.xb2{background:linear-gradient(90deg,#ff7a3d,#ffcf5a)}#xb.xb3{background:linear-gradient(90deg,#ff5f7e,#ffa38f)}#xb.xb4{background:linear-gradient(90deg,#1f9d55,#9be15d)}
+#xb.xb5{background:linear-gradient(90deg,#3ef0b0,#7a5cff,#3ef0b0);background-size:200% 100%;animation:rwx 4s linear infinite}#xb.xb6{background:linear-gradient(90deg,#ff3d00,#ffb300)}
+#xb.xb7{background:linear-gradient(90deg,#ff4d4d,#ffb84d,#fff04d,#4dff88,#4db8ff,#a64dff)}#xb.xb8{background:linear-gradient(90deg,#8fe6ff,#fff,#8fe6ff);background-size:200% 100%;animation:rwx 2.5s linear infinite}
+@keyframes rwx{to{background-position:-200% 0}}
+.hero.hb1{background-image:linear-gradient(135deg,rgba(41,196,232,.28),rgba(10,111,176,.12))}.hero.hb2{background-image:linear-gradient(135deg,rgba(255,122,61,.28),rgba(255,207,90,.12))}
+.hero.hb3{background-image:linear-gradient(135deg,rgba(20,30,90,.45),rgba(120,140,255,.15))}.hero.hb4{background-image:linear-gradient(135deg,rgba(31,157,85,.28),rgba(255,230,120,.15))}
+.hero.hb5{background-image:linear-gradient(135deg,rgba(200,240,255,.35),rgba(120,190,230,.12))}.hero.hb6{background-image:linear-gradient(135deg,rgba(255,61,0,.28),rgba(60,20,10,.2))}
+.hero.hb7{background-image:linear-gradient(135deg,rgba(62,240,176,.25),rgba(122,92,255,.25),rgba(62,240,176,.15));background-size:200% 200%;animation:rwh 8s ease-in-out infinite}
+.hero.hb8{background-image:linear-gradient(135deg,rgba(255,211,77,.35),rgba(255,255,255,.08),rgba(255,211,77,.25))}
+@keyframes rwh{50%{background-position:100% 100%}}
+#tt .rwg{margin-left:6px}
 #rwd .rwb{padding:10px 12px;margin:8px 0;border-left:4px solid var(--xp);background:var(--bg);border-radius:8px;font-size:14px}
 #rwd .rwr{display:flex;flex-wrap:wrap;gap:6px;margin:6px 0}#rwd .rwr button{font-size:20px;padding:4px 10px;min-width:44px}#rwd .rwr button.on{background:var(--ok);border-color:var(--ok)}
 #rwd .rwbar{height:10px;border-radius:6px;background:var(--bg);border:1px solid var(--line);overflow:hidden;margin:6px 0}#rwd .rwbar i{display:block;height:100%;background:var(--xp)}
@@ -2293,50 +2299,42 @@ window.gnClose=function(){reset();hide();GN.sink=null};
 var L=function(r,e,u){return fmL(r,e,u)};
 function lng(){var l=(window.st&&st.lang)||"ru";return l=="en"?1:l=="uk"?2:0}
 
-/* ---------- Награды за уровни: с каждым уровнем открывается ячейка ---------- */
-// Корабли для шапки профиля и рамки для фото: [значок, ru, en, uk]
+/* ---------- Награды за уровни: только украшения, без открывания ячеек ---------- */
+// Корабли для шапки профиля: [значок, ru, en, uk]; рамки, полоски, значки, фоны: [номер, значок, ru, en, uk]
 var SHIPS={5:["🛥️","Катер","Motor boat","Катер"],10:["🚤","Скоростной катер","Speedboat","Швидкісний катер"],15:["⛴️","Паром","Ferry","Пором"],20:["🛳️","Лайнер","Cruise liner","Лайнер"],25:["🚢","Сухогруз","Cargo ship","Суховантаж"],30:["🐋","Верхом на ките","Riding a whale","Верхи на киті"],35:["🛸","Летающая тарелка","Flying saucer","Літаюча тарілка"],40:["🚀","Ракета","Rocket","Ракета"]};
 var FRAMES={3:[1,"🥉","Бронзовая рамка","Bronze frame","Бронзова рамка"],8:[2,"🥈","Серебряная рамка","Silver frame","Срібна рамка"],13:[3,"🥇","Золотая рамка","Gold frame","Золота рамка"],18:[4,"🌊","Рамка «Океан»","Ocean frame","Рамка «Океан»"],23:[5,"🌌","Рамка «Северное сияние»","Northern lights frame","Рамка «Північне сяйво»"],28:[6,"🔥","Рамка «Огонь»","Fire frame","Рамка «Вогонь»"],33:[7,"🌈","Радужная рамка","Rainbow frame","Райдужна рамка"],38:[8,"💎","Алмазная рамка","Diamond frame","Діамантова рамка"]};
-// Карточки «Морские тайны»: [значок, ru, en, uk]
-var CARDS=[["🐙","У осьминога три сердца и голубая кровь.","An octopus has three hearts and blue blood.","У восьминога три серця й блакитна кров."],
-["🐋","Сердце синего кита весит как небольшой автомобиль, около 180 кг.","A blue whale's heart weighs about as much as a small car, around 180 kg.","Серце синього кита важить як невеликий автомобіль, близько 180 кг."],
-["🌊","Самая высокая измеренная волна в открытом океане — около 29 м, в 2000 году у берегов Шотландии.","The highest wave measured in the open ocean was about 29 m, off Scotland in 2000.","Найвища виміряна хвиля у відкритому океані — близько 29 м, у 2000 році біля Шотландії."],
-["🧭","Магнитный полюс Земли постоянно движется — сейчас примерно на 50 км в год.","Earth's magnetic pole keeps moving, now about 50 km a year.","Магнітний полюс Землі постійно рухається — зараз приблизно на 50 км на рік."],
-["🦈","Акулы старше деревьев: они появились около 450 млн лет назад.","Sharks are older than trees: they appeared about 450 million years ago.","Акули старші за дерева: вони з'явилися близько 450 млн років тому."],
-["🐢","Морские черепахи возвращаются откладывать яйца на тот же пляж, где вылупились сами.","Sea turtles return to lay eggs on the same beach where they hatched.","Морські черепахи повертаються відкладати яйця на той самий пляж, де вилупилися самі."],
-["⚓","Слово «авария» пришло из морского права: так называли убытки судна и груза в рейсе.","The word average (havarie) comes from sea law: losses of ship and cargo on a voyage.","Слово «аварія» прийшло з морського права: так називали збитки судна й вантажу в рейсі."],
-["🌌","В Марианской впадине глубина почти 11 км — Эверест скрылся бы под водой ещё на 2 км.","The Mariana Trench is almost 11 km deep: Everest would sink with 2 km of water above it.","Маріанська западина завглибшки майже 11 км — Еверест сховався б під водою ще на 2 км."],
-["🐬","Дельфины спят половиной мозга: вторая половина следит за дыханием и опасностью.","Dolphins sleep with half of the brain; the other half keeps breathing and watching.","Дельфіни сплять половиною мозку: друга половина стежить за диханням і небезпекою."],
-["🛳️","Крупнейшие контейнеровозы берут больше 24 000 контейнеров — это поезд длиной около 140 км.","The largest container ships carry over 24,000 containers, a train about 140 km long.","Найбільші контейнеровози беруть понад 24 000 контейнерів — це потяг завдовжки близько 140 км."],
-["🦀","Японский краб-паук в размахе ног бывает почти 4 метра.","A Japanese spider crab can span almost 4 metres from leg to leg.","Японський краб-павук у розмаху ніг буває майже 4 метри."],
-["💡","Самый мощный маяк видно за 40+ км: дальше мешает кривизна Земли, а не яркость.","The strongest lighthouses are seen 40+ km away; beyond that Earth's curve, not brightness, hides them.","Найпотужніший маяк видно за 40+ км: далі заважає кривина Землі, а не яскравість."],
-["🧂","Если выпарить всю соль из океанов, суша покрылась бы слоем больше 150 м.","If all the salt were taken out of the oceans, it would cover the land over 150 m deep.","Якщо випарити всю сіль з океанів, суходіл вкрився б шаром понад 150 м."],
-["🐟","Рыба-луна откладывает до 300 миллионов икринок за раз — рекорд среди позвоночных.","An ocean sunfish lays up to 300 million eggs at once, a record among vertebrates.","Риба-місяць відкладає до 300 мільйонів ікринок за раз — рекорд серед хребетних."]];
-var MAXL=41;
-function rwKind(l){if(SHIPS[l])return"ship";if(FRAMES[l])return"frame";return l%2==0?"coin":"card"}
-function rwCoins(l){return l*10}
-function rwCard(l){var n=0;for(var i=2;i<l;i++)if(rwKind(i)=="card")n++;return CARDS[n%CARDS.length]}
-function RW(){var r=st.rwd=st.rwd||{o:{},s:"",f:0,n:0};r.o=r.o||{};return r}
+var BARS={2:[1,"🌊","Морская волна","Sea wave","Морська хвиля"],7:[2,"🌅","Закат","Sunset","Захід сонця"],12:[3,"🪸","Коралл","Coral","Корал"],17:[4,"🌿","Водоросли","Seaweed","Водорості"],22:[5,"🌌","Северное сияние","Northern lights","Північне сяйво"],27:[6,"🔥","Огонь","Fire","Вогонь"],32:[7,"🌈","Радуга","Rainbow","Веселка"],37:[8,"💎","Бриллиант","Diamond","Діамант"]};
+var BADGES={4:[1,"⚓","Якорь","Anchor","Якір"],9:[2,"🧭","Компас","Compass","Компас"],14:[3,"⭐","Звезда","Star","Зірка"],19:[4,"🔱","Трезубец","Trident","Тризуб"],24:[5,"🏅","Медаль","Medal","Медаль"],29:[6,"🎖️","Орден","Order","Орден"],34:[7,"👑","Корона","Crown","Корона"],39:[8,"🏆","Кубок","Cup","Кубок"]};
+var HEROS={6:[1,"🌊","Лазурь","Azure","Блакить"],11:[2,"🌅","Рассвет","Dawn","Світанок"],16:[3,"🌙","Ночное море","Night sea","Нічне море"],21:[4,"🌴","Тропики","Tropics","Тропіки"],26:[5,"🧊","Арктика","Arctic","Арктика"],31:[6,"🌋","Вулкан","Volcano","Вулкан"],36:[7,"🌌","Сияние","Aurora","Сяйво"],41:[8,"✨","Золото","Gold","Золото"]};
+var MAXL=41,KD={s:SHIPS,f:FRAMES,b:BARS,g:BADGES,h:HEROS};
+function rwKey(l){for(var k in KD)if(KD[k][l])return k;return""}
+function rwVal(k,l){var x=KD[k][l];return k=="s"?x[0]:x[0]}
+function rwIcon(l){var k=rwKey(l),x=KD[k][l];return k=="s"?x[0]:x[1]}
+function rwName(l){var k=rwKey(l),x=KD[k][l];return x[(k=="s"?1:2)+lng()]}
+function RW(){var r=st.rwd=st.rwd||{s:"",f:0,n:0};return r}
 function curL(){return lvl(calc().xp)[0]}
-function rwIcon(l){var k=rwKind(l);return k=="ship"?SHIPS[l][0]:k=="frame"?FRAMES[l][1]:k=="coin"?"🪙":rwCard(l)[0]}
-function rwName(l){var k=rwKind(l),i=lng();return k=="ship"?SHIPS[l][1+i]:k=="frame"?FRAMES[l][2+i]:k=="coin"?"+"+rwCoins(l)+L(" монет"," coins"," монет"):L("Морская тайна","Sea secret","Морська таємниця")}
-var rwSel=0;
-function rwApply(){var r=st.rwd||{},sh=$("ship"),lv=$("lv");if(sh&&r.s&&sh.firstChild)sh.firstChild.textContent=r.s;if(lv){lv.className=lv.className.replace(/\s*fr\d/g,"");if(r.f)lv.classList.add("fr"+r.f)}}
-function rwr(){var el=$("rwd");if(!el)return;var r=RW(),cl=curL(),c=calc(),Lv=lvl(c.xp),open=0,next=0;for(var l=2;l<=MAXL;l++){if(l<=cl&&!r.o[l])open++;if(!next&&l>cl)next=l}
-var h=L('<h3>🎖 Награды за уровни</h3>','<h3>🎖 Level rewards</h3>','<h3>🎖 Нагороди за рівні</h3>')+'<p class="note" style="margin:0 0 6px">'+L("С каждым новым уровнем открывается ячейка: корабль для профиля, рамка для фото, монеты для магазина наград или морская тайна. Набирай опыт — открывай всё!","Every new level opens a cell: a ship for your profile, a photo frame, coins for the reward shop or a sea secret. Earn XP and open them all!","З кожним новим рівнем відкривається клітинка: корабель для профілю, рамка для фото, монети для магазину нагород або морська таємниця. Набирай досвід — відкривай усе!")+'</p>';
-if(open)h+='<div class="rwb">🎁 '+L("Можно открыть: ","Ready to open: ","Можна відкрити: ")+'<b>'+open+'</b>. '+L("Нажми на светящуюся ячейку.","Tap a glowing cell.","Натисни на клітинку, що світиться.")+'</div>';
-if(next){h+='<p class="note" style="margin:6px 0 0">'+L("До следующей ячейки ","Next cell in ","До наступної клітинки ")+'<b>'+(Lv[2]-Lv[1])+' XP</b> · '+rwIcon(next)+' '+rwName(next)+'</p><div class="rwbar"><i style="width:'+Math.round(Lv[1]/Lv[2]*100)+'%"></i></div>'}
-if(rwSel&&r.o[rwSel]){var k=rwKind(rwSel);h+='<div class="rwb"><b>'+L("Уровень ","Level ","Рівень ")+rwSel+': '+rwIcon(rwSel)+' '+rwName(rwSel)+'</b><br>'+(k=="card"?rwCard(rwSel)[1+lng()]:k=="coin"?L("Монеты добавлены в «Магазин наград».","The coins were added to the Reward shop.","Монети додано до «Магазину нагород»."):k=="ship"?L("Корабль можно выбрать ниже, он появится в шапке профиля.","Pick the ship below; it appears at the top of your profile.","Корабель можна обрати нижче, він з'явиться в шапці профілю."):L("Рамку можно выбрать ниже, она появится вокруг фото.","Pick the frame below; it appears around your photo.","Рамку можна обрати нижче, вона з'явиться навколо фото."))+'</div>'}
-h+='<div class="rwg">';for(var l=2;l<=MAXL;l++){var st0=r.o[l]?"op":l<=cl?"nw":"lk";h+='<div class="rwc '+st0+(rwSel==l?" cur":"")+'" data-rw="'+l+'">'+(st0=="nw"?"🎁":st0=="lk"?(rwKind(l)=="card"?"❔":rwIcon(l)):rwIcon(l))+'<small>'+L("ур. ","lv ","рів. ")+l+'</small></div>'}h+='</div>';
-var ships=Object.keys(SHIPS).filter(function(l){return r.o[l]}),frs=Object.keys(FRAMES).filter(function(l){return r.o[l]});
-if(ships.length)h+='<h4 style="margin:10px 0 2px">'+L("Мой корабль","My ship","Мій корабель")+'</h4><div class="rwr"><button type="button" data-rws=""'+(!r.s?' class="on"':'')+' title="'+L("По уровню","By level","За рівнем")+'">↺</button>'+ships.map(function(l){return'<button type="button" data-rws="'+SHIPS[l][0]+'"'+(r.s==SHIPS[l][0]?' class="on"':'')+' title="'+SHIPS[l][1+lng()]+'">'+SHIPS[l][0]+'</button>'}).join("")+'</div>';
-if(frs.length)h+='<h4 style="margin:10px 0 2px">'+L("Рамка фото","Photo frame","Рамка фото")+'</h4><div class="rwr"><button type="button" data-rwf="0"'+(!r.f?' class="on"':'')+'>✕</button>'+frs.map(function(l){return'<button type="button" data-rwf="'+FRAMES[l][0]+'"'+(r.f==FRAMES[l][0]?' class="on"':'')+' title="'+FRAMES[l][2+lng()]+'">'+FRAMES[l][1]+'</button>'}).join("")+'</div>';
+function rwApply(){var r=st.rwd||{},sh=$("ship"),lv=$("lv"),xb=$("xb"),tt=$("tt"),he=document.querySelector(".hero");
+if(sh&&r.s&&sh.firstChild)sh.firstChild.textContent=r.s;
+if(lv){lv.className=lv.className.replace(/\s*fr\d/g,"");if(r.f)lv.classList.add("fr"+r.f)}
+if(xb){xb.className=xb.className.replace(/\s*xb\d/g,"");if(r.b)xb.classList.add("xb"+r.b)}
+if(he){he.className=he.className.replace(/\s*hb\d/g,"");if(r.h)he.classList.add("hb"+r.h)}
+if(tt){var o=tt.querySelector(".rwg");if(o)o.remove();if(r.g){var g=null;for(var l in BADGES)if(BADGES[l][0]==r.g)g=BADGES[l][1];if(g){var e=document.createElement("span");e.className="rwg";e.textContent=g;tt.appendChild(e)}}}}
+function row(k,t,none){var r=RW(),cl=curL(),D=KD[k],cur=r[k]||(k=="s"?"":0);
+var h='<h4 style="margin:10px 0 2px">'+t+'</h4><div class="rwr"><button type="button" data-rwk="'+k+'" data-rwv=""'+(!cur?' class="on"':'')+'>'+none+'</button>';
+Object.keys(D).forEach(function(l){var v=rwVal(k,+l),ok=+l<=cl;h+='<button type="button" data-rwk="'+k+'" data-rwv="'+v+'" data-rwl="'+l+'"'+(ok?(cur==v?' class="on"':''):' class="lk"')+' title="'+esc(rwName(+l))+(ok?'':' · '+L("уровень ","level ","рівень ")+l)+'">'+rwIcon(+l)+(ok?'':'<small>'+l+'</small>')+'</button>'});
+return h+'</div>'}
+function rwr(){var el=$("rwd");if(!el)return;var cl=curL(),Lv=lvl(calc().xp),next=0;for(var l=2;l<=MAXL;l++)if(!next&&l>cl)next=l;
+var h=L('<h3>🎖 Награды за уровни</h3>','<h3>🎖 Level rewards</h3>','<h3>🎖 Нагороди за рівні</h3>')+'<p class="note" style="margin:0 0 6px">'+L("С каждым новым уровнем появляется украшение для профиля: корабль, рамка фото, цвет полоски опыта, значок у звания или фон. Нажми, чтобы надеть.","Each new level gives a decoration for your profile: a ship, a photo frame, an XP bar colour, a badge by your rank or a background. Tap to put it on.","З кожним новим рівнем з'являється прикраса для профілю: корабель, рамка фото, колір смужки досвіду, значок біля звання або фон. Натисни, щоб одягти.")+'</p>';
+if(next)h+='<p class="note" style="margin:6px 0 0">'+L("Следующее украшение — на уровне ","Next decoration at level ","Наступна прикраса — на рівні ")+next+': '+rwIcon(next)+' '+esc(rwName(next))+' · '+L("ещё ","","ще ")+'<b>'+(Lv[2]-Lv[1])+' XP</b>'+L(""," to go","")+'</p><div class="rwbar"><i style="width:'+Math.round(Lv[1]/Lv[2]*100)+'%"></i></div>';
+else h+='<div class="rwb">🏆 '+L("Все украшения уже твои!","All decorations are yours!","Усі прикраси вже твої!")+'</div>';
+h+=row("s",L("🚢 Мой корабль","🚢 My ship","🚢 Мій корабель"),"↺")+row("f",L("🖼 Рамка фото","🖼 Photo frame","🖼 Рамка фото"),"✕")+row("b",L("📊 Полоска опыта","📊 XP bar","📊 Смужка досвіду"),"✕")+row("g",L("🏷 Значок у звания","🏷 Rank badge","🏷 Значок біля звання"),"✕")+row("h",L("🎨 Фон профиля","🎨 Profile background","🎨 Фон профілю"),"✕");
 el.innerHTML=h}
-function rwOpen(l){var r=RW();if(r.o[l]||l>curL())return;r.o[l]=today;var k=rwKind(l);if(k=="coin")st.sp=(st.sp||0)-rwCoins(l);if(k=="ship")r.s=SHIPS[l][0];if(k=="frame")r.f=FRAMES[l][0];save();rwSel=l;if(navigator.vibrate)navigator.vibrate(60);toast("🎁 "+rwIcon(l)+" "+rwName(l));render()}
-function rwNotify(){var r=RW(),cl=curL();if(cl>r.n){var had=r.n>0;r.n=cl;save();if(had&&cl<=MAXL)setTimeout(function(){toast("🎁 "+L("Открылась новая ячейка наград! Профиль → «Награды за уровни»","A new reward cell is open! Profile → Level rewards","Відкрилася нова клітинка нагород! Профіль → «Нагороди за рівні»"))},2900)}}
-document.addEventListener("click",function(e){var b=e.target.closest&&e.target.closest("[data-rw],[data-rws],[data-rwf]");if(!b||!b.closest("#rwd"))return;var d=b.dataset,r=RW();
-if(d.rw){var l=+d.rw;if(!r.o[l]&&l<=curL())rwOpen(l);else if(r.o[l]){rwSel=rwSel==l?0:l;rwr()}else toast(L("Откроется на уровне ","Opens at level ","Відкриється на рівні ")+l);return}
-if(d.rws!=null){r.s=d.rws;save();render();return}if(d.rwf!=null){r.f=+d.rwf;save();render()}});
+function rwNotify(){var r=RW(),cl=Math.min(curL(),MAXL);if(cl>r.n){var had=r.n>0,from=r.n;r.n=cl;
+if(had){var got=[];for(var l=from+1;l<=cl;l++){var k=rwKey(l);if(k){r[k]=rwVal(k,l);got.push(rwIcon(l)+" "+rwName(l))}}
+if(got.length)setTimeout(function(){toast("✨ "+(got.length>2?L("Новых украшений: ","New decorations: ","Нових прикрас: ")+got.length+L(" — Профиль → «Награды за уровни»"," — Profile → Level rewards"," — Профіль → «Нагороди за рівні»"):L("Новое украшение: ","New decoration: ","Нова прикраса: ")+got.join(", ")))},600)}save()}}
+document.addEventListener("click",function(e){var b=e.target.closest&&e.target.closest("[data-rwk]");if(!b||!b.closest("#rwd"))return;var d=b.dataset,r=RW();
+if(d.rwl&&+d.rwl>curL()){toast(L("Будет на уровне ","Comes at level ","Буде на рівні ")+d.rwl);return}
+r[d.rwk]=d.rwk=="s"?d.rwv:+d.rwv||0;save();render()});
 
 /* ---------- Чек-лист сборов: в рейс и домой ---------- */
 var PKD={go:[["Паспорт моряка и загранпаспорт","Seaman's book and passport","Посвідчення моряка й закордонний паспорт"],["Дипломы и сертификаты (оригиналы)","Certificates of competency (originals)","Дипломи й сертифікати (оригінали)"],["Медкомиссия и прививки","Medical certificate and vaccinations","Медкомісія та щеплення"],["Контракт или письмо от крюинга","Contract or crewing letter","Контракт або лист від крюїнгу"],["Билеты и направление","Tickets and joining instructions","Квитки й направлення"],["Копии документов в телефоне","Copies of documents on the phone","Копії документів у телефоні"],["Банковская карта и наличные доллары","Bank card and cash dollars","Банківська картка й готівкові долари"],["Лекарства на весь контракт","Medicines for the whole contract","Ліки на весь контракт"],["Очки или линзы","Glasses or lenses","Окуляри або лінзи"],["Зарядка, павербанк, переходник для розеток","Charger, power bank, plug adapter","Зарядка, павербанк, перехідник для розеток"],["Наушники","Headphones","Навушники"],["Рабочая обувь и спецовка (если не выдают)","Safety shoes and coveralls (if not provided)","Робоче взуття й спецодяг (якщо не видають)"],["Тёплая одежда","Warm clothes","Теплий одяг"],["Бритва и средства гигиены","Razor and toiletries","Бритва й засоби гігієни"],["Фильмы, книги и музыка без интернета","Offline films, books and music","Фільми, книги й музика без інтернету"],["Резервная копия Fac Modo","Fac Modo backup","Резервна копія Fac Modo"]],
