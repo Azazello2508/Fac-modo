@@ -307,6 +307,7 @@ html:not(.simple) #nw{display:none}
 <section class="card" data-t="game" id="shop"></section>
 <section class="card" data-t="game" id="ch"></section>
 <section class="card" data-t="me"><h3>Достижения</h3><div class="ach" id="ach"></div></section>
+<section class="card" data-t="me" id="rwd" translate="no"></section>
 <section class="card" data-t="me" id="hm"></section>
 <section class="card" data-t="set" id="cfg"></section>
 <section class="card" data-t="set" id="nfc"></section>
@@ -317,6 +318,7 @@ html:not(.simple) #nw{display:none}
 <section class="card" data-t="set"><h3>Резервная копия</h3>
 <p class="note" id="sn" style="margin:0 0 4px">Приложение работает без интернета: всё хранится на устройстве. Сохраняй копию, чтобы не потерять прогресс при очистке браузера. Значок 📶 означает, что для этого нужен интернет.</p>
 <div class="add"><button type="button" id="ex">Сохранить в файл</button><button type="button" id="cp">Скопировать код</button><button type="button" id="im">Загрузить из файла</button><button type="button" id="pc2">Вставить код</button><input type="file" id="fi" accept=".json,application/json" hidden></div><textarea id="pta" rows="3" hidden aria-label="Код прогресса"></textarea><div class="add"><button type="button" id="pap" hidden>Применить код</button></div></section>
+<section class="card" data-t="set" id="trn" translate="no"></section>
 <section class="card" data-t="set"><h3>Расписание</h3><p class="note" style="margin:0 0 8px">Редактор расписания находится на вкладке «Миссии», под квестами дня, и всегда открыт.</p><div class="add"><button type="button" class="alt" id="edgo2">Перейти к редактору</button></div></section>
 <section class="card" data-t="set" id="prv" translate="no"></section>
 <section class="card" data-t="set" id="abt"></section>
@@ -334,6 +336,7 @@ html:not(.simple) #nw{display:none}
 <section class="card" data-t="shore" id="ap"></section>
 <section class="card" data-t="shore" id="rz"></section>
 <section class="card" data-t="shore" id="sh3"></section>
+<section class="card" data-t="shore" id="pck" translate="no"></section>
 <section class="card" data-t="shore" id="vis" translate="no"></section>
 </main>
 <aside id="sl" class="side"></aside><aside id="sr" class="side"></aside>
@@ -2186,13 +2189,13 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
    net-open (открыть окно подключения), net-send (отправить ход) → net-ready, net-msg, net-closed. Префикс gn. */
 (function(){
 var L=function(r,e,u){return fmL(r,e,u)};
-var GN={pc:null,dc:null,host:false,g:"",t:"",win:null,on:false,cam:null,raf:0,tm:0};
-var GNAME={chess:["Шахматы","Chess","Шахи"],checkers:["Шашки","Checkers","Шашки"],nardy:["Нарды","Backgammon","Нарди"],morboy:["Морской бой","Battleship","Морський бій"]};
+var GN={pc:null,dc:null,host:false,g:"",t:"",win:null,sink:null,on:false,cam:null,raf:0,tm:0};
+var GNAME={chess:["Шахматы","Chess","Шахи"],checkers:["Шашки","Checkers","Шашки"],nardy:["Нарды","Backgammon","Нарди"],morboy:["Морской бой","Battleship","Морський бій"],xfer:["Перенос данных","Data transfer","Перенесення даних"]};
 function gname(g){var n=GNAME[g];return n?L(n[0],n[1],n[2]):g}
 function box(){var el=$("gnet");if(!el){el=document.createElement("div");el.id="gnet";el.hidden=true;el.setAttribute("translate","no");document.body.appendChild(el)}return el}
 function show(h){var el=box();el.innerHTML='<div class="gnb">'+h+'</div>';el.hidden=false}
 function hide(){camStop();var el=$("gnet");if(el){el.hidden=true;el.innerHTML=""}}
-function post(m){try{if(GN.win)GN.win.postMessage(m,"*")}catch(e){}}
+function post(m){try{if(GN.sink)GN.sink(m);else if(GN.win)GN.win.postMessage(m,"*")}catch(e){console.error(e)}}
 function frame(){return document.querySelector("#tkw iframe")}
 function reset(){camStop();clearTimeout(GN.tm);var pc=GN.pc;GN.pc=null;GN.dc=null;GN.on=false;if(pc)try{pc.close()}catch(e){}}
 
@@ -2222,8 +2225,9 @@ if(GN.cam&&GN.cam.active)go(GN.cam);else if(navigator.mediaDevices&&navigator.me
 var PASTE=function(id){return'<details><summary>'+L("Нет камеры? Код текстом","No camera? Code as text","Немає камери? Код текстом")+'</summary><p><small>'+L("Скопируй код и передай любым способом, или вставь код соперника сюда:","Copy the code and pass it any way you like, or paste the opponent's code here:","Скопіюй код і передай будь-яким способом або встав код суперника сюди:")+'</small></p>'+(id?'<textarea readonly id="gnmy">'+id+'</textarea><button type="button" data-gn="copy">📋 '+L("Скопировать мой код","Copy my code","Скопіювати мій код")+'</button>':'')+'<textarea id="gnin" placeholder="FM…"></textarea><button type="button" data-gn="paste">'+L("Подключиться по коду","Connect with the code","Підключитися за кодом")+'</button></details>'};
 
 /* ---------- шаги подключения ---------- */
-function start(){reset();show('<h3>📶 '+L("Игра по сети","Network game","Гра по мережі")+' · '+gname(GN.g)+'</h3><p>'+L("Каждый играет на своём телефоне. Интернет не нужен: оба телефона должны быть в одной сети Wi‑Fi, или один раздаёт точку доступа, а второй к ней подключён.","Each player uses their own phone. No internet needed: both phones must be on the same Wi‑Fi, or one shares a hotspot and the other joins it.","Кожен грає на своєму телефоні. Інтернет не потрібен: обидва телефони мають бути в одній мережі Wi‑Fi, або один роздає точку доступу, а другий до неї підключений.")+'</p><p>'+L("Один телефон создаёт игру, второй подключается. Оба открывают одну и ту же игру.","One phone creates the game, the other joins. Both open the same game.","Один телефон створює гру, другий підключається. Обидва відкривають ту саму гру.")+'</p><button type="button" class="pr" data-gn="host">➕ '+L("Создать игру","Create a game","Створити гру")+'</button><button type="button" class="pr" data-gn="join">📷 '+L("Подключиться","Join","Підключитися")+'</button><br><button type="button" data-gn="cancel">'+L("Отмена","Cancel","Скасувати")+'</button>')}
-function wire(dc){GN.dc=dc;dc.onopen=function(){clearTimeout(GN.tm);GN.on=true;hide();post({fm:"net-ready",host:GN.host});toast("📶 "+L("Соединено! Играем","Connected! Let's play","З'єднано! Граємо"))};
+function XF(){return GN.g=="xfer"}
+function start(){reset();if(XF())return show('<h3>📲 '+L("Перенос на новый телефон","Move to a new phone","Перенесення на новий телефон")+'</h3><p>'+L("Оба телефона должны быть в одной сети Wi‑Fi, или один раздаёт точку доступа, а второй к ней подключён. Интернет не нужен.","Both phones must be on the same Wi‑Fi, or one shares a hotspot and the other joins it. No internet needed.","Обидва телефони мають бути в одній мережі Wi‑Fi, або один роздає точку доступу, а другий до неї підключений. Інтернет не потрібен.")+'</p><p>'+L("На старом телефоне нажми «Отправить», на новом — «Получить».","Tap Send on the old phone and Receive on the new one.","На старому телефоні натисни «Надіслати», на новому — «Отримати».")+'</p><button type="button" class="pr" data-gn="host">📤 '+L("Отправить с этого телефона","Send from this phone","Надіслати з цього телефона")+'</button><button type="button" class="pr" data-gn="join">📥 '+L("Получить на этот телефон","Receive on this phone","Отримати на цей телефон")+'</button><br><button type="button" data-gn="cancel">'+L("Отмена","Cancel","Скасувати")+'</button>');show('<h3>📶 '+L("Игра по сети","Network game","Гра по мережі")+' · '+gname(GN.g)+'</h3><p>'+L("Каждый играет на своём телефоне. Интернет не нужен: оба телефона должны быть в одной сети Wi‑Fi, или один раздаёт точку доступа, а второй к ней подключён.","Each player uses their own phone. No internet needed: both phones must be on the same Wi‑Fi, or one shares a hotspot and the other joins it.","Кожен грає на своєму телефоні. Інтернет не потрібен: обидва телефони мають бути в одній мережі Wi‑Fi, або один роздає точку доступу, а другий до неї підключений.")+'</p><p>'+L("Один телефон создаёт игру, второй подключается. Оба открывают одну и ту же игру.","One phone creates the game, the other joins. Both open the same game.","Один телефон створює гру, другий підключається. Обидва відкривають ту саму гру.")+'</p><button type="button" class="pr" data-gn="host">➕ '+L("Создать игру","Create a game","Створити гру")+'</button><button type="button" class="pr" data-gn="join">📷 '+L("Подключиться","Join","Підключитися")+'</button><br><button type="button" data-gn="cancel">'+L("Отмена","Cancel","Скасувати")+'</button>')}
+function wire(dc){GN.dc=dc;dc.onopen=function(){clearTimeout(GN.tm);GN.on=true;hide();post({fm:"net-ready",host:GN.host});toast("📶 "+(XF()?L("Соединено","Connected","З'єднано"):L("Соединено! Играем","Connected! Let's play","З'єднано! Граємо")))};
 dc.onmessage=function(e){try{post({fm:"net-msg",d:JSON.parse(e.data).d})}catch(x){}};dc.onclose=function(){if(GN.on){GN.on=false;post({fm:"net-closed"})}}}
 function mkpc(){var pc=new RTCPeerConnection({iceServers:[]});GN.pc=pc;pc.onconnectionstatechange=function(){var s=pc.connectionState;if(s=="failed"&&GN.pc===pc)fail();if((s=="disconnected"||s=="closed")&&GN.on){GN.on=false;post({fm:"net-closed"})}};return pc}
 function fail(){if(GN.on)return;reset();show('<h3>📶 '+L("Не получилось соединиться","Could not connect","Не вдалося з'єднатися")+'</h3><p>'+L("Проверь, что оба телефона в одной сети Wi‑Fi или на одной точке доступа, и попробуйте ещё раз. Если судовой Wi‑Fi не пускает телефоны друг к другу, включи точку доступа на одном телефоне.","Check that both phones are on the same Wi‑Fi or hotspot and try again. If the ship's Wi‑Fi does not let phones see each other, turn on a hotspot on one phone.","Перевір, що обидва телефони в одній мережі Wi‑Fi або на одній точці доступу, і спробуйте ще раз. Якщо судновий Wi‑Fi не пускає телефони один до одного, увімкни точку доступу на одному телефоні.")+'</p><button type="button" class="pr" data-gn="again">'+L("Ещё раз","Try again","Ще раз")+'</button><button type="button" data-gn="cancel">'+L("Закрыть","Close","Закрити")+'</button>')}
@@ -2231,17 +2235,17 @@ function waitOpen(){clearTimeout(GN.tm);GN.tm=setTimeout(fail,25000)}
 function host(){reset();GN.host=true;show('<p>'+L("Готовлю код…","Preparing the code…","Готую код…")+'</p>');
 camWarm().then(function(){var pc=mkpc();wire(pc.createDataChannel("fm"));return pc.createOffer().then(function(o){return pc.setLocalDescription(o)}).then(function(){return gathered(pc)}).then(function(){
 var code=enc(pc.localDescription.sdp,"o");
-show('<h3>➕ '+L("Шаг 1 из 2","Step 1 of 2","Крок 1 з 2")+'</h3><p>'+L("Соперник нажимает «Подключиться» в той же игре и наводит камеру на этот код:","Your opponent taps Join in the same game and points the camera at this code:","Суперник натискає «Підключитися» в тій самій грі й наводить камеру на цей код:")+'</p><div class="gnq">'+qrSvg(code)+'</div><p>'+L("Потом у него появится свой код. Нажми кнопку ниже и наведи камеру на его экран.","Then a code appears on their screen. Tap the button below and point your camera at it.","Потім у нього з'явиться свій код. Натисни кнопку нижче й наведи камеру на його екран.")+'</p><button type="button" class="pr" data-gn="scanA">📷 '+L("Шаг 2: считать код соперника","Step 2: scan the opponent's code","Крок 2: зчитати код суперника")+'</button><video id="gnv" hidden></video><p id="gnerr" class="gne"></p>'+PASTE(code)+'<button type="button" data-gn="cancel">'+L("Отмена","Cancel","Скасувати")+'</button>')})}).catch(function(e){console.error(e);fail()})}
+show('<h3>➕ '+L("Шаг 1 из 2","Step 1 of 2","Крок 1 з 2")+'</h3><p>'+(XF()?L("На новом телефоне нажми «Получить» и наведи камеру на этот код:","On the new phone tap Receive and point the camera at this code:","На новому телефоні натисни «Отримати» й наведи камеру на цей код:"):L("Соперник нажимает «Подключиться» в той же игре и наводит камеру на этот код:","Your opponent taps Join in the same game and points the camera at this code:","Суперник натискає «Підключитися» в тій самій грі й наводить камеру на цей код:"))+'</p><div class="gnq">'+qrSvg(code)+'</div><p>'+(XF()?L("Потом на новом телефоне появится свой код. Нажми кнопку ниже и наведи камеру на него.","Then a code appears on the new phone. Tap the button below and point your camera at it.","Потім на новому телефоні з'явиться свій код. Натисни кнопку нижче й наведи камеру на нього."):L("Потом у него появится свой код. Нажми кнопку ниже и наведи камеру на его экран.","Then a code appears on their screen. Tap the button below and point your camera at it.","Потім у нього з'явиться свій код. Натисни кнопку нижче й наведи камеру на його екран."))+'</p><button type="button" class="pr" data-gn="scanA">📷 '+(XF()?L("Шаг 2: считать код с нового телефона","Step 2: scan the code on the new phone","Крок 2: зчитати код з нового телефона"):L("Шаг 2: считать код соперника","Step 2: scan the opponent's code","Крок 2: зчитати код суперника"))+'</button><video id="gnv" hidden></video><p id="gnerr" class="gne"></p>'+PASTE(code)+'<button type="button" data-gn="cancel">'+L("Отмена","Cancel","Скасувати")+'</button>')})}).catch(function(e){console.error(e);fail()})}
 function gotAnswer(code){var o=dec(code);if(!o||o.k!="a"||!GN.pc){var e=$("gnerr");if(e)e.textContent=L("Это не ответный код. Нужен код, который появился у соперника после сканирования.","This is not the reply code. You need the code that appeared on your opponent's phone after scanning.","Це не код-відповідь. Потрібен код, що з'явився в суперника після сканування.");return}
 show('<p>📶 '+L("Соединяю…","Connecting…","З'єдную…")+'</p>');waitOpen();GN.pc.setRemoteDescription({type:"answer",sdp:sdpOf(o,"active")}).catch(function(e){console.error(e);fail()})}
-function join(){reset();GN.host=false;show('<h3>📷 '+L("Подключиться","Join","Підключитися")+'</h3><p>'+L("Наведи камеру на код на экране соперника.","Point the camera at the code on your opponent's screen.","Наведи камеру на код на екрані суперника.")+'</p><video id="gnv"></video><p id="gnerr" class="gne"></p>'+PASTE("")+'<button type="button" data-gn="cancel">'+L("Отмена","Cancel","Скасувати")+'</button>');scan("o",gotOffer)}
+function join(){reset();GN.host=false;show('<h3>📷 '+(XF()?L("Получить данные","Receive data","Отримати дані"):L("Подключиться","Join","Підключитися"))+'</h3><p>'+(XF()?L("Наведи камеру на код на экране старого телефона.","Point the camera at the code on the old phone's screen.","Наведи камеру на код на екрані старого телефона."):L("Наведи камеру на код на экране соперника.","Point the camera at the code on your opponent's screen.","Наведи камеру на код на екрані суперника."))+'</p><video id="gnv"></video><p id="gnerr" class="gne"></p>'+PASTE("")+'<button type="button" data-gn="cancel">'+L("Отмена","Cancel","Скасувати")+'</button>');scan("o",gotOffer)}
 function gotOffer(code){var o=dec(code);if(!o||o.k!="o"){var e=$("gnerr");if(e)e.textContent=L("Это не код игры.","This is not a game code.","Це не код гри.");return}
-if(o.g!=GN.g){show('<p class="gne">'+L("Соперник открыл другую игру: ","Your opponent opened a different game: ","Суперник відкрив іншу гру: ")+gname(o.g)+L(". Откройте одну и ту же игру.",". Open the same game.",". Відкрийте ту саму гру.")+'</p><button type="button" data-gn="cancel">'+L("Закрыть","Close","Закрити")+'</button>');return}
+if(o.g!=GN.g){show('<p class="gne">'+(XF()||o.g=="xfer"?L("Этот код не для переноса данных. На обоих телефонах открой «Перенос на новый телефон».","This code is not for data transfer. Open Move to a new phone on both phones.","Цей код не для перенесення даних. На обох телефонах відкрий «Перенесення на новий телефон»."):L("Соперник открыл другую игру: ","Your opponent opened a different game: ","Суперник відкрив іншу гру: ")+gname(o.g)+L(". Откройте одну и ту же игру.",". Open the same game.",". Відкрийте ту саму гру."))+'</p><button type="button" data-gn="cancel">'+L("Закрыть","Close","Закрити")+'</button>');return}
 show('<p>'+L("Готовлю ответный код…","Preparing the reply code…","Готую код-відповідь…")+'</p>');
 camWarm().then(function(){var pc=mkpc();pc.ondatachannel=function(e){wire(e.channel)};
 return pc.setRemoteDescription({type:"offer",sdp:sdpOf(o,"actpass")}).then(function(){return pc.createAnswer()}).then(function(a){return pc.setLocalDescription(a)}).then(function(){return gathered(pc)}).then(function(){
 camStop();var code=enc(pc.localDescription.sdp,"a");waitOpen();
-show('<h3>📷 '+L("Покажи этот код сопернику","Show this code to your opponent","Покажи цей код супернику")+'</h3><p>'+L("Он нажимает «Шаг 2» и наводит камеру на твой экран. Игра начнётся сама.","They tap Step 2 and point the camera at your screen. The game starts by itself.","Він натискає «Крок 2» і наводить камеру на твій екран. Гра почнеться сама.")+'</p><div class="gnq">'+qrSvg(code)+'</div>'+PASTE(code)+'<button type="button" data-gn="cancel">'+L("Отмена","Cancel","Скасувати")+'</button>')})}).catch(function(e){console.error(e);fail()})}
+show('<h3>📷 '+(XF()?L("Покажи этот код старому телефону","Show this code to the old phone","Покажи цей код старому телефону"):L("Покажи этот код сопернику","Show this code to your opponent","Покажи цей код супернику"))+'</h3><p>'+(XF()?L("На старом телефоне нажми «Шаг 2» и наведи камеру на этот экран. Перенос начнётся сам.","On the old phone tap Step 2 and point the camera at this screen. The transfer starts by itself.","На старому телефоні натисни «Крок 2» й наведи камеру на цей екран. Перенесення почнеться саме."):L("Он нажимает «Шаг 2» и наводит камеру на твой экран. Игра начнётся сама.","They tap Step 2 and point the camera at your screen. The game starts by itself.","Він натискає «Крок 2» і наводить камеру на твій екран. Гра почнеться сама."))+'</p><div class="gnq">'+qrSvg(code)+'</div>'+PASTE(code)+'<button type="button" data-gn="cancel">'+L("Отмена","Cancel","Скасувати")+'</button>')})}).catch(function(e){console.error(e);fail()})}
 
 document.addEventListener("click",function(e){var b=e.target.closest&&e.target.closest("[data-gn]");if(!b||!b.closest("#gnet"))return;var a=b.dataset.gn;
 if(a=="host")host();else if(a=="join")join();else if(a=="again")start();else if(a=="cancel"){reset();hide()}
@@ -2250,11 +2254,141 @@ else if(a=="copy"){var t=$("gnmy");t.select();try{navigator.clipboard.writeText(
 else if(a=="paste"){var c=($("gnin").value||"").trim(),o=dec(c);if(!o)return toast(L("Код не похож на код игры","This does not look like a game code","Код не схожий на код гри"));if(o.k=="o"&&!GN.pc)gotOffer(c);else if(o.k=="a")gotAnswer(c);else gotOffer(c)}});
 
 addEventListener("message",function(e){var m=e.data,f=frame();if(!m||typeof m!="object"||!m.fm||!f||e.source!==f.contentWindow)return;
-if(m.fm=="net-open"){if(!window.RTCPeerConnection){toast(L("Этот телефон не умеет игру по сети","This phone cannot play over the network","Цей телефон не вміє гру по мережі"));return}GN.win=f.contentWindow;GN.g=String(m.g||"");start()}
+if(m.fm=="net-open"){if(!window.RTCPeerConnection){toast(L("Этот телефон не умеет игру по сети","This phone cannot play over the network","Цей телефон не вміє гру по мережі"));return}GN.win=f.contentWindow;GN.sink=null;GN.g=String(m.g||"");start()}
 else if(m.fm=="net-send"){if(GN.dc&&GN.dc.readyState=="open")GN.dc.send(JSON.stringify({d:m.d}))}
 else if(m.fm=="net-close"){reset()}});
 // Выход из игры закрывает и соединение
 document.addEventListener("click",function(e){if(e.target.closest&&e.target.closest("#tkx")){reset();hide();GN.win=null}},true);
+// Для разделов приложения (не игр): gnOpen("xfer", обработчик) — то же окно подключения, сообщения идут в обработчик; gnSend(d) отправляет
+window.gnOpen=function(g,sink){if(!window.RTCPeerConnection){toast(L("Этот телефон не умеет связь по сети","This phone cannot connect over the network","Цей телефон не вміє зв'язок по мережі"));return}GN.win=null;GN.sink=sink;GN.g=g;start()};
+window.gnSend=function(d){if(GN.dc&&GN.dc.readyState=="open"){GN.dc.send(JSON.stringify({d:d}));return true}return false};
+window.gnBuf=function(){return GN.dc?GN.dc.bufferedAmount:0};
+window.gnClose=function(){reset();hide();GN.sink=null};
+})();
+</script>
+<style id="fm6-css">
+#rwd .rwg{display:grid;grid-template-columns:repeat(auto-fill,minmax(64px,1fr));gap:6px;margin:8px 0}
+#rwd .rwc{position:relative;border:1px solid var(--line);border-radius:10px;background:var(--bg);padding:6px 2px 4px;text-align:center;font-size:24px;line-height:1.1;min-height:58px;cursor:default}
+#rwd .rwc small{display:block;font-size:11px;color:var(--mute);margin-top:3px}
+#rwd .rwc.lk{opacity:.45;filter:grayscale(1)}#rwd .rwc.nw{border-color:var(--xp);box-shadow:0 0 10px var(--xp);cursor:pointer;animation:rwp 1.4s infinite}
+#rwd .rwc.op{cursor:pointer}#rwd .rwc.cur{outline:2px solid var(--ok)}
+@keyframes rwp{50%{transform:scale(1.06)}}
+#rwd .rwb{padding:10px 12px;margin:8px 0;border-left:4px solid var(--xp);background:var(--bg);border-radius:8px;font-size:14px}
+#rwd .rwr{display:flex;flex-wrap:wrap;gap:6px;margin:6px 0}#rwd .rwr button{font-size:20px;padding:4px 10px;min-width:44px}#rwd .rwr button.on{background:var(--ok);border-color:var(--ok)}
+#rwd .rwbar{height:10px;border-radius:6px;background:var(--bg);border:1px solid var(--line);overflow:hidden;margin:6px 0}#rwd .rwbar i{display:block;height:100%;background:var(--xp)}
+#lv.fr1{box-shadow:0 0 0 4px #cd7f32}#lv.fr2{box-shadow:0 0 0 4px #c9d1d9}#lv.fr3{box-shadow:0 0 0 4px #ffd34d,0 0 14px #ffd34d}
+#lv.fr4{box-shadow:0 0 0 3px #1fb6ff,0 0 0 6px #0b5fa5,0 0 16px #1fb6ff}#lv.fr5{box-shadow:0 0 0 3px #6fffc8,0 0 0 6px #7a5cff,0 0 18px #6fffc8}
+#lv.fr6{box-shadow:0 0 0 3px #ffb03a,0 0 0 6px #ff4a1a,0 0 18px #ff7a1a}#lv.fr7{box-shadow:0 0 0 2px #ff4d4d,0 0 0 4px #ffb84d,0 0 0 6px #fff04d,0 0 0 8px #4dff88,0 0 0 10px #4db8ff,0 0 0 12px #a64dff}
+#lv.fr8{box-shadow:0 0 0 3px #e8fbff,0 0 0 6px #8fe6ff,0 0 22px #bff3ff;animation:rwd8 2.5s infinite}@keyframes rwd8{50%{box-shadow:0 0 0 3px #fff,0 0 0 6px #b8f0ff,0 0 32px #fff}}
+#pck .pkt,#trn .pkt{display:flex;flex-wrap:wrap;gap:6px;margin:0 0 8px}#pck .pkt button.on{background:var(--ok);color:#0b1a14;border-color:var(--ok)}
+#pck ul{list-style:none;margin:6px 0;padding:0;display:grid;gap:4px}#pck li{display:flex;align-items:center;gap:8px;padding:7px 10px;border:1px solid var(--line);border-radius:8px;background:var(--bg);font-size:14px}
+#pck li label{flex:1;display:flex;gap:8px;align-items:center;cursor:pointer}#pck li.ok label span{text-decoration:line-through;color:var(--mute)}#pck li button{padding:2px 8px}
+#pck .pka{display:grid;grid-template-columns:1fr auto;gap:6px}#pck input[type=text]{padding:9px;border:1px solid var(--line);background:var(--bg);color:var(--ink);border-radius:8px;font:inherit;min-width:0}
+#pck .rwbar{height:10px;border-radius:6px;background:var(--bg);border:1px solid var(--line);overflow:hidden;margin:6px 0}#pck .rwbar i{display:block;height:100%;background:var(--ok)}
+#trn .trp{padding:10px 12px;margin:8px 0;border-left:4px solid var(--acc);background:var(--bg);border-radius:8px;font-size:14px}
+</style>
+<script id="fm6-js">
+/* Награды за уровни (rw), чек-лист сборов (pk), перенос данных на новый телефон (tr). */
+(function(){
+var L=function(r,e,u){return fmL(r,e,u)};
+function lng(){var l=(window.st&&st.lang)||"ru";return l=="en"?1:l=="uk"?2:0}
+
+/* ---------- Награды за уровни: с каждым уровнем открывается ячейка ---------- */
+// Корабли для шапки профиля и рамки для фото: [значок, ru, en, uk]
+var SHIPS={5:["🛥️","Катер","Motor boat","Катер"],10:["🚤","Скоростной катер","Speedboat","Швидкісний катер"],15:["⛴️","Паром","Ferry","Пором"],20:["🛳️","Лайнер","Cruise liner","Лайнер"],25:["🚢","Сухогруз","Cargo ship","Суховантаж"],30:["🐋","Верхом на ките","Riding a whale","Верхи на киті"],35:["🛸","Летающая тарелка","Flying saucer","Літаюча тарілка"],40:["🚀","Ракета","Rocket","Ракета"]};
+var FRAMES={3:[1,"🥉","Бронзовая рамка","Bronze frame","Бронзова рамка"],8:[2,"🥈","Серебряная рамка","Silver frame","Срібна рамка"],13:[3,"🥇","Золотая рамка","Gold frame","Золота рамка"],18:[4,"🌊","Рамка «Океан»","Ocean frame","Рамка «Океан»"],23:[5,"🌌","Рамка «Северное сияние»","Northern lights frame","Рамка «Північне сяйво»"],28:[6,"🔥","Рамка «Огонь»","Fire frame","Рамка «Вогонь»"],33:[7,"🌈","Радужная рамка","Rainbow frame","Райдужна рамка"],38:[8,"💎","Алмазная рамка","Diamond frame","Діамантова рамка"]};
+// Карточки «Морские тайны»: [значок, ru, en, uk]
+var CARDS=[["🐙","У осьминога три сердца и голубая кровь.","An octopus has three hearts and blue blood.","У восьминога три серця й блакитна кров."],
+["🐋","Сердце синего кита весит как небольшой автомобиль, около 180 кг.","A blue whale's heart weighs about as much as a small car, around 180 kg.","Серце синього кита важить як невеликий автомобіль, близько 180 кг."],
+["🌊","Самая высокая измеренная волна в открытом океане — около 29 м, в 2000 году у берегов Шотландии.","The highest wave measured in the open ocean was about 29 m, off Scotland in 2000.","Найвища виміряна хвиля у відкритому океані — близько 29 м, у 2000 році біля Шотландії."],
+["🧭","Магнитный полюс Земли постоянно движется — сейчас примерно на 50 км в год.","Earth's magnetic pole keeps moving, now about 50 km a year.","Магнітний полюс Землі постійно рухається — зараз приблизно на 50 км на рік."],
+["🦈","Акулы старше деревьев: они появились около 450 млн лет назад.","Sharks are older than trees: they appeared about 450 million years ago.","Акули старші за дерева: вони з'явилися близько 450 млн років тому."],
+["🐢","Морские черепахи возвращаются откладывать яйца на тот же пляж, где вылупились сами.","Sea turtles return to lay eggs on the same beach where they hatched.","Морські черепахи повертаються відкладати яйця на той самий пляж, де вилупилися самі."],
+["⚓","Слово «авария» пришло из морского права: так называли убытки судна и груза в рейсе.","The word average (havarie) comes from sea law: losses of ship and cargo on a voyage.","Слово «аварія» прийшло з морського права: так називали збитки судна й вантажу в рейсі."],
+["🌌","В Марианской впадине глубина почти 11 км — Эверест скрылся бы под водой ещё на 2 км.","The Mariana Trench is almost 11 km deep: Everest would sink with 2 km of water above it.","Маріанська западина завглибшки майже 11 км — Еверест сховався б під водою ще на 2 км."],
+["🐬","Дельфины спят половиной мозга: вторая половина следит за дыханием и опасностью.","Dolphins sleep with half of the brain; the other half keeps breathing and watching.","Дельфіни сплять половиною мозку: друга половина стежить за диханням і небезпекою."],
+["🛳️","Крупнейшие контейнеровозы берут больше 24 000 контейнеров — это поезд длиной около 140 км.","The largest container ships carry over 24,000 containers, a train about 140 km long.","Найбільші контейнеровози беруть понад 24 000 контейнерів — це потяг завдовжки близько 140 км."],
+["🦀","Японский краб-паук в размахе ног бывает почти 4 метра.","A Japanese spider crab can span almost 4 metres from leg to leg.","Японський краб-павук у розмаху ніг буває майже 4 метри."],
+["💡","Самый мощный маяк видно за 40+ км: дальше мешает кривизна Земли, а не яркость.","The strongest lighthouses are seen 40+ km away; beyond that Earth's curve, not brightness, hides them.","Найпотужніший маяк видно за 40+ км: далі заважає кривина Землі, а не яскравість."],
+["🧂","Если выпарить всю соль из океанов, суша покрылась бы слоем больше 150 м.","If all the salt were taken out of the oceans, it would cover the land over 150 m deep.","Якщо випарити всю сіль з океанів, суходіл вкрився б шаром понад 150 м."],
+["🐟","Рыба-луна откладывает до 300 миллионов икринок за раз — рекорд среди позвоночных.","An ocean sunfish lays up to 300 million eggs at once, a record among vertebrates.","Риба-місяць відкладає до 300 мільйонів ікринок за раз — рекорд серед хребетних."]];
+var MAXL=41;
+function rwKind(l){if(SHIPS[l])return"ship";if(FRAMES[l])return"frame";return l%2==0?"coin":"card"}
+function rwCoins(l){return l*10}
+function rwCard(l){var n=0;for(var i=2;i<l;i++)if(rwKind(i)=="card")n++;return CARDS[n%CARDS.length]}
+function RW(){var r=st.rwd=st.rwd||{o:{},s:"",f:0,n:0};r.o=r.o||{};return r}
+function curL(){return lvl(calc().xp)[0]}
+function rwIcon(l){var k=rwKind(l);return k=="ship"?SHIPS[l][0]:k=="frame"?FRAMES[l][1]:k=="coin"?"🪙":rwCard(l)[0]}
+function rwName(l){var k=rwKind(l),i=lng();return k=="ship"?SHIPS[l][1+i]:k=="frame"?FRAMES[l][2+i]:k=="coin"?"+"+rwCoins(l)+L(" монет"," coins"," монет"):L("Морская тайна","Sea secret","Морська таємниця")}
+var rwSel=0;
+function rwApply(){var r=st.rwd||{},sh=$("ship"),lv=$("lv");if(sh&&r.s&&sh.firstChild)sh.firstChild.textContent=r.s;if(lv){lv.className=lv.className.replace(/\s*fr\d/g,"");if(r.f)lv.classList.add("fr"+r.f)}}
+function rwr(){var el=$("rwd");if(!el)return;var r=RW(),cl=curL(),c=calc(),Lv=lvl(c.xp),open=0,next=0;for(var l=2;l<=MAXL;l++){if(l<=cl&&!r.o[l])open++;if(!next&&l>cl)next=l}
+var h=L('<h3>🎖 Награды за уровни</h3>','<h3>🎖 Level rewards</h3>','<h3>🎖 Нагороди за рівні</h3>')+'<p class="note" style="margin:0 0 6px">'+L("С каждым новым уровнем открывается ячейка: корабль для профиля, рамка для фото, монеты для магазина наград или морская тайна. Набирай опыт — открывай всё!","Every new level opens a cell: a ship for your profile, a photo frame, coins for the reward shop or a sea secret. Earn XP and open them all!","З кожним новим рівнем відкривається клітинка: корабель для профілю, рамка для фото, монети для магазину нагород або морська таємниця. Набирай досвід — відкривай усе!")+'</p>';
+if(open)h+='<div class="rwb">🎁 '+L("Можно открыть: ","Ready to open: ","Можна відкрити: ")+'<b>'+open+'</b>. '+L("Нажми на светящуюся ячейку.","Tap a glowing cell.","Натисни на клітинку, що світиться.")+'</div>';
+if(next){h+='<p class="note" style="margin:6px 0 0">'+L("До следующей ячейки ","Next cell in ","До наступної клітинки ")+'<b>'+(Lv[2]-Lv[1])+' XP</b> · '+rwIcon(next)+' '+rwName(next)+'</p><div class="rwbar"><i style="width:'+Math.round(Lv[1]/Lv[2]*100)+'%"></i></div>'}
+if(rwSel&&r.o[rwSel]){var k=rwKind(rwSel);h+='<div class="rwb"><b>'+L("Уровень ","Level ","Рівень ")+rwSel+': '+rwIcon(rwSel)+' '+rwName(rwSel)+'</b><br>'+(k=="card"?rwCard(rwSel)[1+lng()]:k=="coin"?L("Монеты добавлены в «Магазин наград».","The coins were added to the Reward shop.","Монети додано до «Магазину нагород»."):k=="ship"?L("Корабль можно выбрать ниже, он появится в шапке профиля.","Pick the ship below; it appears at the top of your profile.","Корабель можна обрати нижче, він з'явиться в шапці профілю."):L("Рамку можно выбрать ниже, она появится вокруг фото.","Pick the frame below; it appears around your photo.","Рамку можна обрати нижче, вона з'явиться навколо фото."))+'</div>'}
+h+='<div class="rwg">';for(var l=2;l<=MAXL;l++){var st0=r.o[l]?"op":l<=cl?"nw":"lk";h+='<div class="rwc '+st0+(rwSel==l?" cur":"")+'" data-rw="'+l+'">'+(st0=="nw"?"🎁":st0=="lk"?(rwKind(l)=="card"?"❔":rwIcon(l)):rwIcon(l))+'<small>'+L("ур. ","lv ","рів. ")+l+'</small></div>'}h+='</div>';
+var ships=Object.keys(SHIPS).filter(function(l){return r.o[l]}),frs=Object.keys(FRAMES).filter(function(l){return r.o[l]});
+if(ships.length)h+='<h4 style="margin:10px 0 2px">'+L("Мой корабль","My ship","Мій корабель")+'</h4><div class="rwr"><button type="button" data-rws=""'+(!r.s?' class="on"':'')+' title="'+L("По уровню","By level","За рівнем")+'">↺</button>'+ships.map(function(l){return'<button type="button" data-rws="'+SHIPS[l][0]+'"'+(r.s==SHIPS[l][0]?' class="on"':'')+' title="'+SHIPS[l][1+lng()]+'">'+SHIPS[l][0]+'</button>'}).join("")+'</div>';
+if(frs.length)h+='<h4 style="margin:10px 0 2px">'+L("Рамка фото","Photo frame","Рамка фото")+'</h4><div class="rwr"><button type="button" data-rwf="0"'+(!r.f?' class="on"':'')+'>✕</button>'+frs.map(function(l){return'<button type="button" data-rwf="'+FRAMES[l][0]+'"'+(r.f==FRAMES[l][0]?' class="on"':'')+' title="'+FRAMES[l][2+lng()]+'">'+FRAMES[l][1]+'</button>'}).join("")+'</div>';
+el.innerHTML=h}
+function rwOpen(l){var r=RW();if(r.o[l]||l>curL())return;r.o[l]=today;var k=rwKind(l);if(k=="coin")st.sp=(st.sp||0)-rwCoins(l);if(k=="ship")r.s=SHIPS[l][0];if(k=="frame")r.f=FRAMES[l][0];save();rwSel=l;if(navigator.vibrate)navigator.vibrate(60);toast("🎁 "+rwIcon(l)+" "+rwName(l));render()}
+function rwNotify(){var r=RW(),cl=curL();if(cl>r.n){var had=r.n>0;r.n=cl;save();if(had&&cl<=MAXL)setTimeout(function(){toast("🎁 "+L("Открылась новая ячейка наград! Профиль → «Награды за уровни»","A new reward cell is open! Profile → Level rewards","Відкрилася нова клітинка нагород! Профіль → «Нагороди за рівні»"))},2900)}}
+document.addEventListener("click",function(e){var b=e.target.closest&&e.target.closest("[data-rw],[data-rws],[data-rwf]");if(!b||!b.closest("#rwd"))return;var d=b.dataset,r=RW();
+if(d.rw){var l=+d.rw;if(!r.o[l]&&l<=curL())rwOpen(l);else if(r.o[l]){rwSel=rwSel==l?0:l;rwr()}else toast(L("Откроется на уровне ","Opens at level ","Відкриється на рівні ")+l);return}
+if(d.rws!=null){r.s=d.rws;save();render();return}if(d.rwf!=null){r.f=+d.rwf;save();render()}});
+
+/* ---------- Чек-лист сборов: в рейс и домой ---------- */
+var PKD={go:[["Паспорт моряка и загранпаспорт","Seaman's book and passport","Посвідчення моряка й закордонний паспорт"],["Дипломы и сертификаты (оригиналы)","Certificates of competency (originals)","Дипломи й сертифікати (оригінали)"],["Медкомиссия и прививки","Medical certificate and vaccinations","Медкомісія та щеплення"],["Контракт или письмо от крюинга","Contract or crewing letter","Контракт або лист від крюїнгу"],["Билеты и направление","Tickets and joining instructions","Квитки й направлення"],["Копии документов в телефоне","Copies of documents on the phone","Копії документів у телефоні"],["Банковская карта и наличные доллары","Bank card and cash dollars","Банківська картка й готівкові долари"],["Лекарства на весь контракт","Medicines for the whole contract","Ліки на весь контракт"],["Очки или линзы","Glasses or lenses","Окуляри або лінзи"],["Зарядка, павербанк, переходник для розеток","Charger, power bank, plug adapter","Зарядка, павербанк, перехідник для розеток"],["Наушники","Headphones","Навушники"],["Рабочая обувь и спецовка (если не выдают)","Safety shoes and coveralls (if not provided)","Робоче взуття й спецодяг (якщо не видають)"],["Тёплая одежда","Warm clothes","Теплий одяг"],["Бритва и средства гигиены","Razor and toiletries","Бритва й засоби гігієни"],["Фильмы, книги и музыка без интернета","Offline films, books and music","Фільми, книги й музика без інтернету"],["Резервная копия Fac Modo","Fac Modo backup","Резервна копія Fac Modo"]],
+home:[["Паспорт моряка и загранпаспорт","Seaman's book and passport","Посвідчення моряка й закордонний паспорт"],["Оригиналы документов из сейфа капитана","Original documents from the master's safe","Оригінали документів із сейфа капітана"],["Запись о стаже в паспорте моряка","Sea service entry in the seaman's book","Запис про стаж у посвідченні моряка"],["Справка о плавании (sea service testimonial)","Sea service testimonial","Довідка про плавання (sea service testimonial)"],["Характеристика / рекомендация","Appraisal / reference letter","Характеристика / рекомендація"],["Расчётный лист","Final pay slip","Розрахунковий лист"],["Билеты домой","Tickets home","Квитки додому"],["Вещи из прачечной и сейфа","Things from the laundry and the safe","Речі з пральні та сейфа"],["Сдать каюту и инвентарь","Hand over the cabin and inventory","Здати каюту й інвентар"],["Подарки родным","Presents for the family","Подарунки рідним"],["Зарядка и павербанк","Charger and power bank","Зарядка й павербанк"],["Сменщику: передача дел","Handover notes for the reliever","Змінникові: передача справ"]]};
+function PK(){var p=st.pck;if(!p){p=st.pck={l:"go",go:[],home:[]};["go","home"].forEach(function(k){PKD[k].forEach(function(x,i){p[k].push({d:i,c:0})})})}return p}
+function pkText(x,k){return x.d!=null&&PKD[k][x.d]?PKD[k][x.d][lng()]:x.t}
+function pkr(){var el=$("pck");if(!el||(document.activeElement&&document.activeElement.id=="pkn"))return;var p=PK(),k=p.l,it=p[k],dn=it.filter(function(x){return x.c}).length;
+var h=L('<h3>🎒 Чек-лист сборов</h3>','<h3>🎒 Packing checklist</h3>','<h3>🎒 Чек-лист зборів</h3>')+'<div class="pkt"><button type="button" data-pk="go"'+(k=="go"?' class="on"':'')+'>🚢 '+L("В рейс","To the ship","У рейс")+'</button><button type="button" data-pk="home"'+(k=="home"?' class="on"':'')+'>🏠 '+L("Домой","Going home","Додому")+'</button></div>';
+h+='<p class="note" style="margin:0">'+L("Собрано ","Packed ","Зібрано ")+dn+L(" из "," of "," з ")+it.length+(dn==it.length&&it.length?" · ✅ "+L("всё готово!","all set!","усе готово!"):"")+'</p><div class="rwbar"><i style="width:'+(it.length?Math.round(dn/it.length*100):0)+'%"></i></div>';
+h+='<ul>'+it.map(function(x,i){return'<li'+(x.c?' class="ok"':'')+'><label><input type="checkbox" data-pkc="'+i+'"'+(x.c?" checked":"")+'><span>'+esc(pkText(x,k))+'</span></label><button type="button" class="alt" data-pkd="'+i+'" aria-label="'+L("Удалить","Delete","Видалити")+'">✕</button></li>'}).join("")+'</ul>';
+h+='<div class="pka"><input type="text" id="pkn" maxlength="80" placeholder="'+L("Добавить своё…","Add your own…","Додати своє…")+'"><button type="button" data-pkx="add">＋</button></div>';
+h+='<div class="add" style="margin-top:8px"><button type="button" class="alt" data-pkx="clr">↺ '+L("Снять все галочки","Uncheck all","Зняти всі позначки")+'</button><button type="button" class="alt" data-pkx="def">'+L("Вернуть стандартный список","Restore the default list","Повернути стандартний список")+'</button></div>';
+h+='<p class="note">'+L("Галочки снимаются, а список остаётся — в следующий раз собираться быстрее.","Ticks can be cleared and the list stays, so next time packing is quicker.","Позначки знімаються, а список лишається — наступного разу збиратися швидше.")+'</p>';
+el.innerHTML=h}
+document.addEventListener("change",function(e){var i=e.target.dataset&&e.target.dataset.pkc;if(i==null||!e.target.closest("#pck"))return;var p=PK();p[p.l][+i].c=e.target.checked?1:0;save();pkr()});
+document.addEventListener("keydown",function(e){if(e.key=="Enter"&&e.target.id=="pkn"){e.preventDefault();pkAdd()}});
+function pkAdd(){var n=$("pkn"),t=(n.value||"").trim();if(!t)return;var p=PK();p[p.l].push({t:t.slice(0,80),c:0});save();n.value="";n.blur();pkr()}
+document.addEventListener("click",function(e){var b=e.target.closest&&e.target.closest("[data-pk],[data-pkd],[data-pkx]");if(!b||!b.closest("#pck"))return;var d=b.dataset,p=PK();
+if(d.pk){p.l=d.pk;save();pkr();return}
+if(d.pkd!=null){p[p.l].splice(+d.pkd,1);save();pkr();return}
+if(d.pkx=="add"){pkAdd();return}
+if(d.pkx=="clr"){p[p.l].forEach(function(x){x.c=0});save();pkr();return}
+if(d.pkx=="def"&&confirm(L("Вернуть стандартный список? Свои пункты удалятся.","Restore the default list? Your own items will be removed.","Повернути стандартний список? Свої пункти видаляться."))){p[p.l]=PKD[p.l].map(function(x,i){return{d:i,c:0}});save();pkr()}});
+
+/* ---------- Перенос на новый телефон без интернета ---------- */
+var TR={buf:[],n:0,role:""};
+function trData(){var o={app:"fac-modo",st:st,ls:{}};for(var i=0;i<localStorage.length;i++){var k=localStorage.key(i);if(/^fm_/.test(k)&&!/^fm_flv/.test(k))o.ls[k]=localStorage.getItem(k)}return JSON.stringify(o)}
+function trMsg(t){var e=$("trp");if(e)e.textContent=t}
+function trSink(m){if(m.fm=="net-ready"){if(TR.role=="send")trSend();else trMsg(L("Соединено. Получаю данные…","Connected. Receiving data…","З'єднано. Отримую дані…"));return}
+if(m.fm=="net-closed"){if(TR.role&&TR.role!="done")trMsg(L("Связь прервалась. Попробуй ещё раз.","The connection dropped. Try again.","Зв'язок перервався. Спробуй ще раз."));return}
+if(m.fm!="net-msg")return;var d=m.d||{};
+if(d.t=="h"){TR.role="recv";TR.buf=[];TR.n=d.n;return}
+if(d.t=="c"){TR.buf[d.i]=d.s;var got=TR.buf.filter(function(x){return x!=null}).length;trMsg(L("Получено ","Received ","Отримано ")+Math.round(got/TR.n*100)+"%");return}
+if(d.t=="e"){var txt=TR.buf.join(""),o=null;try{o=JSON.parse(txt)}catch(x){}
+if(!o||o.app!="fac-modo"||!o.st){trMsg(L("Данные пришли с ошибкой. Попробуй ещё раз.","The data arrived damaged. Try again.","Дані прийшли з помилкою. Спробуй ще раз."));gnSend({t:"bad"});return}
+if(!confirm(L("Заменить всё на этом телефоне данными со старого телефона? Уровень, квесты, дневник и настройки станут как там.","Replace everything on this phone with the data from the old phone? Level, quests, diary and settings will become the same as there.","Замінити все на цьому телефоні даними зі старого телефона? Рівень, квести, щоденник і налаштування стануть як там."))){gnSend({t:"no"});trMsg(L("Перенос отменён.","Transfer cancelled.","Перенесення скасовано."));setTimeout(gnClose,500);return}
+try{for(var k in o.ls)if(/^fm_/.test(k))localStorage.setItem(k,o.ls[k]);applyData(JSON.stringify(o.st));TR.role="done";gnSend({t:"ok"});trMsg("✅ "+L("Готово! Все данные перенесены.","Done! All data has been moved.","Готово! Усі дані перенесено."));toast("✅ "+L("Данные перенесены","Data moved","Дані перенесено"))}
+catch(x){console.error(x);trMsg(L("Не получилось применить данные.","Could not apply the data.","Не вдалося застосувати дані."));gnSend({t:"bad"})}
+setTimeout(gnClose,1500);return}
+if(d.t=="ok"){TR.role="done";trMsg("✅ "+L("Готово! Данные на новом телефоне. Этот телефон можно не трогать — на нём всё осталось.","Done! The data is on the new phone. Nothing was removed from this phone.","Готово! Дані на новому телефоні. На цьому телефоні все залишилося."));setTimeout(gnClose,1500);return}
+if(d.t=="no"){trMsg(L("На новом телефоне перенос отменили.","The transfer was cancelled on the new phone.","На новому телефоні перенесення скасували."));setTimeout(gnClose,500);return}
+if(d.t=="bad"){trMsg(L("Новый телефон не смог принять данные. Попробуй ещё раз.","The new phone could not take the data. Try again.","Новий телефон не зміг прийняти дані. Спробуй ще раз."))}}
+function trSend(){var t=trData(),Z=16000,n=Math.ceil(t.length/Z),i=0;gnSend({t:"h",n:n});
+(function next(){while(i<n&&gnBuf()<1e6){gnSend({t:"c",i:i,s:t.substr(i*Z,Z)});i++}trMsg(L("Отправлено ","Sent ","Надіслано ")+Math.round(i/n*100)+"%");if(i<n)setTimeout(next,40);else gnSend({t:"e"})})()}
+function trr(){var el=$("trn");if(!el)return;if(el.innerHTML&&$("trp")&&TR.role)return;
+el.innerHTML=L('<h3>📲 Перенос на новый телефон</h3>','<h3>📲 Move to a new phone</h3>','<h3>📲 Перенесення на новий телефон</h3>')+'<p class="note" style="margin:0 0 6px">'+L("Все данные — уровень, квесты, дневник, журнал ремонтов, настройки — переходят на другой телефон напрямую, без интернета. Оба телефона в одной сети Wi‑Fi или один раздаёт точку доступа. Скачанные книги и видео нужно будет скачать заново.","All your data (level, quests, diary, repair log, settings) moves straight to another phone without the internet. Both phones on the same Wi‑Fi, or one shares a hotspot. Downloaded books and videos will need to be downloaded again.","Усі дані — рівень, квести, щоденник, журнал ремонтів, налаштування — переходять на інший телефон напряму, без інтернету. Обидва телефони в одній мережі Wi‑Fi або один роздає точку доступу. Завантажені книги й відео треба буде завантажити знову.")+'</p><div class="pkt"><button type="button" data-tr="send">📤 '+L("Отправить с этого телефона","Send from this phone","Надіслати з цього телефона")+'</button><button type="button" data-tr="recv">📥 '+L("Получить на этот телефон","Receive on this phone","Отримати на цей телефон")+'</button></div><div class="trp" id="trp" hidden></div>'}
+document.addEventListener("click",function(e){var b=e.target.closest&&e.target.closest("[data-tr]");if(!b||!b.closest("#trn"))return;TR.role=b.dataset.tr;TR.buf=[];var p=$("trp");p.hidden=false;trMsg(L("Ждём подключения…","Waiting for the connection…","Чекаємо на підключення…"));gnOpen("xfer",trSink);
+setTimeout(function(){var g=document.querySelector('#gnet [data-gn="'+(TR.role=="send"?"host":"join")+'"]');if(g)g.click()},30)});
+
+function all6(){try{rwNotify();rwr();rwApply();pkr();trr()}catch(e){console.error(e)}}
+var _r6=render;render=function(m){_r6(m);all6()};
+all6();document.addEventListener("DOMContentLoaded",all6);
 })();
 </script>
 <script>
@@ -2732,12 +2866,12 @@ main>.tgxh[hidden]{display:none!important}
 <script id="tgx-js">/* Группы плиток и перенос разделов между вкладками. Разделы не удаляются: меняется только вкладка (data-t) и порядок.
  Новый раздел, которого нет в списке, попадает в группу «Ещё» в конце своей вкладки. */
 (function(){var mn=document.getElementById("mn");if(!mn)return;var L=window.fmL||function(r){return r};
-var MV={rh:"today",vdw:"know",vis:"me"};
-var G={today:[[L("День","Day","День"),["#days","fc","pnl","stk","cmp","ed"]],[L("Вахта и дом","Watch and home","Вахта і дім"),["wch","rh","cth","hfm","ktr","dcw"]]],
+var MV={rh:"today",vdw:"know",vis:"me",pck:"today"};
+var G={today:[[L("День","Day","День"),["#days","fc","pnl","stk","cmp","ed"]],[L("Вахта и дом","Watch and home","Вахта і дім"),["wch","rh","cth","hfm","ktr","pck","dcw"]]],
 know:[[L("Учёба","Study","Навчання"),["lib","gl","en","iv","qz","vdw","mat"]],[L("Работа на судне","Work on board","Робота на судні"),["shn","clc","cvm","rlg","ck","prf"]],[L("Для себя","For yourself","Для себе"),["tip","ls","pom"]]],
 game:[[L("Игры","Games","Ігри"),["tk","sm","bg","mt2","pzl"]],[L("Отдых","Rest","Відпочинок"),["bk","flm","snd","brt","sky","gym"]],[L("Награды","Rewards","Нагороди"),["ch","shop"]]],
 shore:[[L("Путь на берег","Path ashore","Шлях на берег"),["sh1","sh4","sh2","sh5","prf2"]],[L("Работа","Job","Робота"),["rz","ap","sh3"]]],
-me:[[L("Документы и деньги","Documents and money","Документи й гроші"),["dc","ct","fnm","rk"]],[L("Прогресс","Progress","Прогрес"),["#stats","#ach","wkc","hm","cmpt","vis","shr"]]]};
+me:[[L("Документы и деньги","Documents and money","Документи й гроші"),["dc","ct","fnm","rk"]],[L("Прогресс","Progress","Прогрес"),["#stats","#ach","rwd","wkc","hm","cmpt","vis","shr"]]]};
 function sec(k){var e=k.charAt(0)=="#"?document.getElementById(k.slice(1)):document.getElementById(k);if(e&&k.charAt(0)=="#")e=e.closest("#mn>section");return e&&e.parentNode==mn?e:null}
 function tiled(s){return s.tagName=="SECTION"&&!s.classList.contains("hero")&&!s.classList.contains("quote")&&s.id!="ob"&&s.id!="nw"&&s.id!="tdy"}
 var mvd=[];Object.keys(MV).forEach(function(k){var s=sec(k);if(s){s.setAttribute("data-t",MV[k]);mvd.push(s)}});
@@ -2757,7 +2891,7 @@ document.addEventListener("click",function(e){var b=e.target.closest&&e.target.c
 })();</script>
 <div id="fmm"><div id="fmb" role="dialog" aria-modal="true"><div id="fmh"><button type="button" id="fmx">✕ Закрыть</button></div><div id="fmc"></div></div></div>
 <script>(function(){var mn=document.getElementById("mn"),m=document.getElementById("fmm"),box=document.getElementById("fmc"),cur=null,ph=document.createComment("fm"),tiles=[],de=document.documentElement;mn.appendChild(m);
-var IC={prv:"🔒",shn:"🔭",pzl:"🧩",snd:"🌙",brt:"🫁",sky:"✨",vis:"🗺️",fc:"🎯",pnl:"⚖️",wch:"⚓",mt2:"🧠",clc:"🧮",rlg:"🛠️",cth:"📞",ktr:"⏳",stk:"🔥",flm:"🎬",gym:"🏋️",cmp:"📊",prf:"👤",prf2:"👤",tip:"💡",ls:"🧭",pom:"⏱️",lib:"🗂️",bk:"📚",mat:"🎬",gl:"📖",ck:"☑️",shop:"🛒",iv:"🎤",en:"🔤",ch:"🎁",qz:"❓",hm:"📅",opt:"⚙️",shr:"🔗",ed:"🗓️",dq:"🌤️",d1:"😊",d2:"✍️",d3:"🎨",d4:"📔",sh1:"🧭",sh2:"🌳",sh5:"🗺️",sh4:"👣",ap:"📨",rz:"📄",sh3:"🔄",stats:"📈",ach:"🏅",th:"🎨",sn:"💾",days:"✅",cfg:"🖥️",nfc:"🔔",wkc:"📈",cmpt:"🏆",abt:"ℹ️"};
+var IC={rwd:"🎖️",pck:"🎒",trn:"📲",prv:"🔒",shn:"🔭",pzl:"🧩",snd:"🌙",brt:"🫁",sky:"✨",vis:"🗺️",fc:"🎯",pnl:"⚖️",wch:"⚓",mt2:"🧠",clc:"🧮",rlg:"🛠️",cth:"📞",ktr:"⏳",stk:"🔥",flm:"🎬",gym:"🏋️",cmp:"📊",prf:"👤",prf2:"👤",tip:"💡",ls:"🧭",pom:"⏱️",lib:"🗂️",bk:"📚",mat:"🎬",gl:"📖",ck:"☑️",shop:"🛒",iv:"🎤",en:"🔤",ch:"🎁",qz:"❓",hm:"📅",opt:"⚙️",shr:"🔗",ed:"🗓️",dq:"🌤️",d1:"😊",d2:"✍️",d3:"🎨",d4:"📔",sh1:"🧭",sh2:"🌳",sh5:"🗺️",sh4:"👣",ap:"📨",rz:"📄",sh3:"🔄",stats:"📈",ach:"🏅",th:"🎨",sn:"💾",days:"✅",cfg:"🖥️",nfc:"🔔",wkc:"📈",cmpt:"🏆",abt:"ℹ️"};
 function ico(s){if(IC[s.id])return IC[s.id];for(var k in IC)if(s.querySelector("#"+k))return IC[k];return"📌"}
 function ttl(s){var h=s.querySelector("h2,h3,h4");if(h){h=h.cloneNode(true);[].forEach.call(h.querySelectorAll("button,input,select,textarea"),function(x){x.remove()})}var t=(h?h.textContent:"").replace(/\s+/g," ").trim();return t.length>48?t.slice(0,46)+"…":t}
 function split(t){var r=t.match(/^((?:\p{Extended_Pictographic}|[\u{1F1E6}-\u{1F1FF}])[️‍\u{1F3FB}-\u{1F3FF}\p{Extended_Pictographic}\u{1F1E6}-\u{1F1FF}]*)\s*(.*)$/u);return r&&r[2]?[r[1],r[2]]:[null,t]}
