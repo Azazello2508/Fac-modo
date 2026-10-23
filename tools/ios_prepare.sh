@@ -30,7 +30,9 @@ pset UIViewControllerBasedStatusBarAppearance bool false
 /usr/libexec/PlistBuddy -c "Add :UIBackgroundModes array" "$PL"
 /usr/libexec/PlistBuddy -c "Add :UIBackgroundModes:0 string audio" "$PL"
 # Зачем камера и фото (без этих текстов iPhone закрывает приложение при выборе «Снять фото»)
-pset NSCameraUsageDescription string "Fac Modo uses the camera only when you take a photo yourself: for the repair log or your profile picture. The photo stays on your phone."
+pset NSCameraUsageDescription string "Fac Modo uses the camera only when you take a photo yourself (for the repair log or your profile picture) or scan the QR code of a friend's phone to play a game together. Nothing leaves your phone."
+# Игра по сети: телефоны соединяются напрямую в одной сети Wi‑Fi или через точку доступа
+pset NSLocalNetworkUsageDescription string "Fac Modo connects to your friend's phone on the same Wi-Fi or hotspot so you can play a game together without the internet."
 pset NSPhotoLibraryUsageDescription string "Fac Modo opens your photos only when you pick one yourself: for the repair log or your profile picture. The photo stays on your phone."
 # Шифрование только стандартное (HTTPS) — App Store не будет спрашивать при каждой загрузке
 pset ITSAppUsesNonExemptEncryption bool false
@@ -42,11 +44,13 @@ i=0; for l in ru en uk; do /usr/libexec/PlistBuddy -c "Add :CFBundleLocalization
 # Те же тексты разрешений по-русски и по-украински
 for l in ru uk; do mkdir -p "ios/App/App/$l.lproj"; done
 cat > ios/App/App/ru.lproj/InfoPlist.strings <<'EOF'
-"NSCameraUsageDescription" = "Камера нужна, только когда ты сам делаешь фото: для журнала ремонтов или фото профиля. Фото остаётся на телефоне.";
+"NSCameraUsageDescription" = "Камера нужна, только когда ты сам делаешь фото (для журнала ремонтов или фото профиля) или сканируешь QR-код телефона друга, чтобы сыграть вместе. Ничего не уходит с телефона.";
+"NSLocalNetworkUsageDescription" = "Fac Modo соединяется с телефоном друга в той же сети Wi‑Fi или через точку доступа, чтобы играть вместе без интернета.";
 "NSPhotoLibraryUsageDescription" = "Фото открываются, только когда ты сам выбираешь снимок: для журнала ремонтов или фото профиля. Фото остаётся на телефоне.";
 EOF
 cat > ios/App/App/uk.lproj/InfoPlist.strings <<'EOF'
-"NSCameraUsageDescription" = "Камера потрібна, лише коли ти сам робиш фото: для журналу ремонтів або фото профілю. Фото залишається на телефоні.";
+"NSCameraUsageDescription" = "Камера потрібна, лише коли ти сам робиш фото (для журналу ремонтів або фото профілю) або скануєш QR-код телефона друга, щоб пограти разом. Нічого не залишає телефон.";
+"NSLocalNetworkUsageDescription" = "Fac Modo з'єднується з телефоном друга в тій самій мережі Wi‑Fi або через точку доступу, щоб грати разом без інтернету.";
 "NSPhotoLibraryUsageDescription" = "Фото відкриваються, лише коли ти сам обираєш знімок: для журналу ремонтів або фото профілю. Фото залишається на телефоні.";
 EOF
 

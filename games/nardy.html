@@ -31,14 +31,14 @@ button{font-size:16px;padding:8px 16px;margin:6px;cursor:pointer}
 </style></head><body>
 <h2 id="title">Нарды</h2>
 <div id="opts"></div>
-<div><button class="mode" id="mShort" onclick="setMode('short')">Короткие нарды</button><button class="mode" id="mLong" onclick="setMode('long')">Длинные нарды</button></div>
+<div><button class="mode" id="mShort" onclick="netMode('short')">Короткие нарды</button><button class="mode" id="mLong" onclick="netMode('long')">Длинные нарды</button></div>
 <div id="status"></div>
 <div id="dice"></div>
 <div id="board">
   <div class="half" id="tl"></div><div class="bar" id="barW"></div><div class="half" id="tr"></div><div class="off" id="offB"></div>
   <div class="half" id="bl"></div><div class="bar" id="barB"></div><div class="half" id="br"></div><div class="off" id="offW"></div>
 </div>
-<div><button id="rollBtn" onclick="playerRoll()">Бросить кубики</button><button onclick="newGame()">Новая игра</button> <a href="index.html">← Меню</a></div>
+<div><button id="rollBtn" onclick="playerRoll()">Бросить кубики</button><button onclick="netNew()">Новая игра</button> <a href="index.html">← Меню</a></div>
 <p id="rules" style="max-width:600px;color:#aaa"></p>
 <script>
 let S,left=[],seqs=[],selFrom=null,phase='roll',mode='short',first,cur='w';
@@ -47,18 +47,19 @@ const msg=t=>$('status').textContent=t;
 const GKEY='fm_nardy';
 let MODE='ai',LVL=1,GID=0;
 try{const o=JSON.parse(localStorage.getItem(GKEY)||'{}');if(o.m==='2p')MODE='2p';if(o.l>=0&&o.l<=2)LVL=o.l;}catch(e){}
-function setOpt(m,l){if(m)MODE=m;if(l!==undefined)LVL=l;try{localStorage.setItem(GKEY,JSON.stringify({m:MODE,l:LVL}))}catch(e){}opts();newGame();}
+function setOpt(m,l){if(m){MODE=m;netQuit();}if(l!==undefined)LVL=l;try{localStorage.setItem(GKEY,JSON.stringify({m:MODE,l:LVL}))}catch(e){}opts();newGame();}
 function opts(){
   const el=$('opts');el.innerHTML='';
   const b=(t,on,f)=>{const x=document.createElement('button');x.textContent=t;if(on)x.className='on';x.onclick=f;el.appendChild(x);};
-  b('🤖 С компьютером',MODE==='ai',()=>setOpt('ai'));b('👥 Вдвоём',MODE==='2p',()=>setOpt('2p'));
+  b('🤖 С компьютером',MODE==='ai',()=>setOpt('ai'));b('👥 Вдвоём',MODE==='2p',()=>setOpt('2p'));b('📶 По сети',MODE==='net',netOpen);
   if(MODE==='ai'){const s=document.createElement('div');s.className='sep';el.appendChild(s);['Лёгкий','Средний','Тяжёлый'].forEach((t,i)=>b(t,LVL===i,()=>setOpt(undefined,i)));}
 }
 const later=(f,ms)=>{const g=GID;setTimeout(()=>{if(g===GID)f();},ms);};
 // Вдвоём: подписи игроков и перевод номера ячейки на доске в счёт того, кто ходит
 const NAME={w:'белых',b:'чёрных'};
 const rel=a=>a<0||a>23||cur==='w'?a:(mode==='long'?(a+12)%24:23-a);
-const rollMsg=()=>MODE==='2p'?'Ход '+NAME[cur]+' — бросьте кубики':'Ваш ход — бросьте кубики';
+const TWO=()=>MODE==='2p'||MODE==='net';
+const rollMsg=()=>MODE==='net'?(cur===NET.me?'Ваш ход — бросьте кубики':'Ход соперника — он бросает кубики…'):MODE==='2p'?'Ход '+NAME[cur]+' — бросьте кубики':'Ваш ход — бросьте кубики';
 const A=(pl,k)=>pl==='w'?k:(mode==='long'?(k+12)%24:23-k);
 const RULES={
  short:'Короткие нарды. Вы — белые, идёте против часовой стрелки: сверху справа → налево → вниз → в свой дом (внизу справа), затем выводите шашки в правую нижнюю ячейку. Одинокую шашку соперника можно «побить» — она уходит на середину (бар). Нажмите шашку (жёлтая рамка), потом зелёное место.',
@@ -78,7 +79,7 @@ function newGame(){
   GID++;S={p,bar:{w:0,b:0},off:{w:0,b:0},head:0};first={w:true,b:true};left=[];seqs=[];selFrom=null;phase='roll';cur='w';
   $('title').textContent=mode==='long'?'Нарды (длинные)':'Нарды (короткие)';
   $('mShort').className='mode'+(mode==='short'?' on':'');$('mLong').className='mode'+(mode==='long'?' on':'');
-  $('rules').textContent=RULES[mode]+(MODE==='2p'?' Вдвоём: белые и чёрные ходят по очереди на одном устройстве, у каждого своя кнопка «Бросить кубики». Чёрные идут навстречу белым, их дом — вверху справа (в коротких) или вверху слева (в длинных).':'');
+  $('rules').textContent=RULES[mode]+(MODE==='net'&&NET?' По сети: вы играете '+(NET.me==='w'?'белыми':'чёрными')+', каждый ходит на своём телефоне. Чёрные идут навстречу белым.':'')+(MODE==='2p'?' Вдвоём: белые и чёрные ходят по очереди на одном устройстве, у каждого своя кнопка «Бросить кубики». Чёрные идут навстречу белым, их дом — вверху справа (в коротких) или вверху слева (в длинных).':'');
   draw();msg(rollMsg());
 }
 // длинные нарды: запрещена стена из 6 шашек подряд, если впереди неё нет шашки соперника
@@ -154,18 +155,20 @@ function evalS(s,pl){
   for(let k=0;k<24;k++){const n=own(s,pl,A(pl,k));if(n===1)v-=(k<6?3:6);if(n>=2)v+=(k<6?5:3);}
   return v+s.off[pl]*2;
 }
-function playerRoll(){
+function playerRoll(rds){
   if(phase!=='roll')return;
-  const ds=rollDice();left=ds.slice();S.head=0;seqs=sequences(S,cur,ds);first[cur]=false;
-  if(!seqs[0].seq.length){endTurn(1400);if(MODE==='2p')msg('Ходов нет — ход переходит сопернику');return;}
-  phase='move';draw();msg((MODE==='2p'?'Ходят '+(cur==='w'?'белые':'чёрные')+'. ':'')+'Выберите шашку, затем зелёное место');
+  if(MODE==='net'&&!rds&&cur!==NET.me)return;
+  const ds=rds||rollDice();if(MODE==='net'&&!rds)netSend({t:'roll',ds});left=ds.slice();S.head=0;seqs=sequences(S,cur,ds);first[cur]=false;
+  if(!seqs[0].seq.length){endTurn(1400);if(TWO())msg('Ходов нет — ход переходит '+(MODE==='net'?(cur===NET.me?'сопернику':'вам'):'сопернику'));return;}
+  phase='move';draw();msg(MODE==='net'&&cur!==NET.me?'Соперник ходит…':(MODE==='2p'?'Ходят '+(cur==='w'?'белые':'чёрные')+'. ':'')+'Выберите шашку, затем зелёное место');
 }
 function clickPt(a){
-  if(phase!=='move')return;const k=rel(a);
+  if(phase!=='move'||(MODE==='net'&&cur!==NET.me))return;const k=rel(a);
   if(selFrom!==null){const x=seqs.find(x=>x.seq[0].from===selFrom&&x.seq[0].to===k);if(x){doPlayerMove(x.seq[0]);return;}}
   selFrom=seqs.some(x=>x.seq[0].from===k)?k:null;draw();
 }
-function doPlayerMove(m){
+function doPlayerMove(m,remote){
+  if(MODE==='net'&&!remote)netSend({t:'mv',from:m.from,to:m.to,d:m.d});
   S=applyM(S,cur,m);
   seqs=seqs.filter(x=>x.seq[0].from===m.from&&x.seq[0].to===m.to&&x.seq[0].d===m.d).map(x=>({seq:x.seq.slice(1)}));
   left.splice(left.indexOf(m.d),1);selFrom=null;
@@ -175,7 +178,7 @@ function doPlayerMove(m){
 }
 // Конец хода: вдвоём — передать кубики сопернику, с компьютером — ход компьютера
 function endTurn(ms){
-  if(MODE==='2p'){phase='wait';draw();later(()=>{cur=op(cur);phase='roll';left=[];draw();msg(rollMsg());},ms>1000?ms:300);return;}
+  if(TWO()){phase='wait';draw();later(()=>{cur=op(cur);phase='roll';left=[];draw();msg(rollMsg());},ms>1000?ms:300);return;}
   phase='ai';draw();msg((ms>1000?'Ходов нет. ':'')+'Ход компьютера…');later(aiTurn,ms);
 }
 function aiTurn(){
@@ -193,7 +196,7 @@ function aiTurn(){
   later(step,900);
 }
 function toPlayer(){phase='roll';left=[];draw();msg(rollMsg());}
-function win(pl){phase='over';draw();msg(MODE==='2p'?'Победили '+(pl==='w'?'белые':'чёрные')+'! 🎉':(pl==='w'?'Вы победили! 🎉':'Победил компьютер'));}
+function win(pl){phase='over';draw();msg(MODE==='net'?(pl===NET.me?'Вы победили! 🎉':'Победил соперник'):MODE==='2p'?'Победили '+(pl==='w'?'белые':'чёрные')+'! 🎉':(pl==='w'?'Вы победили! 🎉':'Победил компьютер'));}
 // Оценка для тяжёлого уровня: штраф за одиночные шашки под прямым ударом и бонус за 2+ шашки подряд (забор)
 function evalHard(s,pl){
   let v=evalS(s,pl);const o=op(pl);
@@ -225,13 +228,30 @@ function draw(){
     }
   };
   mk('tl',[12,13,14,15,16,17],1);mk('tr',[18,19,20,21,22,23],1);mk('bl',[11,10,9,8,7,6],0);mk('br',[5,4,3,2,1,0],0);
-  const mine=pl=>cur===pl&&(pl==='w'||MODE==='2p');
+  const mine=pl=>cur===pl&&(MODE==='net'?pl===NET.me:(pl==='w'||MODE==='2p'));
   const bw=$('barW');bw.innerHTML='';checkers(bw,S.bar.w,'w');bw.className='bar'+(mine('w')&&selFrom===24?' sel':mine('w')&&isSrc(24)?' src':'');bw.onclick=()=>{if(mine('w'))clickPt(24)};
   const bb=$('barB');bb.innerHTML='';checkers(bb,S.bar.b,'b');bb.className='bar'+(mine('b')&&selFrom===24?' sel':mine('b')&&isSrc(24)?' src':'');bb.onclick=()=>{if(mine('b'))clickPt(24)};
-  const ob=$('offB');ob.textContent=(MODE==='2p'?'Вывести ⇧ ':'Вывел: ')+S.off.b;ob.className='off'+(mine('b')&&isDst(-1)?' dst':'');ob.onclick=()=>{if(mine('b'))clickPt(-1)};
+  const ob=$('offB');ob.textContent=(TWO()?'Вывести ⇧ ':'Вывел: ')+S.off.b;ob.className='off'+(mine('b')&&isDst(-1)?' dst':'');ob.onclick=()=>{if(mine('b'))clickPt(-1)};
   const ow=$('offW');ow.textContent='Вывести ⇩ '+S.off.w;ow.className='off'+(mine('w')&&isDst(-1)?' dst':'');ow.onclick=()=>{if(mine('w'))clickPt(-1)};
   $('dice').textContent=left.map(d=>DIE[d-1]).join('');
-  $('rollBtn').disabled=phase!=='roll';
+  $('rollBtn').disabled=phase!=='roll'||(MODE==='net'&&cur!==NET.me);
 }
+// ---- Игра по сети (📶): связь между телефонами держит приложение Fac Modo, сюда приходят только ходы соперника ----
+let NET=null;
+function netOpen(){if(window.parent===window){alert('Игра по сети работает внутри приложения Fac Modo');return}parent.postMessage({fm:'net-open',g:'nardy',t:document.title},'*')}
+function netSend(d){if(NET&&!NET.lost)parent.postMessage({fm:'net-send',d},'*')}
+function netQuit(){if(NET){NET=null;parent.postMessage({fm:'net-close'},'*')}}
+function netNew(){if(MODE==='net')netSend({t:'new'});newGame()}
+addEventListener('message',e=>{const m=e.data;if(!m||typeof m!=='object'||!m.fm||e.source!==window.parent)return;
+ if(m.fm==='net-ready'){NET={host:!!m.host};MODE='net';netReady()}
+ else if(m.fm==='net-msg'&&NET){const d=m.d||{};if(d.t==='new')newGame();else netGot(d)}
+ else if(m.fm==='net-closed'&&NET){NET.lost=1;(typeof status==='function'?status:msg)('📶 Связь с соперником потеряна. Выбери режим заново')}});
+function netMode(m){if(MODE==='net')netSend({t:'mode',m});setMode(m);}
+function netReady(){NET.me=NET.host?'w':'b';opts();newGame();}
+// Ход соперника может прийти, пока у нас ещё идёт пауза передачи хода — тогда чуть подождать
+function netGot(d,n){n=n||0;const g=GID,again=()=>{if(n<40)setTimeout(()=>{if(g===GID)netGot(d,n+1)},150)};
+ if(d.t==='mode'){mode=d.m;newGame();return;}
+ if(d.t==='roll'){if(phase!=='roll'||cur===NET.me)return again();playerRoll(d.ds);return;}
+ if(d.t==='mv'){if(phase!=='move'||cur===NET.me)return again();const x=seqs.find(x=>x.seq[0].from===d.from&&x.seq[0].to===d.to&&x.seq[0].d===d.d);if(x)doPlayerMove(x.seq[0],true);}}
 opts();newGame();
 </script></body></html>
