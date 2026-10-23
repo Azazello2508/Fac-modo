@@ -92,8 +92,8 @@
   после изменения списка книг: `python3 tools/books_level.py index.html measure` (скачивает тексты, ~30 минут). Аудиокниги берут уровень текстовой версии (`tools/books_alt.json`).
 - Дата последней резервной копии — `st.bkp` (`st.bk` занят настройками книг).
 - Отдых (блоки `fm5-css`/`fm5-js`, тексты через `fmL` на трёх языках, разделы `translate="no"`):
-  «🧩 Морской бой и головоломки» (`#pzl`) запускает игры из games/: morboy, sudoku, pyatnashki, krossvord (блоки `mb-src`, `su-src`, `p15-src`, `kw-src`,
-  встраиваются так же, как настольные игры; localStorage `fm_morboy`, `fm_sudoku`, `fm_15`, `fm_kross`).
+  «🧩 Морской бой и головоломки» (`#pzl`) запускает игры из games/: morboy, sudoku, pyatnashki, krossvord, more2048 (блоки `mb-src`, `su-src`, `p15-src`, `kw-src`, `g2-src`,
+  встраиваются так же, как настольные игры; localStorage `fm_morboy`, `fm_sudoku`, `fm_15`, `fm_kross`, `fm_2048`).
   «🌙 Звуки для сна» (`#snd`): звук считается в телефоне (30 с шума, WAV, `<audio loop>`), громкость и таймер в `fm_snd`; фоновое воспроизведение — `UIBackgroundModes audio` в ios.yml.
   «🫁 Дыхание и отдых» (`#brt`): 4-7-8, квадрат, 5-5; первая сессия за день — `st.done[дата].br` (+10 XP «Восстановление»).
   «🗺️ Где я побывал» (`#vis`, вкладка «Берег», `st.vis`: `c` страны с датой, `p` порты): контуры стран `WMP` в блоке `wmp-js` (Natural Earth 110m), +20 XP за страну, +5 за порт (обёртка `calc`).
