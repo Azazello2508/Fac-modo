@@ -29,10 +29,11 @@ pset UIViewControllerBasedStatusBarAppearance bool false
 /usr/libexec/PlistBuddy -c "Delete :UIBackgroundModes" "$PL" >/dev/null 2>&1 || true
 /usr/libexec/PlistBuddy -c "Add :UIBackgroundModes array" "$PL"
 /usr/libexec/PlistBuddy -c "Add :UIBackgroundModes:0 string audio" "$PL"
+# Без апострофов: PlistBuddy считает ' кавычкой, и текст портится
 # Зачем камера и фото (без этих текстов iPhone закрывает приложение при выборе «Снять фото»)
-pset NSCameraUsageDescription string "Fac Modo uses the camera only when you take a photo yourself (for the repair log or your profile picture) or scan the QR code of a friend's phone to play a game together. Nothing leaves your phone."
+pset NSCameraUsageDescription string "Fac Modo uses the camera only when you take a photo yourself (for the repair log or your profile picture) or scan the QR code on another phone to play a game together. Nothing leaves your phone."
 # Игра по сети: телефоны соединяются напрямую в одной сети Wi‑Fi или через точку доступа
-pset NSLocalNetworkUsageDescription string "Fac Modo connects to your friend's phone on the same Wi-Fi or hotspot so you can play a game together without the internet."
+pset NSLocalNetworkUsageDescription string "Fac Modo connects to another phone on the same Wi-Fi or hotspot so you can play a game together without the internet."
 pset NSPhotoLibraryUsageDescription string "Fac Modo opens your photos only when you pick one yourself: for the repair log or your profile picture. The photo stays on your phone."
 # Шифрование только стандартное (HTTPS) — App Store не будет спрашивать при каждой загрузке
 pset ITSAppUsesNonExemptEncryption bool false
