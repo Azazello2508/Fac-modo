@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="ru"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no">
+<title>Морская 2048</title>
+<style>
+body{margin:0;font-family:Segoe UI,Arial,sans-serif;background:#0d2236;color:#eef;display:flex;flex-direction:column;align-items:center;padding:12px 8px 24px;overscroll-behavior:none}
+h2{margin:6px 0}a{color:#9cf}
+button{font-size:15px;padding:7px 12px;background:#24405c;color:#eef;border:2px solid #3b6488;border-radius:8px;cursor:pointer;margin:2px}
+button:disabled{opacity:.4}
+#sc{display:flex;gap:8px;margin:6px 0}#sc div{background:#17466e;border-radius:8px;padding:5px 14px;text-align:center;min-width:72px}#sc small{display:block;color:#9bc;font-size:12px}#sc b{font-size:20px}
+#status{margin:4px;font-size:16px;min-height:22px;text-align:center}
+#bd{position:relative;width:min(92vw,400px);height:min(92vw,400px);background:#123552;border-radius:12px;touch-action:none;user-select:none;-webkit-user-select:none}
+.c{position:absolute;border-radius:8px;background:#17466e}
+.t{position:absolute;border-radius:8px;display:flex;flex-direction:column;align-items:center;justify-content:center;transition:left .1s,top .1s;color:#fff;font-weight:bold}
+.t span{line-height:1}.t small{font-size:min(3vw,12px);opacity:.85;margin-top:2px}
+.t.n{animation:pop .15s}.t.m{animation:mg .18s}
+@keyframes pop{from{transform:scale(.3)}to{transform:scale(1)}}@keyframes mg{50%{transform:scale(1.15)}}
+#legend{display:flex;flex-wrap:wrap;justify-content:center;gap:4px;max-width:420px;margin:10px 0;font-size:13px;color:#9bc}
+#legend span{background:#17466e;border-radius:6px;padding:2px 6px}
+p.help{max-width:440px;color:#9ab;font-size:14px;text-align:center}
+</style></head><body>
+<h2>🐋 Морская 2048</h2>
+<div id="sc"><div><small>Очки</small><b id="s1">0</b></div><div><small>Рекорд</small><b id="s2">0</b></div><div><small>Лучший</small><b id="s3">🐚</b></div></div>
+<div id="status"></div>
+<div id="bd"></div>
+<div style="margin-top:10px"><button id="und" onclick="undo()">↩ Назад</button><button onclick="newGame()">Новая игра</button> <a href="index.html">← Меню</a></div>
+<div id="legend"></div>
+<p class="help">Проведи пальцем вверх, вниз, влево или вправо — все фишки поедут в ту сторону. Две одинаковые фишки сливаются в следующую: из двух ракушек получается креветка, из двух креветок — рыбка… Цель — вырастить кита 🐋 (2048). Кнопка «Назад» отменяет один последний ход.</p>
+<script>
+const $=id=>document.getElementById(id),KEY='fm_2048',N=4;
+// Морские жители по порядку: 2, 4, 8 … 2048 и дальше
+const SEA=[['🐚','ракушка','#3a6f8f'],['🦐','креветка','#3f7f9a'],['🐟','рыбка','#2f8f8a'],['🐠','рыба-клоун','#2f9a6f'],['🐡','рыба-ёж','#5a9a3a'],['🦀','краб','#b0702a'],['🐙','осьминог','#a0457a'],['🦑','кальмар','#b0503a'],['🐬','дельфин','#2a7fc0'],['🦈','акула','#5a6f8a'],['🐋','кит','#1f5fb0'],['🚢','лайнер','#7a4fb0'],['⚓','якорь','#8a8a2a'],['🔱','Нептун','#b08a1a']];
+let S={g:Array(N*N).fill(0),s:0,b:0,best:1,won:0},U=null,anim={};
+try{const o=JSON.parse(localStorage.getItem(KEY)||'null');if(o&&o.g&&o.g.length===N*N)S=o}catch(e){}
+const save=()=>{try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}};
+function add(){const e=[];S.g.forEach((v,i)=>{if(!v)e.push(i)});if(!e.length)return;const i=e[Math.floor(Math.random()*e.length)];S.g[i]=Math.random()<.9?1:2;anim[i]='n'}
+function newGame(){S={g:Array(N*N).fill(0),s:0,b:S.b||0,best:S.best||1,won:0};U=null;anim={};add();add();save();draw()}
+function canMove(){for(let i=0;i<N*N;i++){const v=S.g[i];if(!v)return true;const r=Math.floor(i/N),c=i%N;if(c<N-1&&S.g[i+1]===v)return true;if(r<N-1&&S.g[i+N]===v)return true}return false}
+// dir: 0 влево, 1 вправо, 2 вверх, 3 вниз
+function move(dir){if(!canMove())return;const prev={g:S.g.slice(),s:S.s,won:S.won};let moved=false,gain=0;anim={};
+ for(let k=0;k<N;k++){const idx=[];for(let j=0;j<N;j++){const a=dir<2?k*N+j:j*N+k;idx.push(a)}if(dir===1||dir===3)idx.reverse();
+  const vals=idx.map(i=>S.g[i]).filter(v=>v),out=[],mg=[];
+  for(let j=0;j<vals.length;j++){if(j+1<vals.length&&vals[j]===vals[j+1]){out.push(vals[j]+1);mg.push(out.length-1);gain+=Math.pow(2,vals[j]+1);j++}else out.push(vals[j])}
+  idx.forEach((i,j)=>{const v=out[j]||0;if(S.g[i]!==v)moved=true;S.g[i]=v});mg.forEach(j=>anim[idx[j]]='m')}
+ if(!moved)return;U=prev;S.s+=gain;if(S.s>S.b)S.b=S.s;const mx=Math.max(...S.g);if(mx>S.best)S.best=mx;
+ if(mx>=11&&!S.won){S.won=1;setTimeout(()=>status('🎉 Ты вырастил кита! Можно играть дальше'),150)}
+ add();save();draw()}
+function undo(){if(!U)return;S.g=U.g;S.s=U.s;S.won=U.won;U=null;anim={};save();draw()}
+function status(t){$('status').textContent=t}
+function draw(){const bd=$('bd'),W=bd.clientWidth,gap=W*.025,sz=(W-gap*(N+1))/N;bd.innerHTML='';
+ for(let i=0;i<N*N;i++){const r=Math.floor(i/N),c=i%N,d=document.createElement('div');d.className='c';Object.assign(d.style,{left:gap+c*(sz+gap)+'px',top:gap+r*(sz+gap)+'px',width:sz+'px',height:sz+'px'});bd.appendChild(d)}
+ S.g.forEach((v,i)=>{if(!v)return;const r=Math.floor(i/N),c=i%N,t=SEA[Math.min(v,SEA.length)-1],d=document.createElement('div');d.className='t'+(anim[i]?' '+anim[i]:'');
+  Object.assign(d.style,{left:gap+c*(sz+gap)+'px',top:gap+r*(sz+gap)+'px',width:sz+'px',height:sz+'px',background:t[2]});
+  d.innerHTML='<span style="font-size:'+Math.round(sz*.42)+'px">'+t[0]+'</span><small>'+Math.pow(2,v)+'</small>';bd.appendChild(d)});
+ $('s1').textContent=S.s;$('s2').textContent=S.b;$('s3').textContent=SEA[Math.min(S.best,SEA.length)-1][0];$('und').disabled=!U;
+ if(!canMove())status('Ходов нет. Лучший житель: '+SEA[Math.min(Math.max(...S.g),SEA.length)-1][1]+'. Нажми «Новая игра» или «Назад»');
+ else if(!S.won)status('Цель — кит 🐋')}
+function legend(){$('legend').innerHTML=SEA.slice(0,12).map((t,i)=>'<span>'+t[0]+' '+Math.pow(2,i+1)+'</span>').join('')}
+document.addEventListener('keydown',e=>{const d={ArrowLeft:0,ArrowRight:1,ArrowUp:2,ArrowDown:3}[e.key];if(d!==undefined){e.preventDefault();move(d)}});
+let sx=0,sy=0,tr=false;const bd=$('bd');
+bd.addEventListener('pointerdown',e=>{sx=e.clientX;sy=e.clientY;tr=true});
+bd.addEventListener('pointerup',e=>{if(!tr)return;tr=false;const dx=e.clientX-sx,dy=e.clientY-sy;if(Math.max(Math.abs(dx),Math.abs(dy))<24)return;move(Math.abs(dx)>Math.abs(dy)?(dx<0?0:1):(dy<0?2:3))});
+bd.addEventListener('pointercancel',()=>tr=false);
+addEventListener('resize',draw);
+legend();if(S.g.some(v=>v))draw();else newGame();
+</script></body></html>

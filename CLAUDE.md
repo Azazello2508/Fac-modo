@@ -100,8 +100,8 @@
   после изменения списка книг: `python3 tools/books_level.py index.html measure` (скачивает тексты, ~30 минут). Аудиокниги берут уровень текстовой версии (`tools/books_alt.json`).
 - Дата последней резервной копии — `st.bkp` (`st.bk` занят настройками книг).
 - Отдых (блоки `fm5-css`/`fm5-js`, тексты через `fmL` на трёх языках, разделы `translate="no"`):
-  «🧩 Морской бой и головоломки» (`#pzl`) запускает игры из games/: morboy, sudoku, pyatnashki, krossvord (блоки `mb-src`, `su-src`, `p15-src`, `kw-src`,
-  встраиваются так же, как настольные игры; localStorage `fm_morboy`, `fm_sudoku`, `fm_15`, `fm_kross`).
+  «🧩 Морской бой и головоломки» (`#pzl`) запускает игры из games/: morboy, sudoku, pyatnashki, krossvord, more2048 (блоки `mb-src`, `su-src`, `p15-src`, `kw-src`, `g2-src`,
+  встраиваются так же, как настольные игры; localStorage `fm_morboy`, `fm_sudoku`, `fm_15`, `fm_kross`, `fm_2048`).
   «📶 По сети» в шахматах, шашках, нардах и морском бое: каждый играет на своём телефоне (один Wi‑Fi или точка доступа, без интернета).
   Соединение WebRTC держит приложение (блок `gn-css`/`gn-js`, окно `#gnet`), код подключения — QR (`qr-js`: qrcode-generator и jsQR) или текстом.
   Игры общаются с ним через postMessage (`net-open`, `net-send` → `net-ready`, `net-msg`, `net-closed`); в каждой игре одинаковый кусок `NET`/`netOpen`/`netSend` и свои `netReady`/`netGot`.

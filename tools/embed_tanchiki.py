@@ -3,7 +3,7 @@
 Запуск: python tools/embed_tanchiki.py <путь к index.html игры> [id блока]
 id блока: tk-src — «Танчики» (по умолчанию), sm-src — «Самолётики»,
 dr-src, db-src, cs-src, cr-src, nd-src — дурак, деберц, шахматы, шашки, нарды,
-mb-src, su-src, p15-src, kw-src — морской бой, судоку, пятнашки, кроссворд.
+mb-src, su-src, p15-src, kw-src, g2-src — морской бой, судоку, пятнашки, кроссворд, морская 2048.
 Скрипт меняет только блок <script type="text/plain" id="...">…</script>.
 Печатает changed=true, если игра в приложении обновилась.
 """
