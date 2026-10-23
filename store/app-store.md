@@ -12,9 +12,9 @@
 | Категория | Основная — Производительность (Productivity), дополнительная — Образование (Education) |
 | Цена | Бесплатно |
 | Устройства | Только iPhone (сборка с `TARGETED_DEVICE_FAMILY=1`) |
-| Privacy Policy URL | https://azazello2508.github.io/Fac-modo/privacy.html |
-| Support URL | https://azazello2508.github.io/Fac-modo/support.html |
-| Marketing URL | https://azazello2508.github.io/Fac-modo/ |
+| Privacy Policy URL | https://mdccclxiii.github.io/fac-modo-update/privacy.html |
+| Support URL | https://mdccclxiii.github.io/fac-modo-update/support.html |
+| Marketing URL | https://mdccclxiii.github.io/fac-modo-update/ |
 | Copyright | © 2026 Fac Modo |
 | Версия | из `package.json` → `version` (сейчас 1.0.0); для каждой новой версии в магазине увеличить: 1.0.1, 1.1.0 … |
 
@@ -142,7 +142,7 @@ Content notes:
 - Books (Project Gutenberg, Wikisource) and films in the "Free to download" genre (Internet Archive) are public-domain works; other films only link to JustWatch, which lists legal services. The app does not download from YouTube or any streaming service.
 - External links (YouTube search, Wikipedia, official maritime sites) open in Safari.
 - Navigation calculations are labelled as a study aid and must be checked against official charts and instruments.
-- The app may refresh its bundled web content (bug fixes and text updates) from our own site azazello2508.github.io; this never changes the app's purpose or adds paid features. New features are shipped through App Store updates.
+- The app may refresh its bundled web content (bug fixes and text updates) from our own site mdccclxiii.github.io; this never changes the app's purpose or adds paid features. New features are shipped through App Store updates.
 - Camera / photo library are used only when the user chooses to add a photo to the repair log or profile.
 - Background audio is used only for "Sleep sounds" (white/sea noise that keeps playing with the screen locked).
 ```

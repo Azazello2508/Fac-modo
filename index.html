@@ -1554,7 +1554,7 @@ bkr();
 
 /* Самообновление: проверяем новую версию на сайте приложения, скачиваем и включаем при следующем возврате в приложение */
 (function(){var C=window.Capacitor;if(!C||!C.isNativePlatform||!C.isNativePlatform())return;
-var L=localStorage,BASE="https://azazello2508.github.io/Fac-modo/",pending=null,busy=false;
+var L=localStorage,BASE="https://mdccclxiii.github.io/fac-modo-update/",pending=null,busy=false;
 if(location.href.indexOf("/_capacitor_file_/")>=0)L.setItem("fm-ota-try","0");
 function cur(){return Math.max(+L.getItem("fm-bundle-b")||0,+L.getItem("fm-ota-b")||0,FM_BUILD)}
 function fs(){return(C.Plugins&&C.Plugins.Filesystem)||(C.registerPlugin&&C.registerPlugin("Filesystem"))}
@@ -2850,7 +2850,7 @@ window.SNTEST={bod:bod,alt:alt,sun:sun,ghaA:ghaA,jd:jd,hoC:hoC,rhumb:rhumb};
 snR()})();</script>
 <style id="prv-css">#prv .add{display:flex;flex-wrap:wrap;gap:8px}#prv .add a{display:inline-flex;align-items:center;padding:10px 14px;border-radius:12px;border:1px solid var(--line);background:var(--bg);color:var(--ink);text-decoration:none;font-weight:700;font-size:14px}</style>
 <script id="prv-js">/* Конфиденциальность и поддержка (#prv, Опции): ссылки на privacy.html и support.html на сайте приложения — нужны для App Store и Google Play */
-(function(){var el=document.getElementById("prv");if(!el)return;var L=function(r,e,u){return window.fmL?fmL(r,e,u):r},lg=(window.st&&st.lang)||"ru",B="https://azazello2508.github.io/Fac-modo/";
+(function(){var el=document.getElementById("prv");if(!el)return;var L=function(r,e,u){return window.fmL?fmL(r,e,u):r},lg=(window.st&&st.lang)||"ru",B="https://mdccclxiii.github.io/fac-modo-update/";
 el.innerHTML="<h3>"+L("🔒 Конфиденциальность и поддержка","🔒 Privacy and support","🔒 Конфіденційність і підтримка")+"</h3><p class=\"note\" style=\"margin:0 0 8px\">"+L("Fac Modo не собирает и не отправляет твои данные: всё хранится только на этом телефоне. Нет регистрации, рекламы и слежки.","Fac Modo does not collect or send your data: everything stays on this phone. No sign-up, no ads, no tracking.","Fac Modo не збирає і не надсилає твої дані: усе зберігається лише на цьому телефоні. Немає реєстрації, реклами й стеження.")+"</p><div class=\"add\"><a class=\"alt\" role=\"button\" target=\"_blank\" rel=\"noopener noreferrer\" href=\""+B+"privacy.html?lang="+lg+"\">"+L("Политика конфиденциальности","Privacy Policy","Політика конфіденційності")+"</a><a class=\"alt\" role=\"button\" target=\"_blank\" rel=\"noopener noreferrer\" href=\""+B+"support.html?lang="+lg+"\">"+L("Поддержка и вопросы","Support and FAQ","Підтримка й питання")+"</a></div>"})();</script>
 <style id="tgx-css">/* Компактные плитки по группам: по 3 в ряд, все видны сразу, «Показать ещё» не нужно */
 main{grid-template-columns:repeat(3,minmax(0,1fr))!important;column-gap:10px!important;row-gap:10px!important}main>*{grid-column:1/-1}main>.fmt{grid-column:auto}
