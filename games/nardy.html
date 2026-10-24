@@ -158,7 +158,8 @@ function evalS(s,pl){
 function playerRoll(rds){
   if(phase!=='roll')return;
   if(MODE==='net'&&!rds&&cur!==NET.me)return;
-  const ds=rds||rollDice();if(MODE==='net'&&!rds)netSend({t:'roll',ds});left=ds.slice();S.head=0;seqs=sequences(S,cur,ds);first[cur]=false;
+  if(MODE==='net'&&!rds){netRoll();return;}
+  const ds=rds||rollDice();left=ds.slice();S.head=0;seqs=sequences(S,cur,ds);first[cur]=false;
   if(!seqs[0].seq.length){endTurn(1400);if(TWO())msg('Ходов нет — ход переходит '+(MODE==='net'?(cur===NET.me?'сопернику':'вам'):'сопернику'));return;}
   phase='move';draw();msg(MODE==='net'&&cur!==NET.me?'Соперник ходит…':(MODE==='2p'?'Ходят '+(cur==='w'?'белые':'чёрные')+'. ':'')+'Выберите шашку, затем зелёное место');
 }
@@ -249,11 +250,27 @@ addEventListener('message',e=>{const m=e.data;if(!m||typeof m!=='object'||!m.fm|
 function netMode(m){if(MODE==='net')netSend({t:'mode',m});setMode(m);}
 function netReady(){NET.me=NET.host?'w':'b';opts();newGame();}
 // Ход соперника может прийти, пока у нас ещё идёт пауза передачи хода — тогда чуть подождать
-// Кубики от соперника: 2 числа от 1 до 6, дубль — 4 одинаковых
-function okDice(ds){if(!Array.isArray(ds)||!ds.every(x=>Number.isInteger(x)&&x>=1&&x<=6))return false;return ds.length===2?ds[0]!==ds[1]:ds.length===4&&ds.every(x=>x===ds[0]);}
+/* Честные кубики по сети: бросок складывается из двух случайных чисел, по одному от каждого телефона.
+   Бросающий сначала шлёт только отпечаток своего числа (SHA-256), соперник отвечает своим числом, и лишь потом бросающий
+   открывает своё. Подогнать результат не может никто: свой вклад каждый выбирает, не зная чужого. */
+// SHA-256 без интернета и без crypto.subtle (его нет на file:// и в старых WebView): нужен для честной игры по сети
+const SHA=(()=>{const P=[];for(let n=2;P.length<64;n++)if(P.every(p=>n%p))P.push(n);const fr=x=>(x-Math.floor(x))*4294967296|0;
+ const K=P.map(p=>fr(Math.cbrt(p))),H0=P.slice(0,8).map(p=>fr(Math.sqrt(p))),R=(x,n)=>x>>>n|x<<32-n;
+ return s=>{const b=new TextEncoder().encode(s),l=b.length,n=(l+72>>6)<<6,m=new Uint8Array(n),v=new DataView(m.buffer),w=new Int32Array(64);m.set(b);m[l]=128;v.setUint32(n-4,l*8>>>0);v.setUint32(n-8,Math.floor(l/536870912));
+  const H=H0.slice();for(let o=0;o<n;o+=64){for(let i=0;i<64;i++)w[i]=i<16?v.getInt32(o+i*4):(w[i-16]+(R(w[i-15],7)^R(w[i-15],18)^w[i-15]>>>3)+w[i-7]+(R(w[i-2],17)^R(w[i-2],19)^w[i-2]>>>10))|0;
+   let[a,b,c,d,e,f,g,h]=H;for(let i=0;i<64;i++){const t1=h+(R(e,6)^R(e,11)^R(e,25))+(e&f^~e&g)+K[i]+w[i]|0,t2=(R(a,2)^R(a,13)^R(a,22))+(a&b^a&c^b&c)|0;h=g;g=f;f=e;e=d+t1|0;d=c;c=b;b=a;a=t1+t2|0}
+   [a,b,c,d,e,f,g,h].forEach((x,i)=>H[i]=H[i]+x|0)}
+  return H.map(x=>(x>>>0).toString(16).padStart(8,'0')).join('')}})();
+const rnd=()=>Array.from(crypto.getRandomValues(new Uint8Array(16)),x=>x.toString(16).padStart(2,'0')).join('');
+function diceOf(a,b){const h=SHA(a+'|'+b),v=[];for(let i=0;i<64&&v.length<2;i+=2){const x=parseInt(h.substr(i,2),16);if(x<252)v.push(x%6+1)}while(v.length<2)v.push(1);return v[0]===v[1]?[v[0],v[0],v[0],v[0]]:v;}
+function netRoll(){if(NET.dr&&NET.dr.g===GID)return;NET.dr={a:rnd(),g:GID};netSend({t:'rc',h:SHA(NET.dr.a)});msg('Бросаем кубики вместе с соперником…');}
 function netGot(d,n){n=n||0;const g=GID,again=()=>{if(n<40)setTimeout(()=>{if(g===GID)netGot(d,n+1)},150)};
  if(d.t==='mode'){if(d.m!=='long'&&d.m!=='short')return;mode=d.m;newGame();return;}
- if(d.t==='roll'){if(!okDice(d.ds))return;if(phase!=='roll'||cur===NET.me)return again();playerRoll(d.ds.slice());return;}
+ if(d.t==='rc'){if(typeof d.h!=='string'||!/^[0-9a-f]{64}$/.test(d.h))return;if(phase!=='roll'||cur===NET.me)return again();NET.rh=d.h;NET.rb=rnd();NET.rg=GID;netSend({t:'rb',b:NET.rb});return;}
+ if(d.t==='rb'){const r=NET.dr;if(!r||r.g!==GID||phase!=='roll'||cur!==NET.me||typeof d.b!=='string'||!/^[0-9a-f]{32}$/.test(d.b))return;NET.dr=null;netSend({t:'rr',a:r.a});playerRoll(diceOf(r.a,d.b));return;}
+ if(d.t==='rr'){if(!NET.rh||NET.rg!==GID||phase!=='roll'||cur===NET.me)return;const h=NET.rh;NET.rh=null;
+  if(typeof d.a!=='string'||SHA(d.a)!==h){phase='over';draw();msg('⚠ Соперник подменил кубики. Игра остановлена');return;}
+  playerRoll(diceOf(d.a,NET.rb));return;}
  if(d.t==='mv'){if(phase!=='move'||cur===NET.me)return again();const x=seqs.find(x=>x.seq[0].from===d.from&&x.seq[0].to===d.to&&x.seq[0].d===d.d);if(x)doPlayerMove(x.seq[0],true);}}
 opts();newGame();
 </script></body></html>

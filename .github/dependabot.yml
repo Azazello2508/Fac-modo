@@ -1,0 +1,8 @@
+# Раз в месяц GitHub проверяет, не вышли ли исправления для действий в .github/workflows (checkout, setup-node, pages),
+# и сам предлагает Pull Request с обновлением. Версии Capacitor закреплены в ios.yml и ios-store.yml — обновлять вручную.
+version: 2
+updates:
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: monthly
