@@ -188,6 +188,6 @@ addEventListener('message',e=>{const m=e.data;if(!m||typeof m!=='object'||!m.fm|
  else if(m.fm==='net-msg'&&NET){const d=m.d||{};if(d.t==='new')newGame();else netGot(d)}
  else if(m.fm==='net-closed'&&NET){NET.lost=1;(typeof status==='function'?status:msg)('📶 Связь с соперником потеряна. Выбери режим заново')}});
 function netReady(){NET.me=NET.host?'w':'b';opts();newGame();}
-function netGot(d){if(d.t==='mv'&&!over){const m=legal(S).find(x=>x.f===d.f&&x.t===d.to);if(m)doMove(m,true);}}
+function netGot(d){if(d.t==='mv'&&!over&&NET&&S.turn!==NET.me&&Number.isInteger(d.f)&&Number.isInteger(d.to)){const m=legal(S).find(x=>x.f===d.f&&x.t===d.to);if(m)doMove(m,true);}}
 opts();newGame();
 </script></body></html>

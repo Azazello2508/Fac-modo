@@ -101,9 +101,19 @@ addEventListener('message',e=>{const m=e.data;if(!m||typeof m!=='object'||!m.fm|
 function netReady(){opts();newGame();}
 function netFleet(){netSend({t:'fleet',s:P[0].ships.map(x=>x.cells)})}
 function netTurnMsg(){status(turn===0?'Твой ход: стреляй по полю соперника':'Стреляет соперник…')}
+// Флот соперника: корабли из FLEET, прямые линии без разрывов, не наползают и не касаются друг друга
+function okFleet(s){if(!Array.isArray(s)||s.length!==FLEET.length)return false;
+ const used=new Set(),own=new Map(),lens=s.map(c=>Array.isArray(c)?c.length:0).sort((a,b)=>b-a);
+ if(lens.join()!==FLEET.slice().sort((a,b)=>b-a).join())return false;
+ for(let i=0;i<s.length;i++){const c=s[i];if(!c.every(x=>Number.isInteger(x)&&x>=0&&x<N*N))return false;
+  const q=c.slice().sort((a,b)=>a-b),r=q.map(x=>Math.floor(x/N)),k=q.map(x=>x%N);
+  const row=r.every(v=>v===r[0])&&q.every((x,j)=>!j||x===q[j-1]+1),col=k.every(v=>v===k[0])&&q.every((x,j)=>!j||x===q[j-1]+N);
+  if(!row&&!col)return false;for(const x of q){if(used.has(x))return false;used.add(x);own.set(x,i)}}
+ for(const[x,i]of own){const r=Math.floor(x/N),k=x%N;for(let dr=-1;dr<=1;dr++)for(let dk=-1;dk<=1;dk++){const rr=r+dr,kk=k+dk;if(rr<0||kk<0||rr>=N||kk>=N)continue;const j=own.get(rr*N+kk);if(j!==undefined&&j!==i)return false}}
+ return true}
 function netGot(d){
- if(d.t==='fleet'){if(started)return;const g=Array(N*N).fill(0),ships=(d.s||[]).map((c,i)=>{c.forEach(x=>g[x]=i+1);return{cells:c,hits:0}});P[1]={g,ships,shot:Array(N*N).fill(0)};draw();netTurnMsg();return}
- if(d.t==='shot'&&!over&&turn===1){const r=fire(P[0],d.x);if(!r)return;started=true;draw();
+ if(d.t==='fleet'){if(started||!okFleet(d.s))return;const g=Array(N*N).fill(0),ships=(d.s||[]).map((c,i)=>{c.forEach(x=>g[x]=i+1);return{cells:c,hits:0}});P[1]={g,ships,shot:Array(N*N).fill(0)};draw();netTurnMsg();return}
+ if(d.t==='shot'&&!over&&turn===1&&Number.isInteger(d.x)&&d.x>=0&&d.x<N*N){const r=fire(P[0],d.x);if(!r)return;started=true;draw();
   if(!alive(P[0])){over=true;draw();status('Соперник потопил весь твой флот. Попробуй ещё раз');return}
   if(r==='miss'){turn=0;status('Соперник промахнулся. Твой ход')}else status(r==='sunk'?'Соперник потопил твой корабль…':'Соперник попал…')}}
 opts();newGame();

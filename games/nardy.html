@@ -249,9 +249,11 @@ addEventListener('message',e=>{const m=e.data;if(!m||typeof m!=='object'||!m.fm|
 function netMode(m){if(MODE==='net')netSend({t:'mode',m});setMode(m);}
 function netReady(){NET.me=NET.host?'w':'b';opts();newGame();}
 // Ход соперника может прийти, пока у нас ещё идёт пауза передачи хода — тогда чуть подождать
+// Кубики от соперника: 2 числа от 1 до 6, дубль — 4 одинаковых
+function okDice(ds){if(!Array.isArray(ds)||!ds.every(x=>Number.isInteger(x)&&x>=1&&x<=6))return false;return ds.length===2?ds[0]!==ds[1]:ds.length===4&&ds.every(x=>x===ds[0]);}
 function netGot(d,n){n=n||0;const g=GID,again=()=>{if(n<40)setTimeout(()=>{if(g===GID)netGot(d,n+1)},150)};
- if(d.t==='mode'){mode=d.m;newGame();return;}
- if(d.t==='roll'){if(phase!=='roll'||cur===NET.me)return again();playerRoll(d.ds);return;}
+ if(d.t==='mode'){if(d.m!=='long'&&d.m!=='short')return;mode=d.m;newGame();return;}
+ if(d.t==='roll'){if(!okDice(d.ds))return;if(phase!=='roll'||cur===NET.me)return again();playerRoll(d.ds.slice());return;}
  if(d.t==='mv'){if(phase!=='move'||cur===NET.me)return again();const x=seqs.find(x=>x.seq[0].from===d.from&&x.seq[0].to===d.to&&x.seq[0].d===d.d);if(x)doPlayerMove(x.seq[0],true);}}
 opts();newGame();
 </script></body></html>
