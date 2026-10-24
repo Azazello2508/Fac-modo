@@ -38,7 +38,7 @@ jobs:
           grep -c "FM_BUILD=parseInt(\"$B\")" _site/index.html
           echo "{\"build\":$B}" > _site/version.json
 
-      - uses: actions/upload-pages-artifact@v3
+      - uses: actions/upload-pages-artifact@v5
         with:
           path: _site
 
