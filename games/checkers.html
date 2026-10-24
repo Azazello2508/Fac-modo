@@ -177,6 +177,6 @@ addEventListener('message',e=>{const m=e.data;if(!m||typeof m!=='object'||!m.fm|
  else if(m.fm==='net-msg'&&NET){const d=m.d||{};if(d.t==='new')newGame();else netGot(d)}
  else if(m.fm==='net-closed'&&NET){NET.lost=1;(typeof status==='function'?status:msg)('📶 Связь с соперником потеряна. Выбери режим заново')}});
 function netReady(){NET.me=NET.host?'w':'b';opts();newGame();}
-function netGot(d){if(d.t==='mv'&&!over){const k=JSON.stringify(d.path),m=allMoves(b,turn).find(x=>x.from===d.from&&JSON.stringify(x.path)===k&&JSON.stringify(x.taken)===JSON.stringify(d.taken));if(m)doMove(m,turn,true);}}
+function netGot(d){if(d.t==='mv'&&!over&&NET&&turn!==NET.me&&Number.isInteger(d.from)&&Array.isArray(d.path)&&Array.isArray(d.taken)){const k=JSON.stringify(d.path),m=allMoves(b,turn).find(x=>x.from===d.from&&JSON.stringify(x.path)===k&&JSON.stringify(x.taken)===JSON.stringify(d.taken));if(m)doMove(m,turn,true);}}
 opts();newGame();
 </script></body></html>
