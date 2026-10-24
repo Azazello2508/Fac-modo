@@ -25,7 +25,8 @@ jobs:
           node-version: 22
 
       - name: Установить Capacitor (обёртка, которая делает из страницы приложение)
-        run: npm install --no-audit --no-fund @capacitor/core@latest @capacitor/cli@latest @capacitor/ios@latest @capacitor/filesystem@latest @capacitor/local-notifications@latest
+        # Версии закреплены (а не @latest): новая версия чужой библиотеки не попадёт в сборку сама, без проверки
+        run: npm install --no-audit --no-fund @capacitor/core@8.5.3 @capacitor/cli@8.5.3 @capacitor/ios@8.5.3 @capacitor/filesystem@8.1.5 @capacitor/local-notifications@8.3.1
 
       - name: Подготовить проект iOS (файлы, иконки, разрешения, конфиденциальность)
         run: bash tools/ios_prepare.sh
