@@ -63,7 +63,7 @@ function draw(){const me=MODE==='2p'?turn:0,en=1-me;grid($('b1'),P[en],over,x=>s
  $('l1').textContent=MODE==='net'?'Поле соперника':MODE==='2p'?'Поле игрока '+(en+1):'Поле противника';$('l2').textContent=MODE==='2p'?'Флот игрока '+(me+1):'Мой флот';
  $('shuf').style.display=started||over?'none':''}
 function shoot(x){if(over||busy)return;const me=MODE==='2p'?turn:0,en=1-me;if(MODE==='ai'&&turn!==0)return;
- if(MODE==='net'){if(turn!==0||P[1].wait||P[1].shot[x])return;netSend({t:'shot',x})}
+ if(MODE==='net'){if(turn!==0||P[1].wait||P[1].shot[x]||P[1].pend!=null)return;P[1].pend=x;netSend({t:'shot',x});status('Выстрел…');return}
  const r=fire(P[en],x);if(!r)return;started=true;draw();
  if(!alive(P[en])){over=true;draw();status(MODE==='net'?'🎉 Победа! Весь флот соперника потоплен':MODE==='2p'?'🎉 Победил игрок '+(me+1)+'!':'🎉 Победа! Весь флот противника потоплен');return}
  if(r==='hit'){status('Попал! Стреляй ещё');return}if(r==='sunk'){status('Потопил! Стреляй ещё');return}
@@ -99,22 +99,52 @@ addEventListener('message',e=>{const m=e.data;if(!m||typeof m!=='object'||!m.fm|
  else if(m.fm==='net-msg'&&NET){const d=m.d||{};if(d.t==='new')newGame();else netGot(d)}
  else if(m.fm==='net-closed'&&NET){NET.lost=1;(typeof status==='function'?status:msg)('📶 Связь с соперником потеряна. Выбери режим заново')}});
 function netReady(){opts();newGame();}
-function netFleet(){netSend({t:'fleet',s:P[0].ships.map(x=>x.cells)})}
+/* Честная игра: свой флот сопернику не отправляем. Сначала шлём только «отпечаток» флота (SHA-256 от расстановки и случайной соли),
+   на каждый выстрел отвечаем сами (мимо / попал / потоплен), а в конце партии оба открывают флот — и каждый проверяет,
+   что отпечаток совпал и ответы были правдой. Подсмотреть корабли или соврать незаметно нельзя. */
+// SHA-256 без интернета и без crypto.subtle (его нет на file:// и в старых WebView): нужен для честной игры по сети
+const SHA=(()=>{const P=[];for(let n=2;P.length<64;n++)if(P.every(p=>n%p))P.push(n);const fr=x=>(x-Math.floor(x))*4294967296|0;
+ const K=P.map(p=>fr(Math.cbrt(p))),H0=P.slice(0,8).map(p=>fr(Math.sqrt(p))),R=(x,n)=>x>>>n|x<<32-n;
+ return s=>{const b=new TextEncoder().encode(s),l=b.length,n=(l+72>>6)<<6,m=new Uint8Array(n),v=new DataView(m.buffer),w=new Int32Array(64);m.set(b);m[l]=128;v.setUint32(n-4,l*8>>>0);v.setUint32(n-8,Math.floor(l/536870912));
+  const H=H0.slice();for(let o=0;o<n;o+=64){for(let i=0;i<64;i++)w[i]=i<16?v.getInt32(o+i*4):(w[i-16]+(R(w[i-15],7)^R(w[i-15],18)^w[i-15]>>>3)+w[i-7]+(R(w[i-2],17)^R(w[i-2],19)^w[i-2]>>>10))|0;
+   let[a,b,c,d,e,f,g,h]=H;for(let i=0;i<64;i++){const t1=h+(R(e,6)^R(e,11)^R(e,25))+(e&f^~e&g)+K[i]+w[i]|0,t2=(R(a,2)^R(a,13)^R(a,22))+(a&b^a&c^b&c)|0;h=g;g=f;f=e;e=d+t1|0;d=c;c=b;b=a;a=t1+t2|0}
+   [a,b,c,d,e,f,g,h].forEach((x,i)=>H[i]=H[i]+x|0)}
+  return H.map(x=>(x>>>0).toString(16).padStart(8,'0')).join('')}})();
+const rnd=()=>Array.from(crypto.getRandomValues(new Uint8Array(16)),x=>x.toString(16).padStart(2,'0')).join('');
+function netFleet(){NET.salt=rnd();NET.cells=P[0].ships.map(x=>x.cells);NET.sent=0;netSend({t:'fleet2',h:SHA(JSON.stringify(NET.cells)+NET.salt)})}
+function netReveal(){if(NET&&!NET.sent){NET.sent=1;netSend({t:'reveal',s:NET.cells,salt:NET.salt})}}
 function netTurnMsg(){status(turn===0?'Твой ход: стреляй по полю соперника':'Стреляет соперник…')}
 // Флот соперника: корабли из FLEET, прямые линии без разрывов, не наползают и не касаются друг друга
+function okShip(c){if(!Array.isArray(c)||c.length<1||c.length>4||!c.every(x=>Number.isInteger(x)&&x>=0&&x<N*N))return false;
+ const q=c.slice().sort((a,b)=>a-b),r=q.map(x=>Math.floor(x/N)),k=q.map(x=>x%N);
+ return r.every(v=>v===r[0])&&q.every((x,j)=>!j||x===q[j-1]+1)||k.every(v=>v===k[0])&&q.every((x,j)=>!j||x===q[j-1]+N)}
 function okFleet(s){if(!Array.isArray(s)||s.length!==FLEET.length)return false;
  const used=new Set(),own=new Map(),lens=s.map(c=>Array.isArray(c)?c.length:0).sort((a,b)=>b-a);
  if(lens.join()!==FLEET.slice().sort((a,b)=>b-a).join())return false;
- for(let i=0;i<s.length;i++){const c=s[i];if(!c.every(x=>Number.isInteger(x)&&x>=0&&x<N*N))return false;
-  const q=c.slice().sort((a,b)=>a-b),r=q.map(x=>Math.floor(x/N)),k=q.map(x=>x%N);
-  const row=r.every(v=>v===r[0])&&q.every((x,j)=>!j||x===q[j-1]+1),col=k.every(v=>v===k[0])&&q.every((x,j)=>!j||x===q[j-1]+N);
-  if(!row&&!col)return false;for(const x of q){if(used.has(x))return false;used.add(x);own.set(x,i)}}
+ for(let i=0;i<s.length;i++){if(!okShip(s[i]))return false;for(const x of s[i]){if(used.has(x))return false;used.add(x);own.set(x,i)}}
  for(const[x,i]of own){const r=Math.floor(x/N),k=x%N;for(let dr=-1;dr<=1;dr++)for(let dk=-1;dk<=1;dk++){const rr=r+dr,kk=k+dk;if(rr<0||kk<0||rr>=N||kk>=N)continue;const j=own.get(rr*N+kk);if(j!==undefined&&j!==i)return false}}
  return true}
+// Проверка в конце: отпечаток совпал, флот по правилам, каждый ответ «мимо/попал/потоплен» был правдой
+function checkReveal(d){const p=P[1];if(typeof d.salt!=='string'||!okFleet(d.s)||SHA(JSON.stringify(d.s)+d.salt)!==p.h)return false;
+ const g=Array(N*N).fill(0);d.s.forEach((c,i)=>c.forEach(x=>g[x]=i+1));
+ for(const e of p.log){if((e.r==='miss')!==(g[e.x]===0))return false;
+  if(e.r==='sunk'){const sh=d.s[g[e.x]-1];if(sh.length!==e.c.length||!sh.every(x=>e.c.includes(x)))return false}}
+ p.g=g;p.ships=d.s.map(c=>({cells:c,hits:c.filter(x=>p.shot[x]>=2).length}));return true}
+function cheat(t){over=true;draw();status('⚠ '+t)}
 function netGot(d){
- if(d.t==='fleet'){if(started||!okFleet(d.s))return;const g=Array(N*N).fill(0),ships=(d.s||[]).map((c,i)=>{c.forEach(x=>g[x]=i+1);return{cells:c,hits:0}});P[1]={g,ships,shot:Array(N*N).fill(0)};draw();netTurnMsg();return}
- if(d.t==='shot'&&!over&&turn===1&&Number.isInteger(d.x)&&d.x>=0&&d.x<N*N){const r=fire(P[0],d.x);if(!r)return;started=true;draw();
-  if(!alive(P[0])){over=true;draw();status('Соперник потопил весь твой флот. Попробуй ещё раз');return}
-  if(r==='miss'){turn=0;status('Соперник промахнулся. Твой ход')}else status(r==='sunk'?'Соперник потопил твой корабль…':'Соперник попал…')}}
+ if(d.t==='fleet2'){if(started||typeof d.h!=='string'||!/^[0-9a-f]{64}$/.test(d.h))return;P[1]={g:Array(N*N).fill(0),ships:[],shot:Array(N*N).fill(0),h:d.h,log:[],sunk:0,pend:null};draw();netTurnMsg();return}
+ if(d.t==='shot'&&!over&&turn===1&&!P[1].wait&&Number.isInteger(d.x)&&d.x>=0&&d.x<N*N){const r=fire(P[0],d.x);if(!r)return;started=true;
+  netSend({t:'res',x:d.x,r,c:r==='sunk'?P[0].ships[P[0].g[d.x]-1].cells:undefined});draw();$('shuf').disabled=true;
+  if(!alive(P[0])){over=true;draw();status('Соперник потопил весь твой флот. Проверяем честность…');netReveal();return}
+  if(r==='miss'){turn=0;status('Соперник промахнулся. Твой ход')}else status(r==='sunk'?'Соперник потопил твой корабль…':'Соперник попал…');return}
+ if(d.t==='res'){const p=P[1],x=d.x;if(over||p.pend==null||x!==p.pend||!['miss','hit','sunk'].includes(d.r))return;p.pend=null;started=true;
+  if(d.r==='miss'){p.shot[x]=1;p.log.push({x,r:'miss'});turn=1;draw();status('Мимо. Стреляет соперник…');return}
+  if(d.r==='hit'){p.shot[x]=2;p.log.push({x,r:'hit'});draw();status('Попал! Стреляй ещё');return}
+  const c=d.c;if(!okShip(c)||!c.includes(x)||!c.every(y=>y===x||p.shot[y]===2))return cheat('Соперник прислал неправильный ответ. Игра остановлена');
+  c.forEach(y=>p.shot[y]=3);around(p,{cells:c});p.log.push({x,r:'sunk',c:c.slice()});p.sunk++;
+  if(p.sunk>=FLEET.length){over=true;draw();status('🎉 Победа! Весь флот соперника потоплен. Проверяем честность…');netReveal();return}
+  draw();status('Потопил! Стреляй ещё');return}
+ if(d.t==='reveal'&&over&&P[1].h&&!P[1].chk){P[1].chk=1;const ok=checkReveal(d);draw();
+  status($('status').textContent.replace(' Проверяем честность…','')+(ok?' · ✅ Соперник играл честно':' · ⚠ Соперник жульничал: его флот не совпал с ответами'));netReveal()}}
 opts();newGame();
 </script></body></html>
