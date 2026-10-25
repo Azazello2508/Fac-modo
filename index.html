@@ -3018,12 +3018,46 @@ O.addEventListener("click",function(e){var b=e.target.closest("button");if(!b||b
  else if(b.dataset.uxw=="next"){step=2;wr();O.scrollTop=0}else if(b.dataset.uxw=="back"){step=1;wr()}
  else if(b.dataset.uxw=="skip"){u.ob=1;u.all=1;if(!u.r)u.r="ot";try{save()}catch(x){}wClose();apply()}
  else if(b.dataset.uxw=="done"){var nr=selR||"ot",ch=u.r!=nr;u.r=nr;u.i=selI.slice();u.ob=1;u.all=0;if(ch&&!u.pu)delete u.p;try{save()}catch(x){}wClose();apply();var n=document.querySelector('#nav [data-n="today"]');if(n)n.click();scrollTo(0,0)}});
-window.uxWizard=wOpen;
+window.uxWizard=wOpen;window.uxApply=apply;window.uxShow=show;
 /* «🎛️ Что показывать» в «Опциях» */
-function uxpr(){var c=document.getElementById("uxp");if(!c)return;var u=U(),r=ROLES.filter(function(a){return a[0]==u.r})[0],I=INT.filter(function(a){return has(u.i||[],a[0])});
+function uxpr(){var c=document.getElementById("uxp");if(!c)return;var tl=P.uxp&&P.uxp.b;if(tl){tl.hidden=false;if(tl.firstChild)tl.firstChild.textContent="🎛️";if(tl.lastChild)tl.lastChild.textContent=L("Что показывать","What to show","Що показувати")}var u=U(),r=ROLES.filter(function(a){return a[0]==u.r})[0],I=INT.filter(function(a){return has(u.i||[],a[0])});
  c.innerHTML='<h3>🎛️ '+L("Что показывать","What to show","Що показувати")+'</h3><p class="uxpl">'+L("Должность: ","Job: ","Посада: ")+'<b>'+(r?r[1]+" "+r[2]:"—")+'</b><br>'+L("Интересы: ","Interests: ","Інтереси: ")+'<b>'+(I.length?I.map(function(a){return a[1]+" "+a[2]}).join(", "):"—")+'</b><br>'+(u.all||!u.ob?L("Сейчас показаны все разделы.","All sections are shown now.","Зараз показано всі розділи."):L("Разделы не под твой профиль спрятаны, их можно открыть в «🔍 Все разделы».","Sections outside your profile are hidden; open them from “🔍 All sections”.","Розділи не під твій профіль приховано, їх можна відкрити в «🔍 Усі розділи»."))+'</p><div class="uxpa"><button type="button" class="uxpb" data-uxp="edit">'+L("Изменить профиль","Change profile","Змінити профіль")+'</button><button type="button" class="uxpb" data-uxp="all">'+(u.all||!u.ob?L("Показывать только моё","Show only mine","Показувати тільки моє"):L("Показывать все разделы","Show all sections","Показувати всі розділи"))+'</button></div>'}
 document.addEventListener("click",function(e){var b=e.target.closest("[data-uxp]");if(!b)return;var u=U();if(b.dataset.uxp=="edit"){if(window.fmClose)fmClose();wOpen()}else{if(!u.ob){if(window.fmClose)fmClose();wOpen();return}u.all=u.all?0:1;try{save()}catch(x){}apply()}});
 apply();if(!U().ob)setTimeout(wOpen,300)});
+</script>
+<style id="ux3-css">/* Новый вид, этап 3: объединённые разделы, меню из 5 вкладок, настройки списком */
+main>.fmt[data-uxj]{display:none!important}
+#nav button[data-n="diary"],#nav button[data-n="set"]{display:none!important}
+html.simple #nav button[data-n="me"]{display:block!important}
+main>.fmt.uxrow{grid-column:1/-1;flex-direction:row;align-items:center;justify-content:flex-start;min-height:50px;padding:8px 12px;gap:12px}
+main>.fmt.uxrow i{font-size:22px}main>.fmt.uxrow b{font-size:14.5px;width:auto}
+#fmc>section.uxcmp{margin-top:14px}
+</style>
+<script id="ux3-js">/* Этап 3: «Видео по теме» открывается вместе с «Видео и материалы», калькуляторы ЭМ — вместе с «Расчётами», «Моя специальность» — одна (на «Знаниях»).
+ «Дневник» и «Опции» переехали на вкладку «Профиль» (группы «Дневник» и «Настройки», настройки — строками); переходы на них ведут в «Профиль».
+ Ничего не удалено: объединённые плитки (data-uxj) по-прежнему есть в «Все разделы». */
+document.addEventListener("DOMContentLoaded",function(){var mn=document.getElementById("mn"),P=window.uxP;if(!mn||!P)return;var L=function(r,e,u){return window.fmL?fmL(r,e,u):r};
+function key(s){if(!s||s.tagName!="SECTION")return"";if(s.id)return s.id;var e=s.querySelector("[id]");return e?"#"+e.id:""}
+/* 1. объединения: главный раздел → спутники, которые открываются в том же окне */
+var COMP={mat:["vdw"],cvm:["clc"]},J=["vdw","clc","prf2"];
+J.forEach(function(k){if(P[k])P[k].b.setAttribute("data-uxj","1")});
+var fmm=document.getElementById("fmm"),fmc=document.getElementById("fmc"),cur=null;
+function restore(){if(!cur)return;cur.a.forEach(function(x){x.ph.parentNode.insertBefore(x.s,x.ph);x.ph.remove();x.s.classList.remove("uxcmp")});cur=null}
+function sync(){if(!fmm||!fmc)return;var on=fmm.classList.contains("on"),f=fmc.firstElementChild;if(cur&&(!on||f!==cur.p))restore();
+ var k=key(f);if(on&&f&&COMP[k]&&!cur){var a=[];COMP[k].forEach(function(c){var s=P[c]&&P[c].s;if(!s||s.parentNode!==mn)return;if(window.uxShow&&!uxShow(c))return;var ph=document.createComment("ux3");mn.insertBefore(ph,s);s.classList.add("uxcmp");fmc.appendChild(s);a.push({s:s,ph:ph})});cur={p:f,a:a}}}
+if(fmm&&fmc){new MutationObserver(sync).observe(fmc,{childList:true});new MutationObserver(sync).observe(fmm,{attributes:true,attributeFilter:["class"]})}
+/* 2. «Дневник» и «Опции» → «Профиль» */
+function lastMe(){var r=null;[].forEach.call(mn.children,function(e){if(e.getAttribute("data-t")=="me"&&!e.classList.contains("uxhn")&&!e.classList.contains("fmore"))r=e});return r}
+function moveTab(t,title,row){var els=[].filter.call(mn.children,function(e){return e.getAttribute("data-t")==t});if(!els.length)return;var at=lastMe();if(!at)return;
+ var h=document.createElement("div");h.className="tgxh";h.setAttribute("data-t","me");h.setAttribute("translate","no");h.textContent=title;mn.insertBefore(h,at.nextSibling);var prev=h;
+ els.forEach(function(e){if(e.classList.contains("uxs")||e.classList.contains("uxhn")){e.remove();return}if(e.classList.contains("fmore")){e.setAttribute("data-t","me");return}
+  e.setAttribute("data-t","me");if(row&&e.classList.contains("fmt"))e.classList.add("uxrow");mn.insertBefore(e,prev.nextSibling);prev=e})}
+moveTab("diary",L("Дневник","Diary","Щоденник"));
+moveTab("set",L("Настройки","Settings","Налаштування"),1);
+var rs=document.getElementById("rs");if(rs&&rs.parentNode==mn)mn.insertBefore(rs,(lastMe()||rs).nextSibling);
+var o=window.setTab;if(typeof o=="function")window.setTab=function(t){return o(t=="set"||t=="diary"?"me":t)};
+var tb=mn.getAttribute("data-tab");if(tb=="set"||tb=="diary")setTab("me");
+if(window.uxApply)uxApply()});
 </script>
 <style id="tgx-css">/* Компактные плитки по группам: по 3 в ряд, все видны сразу, «Показать ещё» не нужно */
 main{grid-template-columns:repeat(3,minmax(0,1fr))!important;column-gap:10px!important;row-gap:10px!important}main>*{grid-column:1/-1}main>.fmt{grid-column:auto}
