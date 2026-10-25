@@ -5713,5 +5713,15 @@
 "≈ # сут # ч # мин",
 "≈ # d # h # min",
 1
+],
+[
+"Сделай резервную копию (Профиль → Настройки)",
+"Make a backup (Profile → Settings)",
+1
+],
+[
+"Хочешь все вкладки в нижнем меню: Профиль → Внешний вид → Вид приложения → Полный.",
+"Want all tabs in the bottom menu? Profile → Appearance → App view → Full.",
+1
 ]
 ]
