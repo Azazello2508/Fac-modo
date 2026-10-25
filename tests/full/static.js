@@ -91,7 +91,9 @@ function virusSigns() {
     'длинная цепочка String.fromCharCode': /String\.fromCharCode\((\s*\d+\s*,){40,}/,
   };
   const bad = [];
-  const targets = [...files.filter(f => TEXT.test(f)).map(f => ({ id: f, t: read(f).toString('utf8') })), ...games().map(g => ({ id: 'встроенная игра ' + g.id, t: g.html }))];
+  // сами проверялки содержат образцы вирусных слов как правила поиска — их не проверяем
+  const SCANNERS = new Set(['tests/full/static.js', 'tools/game_guard.py']);
+  const targets = [...files.filter(f => TEXT.test(f) && !SCANNERS.has(f)).map(f => ({ id: f, t: read(f).toString('utf8') })), ...games().map(g => ({ id: 'встроенная игра ' + g.id, t: g.html }))];
   for (const x of targets) for (const [k, re] of Object.entries(sig)) if (re.test(x.t)) bad.push(x.id + ': ' + k);
   ok(bad.length === 0, 'Нет признаков вирусов, майнеров, кейлоггеров и скрытой отправки данных (' + targets.length + ' файлов и игр)', bad.join('; '));
 
@@ -160,7 +162,7 @@ function embeddedGames() {
   rec('info', 'Игры с игрой через интернет: ' + (online.join('; ') || 'нет'));
   // Игры запускаются внутри приложения без «песочницы» — у них тот же доступ к памяти телефона
   const sandbox = /f\.sandbox|setAttribute\(["']sandbox/.test(appCode);
-  warn(sandbox, 'Игры запущены в «песочнице»', 'игры работают с теми же правами, что приложение: защита — сторож при встраивании (tools/game_guard.py)');
+  warn(sandbox, 'Игры запущены в «песочнице» (сейчас — без неё)', 'игры работают с теми же правами, что приложение: защита — сторож при встраивании (tools/game_guard.py)');
 }
 
 function workflows() {
