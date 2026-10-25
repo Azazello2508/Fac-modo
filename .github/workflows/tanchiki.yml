@@ -21,7 +21,7 @@ jobs:
     outputs:
       changed: ${{ steps.embed.outputs.changed }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
 
       - name: Скачать свежие игры и встроить в приложение
         id: embed
