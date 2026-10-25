@@ -10,10 +10,13 @@ function bigState(){const st={done:{},custom:{},bonus:{},dr:{},_v:2},cats=['work
  return st}
 (async()=>{const b=await chromium.launch(),ctx=await b.newContext(),p=await ctx.newPage(),errs=[];p.on('pageerror',e=>errs.push(e.message));
  const st=bigState(),json=JSON.stringify(st);console.log(`Данные: ${YEARS} г., ${Object.keys(st.done).length} дней, ${(json.length/1024/1024).toFixed(2)} МБ`);
- await p.goto(URL);await p.evaluate(j=>{try{localStorage.setItem('quest-v2',j);return true}catch(e){return e.name}},json).then(r=>r!==true&&console.log('⚠ Не влезло в память:',r));
- const t=Date.now();await p.reload({waitUntil:'load'});console.log('Запуск со всеми данными:',Date.now()-t,'мс');
- const r=await p.evaluate(()=>{const m=f=>{const a=performance.now();for(let i=0;i<10;i++)f();return((performance.now()-a)/10).toFixed(1)};
-  return{save:m(()=>save()),calc:typeof calc=='function'?m(()=>calc()):'-',refresh:typeof refreshAll=='function'?m(()=>refreshAll()):'-'}});
+ // данные кладём до запуска страницы (иначе приложение при перезагрузке сохранит поверх свои)
+ await ctx.addInitScript(j=>{if(!sessionStorage.getItem('lt')){sessionStorage.setItem('lt','1');try{localStorage.setItem('quest-v2',j)}catch(e){console.error('⚠ Не влезло в память: '+e.name)}}},json);
+ const t=Date.now();await p.goto(URL,{waitUntil:'load'});console.log('Запуск со всеми данными:',Date.now()-t,'мс');
+ console.log('Дней в приложении:',await p.evaluate(()=>Object.keys(st.done).length));
+ // каждое измерение — отдельным действием (кэш calc живёт в пределах одного действия)
+ const r=await p.evaluate(async()=>{const m=async f=>{let s=0;for(let i=0;i<10;i++){await new Promise(r=>setTimeout(r,0));const a=performance.now();f();s+=performance.now()-a}return(s/10).toFixed(1)};
+  return{save:await m(()=>save()),calc:typeof calc=='function'?await m(()=>calc()):'-',refresh:typeof refreshAll=='function'?await m(()=>refreshAll()):'-'}});
  console.log('Сохранение:',r.save,'мс · подсчёт XP (calc):',r.calc,'мс · перерисовка (refreshAll):',r.refresh,'мс');
  const tabs=await p.$$eval('[data-n]',x=>[...new Set(x.map(e=>e.dataset.n))]);let worst=0,wn='';
  for(const n of tabs){const ms=await p.evaluate(n=>{const a=performance.now();const x=document.querySelector('[data-n="'+n+'"]');x&&x.click();return performance.now()-a},n);if(ms>worst){worst=ms;wn=n}}
