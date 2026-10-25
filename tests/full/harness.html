@@ -1,0 +1,11 @@
+<!doctype html><meta charset="utf-8"><body><script>
+// Стенд игр по сети: ?g=chess — два iframe A и B, сообщения пересылаются между ними (как два телефона).
+// ?g=chess&solo=1 — только A, а «соперник» — сам тест: inject(d) присылает A любое сообщение (проверка на взлом).
+const q=new URLSearchParams(location.search),g=q.get('g'),solo=q.get('solo');window.LOG=[];
+const A=document.createElement('iframe'),B=solo?null:document.createElement('iframe');A.src='games/'+g+'.html';document.body.append(A);if(B){B.src=A.src;document.body.append(B)}
+addEventListener('message',e=>{const m=e.data;if(!m||!m.fm)return;const from=e.source===A.contentWindow?'A':'B';LOG.push({from,m:JSON.parse(JSON.stringify(m))});
+ if(m.fm==='net-send'&&B){const to=from==='A'?B:A;setTimeout(()=>to.contentWindow.postMessage({fm:'net-msg',d:m.d},'*'),5)}});
+window.go=(hostA=true)=>{A.contentWindow.postMessage({fm:'net-ready',host:hostA},'*');if(B)B.contentWindow.postMessage({fm:'net-ready',host:!hostA},'*')};
+window.inject=d=>A.contentWindow.postMessage({fm:'net-msg',d},'*');
+window.sent=()=>LOG.filter(x=>x.from==='A'&&x.m.fm==='net-send').map(x=>x.m.d);
+</script></body>

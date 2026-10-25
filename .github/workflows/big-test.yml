@@ -1,0 +1,67 @@
+# Большой тест Fac Modo: раз в неделю (ночь на понедельник) и по кнопке «Run workflow».
+# 1) Антивирус ClamAV — все файлы репозитория и всё, что спрятано внутри index.html (игры, картинки).
+# 2) Поиск утечек паролей и ключей во всей истории (gitleaks).
+# 3) node tests/full.js — взлом (XSS, подделанные данные, сети, файлы, PIN), нагрузка, все разделы, телефоны, даты, офлайн, доступность.
+# Отчёт — в разделе Artifacts этой проверки («big-test-report»).
+name: Большой тест
+
+on:
+  schedule:
+    - cron: "40 2 * * 1"
+  workflow_dispatch:
+  # и на Pull Request, если меняется сам большой тест или сторож игр
+  pull_request:
+    paths:
+      - "tests/**"
+      - "tools/game_guard.py"
+      - ".github/workflows/big-test.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  antivirus:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+          fetch-depth: 0
+      - name: Антивирус ClamAV
+        run: |
+          sudo apt-get update -q && sudo apt-get install -y -q clamav
+          sudo systemctl stop clamav-freshclam || true
+          sudo freshclam --quiet
+          python3 tests/full/unpack.py /tmp/unpacked
+          clamscan -r -i --max-filesize=100M --max-scansize=400M --exclude-dir='^\./\.git$' . /tmp/unpacked
+      - name: Утечки паролей и ключей во всей истории (gitleaks)
+        run: |
+          curl -fsSL -o /tmp/gl.tgz https://github.com/gitleaks/gitleaks/releases/download/v8.21.2/gitleaks_8.21.2_linux_x64.tar.gz
+          echo "5bc41815076e6ed6ef8fbecc9d9b75bcae31f39029ceb55da08086315316e3ba  /tmp/gl.tgz" | sha256sum -c -
+          tar xzf /tmp/gl.tgz -C /tmp gitleaks
+          /tmp/gitleaks git . --no-banner --redact
+          /tmp/gitleaks dir . --no-banner --redact
+
+  full:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Установить Playwright и axe-core (версии закреплены)
+        run: |
+          npm install --no-save --no-audit --no-fund playwright@1.63.0 axe-core@4.10.2
+          npx playwright install --with-deps chromium
+      - name: Большой тест
+        run: node tests/full.js
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: big-test-report
+          path: tests/out
+          retention-days: 30

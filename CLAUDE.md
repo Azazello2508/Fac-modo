@@ -230,3 +230,16 @@
 - Журнал хранит записи не дольше 30 дней. `<meta>` CSP `object-src 'none'; base-uri 'self'` и `referrer no-referrer` (настоящих заголовков GitHub Pages не даёт).
 - Автотесты: `node tests/e2e.js` (E2E, мобильный экран iPhone, контракты сообщений игр по сети, доступность axe-core без `meta-viewport`). На каждый PR их запускает `.github/workflows/tests.yml`
   и выкладывает предпросмотр сайта (artifact «preview», 7 дней) — это staging. Новую игру по сети или новый тип сообщения — добавить в контрактные проверки.
+
+## Большой тест и защита от вставки кода (блок `xsg-js` в `<head>`, `fmHeal` в `rel-js`, `tools/game_guard.py`)
+- `xsg-js` (сразу после `<meta name="referrer">`): всё, что вставляется как HTML (`innerHTML`, `outerHTML`, `insertAdjacentHTML`), разбирается в инертном `<template>`,
+  из него убираются обработчики `on…`, `<script>`, `<iframe>`, `<object>`, `<embed>`, `<base>`, `<meta>`, `<link>`, ссылки `javascript:`. Приложение само такое в HTML не пишет —
+  не добавлять инлайновые `onclick=` в HTML-строки (не сработают). Пользовательский текст в HTML всё равно оборачивать в `esc()` (в том числе в `value="…"`).
+- `fmHeal(o)` в `rel-js` вызывается из `fmMigrate` при каждом запуске и в `applyData`: поле не того типа (список `SHAPE`) удаляется, дни `st.done` не-даты и записи без числового `x`
+  убираются, имя обрезается до 200 знаков. Новое поле `st` с жёстким типом — добавить в `SHAPE`.
+- Сторож игр `tools/game_guard.py`: `embed_tanchiki.py` не встраивает игру с доступом к данным приложения (`quest-v2`, служебные `fm_*`, перебор localStorage, indexedDB),
+  чужими сайтами (разрешены только хосты из `ALLOW_HOSTS`, для tk/sm — сервер Танчиков), `eval`/`new Function`, внешними скриптами, `parent.…` кроме `postMessage`.
+  В tanchiki.yml заблокированная игра не встраивается, остальные обновляются, проверка падает с ошибкой (письмо от GitHub).
+- Большой тест: `node tests/full.js [части]` (tests/full/*.js, отчёт tests/out/report.md). Части: static, smoke, xss, data, net, upload, pin, load, time, offline, a11y.
+  На каждый PR — быстрая часть (`static xss net upload pin`) в tests.yml; весь тест + антивирус ClamAV + gitleaks — `.github/workflows/big-test.yml` (раз в неделю, по кнопке и на PR с изменениями тестов).
+  Новый раздел с полями ввода XSS-тест проверит сам; новую игру по сети — добавить атаки в tests/full/net.js.

@@ -1,5 +1,6 @@
 # Автотесты и предпросмотр (staging) для каждого Pull Request.
-# 1) Запускает tests/e2e.js: приложение, мобильный экран, контракты игр по сети, доступность.
+# 1) Запускает tests/e2e.js: приложение, мобильный экран, контракты игр по сети, доступность;
+#    и быструю часть tests/full.js (весь большой тест — .github/workflows/big-test.yml раз в неделю).
 # 2) Собирает копию сайта как на настоящем, но не публикует её: скачать — в разделе Artifacts этой проверки («preview»),
 #    распаковать и открыть index.html. Так новую версию можно посмотреть до слияния в main.
 name: Автотесты
@@ -28,6 +29,8 @@ jobs:
           npx playwright install --with-deps chromium
       - name: Тесты
         run: node tests/e2e.js
+      - name: Быстрая часть большого теста (секреты, опасный код, XSS, взлом игр по сети, файлы, PIN)
+        run: node tests/full.js static xss net upload pin
       - name: Нагрузка (3 года данных)
         run: |
           python3 -m http.server 8765 >/dev/null 2>&1 &

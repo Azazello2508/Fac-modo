@@ -4,3 +4,5 @@ ios/
 android/
 package-lock.json
 *.ipa
+tests/out/
+__pycache__/
