@@ -4280,7 +4280,23 @@ window.SECTEST=function(){stale=true;bar()};
 #elg ul{padding:0;margin:0 0 8px}#elg .ell li.error{border-left-color:#e5484d}#elg .ell li.warn{border-left-color:#f5a524}#elg small{display:block;opacity:.75;word-break:break-word}
 #elg .add{display:flex;flex-wrap:wrap;gap:8px;margin:6px 0}</style>
 <script id="elg-js">/* 🩺 Журнал и неудачные загрузки (#elg, Опции), фоновые задачи и кэш подсчёта XP. Префикс elg. Нужен rel-js. */
-(function(){if(!window.fmLog)return;var L=function(r,e,u){return fmL(r,e,u)},E=function(x){return String(x==null?"":x).replace(/[&<>"']/g,function(c){return"&#"+c.charCodeAt(0)+";"})};
+(function(){if(!window.fmLog)return;
+/* Режим разработчика: раздел «🩺» видят только разработчики. Включается так: 7 раз быстро нажать на заголовок «🔒 Конфиденциальность и поддержка»
+   и ввести код разработчика. В коде хранится только отпечаток (SHA-256), сам код в репозиторий не попадает. Флаг — localStorage fm_dev. */
+const SHA=(()=>{const P=[];for(let n=2;P.length<64;n++)if(P.every(p=>n%p))P.push(n);const fr=x=>(x-Math.floor(x))*4294967296|0;
+ const K=P.map(p=>fr(Math.cbrt(p))),H0=P.slice(0,8).map(p=>fr(Math.sqrt(p))),R=(x,n)=>x>>>n|x<<32-n;
+ return s=>{const b=new TextEncoder().encode(s),l=b.length,n=(l+72>>6)<<6,m=new Uint8Array(n),v=new DataView(m.buffer),w=new Int32Array(64);m.set(b);m[l]=128;v.setUint32(n-4,l*8>>>0);v.setUint32(n-8,Math.floor(l/536870912));
+  const H=H0.slice();for(let o=0;o<n;o+=64){for(let i=0;i<64;i++)w[i]=i<16?v.getInt32(o+i*4):(w[i-16]+(R(w[i-15],7)^R(w[i-15],18)^w[i-15]>>>3)+w[i-7]+(R(w[i-2],17)^R(w[i-2],19)^w[i-2]>>>10))|0;
+   let[a,b,c,d,e,f,g,h]=H;for(let i=0;i<64;i++){const t1=h+(R(e,6)^R(e,11)^R(e,25))+(e&f^~e&g)+K[i]+w[i]|0,t2=(R(a,2)^R(a,13)^R(a,22))+(a&b^a&c^b&c)|0;h=g;g=f;f=e;e=d+t1|0;d=c;c=b;b=a;a=t1+t2|0}
+   [a,b,c,d,e,f,g,h].forEach((x,i)=>H[i]=H[i]+x|0)}
+  return H.map(x=>(x>>>0).toString(16).padStart(8,'0')).join('')}})();
+var DEVH="0d399940a8a1e3fa22f97d5174a05ca1d622ad4a46c4b9ea6954d5fa95d1ce89",dev=false;try{dev=localStorage.getItem("fm_dev")===DEVH}catch(e){}
+window.elgDev=function(){return dev};
+var tp=[];document.addEventListener("click",function(e){if(!e.target.closest||!e.target.closest("#prv h3"))return;var n=Date.now();tp=tp.filter(function(t){return n-t<4000});tp.push(n);if(tp.length<7)return;tp=[];
+ if(dev){toast(fmL("Режим разработчика уже включён","Developer mode is already on","Режим розробника вже увімкнено"));return}
+ var c=prompt(fmL("Код разработчика","Developer code","Код розробника"));if(!c)return;
+ if(SHA("fm-dev:"+c.trim().toUpperCase())===DEVH){try{localStorage.setItem("fm_dev",DEVH)}catch(x){}fmLog("info","dev-on");location.reload()}else{fmLog("warn","dev-bad-code");toast(fmL("Неверный код","Wrong code","Невірний код"))}});
+if(!dev){var sec=document.getElementById("elg");if(sec)sec.parentNode.removeChild(sec)}var L=function(r,e,u){return fmL(r,e,u)},E=function(x){return String(x==null?"":x).replace(/[&<>"']/g,function(c){return"&#"+c.charCodeAt(0)+";"})};
 /* Кэш подсчёта XP: calc() проходит всю историю, а при одной перерисовке экрана его звали 12 раз подряд (как «N+1 запросов»).
    Теперь в пределах одного действия считается один раз; кэш сбрасывается после действия и при каждом сохранении (инвалидация).
    Этот блок должен идти после всех обёрток calc (fm3, fm4, fm5). */
@@ -4295,17 +4311,18 @@ addEventListener("online",function(){setTimeout(job,3000)});setTimeout(job,10000
 var NM={book:["📖 Книга","📖 Book","📖 Книга"],film:["🎬 Фильм","🎬 Film","🎬 Фільм"]};
 function tm(t){var d=new Date(t);return isNaN(d)?"":d.toLocaleString()}
 function draw(){var el=document.getElementById("elg");if(!el)return;var q=fmDLQ.list(),g=fmLog.list().slice(-30).reverse(),h='<h3>🩺 '+L("Журнал и неудачные загрузки","Log and failed downloads","Журнал і невдалі завантаження")+'</h3>';
- h+='<p class="note" style="margin:0 0 8px">'+L("Журнал хранится только на этом телефоне и никуда не отправляется. Если что-то сломалось — скопируй журнал и пришли разработчику.","The log stays on this phone and is never sent anywhere. If something breaks, copy the log and send it to the developer.","Журнал зберігається лише на цьому телефоні й нікуди не надсилається. Якщо щось зламалося — скопіюй журнал і надішли розробнику.")+'</p>';
+ h+='<p class="note" style="margin:0 0 8px">'+L("🛠 Режим разработчика. Журнал хранится только на этом телефоне и никуда не отправляется.","🛠 Developer mode. The log stays on this phone and is never sent anywhere.","🛠 Режим розробника. Журнал зберігається лише на цьому телефоні й нікуди не надсилається.")+'</p>';
  h+='<h4>'+L("Не получилось скачать","Failed to download","Не вдалося завантажити")+' ('+q.length+')</h4>';
  h+=q.length?'<ul class="elq">'+q.map(function(x){var n=NM[x.k]||[x.k,x.k,x.k];return'<li>'+E(L(n[0],n[1],n[2]))+': '+E(x.title||x.key)+'<small>'+E(tm(x.t))+' · '+L("попыток: ","attempts: ","спроб: ")+x.n+'</small><div class="add"><button type="button" data-elg="retry" data-k="'+E(x.k)+'" data-v="'+E(x.key)+'">🔄 '+L("Повторить","Retry","Повторити")+'</button><button type="button" class="alt" data-elg="drop" data-k="'+E(x.k)+'" data-v="'+E(x.key)+'">'+L("Убрать","Remove","Прибрати")+'</button></div></li>'}).join("")+'</ul>':'<p class="note">'+L("Всё скачалось.","Everything downloaded.","Усе завантажилося.")+'</p>';
  h+='<h4>'+L("Журнал","Log","Журнал")+'</h4>';
  h+=g.length?'<ul class="ell">'+g.map(function(e){var x=[];for(var k in e)if(!/^(t|lvl|ev|b)$/.test(k))x.push(k+": "+(typeof e[k]=="object"?JSON.stringify(e[k]):e[k]));return'<li class="'+E(e.lvl)+'"><b>'+E(e.ev)+'</b> · '+E(tm(e.t))+'<small>'+E(x.join(" · "))+'</small></li>'}).join("")+'</ul>':'<p class="note">'+L("Ошибок нет.","No errors.","Помилок немає.")+'</p>';
- h+='<div class="add"><button type="button" data-elg="copy">📋 '+L("Скопировать журнал","Copy the log","Скопіювати журнал")+'</button><button type="button" class="alt" data-elg="clear">'+L("Очистить журнал","Clear the log","Очистити журнал")+'</button></div>';
+ h+='<div class="add"><button type="button" data-elg="copy">📋 '+L("Скопировать журнал","Copy the log","Скопіювати журнал")+'</button><button type="button" class="alt" data-elg="clear">'+L("Очистить журнал","Clear the log","Очистити журнал")+'</button><button type="button" class="alt" data-elg="devoff">'+L("Выйти из режима разработчика","Leave developer mode","Вийти з режиму розробника")+'</button></div>';
  el.innerHTML=h}
 document.addEventListener("click",function(e){var b=e.target.closest&&e.target.closest("[data-elg]");if(!b)return;var a=b.dataset.elg;
  if(a=="retry"){if(!fmDLQ.retry(b.dataset.k,b.dataset.v))toast(L("Это пока нельзя повторить отсюда","This cannot be retried from here yet","Це поки не можна повторити звідси"))}
  else if(a=="drop"){fmDLQ.done(b.dataset.k,b.dataset.v)}
  else if(a=="clear"){if(confirm(L("Очистить журнал?","Clear the log?","Очистити журнал?")))fmLog.clear()}
+ else if(a=="devoff"){if(confirm(L("Выключить режим разработчика? Раздел «🩺» скроется.","Turn off developer mode? The 🩺 section will be hidden.","Вимкнути режим розробника? Розділ «🩺» сховається."))){try{localStorage.removeItem("fm_dev")}catch(x){}location.reload()}return}
  else if(a=="copy"){var t=JSON.stringify({app:"fac-modo",build:window.FM_BUILD||0,data:st._v,ua:navigator.userAgent,log:fmLog.list(),dlq:fmDLQ.list()},null,1);
   var ok=function(){toast(L("Журнал скопирован","Log copied","Журнал скопійовано"))};if(navigator.clipboard&&navigator.clipboard.writeText)navigator.clipboard.writeText(t).then(ok,function(){prompt("",t)});else prompt("",t)}
  draw()});
