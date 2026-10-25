@@ -1,0 +1,47 @@
+# Автотесты и предпросмотр (staging) для каждого Pull Request.
+# 1) Запускает tests/e2e.js: приложение, мобильный экран, контракты игр по сети, доступность.
+# 2) Собирает копию сайта как на настоящем, но не публикует её: скачать — в разделе Artifacts этой проверки («preview»),
+#    распаковать и открыть index.html. Так новую версию можно посмотреть до слияния в main.
+name: Автотесты
+
+on:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Установить Playwright и axe-core (версии закреплены)
+        run: |
+          npm install --no-save --no-audit --no-fund playwright@1.63.0 axe-core@4.10.2
+          npx playwright install --with-deps chromium
+      - name: Тесты
+        run: node tests/e2e.js
+      - name: Нагрузка (3 года данных)
+        run: |
+          python3 -m http.server 8765 >/dev/null 2>&1 &
+          sleep 2
+          node tools/load_test.js 3
+      - name: Собрать предпросмотр
+        if: always()
+        run: |
+          mkdir -p preview
+          cp -r index.html sw.js manifest.webmanifest *.png privacy.html support.html games assets preview/ 2>/dev/null || true
+          sed -i "s/__FM_BUILD__/$(git log -1 --format=%ct)/" preview/index.html
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: preview
+          path: preview
+          retention-days: 7
