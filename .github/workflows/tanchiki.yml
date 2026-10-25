@@ -27,12 +27,21 @@ jobs:
         id: embed
         run: |
           CHANGED=false
-          embed () {  # $1 — адрес игры, $2 — id блока, $3 — копия в репозитории (может быть пустой)
-            if curl -fsSL -o /tmp/game.html "$1"; then
-              R=$(python3 tools/embed_tanchiki.py /tmp/game.html "$2")
+          BLOCKED=false
+          # Сторож (tools/game_guard.py): игру с опасным кодом не встраиваем, остальные обновляем, в конце проверка падает
+          put () {  # $1 — файл игры, $2 — id блока
+            if R=$(python3 tools/embed_tanchiki.py "$1" "$2"); then
               echo "$2: $R"
               if [ "$R" = "changed=true" ]; then CHANGED=true; fi
-              if [ -n "$3" ]; then cp /tmp/game.html "$3"; fi
+            else
+              echo "::error::$2: сторож не пустил игру в приложение (подробности выше)"
+              BLOCKED=true
+              return 1
+            fi
+          }
+          embed () {  # $1 — адрес игры, $2 — id блока, $3 — копия в репозитории (может быть пустой)
+            if curl -fsSL -o /tmp/game.html "$1"; then
+              if put /tmp/game.html "$2" && [ -n "$3" ]; then cp /tmp/game.html "$3"; fi
             else
               echo "$2: игра пока недоступна по адресу $1 — пропускаю"
             fi
@@ -41,11 +50,10 @@ jobs:
           embed https://raw.githubusercontent.com/Azazello2508/Samolety/main/index.html sm-src games/samolety.html
           # Настольные игры правятся прямо здесь, в games/*.html (оба разработчика могут их менять)
           for g in durak:dr-src debertz:db-src chess:cs-src checkers:cr-src nardy:nd-src morboy:mb-src sudoku:su-src pyatnashki:p15-src krossvord:kw-src more2048:g2-src; do
-            R=$(python3 tools/embed_tanchiki.py "games/${g%%:*}.html" "${g##*:}")
-            echo "${g##*:}: $R"
-            if [ "$R" = "changed=true" ]; then CHANGED=true; fi
+            put "games/${g%%:*}.html" "${g##*:}" || true
           done
           echo "changed=$CHANGED" >> "$GITHUB_OUTPUT"
+          echo "blocked=$BLOCKED" >> "$GITHUB_OUTPUT"
 
       - name: Сохранить обновление
         if: steps.embed.outputs.changed == 'true'
@@ -55,6 +63,12 @@ jobs:
           git add -A
           git commit -m "Обновлены игры из Tanchiki, Samolety и games/"
           git push
+
+      - name: Сторож заблокировал игру
+        if: steps.embed.outputs.blocked == 'true'
+        run: |
+          echo "::error::Одна из игр не встроена: в ней найден опасный код (см. шаг выше). Остальные игры обновлены."
+          exit 1
 
   ios:
     needs: sync

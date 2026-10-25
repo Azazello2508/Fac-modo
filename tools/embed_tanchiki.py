@@ -7,7 +7,9 @@ mb-src, su-src, p15-src, kw-src, g2-src — морской бой, судоку,
 Скрипт меняет только блок <script type="text/plain" id="...">…</script>.
 Печатает changed=true, если игра в приложении обновилась.
 """
-import base64, re, sys
+import base64, os, re, sys
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import game_guard
 
 game_path = sys.argv[1]
 block_id = sys.argv[2] if len(sys.argv) > 2 else "tk-src"
@@ -21,6 +23,11 @@ g = re.sub(r'<link rel="(manifest|icon|apple-touch-icon)"[^>]*>', "", g)
 g = re.sub(r"if\('serviceWorker' in navigator\)navigator\.serviceWorker\.register\('sw\.js'\)\.catch\(\(\)=>\{\}\);", "", g)
 # Ссылка «← Меню» ведёт на меню игр, которого в приложении нет: выход — кнопка «✕ Выйти».
 g = re.sub(r'\s*<a href="index\.html">← Меню</a>', "", g)
+
+# Сторож: игра с опасным кодом (доступ к данным приложения, чужие сайты, спрятанный код) не встраивается
+bad = game_guard.check(g, block_id)
+if bad:
+    sys.exit("Игра " + block_id + " НЕ встроена — сторож нашёл опасное: " + "; ".join(bad))
 
 b64 = base64.b64encode(g.encode("utf-8")).decode()
 pat = re.compile(r'(<script type="text/plain" id="' + re.escape(block_id) + r'">)([^<]*)(</script>)')
