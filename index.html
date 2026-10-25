@@ -2867,6 +2867,78 @@ snR()})();</script>
 <script id="prv-js">/* Конфиденциальность и поддержка (#prv, Опции): ссылки на privacy.html и support.html на сайте приложения — нужны для App Store и Google Play */
 (function(){var el=document.getElementById("prv");if(!el)return;var L=function(r,e,u){return window.fmL?fmL(r,e,u):r},lg=(window.st&&st.lang)||"ru",B="https://azazello2508.github.io/Fac-modo/";
 el.innerHTML="<h3>"+L("🔒 Конфиденциальность и поддержка","🔒 Privacy and support","🔒 Конфіденційність і підтримка")+"</h3><p class=\"note\" style=\"margin:0 0 8px\">"+L("Fac Modo не собирает и не отправляет твои данные: всё хранится только на этом телефоне. Нет регистрации, рекламы и слежки.","Fac Modo does not collect or send your data: everything stays on this phone. No sign-up, no ads, no tracking.","Fac Modo не збирає і не надсилає твої дані: усе зберігається лише на цьому телефоні. Немає реєстрації, реклами й стеження.")+"</p><div class=\"add\"><a class=\"alt\" role=\"button\" target=\"_blank\" rel=\"noopener noreferrer\" href=\""+B+"privacy.html?lang="+lg+"\">"+L("Политика конфиденциальности","Privacy Policy","Політика конфіденційності")+"</a><a class=\"alt\" role=\"button\" target=\"_blank\" rel=\"noopener noreferrer\" href=\""+B+"support.html?lang="+lg+"\">"+L("Поддержка и вопросы","Support and FAQ","Підтримка й питання")+"</a></div>"})();</script>
+<style id="ux-css">/* Все разделы, поиск и «⭐ Моё» (этап 1 нового вида) */
+main>.uxs{display:flex;align-items:center;gap:8px;width:100%;box-sizing:border-box;min-height:44px;margin:0;padding:0 12px;border-radius:12px;border:1px solid var(--line);background:var(--card);color:var(--mute);font:inherit;font-size:15px;text-align:left;cursor:pointer;backdrop-filter:blur(4px)}
+main>.uxs svg,#uxc svg{flex:none}
+html.simple main[data-tab="today"]>.uxs[data-t="today"]{display:flex!important}
+main>.uxm{display:flex;flex-direction:column;gap:8px;margin:0}
+.uxm .uxh{display:flex;justify-content:space-between;align-items:center;margin:4px 2px 0}
+.uxm .uxh b{font-size:12px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;opacity:.85;text-shadow:0 1px 4px #000c}
+.uxm .uxh button,#uxc .uxb{min-height:36px;padding:0 12px;border:1px solid var(--line);border-radius:10px;background:var(--card);color:var(--acc);font:inherit;font-size:14px;font-weight:700;cursor:pointer}
+.uxm .uxg{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}@media(min-width:600px){.uxm .uxg{grid-template-columns:repeat(4,minmax(0,1fr))}}
+.uxm .uxg .fmt{min-height:80px;padding:9px 7px;gap:6px;border-radius:14px;justify-content:flex-start}.uxm .uxg .fmt i{font-size:24px}
+.uxm .uxg .fmt b{width:100%;font-size:12px;letter-spacing:-.01em;line-height:1.2;overflow-wrap:break-word;-webkit-hyphens:auto;hyphens:auto}
+.uxm .uxe{margin:0;padding:10px 12px;border-radius:12px;border:1px dashed var(--line);font-size:14px;color:var(--mute)}
+#uxc{position:fixed;inset:0;z-index:20;display:none;flex-direction:column;background:var(--bg);color:var(--ink)}#uxc.on{display:flex}html.uxo,html.uxo body{overflow:hidden}
+#uxc .uxt{display:flex;flex-direction:column;gap:8px;padding:calc(10px + env(safe-area-inset-top,0px)) 14px 10px;border-bottom:1px solid var(--line)}
+#uxc .uxt>div{display:flex;align-items:center;gap:6px}#uxc .uxt h3{flex:1;margin:0;text-align:center;font-size:17px;padding-right:60px}
+#uxc label{display:flex;align-items:center;gap:8px;min-height:46px;padding:0 12px;border-radius:12px;border:1px solid var(--line);background:var(--card)}
+#uxc input{flex:1;min-width:0;border:0;background:transparent;color:var(--ink);font:inherit;font-size:16px;outline:none}
+#uxc .uxn{font-size:12px;color:var(--mute)}
+#uxc .uxl{flex:1;overflow:auto;-webkit-overflow-scrolling:touch;overscroll-behavior:contain;padding:4px 14px calc(24px + env(safe-area-inset-bottom,0px))}
+#uxc h4{margin:14px 2px 6px;font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--mute)}
+#uxc .uxr{display:flex;align-items:center;gap:4px;margin:0 0 4px;border-radius:12px;background:var(--card)}
+#uxc .uxr>button:first-child{flex:1;display:flex;align-items:center;gap:10px;min-height:46px;padding:0 10px;border:0;background:transparent;color:var(--ink);font:inherit;font-size:15px;text-align:left;cursor:pointer}
+#uxc .uxr i{font-style:normal;font-size:20px;width:26px;text-align:center}
+.uxst{min-width:44px;min-height:44px;border:0;background:transparent;font-size:21px;line-height:1;cursor:pointer;color:var(--mute)}.uxst[aria-pressed=true]{color:#f5c451}
+#fmh .uxst{margin-right:auto;min-height:36px}
+</style>
+<script id="ux-js">/* Этап 1 нового вида: строка поиска на каждой вкладке, экран «Все разделы» (#uxc) со звёздочками, блок «⭐ Моё» на главной.
+ Разделы не прячутся и не переносятся: открытие идёт через их плитки. Закреплённые — st.ux.p (ключ: id раздела или "#"+id внутри него). */
+document.addEventListener("DOMContentLoaded",function(){var mn=document.getElementById("mn");if(!mn)return;var L=function(r,e,u){return window.fmL?fmL(r,e,u):r};
+var TABS=["today","know","game","shore","diary","me","set"],DEF=["#days","wch","rh","dc","ktr","shn"],P={},ORD=[];
+var KW={"#days":"квест задачи план quests tasks квести","wch":"вахта сон график watch sleep rota графік","rh":"отдых часы работы mlc stcw пднв rest hours відпочинок","dc":"документы сертификат медкомиссия виза паспорт documents certificate medical документи","ct":"контракт стаж рейс sea service contract стаж","fnm":"деньги бюджет зарплата накопления money budget гроші","ktr":"до дома списание отпуск home sign off додому","cth":"звонок позвонить семья call family дзвінок","hfm":"дом семья близкие family home сім'я","shn":"штурман компас секстан звёзды звезды пеленг ориентир счисление течение дрейф расхождение cpa прилив navigation compass sextant stars bearing tide","clc":"калькулятор электромеханик кабель сечение двигатель ток cos обороты calculator cable motor current","cvm":"расчёты единицы перевод рейс ом топливо units conversion voyage ohm fuel","rlg":"ремонт журнал поломка repair log ремонт","ck":"чек-лист что взять checklist","lib":"библиотека статьи знания library articles бібліотека","gl":"глоссарий термины словарь glossary","en":"английский слова english words англійська","iv":"собеседование интервью английский interview співбесіда","qz":"экзамен тест вопросы exam quiz іспит","mat":"видео материалы youtube tiktok video","vdw":"видео youtube tiktok instagram video","pom":"таймер фокус помодоро timer focus","tk":"танки игра tanks game","sm":"самолёты самолеты игра planes game","bg":"карты шахматы шашки нарды дурак деберц chess checkers backgammon cards","mt2":"шахматы мат задача chess puzzle","pzl":"морской бой судоку пятнашки кроссворд battleship sudoku crossword","snd":"сон звуки шум sleep sounds noise","brt":"дыхание расслабление breathing relax дихання","sky":"звёзды звезды небо созвездия stars sky зорі","bk":"книги читать books read книжки","flm":"фильмы кино сериалы films movies series фільми","gym":"зал тренировки питание калории вода gym workout nutrition calories","rz":"резюме cv pdf работа job","ap":"отклики вакансии applications jobs","vis":"страны порты карта countries ports map","sh1":"берег карьера shore career","pck":"сборы вещи чемодан packing","trn":"перенос новый телефон move phone transfer","prv":"конфиденциальность поддержка privacy support","cfg":"вид тема имя appearance theme","nfc":"уведомления напоминания notifications reminders","#sn":"резервная копия бэкап backup","shop":"магазин монеты награды shop coins","ch":"сундук бонус chest","rwd":"награды уровни rewards levels"};
+function key(s){if(!s||s.tagName!="SECTION")return"";if(s.id)return s.id;var e=s.querySelector("[id]");return e?"#"+e.id:""}
+[].forEach.call(mn.querySelectorAll(":scope>button.fmt"),function(b){var s=b.nextElementSibling,k=key(s);if(k&&!P[k]){P[k]={b:b,s:s};ORD.push(k)}});
+function U(){var u=st.ux=st.ux||{};return u}
+function pins(){var u=U();return(u.p||DEF).filter(function(k){return P[k]})}
+function isPin(k){return pins().indexOf(k)>=0}
+function togPin(k){var u=U(),p=pins().slice(),i=p.indexOf(k);if(i>=0)p.splice(i,1);else p.push(k);u.p=p;try{save()}catch(e){}uxM();stUpd()}
+function ttl(k){var b=P[k].b;return[(b.firstChild&&b.firstChild.textContent)||"📌",(b.lastChild&&b.lastChild.textContent)||""]}
+function tabOf(k){return P[k].b.getAttribute("data-t")}
+function open(k){if(!P[k])return;uxClose();if(window.fmClose)fmClose();var t=tabOf(k),n=document.querySelector('#nav [data-n="'+t+'"]');if(n&&mn.getAttribute("data-tab")!=t)n.click();setTimeout(function(){P[k].b.click()},0)}
+var SV='<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>';
+/* строка поиска вверху каждой вкладки */
+TABS.forEach(function(t){var first=[].filter.call(mn.children,function(e){return e.getAttribute("data-t")==t})[0];if(!first)return;var b=document.createElement("button");b.type="button";b.className="uxs";b.setAttribute("data-t",t);b.setAttribute("translate","no");b.innerHTML=SV+"<span>"+L("Найти раздел…","Find a section…","Знайти розділ…")+"</span>";b.onclick=function(){uxOpen()};mn.insertBefore(b,first)});
+/* «⭐ Моё» на главной: перед первой группой плиток */
+var M=document.createElement("div");M.className="uxm";M.setAttribute("data-t","today");M.setAttribute("translate","no");var ft=mn.querySelector(':scope>.tgxh[data-t="today"]')||mn.querySelector(':scope>button.fmt[data-t="today"]');if(ft)mn.insertBefore(M,ft);else mn.appendChild(M);
+function uxM(){var p=pins(),h='<div class="uxh"><b>⭐ '+L("Моё","My sections","Моє")+'</b><button type="button" data-ux="all">'+L("Изменить","Edit","Змінити")+'</button></div>';
+ h+=p.length?'<div class="uxg">'+p.map(function(k){var t=ttl(k);return'<button type="button" class="fmt" data-ux="go" data-k="'+esc(k)+'"><i>'+esc(t[0])+'</i><b>'+esc(t[1])+'</b></button>'}).join("")+'</div>':'<p class="uxe">'+L("Нажми ☆ в «Все разделы», чтобы закрепить здесь нужное.","Tap ☆ in All sections to pin what you need here.","Натисни ☆ у «Усі розділи», щоб закріпити тут потрібне.")+'</p>';M.innerHTML=h}
+M.addEventListener("click",function(e){var b=e.target.closest("[data-ux]");if(!b)return;if(b.dataset.ux=="all")uxOpen();else open(b.dataset.k)});
+/* экран «Все разделы» */
+var C=document.createElement("div");C.id="uxc";C.setAttribute("role","dialog");C.setAttribute("aria-modal","true");C.setAttribute("translate","no");
+C.innerHTML='<div class="uxt"><div><button type="button" class="uxb" data-ux="x">‹ '+L("Назад","Back","Назад")+'</button><h3>'+L("Все разделы","All sections","Усі розділи")+'</h3></div><label>'+SV+'<input type="search" id="uxq" enterkeyhint="search" autocomplete="off" aria-label="'+L("Найти раздел","Find a section","Знайти розділ")+'" placeholder="'+L("Например: кабель, звёзды, резюме","For example: cable, stars, CV","Наприклад: кабель, зорі, резюме")+'"></label><span class="uxn">'+L("☆ — закрепить в «Моё» на главной","☆ — pin to “My sections” on the main screen","☆ — закріпити в «Моє» на головній")+'</span></div><div class="uxl" id="uxl"></div>';
+document.body.appendChild(C);var Q=C.querySelector("#uxq"),LST=C.querySelector("#uxl");
+function nz(x){return String(x||"").toLowerCase().replace(/ё/g,"е")}
+function tabName(t){var n=document.querySelector('#nav [data-n="'+t+'"] small');return n?n.textContent:t}
+function uxL(){var q=nz(Q.value).trim(),h="",cnt=0;TABS.forEach(function(t){var rows=ORD.filter(function(k){if(tabOf(k)!=t||P[k].b.hidden)return false;var tt=ttl(k);return!q||nz(tt[1]+" "+(KW[k]||"")+" "+tabName(t)).indexOf(q)>=0}).map(function(k){var tt=ttl(k),on=isPin(k);cnt++;
+  return'<div class="uxr"><button type="button" data-ux="go" data-k="'+esc(k)+'"><i aria-hidden="true">'+esc(tt[0])+'</i><span>'+esc(tt[1])+'</span></button><button type="button" class="uxst" data-ux="pin" data-k="'+esc(k)+'" aria-pressed="'+on+'" aria-label="'+(on?L("Убрать из «Моё»","Unpin","Прибрати з «Моє»"):L("Закрепить в «Моё»","Pin","Закріпити в «Моє»"))+'">'+(on?"★":"☆")+'</button></div>'}).join("");
+  if(rows)h+='<h4>'+esc(tabName(t))+'</h4>'+rows});LST.innerHTML=cnt?h:'<p class="note" style="text-align:center;margin:24px 0">'+L("Ничего не нашлось. Попробуй другое слово.","Nothing found. Try another word.","Нічого не знайшлося. Спробуй інше слово.")+'</p>'}
+function uxOpen(){if(window.fmClose)fmClose();Q.value="";uxL();C.classList.add("on");document.documentElement.classList.add("uxo");LST.scrollTop=0;setTimeout(function(){try{Q.focus()}catch(e){}},50)}
+function uxClose(){if(!C.classList.contains("on"))return;C.classList.remove("on");document.documentElement.classList.remove("uxo");uxM()}
+window.uxOpen=uxOpen;
+Q.addEventListener("input",uxL);
+C.addEventListener("click",function(e){var b=e.target.closest("[data-ux]");if(!b)return;var a=b.dataset.ux;if(a=="x")uxClose();else if(a=="go")open(b.dataset.k);else if(a=="pin"){togPin(b.dataset.k);uxL()}});
+document.addEventListener("keydown",function(e){if(e.key=="Escape")uxClose()});
+document.getElementById("nav").addEventListener("click",function(){uxClose();uxM()},true);
+/* звёздочка в шапке окна раздела */
+var fmh=document.getElementById("fmh"),fmc=document.getElementById("fmc"),S=null;
+if(fmh&&fmc){S=document.createElement("button");S.type="button";S.className="uxst";S.setAttribute("translate","no");fmh.insertBefore(S,fmh.firstChild);
+ S.onclick=function(){var k=key(fmc.firstElementChild);if(k&&P[k])togPin(k)};new MutationObserver(stUpd).observe(fmc,{childList:true})}
+function stUpd(){if(!S)return;var k=key(fmc.firstElementChild);if(!k||!P[k]){S.hidden=true;return}var on=isPin(k);S.hidden=false;S.textContent=on?"★":"☆";S.setAttribute("aria-pressed",on);S.setAttribute("aria-label",on?L("Убрать из «Моё»","Unpin","Прибрати з «Моє»"):L("Закрепить в «Моё»","Pin","Закріпити в «Моє»"))}
+var fmm=document.getElementById("fmm");if(fmm)new MutationObserver(function(){if(!fmm.classList.contains("on"))uxM()}).observe(fmm,{attributes:true,attributeFilter:["class"]});
+uxM();stUpd()});
+</script>
 <style id="tgx-css">/* Компактные плитки по группам: по 3 в ряд, все видны сразу, «Показать ещё» не нужно */
 main{grid-template-columns:repeat(3,minmax(0,1fr))!important;column-gap:10px!important;row-gap:10px!important}main>*{grid-column:1/-1}main>.fmt{grid-column:auto}
 @media(min-width:600px){main{grid-template-columns:repeat(4,minmax(0,1fr))!important}}
