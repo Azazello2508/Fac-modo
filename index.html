@@ -10,7 +10,7 @@ if(location.href.indexOf("/_capacitor_file_/")>=0)return;
 var L=localStorage;L.setItem("fm-bundle-b",FM_BUILD);
 var ob=+L.getItem("fm-ota-b")||0,u=L.getItem("fm-ota-url"),tr=+L.getItem("fm-ota-try")||0;
 if(u&&ob>FM_BUILD&&tr<3){L.setItem("fm-ota-try",tr+1);document.documentElement.style.visibility="hidden";location.replace(u)}}catch(e){}})();</script>
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
 <title>Fac Modo</title>
 <link rel="manifest" href="manifest.webmanifest">
 <meta name="theme-color" content="#0e1424">
@@ -3059,6 +3059,12 @@ var o=window.setTab;if(typeof o=="function")window.setTab=function(t){return o(t
 var tb=mn.getAttribute("data-tab");if(tb=="set"||tb=="diary")setTab("me");
 if(window.uxApply)uxApply()});
 </script>
+<style id="nz-css">/* Без случайного увеличения экрана: двойное касание и щипок не масштабируют страницу */
+html,body{touch-action:manipulation;-webkit-text-size-adjust:100%;text-size-adjust:100%}</style>
+<script id="nz-js">/* iPhone: запрет щипка и двойного касания; то же внутри игр (iframe) */
+(function(){function stop(e){e.preventDefault()}["gesturestart","gesturechange","gestureend"].forEach(function(t){document.addEventListener(t,stop,{passive:false})});
+function fix(f){try{var d=f.contentDocument;if(!d||!d.documentElement||d.documentElement.getAttribute("data-nz"))return;d.documentElement.setAttribute("data-nz","1");var st=d.createElement("style");st.textContent="html,body{touch-action:manipulation}";(d.head||d.documentElement).appendChild(st);["gesturestart","gesturechange","gestureend"].forEach(function(t){d.addEventListener(t,stop,{passive:false})})}catch(e){}}
+new MutationObserver(function(ms){ms.forEach(function(m){[].forEach.call(m.addedNodes,function(n){if(n.tagName=="IFRAME"){fix(n);n.addEventListener("load",function(){fix(n)})}else if(n.querySelectorAll)[].forEach.call(n.querySelectorAll("iframe"),function(f){fix(f);f.addEventListener("load",function(){fix(f)})})})})}).observe(document.documentElement,{childList:true,subtree:true})})();</script>
 <style id="tgx-css">/* Компактные плитки по группам: по 3 в ряд, все видны сразу, «Показать ещё» не нужно */
 main{grid-template-columns:repeat(3,minmax(0,1fr))!important;column-gap:10px!important;row-gap:10px!important}main>*{grid-column:1/-1}main>.fmt{grid-column:auto}
 @media(min-width:600px){main{grid-template-columns:repeat(4,minmax(0,1fr))!important}}
