@@ -75,7 +75,7 @@ jobs:
         run: |
           B=$(git log -1 --format=%ct)
           WHEN=$(TZ=Asia/Baku date -d @$B '+%d.%m.%Y %H:%M')
-          gh release create "android-${{ github.run_id }}" FacModo.apk \
-            --title "Fac Modo для Android — версия от $WHEN" \
-            --notes "Установка: скачать FacModo.apk на телефон, открыть файл, разрешить установку из этого источника. Подробно — в README." \
-            --latest=false
+          # Один постоянный выпуск «android-apk»: файл заменяется, ссылка для скачивания не меняется
+          gh release view android-apk >/dev/null 2>&1 || gh release create android-apk --target main --latest=false             --title "Fac Modo для Android" --notes "Установка — в README."
+          gh release upload android-apk FacModo.apk --clobber
+          gh release edit android-apk --latest=false --title "Fac Modo для Android — версия от $WHEN"             --notes "Скачать на телефон: https://github.com/${{ github.repository }}/releases/download/android-apk/FacModo.apk — открыть файл, разрешить установку. Подробно — в README."
