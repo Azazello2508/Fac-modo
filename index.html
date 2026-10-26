@@ -3581,13 +3581,14 @@ var sc=document.getElementById("srs");if(sc)sc.addEventListener("click",function
 RTC.push(function(){if(!P.srs||(window.uxShow&&!uxShow("srs")))return null;var d=st.done[today]||{};if(d.srs)return null;var n=queue().length;return n?["srs","🔁 "+L("Слова на сегодня: ","Words for today: ","Слова на сьогодні: ")+n,0]:null});
 /* ---------- 4. цели на рейс ---------- */
 function goals(){var g=st.rg;if(!g||typeof g!="object"||Array.isArray(g))return[];return Array.isArray(g.l)?g.l:[]}
+function gt(x){return x.p!=null&&PRE[x.p]?PRE[x.p][1]:x.t}
 function gv(x){var c;if(x.a=="srs")return learned();if(x.a=="gym"){c=calc();return(c.cnt&&c.cnt.gym)||0}if(x.a=="rd"){c=calc();return c.rdn||0}return+x.v||0}
-function gRow(x){var v=gv(x),pc=Math.max(0,Math.min(100,Math.round(v/(x.n||1)*100)));return'<div><div style="display:flex;justify-content:space-between;gap:8px"><span>'+(pc>=100?"✓ ":"🎯 ")+esc(x.t)+'</span><small>'+v+' / '+x.n+'</small></div><div class="rgb"><i style="width:'+pc+'%"></i></div></div>'}
+function gRow(x){var v=gv(x),pc=Math.max(0,Math.min(100,Math.round(v/(x.n||1)*100)));return'<div><div style="display:flex;justify-content:space-between;gap:8px"><span>'+(pc>=100?"✓ ":"🎯 ")+esc(gt(x))+'</span><small>'+v+' / '+x.n+'</small></div><div class="rgb"><i style="width:'+pc+'%"></i></div></div>'}
 var PRE=[["srs",L("Выучить морские термины","Learn marine terms","Вивчити морські терміни"),100],["gym",L("Тренировки в зале","Gym workouts","Тренування в залі"),20],["rd",L("Прочитать статьи библиотеки","Read library articles","Прочитати статті бібліотеки"),15],
  ["",L("Накопить (сумма)","Save up (amount)","Накопичити (сума)"),3000],["",L("Подготовиться к повышению","Prepare for promotion","Підготуватися до підвищення"),10],["",L("Прочитать книги","Read books","Прочитати книжки"),3]];
 function rgr(){var c=document.getElementById("rg");if(!c)return;if(document.activeElement&&c.contains(document.activeElement)&&c.innerHTML)return;var G=goals(),h='<h3>🎯 '+L("Цели на рейс","Trip goals","Цілі на рейс")+'</h3>';
  h+='<p class="note" style="margin:0 0 6px">'+L("1–5 целей на контракт. Прогресс виден на главной, а в день возвращения домой — итог рейса. Слова, тренировки и статьи считаются сами.","1–5 goals for the contract. Progress shows on the main screen, and on your day home — a trip summary. Words, workouts and articles count automatically.","1–5 цілей на контракт. Прогрес видно на головній, а в день повернення додому — підсумок рейсу. Слова, тренування і статті рахуються самі.")+'</p>';
- G.forEach(function(x){var v=gv(x),pc=Math.max(0,Math.min(100,Math.round(v/(x.n||1)*100)));h+='<div class="rgi"><div class="rgh"><b>'+(pc>=100?"✓ ":"")+esc(x.t)+'</b><small>'+v+' / '+x.n+(x.a?" · "+L("само","auto","само"):"")+'</small></div><div class="rgb"><i style="width:'+pc+'%"></i></div><div class="rgc">'+
+ G.forEach(function(x){var v=gv(x),pc=Math.max(0,Math.min(100,Math.round(v/(x.n||1)*100)));h+='<div class="rgi"><div class="rgh"><b>'+(pc>=100?"✓ ":"")+esc(gt(x))+'</b><small>'+v+' / '+x.n+(x.a?" · "+L("само","auto","само"):"")+'</small></div><div class="rgb"><i style="width:'+pc+'%"></i></div><div class="rgc">'+
   (x.a?'':'<button type="button" class="alt" data-rg="m" data-id="'+x.id+'">−1</button><button type="button" data-rg="p" data-id="'+x.id+'">+1</button><input type="number" inputmode="decimal" min="0" value="'+(+x.v||0)+'" data-rg="v" data-id="'+x.id+'" aria-label="'+L("Сколько сделано","Done so far","Скільки зроблено")+'">')+
   '<button type="button" class="alt" data-rg="x" data-id="'+x.id+'" aria-label="'+L("Удалить цель","Delete goal","Видалити ціль")+'">✕</button></div></div>'});
  if(G.length<5){h+='<p class="note" style="margin:10px 0 0"><b>'+L("Добавить цель","Add a goal","Додати ціль")+'</b> — '+L("готовая:","a ready one:","готова:")+'</p><div class="rgp">'+PRE.map(function(p,i){return'<button type="button" class="alt" data-rg="pre" data-i="'+i+'">'+esc(p[1])+'</button>'}).join("")+'</div>'+
@@ -3598,7 +3599,7 @@ var rc=document.getElementById("rg");if(rc){rc.addEventListener("click",function
  var x=g.l.filter(function(y){return y.id==b.dataset.id})[0],id=Date.now().toString(36);
  if(a=="p"&&x){x.v=(+x.v||0)+1;gSave()}else if(a=="m"&&x){x.v=Math.max(0,(+x.v||0)-1);gSave()}
  else if(a=="x"&&x){if(!confirm(L("Удалить цель?","Delete this goal?","Видалити ціль?")))return;g.l=g.l.filter(function(y){return y!==x});gSave()}
- else if(a=="pre"&&g.l.length<5){var p=PRE[+b.dataset.i];if(p[0]&&g.l.some(function(y){return y.a==p[0]}))return;g.l.push({id:id,t:p[1],n:p[2],v:0,a:p[0]||""});if(!g.s)g.s=today;gSave();toast(L("🎯 Цель добавлена","🎯 Goal added","🎯 Ціль додано"))}
+ else if(a=="pre"&&g.l.length<5){var p=PRE[+b.dataset.i];if(p[0]&&g.l.some(function(y){return y.a==p[0]}))return;g.l.push({id:id,t:p[1],n:p[2],v:0,a:p[0]||"",p:+b.dataset.i});if(!g.s)g.s=today;gSave();toast(L("🎯 Цель добавлена","🎯 Goal added","🎯 Ціль додано"))}
  else if(a=="add"&&g.l.length<5){var t=(document.getElementById("rgt").value||"").trim(),n=Math.round(+document.getElementById("rgn").value||0);if(!t||n<1){toast(L("Напиши цель и число","Enter a goal and a number","Напиши ціль і число"));return}g.l.push({id:id,t:t.slice(0,60),n:n,v:0,a:""});if(!g.s)g.s=today;gSave()}});
  rc.addEventListener("change",function(e){var t=e.target;if(t.dataset.rg!="v")return;var x=goals().filter(function(y){return y.id==t.dataset.id})[0];if(!x)return;x.v=Math.max(0,+t.value||0);save();t.blur();rgr();rt()})}
 RTX.push(function(){var G=goals();if(!G.length)return"";return'<div class="rtc" data-rs="rg" style="cursor:pointer"><b class="rtt">🎯 '+L("Цели на рейс","Trip goals","Цілі на рейс")+'</b><div class="rgl">'+G.slice(0,3).map(gRow).join("")+'</div></div>'});
@@ -3620,6 +3621,20 @@ var t=0;function upd(){clearTimeout(t);t=setTimeout(function(){rgr();achn()},200
 if(typeof save=="function"){var os=save;save=function(){var v=os.apply(this,arguments);upd();return v}}
 var fmm=document.getElementById("fmm"),fmc=document.getElementById("fmc");if(fmm&&fmc)new MutationObserver(function(){var f=fmc.firstElementChild;if(fmm.classList.contains("on")&&f&&f.id=="srs"){q=null;srr()}}).observe(fmc,{childList:true});
 srr();rgr();achn();rt()});
+</script>
+<script id="lz-js">/* Быстрее после каждого действия: render() перерисовывал ~40 разделов, даже закрытых (и в режимах en/uk каждый заново переводился — до 50 мс на нажатие).
+ Теперь функция раздела, который сейчас закрыт, не выполняется сразу, а запоминается и выполняется при открытии раздела (окно #fmc, в том числе вкладки one-js).
+ Главная, квесты, «Сегодня», шапка и магазин (его название на плитке меняется) обновляются как раньше. Список: LZ[функция] = id разделов. */
+document.addEventListener("DOMContentLoaded",function(){var LZ={prfr:["prf","prf2"],fcr:["fc"],lsr:["ls"],lbr:["lib"],chr:["ch"],shore:["sh1","sh2","sh3","sh4"],plr:["sh5"],engr:["en"],ivr:["iv"],pomr:["pom"],shcard:["shr"],
+ dsv:["d1"],dfd:["d4"],optr:["opt"],cfgr:["cfg"],ntr:["nfc"],abtr:["abt"],wkr:["wkc"],frr:["cmpt"],apr:["ap"],dcr:["dc","dcw"],ctr:["ct"],rhr:["rh"],rkr:["rk"],hfr:["hfm"],cvr:["cvm"],fnr:["fnm"],hmr:["hm"],ckr:["ck"]};
+var fmm=document.getElementById("fmm"),fmc=document.getElementById("fmc"),dirty={},O={};if(!fmm||!fmc)return;
+function sec(id){var e=document.getElementById(id);return e?(e.tagName=="SECTION"?e:e.closest("section")):null}
+function open(n){if(!fmm.classList.contains("on"))return false;return LZ[n].some(function(id){var s=sec(id);return s&&s.parentNode===fmc})}
+Object.keys(LZ).forEach(function(n){var f=window[n];if(typeof f!="function")return;O[n]=f;
+ window[n]=function(){if(window.LZ_OFF||open(n)){delete dirty[n];return f.apply(this,arguments)}dirty[n]=[].slice.call(arguments)}});
+function flush(){Object.keys(dirty).forEach(function(n){if(!open(n))return;var a=dirty[n];delete dirty[n];try{O[n].apply(window,a)}catch(e){if(window.fmLog)fmLog("error","lz",{f:n,e:String(e&&e.message||e)})}})}
+new MutationObserver(flush).observe(fmc,{childList:true});new MutationObserver(flush).observe(fmm,{attributes:true,attributeFilter:["class"]});
+window.lzFlushAll=function(){Object.keys(dirty).forEach(function(n){var a=dirty[n];delete dirty[n];try{O[n].apply(window,a)}catch(e){}})}});
 </script>
 <style id="nz-css">/* Без случайного увеличения экрана: двойное касание и щипок не масштабируют страницу */
 html,body{touch-action:manipulation;-webkit-text-size-adjust:100%;text-size-adjust:100%}</style>
