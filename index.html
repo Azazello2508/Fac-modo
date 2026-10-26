@@ -5183,14 +5183,14 @@ function draw(){var rs=R.filter(function(r){return r[0]=="cab"||tiles(r[0]).leng
  if(dk.innerHTML!=h)dk.innerHTML=h}
 function head(id){var h=HD[id],q=seen(id);if(!h)return;var x=h.querySelector(".shpx");x.textContent=q[1]?L("Изучено разделов: ","Sections explored: ","Вивчено розділів: ")+q[0]+" / "+q[1]+(q[0]<q[1]?" · ✨ "+L("за новый раздел +5 XP","+5 XP for each new one","за новий розділ +5 XP"):" · 🧭"):""}
 /* 4. переходы: старые вкладки ведут на палубу, «Профиль» и настройки — в каюту; назад — на палубу */
-var o=window.setTab,y=0,skip=0;
+var o=window.setTab,y=0,skip=0,pu=0;try{if(history.state&&history.state.shp)history.replaceState(null,"")}catch(e){}
 window.setTab=function(t){var c=mn.getAttribute("data-tab")||"today",fr=/^r-/.test(c);if(!/^r-/.test(t))t=t=="me"||t=="set"||t=="diary"?"r-cab":"today";var to=/^r-/.test(t);
  if(to&&!fr)y=window.scrollY;var v=o(t);
- if(to&&!fr){try{if(!(history.state&&history.state.shp))history.pushState({shp:1},"")}catch(e){}}
- if(!to&&fr){if(history.state&&history.state.shp){skip=1;try{history.back()}catch(e){skip=0}}window.scrollTo(0,y)}
+ if(to&&!fr&&!pu){try{history.pushState({shp:1},"");pu=1}catch(e){}}
+ if(!to&&fr){if(pu){pu=0;skip=1;try{history.back()}catch(e){skip=0}}window.scrollTo(0,y)}
  if(to)head(t.slice(2));else draw();return v};
-window.addEventListener("popstate",function(){if(skip){skip=0;return}if(!/^r-/.test(mn.getAttribute("data-tab")||""))return;var fm=document.getElementById("fmm");
- if(fm&&fm.classList.contains("on")){if(window.fmClose)fmClose();try{history.pushState({shp:1},"")}catch(e){}return}setTab("today")});
+window.addEventListener("popstate",function(){if(skip){skip=0;return}pu=0;if(!/^r-/.test(mn.getAttribute("data-tab")||""))return;var fm=document.getElementById("fmm");
+ if(fm&&fm.classList.contains("on")){if(window.fmClose)fmClose();try{history.pushState({shp:1},"");pu=1}catch(e){}return}setTab("today")});
 mn.addEventListener("click",function(e){var b=e.target.closest("[data-shr],[data-shb]");if(!b)return;if(b.dataset.shb){setTab("today");return}
  var id=b.dataset.shr,a=tiles(id);if(a.length==1&&id!="cab"){P[a[0]].b.click();return}setTab("r-"+id)});
 var c0=mn.getAttribute("data-tab")||"today";if(!/^r-/.test(c0)&&c0!="today")setTab(c0);
