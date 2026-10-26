@@ -3275,6 +3275,18 @@ var um=document.querySelector(".uxm");if(um)new MutationObserver(function(){var 
 document.getElementById("nav").addEventListener("click",soon);document.addEventListener("visibilitychange",function(){if(!document.hidden)soon()});
 setInterval(upd,60000);upd()});
 </script>
+<style id="tap-css">/* Удобно пальцу и глазам: кнопки в разделах не меньше ~40 px по высоте, мелкие подписи крупнее (замерено по всем разделам на экране 375 px) */
+#fmc .fms button{min-width:38px;min-height:38px;font-size:20px}
+#fmc .fma button,#fmc .fma a,#fmc .vc button,#fmc .wkl button,#fmc .vrg button,#fmc .pkt button,#fmc .dp button.alt,#fmc .rzbr button,#fmc .rzbch button{min-height:42px;padding-top:0;padding-bottom:0;display:inline-flex;align-items:center;justify-content:center}
+#fmc .bkl a{min-height:40px;display:inline-flex;align-items:center}
+#fmc .sntb button,#fmc .sdg button{min-height:44px}
+#fmc li button.alt{min-width:40px;min-height:40px}
+#fmc .chips button.sw{width:38px;height:38px}
+#fmc select{min-height:44px}
+#fmc .rzbeh input{min-height:40px}
+#rwd .rwr button small{font-size:12px}#fmc .wkl small.up,#fmc #rh button small{font-size:12.5px}
+#d4 small,#cmp small{font-size:11px}
+</style>
 <style id="nz-css">/* Без случайного увеличения экрана: двойное касание и щипок не масштабируют страницу */
 html,body{touch-action:manipulation;-webkit-text-size-adjust:100%;text-size-adjust:100%}</style>
 <script id="nz-js">/* iPhone: запрет щипка и двойного касания; то же внутри игр (iframe) */
@@ -3774,7 +3786,7 @@ var F=[
 ["pdhgf","Его девушка Пятница","His Girl Friday",1940,"f",7.8,"pd","Редактор газеты пытается вернуть бывшую жену и лучшую журналистку. Быстрая комедия с Кэри Грантом, на английском. 92 минуты.","A newspaper editor tries to win back his ex-wife and best reporter. A fast-talking comedy with Cary Grant, in English. 92 minutes."]];
 /* Бесплатно скачать: фильмы без авторских прав (общественное достояние) в Internet Archive — [папка, файл MP4, размер в байтах] */
 var FLD=window.FLD={pdpot:["BattleshipPotemkin","Battleship_Potemkin_512kb.mp4",317355846],pdnos:["Nosferatu_most_complete_version_93_mins.","Nosferatu_1922_Symphony_of_Horror_512kb.mp4",395416378],pdgen:["The_General_Buster_Keaton","The_General.mp4",412400222],pdnav:["the-navigator","The Navigator.mp4",659663951],pdstb:["SteamboatBillJr","Steamboat_Bill.Jr_512kb.mp4",301128137],pdcam:["ChelovekskinoapparatomManWithAMovieCamera","Chelovek_s_kino-apparatom_512kb.mp4",257515942],pdael:["Aelita-QueenOfMarsrussianScience-fictionFilm1924","Aelita-QueenOfMarsrussianSci-fi1924.mp4",502249081],pdgul:["gullivers_travels1939_divx","gullivers_travels1939.mp4",476539799],pdboa:["TheBoat","The_Boat_512kb.mp4",103352552],pdadv:["CC_1917_10_22_TheAdventurer","CC_1917_10_22_TheAdventurer_512kb.mp4",82589530],pdimm:["the-immigrant-1917_202304","The Immigrant (1917).ia.mp4",215257252],pdhgf:["his_girl_friday","his_girl_friday.mp4",575274912]};
-var en=window.st&&st.lang=="en",uk=window.st&&st.lang=="uk"&&window.trEN,vw="all",kd="",gn="",nn=20;
+var en=window.st&&st.lang=="en",uk=window.st&&st.lang=="uk"&&window.trEN,vw="all",kd="",gn="",nn=10;
 function S(){return st.flm=st.flm||{}}
 function own(){return st.flmc=st.flmc||[]}
 function nm(x){return en?x[2]:uk?trEN(x[1]):x[1]}
@@ -3796,14 +3808,14 @@ h+=L.slice(0,nn).map(card).join("");if(L.length>nn)h+='<div class="add"><button 
 c.innerHTML=h}
 window.flmDraw=draw;
 c.addEventListener("click",function(e){var b=e.target.closest("button");if(!b||b.dataset.flv)return;var d=b.dataset,M=S(),m;
-if(d.fl){vw=d.fl;nn=20;draw();return}
-if(d.fm){nn+=20;draw();return}
+if(d.fl){vw=d.fl;nn=10;draw();return}
+if(d.fm){nn+=10;draw();return}
 if(d.fs){var p=d.fs.split(":"),v=+p[1];m=M[p[0]]=M[p[0]]||{};m.r=m.r==v?0:v;if(m.r){m.w=1;m.l=0}save();draw();return}
 if(d.fw){m=M[d.fw]=M[d.fw]||{};m.l=m.l?0:1;save();draw();return}
 if(d.fv){m=M[d.fv]=M[d.fv]||{};if(m.w||m.r){m.w=0;m.r=0}else{m.w=1;m.l=0}save();draw();return}
 if(d.fx){st.flmc=own().filter(function(x){return x.i!=d.fx});delete M[d.fx];save();draw();return}
 if(d.fa){var t=($("fmt").value||"").trim();if(!t)return;var i="u"+Date.now().toString(36);own().push({i:i,t:t.slice(0,80),k:$("fmtk").value=="s"?"s":"f"});M[i]={w:1};save();draw()}});
-c.addEventListener("change",function(e){if(e.target.id=="fmk"){kd=e.target.value;nn=20;draw()}else if(e.target.id=="fmg"){gn=e.target.value;nn=20;draw()}});
+c.addEventListener("change",function(e){if(e.target.id=="fmk"){kd=e.target.value;nn=10;draw()}else if(e.target.id=="fmg"){gn=e.target.value;nn=10;draw()}});
 c.addEventListener("keydown",function(e){if(e.target.id=="fmt"&&e.key=="Enter"){e.preventDefault();var b=c.querySelector("[data-fa]");if(b)b.click()}});
 draw()})();
 </script>
