@@ -3187,6 +3187,94 @@ document.addEventListener("click",function(e){var b=e.target.closest("[data-fst]
 var fm=document.getElementById("fmm");if(fm&&typeof tdr=="function")new MutationObserver(function(){if(!fm.classList.contains("on"))try{tdr()}catch(e){}}).observe(fm,{attributes:true,attributeFilter:["class"]});
 fstSh()});
 </script>
+<style id="one-css">/* Объединённые разделы: одна плитка — несколько разделов вкладками вверху окна (блок one-js) */
+#onet{display:flex;gap:6px;overflow-x:auto;padding:0 12px 8px;scrollbar-width:none;-webkit-overflow-scrolling:touch}#onet::-webkit-scrollbar{display:none}#onet[hidden]{display:none}
+#onet button{flex:0 0 auto;min-height:40px;padding:0 14px;border-radius:99px;border:1px solid var(--line);background:var(--card);color:var(--ink);font:inherit;font-size:14.5px;font-weight:700;cursor:pointer;white-space:nowrap}
+#onet button[aria-selected=true]{background:var(--acc);border-color:var(--acc);color:#0e1424}
+#fmc>section.oneh{display:none!important}
+</style>
+<script id="one-js">/* Объединённые разделы: похожие разделы открываются в одном окне, переключение — вкладками вверху (#onet).
+ Главная плитка группы получает общее название, остальные прячутся (data-uxj), но остаются в «Все разделы» и в «Моё»;
+ открытие любого из них открывает всю группу на его вкладке. Разделы не удаляются и не меняются: только переносятся в окно и обратно.
+ Группа: [главный ключ, значок, название, [[подпись вкладки, [ключи разделов]], …]]. Ключи — как в uxP (id раздела или "#"+id внутри). */
+document.addEventListener("DOMContentLoaded",function(){var mn=document.getElementById("mn"),P=window.uxP,fmm=document.getElementById("fmm"),fmb=document.getElementById("fmb"),fmc=document.getElementById("fmc"),fmh=document.getElementById("fmh");
+if(!mn||!P||!fmm||!fmc||!fmb||!fmh)return;var L=function(r,e,u){return window.fmL?fmL(r,e,u):r};
+var GR=[
+ ["#days","✅",L("Мой день","My day","Мій день"),[[L("Квесты","Quests","Квести"),["#days"]],[L("Цель","Goal","Ціль"),["fc"]],[L("Итоги","Summary","Підсумки"),["cmp"]],[L("Серия","Streak","Серія"),["stk"]],[L("Штрафы","Penalties","Штрафи"),["pnl"]],[L("Расписание","Schedule","Розклад"),["ed"]]]],
+ ["wch","⚓",L("Вахта и отдых","Watch and rest","Вахта і відпочинок"),[[L("Вахта и сон","Watch & sleep","Вахта і сон"),["wch"]],[L("Часы отдыха","Rest hours","Години відпочинку"),["rh"]]]],
+ ["hfm","🏠",L("Дом и семья","Home and family","Дім і сім'я"),[[L("Семья","Family","Сім'я"),["hfm"]],[L("До дома","Until home","До дому"),["ktr"]],[L("Звонок","Call","Дзвінок"),["cth"]]]],
+ ["ck","☑️",L("Чек-листы","Checklists","Чек-листи"),[[L("На судне","On board","На судні"),["ck"]],[L("Сборы","Packing","Збори"),["pck"]],[L("Должность","Promotion","Посада"),["rk"]]]],
+ ["#stats","📈",L("Прогресс","Progress","Прогрес"),[[L("Характеристики","Stats","Характеристики"),["#stats"]],[L("Достижения","Achievements","Досягнення"),["#ach"]],[L("Награды","Rewards","Нагороди"),["rwd"]],[L("Неделя","Week","Тиждень"),["wkc"]],[L("Календарь","Calendar","Календар"),["hm"]],[L("С другом","With a friend","З другом"),["cmpt"]]]],
+ ["d1","📓",L("Дневник","Diary","Щоденник"),[[L("Состояние","Mood","Стан"),["d1","dq"]],[L("Запись","Entry","Запис"),["d2"]],[L("Рисунок","Drawing","Малюнок"),["d3"]],[L("Все записи","All entries","Усі записи"),["d4"]]]],
+ ["sh1","🧭",L("Курс на берег","Course ashore","Курс на берег"),[[L("Курс","Course","Курс"),["sh1"]],[L("Шаг дня","Step","Крок дня"),["sh4"]],[L("Навыки","Skills","Навички"),["sh2"]],[L("План","Plan","План"),["sh5"]]]],
+ ["ch","🎁",L("Сундук и магазин","Chest and shop","Скриня і крамниця"),[[L("Сундук дня","Daily chest","Скриня дня"),["ch"]],[L("Магазин","Shop","Крамниця"),["shop"]]]],
+ ["cfg","🖥️",L("Внешний вид","Appearance","Вигляд"),[[L("Экран","Screen","Екран"),["cfg"]],[L("Тема и фото","Theme & photo","Тема і фото"),["#th"]]]],
+ ["#sn","💾",L("Копии и перенос","Backup and transfer","Копії й перенесення"),[[L("Копия","Backup","Копія"),["#sn"]],[L("Автокопии","Auto backups","Автокопії"),["abk"]],[L("Новый телефон","New phone","Новий телефон"),["trn"]]]]
+];
+/* повторы: «Серия» в настройках (та же кнопка заморозки есть в «Серии дней») и «Расписание» (ссылка на редактор, он теперь в «Моём дне») */
+["opt","#edgo2"].forEach(function(k){if(P[k])P[k].b.setAttribute("data-uxj","1")});
+var OF={};GR.forEach(function(g){g[3]=g[3].map(function(t){return[t[0],t[1].filter(function(k){return P[k]})]}).filter(function(t){return t[1].length});
+ if(!P[g[0]]||g[3].length<2)return;g[3].forEach(function(t,i){t[1].forEach(function(k){OF[k]={g:g,i:i}})});
+ var b=P[g[0]].b;if(b.firstChild)b.firstChild.textContent=g[1];if(b.lastChild){b.lastChild.textContent=g[2];b.lastChild.setAttribute("translate","no")}
+ g[3].forEach(function(t){t[1].forEach(function(k){if(k!=g[0])P[k].b.setAttribute("data-uxj","1")})})});
+window.oneOf=function(k){return OF[k]?OF[k].g[0]:k};
+function key(s){if(!s||s.tagName!="SECTION")return"";if(s.id)return s.id;var e=s.querySelector("[id]");return e?"#"+e.id:""}
+var T=document.createElement("div");T.id="onet";T.setAttribute("role","tablist");T.setAttribute("translate","no");T.hidden=true;fmb.insertBefore(T,fmh.nextSibling);
+var cur=null,busy=false;
+function ok(k){return P[k]&&(!window.uxShow||uxShow(k)||k==cur.k0)}
+function restore(){if(!cur)return;busy=true;cur.a.forEach(function(x){x.ph.parentNode.insertBefore(x.s,x.ph);x.ph.remove()});
+ [].forEach.call(fmc.querySelectorAll(":scope>section.oneh"),function(s){s.classList.remove("oneh")});cur=null;T.hidden=true;T.innerHTML="";busy=false}
+function show(i){if(!cur)return;busy=true;cur.i=i;var first=null;
+ cur.g[3].forEach(function(t,j){t[1].forEach(function(k){var s=P[k].s;if(s.parentNode!==fmc)return;s.classList.toggle("oneh",j!=i);if(j==i&&!first)first=s})});
+ if(first&&fmc.firstElementChild!==first){var keep=[];cur.g[3][i][1].forEach(function(k){if(P[k].s.parentNode===fmc)keep.push(P[k].s)});for(var n=keep.length-1;n>=0;n--)fmc.insertBefore(keep[n],fmc.firstChild)}
+ [].forEach.call(T.children,function(b,j){b.setAttribute("aria-selected",+b.dataset.i==i)});fmc.scrollTop=0;
+ var a=T.querySelector('[aria-selected="true"]');if(a&&a.scrollIntoView)try{a.scrollIntoView({block:"nearest",inline:"center"})}catch(e){}
+ busy=false;try{var u=JSON.parse(localStorage.getItem("fm_one")||"{}");u[cur.g[0]]=i;localStorage.setItem("fm_one",JSON.stringify(u))}catch(e){}}
+function sync(){if(busy)return;var on=fmm.classList.contains("on"),f=fmc.firstElementChild,k=key(f);
+ if(cur&&(!on||!f||!OF[k]||OF[k].g!==cur.g)){restore();f=fmc.firstElementChild;k=key(f)}
+ if(!on||!f||!OF[k]||cur)return;var o=OF[k];cur={g:o.g,a:[],k0:k,i:o.i};busy=true;
+ o.g[3].forEach(function(t){t[1].forEach(function(c){var s=P[c].s;if(c==k||!s||s.parentNode!==mn)return;if(window.uxShow&&!uxShow(c))return;var ph=document.createComment("one");mn.insertBefore(ph,s);fmc.appendChild(s);cur.a.push({s:s,ph:ph})})});
+ T.innerHTML=o.g[3].map(function(t,j){var vis=t[1].some(function(c){return P[c].s.parentNode===fmc});return vis?'<button type="button" role="tab" data-i="'+j+'">'+esc(t[0])+'</button>':""}).join("");T.hidden=false;busy=false;
+ var i=o.i;if(k==o.g[0]){try{var u=JSON.parse(localStorage.getItem("fm_one")||"{}");if(u[k]!=null&&T.querySelector('[data-i="'+u[k]+'"]'))i=+u[k]}catch(e){}}show(i)}
+T.addEventListener("click",function(e){var b=e.target.closest("button[data-i]");if(b)show(+b.dataset.i)});
+new MutationObserver(sync).observe(fmc,{childList:true});new MutationObserver(sync).observe(fmm,{attributes:true,attributeFilter:["class"]});
+if(window.uxRefresh)uxRefresh()});
+</script>
+<style id="lv-css">/* Живые плитки: короткое состояние под названием (блок lv-js) */
+.fmt>small.lvs{order:1;display:block;width:100%;margin-top:-2px;font-size:11.5px;font-weight:700;line-height:1.2;color:var(--acc);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-style:normal}
+.fmt>small.lvs.w{color:#f5a524}.fmt>small.lvs.r{color:#ff6b6e}.fmt>small.lvs.ok{color:var(--ok)}
+.big .fmt>small.lvs{font-size:13px}
+</style>
+<script id="lv-js">/* Живые плитки: под названием плитки — главное, чтобы не открывать раздел: квесты дня, вахта, дни до дома, документы, уровень и т.п.
+ Обновляется после сохранения, закрытия окна, смены вкладки, возврата в приложение и раз в минуту. Новое состояние — функция в LV[ключ] (ключ как в uxP). */
+document.addEventListener("DOMContentLoaded",function(){var P=window.uxP,mn=document.getElementById("mn");if(!P||!mn)return;var L=function(r,e,u){return window.fmL?fmL(r,e,u):r};
+function p2(n){return(n<10?"0":"")+n}function hm(m){m=((m%1440)+1440)%1440;return p2(Math.floor(m/60))+":"+p2(m%60)}
+function days(a,b){return Math.round((new Date(b+"T00:00:00")-new Date(a+"T00:00:00"))/864e5)}
+var LV={
+ "#days":function(){var it=items(today,(new Date().getDay()+6)%7),dd=st.done[today]||{},n=it.filter(function(x){return dd[x.id]}).length,sk=calc().streak;if(!it.length)return null;
+  return[(n>=it.length?"✓ ":"")+n+" / "+it.length+(sk>0?"  🔥"+sk:""),n>=it.length?"ok":""]},
+ wch:function(){if(!window.fm3||!fm3.wd)return null;var w=fm3.wd();if(!w.ws.length)return null;var m=w.m,i,x,nx=null,best=1e9;
+  for(i=0;i<w.ws.length;i++){x=w.ws[i];if(w.inR(m,x[0],x[1]))return[L("На вахте до ","On watch till ","На вахті до ")+hm(x[1]),"w"];var d=((x[0]-m)%1440+1440)%1440;if(d<best){best=d;nx=x}}
+  return nx?[L("Вахта в ","Watch at ","Вахта о ")+hm(nx[0]),""]:null},
+ hfm:function(){var d=st.fam&&st.fam.d;if(!/^\d{4}-\d\d-\d\d$/.test(d||""))return null;var n=days(today,d);return n<0?null:n==0?[L("Домой сегодня!","Home today!","Додому сьогодні!"),"ok"]:[n+" "+L("дн. до дома","days to home","дн. до дому"),""]},
+ dc:function(){var a=(st.dc||[]).filter(function(x){return x&&/^\d{4}-\d\d-\d\d$/.test(x.e)});if(!a.length)return null;var bad=a.filter(function(x){return days(today,x.e)<0}).length,soon=a.filter(function(x){var d=days(today,x.e);return d>=0&&d<=30}).length;
+  return bad?["⚠ "+bad+" "+L("просрочен","expired","прострочено"),"r"]:soon?["⚠ "+soon+" "+L("истекает","expiring","спливає"),"w"]:["✓ "+L("в порядке","all good","гаразд"),"ok"]},
+ "#stats":function(){return[L("Уровень ","Level ","Рівень ")+lvl(calc().xp)[0],""]},
+ rlg:function(){var n=(st.rl||[]).length;return n?[n+" "+L("зап.","entries","зап."),""]:null},
+ mt2:function(){var d=st.done[today]||{};return d.m2?["✓ "+L("решена","solved","розв'язано"),"ok"]:[L("Новая задача","New puzzle","Нова задача"),""]},
+ brt:function(){var d=st.done[today]||{};return d.br?["✓ "+L("сегодня было","done today","сьогодні було"),"ok"]:null}
+};
+function put(b,v){if(!b)return;var s=b.querySelector(":scope>small.lvs");if(!v){if(s)s.remove();return}if(!s){s=document.createElement("small");s.className="lvs";s.setAttribute("translate","no");b.insertBefore(s,b.lastChild)}
+ if(s.textContent!=v[0])s.textContent=v[0];s.className="lvs"+(v[1]?" "+v[1]:"")}
+function upd(){var V={};Object.keys(LV).forEach(function(k){if(!P[k])return;try{V[k]=LV[k]()}catch(e){V[k]=null}put(P[k].b,V[k])});
+ [].forEach.call(document.querySelectorAll('.uxm .fmt[data-k]'),function(b){var k=b.getAttribute("data-k");if(k in V)put(b,V[k])})}
+var t=0;function soon(){clearTimeout(t);t=setTimeout(upd,250)}window.lvUpd=soon;
+if(typeof save=="function"){var o=save;save=function(){var r=o.apply(this,arguments);soon();return r}}
+var fmm=document.getElementById("fmm");if(fmm)new MutationObserver(soon).observe(fmm,{attributes:true,attributeFilter:["class"]});
+var um=document.querySelector(".uxm");if(um)new MutationObserver(function(){var a=um.querySelectorAll(".fmt[data-k]:not(:has(small.lvs))");if(a.length)soon()}).observe(um,{childList:true});
+document.getElementById("nav").addEventListener("click",soon);document.addEventListener("visibilitychange",function(){if(!document.hidden)soon()});
+setInterval(upd,60000);upd()});
+</script>
 <style id="nz-css">/* Без случайного увеличения экрана: двойное касание и щипок не масштабируют страницу */
 html,body{touch-action:manipulation;-webkit-text-size-adjust:100%;text-size-adjust:100%}</style>
 <script id="nz-js">/* iPhone: запрет щипка и двойного касания; то же внутри игр (iframe) */
