@@ -57,8 +57,9 @@ module.exports = async function (browser, URL) {
     const W = ms => new Promise(r => setTimeout(r, ms));
     const xp0 = calc().xp;
     // первая отметка в «Квестах дня»: 51 нажатие подряд (нечётное — отметка должна стоять один раз)
-    const t = [...document.querySelectorAll('.fmt')].find(x => /Квесты дня/.test(x.textContent)); t.click(); await W(100);
-    const box = document.getElementById('fmc'); const q = box.querySelector('#list input[type=checkbox]');
+    // «Квесты дня» — своя плитка или вкладка объединённой плитки «Мой день» (one-js)
+    const t = [...document.querySelectorAll('.fmt')].find(x => /Квесты дня|Мой день/.test(x.textContent)); if (t) { t.click(); await W(150); }
+    const q = document.querySelector('#fmc #list input[type=checkbox]') || document.querySelector('#list input[type=checkbox]');
     if (!q) return { skip: 1 };
     for (let i = 0; i < 51; i++) { q.click(); }
     await W(300);
