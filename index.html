@@ -3302,6 +3302,33 @@ function set(v,say){de.classList.toggle("nv",v);try{localStorage.setItem(K,v?"1"
 var b=null;if(on())de.classList.add("nv");
 document.addEventListener("DOMContentLoaded",function(){b=document.createElement("button");b.type="button";b.id="nvb";b.setAttribute("translate","no");document.body.appendChild(b);set(on());b.onclick=function(){set(!de.classList.contains("nv"),1)}})})();
 </script>
+<style id="wm-css">/* Уют: приветствие по имени и времени суток в «Сегодня», отклик на отметку квеста, праздник, когда закрыты все квесты дня (блок wm-js) */
+#tdy h3.wmg{font-size:19px;line-height:1.25}
+#list li.wmp{animation:wmp .45s ease}@keyframes wmp{0%{transform:scale(1)}35%{transform:scale(1.035);box-shadow:0 0 0 3px color-mix(in srgb,var(--ok) 55%,transparent)}100%{transform:scale(1)}}
+#wmc{position:fixed;inset:0;z-index:2147483500;pointer-events:none;overflow:hidden}
+#wmc i{position:absolute;top:-40px;font-style:normal;font-size:26px;animation:wmf 2.4s ease-in forwards}@keyframes wmf{to{transform:translateY(110vh) rotate(320deg);opacity:.2}}
+@media (prefers-reduced-motion:reduce){#list li.wmp{animation:none}#wmc{display:none}}
+</style>
+<script id="wm-js">/* Уют: 1) заголовок «Сегодня» — приветствие по времени суток и имени (на вахте — «Доброй вахты»);
+ 2) отмеченный квест мягко «вспыхивает» (и короткая вибрация, где телефон умеет); 3) когда закрыты все квесты сегодняшнего дня — праздник раз в день (fm_wmc). */
+document.addEventListener("DOMContentLoaded",function(){var L=function(r,e,u){return window.fmL?fmL(r,e,u):r};
+function onWatch(){try{var w=fm3.wd();return w.ws.some(function(x){return w.inR(w.m,x[0],x[1])})}catch(e){return false}}
+function greet(){var c=document.getElementById("tdy"),h=c&&c.querySelector("h3");if(!h)return;var hr=new Date().getHours(),nm=(st.name||"").trim().split(/\s+/)[0]||"",t;
+ if(onWatch())t="⚓ "+L("Доброй вахты","Have a good watch","Доброї вахти");
+ else if(hr>=5&&hr<12)t="🌅 "+L("Доброе утро","Good morning","Доброго ранку");else if(hr>=12&&hr<17)t="☀️ "+L("Добрый день","Good afternoon","Доброго дня");
+ else if(hr>=17&&hr<23)t="🌇 "+L("Добрый вечер","Good evening","Доброго вечора");else t="🌙 "+L("Доброй ночи","Good night","Доброї ночі");
+ t+=nm?", "+nm:"";if(h.textContent!=t){h.textContent=t;h.className="wmg";h.setAttribute("translate","no")}}
+if(typeof tdr=="function"){var o=tdr;tdr=function(){var r=o.apply(this,arguments);greet();return r}}
+greet();setInterval(greet,5*6e4);document.addEventListener("visibilitychange",function(){if(!document.hidden)greet()});
+function party(){var w=document.createElement("div");w.id="wmc";var E=["🎉","⭐","⚓","🎊","✨","🏆"],h="";for(var i=0;i<26;i++)h+='<i style="left:'+Math.round(Math.random()*96)+'%;animation-delay:'+(Math.random()*0.9).toFixed(2)+'s">'+E[i%E.length]+'</i>';
+ w.innerHTML=h;document.body.appendChild(w);setTimeout(function(){w.remove()},3600);if(window.toast)toast(L("🏆 Все квесты дня закрыты! Отличная работа.","🏆 All quests done today! Great job.","🏆 Усі квести дня закрито! Чудова робота."))}
+var ul=document.getElementById("list");if(!ul)return;
+ul.addEventListener("change",function(e){var x=e.target;if(!x||x.type!="checkbox"||!x.checked)return;var lab=x.getAttribute("aria-label");
+ try{if(navigator.vibrate)navigator.vibrate(12)}catch(er){}
+ setTimeout(function(){var li=null;[].forEach.call(ul.querySelectorAll("li"),function(l){var c=l.querySelector("input");if(c&&c.getAttribute("aria-label")==lab)li=l});if(li){li.classList.remove("wmp");void li.offsetWidth;li.classList.add("wmp")}
+  var it=items(today,(new Date().getDay()+6)%7),dd=st.done[today]||{};if(!it.length||it.some(function(q){return!dd[q.id]}))return;
+  var k="fm_wmc";try{if(localStorage.getItem(k)==today)return;localStorage.setItem(k,today)}catch(er){}party()},30)})});
+</script>
 <style id="nz-css">/* Без случайного увеличения экрана: двойное касание и щипок не масштабируют страницу */
 html,body{touch-action:manipulation;-webkit-text-size-adjust:100%;text-size-adjust:100%}</style>
 <script id="nz-js">/* iPhone: запрет щипка и двойного касания; то же внутри игр (iframe) */
