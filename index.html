@@ -3204,7 +3204,7 @@ var GR=[
  ["wch","⚓",L("Вахта и отдых","Watch and rest","Вахта і відпочинок"),[[L("Вахта и сон","Watch & sleep","Вахта і сон"),["wch"]],[L("Часы отдыха","Rest hours","Години відпочинку"),["rh"]]]],
  ["hfm","🏠",L("Дом и семья","Home and family","Дім і сім'я"),[[L("Семья","Family","Сім'я"),["hfm"]],[L("До дома","Until home","До дому"),["ktr"]],[L("Звонок","Call","Дзвінок"),["cth"]]]],
  ["ck","☑️",L("Чек-листы","Checklists","Чек-листи"),[[L("На судне","On board","На судні"),["ck"]],[L("Сборы","Packing","Збори"),["pck"]],[L("Должность","Promotion","Посада"),["rk"]]]],
- ["#stats","📈",L("Прогресс","Progress","Прогрес"),[[L("Характеристики","Stats","Характеристики"),["#stats"]],[L("Достижения","Achievements","Досягнення"),["#ach"]],[L("Награды","Rewards","Нагороди"),["rwd"]],[L("Неделя","Week","Тиждень"),["wkc"]],[L("Календарь","Calendar","Календар"),["hm"]],[L("С другом","With a friend","З другом"),["cmpt"]]]],
+ ["#stats","📈",L("Прогресс","Progress","Прогрес"),[[L("Характеристики","Stats","Характеристики"),["#stats"]],[L("Достижения","Achievements","Досягнення"),["#ach"]],[L("Награды","Rewards","Нагороди"),["rwd"]],[L("Цели рейса","Trip goals","Цілі рейсу"),["rg"]],[L("Неделя","Week","Тиждень"),["wkc"]],[L("Календарь","Calendar","Календар"),["hm"]],[L("С другом","With a friend","З другом"),["cmpt"]]]],
  ["d1","📓",L("Дневник","Diary","Щоденник"),[[L("Состояние","Mood","Стан"),["d1","dq"]],[L("Запись","Entry","Запис"),["d2"]],[L("Рисунок","Drawing","Малюнок"),["d3"]],[L("Все записи","All entries","Усі записи"),["d4"]]]],
  ["sh1","🧭",L("Курс на берег","Course ashore","Курс на берег"),[[L("Курс","Course","Курс"),["sh1"]],[L("Шаг дня","Step","Крок дня"),["sh4"]],[L("Навыки","Skills","Навички"),["sh2"]],[L("План","Plan","План"),["sh5"]]]],
  ["ch","🎁",L("Сундук и магазин","Chest and shop","Скриня і крамниця"),[[L("Сундук дня","Daily chest","Скриня дня"),["ch"]],[L("Магазин","Shop","Крамниця"),["shop"]]]],
@@ -3430,6 +3430,7 @@ function nat(){return typeof dcNP=="function"&&dcNP()}
 /* --- визиты: «с возвращением» и итоги недели --- */
 var seen=localStorage.getItem("fm_seen")||"",gap=seen?days(seen,today):0;if(gap>=3)W("fm_back",today);var back=localStorage.getItem("fm_back")==today;W("fm_seen",today);
 /* --- первые шаги --- */
+window.rtCard=function(){card()};
 function steps(){var c=calc(),w=st.wch||{},o=[
  ["wch","⚓",L("Выбери график вахты","Choose your watch rota","Обери графік вахти"),!!w.p],
  ["hfm","🏠",L("Укажи дату возвращения домой","Set your date home","Вкажи дату повернення додому"),!!(st.fam&&/^\d{4}-\d\d-\d\d$/.test(st.fam.d||""))],
@@ -3441,6 +3442,7 @@ function steps(){var c=calc(),w=st.wch||{},o=[
 function card(){var t=document.getElementById("tdy");if(!t)return;var x=document.getElementById("rtx");if(!x){x=document.createElement("div");x.id="rtx";x.setAttribute("translate","no")}
  var h3=t.querySelector("h3");if(h3&&x.previousElementSibling!==h3)h3.parentNode.insertBefore(x,h3.nextSibling);var r=R(),h="";
  if(back&&r.bk!=today)h+='<div class="rtc hi"><b class="rtt">👋 '+L("С возвращением!","Welcome back!","З поверненням!")+'</b>'+L("Хорошо, что ты здесь. Не нужно догонять всё сразу — начни с одного дела.","Good to see you. No need to catch up on everything — start with one thing.","Добре, що ти тут. Не треба наздоганяти все одразу — почни з однієї справи.")+'<div class="rtb"><button type="button" class="go" data-rt="go" data-k="#days">'+L("Открыть квесты","Open quests","Відкрити квести")+'</button><button type="button" data-rt="bk">'+L("Скрыть","Hide","Сховати")+'</button></div></div>';
+ h+=(window.RTX||[]).map(function(f){try{return f()||""}catch(e){return""}}).join("");
  var S=steps(),n=S.filter(function(z){return z[3]}).length;
  if(!r.f&&!r.sh&&S.length){if(n>=S.length){r.f=today;save();toast(L("🎉 Первые шаги пройдены: +50 XP","🎉 First steps done: +50 XP","🎉 Перші кроки пройдено: +50 XP"))}
   else h+='<div class="rtc hi"><b class="rtt">🚀 '+L("Первые шаги","First steps","Перші кроки")+' · '+n+' / '+S.length+'</b>'+L("За все — +50 XP.","+50 XP for all of them.","За всі — +50 XP.")+'<div class="rts">'+S.map(function(z){return'<button type="button" data-rt="go" data-k="'+esc(z[0])+'" class="'+(z[3]?"ok":"")+'"><i>'+(z[3]?"✓":z[1])+'</i><span>'+esc(z[2])+'</span></button>'}).join("")+'</div><div class="rtb"><button type="button" data-rt="sh">'+L("Скрыть","Hide","Сховати")+'</button></div></div>'}
@@ -3448,6 +3450,7 @@ function card(){var t=document.getElementById("tdy");if(!t)return;var x=document
  if(P.ch&&!d.chest)ch.push(m>=3?['ch','🎁 '+L("Сундук готов — открой!","Chest is ready — open it!","Скриня готова — відкрий!"),1]:['ch','🎁 '+L("Сундук: сделано ","Chest: done ","Скриня: зроблено ")+m+" / 3",0]);
  if(P.mt2&&!d.m2&&(!window.uxShow||uxShow("mt2")))ch.push(['mt2','🧠 '+L("Новая задача дня","New daily puzzle","Нова задача дня"),0]);
  if(sk>0&&new Date().getHours()>=18){var it=items(today,(new Date().getDay()+6)%7),left=it.filter(function(q){return!d[q.id]}).length;if(left)ch.push(['#days','🔥 '+L("Сохрани серию: осталось ","Keep your streak: ","Збережи серію: залишилось ")+left,1])}
+ (window.RTC||[]).forEach(function(f){try{var c=f();if(c)ch.push(c)}catch(e){}});
  var la=J("fm_last",null);if(la&&la.k&&P[la.k]&&days(la.d,today)<=3&&(!window.uxShow||uxShow(la.k))){var nm=(P[la.k].b.lastChild&&P[la.k].b.lastChild.textContent)||"";if(nm)ch.unshift([la.k,'↩ '+L("Продолжить: ","Continue: ","Продовжити: ")+nm,0])}
  if(ch.length)h+='<div class="rtn">'+ch.map(function(c){return'<button type="button" class="rtch'+(c[2]?" hot":"")+'" data-rt="go" data-k="'+esc(c[0])+'">'+esc(c[1])+'</button>'}).join("")+'</div>';
  var lv=lvl(calc().xp);h+='<div class="rtl"><span>'+L("Ур. ","Lv ","Рів. ")+lv[0]+'</span><div><i style="width:'+Math.round(lv[1]/lv[2]*100)+'%"></i></div><span>'+L("ещё ","","ще ")+(lv[2]-lv[1])+' XP'+L(""," to go","")+'</span></div>';
@@ -3486,6 +3489,7 @@ function remSync(force){var N=nat();if(!N)return;var q=rem(),arr=[],now=Date.now
   var a=fit(new Date(k+"T"+q.am+":00"),13,5),b=fit(new Date(k+"T"+q.pm+":00"),24,14);
   if(a&&a.getTime()>now+6e4&&it.length)arr.push({id:3000+i,at:a,t:"⚓ Fac Modo",b:(a.getHours()<12?L("Доброе утро! ","Good morning! ","Доброго ранку! "):"")+L("Квестов сегодня: ","Quests today: ","Квестів сьогодні: ")+it.length});
   if(b&&b.getTime()>now+6e4&&left)arr.push({id:3010+i,at:b,t:"🔥 Fac Modo",b:i==0&&sk>0?L("Осталось дел: ","Tasks left: ","Залишилось справ: ")+left+L(". Сохрани серию — ",". Keep your streak — ",". Збережи серію — ")+sk+L(" дн."," days"," дн."):L("Отметь, что сделано сегодня — день засчитается.","Tick off what you did today so the day counts.","Відміть, що зроблено сьогодні, — день зарахується.")})}
+  (window.RTN||[]).forEach(function(f){try{arr=arr.concat(f(fit,now)||[])}catch(e){}});
   var z=new Date(now+3*864e5);z.setHours(10,0,0,0);z=fit(z,22,8)||z;arr.push({id:3090,at:z,t:"⚓ Fac Modo",b:L("Давно не виделись! Загляни — квесты и задача дня ждут.","Long time no see! Your quests and daily puzzle are waiting.","Давно не бачились! Зазирни — квести й задача дня чекають.")})}
  var sig=JSON.stringify(arr.map(function(x){return x.id+":"+x.at.getTime()+x.b}));if(!force&&sig==rsig)return;rsig=sig;
  rq=rq.then(function(){return N.getPending()}).then(function(r){var ids=((r&&r.notifications)||[]).map(function(n){return n.id}).filter(function(i){return i>=3000&&i<3100});return ids.length?N.cancel({notifications:ids.map(function(i){return{id:i}})}):0})
@@ -3501,6 +3505,121 @@ function remR(){var c=document.getElementById("rem");if(!c)return;var q=rem(),n=
 var rc=document.getElementById("rem");if(rc){rc.addEventListener("click",function(e){var b=e.target.closest("[data-rm]");if(b)remOn(!rem().on)});
  rc.addEventListener("change",function(e){var t=e.target;if(!/^\d\d:\d\d$/.test(t.value||""))return;var q=rem();if(t.id=="rmam")q.am=t.value;else if(t.id=="rmpm")q.pm=t.value;else return;W("fm_rem",q);remSync(1)})}
 remR()});
+</script>
+<style id="rs-css">/* Рейс: воспоминания, праздники рейса, повторение слов (#srs), цели на рейс (#rg), «почти получил» (блок rs-js) */
+#rtx .rsm{display:flex;gap:10px;align-items:flex-start}#rtx .rsm img{width:64px;height:64px;object-fit:cover;border-radius:10px;flex:0 0 auto}
+#rtx .rsq{font-style:italic;margin:2px 0 0}
+#rtx .rgl{display:flex;flex-direction:column;gap:6px;margin-top:4px}
+.rgb{height:8px;border-radius:6px;background:#ffffff22;overflow:hidden;margin-top:4px}.rgb i{display:block;height:100%;background:var(--ok)}
+#srs .srb{margin:10px 0;padding:22px 14px;border-radius:16px;border:1px solid var(--line);background:var(--bg);text-align:center}
+#srs .srb b{display:block;font-size:26px;line-height:1.25}#srs .srb p{margin:10px 0 0;font-size:18px;color:var(--acc)}
+#srs .sra{display:grid;grid-template-columns:1fr 1fr;gap:8px}#srs .sra button,#srs .srw{min-height:50px;font-size:16px}
+#srs .srw{width:100%}
+#rg .rgi{padding:10px 12px;margin:8px 0;border-radius:12px;border:1px solid var(--line);background:var(--bg)}
+#rg .rgi .rgh{display:flex;justify-content:space-between;gap:8px;align-items:baseline}#rg .rgi .rgh small{color:var(--mute);white-space:nowrap}
+#rg .rgc{display:flex;gap:6px;margin-top:8px;flex-wrap:wrap}#rg .rgc button{min-height:40px;padding:0 12px}#rg .rgc input{width:90px;min-height:40px}
+#rg .rgp{display:flex;flex-wrap:wrap;gap:6px;margin:6px 0}#rg .rgp button{min-height:40px;padding:0 12px;border-radius:99px}
+#achn{margin-top:12px}#achn .rgi{padding:8px 10px;margin:6px 0;border-radius:10px;border:1px dashed var(--line)}#achn small{color:var(--mute)}
+</style>
+<script id="rs-js">/* Рейс — то, ради чего хочется возвращаться (тексты через fmL, разделы translate="no"):
+ 1) «Месяц назад ты писал…» — запись дневника (st.dr) того же дня неделю / месяц / год назад, в «Сегодня»; скрыть на день — fm_mem.
+ 2) Праздники рейса — 25/50/75 %, 30/7/1 дней до дома, день дома (по датам «До дома»: st.kt.a и st.fam.d): карточка 3 дня (fm_mil) и напоминание на телефоне (id 3020–3029).
+ 3) Повторение слов #srs (вкладка «Знания»): термины EN/ENm/ENn, интервалы 1-3-7-14-30-60-120 дн., 5 новых в день; st.srs {w:{слово:[ступень,дата]}, n:{дата:новых}};
+    закончил на сегодня — st.done[дата].srs (+15 XP, «Язык»).
+ 4) Цели на рейс #rg (вкладка «Прогресс»): st.rg.l [{id,t,n,v,a}] — a: "srs" (выучено слов), "gym" (тренировок), "rd" (статей) считаются сами; на главной — полоски.
+ 5) «Почти получил» — ближайшее достижение (ALM: номер в AC, значение, цель): в «Сегодня» и под «Достижениями» (#achn). */
+(function(){var mn=document.getElementById("mn");if(!mn)return;function mk(id,t,after){if(document.getElementById(id))return;var s=document.createElement("section");s.className="card";s.id=id;s.setAttribute("data-t",t);s.setAttribute("translate","no");
+ var a=after&&document.getElementById(after);a=a&&a.closest("#mn>section");if(a)mn.insertBefore(s,a.nextSibling);else mn.appendChild(s)}
+mk("srs","know","en");mk("rg","me","ach")})();
+document.addEventListener("DOMContentLoaded",function(){var P=window.uxP||{},L=function(r,e,u){return window.fmL?fmL(r,e,u):r};
+function T(x){return st.lang&&st.lang!="ru"&&window.trEN?trEN(x):x}
+function J(k,d){try{return JSON.parse(localStorage.getItem(k)||"")||d}catch(e){return d}}function W(k,v){try{localStorage.setItem(k,typeof v=="string"?v:JSON.stringify(v))}catch(e){}}
+function dk(d){return d.getFullYear()+"-"+("0"+(d.getMonth()+1)).slice(-2)+"-"+("0"+d.getDate()).slice(-2)}
+function add(k,n){var d=new Date(k+"T00:00:00");d.setDate(d.getDate()+n);return dk(d)}
+function days(a,b){return Math.round((new Date(b+"T00:00:00")-new Date(a+"T00:00:00"))/864e5)}
+function fd(k){return k.split("-").reverse().slice(0,2).join(".")}
+function rt(){if(window.rtCard)rtCard()}
+var RTX=window.RTX=window.RTX||[],RTC=window.RTC=window.RTC||[],RTN=window.RTN=window.RTN||[];
+/* ---------- 1. воспоминания ---------- */
+var MO=["😞","😕","😐","🙂","😄"];
+RTX.push(function(){if(localStorage.getItem("fm_mem")==today||!st.dr)return"";var O=[[365,L("Год назад","A year ago","Рік тому")],[30,L("Месяц назад","A month ago","Місяць тому")],[7,L("Неделю назад","A week ago","Тиждень тому")]],i,r,k;
+ for(i=0;i<O.length;i++){k=add(today,-O[i][0]);r=st.dr[k];if(r&&(r.note||r.mood||r.img))break;r=null}if(!r)return"";
+ var img=typeof r.img=="string"&&/^data:image\/jpeg;base64,/.test(r.img)?'<img src="'+r.img+'" alt="">':"",tx=r.note?String(r.note).trim():"";
+ return'<div class="rtc"><div class="rsm">'+img+'<div><b class="rtt">📔 '+O[i][1]+', '+fd(k)+'</b>'+(r.mood?L("Настроение: ","Mood: ","Настрій: ")+MO[r.mood-1]+" ":"")+(tx?'<p class="rsq">«'+esc(tx.length>160?tx.slice(0,158)+"…":tx)+'»</p>':"")+'</div></div><div class="rtb"><button type="button" data-rs="d4">'+L("Открыть дневник","Open diary","Відкрити щоденник")+'</button><button type="button" data-rs="mem">'+L("Скрыть","Hide","Сховати")+'</button></div></div>'});
+/* ---------- 2. праздники рейса ---------- */
+function trip(){var k=st.kt||{},a=k.a,b=st.fam&&st.fam.d||k.b,ok=/^\d{4}-\d\d-\d\d$/;if(!ok.test(a||"")||!ok.test(b||"")||b<=a)return null;var all=days(a,b);
+ return[["h25",add(a,Math.round(all*.25)),"⛵ "+L("Четверть контракта позади!","A quarter of the contract is behind you!","Чверть контракту позаду!")],
+  ["h50",add(a,Math.round(all*.5)),"🎉 "+L("Половина контракта позади!","Halfway through the contract!","Половина контракту позаду!")],
+  ["h75",add(a,Math.round(all*.75)),"🌅 "+L("Три четверти пути — финишная прямая!","Three quarters done — the home stretch!","Три чверті шляху — фінішна пряма!")],
+  ["d30",add(b,-30),"📅 "+L("30 дней до дома!","30 days to home!","30 днів до дому!")],["d7",add(b,-7),"🧳 "+L("Неделя до дома — пора собираться!","One week to home — time to pack!","Тиждень до дому — час збиратися!")],
+  ["d1",add(b,-1),"✨ "+L("Завтра домой!","Home tomorrow!","Завтра додому!")],["d0",b,"🏠 "+L("Сегодня домой! Счастливого пути!","Going home today! Safe travels!","Сьогодні додому! Щасливої дороги!")]].filter(function(x){return x[1]>a&&x[1]<=b})}
+RTX.push(function(){var M=trip();if(!M)return"";var seen=J("fm_mil",{}),m=null;M.forEach(function(x){var d=days(x[1],today);if(d>=0&&d<=2&&!seen[x[0]+x[1]])m=x});if(!m)return"";
+ var g=goals(),gx=m[0]=="d0"&&g.length?'<div class="rgl">'+g.map(gRow).join("")+'</div>':"";
+ return'<div class="rtc hi"><b class="rtt">'+m[2]+'</b>'+(m[0]=="d0"?L("Вот что ты успел за рейс:","Here is what you achieved this trip:","Ось що ти встиг за рейс:"):L("Так держать — каждый день приближает к дому.","Keep going — every day brings you closer to home.","Так тримати — кожен день наближає до дому."))+gx+'<div class="rtb"><button type="button" data-rs="mil" data-v="'+m[0]+m[1]+'">'+L("Спасибо!","Thanks!","Дякую!")+'</button></div></div>'});
+RTN.push(function(fit,now){var M=trip(),o=[];if(!M)return o;M.forEach(function(x,i){var t=fit(new Date(x[1]+"T10:00:00"),20,8);if(t&&t.getTime()>now+6e4&&i<10)o.push({id:3020+i,at:t,t:"⚓ Fac Modo",b:x[2]})});return o});
+/* ---------- 3. повторение слов ---------- */
+var IV=[1,3,7,14,30,60,120],NEW=5;
+function words(){var r=(st.ux&&st.ux.r)||st.prof||"",A=[window.EN||[],window.ENm||[],window.ENn||[]];if(r=="me")A=[A[1],A[0],A[2]];else if(r=="na")A=[A[2],A[1],A[0]];
+ var seen={},o=[];A.forEach(function(l){l.forEach(function(w){if(w&&w[0]&&!seen[w[0]]){seen[w[0]]=1;o.push(w)}})});return o}
+function S(){var s=st.srs;if(!s||typeof s!="object"||Array.isArray(s))s=st.srs={};s.w=s.w||{};s.n=s.n||{};return s}
+function learned(){var w=(st.srs&&st.srs.w)||{};return Object.keys(w).filter(function(k){return w[k][0]>=3}).length}
+var q=null,qi=0,shown=false;
+function queue(){var s=S(),A=words(),due=A.filter(function(w){var x=s.w[w[0]];return x&&x[1]<=today}),nn=Math.max(0,NEW-(s.n[today]||0)),fresh=A.filter(function(w){return!s.w[w[0]]}).slice(0,nn);return due.slice(0,25).concat(fresh)}
+function srr(){var c=document.getElementById("srs");if(!c)return;if(!q){q=queue();qi=0;shown=false}var s=S(),d=st.done[today]||{},A=words(),h='<h3>🔁 '+L("Повторение слов","Word review","Повторення слів")+'</h3>';
+ h+='<p class="note" style="margin:0 0 6px">'+L("Каждый день несколько морских терминов: новые и те, что пора повторить, пока не забылись. 2 минуты в день — и слова остаются в памяти.","A few marine terms every day: new ones and ones due for review before you forget. 2 minutes a day keeps them in memory.","Щодня кілька морських термінів: нові й ті, що час повторити, поки не забулися. 2 хвилини на день — і слова залишаються в пам’яті.")+'</p>';
+ h+='<p class="note" style="margin:0 0 6px">'+L("Выучено: ","Learned: ","Вивчено: ")+'<b>'+learned()+'</b> '+L("из","of","з")+' '+A.length+'</p>';
+ if(qi<q.length){var w=q[qi];h+='<p class="note" style="margin:0">'+(qi+1)+' / '+q.length+'</p><div class="srb"><b>'+esc(w[0])+'</b>'+(shown?'<p>'+esc(T(w[1]))+'</p>':'')+'</div>'+
+  (shown?'<div class="sra"><button type="button" class="alt" data-sr="no">😕 '+L("Не помню","Forgot","Не пам’ятаю")+'</button><button type="button" data-sr="ok">🙂 '+L("Помню","I know it","Пам’ятаю")+'</button></div>':'<button type="button" class="srw" data-sr="show">'+L("Показать перевод","Show translation","Показати переклад")+'</button>')}
+ else h+='<div class="srb"><b>✓ '+L("На сегодня всё!","All done for today!","На сьогодні все!")+'</b><p>'+(d.srs?"+"+d.srs.x+" XP":"")+'</p></div><p class="note" style="margin:0">'+L("Завтра будут новые слова и повторение.","Tomorrow brings new words and reviews.","Завтра будуть нові слова й повторення.")+'</p>';
+ c.innerHTML=h}
+var sc=document.getElementById("srs");if(sc)sc.addEventListener("click",function(e){var b=e.target.closest("[data-sr]");if(!b||!q||qi>=q.length)return;var a=b.dataset.sr,w=q[qi],s=S();
+ if(a=="show"){shown=true;srr();return}var x=s.w[w[0]];if(!x){s.n[today]=(s.n[today]||0)+1;x=[0,today]}
+ if(a=="ok"){x[0]=Math.min(x[0]+1,IV.length-1);x[1]=add(today,IV[x[0]-1>=0?x[0]-1:0])}else{x[0]=0;x[1]=add(today,1)}s.w[w[0]]=x;
+ Object.keys(s.n).forEach(function(k){if(k<add(today,-14))delete s.n[k]});qi++;shown=false;
+ if(qi>=q.length){var d=st.done[today]=st.done[today]||{};if(!d.srs){d.srs={x:15,c:"eng"};toast(L("🔁 Слова на сегодня повторены: +15 XP","🔁 Today’s words reviewed: +15 XP","🔁 Слова на сьогодні повторено: +15 XP"))}}
+ save();if(typeof render=="function")render();srr()});
+RTC.push(function(){if(!P.srs||(window.uxShow&&!uxShow("srs")))return null;var d=st.done[today]||{};if(d.srs)return null;var n=queue().length;return n?["srs","🔁 "+L("Слова на сегодня: ","Words for today: ","Слова на сьогодні: ")+n,0]:null});
+/* ---------- 4. цели на рейс ---------- */
+function goals(){var g=st.rg;if(!g||typeof g!="object"||Array.isArray(g))return[];return Array.isArray(g.l)?g.l:[]}
+function gv(x){var c;if(x.a=="srs")return learned();if(x.a=="gym"){c=calc();return(c.cnt&&c.cnt.gym)||0}if(x.a=="rd"){c=calc();return c.rdn||0}return+x.v||0}
+function gRow(x){var v=gv(x),pc=Math.max(0,Math.min(100,Math.round(v/(x.n||1)*100)));return'<div><div style="display:flex;justify-content:space-between;gap:8px"><span>'+(pc>=100?"✓ ":"🎯 ")+esc(x.t)+'</span><small>'+v+' / '+x.n+'</small></div><div class="rgb"><i style="width:'+pc+'%"></i></div></div>'}
+var PRE=[["srs",L("Выучить морские термины","Learn marine terms","Вивчити морські терміни"),100],["gym",L("Тренировки в зале","Gym workouts","Тренування в залі"),20],["rd",L("Прочитать статьи библиотеки","Read library articles","Прочитати статті бібліотеки"),15],
+ ["",L("Накопить (сумма)","Save up (amount)","Накопичити (сума)"),3000],["",L("Подготовиться к повышению","Prepare for promotion","Підготуватися до підвищення"),10],["",L("Прочитать книги","Read books","Прочитати книжки"),3]];
+function rgr(){var c=document.getElementById("rg");if(!c)return;if(document.activeElement&&c.contains(document.activeElement)&&c.innerHTML)return;var G=goals(),h='<h3>🎯 '+L("Цели на рейс","Trip goals","Цілі на рейс")+'</h3>';
+ h+='<p class="note" style="margin:0 0 6px">'+L("1–5 целей на контракт. Прогресс виден на главной, а в день возвращения домой — итог рейса. Слова, тренировки и статьи считаются сами.","1–5 goals for the contract. Progress shows on the main screen, and on your day home — a trip summary. Words, workouts and articles count automatically.","1–5 цілей на контракт. Прогрес видно на головній, а в день повернення додому — підсумок рейсу. Слова, тренування і статті рахуються самі.")+'</p>';
+ G.forEach(function(x){var v=gv(x),pc=Math.max(0,Math.min(100,Math.round(v/(x.n||1)*100)));h+='<div class="rgi"><div class="rgh"><b>'+(pc>=100?"✓ ":"")+esc(x.t)+'</b><small>'+v+' / '+x.n+(x.a?" · "+L("само","auto","само"):"")+'</small></div><div class="rgb"><i style="width:'+pc+'%"></i></div><div class="rgc">'+
+  (x.a?'':'<button type="button" class="alt" data-rg="m" data-id="'+x.id+'">−1</button><button type="button" data-rg="p" data-id="'+x.id+'">+1</button><input type="number" inputmode="decimal" min="0" value="'+(+x.v||0)+'" data-rg="v" data-id="'+x.id+'" aria-label="'+L("Сколько сделано","Done so far","Скільки зроблено")+'">')+
+  '<button type="button" class="alt" data-rg="x" data-id="'+x.id+'" aria-label="'+L("Удалить цель","Delete goal","Видалити ціль")+'">✕</button></div></div>'});
+ if(G.length<5){h+='<p class="note" style="margin:10px 0 0"><b>'+L("Добавить цель","Add a goal","Додати ціль")+'</b> — '+L("готовая:","a ready one:","готова:")+'</p><div class="rgp">'+PRE.map(function(p,i){return'<button type="button" class="alt" data-rg="pre" data-i="'+i+'">'+esc(p[1])+'</button>'}).join("")+'</div>'+
+  '<div class="add"><input id="rgt" maxlength="60" placeholder="'+L("Или своя: например, сдать на 2-го механика","Or your own: e.g. pass the 2nd engineer exam","Або своя: наприклад, скласти на 2-го механіка")+'"><input id="rgn" type="number" inputmode="numeric" min="1" value="1" style="max-width:90px" aria-label="'+L("Цель (число)","Target (number)","Ціль (число)")+'"><button type="button" data-rg="add">'+L("Добавить","Add","Додати")+'</button></div>'}
+ c.innerHTML=h}
+function gSave(){save();rgr();rt()}
+var rc=document.getElementById("rg");if(rc){rc.addEventListener("click",function(e){var b=e.target.closest("[data-rg]");if(!b||b.tagName=="INPUT")return;var a=b.dataset.rg,g=st.rg=(st.rg&&typeof st.rg=="object"&&!Array.isArray(st.rg))?st.rg:{};g.l=Array.isArray(g.l)?g.l:[];
+ var x=g.l.filter(function(y){return y.id==b.dataset.id})[0],id=Date.now().toString(36);
+ if(a=="p"&&x){x.v=(+x.v||0)+1;gSave()}else if(a=="m"&&x){x.v=Math.max(0,(+x.v||0)-1);gSave()}
+ else if(a=="x"&&x){if(!confirm(L("Удалить цель?","Delete this goal?","Видалити ціль?")))return;g.l=g.l.filter(function(y){return y!==x});gSave()}
+ else if(a=="pre"&&g.l.length<5){var p=PRE[+b.dataset.i];if(p[0]&&g.l.some(function(y){return y.a==p[0]}))return;g.l.push({id:id,t:p[1],n:p[2],v:0,a:p[0]||""});if(!g.s)g.s=today;gSave();toast(L("🎯 Цель добавлена","🎯 Goal added","🎯 Ціль додано"))}
+ else if(a=="add"&&g.l.length<5){var t=(document.getElementById("rgt").value||"").trim(),n=Math.round(+document.getElementById("rgn").value||0);if(!t||n<1){toast(L("Напиши цель и число","Enter a goal and a number","Напиши ціль і число"));return}g.l.push({id:id,t:t.slice(0,60),n:n,v:0,a:""});if(!g.s)g.s=today;gSave()}});
+ rc.addEventListener("change",function(e){var t=e.target;if(t.dataset.rg!="v")return;var x=goals().filter(function(y){return y.id==t.dataset.id})[0];if(!x)return;x.v=Math.max(0,+t.value||0);save();t.blur();rgr();rt()})}
+RTX.push(function(){var G=goals();if(!G.length)return"";return'<div class="rtc" data-rs="rg" style="cursor:pointer"><b class="rtt">🎯 '+L("Цели на рейс","Trip goals","Цілі на рейс")+'</b><div class="rgl">'+G.slice(0,3).map(gRow).join("")+'</div></div>'});
+RTC.push(function(){var k=st.kt||{};if(goals().length||!P.rg||!/^\d{4}-\d\d-\d\d$/.test(k.a||""))return null;return["rg","🎯 "+L("Поставь цель на рейс","Set a goal for the trip","Постав ціль на рейс"),0]});
+/* ---------- 5. почти получил ---------- */
+var ALM=[[2,function(c){return c.streak},3],[3,function(c){return c.streak},7],[4,function(c){return c.cnt.gym||0},10],[5,function(c){return c.cnt.eng||0},10],[6,function(c){return c.cnt.study||0},10],
+ [7,function(c){return c.cnt.work||0},20],[8,function(c){return c.cnt.read||0},10],[9,function(c){return c.qz.ok},10],[11,function(c){return c.rdn},10],[14,function(c){return c.skn},5],[15,function(c){return c.pmn},5],
+ [16,function(c){return c.mon},3],[17,function(c){return c.dnn},7],[18,function(c){return lvl(c.xp)[0]},5],[19,function(c){return lvl(c.xp)[0]},10]];
+function near(){if(!window.AC)return[];var c=calc(),o=[];ALM.forEach(function(a){var A=AC[a[0]];if(!A)return;var v=0;try{v=+a[1](c)||0}catch(e){return}var done=false;try{done=A[3](c)}catch(e){}if(done||v>=a[2])return;o.push({a:A,v:v,n:a[2],r:v/a[2]})});
+ return o.filter(function(x){return x.r>=.5}).sort(function(x,y){return y.r-x.r})}
+RTC.push(function(){var n=near()[0];if(!n||!P["#ach"])return null;return["#ach","🏅 "+L("Почти: ","Almost: ","Майже: ")+"«"+T(n.a[1])+"» — "+L("ещё ","","ще ")+(n.n-n.v)+L(""," to go",""),0]});
+function achn(){var a=document.getElementById("ach");if(!a)return;var b=document.getElementById("achn");if(!b){b=document.createElement("div");b.id="achn";b.setAttribute("translate","no");a.parentNode.insertBefore(b,a.nextSibling)}
+ var N=near().slice(0,3),h=N.length?'<b>'+L("Почти получено","Almost there","Майже отримано")+'</b>'+N.map(function(x){return'<div class="rgi">'+x.a[0]+' <b>'+esc(T(x.a[1]))+'</b> <small>'+esc(T(x.a[2]))+' · '+x.v+' / '+x.n+'</small><div class="rgb"><i style="width:'+Math.round(x.r*100)+'%"></i></div></div>'}).join(""):"";if(b.innerHTML!=h)b.innerHTML=h}
+/* ---------- общее ---------- */
+document.addEventListener("click",function(e){var b=e.target.closest&&e.target.closest("[data-rs]");if(!b)return;var a=b.dataset.rs;
+ if(a=="mem"){W("fm_mem",today);rt()}else if(a=="mil"){var m=J("fm_mil",{}),M=trip()||[],v=b.dataset.v.slice(-10);M.forEach(function(x){if(x[1]<=v)m[x[0]+x[1]]=1});m[b.dataset.v]=1;W("fm_mil",m);rt()}
+ else if(P[a]){if(window.fmClose)fmClose();P[a].b.click()}});
+var t=0;function upd(){clearTimeout(t);t=setTimeout(function(){rgr();achn()},200)}
+if(typeof save=="function"){var os=save;save=function(){var v=os.apply(this,arguments);upd();return v}}
+var fmm=document.getElementById("fmm"),fmc=document.getElementById("fmc");if(fmm&&fmc)new MutationObserver(function(){var f=fmc.firstElementChild;if(fmm.classList.contains("on")&&f&&f.id=="srs"){q=null;srr()}}).observe(fmc,{childList:true});
+srr();rgr();achn();rt()});
 </script>
 <style id="nz-css">/* Без случайного увеличения экрана: двойное касание и щипок не масштабируют страницу */
 html,body{touch-action:manipulation;-webkit-text-size-adjust:100%;text-size-adjust:100%}</style>
@@ -3762,7 +3881,7 @@ main>.tgxh[hidden]{display:none!important}
 (function(){var mn=document.getElementById("mn");if(!mn)return;var L=window.fmL||function(r){return r};
 var MV={rh:"today",vdw:"know",vis:"me",pck:"today"};
 var G={today:[[L("День","Day","День"),["#days","fc","pnl","stk","cmp","ed"]],[L("Вахта и дом","Watch and home","Вахта і дім"),["wch","rh","cth","hfm","ktr","pck","dcw"]]],
-know:[[L("Учёба","Study","Навчання"),["lib","gl","en","iv","qz","vdw","mat"]],[L("Работа на судне","Work on board","Робота на судні"),["shn","srf","clc","cvm","rlg","ck","prf"]],[L("Для себя","For yourself","Для себе"),["tip","ls","pom"]]],
+know:[[L("Учёба","Study","Навчання"),["lib","srs","gl","en","iv","qz","vdw","mat"]],[L("Работа на судне","Work on board","Робота на судні"),["shn","srf","clc","cvm","rlg","ck","prf"]],[L("Для себя","For yourself","Для себе"),["tip","ls","pom"]]],
 game:[[L("Игры","Games","Ігри"),["tk","sm","bg","mt2","pzl"]],[L("Отдых","Rest","Відпочинок"),["bk","flm","snd","brt","sky","gym"]],[L("Награды","Rewards","Нагороди"),["ch","shop"]]],
 shore:[[L("Путь на берег","Path ashore","Шлях на берег"),["sh1","sh4","sh2","sh5","prf2"]],[L("Работа","Job","Робота"),["rz","ap","sh3"]]],
 me:[[L("Документы и деньги","Documents and money","Документи й гроші"),["dc","ct","fnm","rk"]],[L("Прогресс","Progress","Прогрес"),["#stats","#ach","rwd","wkc","hm","cmpt","vis","shr"]]]};
