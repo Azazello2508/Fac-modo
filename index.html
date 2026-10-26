@@ -3287,6 +3287,21 @@ setInterval(upd,60000);upd()});
 #rwd .rwr button small{font-size:12px}#fmc .wkl small.up,#fmc #rh button small{font-size:12.5px}
 #d4 small,#cmp small{font-size:11px}
 </style>
+<style id="nv-css">/* Ночной режим для вахты: весь экран в тёмно-красном (не слепит и не сбивает ночное зрение). Кнопка 🔴 в шапке рядом с 🌐 (блок nv-js) */
+html.nv::after{content:"";position:fixed;inset:0;z-index:2147483600;pointer-events:none;background:#a80000;mix-blend-mode:multiply}
+html body #hud{padding-right:92px}
+#nvb{position:fixed;top:calc(env(safe-area-inset-top,0px) + 7px);right:50px;z-index:2147483000;width:34px;height:34px;padding:0;min-width:0;border-radius:50%;border:1.5px solid #fff8;background:#0b2a4acc;color:#fff;font-size:16px;line-height:1;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 14px #0007;backdrop-filter:blur(6px);cursor:pointer}
+html.nv #nvb{border-color:#ff5a5a;background:#3a0000cc}
+body:has(#tkw:not([hidden])) #nvb,body:has(#bkrd:not([hidden])) #nvb,body:has(#gnet:not([hidden])) #nvb,body:has(#uxc.on) #nvb,html.uxwo #nvb{display:none!important}
+</style>
+<script id="nv-js">/* Ночной режим: включается кнопкой 🔴/☀️ в шапке, запоминается в localStorage fm_nv. Работает и в играх, и в читалке (накладка поверх всего экрана). */
+(function(){var de=document.documentElement,K="fm_nv";function on(){try{return localStorage.getItem(K)=="1"}catch(e){return false}}
+function L(r,e,u){return window.fmL?fmL(r,e,u):r}
+function set(v,say){de.classList.toggle("nv",v);try{localStorage.setItem(K,v?"1":"0")}catch(e){}if(b){b.textContent=v?"☀️":"🔴";b.setAttribute("aria-pressed",v);b.setAttribute("aria-label",v?L("Выключить ночной режим","Turn off night mode","Вимкнути нічний режим"):L("Ночной режим для вахты","Night watch mode","Нічний режим для вахти"))}
+ if(say&&window.toast)toast(v?L("🔴 Ночной режим: экран не слепит на вахте","🔴 Night mode: the screen won't dazzle you on watch","🔴 Нічний режим: екран не сліпить на вахті"):L("Ночной режим выключен","Night mode off","Нічний режим вимкнено"))}
+var b=null;if(on())de.classList.add("nv");
+document.addEventListener("DOMContentLoaded",function(){b=document.createElement("button");b.type="button";b.id="nvb";b.setAttribute("translate","no");document.body.appendChild(b);set(on());b.onclick=function(){set(!de.classList.contains("nv"),1)}})})();
+</script>
 <style id="nz-css">/* Без случайного увеличения экрана: двойное касание и щипок не масштабируют страницу */
 html,body{touch-action:manipulation;-webkit-text-size-adjust:100%;text-size-adjust:100%}</style>
 <script id="nz-js">/* iPhone: запрет щипка и двойного касания; то же внутри игр (iframe) */
