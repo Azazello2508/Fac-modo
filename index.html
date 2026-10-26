@@ -3237,6 +3237,7 @@ function sync(){if(busy)return;var on=fmm.classList.contains("on"),f=fmc.firstEl
  T.innerHTML=o.g[3].map(function(t,j){var vis=t[1].some(function(c){return P[c].s.parentNode===fmc});return vis?'<button type="button" role="tab" data-i="'+j+'">'+esc(t[0])+'</button>':""}).join("");T.hidden=false;busy=false;
  var i=o.i;if(k==o.g[0]){try{var u=JSON.parse(localStorage.getItem("fm_one")||"{}");if(u[k]!=null&&T.querySelector('[data-i="'+u[k]+'"]'))i=+u[k]}catch(e){}}show(i)}
 T.addEventListener("click",function(e){var b=e.target.closest("button[data-i]");if(b)show(+b.dataset.i)});
+window.oneTab=function(k){if(cur&&OF[k]&&OF[k].g===cur.g&&cur.i!=OF[k].i)show(OF[k].i)};
 new MutationObserver(sync).observe(fmc,{childList:true});new MutationObserver(sync).observe(fmm,{attributes:true,attributeFilter:["class"]});
 if(window.uxRefresh)uxRefresh()});
 </script>
@@ -3328,6 +3329,28 @@ ul.addEventListener("change",function(e){var x=e.target;if(!x||x.type!="checkbox
  setTimeout(function(){var li=null;[].forEach.call(ul.querySelectorAll("li"),function(l){var c=l.querySelector("input");if(c&&c.getAttribute("aria-label")==lab)li=l});if(li){li.classList.remove("wmp");void li.offsetWidth;li.classList.add("wmp")}
   var it=items(today,(new Date().getDay()+6)%7),dd=st.done[today]||{};if(!it.length||it.some(function(q){return!dd[q.id]}))return;
   var k="fm_wmc";try{if(localStorage.getItem(k)==today)return;localStorage.setItem(k,today)}catch(er){}party()},30)})});
+</script>
+<style id="qa-css">/* Быстрые действия: кнопка «＋» над нижним меню (блок qa-js) */
+#qab{position:fixed;right:14px;bottom:calc(env(safe-area-inset-bottom,0px) + 70px);z-index:20;width:54px;height:54px;padding:0;min-width:0;border-radius:50%;border:0;background:var(--acc);color:#0e1424;font-size:30px;font-weight:800;line-height:1;box-shadow:0 6px 18px #0009;cursor:pointer;display:flex;align-items:center;justify-content:center}
+#qab[aria-expanded=true]{transform:rotate(45deg)}#qab{transition:transform .2s}
+#qam{position:fixed;right:14px;bottom:calc(env(safe-area-inset-bottom,0px) + 132px);z-index:20;display:none;flex-direction:column;gap:8px;align-items:flex-end}#qam.on{display:flex}
+#mn::after{content:"";display:block;grid-column:1/-1;height:64px}
+#qam button{min-height:46px;padding:0 16px;border-radius:99px;border:1px solid var(--line);background:var(--card);color:var(--ink);font:inherit;font-size:15px;font-weight:700;box-shadow:0 4px 14px #0008;cursor:pointer;white-space:nowrap}
+html:has(#fmm.on) #qab,html:has(#fmm.on) #qam,html.uxo #qab,html.uxo #qam,html.uxwo #qab,html.uxwo #qam,body:has(#tkw:not([hidden])) #qab,body:has(#bkrd:not([hidden])) #qab,body:has(#gnet:not([hidden])) #qab{display:none!important}
+</style>
+<script id="qa-js">/* Быстрые действия: «＋» внизу справа открывает короткое меню — добавить квест, запись о ремонте, запись в дневник, расход, документ, часы отдыха.
+ Пункт открывает нужный раздел (через его плитку) и ставит курсор в первое поле. Разделы, скрытые профилем, в меню не попадают. */
+document.addEventListener("DOMContentLoaded",function(){var P=window.uxP;if(!P)return;var L=function(r,e,u){return window.fmL?fmL(r,e,u):r};
+var A=[["#days","nx","✅ "+L("Свой квест","My own quest","Свій квест")],["rlg","rle","🛠️ "+L("Запись о ремонте","Repair entry","Запис про ремонт")],["d2","dnt","✍️ "+L("Запись в дневник","Diary entry","Запис у щоденник")],
+ ["fnm","fna","💰 "+L("Расход или доход","Expense or income","Витрата чи дохід")],["dc","dcn","🛂 "+L("Документ","Document","Документ")],["rh","","🕐 "+L("Часы отдыха","Rest hours","Години відпочинку")]];
+var b=document.createElement("button");b.type="button";b.id="qab";b.textContent="+";b.setAttribute("aria-expanded","false");b.setAttribute("aria-label",L("Быстро добавить","Quick add","Швидко додати"));
+var m=document.createElement("div");m.id="qam";m.setAttribute("translate","no");document.body.appendChild(m);document.body.appendChild(b);
+function close(){m.classList.remove("on");b.setAttribute("aria-expanded","false")}
+b.onclick=function(e){e.stopPropagation();if(m.classList.contains("on")){close();return}
+ m.innerHTML=A.filter(function(a){return P[a[0]]&&(!window.uxShow||uxShow(a[0]))}).map(function(a,i){return'<button type="button" data-qa="'+i+'">'+esc(a[2])+'</button>'}).join("");m.classList.add("on");b.setAttribute("aria-expanded","true")};
+m.addEventListener("click",function(e){var x=e.target.closest("[data-qa]");if(!x)return;var a=A[+x.dataset.qa];close();if(window.fmClose)fmClose();P[a[0]].b.click();
+ if(a[1])setTimeout(function(){if(window.oneTab)oneTab(a[0]);var f=document.getElementById(a[1]);if(f&&f.offsetParent){try{f.scrollIntoView({block:"center"})}catch(er){}try{f.focus()}catch(er){}}},350)});
+document.addEventListener("click",function(e){if(!e.target.closest("#qam,#qab"))close()})});
 </script>
 <style id="nz-css">/* Без случайного увеличения экрана: двойное касание и щипок не масштабируют страницу */
 html,body{touch-action:manipulation;-webkit-text-size-adjust:100%;text-size-adjust:100%}</style>
