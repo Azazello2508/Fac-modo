@@ -1,0 +1,81 @@
+# Сборка приложения Fac Modo для Android.
+# Запускается сама после каждого обновления в репозитории.
+# Готовый файл FacModo.apk появляется в разделе Releases.
+name: Сборка для Android
+
+on:
+  push:
+    branches: [main, android]
+  workflow_dispatch:
+  workflow_call:   # вызывается проверкой «Танчиков», когда игра обновилась
+
+permissions:
+  contents: write
+
+jobs:
+  android:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref }}
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 21
+
+      - name: Установить Capacitor (обёртка, которая делает из страницы приложение)
+        # Те же закреплённые версии, что в сборке для iPhone
+        run: |
+          npm install --no-audit --no-fund @capacitor/core@8.5.3 @capacitor/cli@8.5.3 @capacitor/android@8.5.3 @capacitor/filesystem@8.1.5 @capacitor/local-notifications@8.3.1
+          python3 -c "import PIL" 2>/dev/null || pip install --quiet pillow
+
+      - name: Подготовить проект Android (файлы, иконки, разрешения, версия)
+        run: bash tools/android_prepare.sh
+
+      - name: Собрать приложение
+        run: |
+          cd android
+          ./gradlew assembleRelease --no-daemon -q
+          ls -la app/build/outputs/apk/release/
+
+      - name: Подписать приложение
+        # Ключ подписи хранится в GitHub Secrets (ANDROID_KEYSTORE — файл .p12 в base64, ANDROID_KEY_PASS — пароль).
+        # Один и тот же ключ нужен, чтобы новая версия ставилась поверх старой без потери данных.
+        # Пока ключа нет, каждый раз создаётся временный: приложение работает, но новую версию придётся ставить заново.
+        env:
+          KS: ${{ secrets.ANDROID_KEYSTORE }}
+          KP: ${{ secrets.ANDROID_KEY_PASS }}
+        run: |
+          BT=$(ls -d $ANDROID_HOME/build-tools/* | sort -V | tail -1)
+          if [ -n "$KS" ]; then echo "$KS" | base64 -d > key.p12; PASS="$KP"
+          else echo "::warning::Нет ключа ANDROID_KEYSTORE — подписано временным ключом"; PASS=$(openssl rand -hex 16)
+            keytool -genkeypair -keystore key.p12 -storetype PKCS12 -storepass "$PASS" -alias facmodo -keyalg RSA -keysize 2048 -validity 10950 -dname "CN=Fac Modo"; fi
+          $BT/zipalign -f -p 4 android/app/build/outputs/apk/release/app-release-unsigned.apk aligned.apk
+          $BT/apksigner sign --ks key.p12 --ks-type PKCS12 --ks-pass "pass:$PASS" --out FacModo.apk aligned.apk
+          rm -f key.p12
+          $BT/apksigner verify --print-certs FacModo.apk | head -3
+          $BT/aapt2 dump badging FacModo.apk | grep -E "^package|uses-permission|application-label:" || true
+          ls -la FacModo.apk
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: FacModo-apk
+          path: FacModo.apk
+
+      - name: Выложить файл в Releases
+        if: github.ref == 'refs/heads/main'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          B=$(git log -1 --format=%ct)
+          WHEN=$(TZ=Asia/Baku date -d @$B '+%d.%m.%Y %H:%M')
+          gh release create "android-${{ github.run_id }}" FacModo.apk \
+            --title "Fac Modo для Android — версия от $WHEN" \
+            --notes "Установка: скачать FacModo.apk на телефон, открыть файл, разрешить установку из этого источника. Подробно — в README." \
+            --latest=false

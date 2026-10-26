@@ -75,6 +75,11 @@ jobs:
     if: needs.sync.outputs.changed == 'true'
     uses: ./.github/workflows/ios.yml
 
+  android:
+    needs: sync
+    if: needs.sync.outputs.changed == 'true'
+    uses: ./.github/workflows/android.yml
+
   site:
     needs: sync
     if: needs.sync.outputs.changed == 'true'
