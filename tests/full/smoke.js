@@ -20,8 +20,8 @@ module.exports = async function (browser, URL) {
     await p.evaluate(f => { window.__left = {}; window.__leftFn = new Function('return (' + f + ')(' + (st.lang === 'uk') + ')'); window.__collect = async (box, name) => { const r = window.__leftFn(); if (r.length) window.__left[name] = r; }; }, LEFT_RU.toString());
     const tiles = await p.evaluate(TILE_WALK, { act: lang === 'ru' ? null : '__collect', wait: lang === 'ru' ? 90 : 300 });
     const broken = tiles.filter(t => t.includes('✗'));
-    // похожие разделы теперь открываются одним окном с вкладками (one-js), поэтому плиток меньше, чем разделов
-    ok(tiles.length >= 40 && broken.length === 0 && errs.length === 0, 'Язык ' + lang.toUpperCase() + ': открываются все ' + tiles.length + ' разделов без ошибок',
+    // похожие разделы открываются одним окном с вкладками (one-js), а судно (shp-js) объединило ещё — плиток меньше, чем разделов
+    ok(tiles.length >= 30 && broken.length === 0 && errs.length === 0, 'Язык ' + lang.toUpperCase() + ': открываются все ' + tiles.length + ' разделов без ошибок',
       [...broken, ...errs].slice(0, 5).join(' | '));
     if (lang !== 'ru') {
       const left = await p.evaluate(() => window.__left);
