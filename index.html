@@ -3343,12 +3343,12 @@ html:has(#fmm.on) #qab,html:has(#fmm.on) #qam,html.uxo #qab,html.uxo #qam,html.u
  Пункт открывает нужный раздел (через его плитку) и ставит курсор в первое поле. Разделы, скрытые профилем, в меню не попадают. */
 document.addEventListener("DOMContentLoaded",function(){var P=window.uxP;if(!P)return;var L=function(r,e,u){return window.fmL?fmL(r,e,u):r};
 var A=[["#days","nx","✅ "+L("Свой квест","My own quest","Свій квест")],["rlg","rle","🛠️ "+L("Запись о ремонте","Repair entry","Запис про ремонт")],["d2","dnt","✍️ "+L("Запись в дневник","Diary entry","Запис у щоденник")],
- ["fnm","fna","💰 "+L("Расход или доход","Expense or income","Витрата чи дохід")],["dc","dcn","🛂 "+L("Документ","Document","Документ")],["rh","","🕐 "+L("Часы отдыха","Rest hours","Години відпочинку")]];
+ ["fnm","fna","💰 "+L("Расход или доход","Expense or income","Витрата чи дохід")],["dc","dcn","🛂 "+L("Документ","Document","Документ")],["rh","","🕐 "+L("Часы отдыха","Rest hours","Години відпочинку")],["mat","vq","🎬 "+L("Видео по запросу","Video on request","Відео на запит")]];
 var b=document.createElement("button");b.type="button";b.id="qab";b.textContent="+";b.setAttribute("aria-expanded","false");b.setAttribute("aria-label",L("Быстро добавить","Quick add","Швидко додати"));
 var m=document.createElement("div");m.id="qam";m.setAttribute("translate","no");document.body.appendChild(m);document.body.appendChild(b);
 function close(){m.classList.remove("on");b.setAttribute("aria-expanded","false")}
 b.onclick=function(e){e.stopPropagation();if(m.classList.contains("on")){close();return}
- m.innerHTML=A.filter(function(a){return P[a[0]]&&(!window.uxShow||uxShow(a[0]))}).map(function(a,i){return'<button type="button" data-qa="'+i+'">'+esc(a[2])+'</button>'}).join("");m.classList.add("on");b.setAttribute("aria-expanded","true")};
+ m.innerHTML=A.map(function(a,i){return P[a[0]]&&(!window.uxShow||uxShow(a[0]))?'<button type="button" data-qa="'+i+'">'+esc(a[2])+'</button>':""}).join("");m.classList.add("on");b.setAttribute("aria-expanded","true")};
 m.addEventListener("click",function(e){var x=e.target.closest("[data-qa]");if(!x)return;var a=A[+x.dataset.qa];close();if(window.fmClose)fmClose();P[a[0]].b.click();
  if(a[1])setTimeout(function(){if(window.oneTab)oneTab(a[0]);var f=document.getElementById(a[1]);if(f&&f.offsetParent){try{f.scrollIntoView({block:"center"})}catch(er){}try{f.focus()}catch(er){}}},350)});
 document.addEventListener("click",function(e){if(!e.target.closest("#qam,#qab"))close()})});
@@ -3692,7 +3692,7 @@ gl:["Термины специальности с объяснениями","Ter
 en:["Морские термины на английском","Marine terms in English","Морські терміни англійською"],
 iv:["Вопросы и ответы для собеседования на английском","Interview questions and answers in English","Питання й відповіді для співбесіди англійською"],
 qz:["Проверь знания в форме теста","Test your knowledge with a quiz","Перевір знання у формі тесту"],
-vdw:["Видео по теме","Videos on the topic","Відео за темою"],mat:["Видео и материалы по специальности","Videos and materials for your speciality","Відео й матеріали за спеціальністю"],
+vdw:["Видео по теме","Videos on the topic","Відео за темою"],mat:["Видео на любой запрос: пишешь тему — сразу открываются ролики именно о ней","Video on request: type a topic — videos on exactly that open right away","Відео на будь-який запит: пишеш тему — одразу відкриваються ролики саме про неї"],
 shn:["Компас, секстан, звёзды, счисление, расхождение, прилив","Compass, sextant, stars, dead reckoning, CPA, tide","Компас, секстант, зорі, числення, розходження, приплив"],
 srf:["Флаги, огни, звуки, буи, тревоги, конвенции — коротко","Flags, lights, sounds, buoys, alarms, conventions — in short","Прапори, вогні, звуки, буї, тривоги, конвенції — коротко"],
 clc:["Ток двигателя, cos φ, сечение кабеля, обороты","Motor current, cos φ, cable size, speed","Струм двигуна, cos φ, переріз кабелю, оберти"],
@@ -3731,7 +3731,7 @@ var TK={rh:"сколько я отдыхал работал устал уста�
  brt:"стресс нервы успокоиться тревога stress calm anxiety стрес",hfm:"позвонить маме жене семье call mom wife подзвонити",ktr:"сколько осталось до дома зарплата days left salary скільки залишилось",
  clc:"кабель автомат двигатель мотор амперы мегомметр изоляция киловатт мощность cable breaker motor amps megger insulation kw power струм ізоляція потужність",rlg:"сломалось починил ремонт насос repair fixed broke pump поламалось",fnm:"деньги потратил отложить money spent save гроші",
  srf:"огни флаги сигнал буй тревога пожар lights flags buoy alarm вогні",shn:"пеленг место широта долгота bearing position latitude longitude пеленг",gym:"похудеть мышцы спина живот lose weight muscles back схуднути",
- bg:"поиграть шахматы карты play chess cards пограти",srs:"учить английский слова learn english words вчити англійську",rz:"работа резюме cv job вакансия робота",wch:"когда спать вахта сон when to sleep коли спати"};
+ bg:"поиграть шахматы карты play chess cards пограти",srs:"учить английский слова learn english words вчити англійську",rz:"работа резюме cv job вакансия робота",mat:"видео ролик посмотреть показать как работает как сделать ютуб youtube tiktok video watch how відео подивитися",wch:"когда спать вахта сон when to sleep коли спати"};
 window.gdDesc=function(k){var d=GD[k];return d?d[li]:""};
 window.uxKW=function(k){var d=GD[k];return(d?d.join(" "):"")+" "+(TK[k]||"")};
 /* «Все разделы»: описание под названием */
@@ -3750,7 +3750,7 @@ function seen(){if(!fmm.classList.contains("on"))return;var k=key(fmc.firstEleme
 if(fmm&&fmc){new MutationObserver(seen).observe(fmc,{childList:true});new MutationObserver(seen).observe(fmm,{attributes:true,attributeFilter:["class"]})}
 /* --- порядок знакомства по должности --- */
 var R=(st.ux&&st.ux.r)||st.prof||"ot",ST={me:["cvm","rlg","gl","ck","srs"],el:["clc","cvm","rlg","gl","srs"],na:["shn","srf","sky","rh","srs"],rt:["rh","srs","en","qz","ck"],ot:["wch","hfm","gym","bk","snd"]},
- BASE=["#days","wch","dc","hfm"],ORDR=BASE.concat(ST[R]||ST.ot);
+ BASE=["#days","mat","wch","dc","hfm"],ORDR=BASE.concat(ST[R]||ST.ot);
 function order(){var o=ORDR.slice();["#days","wch","rh","dc","hfm","ktr","srf","cvm","srs","lib","rlg","fnm","ct","bk","flm","snd","gym","mt2","bg","sky","brt","pzl","rg","d1","rz","sh1","vis","cth","pck","ck","en","gl","qz","iv","shn","clc","tip","ls","pom","ch","shop","tk","sm","#stats","#ach","rwd","rem","#sn","trn"].forEach(function(k){if(o.indexOf(k)<0)o.push(k)});
  all().forEach(function(k){if(o.indexOf(k)<0)o.push(k)});return o.filter(vis)}
 function tod(){var t=J("fm_tod",{});if(t.d==today&&t.k&&vis(t.k))return t.k;var v=G().v,k=order().filter(function(x){return!v[x]})[0]||"";W("fm_tod",{d:today,k:k});return k}
@@ -3766,7 +3766,7 @@ function gsr(){var c=document.getElementById("gs");if(!c)return;var v=G().v,K=OR
  '<p class="note" style="margin:0 0 8px">'+L("Изучено разделов: ","Sections explored: ","Вивчено розділів: ")+'<b>'+n+' / '+A+'</b></p><div class="add"><button type="button" class="alt" data-gd="tour">'+L("Показать, как устроено приложение","Show me around the app","Показати, як влаштовано застосунок")+'</button><button type="button" class="alt" data-gd="all">🔍 '+L("Все разделы","All sections","Усі розділи")+'</button></div>'}
 /* --- 3. тур --- */
 var TS=[[function(){return document.getElementById("nav")},L("Четыре части приложения","Four parts of the app","Чотири частини застосунку"),L("Миссии — твой день и вахта. Знания — учёба и инструменты. Досуг — игры, книги, фильмы. Профиль — документы, прогресс, дневник и настройки.","Missions — your day and watch. Knowledge — study and tools. Leisure — games, books, films. Profile — documents, progress, diary and settings.","Місії — твій день і вахта. Знання — навчання й інструменти. Дозвілля — ігри, книжки, фільми. Профіль — документи, прогрес, щоденник і налаштування.")],
- [function(){return document.querySelector('#mn>.uxs[data-t="'+(document.getElementById("mn").getAttribute("data-tab")||"today")+'"]')||document.querySelector("#mn>.uxs")},L("Не помнишь, где что — ищи","Can’t remember where something is? Search","Не пам’ятаєш, де що — шукай"),L("Пиши как думаешь: «кабель», «огни», «сколько я отдыхал», «виза». Поиск откроет нужный раздел.","Type as you think: “cable”, “lights”, “rest hours”, “visa”. Search opens the right section.","Пиши як думаєш: «кабель», «вогні», «скільки я відпочивав», «віза». Пошук відкриє потрібний розділ.")],
+ [function(){return document.querySelector('#mn>.uxs[data-t="'+(document.getElementById("mn").getAttribute("data-tab")||"today")+'"]')||document.querySelector("#mn>.uxs")},L("Не помнишь, где что — ищи","Can’t remember where something is? Search","Не пам’ятаєш, де що — шукай"),L("Пиши как думаешь: «кабель», «огни», «сколько я отдыхал», «виза». Поиск откроет нужный раздел — а первой строкой предложит 🎬 видео именно на эту тему.","Type as you think: “cable”, “lights”, “rest hours”, “visa”. Search opens the right section — and its first line offers 🎬 videos on exactly that topic.","Пиши як думаєш: «кабель», «вогні», «скільки я відпочивав», «віза». Пошук відкриє потрібний розділ — а першим рядком запропонує 🎬 відео саме на цю тему.")],
  [function(){return document.querySelector("#mn>.uxm")},L("⭐ Моё — самое нужное","⭐ My sections — what you use most","⭐ Моє — найпотрібніше"),L("Закрепи здесь то, чем пользуешься чаще всего: звёздочка ☆ в любом разделе.","Pin what you use most: tap the ☆ star in any section.","Закріпи тут те, чим користуєшся найчастіше: зірочка ☆ у будь-якому розділі.")],
  [function(){return document.getElementById("qab")},L("＋ Быстро добавить","＋ Quick add","＋ Швидко додати"),L("Квест, ремонт, расход, документ или часы отдыха — в два касания, с любой вкладки.","A quest, repair, expense, document or rest hours — in two taps from any tab.","Квест, ремонт, витрату, документ або години відпочинку — за два дотики з будь-якої вкладки.")]];
 var O=null,si=0;
@@ -3794,6 +3794,36 @@ document.addEventListener("click",function(e){var b=e.target.closest&&e.target.c
  else if(a=="tour")tour();else if(a=="all"&&window.uxOpen)uxOpen()});
 var t=0;if(typeof save=="function"){var os=save;save=function(){var v=os.apply(this,arguments);clearTimeout(t);t=setTimeout(gsr,250);return v}}
 gsr();if(window.rtCard)rtCard();window.gdTour=tour});
+</script>
+<style id="vq-css">/* «Видео на любой запрос» — заметная строка на главной и во «Знаниях», строка в поиске разделов (блок vq-js) */
+main>.vqb{display:flex;flex-direction:column;gap:8px;margin:0;padding:12px;border-radius:16px;border:1.5px solid var(--acc);background:linear-gradient(135deg,color-mix(in srgb,var(--acc) 22%,var(--card)),var(--card));box-shadow:0 6px 18px #0005}
+main>.vqb b{font-size:16px}main>.vqb small{color:var(--mute);font-size:12.5px;line-height:1.35}
+main>.vqb form{display:flex;gap:8px;margin:0}main>.vqb input{flex:1;min-width:0;min-height:46px;padding:0 12px;border-radius:12px;border:1px solid var(--line);background:var(--bg);color:var(--ink);font:inherit;font-size:16px}
+main>.vqb button{flex:0 0 auto;min-height:46px;padding:0 16px;border:0;border-radius:12px;background:var(--acc);color:#0e1424;font:inherit;font-size:16px;font-weight:800;cursor:pointer}
+main>.vqb .vqc{display:flex;flex-wrap:wrap;gap:6px}main>.vqb .vqc button{min-height:36px;padding:0 12px;border-radius:99px;border:1px solid var(--line);background:var(--bg);color:var(--ink);font-size:13.5px;font-weight:600}
+#uxl .vqs{display:flex;align-items:center;gap:10px;width:100%;min-height:52px;margin:4px 0 8px;padding:8px 12px;border-radius:12px;border:1.5px solid var(--acc);background:color-mix(in srgb,var(--acc) 12%,var(--card));color:var(--ink);font:inherit;text-align:left;cursor:pointer}
+#uxl .vqs i{font-style:normal;font-size:22px}#uxl .vqs small{display:block;color:var(--mute);font-size:12.5px}
+</style>
+<script id="vq-js">/* Видео на любой запрос — одна из главных возможностей: пишешь тему — сразу открывается YouTube именно по ней (vdY), TikTok и Instagram — через поиск (vurl).
+ 1) строка «🎬 Видео на любую тему» на главной (после «Моё») и вверху «Знаний» (.vqb, подсказки — темы по должности VQ);
+ 2) в «🔍 Найти раздел» первой строкой — «Найти видео: …»; 3) пункт в «＋» и описание раздела «Видео и материалы» — в gd-js/qa-js. Нужен интернет. */
+document.addEventListener("DOMContentLoaded",function(){var mn=document.getElementById("mn");if(!mn||typeof vdY!="function")return;var L=function(r,e,u){return window.fmL?fmL(r,e,u):r};
+function go(q,w){q=(q||"").trim();if(!q)return;var u=w&&typeof vurl=="function"?vurl(w,q):vdY(q);if(typeof vdOpen=="function")vdOpen(u);else window.open(u,"_blank")}
+var p=(st.ux&&st.ux.r)||st.prof||"",tr=function(x){return st.lang&&st.lang!="ru"&&window.trEN?trEN(x):x},T=(window.VQ?VQ[{el:0,me:1,na:2}[p]!=null?{el:0,me:1,na:2}[p]:1][1]:[]).map(tr).filter(function(x){return st.lang=="ru"||!/[А-Яа-яЁё]/.test(x)||st.lang=="uk"});
+function box(t){var d=document.createElement("div");d.className="vqb";d.setAttribute("data-t",t);d.setAttribute("translate","no");
+ d.innerHTML='<b>🎬 '+L("Видео на любую тему","Video on any topic","Відео на будь-яку тему")+'</b><small>'+L("Напиши, что хочешь увидеть, — сразу откроются ролики именно об этом. 📶 Нужен интернет.","Type what you want to see — videos on exactly that open right away. 📶 Needs internet.","Напиши, що хочеш побачити, — одразу відкриються ролики саме про це. 📶 Потрібен інтернет.")+'</small>'+
+ '<form><input type="search" enterkeyhint="search" autocomplete="off" placeholder="'+L("Например: как работает сепаратор","For example: how a purifier works","Наприклад: як працює сепаратор")+'" aria-label="'+L("Тема видео","Video topic","Тема відео")+'"><button type="submit">▶ '+L("Видео","Videos","Відео")+'</button></form>'+
+ (T.length?'<div class="vqc">'+T.map(function(x){return'<button type="button" data-vqt="'+esc(x)+'">'+esc(x)+'</button>'}).join("")+'</div>':"");
+ d.querySelector("form").addEventListener("submit",function(e){e.preventDefault();var i=d.querySelector("input");go(i.value);i.blur()});
+ d.addEventListener("click",function(e){var b=e.target.closest("[data-vqt]");if(!b)return;d.querySelector("input").value=b.dataset.vqt;go(b.dataset.vqt)});return d}
+var um=mn.querySelector(":scope>.uxm");if(um)mn.insertBefore(box("today"),um.nextSibling);
+var ks=mn.querySelector(':scope>.uxs[data-t="know"]');if(ks)mn.insertBefore(box("know"),ks.nextSibling);
+/* строка «Найти видео» в поиске разделов */
+var UL=document.getElementById("uxl"),Q=document.getElementById("uxq");
+function row(){if(!UL||!Q)return;var q=Q.value.trim(),r=UL.querySelector(".vqs");if(!q){if(r)r.remove();return}if(!r){r=document.createElement("button");r.type="button";r.className="vqs";UL.insertBefore(r,UL.firstChild)}
+ var h='<i>🎬</i><span><b>'+L("Найти видео: ","Find videos: ","Знайти відео: ")+'«'+esc(q)+'»</b><small>YouTube · 📶 '+L("нужен интернет","needs internet","потрібен інтернет")+'</small></span>';if(r.innerHTML!=h)r.innerHTML=h}
+if(UL){new MutationObserver(row).observe(UL,{childList:true});UL.addEventListener("click",function(e){if(e.target.closest(".vqs"))go(Q.value)})}
+});
 </script>
 <style id="nz-css">/* Без случайного увеличения экрана: двойное касание и щипок не масштабируют страницу */
 html,body{touch-action:manipulation;-webkit-text-size-adjust:100%;text-size-adjust:100%}</style>
