@@ -8,7 +8,7 @@
   https://azazello2508.github.io/Fac-modo/ — отсюда приложение на iPhone само скачивает обновления.
 - «Сборка для iPhone» (ios.yml) собирает `FacModo.ipa` и выкладывает его в Releases.
 - «Сборка для Android» (android.yml, `tools/android_prepare.sh`) собирает `FacModo.apk` в постоянный выпуск `android-apk`
-  (ссылка releases/download/android-apk/FacModo.apk). Подпись — ключ из Secrets `ANDROID_KEYSTORE`/`ANDROID_KEY_PASS`, копия ключа — `Клод\Костяndroid-key\`.
+  (ссылка releases/download/android-apk/FacModo.apk). Подпись — ключ из Secrets `ANDROID_KEYSTORE`/`ANDROID_KEY_PASS`, копия ключа — `Клод\Костя\android-key\`.
   На Android файлы из ссылок «скачать» (копия, CSV, PDF) сохраняет блок `and-js` в «Документы/Fac Modo».
 - Номер версии (`__FM_BUILD__`) подставляется автоматически при сборке, вручную не менять.
 
