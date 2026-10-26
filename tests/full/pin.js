@@ -6,7 +6,7 @@ module.exports = async function (browser, URL) {
   // PIN 1234 ставим через сам раздел, чтобы отпечаток считался как в приложении
   const o = await openApp(browser, URL, { state: baseState({ dc: [{ id: 'd1', n: 'Паспорт моряка', e: '2030-01-01' }] }) });
   const p = o.p;
-  const openDocs = () => p.evaluate(() => { document.getElementById('fmx').click(); const t = [...document.querySelectorAll('.fmt')].find(x => /Документы и сроки/.test(x.textContent)); t && t.click(); });
+  const openDocs = () => p.evaluate(() => { document.getElementById('fmx').click(); const t = [...document.querySelectorAll('.fmt')].find(x => /Документы и (сроки|стаж)/.test(x.textContent)); t && t.click(); });
   await openDocs();
   await p.evaluate(async () => {
     const W = ms => new Promise(r => setTimeout(r, ms));
