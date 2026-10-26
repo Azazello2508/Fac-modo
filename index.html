@@ -4448,6 +4448,15 @@ document.addEventListener("click",function(e){var b=e.target.closest&&e.target.c
 addEventListener("fm-log",function(){clearTimeout(draw.t);draw.t=setTimeout(draw,300)});draw()})();</script>
 <script id="net-js">/* Пометка 📶 «нужен интернет»: ссылки и кнопки отмечает net-css, здесь — плитки разделов, которые без сети не работают */
 (function(){["mat"].forEach(function(id){var s=$(id),b=s&&s.previousElementSibling;if(b&&b.classList.contains("fmt"))b.setAttribute("data-net","1")})})();</script>
+<script id="and-js">/* Android: в приложении ссылки «скачать файл» (резервная копия, таблицы CSV, резюме PDF) не работают сами — сохраняем файл в «Документы/Fac Modo» */
+(function(){var C=window.Capacitor;if(!C||!C.getPlatform||C.getPlatform()!="android")return;
+var L=function(r,e,u){return window.fmL?fmL(r,e,u):r};
+document.addEventListener("click",function(e){var a=e.target.closest&&e.target.closest("a[download]");if(!a||a.href.slice(0,5)!="blob:")return;
+ e.preventDefault();var n=(a.getAttribute("download")||"fac-modo-file").replace(/[\/:*?"<>|]/g,"_"),F=C.Plugins&&C.Plugins.Filesystem;
+ fetch(a.href).then(function(r){return r.blob()}).then(function(b){return new Promise(function(ok,no){var fr=new FileReader();fr.onload=function(){ok(String(fr.result).split(",")[1])};fr.onerror=no;fr.readAsDataURL(b)})})
+ .then(function(d){if(!F)throw 0;return F.writeFile({path:"Fac Modo/"+n,data:d,directory:"DOCUMENTS",recursive:true})})
+ .then(function(){toast(L("Сохранено: Документы → Fac Modo → ","Saved: Documents → Fac Modo → ","Збережено: Документи → Fac Modo → ")+n)})
+ .catch(function(x){if(window.fmLog)fmLog("warn","android-save",{n:n,e:String(x&&x.message||x)});toast(L("Не удалось сохранить файл","Could not save the file","Не вдалося зберегти файл"))})},true)})();</script>
 <button type="button" id="lgb" translate="no" aria-label="Язык / Language">🌐<small></small></button>
 <div id="lgm" translate="no"><button type="button" data-lang="ru">🇷🇺 Русский</button><button type="button" data-lang="en">🇬🇧 English</button><button type="button" data-lang="uk">🇺🇦 Українська</button></div>
 <script>(function(){var b=document.getElementById("lgb"),m=document.getElementById("lgm");function cur(){var l=(window.st&&st.lang)||"ru";b.querySelector("small").textContent=l=="uk"?"UA":l.toUpperCase();m.querySelectorAll("button").forEach(function(x){x.classList.toggle("cur",x.dataset.lang==l)})}cur();b.addEventListener("click",function(e){e.stopPropagation();cur();m.classList.toggle("on")});document.addEventListener("click",function(e){if(!e.target.closest("#lgm,#lgb"))m.classList.remove("on")})})();</script>
