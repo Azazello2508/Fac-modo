@@ -5728,5 +5728,10 @@
 "док. требует внимания",
 "doc needs attention",
 1
+],
+[
+"Уведомления приходят по расписанию на этом устройстве, интернет не нужен. На компьютере программа должна быть запущена: она может работать в фоне у часов. Напоминания, которые приходят даже при закрытом приложении, — на вкладке «Напоминания».",
+"Notifications follow your schedule on this device; no internet needed. On a computer the app must be running: it can stay in the background by the clock. Reminders that arrive even when the app is closed are in the “Reminders” tab.",
+1
 ]
 ]
