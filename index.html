@@ -3187,6 +3187,210 @@ document.addEventListener("click",function(e){var b=e.target.closest("[data-fst]
 var fm=document.getElementById("fmm");if(fm&&typeof tdr=="function")new MutationObserver(function(){if(!fm.classList.contains("on"))try{tdr()}catch(e){}}).observe(fm,{attributes:true,attributeFilter:["class"]});
 fstSh()});
 </script>
+<style id="one-css">/* Объединённые разделы: одна плитка — несколько разделов вкладками вверху окна (блок one-js) */
+#onet{display:flex;gap:6px;overflow-x:auto;padding:0 12px 8px;scrollbar-width:none;-webkit-overflow-scrolling:touch}#onet::-webkit-scrollbar{display:none}#onet[hidden]{display:none}
+#onet button{flex:0 0 auto;min-height:40px;padding:0 14px;border-radius:99px;border:1px solid var(--line);background:var(--card);color:var(--ink);font:inherit;font-size:14.5px;font-weight:700;cursor:pointer;white-space:nowrap}
+#onet button[aria-selected=true]{background:var(--acc);border-color:var(--acc);color:#0e1424}
+#fmc>section.oneh{display:none!important}
+</style>
+<script id="one-js">/* Объединённые разделы: похожие разделы открываются в одном окне, переключение — вкладками вверху (#onet).
+ Главная плитка группы получает общее название, остальные прячутся (data-uxj), но остаются в «Все разделы» и в «Моё»;
+ открытие любого из них открывает всю группу на его вкладке. Разделы не удаляются и не меняются: только переносятся в окно и обратно.
+ Группа: [главный ключ, значок, название, [[подпись вкладки, [ключи разделов]], …]]. Ключи — как в uxP (id раздела или "#"+id внутри). */
+document.addEventListener("DOMContentLoaded",function(){var mn=document.getElementById("mn"),P=window.uxP,fmm=document.getElementById("fmm"),fmb=document.getElementById("fmb"),fmc=document.getElementById("fmc"),fmh=document.getElementById("fmh");
+if(!mn||!P||!fmm||!fmc||!fmb||!fmh)return;var L=function(r,e,u){return window.fmL?fmL(r,e,u):r};
+var GR=[
+ ["#days","✅",L("Мой день","My day","Мій день"),[[L("Квесты","Quests","Квести"),["#days"]],[L("Цель","Goal","Ціль"),["fc"]],[L("Итоги","Summary","Підсумки"),["cmp"]],[L("Серия","Streak","Серія"),["stk"]],[L("Штрафы","Penalties","Штрафи"),["pnl"]],[L("Расписание","Schedule","Розклад"),["ed"]]]],
+ ["wch","⚓",L("Вахта и отдых","Watch and rest","Вахта і відпочинок"),[[L("Вахта и сон","Watch & sleep","Вахта і сон"),["wch"]],[L("Часы отдыха","Rest hours","Години відпочинку"),["rh"]]]],
+ ["hfm","🏠",L("Дом и семья","Home and family","Дім і сім'я"),[[L("Семья","Family","Сім'я"),["hfm"]],[L("До дома","Until home","До дому"),["ktr"]],[L("Звонок","Call","Дзвінок"),["cth"]]]],
+ ["ck","☑️",L("Чек-листы","Checklists","Чек-листи"),[[L("На судне","On board","На судні"),["ck"]],[L("Сборы","Packing","Збори"),["pck"]],[L("Должность","Promotion","Посада"),["rk"]]]],
+ ["#stats","📈",L("Прогресс","Progress","Прогрес"),[[L("Характеристики","Stats","Характеристики"),["#stats"]],[L("Достижения","Achievements","Досягнення"),["#ach"]],[L("Награды","Rewards","Нагороди"),["rwd"]],[L("Неделя","Week","Тиждень"),["wkc"]],[L("Календарь","Calendar","Календар"),["hm"]],[L("С другом","With a friend","З другом"),["cmpt"]]]],
+ ["d1","📓",L("Дневник","Diary","Щоденник"),[[L("Состояние","Mood","Стан"),["d1","dq"]],[L("Запись","Entry","Запис"),["d2"]],[L("Рисунок","Drawing","Малюнок"),["d3"]],[L("Все записи","All entries","Усі записи"),["d4"]]]],
+ ["sh1","🧭",L("Курс на берег","Course ashore","Курс на берег"),[[L("Курс","Course","Курс"),["sh1"]],[L("Шаг дня","Step","Крок дня"),["sh4"]],[L("Навыки","Skills","Навички"),["sh2"]],[L("План","Plan","План"),["sh5"]]]],
+ ["ch","🎁",L("Сундук и магазин","Chest and shop","Скриня і крамниця"),[[L("Сундук дня","Daily chest","Скриня дня"),["ch"]],[L("Магазин","Shop","Крамниця"),["shop"]]]],
+ ["cfg","🖥️",L("Внешний вид","Appearance","Вигляд"),[[L("Экран","Screen","Екран"),["cfg"]],[L("Тема и фото","Theme & photo","Тема і фото"),["#th"]]]],
+ ["#sn","💾",L("Копии и перенос","Backup and transfer","Копії й перенесення"),[[L("Копия","Backup","Копія"),["#sn"]],[L("Автокопии","Auto backups","Автокопії"),["abk"]],[L("Новый телефон","New phone","Новий телефон"),["trn"]]]]
+];
+/* повторы: «Серия» в настройках (та же кнопка заморозки есть в «Серии дней») и «Расписание» (ссылка на редактор, он теперь в «Моём дне») */
+["opt","#edgo2"].forEach(function(k){if(P[k])P[k].b.setAttribute("data-uxj","1")});
+var OF={};GR.forEach(function(g){g[3]=g[3].map(function(t){return[t[0],t[1].filter(function(k){return P[k]})]}).filter(function(t){return t[1].length});
+ if(!P[g[0]]||g[3].length<2)return;g[3].forEach(function(t,i){t[1].forEach(function(k){OF[k]={g:g,i:i}})});
+ var b=P[g[0]].b;b.dataset.ic=g[1];b.dataset.ttl=g[2];if(b.firstChild)b.firstChild.textContent=g[1];if(b.lastChild){b.lastChild.textContent=g[2];b.lastChild.setAttribute("translate","no")}
+ g[3].forEach(function(t){t[1].forEach(function(k){if(k!=g[0])P[k].b.setAttribute("data-uxj","1")})})});
+window.oneOf=function(k){return OF[k]?OF[k].g[0]:k};
+function key(s){if(!s||s.tagName!="SECTION")return"";if(s.id)return s.id;var e=s.querySelector("[id]");return e?"#"+e.id:""}
+var T=document.createElement("div");T.id="onet";T.setAttribute("role","tablist");T.setAttribute("translate","no");T.hidden=true;fmb.insertBefore(T,fmh.nextSibling);
+var cur=null,busy=false;
+function ok(k){return P[k]&&(!window.uxShow||uxShow(k)||k==cur.k0)}
+function restore(){if(!cur)return;busy=true;cur.a.forEach(function(x){x.ph.parentNode.insertBefore(x.s,x.ph);x.ph.remove()});
+ [].forEach.call(fmc.querySelectorAll(":scope>section.oneh"),function(s){s.classList.remove("oneh")});cur=null;T.hidden=true;T.innerHTML="";busy=false}
+function show(i){if(!cur)return;busy=true;cur.i=i;var first=null;
+ cur.g[3].forEach(function(t,j){t[1].forEach(function(k){var s=P[k].s;if(s.parentNode!==fmc)return;s.classList.toggle("oneh",j!=i);if(j==i&&!first)first=s})});
+ if(first&&fmc.firstElementChild!==first){var keep=[];cur.g[3][i][1].forEach(function(k){if(P[k].s.parentNode===fmc)keep.push(P[k].s)});for(var n=keep.length-1;n>=0;n--)fmc.insertBefore(keep[n],fmc.firstChild)}
+ [].forEach.call(T.children,function(b,j){b.setAttribute("aria-selected",+b.dataset.i==i)});fmc.scrollTop=0;
+ var a=T.querySelector('[aria-selected="true"]');if(a&&a.scrollIntoView)try{a.scrollIntoView({block:"nearest",inline:"center"})}catch(e){}
+ busy=false;try{var u=JSON.parse(localStorage.getItem("fm_one")||"{}");u[cur.g[0]]=i;localStorage.setItem("fm_one",JSON.stringify(u))}catch(e){}}
+function sync(){if(busy)return;var on=fmm.classList.contains("on"),f=fmc.firstElementChild,k=key(f);
+ if(cur&&(!on||!f||!OF[k]||OF[k].g!==cur.g)){restore();f=fmc.firstElementChild;k=key(f)}
+ if(!on||!f||!OF[k]||cur)return;var o=OF[k];cur={g:o.g,a:[],k0:k,i:o.i};busy=true;
+ o.g[3].forEach(function(t){t[1].forEach(function(c){var s=P[c].s;if(c==k||!s||s.parentNode!==mn)return;if(window.uxShow&&!uxShow(c))return;var ph=document.createComment("one");mn.insertBefore(ph,s);fmc.appendChild(s);cur.a.push({s:s,ph:ph})})});
+ T.innerHTML=o.g[3].map(function(t,j){var vis=t[1].some(function(c){return P[c].s.parentNode===fmc});return vis?'<button type="button" role="tab" data-i="'+j+'">'+esc(t[0])+'</button>':""}).join("");T.hidden=false;busy=false;
+ var i=o.i;if(k==o.g[0]){try{var u=JSON.parse(localStorage.getItem("fm_one")||"{}");if(u[k]!=null&&T.querySelector('[data-i="'+u[k]+'"]'))i=+u[k]}catch(e){}}show(i)}
+T.addEventListener("click",function(e){var b=e.target.closest("button[data-i]");if(b)show(+b.dataset.i)});
+window.oneTab=function(k){if(cur&&OF[k]&&OF[k].g===cur.g&&cur.i!=OF[k].i)show(OF[k].i)};
+new MutationObserver(sync).observe(fmc,{childList:true});new MutationObserver(sync).observe(fmm,{attributes:true,attributeFilter:["class"]});
+if(window.uxRefresh)uxRefresh()});
+</script>
+<style id="lv-css">/* Живые плитки: короткое состояние под названием (блок lv-js) */
+.fmt>small.lvs{order:1;display:block;width:100%;margin-top:-2px;font-size:11.5px;font-weight:700;line-height:1.2;color:var(--acc);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-style:normal}
+.fmt>small.lvs.w{color:#f5a524}.fmt>small.lvs.r{color:#ff6b6e}.fmt>small.lvs.ok{color:var(--ok)}
+.big .fmt>small.lvs{font-size:13px}
+</style>
+<script id="lv-js">/* Живые плитки: под названием плитки — главное, чтобы не открывать раздел: квесты дня, вахта, дни до дома, документы, уровень и т.п.
+ Обновляется после сохранения, закрытия окна, смены вкладки, возврата в приложение и раз в минуту. Новое состояние — функция в LV[ключ] (ключ как в uxP). */
+document.addEventListener("DOMContentLoaded",function(){var P=window.uxP,mn=document.getElementById("mn");if(!P||!mn)return;var L=function(r,e,u){return window.fmL?fmL(r,e,u):r};
+function p2(n){return(n<10?"0":"")+n}function hm(m){m=((m%1440)+1440)%1440;return p2(Math.floor(m/60))+":"+p2(m%60)}
+function days(a,b){return Math.round((new Date(b+"T00:00:00")-new Date(a+"T00:00:00"))/864e5)}
+var LV={
+ "#days":function(){var it=items(today,(new Date().getDay()+6)%7),dd=st.done[today]||{},n=it.filter(function(x){return dd[x.id]}).length,sk=calc().streak;if(!it.length)return null;
+  return[(n>=it.length?"✓ ":"")+n+" / "+it.length+(sk>0?"  🔥"+sk:""),n>=it.length?"ok":""]},
+ wch:function(){if(!window.fm3||!fm3.wd)return null;var w=fm3.wd();if(!w.ws.length)return null;var m=w.m,i,x,nx=null,best=1e9;
+  for(i=0;i<w.ws.length;i++){x=w.ws[i];if(w.inR(m,x[0],x[1]))return[L("На вахте до ","On watch till ","На вахті до ")+hm(x[1]),"w"];var d=((x[0]-m)%1440+1440)%1440;if(d<best){best=d;nx=x}}
+  return nx?[L("Вахта в ","Watch at ","Вахта о ")+hm(nx[0]),""]:null},
+ hfm:function(){var d=st.fam&&st.fam.d;if(!/^\d{4}-\d\d-\d\d$/.test(d||""))return null;var n=days(today,d);return n<0?null:n==0?[L("Домой сегодня!","Home today!","Додому сьогодні!"),"ok"]:[n+" "+L("дн. до дома","days to home","дн. до дому"),""]},
+ dc:function(){var a=(st.dc||[]).filter(function(x){return x&&/^\d{4}-\d\d-\d\d$/.test(x.e)});if(!a.length)return null;var bad=a.filter(function(x){return days(today,x.e)<0}).length,soon=a.filter(function(x){var d=days(today,x.e);return d>=0&&d<=30}).length;
+  return bad?["⚠ "+bad+" "+L("просрочен","expired","прострочено"),"r"]:soon?["⚠ "+soon+" "+L("истекает","expiring","спливає"),"w"]:["✓ "+L("в порядке","all good","гаразд"),"ok"]},
+ "#stats":function(){return[L("Уровень ","Level ","Рівень ")+lvl(calc().xp)[0],""]},
+ rlg:function(){var n=(st.rl||[]).length;return n?[n+" "+L("зап.","entries","зап."),""]:null},
+ mt2:function(){var d=st.done[today]||{};return d.m2?["✓ "+L("решена","solved","розв'язано"),"ok"]:[L("Новая задача","New puzzle","Нова задача"),""]},
+ brt:function(){var d=st.done[today]||{};return d.br?["✓ "+L("сегодня было","done today","сьогодні було"),"ok"]:null}
+};
+function put(b,v){if(!b)return;var s=b.querySelector(":scope>small.lvs");if(!v){if(s)s.remove();return}if(!s){s=document.createElement("small");s.className="lvs";s.setAttribute("translate","no");b.insertBefore(s,b.lastChild)}
+ if(s.textContent!=v[0])s.textContent=v[0];s.className="lvs"+(v[1]?" "+v[1]:"")}
+function upd(){var V={};Object.keys(LV).forEach(function(k){if(!P[k])return;try{V[k]=LV[k]()}catch(e){V[k]=null}put(P[k].b,V[k])});
+ [].forEach.call(document.querySelectorAll('.uxm .fmt[data-k]'),function(b){var k=b.getAttribute("data-k");if(k in V)put(b,V[k])})}
+var t=0;function soon(){clearTimeout(t);t=setTimeout(upd,250)}window.lvUpd=soon;
+if(typeof save=="function"){var o=save;save=function(){var r=o.apply(this,arguments);soon();return r}}
+var fmm=document.getElementById("fmm");if(fmm)new MutationObserver(soon).observe(fmm,{attributes:true,attributeFilter:["class"]});
+var um=document.querySelector(".uxm");if(um)new MutationObserver(function(){var a=um.querySelectorAll(".fmt[data-k]:not(:has(small.lvs))");if(a.length)soon()}).observe(um,{childList:true});
+document.getElementById("nav").addEventListener("click",soon);document.addEventListener("visibilitychange",function(){if(!document.hidden)soon()});
+setInterval(upd,60000);upd()});
+</script>
+<style id="tap-css">/* Удобно пальцу и глазам: кнопки в разделах не меньше ~40 px по высоте, мелкие подписи крупнее (замерено по всем разделам на экране 375 px) */
+#fmc .fms button{min-width:38px;min-height:38px;font-size:20px}
+#fmc .fma button,#fmc .fma a,#fmc .vc button,#fmc .wkl button,#fmc .vrg button,#fmc .pkt button,#fmc .dp button.alt,#fmc .rzbr button,#fmc .rzbch button{min-height:42px;padding-top:0;padding-bottom:0;display:inline-flex;align-items:center;justify-content:center}
+#fmc .bkl a{min-height:40px;display:inline-flex;align-items:center}
+#fmc .sntb button,#fmc .sdg button{min-height:44px}
+#fmc li button.alt{min-width:40px;min-height:40px}
+#fmc .chips button.sw{width:38px;height:38px}
+#fmc select{min-height:44px}
+#fmc .rzbeh input{min-height:40px}
+#rwd .rwr button small{font-size:12px}#fmc .wkl small.up,#fmc #rh button small{font-size:12.5px}
+#d4 small,#cmp small{font-size:11px}
+</style>
+<style id="nv-css">/* Ночной режим для вахты: весь экран в тёмно-красном (не слепит и не сбивает ночное зрение). Кнопка 🔴 в шапке рядом с 🌐 (блок nv-js) */
+html.nv::after{content:"";position:fixed;inset:0;z-index:2147483600;pointer-events:none;background:#a80000;mix-blend-mode:multiply}
+html body #hud{padding-right:92px}
+#nvb{position:fixed;top:calc(env(safe-area-inset-top,0px) + 7px);right:50px;z-index:2147483000;width:34px;height:34px;padding:0;min-width:0;border-radius:50%;border:1.5px solid #fff8;background:#0b2a4acc;color:#fff;font-size:16px;line-height:1;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 14px #0007;backdrop-filter:blur(6px);cursor:pointer}
+html.nv #nvb{border-color:#ff5a5a;background:#3a0000cc}
+body:has(#tkw:not([hidden])) #nvb,body:has(#bkrd:not([hidden])) #nvb,body:has(#gnet:not([hidden])) #nvb,body:has(#uxc.on) #nvb,html.uxwo #nvb{display:none!important}
+</style>
+<script id="nv-js">/* Ночной режим: включается кнопкой 🔴/☀️ в шапке, запоминается в localStorage fm_nv. Работает и в играх, и в читалке (накладка поверх всего экрана). */
+(function(){var de=document.documentElement,K="fm_nv";function on(){try{return localStorage.getItem(K)=="1"}catch(e){return false}}
+function L(r,e,u){return window.fmL?fmL(r,e,u):r}
+function set(v,say){de.classList.toggle("nv",v);try{localStorage.setItem(K,v?"1":"0")}catch(e){}if(b){b.textContent=v?"☀️":"🔴";b.setAttribute("aria-pressed",v);b.setAttribute("aria-label",v?L("Выключить ночной режим","Turn off night mode","Вимкнути нічний режим"):L("Ночной режим для вахты","Night watch mode","Нічний режим для вахти"))}
+ if(say&&window.toast)toast(v?L("🔴 Ночной режим: экран не слепит на вахте","🔴 Night mode: the screen won't dazzle you on watch","🔴 Нічний режим: екран не сліпить на вахті"):L("Ночной режим выключен","Night mode off","Нічний режим вимкнено"))}
+var b=null;if(on())de.classList.add("nv");
+document.addEventListener("DOMContentLoaded",function(){b=document.createElement("button");b.type="button";b.id="nvb";b.setAttribute("translate","no");document.body.appendChild(b);set(on());b.onclick=function(){set(!de.classList.contains("nv"),1)}})})();
+</script>
+<style id="wm-css">/* Уют: приветствие по имени и времени суток в «Сегодня», отклик на отметку квеста, праздник, когда закрыты все квесты дня (блок wm-js) */
+#tdy h3.wmg{font-size:19px;line-height:1.25}
+#list li.wmp{animation:wmp .45s ease}@keyframes wmp{0%{transform:scale(1)}35%{transform:scale(1.035);box-shadow:0 0 0 3px color-mix(in srgb,var(--ok) 55%,transparent)}100%{transform:scale(1)}}
+#wmc{position:fixed;inset:0;z-index:2147483500;pointer-events:none;overflow:hidden}
+#wmc i{position:absolute;top:-40px;font-style:normal;font-size:26px;animation:wmf 2.4s ease-in forwards}@keyframes wmf{to{transform:translateY(110vh) rotate(320deg);opacity:.2}}
+@media (prefers-reduced-motion:reduce){#list li.wmp{animation:none}#wmc{display:none}}
+</style>
+<script id="wm-js">/* Уют: 1) заголовок «Сегодня» — приветствие по времени суток и имени (на вахте — «Доброй вахты»);
+ 2) отмеченный квест мягко «вспыхивает» (и короткая вибрация, где телефон умеет); 3) когда закрыты все квесты сегодняшнего дня — праздник раз в день (fm_wmc). */
+document.addEventListener("DOMContentLoaded",function(){var L=function(r,e,u){return window.fmL?fmL(r,e,u):r};
+function onWatch(){try{var w=fm3.wd();return w.ws.some(function(x){return w.inR(w.m,x[0],x[1])})}catch(e){return false}}
+function greet(){var c=document.getElementById("tdy"),h=c&&c.querySelector("h3");if(!h)return;var hr=new Date().getHours(),nm=(st.name||"").trim().split(/\s+/)[0]||"",t;
+ if(onWatch())t="⚓ "+L("Доброй вахты","Have a good watch","Доброї вахти");
+ else if(hr>=5&&hr<12)t="🌅 "+L("Доброе утро","Good morning","Доброго ранку");else if(hr>=12&&hr<17)t="☀️ "+L("Добрый день","Good afternoon","Доброго дня");
+ else if(hr>=17&&hr<23)t="🌇 "+L("Добрый вечер","Good evening","Доброго вечора");else t="🌙 "+L("Доброй ночи","Good night","Доброї ночі");
+ t+=nm?", "+nm:"";if(h.textContent!=t){h.textContent=t;h.className="wmg";h.setAttribute("translate","no")}}
+if(typeof tdr=="function"){var o=tdr;tdr=function(){var r=o.apply(this,arguments);greet();return r}}
+greet();setInterval(greet,5*6e4);document.addEventListener("visibilitychange",function(){if(!document.hidden)greet()});
+function party(){var w=document.createElement("div");w.id="wmc";var E=["🎉","⭐","⚓","🎊","✨","🏆"],h="";for(var i=0;i<26;i++)h+='<i style="left:'+Math.round(Math.random()*96)+'%;animation-delay:'+(Math.random()*0.9).toFixed(2)+'s">'+E[i%E.length]+'</i>';
+ w.innerHTML=h;document.body.appendChild(w);setTimeout(function(){w.remove()},3600);if(window.toast)toast(L("🏆 Все квесты дня закрыты! Отличная работа.","🏆 All quests done today! Great job.","🏆 Усі квести дня закрито! Чудова робота."))}
+var ul=document.getElementById("list");if(!ul)return;
+ul.addEventListener("change",function(e){var x=e.target;if(!x||x.type!="checkbox"||!x.checked)return;var lab=x.getAttribute("aria-label");
+ try{if(navigator.vibrate)navigator.vibrate(12)}catch(er){}
+ setTimeout(function(){var li=null;[].forEach.call(ul.querySelectorAll("li"),function(l){var c=l.querySelector("input");if(c&&c.getAttribute("aria-label")==lab)li=l});if(li){li.classList.remove("wmp");void li.offsetWidth;li.classList.add("wmp")}
+  var it=items(today,(new Date().getDay()+6)%7),dd=st.done[today]||{};if(!it.length||it.some(function(q){return!dd[q.id]}))return;
+  var k="fm_wmc";try{if(localStorage.getItem(k)==today)return;localStorage.setItem(k,today)}catch(er){}party()},30)})});
+</script>
+<style id="qa-css">/* Быстрые действия: кнопка «＋» над нижним меню (блок qa-js) */
+#qab{position:fixed;right:14px;bottom:calc(env(safe-area-inset-bottom,0px) + 70px);z-index:20;width:54px;height:54px;padding:0;min-width:0;border-radius:50%;border:0;background:var(--acc);color:#0e1424;font-size:30px;font-weight:800;line-height:1;box-shadow:0 6px 18px #0009;cursor:pointer;display:flex;align-items:center;justify-content:center}
+#qab[aria-expanded=true]{transform:rotate(45deg)}#qab{transition:transform .2s}
+#qam{position:fixed;right:14px;bottom:calc(env(safe-area-inset-bottom,0px) + 132px);z-index:20;display:none;flex-direction:column;gap:8px;align-items:flex-end}#qam.on{display:flex}
+#mn::after{content:"";display:block;grid-column:1/-1;height:64px}
+#qam button{min-height:46px;padding:0 16px;border-radius:99px;border:1px solid var(--line);background:var(--card);color:var(--ink);font:inherit;font-size:15px;font-weight:700;box-shadow:0 4px 14px #0008;cursor:pointer;white-space:nowrap}
+html:has(#fmm.on) #qab,html:has(#fmm.on) #qam,html.uxo #qab,html.uxo #qam,html.uxwo #qab,html.uxwo #qam,body:has(#tkw:not([hidden])) #qab,body:has(#bkrd:not([hidden])) #qab,body:has(#gnet:not([hidden])) #qab{display:none!important}
+</style>
+<script id="qa-js">/* Быстрые действия: «＋» внизу справа открывает короткое меню — добавить квест, запись о ремонте, запись в дневник, расход, документ, часы отдыха.
+ Пункт открывает нужный раздел (через его плитку) и ставит курсор в первое поле. Разделы, скрытые профилем, в меню не попадают. */
+document.addEventListener("DOMContentLoaded",function(){var P=window.uxP;if(!P)return;var L=function(r,e,u){return window.fmL?fmL(r,e,u):r};
+var A=[["#days","nx","✅ "+L("Свой квест","My own quest","Свій квест")],["rlg","rle","🛠️ "+L("Запись о ремонте","Repair entry","Запис про ремонт")],["d2","dnt","✍️ "+L("Запись в дневник","Diary entry","Запис у щоденник")],
+ ["fnm","fna","💰 "+L("Расход или доход","Expense or income","Витрата чи дохід")],["dc","dcn","🛂 "+L("Документ","Document","Документ")],["rh","","🕐 "+L("Часы отдыха","Rest hours","Години відпочинку")]];
+var b=document.createElement("button");b.type="button";b.id="qab";b.textContent="+";b.setAttribute("aria-expanded","false");b.setAttribute("aria-label",L("Быстро добавить","Quick add","Швидко додати"));
+var m=document.createElement("div");m.id="qam";m.setAttribute("translate","no");document.body.appendChild(m);document.body.appendChild(b);
+function close(){m.classList.remove("on");b.setAttribute("aria-expanded","false")}
+b.onclick=function(e){e.stopPropagation();if(m.classList.contains("on")){close();return}
+ m.innerHTML=A.filter(function(a){return P[a[0]]&&(!window.uxShow||uxShow(a[0]))}).map(function(a,i){return'<button type="button" data-qa="'+i+'">'+esc(a[2])+'</button>'}).join("");m.classList.add("on");b.setAttribute("aria-expanded","true")};
+m.addEventListener("click",function(e){var x=e.target.closest("[data-qa]");if(!x)return;var a=A[+x.dataset.qa];close();if(window.fmClose)fmClose();P[a[0]].b.click();
+ if(a[1])setTimeout(function(){if(window.oneTab)oneTab(a[0]);var f=document.getElementById(a[1]);if(f&&f.offsetParent){try{f.scrollIntoView({block:"center"})}catch(er){}try{f.focus()}catch(er){}}},350)});
+document.addEventListener("click",function(e){if(!e.target.closest("#qam,#qab"))close()})});
+</script>
+<style id="hn-css">/* Подсказка при первом входе в раздел (блок hn-js) */
+#hnt{margin:0 12px 8px;padding:10px 12px;border-radius:12px;border:1px dashed var(--acc);background:color-mix(in srgb,var(--acc) 10%,var(--card));font-size:14px;line-height:1.45;display:flex;gap:10px;align-items:flex-start}#hnt[hidden]{display:none}
+#hnt span{flex:1}#hnt button{flex:0 0 auto;min-height:38px;padding:0 12px;border-radius:10px;border:1px solid var(--line);background:var(--bg);color:var(--acc);font:inherit;font-size:14px;font-weight:700;cursor:pointer}
+</style>
+<script id="hn-js">/* Подсказка «как этим пользоваться» при первом входе в раздел: одна строка над разделом, «Понятно» прячет её навсегда (localStorage fm_hint).
+ Текст для нового раздела — в H[ключ] (ключ как в uxP), сразу на трёх языках. */
+document.addEventListener("DOMContentLoaded",function(){var fmb=document.getElementById("fmb"),fmc=document.getElementById("fmc"),fmm=document.getElementById("fmm");if(!fmb||!fmc||!fmm)return;
+var L=function(r,e,u){return window.fmL?fmL(r,e,u):r};
+var H={
+fc:L("Одна главная задача на день. Выполнишь — получишь бонус.","One main task for the day. Complete it for a bonus.","Одне головне завдання на день. Виконаєш — отримаєш бонус."),
+pnl:L("Незакрытые до полуночи квесты снимают половину своих XP. В тяжёлый день (до 2 в неделю) — без штрафов.","Quests left open at midnight lose half their XP. On a hard day (up to 2 a week) there are no penalties.","Незакриті до півночі квести знімають половину своїх XP. У важкий день (до 2 на тиждень) — без штрафів."),
+ed:L("Здесь твой распорядок дня. Поставь время и дела под свою вахту — из них получатся квесты.","This is your daily routine. Set times and tasks around your watch — they become your quests.","Тут твій розпорядок дня. Постав час і справи під свою вахту — з них вийдуть квести."),
+wch:L("Выбери график вахты — приложение само посчитает, когда лучше спать.","Pick your watch rota — the app works out the best time to sleep.","Обери графік вахти — застосунок сам порахує, коли краще спати."),
+rh:L("Нажимай на часы, когда работал. Приложение проверит нормы отдыха MLC и ПДНВ.","Tap the hours you worked. The app checks MLC and STCW rest rules.","Натискай на години, коли працював. Застосунок перевірить норми відпочинку MLC і ПДНВ."),
+hfm:L("Укажи дату возвращения домой и близких, которым напомнить позвонить.","Set your date home and the people to remind you to call.","Вкажи дату повернення додому і близьких, кому нагадати подзвонити."),
+ktr:L("Сколько осталось до конца контракта и сколько уже заработано.","How long until the end of the contract and how much you have earned.","Скільки лишилося до кінця контракту і скільки вже зароблено."),
+cth:L("Укажи часовой пояс дома — увидишь, когда удобно звонить с учётом вахты и сна.","Set your home time zone to see good times to call around your watch and sleep.","Вкажи часовий пояс дому — побачиш, коли зручно дзвонити з урахуванням вахти і сну."),
+dc:L("Добавь документы с датой окончания — заранее предупредим, когда срок подходит.","Add documents with expiry dates — you will be warned in advance.","Додай документи з датою закінчення — заздалегідь попередимо, коли строк спливає."),
+fnm:L("Записывай доходы и расходы — увидишь, сколько удаётся отложить.","Log income and expenses to see how much you save.","Записуй доходи й витрати — побачиш, скільки вдається відкласти."),
+rlg:L("Записывай, что чинил: дата, оборудование, что сделано, фото. Можно выгрузить таблицей.","Log what you repaired: date, equipment, work done, photo. Export as a table.","Записуй, що ремонтував: дата, обладнання, що зроблено, фото. Можна вивантажити таблицею."),
+cvm:L("Переводы единиц и расчёты — работают без интернета.","Unit conversions and calculations — they work offline.","Переведення одиниць і розрахунки — працюють без інтернету."),
+srf:L("Флаги, огни, звуки, буи, конвенции — коротко. Нажми на строку, чтобы прочитать подробнее.","Flags, lights, sounds, buoys, conventions — in short. Tap a line for details.","Прапори, вогні, звуки, буї, конвенції — коротко. Натисни на рядок, щоб прочитати детальніше."),
+shn:L("Выбери инструмент вверху: компас, секстан, звёзды, счисление, расхождение, прилив.","Pick a tool at the top: compass, sextant, stars, dead reckoning, CPA, tide.","Обери інструмент угорі: компас, секстант, зорі, числення, розходження, приплив."),
+lib:L("Статьи по темам. Прочитал — отметь, за это дают опыт.","Articles by topic. Mark them as read to earn XP.","Статті за темами. Прочитав — відміть, за це дають досвід."),
+ck:L("Готовые чек-листы. Во вкладках — сборы в рейс и подготовка к повышению.","Ready-made checklists. Other tabs: packing for a trip and preparing for promotion.","Готові чек-листи. У вкладках — збори в рейс і підготовка до підвищення."),
+"#stats":L("Твой уровень и навыки растут от выполненных дел. Во вкладках — достижения и награды.","Your level and skills grow as you complete tasks. Other tabs: achievements and rewards.","Твій рівень і навички зростають від виконаних справ. У вкладках — досягнення і нагороди."),
+d1:L("Отметь настроение — так видно, как меняется самочувствие в рейсе.","Log your mood to see how you feel over the trip.","Відміть настрій — так видно, як змінюється самопочуття в рейсі."),
+rz:L("Заполни анкету по шагам — резюме соберётся само, его можно сохранить в PDF.","Fill in the form step by step — the CV builds itself and saves as PDF.","Заповни анкету по кроках — резюме збереться саме, його можна зберегти в PDF."),
+bk:L("Выбери уровень английского — покажем книги по силам. Книги можно сохранить и читать без интернета.","Pick your English level to see books that fit. Save books to read offline.","Обери рівень англійської — покажемо книжки до снаги. Книжки можна зберегти й читати без інтернету."),
+snd:L("Шум моря, дождь и другие звуки для сна. Поставь таймер — звук выключится сам.","Sea, rain and other sounds for sleep. Set a timer and it stops by itself.","Шум моря, дощ та інші звуки для сну. Постав таймер — звук вимкнеться сам.")
+};
+function seen(){try{return JSON.parse(localStorage.getItem("fm_hint")||"{}")}catch(e){return{}}}
+function key(s){if(!s||s.tagName!="SECTION")return"";if(s.id)return s.id;var e=s.querySelector("[id]");return e?"#"+e.id:""}
+var B=document.createElement("div");B.id="hnt";B.hidden=true;B.setAttribute("translate","no");fmb.insertBefore(B,fmc);
+function upd(){var k=fmm.classList.contains("on")?key(fmc.firstElementChild):"";if(!k||!H[k]||seen()[k]){B.hidden=true;return}
+ B.innerHTML='<span>💡 '+esc(H[k])+'</span><button type="button">'+L("Понятно","Got it","Зрозуміло")+'</button>';B.dataset.k=k;B.hidden=false}
+B.addEventListener("click",function(e){if(!e.target.closest("button"))return;var s=seen();s[B.dataset.k]=1;try{localStorage.setItem("fm_hint",JSON.stringify(s))}catch(er){}B.hidden=true});
+new MutationObserver(function(){setTimeout(upd,0)}).observe(fmc,{childList:true});new MutationObserver(upd).observe(fmm,{attributes:true,attributeFilter:["class"]})});
+</script>
 <style id="nz-css">/* Без случайного увеличения экрана: двойное касание и щипок не масштабируют страницу */
 html,body{touch-action:manipulation;-webkit-text-size-adjust:100%;text-size-adjust:100%}</style>
 <script id="nz-js">/* iPhone: запрет щипка и двойного касания; то же внутри игр (iframe) */
@@ -3475,7 +3679,7 @@ function ico(s){if(IC[s.id])return IC[s.id];for(var k in IC)if(s.querySelector("
 function ttl(s){var h=s.querySelector("h2,h3,h4");if(h){h=h.cloneNode(true);[].forEach.call(h.querySelectorAll("button,input,select,textarea"),function(x){x.remove()})}var t=(h?h.textContent:"").replace(/\s+/g," ").trim();return t.length>48?t.slice(0,46)+"…":t}
 function split(t){var r=t.match(/^((?:\p{Extended_Pictographic}|[\u{1F1E6}-\u{1F1FF}])[️‍\u{1F3FB}-\u{1F3FF}\p{Extended_Pictographic}\u{1F1E6}-\u{1F1FF}]*)\s*(.*)$/u);return r&&r[2]?[r[1],r[2]]:[null,t]}
 function set(e,v){if(e.textContent!=v)e.textContent=v}
-function upd(){tiles.forEach(function(p){var b=p[0],s=p[1],t=ttl(s),hd=!t||s.hidden;if(b.hidden!=hd)b.hidden=hd;if(hd)return;var q=split(t);set(b.firstChild,q[0]||ico(s));set(b.lastChild,q[1])})}
+function upd(){tiles.forEach(function(p){var b=p[0],s=p[1],t=ttl(s),hd=!t||s.hidden;if(b.hidden!=hd)b.hidden=hd;if(hd)return;var q=split(t);set(b.firstChild,b.dataset.ic||q[0]||ico(s));set(b.lastChild,b.dataset.ttl||q[1])})}
 [].slice.call(mn.children).forEach(function(s){if(s.tagName!="SECTION"||s.classList.contains("hero")||s.classList.contains("quote")||s.id=="ob"||s.id=="nw"||s.id=="tdy")return;var b=document.createElement("button");b.type="button";b.className="fmt";b.setAttribute("data-t",s.getAttribute("data-t"));b.innerHTML="<i></i><b></b>";mn.insertBefore(b,s);s.classList.add("fmc");b.onclick=function(){open(s)};tiles.push([b,s])});
 function open(s){close();if(!s||s.parentNode!==mn)return;cur=s;mn.insertBefore(ph,s);box.appendChild(s);s.classList.remove("fmc");m.classList.add("on");de.classList.add("fmo");box.scrollTop=0}
 function close(){if(!cur)return;cur.classList.add("fmc");mn.insertBefore(cur,ph);mn.removeChild(ph);cur=null;m.classList.remove("on");de.classList.remove("fmo");upd()}
@@ -3686,7 +3890,7 @@ var F=[
 ["pdhgf","Его девушка Пятница","His Girl Friday",1940,"f",7.8,"pd","Редактор газеты пытается вернуть бывшую жену и лучшую журналистку. Быстрая комедия с Кэри Грантом, на английском. 92 минуты.","A newspaper editor tries to win back his ex-wife and best reporter. A fast-talking comedy with Cary Grant, in English. 92 minutes."]];
 /* Бесплатно скачать: фильмы без авторских прав (общественное достояние) в Internet Archive — [папка, файл MP4, размер в байтах] */
 var FLD=window.FLD={pdpot:["BattleshipPotemkin","Battleship_Potemkin_512kb.mp4",317355846],pdnos:["Nosferatu_most_complete_version_93_mins.","Nosferatu_1922_Symphony_of_Horror_512kb.mp4",395416378],pdgen:["The_General_Buster_Keaton","The_General.mp4",412400222],pdnav:["the-navigator","The Navigator.mp4",659663951],pdstb:["SteamboatBillJr","Steamboat_Bill.Jr_512kb.mp4",301128137],pdcam:["ChelovekskinoapparatomManWithAMovieCamera","Chelovek_s_kino-apparatom_512kb.mp4",257515942],pdael:["Aelita-QueenOfMarsrussianScience-fictionFilm1924","Aelita-QueenOfMarsrussianSci-fi1924.mp4",502249081],pdgul:["gullivers_travels1939_divx","gullivers_travels1939.mp4",476539799],pdboa:["TheBoat","The_Boat_512kb.mp4",103352552],pdadv:["CC_1917_10_22_TheAdventurer","CC_1917_10_22_TheAdventurer_512kb.mp4",82589530],pdimm:["the-immigrant-1917_202304","The Immigrant (1917).ia.mp4",215257252],pdhgf:["his_girl_friday","his_girl_friday.mp4",575274912]};
-var en=window.st&&st.lang=="en",uk=window.st&&st.lang=="uk"&&window.trEN,vw="all",kd="",gn="",nn=20;
+var en=window.st&&st.lang=="en",uk=window.st&&st.lang=="uk"&&window.trEN,vw="all",kd="",gn="",nn=10;
 function S(){return st.flm=st.flm||{}}
 function own(){return st.flmc=st.flmc||[]}
 function nm(x){return en?x[2]:uk?trEN(x[1]):x[1]}
@@ -3708,14 +3912,14 @@ h+=L.slice(0,nn).map(card).join("");if(L.length>nn)h+='<div class="add"><button 
 c.innerHTML=h}
 window.flmDraw=draw;
 c.addEventListener("click",function(e){var b=e.target.closest("button");if(!b||b.dataset.flv)return;var d=b.dataset,M=S(),m;
-if(d.fl){vw=d.fl;nn=20;draw();return}
-if(d.fm){nn+=20;draw();return}
+if(d.fl){vw=d.fl;nn=10;draw();return}
+if(d.fm){nn+=10;draw();return}
 if(d.fs){var p=d.fs.split(":"),v=+p[1];m=M[p[0]]=M[p[0]]||{};m.r=m.r==v?0:v;if(m.r){m.w=1;m.l=0}save();draw();return}
 if(d.fw){m=M[d.fw]=M[d.fw]||{};m.l=m.l?0:1;save();draw();return}
 if(d.fv){m=M[d.fv]=M[d.fv]||{};if(m.w||m.r){m.w=0;m.r=0}else{m.w=1;m.l=0}save();draw();return}
 if(d.fx){st.flmc=own().filter(function(x){return x.i!=d.fx});delete M[d.fx];save();draw();return}
 if(d.fa){var t=($("fmt").value||"").trim();if(!t)return;var i="u"+Date.now().toString(36);own().push({i:i,t:t.slice(0,80),k:$("fmtk").value=="s"?"s":"f"});M[i]={w:1};save();draw()}});
-c.addEventListener("change",function(e){if(e.target.id=="fmk"){kd=e.target.value;nn=20;draw()}else if(e.target.id=="fmg"){gn=e.target.value;nn=20;draw()}});
+c.addEventListener("change",function(e){if(e.target.id=="fmk"){kd=e.target.value;nn=10;draw()}else if(e.target.id=="fmg"){gn=e.target.value;nn=10;draw()}});
 c.addEventListener("keydown",function(e){if(e.target.id=="fmt"&&e.key=="Enter"){e.preventDefault();var b=c.querySelector("[data-fa]");if(b)b.click()}});
 draw()})();
 </script>

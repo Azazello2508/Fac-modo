@@ -40,7 +40,7 @@ PY
 # --- разрешения: камера (фото в журнал ремонтов, QR-код для игры по сети);
 #     запись в «Документы» нужна только старым Android 9–10 (резервная копия и таблицы, блок and-js) ---
 M=android/app/src/main/AndroidManifest.xml
-grep -q 'android.permission.CAMERA' "$M" || sed -i 's#<uses-permission android:name="android.permission.INTERNET" />#&\n    <uses-permission android:name="android.permission.CAMERA" />\n    <uses-feature android:name="android.hardware.camera" android:required="false" />\n    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" android:maxSdkVersion="29" />\n    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" android:maxSdkVersion="29" />#' "$M"
+grep -q 'android.permission.CAMERA' "$M" || sed -i 's#<uses-permission android:name="android.permission.INTERNET" />#&\n    <uses-permission android:name="android.permission.CAMERA" />\n    <uses-feature android:name="android.hardware.camera" android:required="false" />\n    <uses-permission android:name="android.permission.VIBRATE" />\n    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" android:maxSdkVersion="29" />\n    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" android:maxSdkVersion="29" />#' "$M"
 grep -q 'requestLegacyExternalStorage' "$M" || sed -i 's#<application#<application android:requestLegacyExternalStorage="true"#' "$M"
 grep -c 'android.permission.CAMERA\|requestLegacyExternalStorage' "$M"
 
