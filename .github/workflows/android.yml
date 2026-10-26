@@ -5,7 +5,7 @@ name: Сборка для Android
 
 on:
   push:
-    branches: [main, android]
+    branches: [main]
   workflow_dispatch:
   workflow_call:   # вызывается проверкой «Танчиков», когда игра обновилась
 
