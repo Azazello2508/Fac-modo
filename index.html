@@ -5313,7 +5313,7 @@ main>.shph>div{display:contents}main>.shph>.shb{grid-column:1;grid-row:1}main>.s
 main>.shph small,main>.shph .cmn{grid-column:1/-1}
 main>.shph .cmn{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));margin-top:6px}main>.shph .cmn small{grid-column:1/-1;text-align:center}
 main>.shph .cmn button[data-cmn="-1"]{text-align:left}main>.shph .cmn button[data-cmn="1"]{text-align:right}
-#toast{top:calc(env(safe-area-inset-top,0px) + 8px);bottom:auto;transform:translate(-50%,-30px);padding:8px 16px;font-size:14px;border-radius:99px;width:max-content;max-width:calc(100vw - 32px);box-sizing:border-box;box-shadow:0 6px 18px #0007}
+#toast{top:calc(env(safe-area-inset-top,0px) + 56px);bottom:auto;transform:translate(-50%,-30px);padding:8px 16px;font-size:14px;border-radius:99px;width:max-content;max-width:calc(100vw - 32px);box-sizing:border-box;box-shadow:0 6px 18px #0007}
 #toast.show{transform:translate(-50%,0)}
 </style>
 <script id="tdc-js">/* «Сегодня» короче: в «Первых шагах» видно 2 несделанных шага, 2 кнопки «Новое сегодня», строки «Сегодня», повторяющие шаг, скрыты, из остальных строк видно 2,
@@ -5333,6 +5333,47 @@ function run(){mo.disconnect();var n=0,b=t.querySelector(".tdcb");if(b)b.remove(
 var mo=new MutationObserver(run);
 t.addEventListener("click",function(e){if(!e.target.closest(".tdcb"))return;op=!op;try{localStorage.setItem("fm_tdc",op?"1":"0")}catch(x){}run()});
 run()});
+</script>
+<style id="ovl-css">/* Окна разделов и наложения (блок ovl-js) */
+/* шапка прилипает к верху (overflow-x:hidden у html/body ломал sticky — кнопки 🔴 🌐 висели над содержимым);
+ на iPhone с вырезом фон шапки заходит под часы, а строка — на одной высоте с кнопками 🔴 🌐 */
+@supports (overflow:clip){html,body{overflow-x:clip}}
+#hud{margin-top:calc(-1 * env(safe-area-inset-top,0px));padding-top:calc(env(safe-area-inset-top,0px) + 8px)}
+html:has(#fmm.on) #nvb{display:none!important}
+/* пока вводишь текст, плавающие кнопки не закрывают поле */
+html:has(:is(input:not([type=checkbox]):not([type=radio]):not([type=range]):not([type=file]):not([type=button]):not([type=submit]):not([type=color]),textarea,select,[contenteditable=true]):focus) :is(#qab,#qam,#cmfx,#cmfp,#ovn){display:none!important}
+/* подсказка «Понятно» прячется, когда листаешь раздел вниз */
+#fmb.ovS #hnt{display:none}
+/* пример в пустом разделе — одна строка, остальное по нажатию */
+.gdx{cursor:pointer}.gdx:not(.op)>div>.gdxr:nth-child(n+2),.gdx:not(.op)>small{display:none}.gdx .gdxl::after{content:" ▾"}.gdx.op .gdxl::after{content:" ▴"}
+/* вкладки объединённых разделов крупнее */
+#onet button{flex:1 0 auto;min-height:44px;font-size:15px}
+/* нижняя строка окна: соседние разделы помещения и «✕ Закрыть» (в режиме «одна рука») — вместо плавающей кнопки, которая лежала поверх содержимого */
+#ovn{display:flex;align-items:center;gap:8px;padding:8px 12px calc(8px + env(safe-area-inset-bottom,0px));border-top:1px solid var(--line);background:var(--bg)}#ovn[hidden]{display:none}
+#ovn .ovs{flex:1;min-width:0;display:flex;gap:6px;overflow-x:auto;scrollbar-width:none}#ovn .ovs::-webkit-scrollbar{display:none}
+#ovn button{flex:0 0 auto;min-height:42px;padding:0 12px;border-radius:99px;border:1px solid var(--line);background:var(--card);color:var(--ink);font:inherit;font-size:14px;font-weight:700;white-space:nowrap;cursor:pointer}
+#ovn button.on{background:var(--acc);border-color:var(--acc);color:#0e1424}#ovn .ovx{font-weight:800;box-shadow:0 2px 8px #0006}html.cmL #ovn .ovx{order:-1}
+html:has(#ovn:not([hidden])) #fmc{padding-bottom:12px}html:has(#ovn:not([hidden])) #fmc::after{display:none}
+html:has(#ovn:not([hidden])) #cmfx{display:none!important}
+/* уведомление в открытом окне — внизу над нижней строкой */
+html:has(#fmm.on) #toast{top:auto;bottom:calc(env(safe-area-inset-bottom,0px) + 76px);transform:translate(-50%,30px)}html:has(#fmm.on) #toast.show{transform:translate(-50%,0)}
+</style>
+<script id="ovl-js">/* Окна разделов: подсказка прячется при прокрутке (#fmb.ovS), пример в пустом разделе раскрывается по нажатию (.gdx.op),
+ внизу окна — соседние разделы того же помещения (#ovn): перейти, не возвращаясь в помещение. */
+document.addEventListener("DOMContentLoaded",function(){var fmm=document.getElementById("fmm"),fmb=document.getElementById("fmb"),fmc=document.getElementById("fmc"),mn=document.getElementById("mn");if(!fmm||!fmb||!fmc||!mn)return;
+fmc.addEventListener("scroll",function(){var y=fmc.scrollTop;if(y>60)fmb.classList.add("ovS");else if(y<10)fmb.classList.remove("ovS")},{passive:true});
+document.addEventListener("click",function(e){var x=e.target.closest&&e.target.closest(".gdx");if(x)x.classList.toggle("op")});
+var nb=document.createElement("div");nb.id="ovn";nb.hidden=true;nb.setAttribute("translate","no");fmb.appendChild(nb);var T=[];
+function cur(){var P=window.uxP||{},s=fmc.firstElementChild;for(var k in P)if(P[k].s===s){var m=window.oneOf?oneOf(k):k;return(P[m]||P[k]).b}return null}
+var L=function(r,e,u){return window.fmL?fmL(r,e,u):r},de=document.documentElement;
+function sib(){if(!fmm.classList.contains("on")){fmb.classList.remove("ovS");nb.hidden=true;return}var t=mn.getAttribute("data-tab")||"",oh=de.classList.contains("cmOH");
+ T=/^r-/.test(t)?[].filter.call(mn.querySelectorAll(':scope>.fmt[data-t="'+t+'"]'),function(b){return!b.hidden&&!b.hasAttribute("data-uxh")&&!b.hasAttribute("data-uxj")&&!b.classList.contains("uxrow")}):[];
+ if(T.length<2)T=[];if(!T.length&&!oh){nb.hidden=true;return}var c=cur(),h='<div class="ovs">'+T.map(function(b,i){var ic=b.querySelector(":scope>i"),nm=b.querySelector(":scope>b");return'<button type="button" data-ovn="'+i+'"'+(b===c?' class="on" aria-current="true"':"")+'>'+esc(((ic&&ic.textContent)||"")+" "+((nm&&nm.textContent)||""))+'</button>'}).join("")+'</div>'+
+  (oh?'<button type="button" class="ovx" data-ovx="1">✕ '+L("Закрыть","Close","Закрити")+'</button>':"");
+ if(nb.innerHTML!=h)nb.innerHTML=h;nb.hidden=false;var on=nb.querySelector(".on"),s=nb.querySelector(".ovs");if(on&&s)s.scrollLeft=on.offsetLeft-s.offsetLeft-(s.clientWidth-on.offsetWidth)/2}
+nb.addEventListener("click",function(e){if(e.target.closest("[data-ovx]")){if(window.fmClose)fmClose();return}var b=e.target.closest("[data-ovn]");if(!b||b.classList.contains("on"))return;var t=T[+b.dataset.ovn];if(!t)return;if(window.fmClose)fmClose();t.click()});
+new MutationObserver(function(){go()}).observe(de,{attributes:true,attributeFilter:["class"]});
+var q=0,go=function(){clearTimeout(q);q=setTimeout(sib,30)};new MutationObserver(go).observe(fmm,{attributes:true,attributeFilter:["class"]});new MutationObserver(go).observe(fmc,{childList:true})});
 </script>
 <script id="and-js">/* Android: в приложении ссылки «скачать файл» (резервная копия, таблицы CSV, резюме PDF) не работают сами — сохраняем файл в «Документы/Fac Modo» */
 (function(){var C=window.Capacitor;if(!C||!C.getPlatform||C.getPlatform()!="android")return;
