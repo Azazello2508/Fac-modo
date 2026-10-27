@@ -336,6 +336,7 @@ html:not(.simple) #nw{display:none}
 <section class="card" data-t="me" id="rwd" translate="no"></section>
 <section class="card" data-t="me" id="hm"></section>
 <section class="card" data-t="set" id="cfg"></section>
+<section class="card" data-t="set" id="cmf" translate="no"></section>
 <section class="card" data-t="set" id="nfc"></section>
 <section class="card" data-t="set" id="opt"></section>
 <section class="card" data-t="me" id="shr"></section>
@@ -3733,7 +3734,7 @@ d3:["Нарисуй что-нибудь пальцем","Draw something with you
 cfg:["Размер текста, анимация, вид","Text size, animation, look","Розмір тексту, анімація, вигляд"],"#th":["Тема оформления и фото профиля","Colour theme and profile photo","Тема оформлення і фото профілю"],
 nfc:["Напоминания о квестах внутри приложения","Quest reminders inside the app","Нагадування про квести всередині застосунку"],rem:["Напоминания на телефоне, даже когда приложение закрыто","Phone reminders even when the app is closed","Нагадування на телефоні, навіть коли застосунок закрито"],
 "#sn":["Сохранить копию данных в файл","Save a copy of your data to a file","Зберегти копію даних у файл"],abk:["Копии, которые приложение делает само","Backups the app makes by itself","Копії, які застосунок робить сам"],
-trn:["Перенести всё на новый телефон без интернета","Move everything to a new phone offline","Перенести все на новий телефон без інтернету"],uxp:["Какие разделы показывать","Which sections to show","Які розділи показувати"],
+trn:["Перенести всё на новый телефон без интернета","Move everything to a new phone offline","Перенести все на новий телефон без інтернету"],cmf:["Одна рука, левша или правша, листать помещения пальцем","One hand, left or right, swipe between rooms","Одна рука, шульга чи правша, гортати приміщення пальцем"],uxp:["Какие разделы показывать","Which sections to show","Які розділи показувати"],
 prv:["Конфиденциальность и поддержка","Privacy and support","Конфіденційність і підтримка"],abt:["Версия и о приложении","Version and about","Версія і про застосунок"],gs:["5 разделов, с которых удобно начать","5 sections that are good to start with","5 розділів, з яких зручно почати"]};
 var TK={rh:"сколько я отдыхал работал устал усталость нормы отдыха hours worked tired rest скільки відпочивав",cvm:"перевести узлы мили футы метры градусы convert knots miles feet перевести вузли",
  dc:"когда истекает виза паспорт диплом медкомиссия срок expires visa коли спливає",tip:"чем заняться скучно идея bored what to do нудно",snd:"не могу уснуть бессонница сон can't sleep insomnia не можу заснути",
@@ -4117,7 +4118,7 @@ document.addEventListener("click",function(e){var b=e.target.closest&&e.target.c
 })();</script>
 <div id="fmm"><div id="fmb" role="dialog" aria-modal="true" aria-label="Раздел"><div id="fmh"><button type="button" id="fmx">✕ Закрыть</button></div><div id="fmc" tabindex="0"></div></div></div>
 <script>(function(){var mn=document.getElementById("mn"),m=document.getElementById("fmm"),box=document.getElementById("fmc"),cur=null,ph=document.createComment("fm"),tiles=[],de=document.documentElement;mn.appendChild(m);
-var IC={srf:"📘",uxp:"🎛️",rwd:"🎖️",pck:"🎒",trn:"📲",prv:"🔒",elg:"🩺",abk:"🛟",shn:"🔭",pzl:"🧩",snd:"🌙",brt:"🫁",sky:"✨",vis:"🗺️",fc:"🎯",pnl:"⚖️",wch:"⚓",mt2:"🧠",clc:"🧮",rlg:"🛠️",cth:"📞",ktr:"⏳",stk:"🔥",flm:"🎬",gym:"🏋️",cmp:"📊",prf:"👤",prf2:"👤",tip:"💡",ls:"🧭",pom:"⏱️",lib:"🗂️",bk:"📚",mat:"🎬",gl:"📖",ck:"☑️",shop:"🛒",iv:"🎤",en:"🔤",ch:"🎁",qz:"❓",hm:"📅",opt:"⚙️",shr:"🔗",ed:"🗓️",dq:"🌤️",d1:"😊",d2:"✍️",d3:"🎨",d4:"📔",sh1:"🧭",sh2:"🌳",sh5:"🗺️",sh4:"👣",ap:"📨",rz:"📄",sh3:"🔄",stats:"📈",ach:"🏅",th:"🎨",sn:"💾",days:"✅",cfg:"🖥️",nfc:"🔔",wkc:"📈",cmpt:"🏆",abt:"ℹ️"};
+var IC={srf:"📘",uxp:"🎛️",cmf:"🖐️",rwd:"🎖️",pck:"🎒",trn:"📲",prv:"🔒",elg:"🩺",abk:"🛟",shn:"🔭",pzl:"🧩",snd:"🌙",brt:"🫁",sky:"✨",vis:"🗺️",fc:"🎯",pnl:"⚖️",wch:"⚓",mt2:"🧠",clc:"🧮",rlg:"🛠️",cth:"📞",ktr:"⏳",stk:"🔥",flm:"🎬",gym:"🏋️",cmp:"📊",prf:"👤",prf2:"👤",tip:"💡",ls:"🧭",pom:"⏱️",lib:"🗂️",bk:"📚",mat:"🎬",gl:"📖",ck:"☑️",shop:"🛒",iv:"🎤",en:"🔤",ch:"🎁",qz:"❓",hm:"📅",opt:"⚙️",shr:"🔗",ed:"🗓️",dq:"🌤️",d1:"😊",d2:"✍️",d3:"🎨",d4:"📔",sh1:"🧭",sh2:"🌳",sh5:"🗺️",sh4:"👣",ap:"📨",rz:"📄",sh3:"🔄",stats:"📈",ach:"🏅",th:"🎨",sn:"💾",days:"✅",cfg:"🖥️",nfc:"🔔",wkc:"📈",cmpt:"🏆",abt:"ℹ️"};
 function ico(s){if(IC[s.id])return IC[s.id];for(var k in IC)if(s.querySelector("#"+k))return IC[k];return"📌"}
 function ttl(s){var h=s.querySelector("h2,h3,h4");if(h){h=h.cloneNode(true);[].forEach.call(h.querySelectorAll("button,input,select,textarea"),function(x){x.remove()})}var t=(h?h.textContent:"").replace(/\s+/g," ").trim();return t.length>48?t.slice(0,46)+"…":t}
 function split(t){var r=t.match(/^((?:\p{Extended_Pictographic}|[\u{1F1E6}-\u{1F1FF}])[️‍\u{1F3FB}-\u{1F3FF}\p{Extended_Pictographic}\u{1F1E6}-\u{1F1FF}]*)\s*(.*)$/u);return r&&r[2]?[r[1],r[2]]:[null,t]}
@@ -5197,6 +5198,107 @@ mn.addEventListener("click",function(e){var b=e.target.closest("[data-shr],[data
 var c0=mn.getAttribute("data-tab")||"today";if(!/^r-/.test(c0)&&c0!="today")setTab(c0);
 var tm=0;if(typeof save=="function"){var os=save;save=function(){var v=os.apply(this,arguments);clearTimeout(tm);tm=setTimeout(function(){var c=mn.getAttribute("data-tab")||"";if(/^r-/.test(c))head(c.slice(2));else draw()},450);return v}}
 draw();setTimeout(draw,400)});
+</script>
+<style id="cmf-css">/* Удобство: одна рука, левша/правша, свайп между помещениями, поиск по настройкам и сброс вида (блок cmf-js) */
+html.cmL #qab{right:auto;left:14px}html.cmL #qam{right:auto;left:14px;align-items:flex-start}
+#cmfp,#cmfx{position:fixed;bottom:calc(env(safe-area-inset-bottom,0px) + 22px);right:80px;min-height:46px;padding:0 18px;border-radius:99px;border:1px solid var(--line);background:var(--card);color:var(--ink);font:inherit;font-size:15px;font-weight:800;box-shadow:0 6px 18px #0009;cursor:pointer;display:none;align-items:center}
+#cmfp{z-index:20}#cmfx{z-index:16;right:14px}
+html.cmL #cmfp{right:auto;left:80px}html.cmL #cmfx{right:auto;left:14px}
+html.cmOH.cmIn #cmfp,html.cmOH:has(#fmm.on) #cmfx{display:flex}
+html.cmOH #fmc::after{content:"";display:block;height:72px}
+html:has(#fmm.on) #cmfp,html.uxo #cmfp,html.uxwo #cmfp,html.uxo #cmfx,html.uxwo #cmfx,body:has(#tkw:not([hidden])) #cmfp,body:has(#bkrd:not([hidden])) #cmfp,body:has(#gnet:not([hidden])) #cmfp,body:has(#tkw:not([hidden])) #cmfx,body:has(#bkrd:not([hidden])) #cmfx,body:has(#gnet:not([hidden])) #cmfx{display:none!important}
+html.cmOH.cmIn #mn::after{height:80px}
+main>.shph .cmn{display:flex;flex-wrap:wrap;align-items:center;gap:6px;margin-top:8px}
+main>.shph .cmn button{min-height:40px;padding:0 12px;border-radius:99px;border:1px solid var(--line);background:var(--bg);color:var(--ink);font:inherit;font-size:13.5px;font-weight:700;cursor:pointer;max-width:100%;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+main>.shph .cmn small{flex-basis:100%;font-size:12px;color:var(--mute)}
+main.cmsl>*{animation:cmsl .22s ease}main.cmsr>*{animation:cmsr .22s ease}
+@keyframes cmsl{from{transform:translateX(48px);opacity:.35}}@keyframes cmsr{from{transform:translateX(-48px);opacity:.35}}
+@media (prefers-reduced-motion:reduce){main.cmsl>*,main.cmsr>*{animation:none}}
+main>.cfs{grid-column:1/-1;display:flex;flex-direction:column;gap:8px}
+main>.cfs input{width:100%;min-height:46px;padding:0 14px;border-radius:14px;border:1px solid var(--line);background:var(--card);color:var(--ink);font:inherit;font-size:15px;box-sizing:border-box}
+main>.cfs .cfn{margin:0;font-size:13.5px;color:var(--mute)}main>.cfs .cfx{display:flex;flex-wrap:wrap;gap:8px}
+main>.cfs button{min-height:44px;padding:0 14px;border-radius:12px;border:1px solid var(--line);background:var(--card);color:var(--ink);font:inherit;font-size:14.5px;font-weight:700;cursor:pointer}
+main>.fmt.cfsh{display:none!important}
+</style>
+<script id="cmf-js">/* Удобство (раздел #cmf в «Моя каюта» → «Настройки», localStorage fm_cmf: oh — одна рука, h — "r"/"l" рука, sw — свайп):
+ одна рука — «← Палуба» в помещении и «✕ Закрыть» в окне раздела дублируются внизу, «＋» и они переезжают на сторону выбранной руки;
+ свайп влево/вправо в помещении судна открывает соседнее (порядок — карточки на палубе #shp), в шапке помещения — кнопки ‹ соседей ›;
+ над настройками каюты — поиск по настройкам (название, описание, текст раздела, слова KW) и «Вернуть стандартные настройки» (только вид, данные не трогаются). */
+document.addEventListener("DOMContentLoaded",function(){var mn=document.getElementById("mn"),P=window.uxP,de=document.documentElement;if(!mn||!P)return;
+var L=function(r,e,u){return window.fmL?fmL(r,e,u):r},K="fm_cmf";
+function G(){var o={};try{o=JSON.parse(localStorage.getItem(K)||"{}")||{}}catch(e){}return{oh:o.oh==null?1:+o.oh,h:o.h=="l"?"l":"r",sw:o.sw==null?1:+o.sw}}
+function S(c){try{localStorage.setItem(K,JSON.stringify(c))}catch(e){}ap();cmfr()}
+function cur(){return mn.getAttribute("data-tab")||"today"}
+function ap(){var c=G();de.classList.toggle("cmOH",!!c.oh);de.classList.toggle("cmL",c.h=="l");nav()}
+/* 1. кнопки внизу под большим пальцем */
+var bp=document.createElement("button");bp.type="button";bp.id="cmfp";bp.setAttribute("translate","no");bp.textContent="← "+L("Палуба","Deck","Палуба");bp.onclick=function(){setTab("today")};
+var bx=document.createElement("button");bx.type="button";bx.id="cmfx";bx.setAttribute("translate","no");bx.textContent="✕ "+L("Закрыть","Close","Закрити");bx.onclick=function(){if(window.fmClose)fmClose()};
+document.body.appendChild(bp);document.body.appendChild(bx);
+/* 2. соседние помещения: кнопки в шапке и свайп */
+function rooms(){return[].map.call(document.querySelectorAll("#shp [data-shr]"),function(b){var i=b.querySelector("i"),t=b.querySelector("b");return[b.dataset.shr,i?i.textContent:"",t?t.textContent:""]})}
+function nb(d){var t=cur();if(!/^r-/.test(t))return null;var a=rooms(),i=a.map(function(x){return x[0]}).indexOf(t.slice(2));if(i<0||a.length<2)return null;return a[(i+d+a.length)%a.length]}
+function nav(){var t=cur(),inr=/^r-/.test(t);de.classList.toggle("cmIn",inr);if(!inr)return;var h=mn.querySelector(':scope>.shph[data-t="'+t+'"]');if(!h)return;
+ var x=h.querySelector(".cmn");if(!x){x=document.createElement("div");x.className="cmn";(h.querySelector("div")||h).appendChild(x)}
+ var p=nb(-1),n=nb(1),s=p&&n?'<button type="button" data-cmn="-1">‹ '+esc(p[1]+" "+p[2])+'</button><button type="button" data-cmn="1">'+esc(n[1]+" "+n[2])+' ›</button>'+(G().sw?'<small>'+esc(L("или листай пальцем влево и вправо","or swipe left and right","або гортай пальцем вліво й вправо"))+'</small>':""):"";
+ if(x.innerHTML!=s)x.innerHTML=s}
+function go(d){var n=nb(d);if(!n)return;setTab("r-"+n[0]);window.scrollTo(0,0);
+ mn.classList.remove("cmsl","cmsr");void mn.offsetWidth;mn.classList.add(d>0?"cmsl":"cmsr");setTimeout(function(){mn.classList.remove("cmsl","cmsr")},300)}
+mn.addEventListener("click",function(e){var b=e.target.closest("[data-cmn]");if(b)go(+b.dataset.cmn)});
+new MutationObserver(nav).observe(mn,{attributes:true,attributeFilter:["data-tab"]});
+var sx=0,sy=0,t0=0,ok=false;
+document.addEventListener("touchstart",function(e){ok=false;if(e.touches.length!=1||!G().sw||!/^r-/.test(cur()))return;var fm=document.getElementById("fmm");if(fm&&fm.classList.contains("on"))return;
+ if(de.classList.contains("uxo")||de.classList.contains("uxwo"))return;var t=e.target;if(!mn.contains(t)||t.closest("input,textarea,select,canvas,iframe,[contenteditable],.cmn"))return;
+ for(var el=t;el&&el!==mn;el=el.parentElement){if(el.scrollWidth>el.clientWidth+4){var ox=getComputedStyle(el).overflowX;if(ox=="auto"||ox=="scroll")return}}
+ var p=e.touches[0];if(p.clientX<20||p.clientX>innerWidth-20)return;sx=p.clientX;sy=p.clientY;t0=Date.now();ok=true},{passive:true});
+document.addEventListener("touchend",function(e){if(!ok)return;ok=false;var p=e.changedTouches[0],dx=p.clientX-sx,dy=p.clientY-sy;if(Date.now()-t0>800||Math.abs(dx)<70||Math.abs(dx)<Math.abs(dy)*2)return;go(dx<0?1:-1)},{passive:true});
+/* 3. раздел «Удобство» */
+function cmfr(){var c=document.getElementById("cmf");if(!c)return;var g=G(),tl=P.cmf&&P.cmf.b;
+ if(tl){tl.hidden=false;var i=tl.querySelector(":scope>i"),b=tl.querySelector(":scope>b");if(i)i.textContent="🖐️";if(b)b.textContent=L("Удобство","Comfort","Зручність")}
+ function seg(k,v,o){return'<div class="add">'+o.map(function(x){return'<button type="button" class="alt'+(String(v)==String(x[0])?" cur":"")+'" data-cmf="'+k+'" data-v="'+x[0]+'">'+esc(x[1])+'</button>'}).join("")+'</div>'}
+ function cap(t,n){return'<p class="note" style="margin:12px 0 4px"><b>'+esc(t)+'</b></p>'+(n?'<p class="note" style="margin:0 0 4px">'+esc(n)+'</p>':"")}
+ var on=L("Включено","On","Увімкнено"),off=L("Выключено","Off","Вимкнено");
+ c.innerHTML='<h3>🖐️ '+esc(L("Удобство","Comfort","Зручність"))+'</h3>'
+ +cap(L("Управление одной рукой","One-handed use","Керування однією рукою"),L("Кнопки «← Палуба», «＋» и «✕ Закрыть» — внизу экрана, под большим пальцем. Кнопки вверху тоже остаются.","The “← Deck”, “＋” and “✕ Close” buttons sit at the bottom, under your thumb. The top buttons stay too.","Кнопки «← Палуба», «＋» і «✕ Закрити» — унизу екрана, під великим пальцем. Кнопки вгорі теж залишаються."))
+ +seg("oh",g.oh,[[1,on],[0,off]])
+ +cap(L("Какой рукой держишь телефон","Which hand holds the phone","Якою рукою тримаєш телефон"),L("Кнопки внизу встанут на сторону этой руки.","The bottom buttons move to that side.","Кнопки внизу стануть на бік цієї руки."))
+ +seg("h",g.h,[["r",L("Правой","Right","Правою")],["l",L("Левой (левша)","Left (left-handed)","Лівою (шульга)")]])
+ +cap(L("Листать помещения пальцем","Swipe between rooms","Гортати приміщення пальцем"),L("В помещении судна проведи пальцем влево или вправо — откроется соседнее.","Inside a ship room, swipe left or right to open the next one.","У приміщенні судна проведи пальцем уліво або вправо — відкриється сусіднє."))
+ +seg("sw",g.sw,[[1,on],[0,off]])}
+document.addEventListener("click",function(e){var b=e.target.closest("#cmf [data-cmf]");if(!b)return;var c=G(),k=b.dataset.cmf,v=b.dataset.v;c[k]=k=="h"?v:+v;S(c)});
+/* 4. поиск по настройкам и сброс вида */
+var KW={cfg:"имя тема море фон анимация батарея заряд судно время суток простой полный размер текста крупный шрифт карточки компактно панели вид name theme sea background animation battery ship simple full text size large font cards compact view ім'я тема море фон батарея судно простий повний розмір тексту великий шрифт картки вигляд",
+ nfc:"уведомления оповещения звук напоминания документы notifications alerts sound reminders сповіщення звук нагадування",
+ rem:"напоминания утро вечер закрытое приложение reminders morning evening нагадування ранок вечір",
+ opt:"серия заморозка пропуск streak freeze серія заморозка",
+ trn:"перенос новый телефон без интернета перенести move transfer new phone перенесення новий телефон",
+ uxp:"что показывать разделы должность интересы скрыть показать всё what to show sections role interests hide show all що показувати розділи посада інтереси",
+ abk:"автокопии копия резервная восстановить откат backup restore автокопії копія резервна відновити",
+ prv:"конфиденциальность поддержка приватность privacy support конфіденційність підтримка",
+ abt:"о приложении версия обновление about version update про застосунок версія оновлення",
+ cmf:"удобство одна рука левша правша свайп листать кнопки внизу палец comfort one hand left handed swipe thumb зручність одна рука шульга гортати палець"};
+var X=[["язык language мова english english англ укр рус","🌐 "+L("Сменить язык","Change language","Змінити мову"),function(){var b=document.getElementById("lgb");if(b)b.click()}],
+ ["ночной ночь красный вахта темно night red dark нічний ніч червоний","🔴 "+L("Ночной режим","Night mode","Нічний режим"),function(){var b=document.getElementById("nvb");if(b)b.click()}]];
+function kOf(e){for(var k in P)if(P[k].b===e)return k;return""}
+function rows(){return[].filter.call(mn.children,function(e){return e.classList.contains("fmt")&&e.classList.contains("uxrow")&&e.getAttribute("data-t")=="r-cab"})}
+function low(s){return String(s||"").toLowerCase().replace(/ё/g,"е")}
+var bx2=null;
+function find(q){var w=low(q).split(/\s+/).filter(Boolean),n=0;
+ rows().forEach(function(e){var k=kOf(e),s=k&&P[k].s,t=low(e.textContent+" "+(KW[k]||"")+" "+(window.gdDesc?gdDesc(k):"")+" "+(s?s.textContent:"")),m=w.every(function(x){return t.indexOf(x)>=0});
+  e.classList.toggle("cfsh",!!w.length&&!m);if(m&&!e.hidden&&!e.hasAttribute("data-uxh"))n++});
+ var x=X.filter(function(a){var t=low(a[0]+" "+a[1]);return w.length&&w.every(function(v){return t.indexOf(v)>=0})});
+ bx2.querySelector(".cfx").innerHTML=x.map(function(a){return'<button type="button" data-cfx="'+X.indexOf(a)+'">'+esc(a[1])+'</button>'}).join("");
+ bx2.querySelector(".cfn").textContent=w.length&&!n&&!x.length?L("Ничего не нашлось. Попробуй другое слово.","Nothing found. Try another word.","Нічого не знайдено. Спробуй інше слово."):"";}
+function reset(){if(!confirm(L("Вернуть стандартные настройки вида?\n\nТема, размер текста, карточки, море на фоне, ночной режим и «Удобство» станут как в начале. Твои данные, квесты, записи и прогресс не меняются.","Restore default display settings?\n\nTheme, text size, cards, sea background, night mode and Comfort go back to the start. Your data, quests, entries and progress stay the same.","Повернути стандартні налаштування вигляду?\n\nТема, розмір тексту, картки, море на фоні, нічний режим і «Зручність» стануть як на початку. Твої дані, квести, записи й прогрес не змінюються.")))return;
+ var sv=st.cfg&&st.cfg.simple;st.cfg={};if(sv!=null)st.cfg.simple=sv;delete st.big;delete st.theme;try{localStorage.removeItem(K)}catch(e){}
+ if(de.classList.contains("nv")){var n=document.getElementById("nvb");if(n)n.click()}
+ save();render();if(window.FMSEA&&FMSEA.redraw)FMSEA.redraw();ap();cmfr();if(window.toast)toast("↺ "+L("Стандартные настройки вида возвращены","Default display settings restored","Стандартні налаштування вигляду повернуто"))}
+var hd=mn.querySelector(':scope>.tgxh[data-t="r-cab"]');
+if(hd){bx2=document.createElement("div");bx2.className="cfs";bx2.setAttribute("data-t","r-cab");bx2.setAttribute("translate","no");
+ bx2.innerHTML='<input type="search" enterkeyhint="search" aria-label="'+esc(L("Найти настройку","Find a setting","Знайти налаштування"))+'" placeholder="🔍 '+esc(L("Найти настройку: язык, текст, копия…","Find a setting: language, text, backup…","Знайти налаштування: мова, текст, копія…"))+'"><div class="cfx"></div><p class="cfn"></p>'
+  +'<div><button type="button" data-cfr="1">↺ '+esc(L("Вернуть стандартные настройки","Restore default settings","Повернути стандартні налаштування"))+'</button></div>';
+ mn.insertBefore(bx2,hd.nextSibling);var inp=bx2.querySelector("input");inp.addEventListener("input",function(){find(inp.value)});
+ bx2.addEventListener("click",function(e){var b=e.target.closest("[data-cfx],[data-cfr]");if(!b)return;if(b.dataset.cfr)reset();else X[+b.dataset.cfx][2]()})}
+cmfr();ap()});
 </script>
 <script id="and-js">/* Android: в приложении ссылки «скачать файл» (резервная копия, таблицы CSV, резюме PDF) не работают сами — сохраняем файл в «Документы/Fac Modo» */
 (function(){var C=window.Capacitor;if(!C||!C.getPlatform||C.getPlatform()!="android")return;
