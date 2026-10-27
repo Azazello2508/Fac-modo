@@ -5300,6 +5300,35 @@ if(hd){bx2=document.createElement("div");bx2.className="cfs";bx2.setAttribute("d
  bx2.addEventListener("click",function(e){var b=e.target.closest("[data-cfx],[data-cfr]");if(!b)return;if(b.dataset.cfr)reset();else X[+b.dataset.cfx][2]()})}
 cmfr();ap()});
 </script>
+<style id="tdc-css">/* Оформление: «Сегодня» короче, шапка помещения в одну строку, уведомление вверху (блок tdc-js) */
+#tdy .tdch{display:none!important}
+#tdy .tdcb{display:block;width:100%;min-height:42px;margin:6px 0 0;border-radius:12px;border:1px dashed var(--line);background:transparent;color:var(--acc);font:inherit;font-size:14px;font-weight:700;cursor:pointer}
+main>.shph{display:grid;grid-template-columns:auto minmax(0,1fr);column-gap:12px;row-gap:4px}
+main>.shph>div{display:contents}main>.shph>.shb{grid-column:1;grid-row:1}main>.shph b{grid-column:2;grid-row:1;align-self:center;min-width:0}
+main>.shph small,main>.shph .cmn{grid-column:1/-1}
+main>.shph .cmn{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));margin-top:6px}main>.shph .cmn small{grid-column:1/-1;text-align:center}
+main>.shph .cmn button[data-cmn="-1"]{text-align:left}main>.shph .cmn button[data-cmn="1"]{text-align:right}
+#toast{top:calc(env(safe-area-inset-top,0px) + 8px);bottom:auto;transform:translate(-50%,-30px);padding:8px 16px;font-size:14px;border-radius:99px;width:max-content;max-width:calc(100vw - 32px);box-sizing:border-box;box-shadow:0 6px 18px #0007}
+#toast.show{transform:translate(-50%,0)}
+</style>
+<script id="tdc-js">/* «Сегодня» короче: в «Первых шагах» видно 2 несделанных шага, 2 кнопки «Новое сегодня», строки «Сегодня», повторяющие шаг, скрыты, из остальных строк видно 2,
+ «Дней подряд» (есть в шапке) скрыто; остальное — по кнопке «Ещё N ▾». Развёрнуто или нет — localStorage fm_tdc ("1" — развёрнуто). */
+document.addEventListener("DOMContentLoaded",function(){var t=document.getElementById("tdy");if(!t)return;var L=function(r,e,u){return window.fmL?fmL(r,e,u):r};
+var op=false;try{op=localStorage.getItem("fm_tdc")=="1"}catch(e){}
+function hide(e,n){if(e){e.classList.add("tdch");return n+1}return n}
+function run(){mo.disconnect();var n=0,b=t.querySelector(".tdcb");if(b)b.remove();
+ [].forEach.call(t.querySelectorAll(".tdch"),function(e){e.classList.remove("tdch")});
+ var S=[].slice.call(t.querySelectorAll("#rtx .rts button")),K={};S.forEach(function(e){if(!e.classList.contains("ok"))K[e.dataset.k]=1});
+ [].forEach.call(t.querySelectorAll(":scope>ul>li"),function(li){var q=li.querySelector("[data-td]");if(q&&K[q.dataset.td.split("|")[0]])li.classList.add("tdch")});
+ if(!op){var u=0;S.forEach(function(e){if(e.classList.contains("ok")||++u>2)n=hide(e,n)});
+  n=hide(t.querySelector(":scope>p.note"),n);[].forEach.call(t.querySelectorAll("#rtx .rtn>.rtch"),function(e,i){if(i>=2)n=hide(e,n)});
+  [].filter.call(t.querySelectorAll(":scope>ul>li"),function(li){return!li.classList.contains("tdch")}).forEach(function(li,i){if(i>=2)n=hide(li,n)})}
+ if(op||n){b=document.createElement("button");b.type="button";b.className="tdcb";b.setAttribute("translate","no");b.textContent=op?L("Свернуть ▴","Show less ▴","Згорнути ▴"):L("Ещё ","More ","Ще ")+n+" ▾";t.appendChild(b)}
+ mo.observe(t,{childList:true,subtree:true})}
+var mo=new MutationObserver(run);
+t.addEventListener("click",function(e){if(!e.target.closest(".tdcb"))return;op=!op;try{localStorage.setItem("fm_tdc",op?"1":"0")}catch(x){}run()});
+run()});
+</script>
 <script id="and-js">/* Android: в приложении ссылки «скачать файл» (резервная копия, таблицы CSV, резюме PDF) не работают сами — сохраняем файл в «Документы/Fac Modo» */
 (function(){var C=window.Capacitor;if(!C||!C.getPlatform||C.getPlatform()!="android")return;
 var L=function(r,e,u){return window.fmL?fmL(r,e,u):r};
