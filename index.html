@@ -3782,10 +3782,15 @@ var TS=[[function(){return document.getElementById("shp")||document.getElementBy
 var O=null,si=0;
 function tour(){if(O)return;if(window.fmClose)fmClose();var n=document.querySelector('#nav [data-n="today"]');if(n)n.click();scrollTo(0,0);si=0;O=document.createElement("div");O.id="gdo";O.setAttribute("translate","no");O.innerHTML='<div class="gdh"></div><div class="gdb" role="dialog" aria-modal="true"></div>';document.body.appendChild(O);
  O.querySelector(".gdb").addEventListener("click",function(e){var b=e.target.closest("[data-gt]");if(!b)return;if(b.dataset.gt=="next"&&si<TS.length-1){si++;step()}else end()});step()}
-function step(){var s=TS[si],el=s[0](),h=O.querySelector(".gdh"),bx=O.querySelector(".gdb");if(el&&el.scrollIntoView)try{el.scrollIntoView({block:"center"})}catch(e){}
- setTimeout(function(){var r=el?el.getBoundingClientRect():{left:innerWidth/2,top:innerHeight/2,width:0,height:0},p=8;h.style.left=(r.left-p)+"px";h.style.top=(r.top-p)+"px";h.style.width=(r.width+p*2)+"px";h.style.height=(r.height+p*2)+"px";
-  var below=r.top+r.height/2<innerHeight/2;bx.style.top=below?(r.top+r.height+18)+"px":"";bx.style.bottom=below?"":(innerHeight-r.top+18)+"px";
-  bx.innerHTML='<b>'+esc(s[1])+'</b><p>'+esc(s[2])+'</p><div class="gdn"><small>'+(si+1)+' / '+TS.length+'</small><span><button type="button" data-gt="skip">'+L("Пропустить","Skip","Пропустити")+'</button> <button type="button" class="go" data-gt="next">'+(si<TS.length-1?L("Дальше","Next","Далі"):L("Понятно","Got it","Зрозуміло"))+'</button></span></div>'},250)}
+function step(){var s=TS[si],el=s[0](),h=O.querySelector(".gdh"),bx=O.querySelector(".gdb");
+ /* высокий блок (судно) — к верху экрана, остальные — по центру */
+ if(el&&el.scrollIntoView)try{el.scrollIntoView({block:el.getBoundingClientRect().height>innerHeight*.5?"start":"center"})}catch(e){}
+ setTimeout(function(){var r=el?el.getBoundingClientRect():{left:innerWidth/2,top:innerHeight/2,width:0,height:0},p=8,t=Math.max(r.top-p,4),b=Math.min(r.top+r.height+p,innerHeight-4);
+  h.style.left=(r.left-p)+"px";h.style.top=t+"px";h.style.width=(r.width+p*2)+"px";h.style.height=Math.max(b-t,0)+"px";
+  bx.innerHTML='<b>'+esc(s[1])+'</b><p>'+esc(s[2])+'</p><div class="gdn"><small>'+(si+1)+' / '+TS.length+'</small><span><button type="button" data-gt="skip">'+L("Пропустить","Skip","Пропустити")+'</button> <button type="button" class="go" data-gt="next">'+(si<TS.length-1?L("Дальше","Next","Далі"):L("Понятно","Got it","Зрозуміло"))+'</button></span></div>';
+  /* карточка — под блоком или над ним, а если места нет — внизу экрана поверх блока: кнопки всегда видны */
+  var bh=bx.offsetHeight+18;bx.style.top=bx.style.bottom="";
+  if(innerHeight-b>=bh)bx.style.top=(b+10)+"px";else if(t>=bh)bx.style.bottom=(innerHeight-t+10)+"px";else bx.style.bottom="calc(env(safe-area-inset-bottom,0px) + 16px)"},250)}
 function end(){if(O){O.remove();O=null}W("fm_tour",today);scrollTo(0,0)}
 function ready(){var w=document.getElementById("uxw");return!(w&&w.classList.contains("on"))&&!document.getElementById("rtw")&&!document.querySelector("#fmm.on")&&!document.documentElement.classList.contains("uxo")}
 if(!localStorage.getItem("fm_tour")){var tt=setInterval(function(){if(localStorage.getItem("fm_tour")){clearInterval(tt);return}if(st.ux&&st.ux.ob&&ready()){clearInterval(tt);setTimeout(function(){if(ready())tour()},800)}},1500)}
