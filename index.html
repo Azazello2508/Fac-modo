@@ -5401,6 +5401,8 @@ new MutationObserver(function(){go()}).observe(de,{attributes:true,attributeFilt
 var q=0,go=function(){clearTimeout(q);q=setTimeout(sib,30)};new MutationObserver(go).observe(fmm,{attributes:true,attributeFilter:["class"]});new MutationObserver(go).observe(fmc,{childList:true})});
 </script>
 <style id="gv-css">/* 🧭 Путеводитель (#gv, блок gv-js): главы, «Главное», шаги, живой показ (#gvo) */
+#fmb:has(#fmc>#gv) #hnt{display:none!important}
+html:has(#fmc>#gv) #toast{top:calc(env(safe-area-inset-top,0px) + 10px);bottom:auto;max-width:calc(100vw - 130px);white-space:normal;text-align:center;pointer-events:none;transform:translate(-50%,-30px)}html:has(#fmc>#gv) #toast.show{transform:translate(-50%,0)}
 #gv .gvp{display:flex;align-items:center;gap:10px;margin:4px 0 12px;font-size:14px;color:var(--mute)}#gv .gvp div{flex:1;height:8px;border-radius:8px;background:var(--line);overflow:hidden}#gv .gvp i{display:block;height:100%;border-radius:8px;background:var(--ok)}
 #gv .gvi{margin:0 0 10px;font-size:14.5px;line-height:1.5}
 #gv .gvl,#gv .gvd,#gv .gvx,#gv .gvm{display:flex;flex-direction:column;gap:8px}
