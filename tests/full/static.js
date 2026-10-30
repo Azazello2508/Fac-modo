@@ -41,8 +41,8 @@ function secrets() {
   ok(/var DEVH="[0-9a-f]{64}"/.test(app), 'Код разработчика хранится только как отпечаток SHA-256', 'не найден DEVH');
   // Секреты App Store используются только в ios-store.yml, ключ Android — только в android.yml, и только через secrets.*
   const wf = files.filter(f => f.startsWith('.github/workflows/'));
-  const leak = wf.filter(f => f !== '.github/workflows/ios-store.yml' && (f === '.github/workflows/android.yml' ? /secrets\.(?!GITHUB_TOKEN|ANDROID_KEYSTORE\b|ANDROID_KEY_PASS\b)/ : /secrets\.(?!GITHUB_TOKEN)/).test(read(f).toString()));
-  ok(leak.length === 0, 'Секреты App Store используются только в ios-store.yml, ключ Android — только в android.yml', leak.join(', '));
+  const leak = wf.filter(f => f !== '.github/workflows/ios-store.yml' && (f === '.github/workflows/android.yml' ? /secrets\.(?!GITHUB_TOKEN|ANDROID_KEYSTORE\b|ANDROID_KEY_PASS\b)/ : f === '.github/workflows/pages.yml' ? /secrets\.(?!GITHUB_TOKEN|OTA_SIGN_KEY\b)/ : /secrets\.(?!GITHUB_TOKEN)/).test(read(f).toString()));
+  ok(leak.length === 0, 'Секреты App Store используются только в ios-store.yml, ключ Android — только в android.yml, ключ подписи обновлений OTA_SIGN_KEY — только в pages.yml', leak.join(', '));
 }
 
 function dangerousCode() {

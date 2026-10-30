@@ -143,6 +143,7 @@ Content notes:
 - External links (YouTube search, Wikipedia, official maritime sites) open in Safari.
 - Navigation calculations are labelled as a study aid and must be checked against official charts and instruments.
 - The app may refresh its bundled web content (bug fixes and text updates) from our own site azazello2508.github.io; this never changes the app's purpose or adds paid features. New features are shipped through App Store updates.
+- Online games "Tanks" and "Planes" have an optional two-player mode by room code that connects to our relay server (tanchiki-server.pinkovskyi2508.workers.dev, Cloudflare). Only the game state is relayed; nothing is stored, no account, no personal data. Chess, checkers, etc. "over the network" are peer-to-peer between two phones on the same Wi-Fi.
 - Camera / photo library are used only when the user chooses to add a photo to the repair log or profile.
 - Background audio is used only for "Sleep sounds" (white/sea noise that keeps playing with the screen locked).
 ```
