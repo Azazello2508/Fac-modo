@@ -1314,9 +1314,11 @@ function rhG(d){var v=(st.rh||{})[d];return typeof v=="string"&&v.length==24?v:n
 function rhA(d,n){var x=new Date(d+"T00:00:00");x.setDate(x.getDate()+n);return iso(x)}
 function rhS(v){var w=0,run=0,mx=0,per=[],r=0;for(var i=0;i<24;i++){if(v.charAt(i)=="1"){w++;run++;if(run>mx)mx=run;if(r){per.push(r);r=0}}else{run=0;r++}}if(r)per.push(r);var lg=per.length?Math.max.apply(null,per):0;return{rest:24-w,per:per.length,lg:lg,mx:mx,bad:24-w<10||per.length>2||lg<6||mx>14}}
 /* Проверка по нормам MLC / ПДНВ A-VIII/1 скользящими окнами: любые 24 ч и любые 7 суток, с учётом соседних заполненных дней.
- Отдых через полночь — один период. «Не более 2 периодов, один ≥ 6 ч»: 10 обязательных часов набираются из двух самых длинных частей. */
+ Отдых через полночь — один период. «Не более 2 периодов, один ≥ 6 ч» проверяется по целым периодам: для каждых 24 ч от начала периода отдыха этого дня
+ 10 обязательных часов набираются из двух самых длинных периодов (один ≥ 6 ч). Нет следующего дня — неизвестные часы считаются отдыхом (без ложных нарушений). */
 function rhX(d){var v=rhG(d);if(!v)return null;var p=rhG(rhA(d,-1)),nx=rhG(rhA(d,1)),s=(p||"")+v,o=p?24:0,mn=24,okP=true,e,i;
-for(e=Math.max(23,o);e<o+24;e++){var r=0,pc=[],c=0;for(i=e-23;i<=e;i++){if(s.charAt(i)=="0"){r++;c++}else{if(c)pc.push(c);c=0}}if(c)pc.push(c);pc.sort(function(a,b){return b-a});if(r<mn)mn=r;var a1=pc[0]||0,a2=pc[1]||0;if(a1<6||(r>=10&&a1+a2<10))okP=false}
+for(e=Math.max(23,o);e<o+24;e++){var r=0;for(i=e-23;i<=e;i++)if(s.charAt(i)=="0")r++;if(r<mn)mn=r}
+var sx=s+(nx||"000000000000000000000000");for(e=o;e<o+24;e++){if(s.charAt(e)!="0"||(e>0&&s.charAt(e-1)=="0"))continue;var r=0,pc=[],c=0;for(i=e;i<e+24;i++){if(sx.charAt(i)=="0"){r++;c++}else{if(c)pc.push(c);c=0}}if(c)pc.push(c);pc.sort(function(a,b){return b-a});var a1=pc[0]||0,a2=pc[1]||0;if(a1<6||(r>=10&&a1+a2<10))okP=false}
 var t=s+(nx||""),mx=0,run=0,st0=0;for(i=0;i<=t.length;i++){if(t.charAt(i)=="1"){if(!run)st0=i;run++}else{if(run&&st0<o+24&&st0+run>o&&run>mx)mx=run;run=0}}
 var w7=null,full=true,W="";for(i=-7;i<=0;i++){var g=rhG(rhA(d,i));if(!g){if(i==-7){full=false;continue}w7=null;W=null;break}W+=g}
 if(W){if(full){w7=168;for(e=191;e>=168;e--){var r7=0;for(i=e-167;i<=e;i++)if(W.charAt(i)=="0")r7++;if(r7<w7)w7=r7}}else{w7=0;for(i=0;i<W.length;i++)if(W.charAt(i)=="0")w7++}}
