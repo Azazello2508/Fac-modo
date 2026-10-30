@@ -11,6 +11,9 @@ async function tryState(browser, URL, state, ls) {
   try { await p.goto(URL + 'index.html', { timeout: 12000 }); await p.waitForTimeout(600);
     hang = !(await Promise.race([p.evaluate(async () => { for (const b of document.querySelectorAll('#nav [data-n]')) { b.click(); await new Promise(r => setTimeout(r, 20)); }
       for (const t of [...document.querySelectorAll('.fmt')].slice(0, 200)) { if (!t.offsetParent && !t.textContent.trim()) continue; t.click(); await new Promise(r => setTimeout(r, 0)); document.getElementById('fmx').click(); await new Promise(r => setTimeout(r, 0)); } return true; }), new Promise(r => setTimeout(() => r(false), 12000))]));
+    // Обход ~90 плиток в headless может идти дольше 12 с (каждая пауза ждёт кадр живого фона) — это не зависание.
+    // Зависло — только если страница не отвечает на простой запрос (главный поток занят).
+    if (hang) hang = !(await Promise.race([p.evaluate(() => true).catch(() => false), new Promise(r => setTimeout(() => r(false), 5000))]));
   } catch (e) { hang = true; }
   const alive = !hang && await p.evaluate(() => !!(window.st && document.querySelector('#nav') && typeof calc === 'function' && isFinite(calc().xp))).catch(() => false);
   const polluted = !hang && await p.evaluate(() => ({}).polluted !== undefined || ({}).isAdmin !== undefined).catch(() => false);

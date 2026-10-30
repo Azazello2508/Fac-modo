@@ -724,7 +724,8 @@ function iso(d){return d.getFullYear()+"-"+p2(d.getMonth()+1)+"-"+p2(d.getDate()
 var now=new Date(),today=iso(now),mon=new Date(now.getFullYear(),now.getMonth(),now.getDate()-((now.getDay()+6)%7));
 function dateOf(i){return new Date(mon.getFullYear(),mon.getMonth(),mon.getDate()+i)}
 var day=(now.getDay()+6)%7,st={done:{},custom:{},bonus:{}};
-try{var r=localStorage.getItem("quest-v2");if(r)st=JSON.parse(r)}catch(e){if(window.fmLog)fmLog("error","load",{msg:String(e&&e.message||e)})}
+/* Данные не читаются (испорчены) или это не объект — сырая строка сохраняется в fm_broken до того, как первое save() её перезапишет */
+try{var r=localStorage.getItem("quest-v2");if(r){var o0=JSON.parse(r);if(o0&&typeof o0=="object"&&!Array.isArray(o0))st=o0;else throw new Error("not an object")}}catch(e){try{if(r)localStorage.setItem("fm_broken",JSON.stringify({t:Date.now(),d:r}))}catch(x){}if(window.fmLog)fmLog("error","load",{msg:String(e&&e.message||e),kept:"fm_broken",len:r?r.length:0})}
 if(window.fmMigrate)st=fmMigrate(st);
 /* fmTx(fn): «транзакция» для localStorage — если внутри fn что-то сломалось, все ключи fm_* и quest-v2 и st возвращаются как были */
 function fmTx(fn){var snap={},oldSt=st,i,k;for(i=0;i<localStorage.length;i++){k=localStorage.key(i);if(k=="quest-v2"||/^fm_/.test(k))snap[k]=localStorage.getItem(k)}
@@ -5075,7 +5076,7 @@ function setMeta(a){try{localStorage.setItem(MK,JSON.stringify(a))}catch(e){}}
 function db(){return DB||(DB=new Promise(function(ok,no){if(!window.indexedDB)return no(Error("no indexedDB"));var r=indexedDB.open("fm-backup",1);r.onupgradeneeded=function(){r.result.createObjectStore("b",{keyPath:"id"})};r.onsuccess=function(){ok(r.result)};r.onerror=function(){DB=null;no(r.error)}}))}
 function tx(mode,fn){return db().then(function(d){return new Promise(function(ok,no){var t=d.transaction("b",mode),q=fn(t.objectStore("b")),res;if(q)q.onsuccess=function(){res=q.result};t.oncomplete=function(){ok(res)};t.onerror=t.onabort=function(){no(t.error)}})})}
 /* Что входит в копию: прогресс и настройки fm_*, кроме журнала, очереди, счётчика попыток PIN и режима разработчика */
-function pack(){var o={app:"fac-modo",v:st._v||FMV,st:st,ls:{}},i,k;for(i=0;i<localStorage.length;i++){k=localStorage.key(i);if(/^fm_/.test(k)&&!/^fm_(flv|log|dlq|pintry|dev|bkx|flags|alert)/.test(k))o.ls[k]=localStorage.getItem(k)}return JSON.stringify(o)}
+function pack(){var o={app:"fac-modo",v:st._v||FMV,st:st,ls:{}},i,k;for(i=0;i<localStorage.length;i++){k=localStorage.key(i);if(/^fm_/.test(k)&&!/^fm_(flv|log|dlq|pintry|dev|bkx|flags|alert|broken)/.test(k))o.ls[k]=localStorage.getItem(k)}return JSON.stringify(o)}
 /* Проверка восстановления (restore test): копию можно прочитать, данные на месте, миграция до текущей версии проходит */
 function check(t){try{var o=JSON.parse(t);if(!o||o.app!="fac-modo"||!o.st||typeof o.st!="object")return false;var m=fmMigrate(JSON.parse(JSON.stringify(o.st)));
  if(!m||typeof m.done!="object"||!m.done||typeof m.custom!="object"||!m.custom||typeof m.bonus!="object"||!m.bonus)return false;
