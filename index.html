@@ -1065,7 +1065,8 @@ function showCode(t){var a=$("pta");a.hidden=false;a.value=t;a.select();$("pap")
 $("cp").onclick=function(){var t=JSON.stringify(st);if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(t).then(function(){toast("Код скопирован")},function(){showCode(t)})}else showCode(t)};
 $("pc2").onclick=function(){var a=$("pta");a.hidden=false;a.value="";$("pap").hidden=false;a.focus()};
 $("pap").onclick=function(){try{applyData($("pta").value);toast("Прогресс загружен");$("pta").hidden=true;$("pap").hidden=true}catch(x){toast("Код не подошёл")}};
-var rsT=0;$("rs").onclick=function(){if(!rsT){rsT=1;$("rs").textContent="Нажми ещё раз, чтобы удалить всё";setTimeout(function(){rsT=0;$("rs").textContent="Сбросить весь прогресс"},4000);return}if(window.fmWipeFiles)fmWipeFiles();st={done:{},custom:{},bonus:{}};save();prevL=null;rsT=0;$("rs").textContent="Сбросить весь прогресс";refreshAll()};
+$("rs").onclick=function(){if(!confirm(fmL("Удалить ВЕСЬ прогресс? Будут удалены все квесты, XP, дневник, документы, книги, фильмы и все автокопии. Отменить это нельзя. Если нужна копия — сначала сохрани её файлом.","Delete ALL progress? All quests, XP, diary, documents, books, films and all auto-copies will be deleted. This cannot be undone. If you need a copy, save it to a file first.","Видалити ВЕСЬ прогрес? Буде видалено всі квести, XP, щоденник, документи, книги, фільми та всі автокопії. Скасувати це неможливо. Якщо потрібна копія — спершу збережи її файлом.")))return;
+var lg=st.lang;if(window.fmWipeFiles)fmWipeFiles();st={done:{},custom:{},bonus:{}};if(lg)st.lang=lg;save();prevL=null;refreshAll()};
 $("mn").addEventListener("click",function(e){var b=e.target.closest("[data-x]");if(!b)return;var a=b.dataset.x;
 if(a=="enc"){var t0=ENL()[((li2*5)%ENL().length+ens.i)%ENL().length],v0=$("eni").value;if(nrm(v0).length<2){toast("Напиши перевод или нажми «Не знаю»");return}ens.ok=okTr(v0,t0[1]);if(ens.ok)ens.k++;ens.st=1;engr()}
 else if(a=="enx"){ens.ok=0;ens.st=1;engr()}
@@ -4505,7 +4506,10 @@ if(window.flmDraw)flmDraw()})();
 window.fmWipeFiles=function(){var ls=localStorage,C=window.Capacitor,F=C&&C.isNativePlatform&&C.isNativePlatform()&&C.Plugins&&C.Plugins.Filesystem,no=function(){};
  try{var m=JSON.parse(ls.getItem("fm_flv")||"{}")||{};if(F)Object.keys(m).forEach(function(i){(m[i]||[]).forEach(function(x){if(typeof x[0]=="string")F.deleteFile({path:x[0]}).catch(no)})})}catch(e){}
  ["fm-books","fm-video","fm-backup"].forEach(function(n){try{indexedDB.deleteDatabase(n)}catch(e){}});
- ["fm_flv","fm_flvpos","fm_bkx"].forEach(function(k){try{ls.removeItem(k)}catch(e){}});
+ ["fm_flv","fm_flvpos","fm_bkx","fm_rem"].forEach(function(k){try{ls.removeItem(k)}catch(e){}});
+ /* напоминания на телефоне: документы 1000–1999 и «Напоминания» 3000–3099 */
+ try{var N=C&&C.isNativePlatform&&C.isNativePlatform()&&((C.Plugins&&C.Plugins.LocalNotifications)||(C.registerPlugin?C.registerPlugin("LocalNotifications"):null));
+ if(N)N.getPending().then(function(r){var ids=((r&&r.notifications)||[]).map(function(n){return n.id}).filter(function(i){return i>=1000&&i<2000||i>=3000&&i<3100});return ids.length?N.cancel({notifications:ids.map(function(i){return{id:i}})}):0}).catch(no)}catch(e){}
  if(F)["LIBRARY","LIBRARY_NO_CLOUD","CACHE"].forEach(function(d){try{F.rmdir({path:"fmvid",directory:d,recursive:true}).catch(no)}catch(e){}});
  if(window.fmAudit)try{fmAudit("reset")}catch(e){}};
 </script>
