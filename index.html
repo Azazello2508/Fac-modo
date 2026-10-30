@@ -501,15 +501,18 @@ window.fmImg=function(f){var L=function(r,e,u){return window.fmL?fmL(r,e,u):r};i
  if(!/^image\/(jpeg|png|gif|webp|heic|heif|bmp|avif)$/i.test(f.type||"")&&!/\.(jpe?g|png|gif|webp|heic|heif|bmp|avif)$/i.test(f.name||"")){fmLog("warn","upload-bad-type",{type:f.type,name:String(f.name).slice(-20)});return L("Это не картинка. Выбери фото (JPG, PNG, HEIC).","This is not an image. Choose a photo (JPG, PNG, HEIC).","Це не картинка. Обери фото (JPG, PNG, HEIC).")}
  if(f.size>30*1024*1024){fmLog("warn","upload-too-big",{size:f.size});return L("Фото слишком большое (больше 30 МБ)","The photo is too big (over 30 MB)","Фото завелике (понад 30 МБ)")}return""};
 window.fmImgFail=function(){toast(window.fmL?fmL("Не получилось открыть картинку","Could not open the image","Не вдалося відкрити картинку"):"Не получилось открыть картинку");fmLog("warn","upload-decode-fail")};
-window.FMV=3;
+window.FMV=4;
 var MIG={3:function(o){/* 2→3: починка повреждённых данных, из-за которых приложение падало при подсчёте XP */
  ["done","custom","bonus"].forEach(function(k){if(!o[k]||typeof o[k]!="object"||Array.isArray(o[k]))o[k]={}});
- for(var d in o.done){var v=o.done[d];if(!v||typeof v!="object"||Array.isArray(v))delete o.done[d]}}};
+ for(var d in o.done){var v=o.done[d];if(!v||typeof v!="object"||Array.isArray(v))delete o.done[d]}},
+ 4:function(o){/* 3→4: напоминания о документах — своё поле st.dcn (1/0), st.nt — только настройки уведомлений квестов */
+ if(!o.nt||typeof o.nt!="object"||Array.isArray(o.nt)){if(!("dcn" in o))o.dcn=o.nt===0?0:1;o.nt={}}}};
 /* Лечение при каждом запуске (не только при смене версии): поле не того типа из испорченной или подделанной копии убирается,
    раздел сам создаст его заново. Без этого, например, st.done=null или st.pck="…" ломали приложение (tests/full.js data). */
-var SHAPE={done:"o",custom:"o",bonus:"o",dr:"o",shore:"o",cfg:"o",nt:"o",fn:"o",sk:"o",pn:"o",wch:"o",m2:"o",rl:"a",cth:"o",kt:"o",fsk:"o",vis:"o",sky5:"o",rwd:"o",pck:"o",shn:"o",flmc:"a",flm:"o",cv:"o",ux:"o",gv:"o",dc:"a",ct:"a",ap:"a",ls:"a",rw:"a",name:"s",uid:"s",lang:"s"};
+var SHAPE={done:"o",custom:"o",bonus:"o",dr:"o",shore:"o",cfg:"o",nt:"o",fn:"o",sk:"o",pn:"o",wch:"o",m2:"o",rl:"a",cth:"o",kt:"o",fsk:"o",vis:"o",sky5:"o",rwd:"o",pck:"o",shn:"o",flmc:"a",flm:"o",cv:"o",ux:"o",gv:"o",dcn:"n",dc:"a",ct:"a",ap:"a",ls:"a",rw:"a",name:"s",uid:"s",lang:"s"};
 window.fmHeal=function(o){var bad=[],k,t;if(!o||typeof o!="object"||Array.isArray(o)){fmLog("warn","heal",{f:"всё"});return{done:{},custom:{},bonus:{}}}
- for(k in SHAPE){if(!(k in o))continue;t=o[k];var ok=SHAPE[k]=="a"?Array.isArray(t):SHAPE[k]=="s"?typeof t=="string":(t&&typeof t=="object"&&!Array.isArray(t));if(!ok){bad.push(k);delete o[k]}}
+ if(typeof o.nt=="number"){if(!("dcn" in o))o.dcn=o.nt?1:0;o.nt={}}
+ for(k in SHAPE){if(!(k in o))continue;t=o[k];var ok=SHAPE[k]=="a"?Array.isArray(t):SHAPE[k]=="s"?typeof t=="string":SHAPE[k]=="n"?typeof t=="number":(t&&typeof t=="object"&&!Array.isArray(t));if(!ok){bad.push(k);delete o[k]}}
  ["done","custom","bonus"].forEach(function(k){if(!o[k])o[k]={}});
  if(o.name&&o.name.length>200){o.name=o.name.slice(0,200);bad.push("name")}
  for(k in o.done){t=o.done[k];if(!/^\d{4}-\d\d-\d\d$/.test(k)||!t||typeof t!="object"||Array.isArray(t)){delete o.done[k];bad.push("done");continue}
@@ -1259,9 +1262,9 @@ function dcTS(){try{localStorage.setItem("fm_pintry",JSON.stringify(dcTry))}catc
 function dcH(p,sl){var t=sl+":"+p;try{if(window.crypto&&crypto.subtle&&window.TextEncoder)return crypto.subtle.digest("SHA-256",new TextEncoder().encode(t)).then(function(b){return Array.prototype.map.call(new Uint8Array(b),function(x){return("0"+x.toString(16)).slice(-2)}).join("")})}catch(e){}var h=5381;for(var i=0;i<t.length;i++)h=((h<<5)+h+t.charCodeAt(i))|0;return Promise.resolve("f"+(h>>>0).toString(16))}
 function dcNP(){var C=window.Capacitor;if(!C||!C.isNativePlatform||!C.isNativePlatform())return null;return(C.Plugins&&C.Plugins.LocalNotifications)||(C.registerPlugin?C.registerPlugin("LocalNotifications"):null)}
 function dcSync(f){var N=dcNP();if(!N)return;var en=st.lang=="en",pin=!!st.pin,now=Date.now(),arr=[];
-if(st.nt)dcList().forEach(function(q){[90,30,7,0].forEach(function(o){var t=new Date(q.x.e+"T09:00:00");t.setDate(t.getDate()-o);if(t.getTime()>now+6e4)arr.push({t:t,o:o,n:q.x.n})})});
+if(st.dcn!==0)dcList().forEach(function(q){[90,30,7,0].forEach(function(o){var t=new Date(q.x.e+"T09:00:00");t.setDate(t.getDate()-o);if(t.getTime()>now+6e4)arr.push({t:t,o:o,n:q.x.n})})});
 arr.sort(function(x,y){return x.t-y.t});arr=arr.slice(0,60);
-var sig=JSON.stringify([arr.map(function(x){return x.t.getTime()+x.n}),pin,en,!!st.nt]);if(!f&&sig==dcSig)return;dcSig=sig;
+var sig=JSON.stringify([arr.map(function(x){return x.t.getTime()+x.n}),pin,en,st.dcn!==0]);if(!f&&sig==dcSig)return;dcSig=sig;
 dcQ=dcQ.then(function(){return N.getPending()}).then(function(r){var ids=((r&&r.notifications)||[]).map(function(n){return n.id}).filter(function(i){return i>=1000&&i<2000});return ids.length?N.cancel({notifications:ids.map(function(i){return{id:i}})}):0}).then(function(){if(!arr.length)return;
 var T=!en&&window.trEN?trEN:function(x){return x};
 return N.schedule({notifications:arr.map(function(x,i){var b;if(pin)b=en?(x.o?"A document is about to expire. Open Fac Modo.":"A document expires today. Open Fac Modo."):T(x.o?"Срок одного из документов подходит к концу. Открой Fac Modo.":"Сегодня истекает срок документа. Открой Fac Modo.");else b="«"+x.n+"»: "+(en?(x.o?x.o+" days left":"expires today"):T(x.o?"осталось "+x.o+" дн.":"срок истекает сегодня"));return{id:1000+i,title:en?"Fac Modo: documents":T("Fac Modo: документы"),body:b,schedule:{at:x.t,allowWhileIdle:true}}})})}).catch(function(){})}
@@ -1270,7 +1273,7 @@ if(pin&&!dcU){h='<h3>🛂 Документы и сроки</h3><p class="note" s
 else{h='<h3>🛂 Документы и сроки</h3>'+(L.length?'<p class="note" style="margin:0 0 6px">'+sm+'</p>':'<p class="note" style="margin:0 0 6px">Пока нет документов. Добавь паспорт, диплом, медкомиссию и сертификаты.</p>');
 h+='<ul>'+L.map(function(q){return'<li style="--c:'+q.c+';grid-template-columns:1fr auto auto"><span class="n">'+esc(q.x.n)+'<small style="display:block;color:'+q.c+'">'+q.t+'</small></span><input type="date" data-dce="'+esc(q.x.id)+'" value="'+esc(q.x.e)+'" aria-label="Дата окончания"><button class="del" data-dk="del" data-v="'+esc(q.x.id)+'" aria-label="Удалить">×</button></li>'}).join("")+'</ul>';
 h+='<div class="add"><input type="text" id="dcn" list="dcl" placeholder="Документ (паспорт, диплом, медкомиссия…)" maxlength="60"><datalist id="dcl">'+DCP.map(function(p){return'<option value="'+p+'">'}).join("")+'</datalist><input type="date" id="dce" aria-label="Дата окончания"><button type="button" data-dk="add">Добавить</button></div><p class="note" style="margin:8px 0 0">Чтобы продлить документ, просто поменяй дату. Данные хранятся на устройстве и входят в резервную копию.</p>';
-h+='<div style="margin:12px 0 0;border-top:1px solid var(--line);padding-top:10px"><div class="add"><button type="button" class="alt" data-dk="nt">'+(st.nt?"🔔 Напоминания включены":"🔕 Включить напоминания")+'</button>'+(pin?'<button type="button" class="alt" data-dk="pinoff">Убрать PIN-код</button>':'<button type="button" class="alt" data-dk="pinask">🔒 Поставить PIN-код</button>')+'</div>';
+h+='<div style="margin:12px 0 0;border-top:1px solid var(--line);padding-top:10px"><div class="add"><button type="button" class="alt" data-dk="nt">'+(st.dcn!==0?"🔔 Напоминания включены":"🔕 Включить напоминания")+'</button>'+(pin?'<button type="button" class="alt" data-dk="pinoff">Убрать PIN-код</button>':'<button type="button" class="alt" data-dk="pinask">🔒 Поставить PIN-код</button>')+'</div>';
 if(dcMode=="set"&&!pin)h+='<div class="add"><input type="password" id="dp1" inputmode="numeric" pattern="[0-9]*" maxlength="4" autocomplete="off" placeholder="Новый PIN (4 цифры)" aria-label="Новый PIN"><input type="password" id="dp2" inputmode="numeric" pattern="[0-9]*" maxlength="4" autocomplete="off" placeholder="Повтори PIN" aria-label="Повтори PIN"><button type="button" data-dk="pinset">Сохранить</button><button type="button" class="alt" data-dk="pincancel">Отмена</button></div>';
 h+='<p class="note" style="margin:8px 0 0">Напоминания приходят на телефон за 90, 30 и 7 дней до окончания срока и в день окончания, в 9:00. PIN-код защищает раздел от случайного взгляда, но это не шифрование.</p></div>'}
 var c=$("dc");if(c)c.innerHTML=h;
@@ -1286,7 +1289,7 @@ else if(a=="pinask"){dcMode="set";dcr();var i1=$("dp1");if(i1)i1.focus()}
 else if(a=="pincancel"){dcMode="";dcr()}
 else if(a=="pinset"){var p1=$("dp1").value,p2=$("dp2").value;if(!/^\d{4}$/.test(p1)){toast("PIN-код должен состоять из 4 цифр");return}if(p1!==p2){toast("PIN-коды не совпадают");return}var sl=Math.random().toString(36).slice(2,10);dcH(p1,sl).then(function(h){st.pin={s:sl,h:h};dcU=true;dcMode="";save();if(window.fmAudit)fmAudit("pin-set");dcr();toast("PIN-код установлен")})}
 else if(a=="pinoff"){if(!confirm(T("Убрать PIN-код?")))return;delete st.pin;save();if(window.fmAudit)fmAudit("pin-off");dcr()}
-else if(a=="nt"){if(st.nt){st.nt=0;save();dcr();toast("Напоминания выключены");return}var N=dcNP();if(!N){toast("Уведомления работают только в приложении на iPhone");return}N.requestPermissions().then(function(r){if(r&&r.display=="granted"){st.nt=1;save();dcr();toast("Напоминания включены")}else toast("Нет разрешения: включи уведомления для Fac Modo в настройках iPhone")}).catch(function(){toast("Для уведомлений нужна новая версия приложения: установи свежий файл FacModo.ipa")})}});
+else if(a=="nt"){if(st.dcn!==0){st.dcn=0;save();dcr();toast("Напоминания выключены");return}var N=dcNP();if(!N){toast("Уведомления работают только в приложении на iPhone");return}N.requestPermissions().then(function(r){if(r&&r.display=="granted"){st.dcn=1;save();dcr();toast("Напоминания включены")}else toast("Нет разрешения: включи уведомления для Fac Modo в настройках iPhone")}).catch(function(){toast("Для уведомлений нужна новая версия приложения: установи свежий файл FacModo.ipa")})}});
 document.addEventListener("keydown",function(e){if(e.key=="Enter"&&e.target&&e.target.id=="dpn"){var u=document.querySelector('[data-dk="unlock"]');if(u)u.click()}});
 document.addEventListener("click",function(e){if(st.pin&&dcU&&(e.target.closest&&e.target.closest("#fmx,#nav")||e.target.id=="fmm")){dcU=false;dcr()}},true);
 document.addEventListener("visibilitychange",function(){if(document.hidden&&st.pin&&dcU){dcU=false;dcr()}});
