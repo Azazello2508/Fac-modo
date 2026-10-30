@@ -770,7 +770,7 @@ $("nx").onkeydown=function(e){if(e.key=="Enter")$("na").click()};
 $("qn").onclick=quote;
 var noStore=false;try{localStorage.setItem("q-t","1");localStorage.removeItem("q-t")}catch(e){noStore=true}
 if(noStore)$("sn").textContent="⚠ В этом режиме браузер не сохраняет данные: прогресс сотрётся при закрытии страницы. Чаще сохраняй копию в файл.";
-function applyData(t){var o=JSON.parse(t);if(!o||typeof o.done!=="object"||!o.done||typeof o.custom!=="object"||!o.custom||typeof o.bonus!=="object"||!o.bonus)throw 0;if(o.dr&&typeof o.dr=="object")for(var k in o.dr)if(!/^\d{4}-\d\d-\d\d$/.test(k))delete o.dr[k];if(o.photo&&!okImg(o.photo))delete o.photo;var old=st;o=window.fmMigrate?fmMigrate(o):o;o._v=o._v||window.FMV||2;try{localStorage.setItem("quest-v2",JSON.stringify(o))}catch(e){st=old;throw e}st=o;prevL=null;refreshAll()}
+function applyData(t){var o=JSON.parse(t);if(!o||typeof o.done!=="object"||!o.done||typeof o.custom!=="object"||!o.custom||typeof o.bonus!=="object"||!o.bonus)throw 0;if(o.dr&&typeof o.dr=="object")for(var k in o.dr)if(!/^\d{4}-\d\d-\d\d$/.test(k))delete o.dr[k];if(o.photo&&!okImg(o.photo))delete o.photo;var old=st;o=window.fmMigrate?fmMigrate(o):o;if(o.pn&&typeof o.pn=="object"&&!(o.pn.s>=today))o.pn.s=today;o._v=o._v||window.FMV||2;try{localStorage.setItem("quest-v2",JSON.stringify(o))}catch(e){st=old;throw e}st=o;prevL=null;refreshAll()}
 $("ex").onclick=function(){st.bkp=today;save();if(window.tdr)tdr();var n="fac-modo-backup-"+today+".json",t=JSON.stringify(st),b=new Blob([t],{type:"application/json"});try{var f=new File([t],n,{type:"application/json"});if(window.Capacitor&&navigator.canShare&&navigator.canShare({files:[f]})){navigator.share({files:[f],title:n}).then(function(){toast("Копия сохранена")}).catch(function(){});return}}catch(e){}var a=document.createElement("a");a.href=URL.createObjectURL(b);a.download=n;document.body.appendChild(a);a.click();a.remove();toast("Копия сохранена")};
 $("im").onclick=function(){$("fi").click()};
 $("fi").onchange=function(e){var f=e.target.files[0];e.target.value="";if(!f)return;if(f.size>40*1024*1024){toast(fmL("Файл слишком большой для резервной копии","The file is too big for a backup","Файл завеликий для резервної копії"));return}var r=new FileReader();r.onload=function(){try{applyData(r.result);toast("Прогресс загружен")}catch(x){toast("Не удалось прочитать файл")}};r.readAsText(f)};
@@ -1786,8 +1786,9 @@ function pnCost(x){return Math.ceil(x.x*PNP)}
 function pnDay(k){var it=items(k,wdOf(k)),dd=st.done[k]||{},miss=it.filter(function(x){return!dd[x.id]}),n=it.length-miss.length;
 if(pnHard(k))return{x:0,lt:1,n:n,t:it.length};
 var l=miss.map(function(x){return[x.n,pnCost(x)]});return{x:l.reduce(function(a,b){return a+b[1]},0),l:l,n:n,t:it.length}}
-function pnSnap(){var p=PN(),k=p.s,n=0,add=0,ch=0;
-while(k<today&&n++<400){if(!p.d[k]){p.d[k]=pnDay(k);add+=p.d[k].x;ch=1}k=shift(k,1)}
+/* Дни, когда приложение не открывали (после последнего открытия fm_seen и до сегодня), — без штрафа: {x:0,gap:1}. */
+function pnSnap(){var p=PN(),k=p.s,n=0,add=0,ch=0,ls="";try{ls=localStorage.getItem("fm_seen")||""}catch(e){}if(!/^\d{4}-\d\d-\d\d$/.test(ls))ls="";
+while(k<today&&n++<400){if(!p.d[k]){p.d[k]=ls&&k>ls?{x:0,gap:1}:pnDay(k);add+=p.d[k].x;ch=1}k=shift(k,1)}
 var old=shift(today,-15);for(k in p.d)if(k<old&&p.d[k].l){delete p.d[k].l;ch=1}
 for(k in p.w)if(k<today){delete p.w[k];ch=1}
 if(ch)save();return add}
@@ -1810,7 +1811,7 @@ if(y<p.s)s+=fmL('<p class="note">Штрафы считаются с ','<p class=
 else if(yd){s+=fmL('<h4 style="margin:12px 0 4px">Итоги вчера</h4>','<h4 style="margin:12px 0 4px">Yesterday</h4>','<h4 style="margin:12px 0 4px">Підсумки вчора</h4>');
 if(yd.lt||yd.off)s+=fmL('<p class="note">Был тяжёлый день, без штрафов.</p>','<p class="note">It was a hard day, no penalties.</p>','<p class="note">Був важкий день, без штрафів.</p>');
 else if(!yd.x)s+=fmL('<p class="note">Без штрафов 👍</p>','<p class="note">No penalties 👍</p>','<p class="note">Без штрафів 👍</p>');else s+=fmL('<p style="margin:0">Штраф: <span class="mx">−','<p style="margin:0">Penalty: <span class="mx">−','<p style="margin:0">Штраф: <span class="mx">−')+yd.x+' XP</span></p>'+(yd.l?pnList(yd.l):"")}
-var rows="";for(var i=7;i>=1;i--){var k=shift(today,-i),e=p.d[k];if(!e)continue;rows+='<li><span>'+pnDate(k)+(e.t?' · '+e.n+fmL(' из ',' of ',' з ')+e.t:'')+'</span><span'+(e.x?' class="mx">−'+e.x+' XP':'>'+(e.lt||e.off?'🛡️':'✅'))+'</span></li>'}
+var rows="";for(var i=7;i>=1;i--){var k=shift(today,-i),e=p.d[k];if(!e)continue;rows+='<li><span>'+pnDate(k)+(e.t?' · '+e.n+fmL(' из ',' of ',' з ')+e.t:'')+'</span><span'+(e.x?' class="mx">−'+e.x+' XP':'>'+(e.lt||e.off?'🛡️':e.gap?'💤':'✅'))+'</span></li>'}
 if(rows)s+=fmL('<h4 style="margin:12px 0 4px">Последние 7 дней</h4>','<h4 style="margin:12px 0 4px">Last 7 days</h4>','<h4 style="margin:12px 0 4px">Останні 7 днів</h4>')+'<ul>'+rows+'</ul>';
 s+=fmL('<p class="note" style="margin:10px 0 4px">Всего штрафов: −','<p class="note" style="margin:10px 0 4px">All penalties: −','<p class="note" style="margin:10px 0 4px">Усього штрафів: −')+pnTotal()+' XP.</p>';
 var left=pnHardLeft();
