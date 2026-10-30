@@ -44,6 +44,13 @@ grep -q 'android.permission.CAMERA' "$M" || sed -i 's#<uses-permission android:n
 grep -q 'requestLegacyExternalStorage' "$M" || sed -i 's#<application#<application android:requestLegacyExternalStorage="true"#' "$M"
 grep -c 'android.permission.CAMERA\|requestLegacyExternalStorage' "$M"
 
+# --- убрать точные будильники: плагин уведомлений добавляет SCHEDULE_EXACT_ALARM, но напоминания раз в день
+#     в них не нуждаются (без разрешения плагин ставит неточный будильник allowWhileIdle — сработает с небольшим сдвигом).
+#     Google Play требует объяснять это разрешение, поэтому лучше его не иметь. ---
+grep -q 'xmlns:tools' "$M" || sed -i '0,/<manifest /s#<manifest #<manifest xmlns:tools="http://schemas.android.com/tools" #' "$M"
+grep -q 'SCHEDULE_EXACT_ALARM' "$M" || sed -i 's#<uses-permission android:name="android.permission.INTERNET" />#&\n    <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM" tools:node="remove" />\n    <uses-permission android:name="android.permission.USE_EXACT_ALARM" tools:node="remove" />#' "$M"
+grep -c 'tools:node="remove"' "$M"
+
 # --- номер версии: для людей — version из package.json, для телефона — время коммита ---
 G=android/app/build.gradle
 sed -i -E "s/versionCode [0-9]+/versionCode $(git log -1 --format=%ct)/; s/versionName \"[^\"]*\"/versionName \"$(node -p "require('./package.json').version")\"/" "$G"

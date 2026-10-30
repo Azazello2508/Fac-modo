@@ -41,8 +41,8 @@ jobs:
       - name: Собрать приложение
         run: |
           cd android
-          ./gradlew assembleRelease --no-daemon -q
-          ls -la app/build/outputs/apk/release/
+          ./gradlew assembleRelease bundleRelease --no-daemon -q
+          ls -la app/build/outputs/apk/release/ app/build/outputs/bundle/release/
 
       - name: Подписать приложение
         # Ключ подписи хранится в GitHub Secrets (ANDROID_KEYSTORE — файл .p12 в base64, ANDROID_KEY_PASS — пароль).
@@ -58,6 +58,12 @@ jobs:
             keytool -genkeypair -keystore key.p12 -storetype PKCS12 -storepass "$PASS" -alias facmodo -keyalg RSA -keysize 2048 -validity 10950 -dname "CN=Fac Modo"; fi
           $BT/zipalign -f -p 4 android/app/build/outputs/apk/release/app-release-unsigned.apk aligned.apk
           $BT/apksigner sign --ks key.p12 --ks-type PKCS12 --ks-pass "pass:$PASS" --out FacModo.apk aligned.apk
+          # Пакет для Google Play (AAB) — подписывается тем же ключом (jarsigner, алиас берётся из хранилища)
+          ALIAS=$(keytool -list -keystore key.p12 -storetype PKCS12 -storepass "$PASS" 2>/dev/null | awk -F, '/PrivateKeyEntry/{print $1; exit}')
+          cp android/app/build/outputs/bundle/release/app-release.aab FacModo.aab
+          jarsigner -keystore key.p12 -storetype PKCS12 -storepass "$PASS" -sigalg SHA256withRSA -digestalg SHA-256 FacModo.aab "$ALIAS"
+          jarsigner -verify FacModo.aab | head -2
+          ls -la FacModo.aab
           rm -f key.p12
           $BT/apksigner verify --print-certs FacModo.apk | head -3
           $BT/aapt2 dump badging FacModo.apk | grep -E "^package|uses-permission|application-label:" || true
@@ -66,7 +72,9 @@ jobs:
       - uses: actions/upload-artifact@v4
         with:
           name: FacModo-apk
-          path: FacModo.apk
+          path: |
+            FacModo.apk
+            FacModo.aab
 
       - name: Выложить файл в Releases
         if: github.ref == 'refs/heads/main'
@@ -77,5 +85,5 @@ jobs:
           WHEN=$(TZ=Asia/Baku date -d @$B '+%d.%m.%Y %H:%M')
           # Один постоянный выпуск «android-apk»: файл заменяется, ссылка для скачивания не меняется
           gh release view android-apk >/dev/null 2>&1 || gh release create android-apk --target main --latest=false             --title "Fac Modo для Android" --notes "Установка — в README."
-          gh release upload android-apk FacModo.apk --clobber
+          gh release upload android-apk FacModo.apk FacModo.aab --clobber
           gh release edit android-apk --latest=false --title "Fac Modo для Android — версия от $WHEN"             --notes "Скачать на телефон: https://github.com/${{ github.repository }}/releases/download/android-apk/FacModo.apk — открыть файл, разрешить установку. Подробно — в README."

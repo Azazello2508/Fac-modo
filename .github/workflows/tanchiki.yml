@@ -84,3 +84,4 @@ jobs:
     needs: sync
     if: needs.sync.outputs.changed == 'true'
     uses: ./.github/workflows/pages.yml
+    secrets: inherit

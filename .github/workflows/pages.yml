@@ -36,7 +36,19 @@ jobs:
           touch _site/.nojekyll
           sed -i "s/__FM_BUILD__/$B/" _site/index.html
           grep -c "FM_BUILD=parseInt(\"$B\")" _site/index.html
-          echo "{\"build\":$B}" > _site/version.json
+
+      # Подпись обновления (ECDSA P-256, секрет OTA_SIGN_KEY — закрытый ключ PEM). Без секрета — version.json без подписи, как раньше.
+      # [store-ok] в сообщении последнего коммита (или в названии PR) — обновление только с исправлениями, его примет и версия из App Store.
+      - name: Подписать обновление
+        env:
+          K: ${{ secrets.OTA_SIGN_KEY }}
+        run: |
+          B=$(git log -1 --format=%ct)
+          SO=0; if git log -1 --format=%B | grep -qF '[store-ok]'; then SO=1; fi
+          KF=""
+          if [ -n "$K" ]; then KF="$RUNNER_TEMP/ota.pem"; printf '%s\n' "$K" > "$KF"; else echo "::warning::Нет секрета OTA_SIGN_KEY — обновление публикуется без подписи"; fi
+          python3 tools/ota_sign.py _site "$B" "$SO" $KF
+          rm -f "$RUNNER_TEMP/ota.pem"
 
       - uses: actions/upload-pages-artifact@v5
         with:
