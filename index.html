@@ -506,7 +506,9 @@ var MIG={3:function(o){/* 2→3: починка повреждённых дан�
  ["done","custom","bonus"].forEach(function(k){if(!o[k]||typeof o[k]!="object"||Array.isArray(o[k]))o[k]={}});
  for(var d in o.done){var v=o.done[d];if(!v||typeof v!="object"||Array.isArray(v))delete o.done[d]}},
  4:function(o){/* 3→4: напоминания о документах — своё поле st.dcn (1/0), st.nt — только настройки уведомлений квестов */
- if(!o.nt||typeof o.nt!="object"||Array.isArray(o.nt)){if(!("dcn" in o))o.dcn=o.nt===0?0:1;o.nt={}}}};
+ if(!o.nt||typeof o.nt!="object"||Array.isArray(o.nt)){if(!("dcn" in o))o.dcn=o.nt===0?0:1;o.nt={}}
+ /* специальность не выбирали (по умолчанию «Электромеханик»), а в мастере выбрана другая должность — выровнять */
+ var r=o.ux&&o.ux.r;if(!o.prof&&(r=="na"||r=="me")){o.prof=r;var sh=o.shore&&typeof o.shore=="object"?o.shore:(o.shore={p:0,d:"",e:0,sv:0});if(!sh.p)sh.p=r=="me"?4:5}}};
 /* Лечение при каждом запуске (не только при смене версии): поле не того типа из испорченной или подделанной копии убирается,
    раздел сам создаст его заново. Без этого, например, st.done=null или st.pck="…" ломали приложение (tests/full.js data). */
 var SHAPE={done:"o",custom:"o",bonus:"o",dr:"o",shore:"o",cfg:"o",nt:"o",fn:"o",sk:"o",pn:"o",wch:"o",m2:"o",rl:"a",cth:"o",kt:"o",fsk:"o",vis:"o",sky5:"o",rwd:"o",pck:"o",shn:"o",flmc:"a",flm:"o",cv:"o",ux:"o",gv:"o",dcn:"n",dc:"a",ct:"a",ap:"a",ls:"a",rw:"a",name:"s",uid:"s",lang:"s"};
@@ -1502,7 +1504,10 @@ else if(t.id=="rzt")rzv=t.value;else if(t.id=="gls")glf(t.value)});
 $("mn").addEventListener("change",function(e){var t=e.target;if(t.dataset.aps!==undefined){st.ap[+t.dataset.aps].s=+t.value;save();render()}else if(t.dataset.opt=="big"){st.big=t.checked;save();render()}});
 function refreshAll(){render();edr();dall();qzr();if(typeof bkr=="function"){try{bkS.l=st.bk&&st.bk.l=="en"?"en":"ru";bkS.g=st.bk?+st.bk.g||0:0}catch(e){}bkr()}}
 dqr();dall();glr();
-document.addEventListener("click",function(e){var g=e.target.closest("[data-lang]");if(g){if((st.lang||"ru")!=g.dataset.lang){st.lang=g.dataset.lang;save();location.reload()}return}var b=e.target.closest("[data-prof]");if(!b)return;st.prof=b.dataset.prof;if(st.prof!="el")shs().p=st.prof=="me"?4:5;save();lb={el:0,me:1,na:2}[st.prof];ens={i:0,k:0,st:0,ok:0};qs=null;render();glr();qzr();if(typeof lbr=="function")lbr();toast(PROF[st.prof][0]+" Специальность: "+PROF[st.prof][1])});
+/* Специальность (st.prof) и должность из мастера (st.ux.r) всегда совпадают: выбор специальности меняет должность (ex=1), мастер — специальность (fmProfFromRole). */
+function fmSetProf(p,ex){if(!PROF[p])return;st.prof=p;if(p!="el"&&(ex||!shs().p))shs().p=p=="me"?4:5;if(ex){var u=st.ux=st.ux||{};if(u.r!=p){u.r=p;if(!u.pu)delete u.p;if(window.uxApply)try{uxApply()}catch(x){}}}save();lb={el:0,me:1,na:2}[p];ens={i:0,k:0,st:0,ok:0};qs=null;render();glr();qzr();if(typeof lbr=="function")lbr()}
+window.fmProfFromRole=function(r){if(PROF[r]&&st.prof!=r)fmSetProf(r)};lb={el:0,me:1,na:2}[pf()];
+document.addEventListener("click",function(e){var g=e.target.closest("[data-lang]");if(g){if((st.lang||"ru")!=g.dataset.lang){st.lang=g.dataset.lang;save();location.reload()}return}var b=e.target.closest("[data-prof]");if(!b||!PROF[b.dataset.prof])return;fmSetProf(b.dataset.prof,1);toast(PROF[st.prof][0]+" Специальность: "+PROF[st.prof][1])});
 
 var PHI=[["Различай то, что зависит от тебя, и то, что нет. Силы вкладывай в первое, а второе постарайся принять спокойнее (идея стоиков).","Выпиши одну тревогу и раздели: что в моей власти, а что нет."],["Задавай «почему?» к собственным решениям: на чём основан мой выбор? Это сократовский способ проверять жизнь.","Возьми одно сегодняшнее решение и задай ему три «почему»."],["Аристотель считал, что привычки формируют характер: мы становимся тем, что делаем регулярно.","Выбери одно маленькое действие и повтори его сегодня намеренно."],["Эпикур ценил простые радости и покой. Полезно отличать нужное от лишнего.","Назови три вещи, без которых ты спокойно обойдёшься."],["Стоики (Сенека, Марк Аврелий) напоминали себе о конечности времени, чтобы ценить день. Это не мрачность, а ясность.","Спроси себя вечером: на что я потратил сегодня лучшие часы?"],["Золотая середина Аристотеля: добродетель часто лежит между крайностями, например между скупостью и расточительностью.","Найди сферу, где ты склоняешься к крайности, и выбери середину."]];
 function LSD0(){var a=Object.keys(LS).map(function(k){return{n:LS[k][0],t:LS[k][1]}});a.push({n:"Философия",t:PHI});return a}
@@ -3179,7 +3184,7 @@ O.addEventListener("click",function(e){var b=e.target.closest("button");if(!b||b
  if(b.dataset.g=="r"){selR=b.dataset.k;wr()}else if(b.dataset.g=="i"){var i=selI.indexOf(b.dataset.k);if(i>=0)selI.splice(i,1);else selI.push(b.dataset.k);wr()}
  else if(b.dataset.uxw=="next"){step=2;wr();O.scrollTop=0}else if(b.dataset.uxw=="back"){step=1;wr()}
  else if(b.dataset.uxw=="skip"){u.ob=1;u.all=1;if(!u.r)u.r="ot";setName();try{save()}catch(x){}wClose();apply();if(window.rtCard)rtCard()}
- else if(b.dataset.uxw=="done"){var nr=selR||"ot",ch=u.r!=nr;u.r=nr;u.i=selI.slice();u.ob=1;u.all=0;if(ch&&!u.pu)delete u.p;setName();try{save()}catch(x){}wClose();apply();if(window.rtCard)rtCard();var n=document.querySelector('#nav [data-n="today"]');if(n)n.click();scrollTo(0,0)}});
+ else if(b.dataset.uxw=="done"){var nr=selR||"ot",ch=u.r!=nr;u.r=nr;u.i=selI.slice();u.ob=1;u.all=0;if(ch&&!u.pu)delete u.p;setName();try{save()}catch(x){}if(window.fmProfFromRole)try{fmProfFromRole(nr)}catch(x){}wClose();apply();if(window.rtCard)rtCard();var n=document.querySelector('#nav [data-n="today"]');if(n)n.click();scrollTo(0,0)}});
 window.uxWizard=wOpen;window.uxApply=apply;window.uxShow=show;
 /* «🎛️ Что показывать» в «Профиле» → «Настройки» */
 function uxpr(){var c=document.getElementById("uxp");if(!c)return;var tl=P.uxp&&P.uxp.b;if(tl){tl.hidden=false;if(tl.firstChild)tl.firstChild.textContent="🎛️";if(tl.lastChild)tl.lastChild.textContent=L("Что показывать","What to show","Що показувати")}var u=U(),r=ROLES.filter(function(a){return a[0]==u.r})[0],I=INT.filter(function(a){return has(u.i||[],a[0])});
