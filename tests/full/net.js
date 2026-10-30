@@ -37,7 +37,9 @@ module.exports = async function (browser, URL) {
     const alive = await A.evaluate(() => typeof NET === 'object' && !!NET);
     ok(e1.length === 0 && alive, g + ': 400 случайных «мусорных» сообщений не роняют игру', e1.slice(0, 3).join(' | '));
     // огромное сообщение и вложенность
-    await p.evaluate(() => { inject({ t: 'mv', path: Array(100000).fill(1), taken: [] }); let o = {}; const r = o; for (let i = 0; i < 3000; i++) o = o.n = {}; inject(Object.assign(r, { t: 'mv' })); });
+    await p.evaluate(() => { inject({ t: 'mv', path: Array(100000).fill(1), taken: [] }); let o = {}; const r = o; for (let i = 0; i < 3000; i++) o = o.n = {};
+      // Такую вложенность браузер сам не передаёт через postMessage (RangeError ещё до игры); в приложении gn-js ловит эту ошибку (try/catch в dc.onmessage) — это допустимо.
+      try { inject(Object.assign(r, { t: 'mv' })); } catch (e) { if (!/call stack/i.test(String(e && e.message))) throw e; } });
     await p.waitForTimeout(300);
     ok((await ferr()).length === 0, g + ': огромное и глубоко вложенное сообщение не роняет игру');
   }

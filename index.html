@@ -501,15 +501,20 @@ window.fmImg=function(f){var L=function(r,e,u){return window.fmL?fmL(r,e,u):r};i
  if(!/^image\/(jpeg|png|gif|webp|heic|heif|bmp|avif)$/i.test(f.type||"")&&!/\.(jpe?g|png|gif|webp|heic|heif|bmp|avif)$/i.test(f.name||"")){fmLog("warn","upload-bad-type",{type:f.type,name:String(f.name).slice(-20)});return L("Это не картинка. Выбери фото (JPG, PNG, HEIC).","This is not an image. Choose a photo (JPG, PNG, HEIC).","Це не картинка. Обери фото (JPG, PNG, HEIC).")}
  if(f.size>30*1024*1024){fmLog("warn","upload-too-big",{size:f.size});return L("Фото слишком большое (больше 30 МБ)","The photo is too big (over 30 MB)","Фото завелике (понад 30 МБ)")}return""};
 window.fmImgFail=function(){toast(window.fmL?fmL("Не получилось открыть картинку","Could not open the image","Не вдалося відкрити картинку"):"Не получилось открыть картинку");fmLog("warn","upload-decode-fail")};
-window.FMV=3;
+window.FMV=4;
 var MIG={3:function(o){/* 2→3: починка повреждённых данных, из-за которых приложение падало при подсчёте XP */
  ["done","custom","bonus"].forEach(function(k){if(!o[k]||typeof o[k]!="object"||Array.isArray(o[k]))o[k]={}});
- for(var d in o.done){var v=o.done[d];if(!v||typeof v!="object"||Array.isArray(v))delete o.done[d]}}};
+ for(var d in o.done){var v=o.done[d];if(!v||typeof v!="object"||Array.isArray(v))delete o.done[d]}},
+ 4:function(o){/* 3→4: напоминания о документах — своё поле st.dcn (1/0), st.nt — только настройки уведомлений квестов */
+ if(!o.nt||typeof o.nt!="object"||Array.isArray(o.nt)){if(!("dcn" in o))o.dcn=o.nt===0?0:1;o.nt={}}
+ /* специальность не выбирали (по умолчанию «Электромеханик»), а в мастере выбрана другая должность — выровнять */
+ var r=o.ux&&o.ux.r;if(!o.prof&&(r=="na"||r=="me")){o.prof=r;var sh=o.shore&&typeof o.shore=="object"?o.shore:(o.shore={p:0,d:"",e:0,sv:0});if(!sh.p)sh.p=r=="me"?4:5}}};
 /* Лечение при каждом запуске (не только при смене версии): поле не того типа из испорченной или подделанной копии убирается,
    раздел сам создаст его заново. Без этого, например, st.done=null или st.pck="…" ломали приложение (tests/full.js data). */
-var SHAPE={done:"o",custom:"o",bonus:"o",dr:"o",shore:"o",cfg:"o",nt:"o",fn:"o",sk:"o",pn:"o",wch:"o",m2:"o",rl:"a",cth:"o",kt:"o",fsk:"o",vis:"o",sky5:"o",rwd:"o",pck:"o",shn:"o",flmc:"a",flm:"o",cv:"o",ux:"o",gv:"o",dc:"a",ct:"a",ap:"a",ls:"a",rw:"a",name:"s",uid:"s",lang:"s"};
+var SHAPE={done:"o",custom:"o",bonus:"o",dr:"o",shore:"o",cfg:"o",nt:"o",fn:"o",sk:"o",pn:"o",wch:"o",m2:"o",rl:"a",cth:"o",kt:"o",fsk:"o",vis:"o",sky5:"o",rwd:"o",pck:"o",shn:"o",flmc:"a",flm:"o",cv:"o",ux:"o",gv:"o",dcn:"n",dc:"a",ct:"a",ap:"a",ls:"a",rw:"a",name:"s",uid:"s",lang:"s"};
 window.fmHeal=function(o){var bad=[],k,t;if(!o||typeof o!="object"||Array.isArray(o)){fmLog("warn","heal",{f:"всё"});return{done:{},custom:{},bonus:{}}}
- for(k in SHAPE){if(!(k in o))continue;t=o[k];var ok=SHAPE[k]=="a"?Array.isArray(t):SHAPE[k]=="s"?typeof t=="string":(t&&typeof t=="object"&&!Array.isArray(t));if(!ok){bad.push(k);delete o[k]}}
+ if(typeof o.nt=="number"){if(!("dcn" in o))o.dcn=o.nt?1:0;o.nt={}}
+ for(k in SHAPE){if(!(k in o))continue;t=o[k];var ok=SHAPE[k]=="a"?Array.isArray(t):SHAPE[k]=="s"?typeof t=="string":SHAPE[k]=="n"?typeof t=="number":(t&&typeof t=="object"&&!Array.isArray(t));if(!ok){bad.push(k);delete o[k]}}
  ["done","custom","bonus"].forEach(function(k){if(!o[k])o[k]={}});
  if(o.name&&o.name.length>200){o.name=o.name.slice(0,200);bad.push("name")}
  for(k in o.done){t=o.done[k];if(!/^\d{4}-\d\d-\d\d$/.test(k)||!t||typeof t!="object"||Array.isArray(t)){delete o.done[k];bad.push("done");continue}
@@ -719,7 +724,8 @@ function iso(d){return d.getFullYear()+"-"+p2(d.getMonth()+1)+"-"+p2(d.getDate()
 var now=new Date(),today=iso(now),mon=new Date(now.getFullYear(),now.getMonth(),now.getDate()-((now.getDay()+6)%7));
 function dateOf(i){return new Date(mon.getFullYear(),mon.getMonth(),mon.getDate()+i)}
 var day=(now.getDay()+6)%7,st={done:{},custom:{},bonus:{}};
-try{var r=localStorage.getItem("quest-v2");if(r)st=JSON.parse(r)}catch(e){if(window.fmLog)fmLog("error","load",{msg:String(e&&e.message||e)})}
+/* Данные не читаются (испорчены) или это не объект — сырая строка сохраняется в fm_broken до того, как первое save() её перезапишет */
+try{var r=localStorage.getItem("quest-v2");if(r){var o0=JSON.parse(r);if(o0&&typeof o0=="object"&&!Array.isArray(o0))st=o0;else throw new Error("not an object")}}catch(e){try{if(r)localStorage.setItem("fm_broken",JSON.stringify({t:Date.now(),d:r}))}catch(x){}if(window.fmLog)fmLog("error","load",{msg:String(e&&e.message||e),kept:"fm_broken",len:r?r.length:0})}
 if(window.fmMigrate)st=fmMigrate(st);
 /* fmTx(fn): «транзакция» для localStorage — если внутри fn что-то сломалось, все ключи fm_* и quest-v2 и st возвращаются как были */
 function fmTx(fn){var snap={},oldSt=st,i,k;for(i=0;i<localStorage.length;i++){k=localStorage.key(i);if(k=="quest-v2"||/^fm_/.test(k))snap[k]=localStorage.getItem(k)}
@@ -770,7 +776,7 @@ $("nx").onkeydown=function(e){if(e.key=="Enter")$("na").click()};
 $("qn").onclick=quote;
 var noStore=false;try{localStorage.setItem("q-t","1");localStorage.removeItem("q-t")}catch(e){noStore=true}
 if(noStore)$("sn").textContent="⚠ В этом режиме браузер не сохраняет данные: прогресс сотрётся при закрытии страницы. Чаще сохраняй копию в файл.";
-function applyData(t){var o=JSON.parse(t);if(!o||typeof o.done!=="object"||!o.done||typeof o.custom!=="object"||!o.custom||typeof o.bonus!=="object"||!o.bonus)throw 0;if(o.dr&&typeof o.dr=="object")for(var k in o.dr)if(!/^\d{4}-\d\d-\d\d$/.test(k))delete o.dr[k];if(o.photo&&!okImg(o.photo))delete o.photo;var old=st;o=window.fmMigrate?fmMigrate(o):o;o._v=o._v||window.FMV||2;try{localStorage.setItem("quest-v2",JSON.stringify(o))}catch(e){st=old;throw e}st=o;prevL=null;refreshAll()}
+function applyData(t){var o=JSON.parse(t);if(!o||typeof o.done!=="object"||!o.done||typeof o.custom!=="object"||!o.custom||typeof o.bonus!=="object"||!o.bonus)throw 0;if(o.dr&&typeof o.dr=="object")for(var k in o.dr)if(!/^\d{4}-\d\d-\d\d$/.test(k))delete o.dr[k];if(o.photo&&!okImg(o.photo))delete o.photo;var old=st;o=window.fmMigrate?fmMigrate(o):o;if(o.pn&&typeof o.pn=="object"&&!(o.pn.s>=today))o.pn.s=today;o._v=o._v||window.FMV||2;try{localStorage.setItem("quest-v2",JSON.stringify(o))}catch(e){st=old;throw e}st=o;prevL=null;refreshAll()}
 $("ex").onclick=function(){st.bkp=today;save();if(window.tdr)tdr();var n="fac-modo-backup-"+today+".json",t=JSON.stringify(st),b=new Blob([t],{type:"application/json"});try{var f=new File([t],n,{type:"application/json"});if(window.Capacitor&&navigator.canShare&&navigator.canShare({files:[f]})){navigator.share({files:[f],title:n}).then(function(){toast("Копия сохранена")}).catch(function(){});return}}catch(e){}var a=document.createElement("a");a.href=URL.createObjectURL(b);a.download=n;document.body.appendChild(a);a.click();a.remove();toast("Копия сохранена")};
 $("im").onclick=function(){$("fi").click()};
 $("fi").onchange=function(e){var f=e.target.files[0];e.target.value="";if(!f)return;if(f.size>40*1024*1024){toast(fmL("Файл слишком большой для резервной копии","The file is too big for a backup","Файл завеликий для резервної копії"));return}var r=new FileReader();r.onload=function(){try{applyData(r.result);toast("Прогресс загружен")}catch(x){toast("Не удалось прочитать файл")}};r.readAsText(f)};
@@ -1060,7 +1066,8 @@ function showCode(t){var a=$("pta");a.hidden=false;a.value=t;a.select();$("pap")
 $("cp").onclick=function(){var t=JSON.stringify(st);if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(t).then(function(){toast("Код скопирован")},function(){showCode(t)})}else showCode(t)};
 $("pc2").onclick=function(){var a=$("pta");a.hidden=false;a.value="";$("pap").hidden=false;a.focus()};
 $("pap").onclick=function(){try{applyData($("pta").value);toast("Прогресс загружен");$("pta").hidden=true;$("pap").hidden=true}catch(x){toast("Код не подошёл")}};
-var rsT=0;$("rs").onclick=function(){if(!rsT){rsT=1;$("rs").textContent="Нажми ещё раз, чтобы удалить всё";setTimeout(function(){rsT=0;$("rs").textContent="Сбросить весь прогресс"},4000);return}if(window.fmWipeFiles)fmWipeFiles();st={done:{},custom:{},bonus:{}};save();prevL=null;rsT=0;$("rs").textContent="Сбросить весь прогресс";refreshAll()};
+$("rs").onclick=function(){if(!confirm(fmL("Удалить ВЕСЬ прогресс? Будут удалены все квесты, XP, дневник, документы, книги, фильмы и все автокопии. Отменить это нельзя. Если нужна копия — сначала сохрани её файлом.","Delete ALL progress? All quests, XP, diary, documents, books, films and all auto-copies will be deleted. This cannot be undone. If you need a copy, save it to a file first.","Видалити ВЕСЬ прогрес? Буде видалено всі квести, XP, щоденник, документи, книги, фільми та всі автокопії. Скасувати це неможливо. Якщо потрібна копія — спершу збережи її файлом.")))return;
+var lg=st.lang;if(window.fmWipeFiles)fmWipeFiles();st={done:{},custom:{},bonus:{}};if(lg)st.lang=lg;save();prevL=null;refreshAll()};
 $("mn").addEventListener("click",function(e){var b=e.target.closest("[data-x]");if(!b)return;var a=b.dataset.x;
 if(a=="enc"){var t0=ENL()[((li2*5)%ENL().length+ens.i)%ENL().length],v0=$("eni").value;if(nrm(v0).length<2){toast("Напиши перевод или нажми «Не знаю»");return}ens.ok=okTr(v0,t0[1]);if(ens.ok)ens.k++;ens.st=1;engr()}
 else if(a=="enx"){ens.ok=0;ens.st=1;engr()}
@@ -1259,9 +1266,9 @@ function dcTS(){try{localStorage.setItem("fm_pintry",JSON.stringify(dcTry))}catc
 function dcH(p,sl){var t=sl+":"+p;try{if(window.crypto&&crypto.subtle&&window.TextEncoder)return crypto.subtle.digest("SHA-256",new TextEncoder().encode(t)).then(function(b){return Array.prototype.map.call(new Uint8Array(b),function(x){return("0"+x.toString(16)).slice(-2)}).join("")})}catch(e){}var h=5381;for(var i=0;i<t.length;i++)h=((h<<5)+h+t.charCodeAt(i))|0;return Promise.resolve("f"+(h>>>0).toString(16))}
 function dcNP(){var C=window.Capacitor;if(!C||!C.isNativePlatform||!C.isNativePlatform())return null;return(C.Plugins&&C.Plugins.LocalNotifications)||(C.registerPlugin?C.registerPlugin("LocalNotifications"):null)}
 function dcSync(f){var N=dcNP();if(!N)return;var en=st.lang=="en",pin=!!st.pin,now=Date.now(),arr=[];
-if(st.nt)dcList().forEach(function(q){[90,30,7,0].forEach(function(o){var t=new Date(q.x.e+"T09:00:00");t.setDate(t.getDate()-o);if(t.getTime()>now+6e4)arr.push({t:t,o:o,n:q.x.n})})});
+if(st.dcn!==0)dcList().forEach(function(q){[90,30,7,0].forEach(function(o){var t=new Date(q.x.e+"T09:00:00");t.setDate(t.getDate()-o);if(t.getTime()>now+6e4)arr.push({t:t,o:o,n:q.x.n})})});
 arr.sort(function(x,y){return x.t-y.t});arr=arr.slice(0,60);
-var sig=JSON.stringify([arr.map(function(x){return x.t.getTime()+x.n}),pin,en,!!st.nt]);if(!f&&sig==dcSig)return;dcSig=sig;
+var sig=JSON.stringify([arr.map(function(x){return x.t.getTime()+x.n}),pin,en,st.dcn!==0]);if(!f&&sig==dcSig)return;dcSig=sig;
 dcQ=dcQ.then(function(){return N.getPending()}).then(function(r){var ids=((r&&r.notifications)||[]).map(function(n){return n.id}).filter(function(i){return i>=1000&&i<2000});return ids.length?N.cancel({notifications:ids.map(function(i){return{id:i}})}):0}).then(function(){if(!arr.length)return;
 var T=!en&&window.trEN?trEN:function(x){return x};
 return N.schedule({notifications:arr.map(function(x,i){var b;if(pin)b=en?(x.o?"A document is about to expire. Open Fac Modo.":"A document expires today. Open Fac Modo."):T(x.o?"Срок одного из документов подходит к концу. Открой Fac Modo.":"Сегодня истекает срок документа. Открой Fac Modo.");else b="«"+x.n+"»: "+(en?(x.o?x.o+" days left":"expires today"):T(x.o?"осталось "+x.o+" дн.":"срок истекает сегодня"));return{id:1000+i,title:en?"Fac Modo: documents":T("Fac Modo: документы"),body:b,schedule:{at:x.t,allowWhileIdle:true}}})})}).catch(function(){})}
@@ -1270,7 +1277,7 @@ if(pin&&!dcU){h='<h3>🛂 Документы и сроки</h3><p class="note" s
 else{h='<h3>🛂 Документы и сроки</h3>'+(L.length?'<p class="note" style="margin:0 0 6px">'+sm+'</p>':'<p class="note" style="margin:0 0 6px">Пока нет документов. Добавь паспорт, диплом, медкомиссию и сертификаты.</p>');
 h+='<ul>'+L.map(function(q){return'<li style="--c:'+q.c+';grid-template-columns:1fr auto auto"><span class="n">'+esc(q.x.n)+'<small style="display:block;color:'+q.c+'">'+q.t+'</small></span><input type="date" data-dce="'+esc(q.x.id)+'" value="'+esc(q.x.e)+'" aria-label="Дата окончания"><button class="del" data-dk="del" data-v="'+esc(q.x.id)+'" aria-label="Удалить">×</button></li>'}).join("")+'</ul>';
 h+='<div class="add"><input type="text" id="dcn" list="dcl" placeholder="Документ (паспорт, диплом, медкомиссия…)" maxlength="60"><datalist id="dcl">'+DCP.map(function(p){return'<option value="'+p+'">'}).join("")+'</datalist><input type="date" id="dce" aria-label="Дата окончания"><button type="button" data-dk="add">Добавить</button></div><p class="note" style="margin:8px 0 0">Чтобы продлить документ, просто поменяй дату. Данные хранятся на устройстве и входят в резервную копию.</p>';
-h+='<div style="margin:12px 0 0;border-top:1px solid var(--line);padding-top:10px"><div class="add"><button type="button" class="alt" data-dk="nt">'+(st.nt?"🔔 Напоминания включены":"🔕 Включить напоминания")+'</button>'+(pin?'<button type="button" class="alt" data-dk="pinoff">Убрать PIN-код</button>':'<button type="button" class="alt" data-dk="pinask">🔒 Поставить PIN-код</button>')+'</div>';
+h+='<div style="margin:12px 0 0;border-top:1px solid var(--line);padding-top:10px"><div class="add"><button type="button" class="alt" data-dk="nt">'+(st.dcn!==0?"🔔 Напоминания включены":"🔕 Включить напоминания")+'</button>'+(pin?'<button type="button" class="alt" data-dk="pinoff">Убрать PIN-код</button>':'<button type="button" class="alt" data-dk="pinask">🔒 Поставить PIN-код</button>')+'</div>';
 if(dcMode=="set"&&!pin)h+='<div class="add"><input type="password" id="dp1" inputmode="numeric" pattern="[0-9]*" maxlength="4" autocomplete="off" placeholder="Новый PIN (4 цифры)" aria-label="Новый PIN"><input type="password" id="dp2" inputmode="numeric" pattern="[0-9]*" maxlength="4" autocomplete="off" placeholder="Повтори PIN" aria-label="Повтори PIN"><button type="button" data-dk="pinset">Сохранить</button><button type="button" class="alt" data-dk="pincancel">Отмена</button></div>';
 h+='<p class="note" style="margin:8px 0 0">Напоминания приходят на телефон за 90, 30 и 7 дней до окончания срока и в день окончания, в 9:00. PIN-код защищает раздел от случайного взгляда, но это не шифрование.</p></div>'}
 var c=$("dc");if(c)c.innerHTML=h;
@@ -1286,7 +1293,7 @@ else if(a=="pinask"){dcMode="set";dcr();var i1=$("dp1");if(i1)i1.focus()}
 else if(a=="pincancel"){dcMode="";dcr()}
 else if(a=="pinset"){var p1=$("dp1").value,p2=$("dp2").value;if(!/^\d{4}$/.test(p1)){toast("PIN-код должен состоять из 4 цифр");return}if(p1!==p2){toast("PIN-коды не совпадают");return}var sl=Math.random().toString(36).slice(2,10);dcH(p1,sl).then(function(h){st.pin={s:sl,h:h};dcU=true;dcMode="";save();if(window.fmAudit)fmAudit("pin-set");dcr();toast("PIN-код установлен")})}
 else if(a=="pinoff"){if(!confirm(T("Убрать PIN-код?")))return;delete st.pin;save();if(window.fmAudit)fmAudit("pin-off");dcr()}
-else if(a=="nt"){if(st.nt){st.nt=0;save();dcr();toast("Напоминания выключены");return}var N=dcNP();if(!N){toast("Уведомления работают только в приложении на iPhone");return}N.requestPermissions().then(function(r){if(r&&r.display=="granted"){st.nt=1;save();dcr();toast("Напоминания включены")}else toast("Нет разрешения: включи уведомления для Fac Modo в настройках iPhone")}).catch(function(){toast("Для уведомлений нужна новая версия приложения: установи свежий файл FacModo.ipa")})}});
+else if(a=="nt"){if(st.dcn!==0){st.dcn=0;save();dcr();toast("Напоминания выключены");return}var N=dcNP();if(!N){toast("Уведомления работают только в приложении на iPhone");return}N.requestPermissions().then(function(r){if(r&&r.display=="granted"){st.dcn=1;save();dcr();toast("Напоминания включены")}else toast("Нет разрешения: включи уведомления для Fac Modo в настройках iPhone")}).catch(function(){toast("Для уведомлений нужна новая версия приложения: установи свежий файл FacModo.ipa")})}});
 document.addEventListener("keydown",function(e){if(e.key=="Enter"&&e.target&&e.target.id=="dpn"){var u=document.querySelector('[data-dk="unlock"]');if(u)u.click()}});
 document.addEventListener("click",function(e){if(st.pin&&dcU&&(e.target.closest&&e.target.closest("#fmx,#nav")||e.target.id=="fmm")){dcU=false;dcr()}},true);
 document.addEventListener("visibilitychange",function(){if(document.hidden&&st.pin&&dcU){dcU=false;dcr()}});
@@ -1314,9 +1321,11 @@ function rhG(d){var v=(st.rh||{})[d];return typeof v=="string"&&v.length==24?v:n
 function rhA(d,n){var x=new Date(d+"T00:00:00");x.setDate(x.getDate()+n);return iso(x)}
 function rhS(v){var w=0,run=0,mx=0,per=[],r=0;for(var i=0;i<24;i++){if(v.charAt(i)=="1"){w++;run++;if(run>mx)mx=run;if(r){per.push(r);r=0}}else{run=0;r++}}if(r)per.push(r);var lg=per.length?Math.max.apply(null,per):0;return{rest:24-w,per:per.length,lg:lg,mx:mx,bad:24-w<10||per.length>2||lg<6||mx>14}}
 /* Проверка по нормам MLC / ПДНВ A-VIII/1 скользящими окнами: любые 24 ч и любые 7 суток, с учётом соседних заполненных дней.
- Отдых через полночь — один период. «Не более 2 периодов, один ≥ 6 ч»: 10 обязательных часов набираются из двух самых длинных частей. */
+ Отдых через полночь — один период. «Не более 2 периодов, один ≥ 6 ч» проверяется по целым периодам: для каждых 24 ч от начала периода отдыха этого дня
+ 10 обязательных часов набираются из двух самых длинных периодов (один ≥ 6 ч). Нет следующего дня — неизвестные часы считаются отдыхом (без ложных нарушений). */
 function rhX(d){var v=rhG(d);if(!v)return null;var p=rhG(rhA(d,-1)),nx=rhG(rhA(d,1)),s=(p||"")+v,o=p?24:0,mn=24,okP=true,e,i;
-for(e=Math.max(23,o);e<o+24;e++){var r=0,pc=[],c=0;for(i=e-23;i<=e;i++){if(s.charAt(i)=="0"){r++;c++}else{if(c)pc.push(c);c=0}}if(c)pc.push(c);pc.sort(function(a,b){return b-a});if(r<mn)mn=r;var a1=pc[0]||0,a2=pc[1]||0;if(a1<6||(r>=10&&a1+a2<10))okP=false}
+for(e=Math.max(23,o);e<o+24;e++){var r=0;for(i=e-23;i<=e;i++)if(s.charAt(i)=="0")r++;if(r<mn)mn=r}
+var sx=s+(nx||"000000000000000000000000");for(e=o;e<o+24;e++){if(s.charAt(e)!="0"||(e>0&&s.charAt(e-1)=="0"))continue;var r=0,pc=[],c=0;for(i=e;i<e+24;i++){if(sx.charAt(i)=="0"){r++;c++}else{if(c)pc.push(c);c=0}}if(c)pc.push(c);pc.sort(function(a,b){return b-a});var a1=pc[0]||0,a2=pc[1]||0;if(a1<6||(r>=10&&a1+a2<10))okP=false}
 var t=s+(nx||""),mx=0,run=0,st0=0;for(i=0;i<=t.length;i++){if(t.charAt(i)=="1"){if(!run)st0=i;run++}else{if(run&&st0<o+24&&st0+run>o&&run>mx)mx=run;run=0}}
 var w7=null,full=true,W="";for(i=-7;i<=0;i++){var g=rhG(rhA(d,i));if(!g){if(i==-7){full=false;continue}w7=null;W=null;break}W+=g}
 if(W){if(full){w7=168;for(e=191;e>=168;e--){var r7=0;for(i=e-167;i<=e;i++)if(W.charAt(i)=="0")r7++;if(r7<w7)w7=r7}}else{w7=0;for(i=0;i<W.length;i++)if(W.charAt(i)=="0")w7++}}
@@ -1337,6 +1346,7 @@ else h+='<p class="note" style="margin:6px 0">День не заполнен. О
 h+='<div style="display:grid;grid-template-columns:repeat(7,1fr);gap:6px;margin:10px 0 0">';
 for(var j=6;j>=0;j--){var dd=rhA(d,-j),gv=rhG(dd),st2=gv?rhX(dd):null;h+='<button type="button" data-hk="go" data-v="'+dd+'" style="min-width:0;padding:6px 0;border-radius:10px;border:2px solid '+(dd==d?"var(--acc)":"var(--line)")+';background:transparent;color:'+(st2?(st2.bad?"#e5484d":"var(--ok)"):"var(--mute)")+';font-weight:700;line-height:1.2">'+dd.slice(8)+'<small style="display:block">'+(gv?rhS(gv).rest+" ч":"–")+'</small></button>'}
 h+='</div><p class="note" style="margin:8px 0 0">Нормы: отдых не менее 10 часов за сутки и не менее 77 часов за 7 суток (MLC / STCW). Отдых делится не более чем на 2 периода, один из них не короче 6 часов, между периодами отдыха не больше 14 часов. Проверка идёт по любым 24 часам и любым 7 суткам подряд, с учётом соседних заполненных дней: отдых через полночь считается одним периодом. Это подсказка для себя, а не официальный документ.</p>';
+h+='<p class="note" translate="no" style="margin:6px 0 0">'+(window.fmL||function(r){return r})("Исключения: по ПДНВ A-VIII/1 флаг может разрешить сократить отдых до 6 ч подряд — не больше 2 суток подряд и не меньше 70 ч за 7 суток; приложение такие дни помечает как нарушение базовой нормы. Тревоги и учения проводятся так, чтобы меньше мешать отдыху; если они прервали отдых — положен компенсационный отдых (MLC A2.3, п. 7–8). Окончательно решают флаг и судовой график.","Exceptions: under STCW A-VIII/1 the flag State may allow rest to be cut to 6 consecutive hours — for no more than 2 days in a row and with at least 70 hours in any 7 days; the app marks such days as breaking the basic norm. Musters and drills are held so as to disturb rest as little as possible; if they interrupt rest, compensatory rest is due (MLC A2.3, para. 7–8). The flag State and the ship's schedule have the final say.","Винятки: за ПДНВ A-VIII/1 прапор може дозволити скоротити відпочинок до 6 год поспіль — не більше 2 діб поспіль і не менше 70 год за 7 діб; застосунок позначає такі дні як порушення базової норми. Тривоги й навчання проводять так, щоб менше заважати відпочинку; якщо вони перервали відпочинок — належить компенсаційний відпочинок (MLC A2.3, п. 7–8). Остаточно вирішують прапор і судновий графік.")+'</p>';
 c.innerHTML=h}
 document.addEventListener("click",function(e){var b=e.target.closest("[data-hk]");if(!b)return;var a=b.dataset.hk,d=rhD||today;st.rh=st.rh||{};
 if(a=="t"){var v=rhG(d)||"000000000000000000000000",i=+b.dataset.v;st.rh[d]=v.slice(0,i)+(v.charAt(i)=="1"?"0":"1")+v.slice(i+1)}
@@ -1497,7 +1507,10 @@ else if(t.id=="rzt")rzv=t.value;else if(t.id=="gls")glf(t.value)});
 $("mn").addEventListener("change",function(e){var t=e.target;if(t.dataset.aps!==undefined){st.ap[+t.dataset.aps].s=+t.value;save();render()}else if(t.dataset.opt=="big"){st.big=t.checked;save();render()}});
 function refreshAll(){render();edr();dall();qzr();if(typeof bkr=="function"){try{bkS.l=st.bk&&st.bk.l=="en"?"en":"ru";bkS.g=st.bk?+st.bk.g||0:0}catch(e){}bkr()}}
 dqr();dall();glr();
-document.addEventListener("click",function(e){var g=e.target.closest("[data-lang]");if(g){if((st.lang||"ru")!=g.dataset.lang){st.lang=g.dataset.lang;save();location.reload()}return}var b=e.target.closest("[data-prof]");if(!b)return;st.prof=b.dataset.prof;if(st.prof!="el")shs().p=st.prof=="me"?4:5;save();lb={el:0,me:1,na:2}[st.prof];ens={i:0,k:0,st:0,ok:0};qs=null;render();glr();qzr();if(typeof lbr=="function")lbr();toast(PROF[st.prof][0]+" Специальность: "+PROF[st.prof][1])});
+/* Специальность (st.prof) и должность из мастера (st.ux.r) всегда совпадают: выбор специальности меняет должность (ex=1), мастер — специальность (fmProfFromRole). */
+function fmSetProf(p,ex){if(!PROF[p])return;st.prof=p;if(p!="el"&&(ex||!shs().p))shs().p=p=="me"?4:5;if(ex){var u=st.ux=st.ux||{};if(u.r!=p){u.r=p;if(!u.pu)delete u.p;if(window.uxApply)try{uxApply()}catch(x){}}}save();lb={el:0,me:1,na:2}[p];ens={i:0,k:0,st:0,ok:0};qs=null;render();glr();qzr();if(typeof lbr=="function")lbr()}
+window.fmProfFromRole=function(r){if(PROF[r]&&st.prof!=r)fmSetProf(r)};lb={el:0,me:1,na:2}[pf()];
+document.addEventListener("click",function(e){var g=e.target.closest("[data-lang]");if(g){if((st.lang||"ru")!=g.dataset.lang){st.lang=g.dataset.lang;save();location.reload()}return}var b=e.target.closest("[data-prof]");if(!b||!PROF[b.dataset.prof])return;fmSetProf(b.dataset.prof,1);toast(PROF[st.prof][0]+" Специальность: "+PROF[st.prof][1])});
 
 var PHI=[["Различай то, что зависит от тебя, и то, что нет. Силы вкладывай в первое, а второе постарайся принять спокойнее (идея стоиков).","Выпиши одну тревогу и раздели: что в моей власти, а что нет."],["Задавай «почему?» к собственным решениям: на чём основан мой выбор? Это сократовский способ проверять жизнь.","Возьми одно сегодняшнее решение и задай ему три «почему»."],["Аристотель считал, что привычки формируют характер: мы становимся тем, что делаем регулярно.","Выбери одно маленькое действие и повтори его сегодня намеренно."],["Эпикур ценил простые радости и покой. Полезно отличать нужное от лишнего.","Назови три вещи, без которых ты спокойно обойдёшься."],["Стоики (Сенека, Марк Аврелий) напоминали себе о конечности времени, чтобы ценить день. Это не мрачность, а ясность.","Спроси себя вечером: на что я потратил сегодня лучшие часы?"],["Золотая середина Аристотеля: добродетель часто лежит между крайностями, например между скупостью и расточительностью.","Найди сферу, где ты склоняешься к крайности, и выбери середину."]];
 function LSD0(){var a=Object.keys(LS).map(function(k){return{n:LS[k][0],t:LS[k][1]}});a.push({n:"Философия",t:PHI});return a}
@@ -1784,8 +1797,9 @@ function pnCost(x){return Math.ceil(x.x*PNP)}
 function pnDay(k){var it=items(k,wdOf(k)),dd=st.done[k]||{},miss=it.filter(function(x){return!dd[x.id]}),n=it.length-miss.length;
 if(pnHard(k))return{x:0,lt:1,n:n,t:it.length};
 var l=miss.map(function(x){return[x.n,pnCost(x)]});return{x:l.reduce(function(a,b){return a+b[1]},0),l:l,n:n,t:it.length}}
-function pnSnap(){var p=PN(),k=p.s,n=0,add=0,ch=0;
-while(k<today&&n++<400){if(!p.d[k]){p.d[k]=pnDay(k);add+=p.d[k].x;ch=1}k=shift(k,1)}
+/* Дни, когда приложение не открывали (после последнего открытия fm_seen и до сегодня), — без штрафа: {x:0,gap:1}. */
+function pnSnap(){var p=PN(),k=p.s,n=0,add=0,ch=0,ls="";try{ls=localStorage.getItem("fm_seen")||""}catch(e){}if(!/^\d{4}-\d\d-\d\d$/.test(ls))ls="";
+while(k<today&&n++<400){if(!p.d[k]){p.d[k]=ls&&k>ls?{x:0,gap:1}:pnDay(k);add+=p.d[k].x;ch=1}k=shift(k,1)}
 var old=shift(today,-15);for(k in p.d)if(k<old&&p.d[k].l){delete p.d[k].l;ch=1}
 for(k in p.w)if(k<today){delete p.w[k];ch=1}
 if(ch)save();return add}
@@ -1808,7 +1822,7 @@ if(y<p.s)s+=fmL('<p class="note">Штрафы считаются с ','<p class=
 else if(yd){s+=fmL('<h4 style="margin:12px 0 4px">Итоги вчера</h4>','<h4 style="margin:12px 0 4px">Yesterday</h4>','<h4 style="margin:12px 0 4px">Підсумки вчора</h4>');
 if(yd.lt||yd.off)s+=fmL('<p class="note">Был тяжёлый день, без штрафов.</p>','<p class="note">It was a hard day, no penalties.</p>','<p class="note">Був важкий день, без штрафів.</p>');
 else if(!yd.x)s+=fmL('<p class="note">Без штрафов 👍</p>','<p class="note">No penalties 👍</p>','<p class="note">Без штрафів 👍</p>');else s+=fmL('<p style="margin:0">Штраф: <span class="mx">−','<p style="margin:0">Penalty: <span class="mx">−','<p style="margin:0">Штраф: <span class="mx">−')+yd.x+' XP</span></p>'+(yd.l?pnList(yd.l):"")}
-var rows="";for(var i=7;i>=1;i--){var k=shift(today,-i),e=p.d[k];if(!e)continue;rows+='<li><span>'+pnDate(k)+(e.t?' · '+e.n+fmL(' из ',' of ',' з ')+e.t:'')+'</span><span'+(e.x?' class="mx">−'+e.x+' XP':'>'+(e.lt||e.off?'🛡️':'✅'))+'</span></li>'}
+var rows="";for(var i=7;i>=1;i--){var k=shift(today,-i),e=p.d[k];if(!e)continue;rows+='<li><span>'+pnDate(k)+(e.t?' · '+e.n+fmL(' из ',' of ',' з ')+e.t:'')+'</span><span'+(e.x?' class="mx">−'+e.x+' XP':'>'+(e.lt||e.off?'🛡️':e.gap?'💤':'✅'))+'</span></li>'}
 if(rows)s+=fmL('<h4 style="margin:12px 0 4px">Последние 7 дней</h4>','<h4 style="margin:12px 0 4px">Last 7 days</h4>','<h4 style="margin:12px 0 4px">Останні 7 днів</h4>')+'<ul>'+rows+'</ul>';
 s+=fmL('<p class="note" style="margin:10px 0 4px">Всего штрафов: −','<p class="note" style="margin:10px 0 4px">All penalties: −','<p class="note" style="margin:10px 0 4px">Усього штрафів: −')+pnTotal()+' XP.</p>';
 var left=pnHardLeft();
@@ -3173,7 +3187,7 @@ O.addEventListener("click",function(e){var b=e.target.closest("button");if(!b||b
  if(b.dataset.g=="r"){selR=b.dataset.k;wr()}else if(b.dataset.g=="i"){var i=selI.indexOf(b.dataset.k);if(i>=0)selI.splice(i,1);else selI.push(b.dataset.k);wr()}
  else if(b.dataset.uxw=="next"){step=2;wr();O.scrollTop=0}else if(b.dataset.uxw=="back"){step=1;wr()}
  else if(b.dataset.uxw=="skip"){u.ob=1;u.all=1;if(!u.r)u.r="ot";setName();try{save()}catch(x){}wClose();apply();if(window.rtCard)rtCard()}
- else if(b.dataset.uxw=="done"){var nr=selR||"ot",ch=u.r!=nr;u.r=nr;u.i=selI.slice();u.ob=1;u.all=0;if(ch&&!u.pu)delete u.p;setName();try{save()}catch(x){}wClose();apply();if(window.rtCard)rtCard();var n=document.querySelector('#nav [data-n="today"]');if(n)n.click();scrollTo(0,0)}});
+ else if(b.dataset.uxw=="done"){var nr=selR||"ot",ch=u.r!=nr;u.r=nr;u.i=selI.slice();u.ob=1;u.all=0;if(ch&&!u.pu)delete u.p;setName();try{save()}catch(x){}if(window.fmProfFromRole)try{fmProfFromRole(nr)}catch(x){}wClose();apply();if(window.rtCard)rtCard();var n=document.querySelector('#nav [data-n="today"]');if(n)n.click();scrollTo(0,0)}});
 window.uxWizard=wOpen;window.uxApply=apply;window.uxShow=show;
 /* «🎛️ Что показывать» в «Профиле» → «Настройки» */
 function uxpr(){var c=document.getElementById("uxp");if(!c)return;var tl=P.uxp&&P.uxp.b;if(tl){tl.hidden=false;if(tl.firstChild)tl.firstChild.textContent="🎛️";if(tl.lastChild)tl.lastChild.textContent=L("Что показывать","What to show","Що показувати")}var u=U(),r=ROLES.filter(function(a){return a[0]==u.r})[0],I=INT.filter(function(a){return has(u.i||[],a[0])});
@@ -4494,7 +4508,10 @@ if(window.flmDraw)flmDraw()})();
 window.fmWipeFiles=function(){var ls=localStorage,C=window.Capacitor,F=C&&C.isNativePlatform&&C.isNativePlatform()&&C.Plugins&&C.Plugins.Filesystem,no=function(){};
  try{var m=JSON.parse(ls.getItem("fm_flv")||"{}")||{};if(F)Object.keys(m).forEach(function(i){(m[i]||[]).forEach(function(x){if(typeof x[0]=="string")F.deleteFile({path:x[0]}).catch(no)})})}catch(e){}
  ["fm-books","fm-video","fm-backup"].forEach(function(n){try{indexedDB.deleteDatabase(n)}catch(e){}});
- ["fm_flv","fm_flvpos","fm_bkx"].forEach(function(k){try{ls.removeItem(k)}catch(e){}});
+ ["fm_flv","fm_flvpos","fm_bkx","fm_rem"].forEach(function(k){try{ls.removeItem(k)}catch(e){}});
+ /* напоминания на телефоне: документы 1000–1999 и «Напоминания» 3000–3099 */
+ try{var N=C&&C.isNativePlatform&&C.isNativePlatform()&&((C.Plugins&&C.Plugins.LocalNotifications)||(C.registerPlugin?C.registerPlugin("LocalNotifications"):null));
+ if(N)N.getPending().then(function(r){var ids=((r&&r.notifications)||[]).map(function(n){return n.id}).filter(function(i){return i>=1000&&i<2000||i>=3000&&i<3100});return ids.length?N.cancel({notifications:ids.map(function(i){return{id:i}})}):0}).catch(no)}catch(e){}
  if(F)["LIBRARY","LIBRARY_NO_CLOUD","CACHE"].forEach(function(d){try{F.rmdir({path:"fmvid",directory:d,recursive:true}).catch(no)}catch(e){}});
  if(window.fmAudit)try{fmAudit("reset")}catch(e){}};
 </script>
@@ -5060,7 +5077,7 @@ function setMeta(a){try{localStorage.setItem(MK,JSON.stringify(a))}catch(e){}}
 function db(){return DB||(DB=new Promise(function(ok,no){if(!window.indexedDB)return no(Error("no indexedDB"));var r=indexedDB.open("fm-backup",1);r.onupgradeneeded=function(){r.result.createObjectStore("b",{keyPath:"id"})};r.onsuccess=function(){ok(r.result)};r.onerror=function(){DB=null;no(r.error)}}))}
 function tx(mode,fn){return db().then(function(d){return new Promise(function(ok,no){var t=d.transaction("b",mode),q=fn(t.objectStore("b")),res;if(q)q.onsuccess=function(){res=q.result};t.oncomplete=function(){ok(res)};t.onerror=t.onabort=function(){no(t.error)}})})}
 /* Что входит в копию: прогресс и настройки fm_*, кроме журнала, очереди, счётчика попыток PIN и режима разработчика */
-function pack(){var o={app:"fac-modo",v:st._v||FMV,st:st,ls:{}},i,k;for(i=0;i<localStorage.length;i++){k=localStorage.key(i);if(/^fm_/.test(k)&&!/^fm_(flv|log|dlq|pintry|dev|bkx|flags|alert)/.test(k))o.ls[k]=localStorage.getItem(k)}return JSON.stringify(o)}
+function pack(){var o={app:"fac-modo",v:st._v||FMV,st:st,ls:{}},i,k;for(i=0;i<localStorage.length;i++){k=localStorage.key(i);if(/^fm_/.test(k)&&!/^fm_(flv|log|dlq|pintry|dev|bkx|flags|alert|broken)/.test(k))o.ls[k]=localStorage.getItem(k)}return JSON.stringify(o)}
 /* Проверка восстановления (restore test): копию можно прочитать, данные на месте, миграция до текущей версии проходит */
 function check(t){try{var o=JSON.parse(t);if(!o||o.app!="fac-modo"||!o.st||typeof o.st!="object")return false;var m=fmMigrate(JSON.parse(JSON.stringify(o.st)));
  if(!m||typeof m.done!="object"||!m.done||typeof m.custom!="object"||!m.custom||typeof m.bonus!="object"||!m.bonus)return false;
