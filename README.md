@@ -50,6 +50,8 @@ https://github.com/Azazello2508/Fac-modo/releases/download/android-apk/FacModo.a
 
 Новые версии ставятся поверх старой, данные сохраняются. Резервная копия и таблицы сохраняются в «Документы → Fac Modo».
 
+В Google Play приложения пока нет: подготовка описана в `store/google-play.md` (сборка `FacModo.aab` уже делается сама).
+
 ## Как обновляется
 
 1. Правка попадает в ветку `main` (сразу или через Pull Request).
