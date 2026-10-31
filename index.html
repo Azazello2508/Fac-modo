@@ -2541,7 +2541,10 @@ if(d.pkx=="def"&&confirm(L("Вернуть стандартный список? 
 
 /* ---------- Перенос на новый телефон без интернета ---------- */
 var TR={buf:[],n:0,role:""};
-function trData(){var o={app:"fac-modo",st:st,ls:{}};for(var i=0;i<localStorage.length;i++){var k=localStorage.key(i);if(/^fm_/.test(k)&&!/^fm_flv/.test(k))o.ls[k]=localStorage.getItem(k)}return JSON.stringify(o)}
+/* Не переносятся ключи этого телефона: журнал, очередь, PIN-попытки, режим разработчика, список автокопий, флаги, предупреждения, повреждённые данные,
+   самообновление и магазинный режим (fm_ota*, fm_store), свои видео и место просмотра (fm_flv*: файлов на другом телефоне нет). Получатель их тоже пропускает. */
+var TRX=/^fm_(flv|log|dlq|pintry|dev|bkx|flags|alert|broken|ota|store|hc)/;
+function trData(){var o={app:"fac-modo",st:st,ls:{}};for(var i=0;i<localStorage.length;i++){var k=localStorage.key(i);if(/^fm_/.test(k)&&!TRX.test(k))o.ls[k]=localStorage.getItem(k)}return JSON.stringify(o)}
 function trMsg(t){var e=$("trp");if(e)e.textContent=t}
 function trSink(m){if(m.fm=="net-ready"){if(TR.role=="send")trSend();else trMsg(L("Соединено. Получаю данные…","Connected. Receiving data…","З'єднано. Отримую дані…"));return}
 if(m.fm=="net-closed"){if(TR.role&&TR.role!="done")trMsg(L("Связь прервалась. Попробуй ещё раз.","The connection dropped. Try again.","Зв'язок перервався. Спробуй ще раз."));return}
@@ -2550,7 +2553,8 @@ if(d.t=="h"){if(TR.role=="send"||TR.role=="done"||!Number.isInteger(d.n)||d.n<1|
 if(d.t=="c"){if(TR.role!="recv"||!Number.isInteger(d.i)||d.i<0||d.i>=TR.n||typeof d.s!="string")return;TR.buf[d.i]=d.s;var got=TR.buf.filter(function(x){return x!=null}).length;trMsg(L("Получено ","Received ","Отримано ")+Math.round(got/TR.n*100)+"%");return}
 if(d.t=="e"){if(TR.role!="recv")return;var full=TR.buf.length==TR.n,o=null;for(var ci=0;ci<TR.n;ci++)if(typeof TR.buf[ci]!="string")full=false;
 if(full)try{o=JSON.parse(TR.buf.join(""))}catch(x){}
-if(o&&(typeof o.ls!="object"||!o.ls||Array.isArray(o.ls)||Object.keys(o.ls).some(function(k){return!/^fm_/.test(k)||/^fm_flv/.test(k)||typeof o.ls[k]!="string"})))o=null;
+if(o&&(typeof o.ls!="object"||!o.ls||Array.isArray(o.ls)||Object.keys(o.ls).some(function(k){return!/^fm_/.test(k)||typeof o.ls[k]!="string"})))o=null;
+if(o)Object.keys(o.ls).forEach(function(k){if(TRX.test(k))delete o.ls[k]});
 if(!o||o.app!="fac-modo"||!o.st||typeof o.st!="object"){TR.role="";TR.buf=[];trMsg(L("Данные пришли с ошибкой. Попробуй ещё раз.","The data arrived damaged. Try again.","Дані прийшли з помилкою. Спробуй ще раз."));gnSend({t:"bad"});return}
 if(!confirm(L("Заменить всё на этом телефоне данными со старого телефона? Уровень, квесты, дневник и настройки станут как там.","Replace everything on this phone with the data from the old phone? Level, quests, diary and settings will become the same as there.","Замінити все на цьому телефоні даними зі старого телефона? Рівень, квести, щоденник і налаштування стануть як там."))){gnSend({t:"no"});trMsg(L("Перенос отменён.","Transfer cancelled.","Перенесення скасовано."));setTimeout(gnClose,500);return}
 try{fmTx(function(){for(var k in o.ls)localStorage.setItem(k,o.ls[k]);applyData(JSON.stringify(o.st))});if(window.fmAudit)fmAudit("transfer-in");TR.role="done";gnSend({t:"ok"});trMsg("✅ "+L("Готово! Все данные перенесены.","Done! All data has been moved.","Готово! Усі дані перенесено."));toast("✅ "+L("Данные перенесены","Data moved","Дані перенесено"))}
