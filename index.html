@@ -3252,7 +3252,7 @@ var fm=document.getElementById("fmm");if(fm&&typeof tdr=="function")new Mutation
 fstSh()});
 </script>
 <style id="one-css">/* Объединённые разделы: одна плитка — несколько разделов вкладками вверху окна (блок one-js) */
-#onet{display:flex;gap:6px;overflow-x:auto;padding:0 12px 8px;scrollbar-width:none;-webkit-overflow-scrolling:touch}#onet::-webkit-scrollbar{display:none}#onet[hidden]{display:none}
+#onet{display:flex;flex-shrink:0;gap:6px;overflow-x:auto;padding:0 12px 8px;scrollbar-width:none;-webkit-overflow-scrolling:touch}#onet::-webkit-scrollbar{display:none}#onet[hidden]{display:none}
 #onet button{flex:0 0 auto;min-height:40px;padding:0 14px;border-radius:99px;border:1px solid var(--line);background:var(--card);color:var(--ink);font:inherit;font-size:14.5px;font-weight:700;cursor:pointer;white-space:nowrap}
 #onet button[aria-selected=true]{background:var(--acc);border-color:var(--acc);color:#0e1424}
 #fmc>section.oneh{display:none!important}
@@ -3425,7 +3425,7 @@ m.addEventListener("click",function(e){var x=e.target.closest("[data-qa]");if(!x
 document.addEventListener("click",function(e){if(!e.target.closest("#qam,#qab"))close()})});
 </script>
 <style id="hn-css">/* Подсказка при первом входе в раздел (блок hn-js) */
-#hnt{margin:0 12px 8px;padding:10px 12px;border-radius:12px;border:1px dashed var(--acc);background:color-mix(in srgb,var(--acc) 10%,var(--card));font-size:14px;line-height:1.45;display:flex;gap:10px;align-items:flex-start}#hnt[hidden]{display:none}
+#hnt{flex-shrink:0;margin:0 12px 8px;padding:10px 12px;border-radius:12px;border:1px dashed var(--acc);background:color-mix(in srgb,var(--acc) 10%,var(--card));font-size:14px;line-height:1.45;display:flex;gap:10px;align-items:flex-start}#hnt[hidden]{display:none}
 #hnt span{flex:1}#hnt button{flex:0 0 auto;min-height:38px;padding:0 12px;border-radius:10px;border:1px solid var(--line);background:var(--bg);color:var(--acc);font:inherit;font-size:14px;font-weight:700;cursor:pointer}
 </style>
 <script id="hn-js">/* Подсказка «как этим пользоваться» при первом входе в раздел: одна строка над разделом, «Понятно» прячет её навсегда (localStorage fm_hint).
