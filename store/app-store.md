@@ -136,7 +136,7 @@ Fac Modo — помічник для моряків. Він допомагає �
 ```
 Fac Modo is a companion app for merchant seafarers. It works fully offline; there is no login, no account and no server — all user data is stored locally on the device (WKWebView storage), so no demo account is needed.
 
-How to try it: Missions tab → Daily quests (tick a quest to earn XP); Knowledge tab → Navigator's tools (compass, sextant, stars, collision risk calculators); Leisure tab → games, books, sleep sounds.
+How to try it: the home screen is a ship deck. On the deck, “My day” → Quests (tick a quest to earn XP); room Bridge → Navigator's tools (compass, sextant, stars, collision risk calculators); room Mess room → games, books, sleep sounds; room My cabin → Settings (backup, reset).
 
 Content notes:
 - Books (Project Gutenberg, Wikisource) and films in the "Free to download" genre (Internet Archive) are public-domain works; other films only link to JustWatch, which lists legal services. The app does not download from YouTube or any streaming service.

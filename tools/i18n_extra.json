@@ -40,11 +40,6 @@
 1
 ],
 [
-"Крупный текст",
-"Large text",
-1
-],
-[
 "❄️ Заморозить серию на сегодня",
 "❄️ Freeze streak for today",
 1
@@ -345,7 +340,7 @@
 1
 ],
 [
-"Покажет список роликов по теме. Нажмите на ролик, и он откроется в TikTok, Instagram или YouTube. Нужен интернет.",
+"Покажет список роликов по теме. Нажми на ролик, и он откроется в TikTok, Instagram или YouTube. Нужен интернет.",
 "Shows a list of videos on the topic. Tap a video and it opens in TikTok, Instagram or YouTube. Internet required.",
 1
 ],
@@ -540,16 +535,6 @@
 1
 ],
 [
-"Отдых за сутки: # ч — в норме",
-"Rest in 24 h: # h — OK",
-1
-],
-[
-"Отдых за сутки: # ч — меньше нормы (# ч)",
-"Rest in 24 h: # h — below the minimum (# h)",
-1
-],
-[
 "Разбивка отдыха — в норме",
 "Rest split — OK",
 1
@@ -587,11 +572,6 @@
 [
 "День не заполнен. Отметь часы работы или нажми «Выходной».",
 "This day is empty. Mark your working hours or tap “Day off”.",
-1
-],
-[
-"Нормы: отдых не менее # часов за сутки и не менее # часов за # суток (MLC / STCW). Отдых делится не более чем на # периода, один из них не короче # часов, между периодами отдыха не больше # часов. Проверка упрощённая, по календарным суткам: это подсказка для себя, а не официальный документ.",
-"Limits: at least # hours of rest in any 24 hours and at least # hours in any # days (MLC / STCW). Rest may be split into no more than # periods, one of at least # hours, and the interval between rest periods must not exceed # hours. This check is simplified and uses calendar days: it is a personal guide, not an official record.",
 1
 ],
 [
@@ -860,12 +840,12 @@
 1
 ],
 [
-"У вас по контрактам: # мес.",
+"У тебя по контрактам: # мес.",
 "Your contracts: # months",
 1
 ],
 [
-"У вас по контрактам: # мес., из них на нужной должности: # мес.",
+"У тебя по контрактам: # мес., из них на нужной должности: # мес.",
 "Your contracts: # months, of which in the required rank: # months",
 1
 ],
@@ -890,7 +870,7 @@
 1
 ],
 [
-"Это ориентир по Конвенции ПДНВ (STCW). Точные требования устанавливает администрация вашего флага и работодатель: сверься с ними перед подачей документов. Пункты с пометкой «по месту работы» нужны не всем. Документы берутся из раздела «Документы и сроки», стаж из раздела «Контракты и стаж»; остальное отмечай галочкой сам.",
+"Это ориентир по Конвенции ПДНВ (STCW). Точные требования устанавливает администрация твоего флага и работодатель: сверься с ними перед подачей документов. Пункты с пометкой «по месту работы» нужны не всем. Документы берутся из раздела «Документы и сроки», стаж из раздела «Контракты и стаж»; остальное отмечай галочкой сам.",
 "This is a guide based on the STCW Convention. The exact requirements are set by your flag administration and employer: check with them before submitting documents. Items marked “depending on your job” are not needed by everyone. Documents are taken from the “Documents and expiry dates” section and sea service from “Contracts and sea service”; tick the rest yourself.",
 1
 ],
@@ -1537,11 +1517,6 @@
 [
 "Отметь часы работы за сегодня",
 "Mark today's work hours",
-1
-],
-[
-"Сделай резервную копию (Настройки)",
-"Make a backup (Settings)",
 1
 ],
 [
@@ -2552,11 +2527,6 @@
 [
 "Тип",
 "Type",
-1
-],
-[
-"Сумма, USD",
-"Amount, USD",
 1
 ],
 [
@@ -4740,11 +4710,6 @@
 1
 ],
 [
-"🍿 Досуг",
-"🍿 Leisure",
-1
-],
-[
 "🎬 Фильмы и сериалы",
 "🎬 Films and series",
 1
@@ -5150,7 +5115,7 @@
 1
 ],
 [
-"В этом жанре нет книг такого уровня — выберите другой жанр или «Все жанры».",
+"В этом жанре нет книг такого уровня — выбери другой жанр или «Все жанры».",
 "There are no books of this level in this genre — choose another genre or “All genres”.",
 1
 ],
@@ -5710,8 +5675,8 @@
 1
 ],
 [
-"Хочешь все вкладки в нижнем меню: Профиль → Внешний вид → Вид приложения → Полный.",
-"Want all tabs in the bottom menu? Profile → Appearance → App view → Full.",
+"Хочешь видеть все разделы: Моя каюта → Настройки → Внешний вид → Вид приложения → Полный.",
+"Want to see all sections? My cabin → Settings → Appearance → App view → Full.",
 1
 ],
 [
@@ -6052,6 +6017,46 @@
 [
 "Уильям Шекспир, «Гамлет»",
 "William Shakespeare, “Hamlet”",
+1
+],
+[
+"Редактор расписания находится на палубе: «Мой день» → «Расписание».",
+"The schedule editor is on the deck: “My day” → “Schedule”.",
+1
+],
+[
+"⚓ Моя каюта",
+"⚓ My cabin",
+1
+],
+[
+"🛋️ Кают-компания",
+"🛋️ Mess room",
+1
+],
+[
+"🏠 Дом и берег",
+"🏠 Home and shore",
+1
+],
+[
+"Раздел",
+"Section",
+1
+],
+[
+"Закрыть",
+"Close",
+1
+],
+[
+"Цена в монетах",
+"Price in coins",
+1
+],
+[
+"Сумма, USD",
+"Amount, USD",
 1
 ]
 ]
