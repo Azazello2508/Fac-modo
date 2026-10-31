@@ -489,7 +489,7 @@ window.fmDLQ={on:function(kind,fn){H[kind]=fn},
  retry:function(kind,key){var x=rd(QK).filter(function(y){return y.k==kind&&y.key==String(key)})[0];if(x&&H[x.k]){H[x.k](x.key,x);return true}return false}};
 /* Миграции данных: у сохранения есть номер версии st._v. Шаги выполняются по порядку на копии, при ошибке остаются старые данные. */
 /* Флаги функций: включить или выключить часть приложения без новой версии кода (меняет разработчик в разделе «🩺»; хранится в fm_flags) */
-var FLAGS={autobackup:true,alerts:true,doclock:true};
+var FLAGS={autobackup:true,alerts:true,doclock:true,gamebox:false};
 window.fmFlag=function(k){try{var o=JSON.parse(localStorage.getItem("fm_flags")||"{}");if(o&&typeof o[k]=="boolean")return o[k]}catch(e){}return FLAGS[k]!==false};
 fmFlag.all=function(){var r={},k;for(k in FLAGS)r[k]=fmFlag(k);return r};
 fmFlag.set=function(k,v){try{var o=JSON.parse(localStorage.getItem("fm_flags")||"{}")||{};o[k]=!!v;localStorage.setItem("fm_flags",JSON.stringify(o))}catch(e){}fmLog("info","audit:flag",{flag:k,on:!!v})};
@@ -1633,7 +1633,7 @@ e.stopPropagation();e.preventDefault();toast("Сначала впиши: "+(f[0]
 
 /* Игры (Танчики, Самолётики): открываются поверх приложения и полностью закрываются при выходе */
 function fmGame(src,title){var w=$("tkw"),f=document.createElement("iframe"),b=atob($(src).textContent.trim()),u=new Uint8Array(b.length);
-for(var i=0;i<b.length;i++)u[i]=b.charCodeAt(i);f.title=title;f.srcdoc=new TextDecoder().decode(u);
+for(var i=0;i<b.length;i++)u[i]=b.charCodeAt(i);f.title=title;var gh=new TextDecoder().decode(u);if(window.fmGbx&&fmFlag("gamebox"))gh=fmGbx(f,src,gh);f.srcdoc=gh;
 w.appendChild(f);w.hidden=false;document.body.style.overflow="hidden";f.onload=function(){try{f.contentWindow.focus()}catch(e){}}}
 $("tkgo").onclick=function(){fmGame("tk-src","Танчики")};
 $("smgo").onclick=function(){fmGame("sm-src","Самолётики")};
@@ -3931,8 +3931,41 @@ if(UL){new MutationObserver(row).observe(UL,{childList:true});UL.addEventListene
 html,body{touch-action:manipulation;-webkit-text-size-adjust:100%;text-size-adjust:100%}</style>
 <script id="nz-js">/* iPhone: запрет щипка и двойного касания; то же внутри игр (iframe) */
 (function(){function stop(e){e.preventDefault()}["gesturestart","gesturechange","gestureend"].forEach(function(t){document.addEventListener(t,stop,{passive:false})});
-function fix(f){try{var d=f.contentDocument;if(!d||!d.documentElement||d.documentElement.getAttribute("data-nz"))return;d.documentElement.setAttribute("data-nz","1");var st=d.createElement("style");st.textContent="html,body{touch-action:manipulation}";(d.head||d.documentElement).appendChild(st);["gesturestart","gesturechange","gestureend"].forEach(function(t){d.addEventListener(t,stop,{passive:false})})}catch(e){}}
+function fix(f){if(f.hasAttribute("sandbox"))return;try{var d=f.contentDocument;if(!d||!d.documentElement||d.documentElement.getAttribute("data-nz"))return;d.documentElement.setAttribute("data-nz","1");var st=d.createElement("style");st.textContent="html,body{touch-action:manipulation}";(d.head||d.documentElement).appendChild(st);["gesturestart","gesturechange","gestureend"].forEach(function(t){d.addEventListener(t,stop,{passive:false})})}catch(e){}}
 new MutationObserver(function(ms){ms.forEach(function(m){[].forEach.call(m.addedNodes,function(n){if(n.tagName=="IFRAME"){fix(n);n.addEventListener("load",function(){fix(n)})}else if(n.querySelectorAll)[].forEach.call(n.querySelectorAll("iframe"),function(f){fix(f);f.addEventListener("load",function(){fix(f)})})})})}).observe(document.documentElement,{childList:true,subtree:true})})();</script>
+<script id="gbx-js">/* Песочница для встроенных игр (флаг gamebox в «Для разработчиков», по умолчанию выключен).
+   Включён: iframe игры получает sandbox="allow-scripts" (без allow-same-origin) — игра не видит quest-v2, fm_* и родительскую страницу.
+   В srcdoc перед кодом игры вставляется boot(): заменяет localStorage своей копией с ключами только этой игры (K),
+   каждое изменение уходит родителю {fmgs:1,k,v}; родитель принимает его только от окна этой игры, только ключи из K и не длиннее 200 000 знаков.
+   Ключи те же, что и без песочницы, — сохранения видны в обоих режимах. Там же запрет щипка (nz-js не достаёт в песочницу) и вибрация через родителя {fmgv:1,p}. */
+(function(){
+var K={"dr-src":[],"db-src":["fm_debertz"],"cs-src":["fm_chess"],"cr-src":["fm_checkers"],"nd-src":["fm_nardy"],"mb-src":["fm_morboy"],"su-src":["fm_sudoku"],"p15-src":["fm_15"],"kw-src":["fm_kross"],"g2-src":["fm_2048"],"sm-src":["samolety_best"],"tk-src":["ta","tb"]},MAX=200000,cur=null;
+function boot(D){var W=window,P=W.parent,H=Object.prototype.hasOwnProperty;
+ function mk(d,ps){var s=Object.create(null),o={},k;for(k in d)if(H.call(d,k))s[k]=String(d[k]);
+  function send(k,v){if(ps)try{P.postMessage({fmgs:1,k:k,v:v},"*")}catch(e){}}
+  o.getItem=function(k){k=String(k);return k in s?s[k]:null};
+  o.setItem=function(k,v){k=String(k);v=String(v);s[k]=v;send(k,v)};
+  o.removeItem=function(k){k=String(k);if(k in s){delete s[k];send(k,null)}};
+  o.clear=function(){Object.keys(s).forEach(o.removeItem)};
+  o.key=function(i){var a=Object.keys(s);return i>=0&&i<a.length?a[i]:null};
+  Object.defineProperty(o,"length",{get:function(){return Object.keys(s).length}});return o}
+ W.__fmLS=mk(D,1);W.__fmSS=mk({},0);
+ try{Object.defineProperty(W,"localStorage",{value:W.__fmLS,configurable:true,writable:true});Object.defineProperty(W,"sessionStorage",{value:W.__fmSS,configurable:true,writable:true})}
+ catch(e){var t=document.createElement("script");t.textContent="let localStorage=__fmLS,sessionStorage=__fmSS;";(document.head||document.documentElement).appendChild(t)}
+ try{if(typeof navigator.vibrate=="function")navigator.vibrate=function(p){try{P.postMessage({fmgv:1,p:p},"*")}catch(e){}return true}}catch(e){}
+ function stop(e){e.preventDefault()}["gesturestart","gesturechange","gestureend"].forEach(function(t){document.addEventListener(t,stop,{passive:false})});
+ function css(){var s=document.createElement("style");s.textContent="html,body{touch-action:manipulation}";(document.head||document.documentElement).appendChild(s)}
+ if(document.readyState=="loading")document.addEventListener("DOMContentLoaded",css);else css()}
+window.fmGbx=function(f,src,h){var ks=K[src]||[],D={};ks.forEach(function(k){try{var v=localStorage.getItem(k);if(v!==null)D[k]=v}catch(e){}});
+ f.setAttribute("sandbox","allow-scripts");f.setAttribute("allow","autoplay; clipboard-write");cur={f:f,k:ks};
+ var s="<script>("+boot+")("+JSON.stringify(D).replace(/</g,"\\u003c").replace(/\u2028/g,"\\u2028").replace(/\u2029/g,"\\u2029")+");<\/script>",m=/<head[^>]*>/i.exec(h);
+ return m?h.slice(0,m.index+m[0].length)+s+h.slice(m.index+m[0].length):s+h};
+addEventListener("message",function(e){var m=e.data;if(!cur||!m||typeof m!="object"||!cur.f.isConnected||e.source!==cur.f.contentWindow)return;
+ if(m.fmgs===1){var k=m.k,v=m.v;if(typeof k!="string"||cur.k.indexOf(k)<0)return;
+  try{if(v===null)localStorage.removeItem(k);else if(typeof v=="string"&&v.length<=MAX)localStorage.setItem(k,v);else if(window.fmLog)fmLog("warn","gamebox:big",{k:k})}catch(x){}}
+ else if(m.fmgv===1){var p=m.p;if(typeof p=="number"||(Array.isArray(p)&&p.length<=20&&p.every(function(x){return typeof x=="number"})))try{if(navigator.vibrate)navigator.vibrate(p)}catch(x){}}});
+})();
+</script>
 <style id="srf-css">/* Справочник моряка (#srf): темы-карточки, короткие строки, подробности по нажатию */
 #srf .srq{display:flex;align-items:center;gap:8px;min-height:44px;padding:0 12px;margin:0 0 10px;border-radius:12px;border:1px solid var(--line);background:var(--bg)}
 #srf .srq input{flex:1;min-width:0;border:0;background:transparent;color:var(--ink);font:inherit;font-size:16px;outline:none}
