@@ -1116,7 +1116,7 @@ function dtool(){[].forEach.call(document.querySelectorAll("#d3 .sw"),function(b
 function dfd(){var ks=Object.keys(st.dr||{}).filter(function(k){var r=st.dr[k];return r.note||r.img||r.mood}).sort().reverse().slice(0,14),mo=["😞","😕","😐","🙂","😄"],bars=[],i;
 for(i=6;i>=0;i--){var d=new Date(now);d.setDate(d.getDate()-i);bars.push([D[(d.getDay()+6)%7],dr0(iso(d)).mood||0])}
 $("d4").innerHTML='<h3>Мои записи и настроение</h3><div class="spark">'+bars.map(function(b){return'<div><i style="height:'+(b[1]*20)+'%;background:var(--ok)"></i><small>'+(b[1]?mo[b[1]-1]:b[0])+'</small></div>'}).join("")+'</div>'+(ks.length?ks.map(function(k){var r=st.dr[k];return'<div class="fd" data-dgo="'+esc(k)+'"><b>'+esc(k.slice(5))+'</b><span>'+(r.mood?mo[r.mood-1]+" ":"")+esc((r.note||"").slice(0,70))+'</span>'+(okImg(r.img)?'<img src="'+r.img+'" alt="">':"<span></span>")+'</div>'}).join(""):'<p class="note">Пока пусто. Начни с настроения и пары строк.</p>')}
-function ltr(){var k=iso(dateOf(day)),on=!!(st.light&&st.light[k]);$("lt").innerHTML='<button type="button" data-x="light" class="alt'+(on?" cur":"")+'">'+(on?"Тяжёлый день: хватит 3 дел":"Тяжёлый день: нужно только 3 дела")+'</button>'}
+function ltr(){var k=iso(dateOf(day)),on=!!(st.light&&st.light[k]);$("lt").innerHTML='<button type="button" data-x="light" class="alt'+(on?" cur":"")+'"'+(k!==today?" disabled":"")+'>'+(on?"Тяжёлый день: хватит 3 дел":"Тяжёлый день: нужно только 3 дела")+'</button>'}
 
 /* График навыков за неделю и соревнование с другом */
 function catDay(k){var r={},dd=st.done[k]||{};for(var id in dd){if(id.slice(0,2)=="a_")continue;var e=dd[id];if(e&&CAT[e.c])r[e.c]=(r[e.c]||0)+(+e.x||0)}var q=((st.qz&&st.qz.d)||{})[k]||0;if(q)r.study=(r.study||0)+q;return r}
@@ -1490,7 +1490,7 @@ else if(a=="deras"){DC.e=1;dtool()}
 else if(a=="dund"){if(ust.length)cvx.putImageData(ust.pop(),0,0)}
 else if(a=="dclr"){ust.push(cvx.getImageData(0,0,600,320));cvx.fillStyle="#fff";cvx.fillRect(0,0,600,320)}
 else if(a=="dsave"){dset(dy,"img",$("cv").toDataURL("image/jpeg",.7));toast("Рисунок сохранён");if(dy==today){st.done[today]=st.done[today]||{};if(!st.done[today].dd){st.done[today].dd={x:10,c:"read"};save()}}render()}
-else if(a=="light"){var k=iso(dateOf(day));st.light=st.light||{};if(st.light[k])delete st.light[k];else st.light[k]=1;var bb=fixBonus();save();render(bb)}
+else if(a=="light"){var k=iso(dateOf(day));if(k!==today)return;st.light=st.light||{};if(st.light[k])delete st.light[k];else st.light[k]=1;var bb=fixBonus();save();render(bb)}
 else if(a=="freeze"){st.fz=st.fz||{};st.fz[today]=1;save();render();toast("❄️ Серия заморожена")}
 else if(a=="rwa"){var rn=$("rwn").value.trim(),rc=+$("rwc").value;if(!rn||rc<1)return;(st.rw=st.rw||[]).push({t:rn,c:Math.round(rc)});save();render()}
 else if(a=="buy"){var R=st.rw[+v],co=Math.floor(calc().xp/10)-(st.sp||0);if(R&&co>=R.c){st.sp=(st.sp||0)+R.c;R.b=(R.b||0)+1;save();render();toast("🎁 Награда получена: "+R.t)}}
@@ -1835,6 +1835,8 @@ document.addEventListener("click",function(e){var b=e.target.closest("[data-pn]"
 if(pnHard(today))pnSet(today,0);else if(pnHardLeft()>0){pnSet(today,1);toast(fmL("🛡️ Тяжёлый день: сегодня без штрафов","🛡️ Hard day: no penalties today","🛡️ Важкий день: сьогодні без штрафів"))}});
 /* Кнопка «Тяжёлый день» в квестах дня: не больше двух в неделю */
 window.addEventListener("click",function(e){var b=e.target.closest&&e.target.closest('[data-x="light"]');if(!b)return;var k=iso(dateOf(day));
+/* Тяжёлый день — только сегодня: задним числом (уйти от штрафа, получить бонус) и заранее нельзя */
+if(k!==today){e.stopImmediatePropagation();e.preventDefault();toast(fmL("Тяжёлый день можно отметить только сегодня","A hard day can only be set for today","Важкий день можна відмітити лише сьогодні"));return}
 if(!pnHard(k)&&pnWeekHard(k).length>=PNL){e.stopImmediatePropagation();e.preventDefault();toast(fmL("На этой неделе уже "+PNL+" тяжёлых дня","You already have "+PNL+" hard days this week","Цього тижня вже "+PNL+" важких дні"))}},true);
 /* Подсказка в квестах дня: сколько снимут за каждый незакрытый квест */
 function pnq(){var lt=$("lt");if(!lt)return;var q=$("pnq");if(!q){q=document.createElement("p");q.id="pnq";q.className="note";q.setAttribute("translate","no");lt.parentNode.insertBefore(q,lt.nextSibling)}
