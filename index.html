@@ -5488,7 +5488,45 @@ var q=0,go=function(){clearTimeout(q);q=setTimeout(sib,30)};new MutationObserver
 #fmc p.cmpb{margin:12px 0 6px;font-size:15px;font-weight:700;color:var(--ink)}
 #fmh #onegt{flex:1 1 auto;min-width:0;align-self:center;padding:0 8px;font-size:17px;font-weight:800;line-height:1.2;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 #fmh #onegt[hidden]{display:none}#fmh.oneg .uxst{margin-right:0}
+.poe{margin:0 0 12px;padding:10px 12px;border-radius:12px;border:1px dashed var(--acc);background:color-mix(in srgb,var(--acc) 8%,var(--bg));font-size:14px;line-height:1.45}
+.poe p{margin:0}.poe p+p,.poe p+div{margin-top:8px}
+.poe .poel{display:inline-block;margin-right:6px;padding:1px 8px;border-radius:99px;background:var(--acc);color:#0e1424;font-size:12px;font-weight:800}
+.poe .poex{color:var(--mute)}
+.poe .hmg.poeh{grid-auto-flow:row;grid-template-rows:none;grid-template-columns:repeat(7,22px);margin:6px 0 0}
+.poe .pob{display:flex;flex-wrap:wrap;gap:8px}
+.poe .pob button{min-height:40px;padding:0 12px;border-radius:10px;border:1px solid var(--line);background:var(--bg);color:var(--ink);font:inherit;font-size:14px;font-weight:700;cursor:pointer}
+.poe .pob button small{color:var(--xp);font-weight:800}
 </style>
+<script id="pol-js">/* Удобство и ясность:
+ 1) подсказка «что здесь делать» + пример в пустых разделах (EH: ключ → [пусто?, что делать, пример]): Главная цель дня, Календарь активности, Магазин наград,
+    Соревнование с другом, Трекер откликов. Пропадает сама, как только появились свои данные. В «Магазине наград» — 3 готовые награды, добавить одним нажатием. */
+document.addEventListener("DOMContentLoaded",function(){var fmm=document.getElementById("fmm"),fmc=document.getElementById("fmc");if(!fmm||!fmc)return;
+var L=function(r,e,u){return window.fmL?fmL(r,e,u):r};
+function n(o){return o&&typeof o=="object"?Object.keys(o).length:0}
+function key(s){if(!s||s.tagName!="SECTION")return"";if(s.id)return s.id;var e=s.querySelector("[id]");return e?"#"+e.id:""}
+var RW=[[L("🎮 30 минут игры","🎮 30 minutes of gaming","🎮 30 хвилин гри"),30],[L("🍫 Вкусняшка","🍫 A treat","🍫 Смаколик"),20],[L("🎬 Фильм вечером","🎬 A film tonight","🎬 Фільм увечері"),50]];
+var EH={
+ fc:[function(){return!n(st.focus)},L("Впиши одно дело — самое важное на сегодня — и нажми «Поставить цель». Сделал — отметь галочкой: +25 XP.","Type the one most important task for today and tap “Set goal”. Done — tick it off: +25 XP.","Впиши одну справу — найважливішу на сьогодні — і натисни «Поставити мету». Зробив — відміть галочкою: +25 XP."),
+  L("«Сдать отчёт по ППР генератора» или «Позвонить в крюинг».","“Hand in the generator maintenance report” or “Call the crewing agency”.","«Здати звіт з ППР генератора» або «Подзвонити в крюїнг».")],
+ hm:[function(){var d=st.done||{};return!Object.keys(d).some(function(k){return n(d[k])})},L("Каждый день, когда ты закрыл хоть один квест, закрашивает клетку: чем больше XP, тем ярче. Отметь квест в «Мой день» — сегодняшняя клетка загорится.","Every day you close at least one quest colours a square: the more XP, the brighter. Tick a quest in “My day” and today’s square lights up.","Кожен день, коли ти закрив хоч один квест, зафарбовує клітинку: що більше XP, то яскравіше. Відміть квест у «Мій день» — сьогоднішня клітинка засвітиться."),"cells"],
+ shop:[function(){return!(st.rw&&st.rw.length)},L("Придумай награду для себя и её цену в монетах. Монеты копятся сами: 10 XP = 1 монета. Нажми, чтобы добавить готовую:","Think of a reward for yourself and its price in coins. Coins add up by themselves: 10 XP = 1 coin. Tap to add a ready one:","Придумай нагороду для себе і її ціну в монетах. Монети накопичуються самі: 10 XP = 1 монета. Натисни, щоб додати готову:"),"rw"],
+ cmpt:[function(){return!n(st.fr)},L("Нажми «📋 Скопировать мой код» и отправь другу в любом мессенджере. Его код вставь через «Вставить код друга» — появится общая таблица за неделю.","Tap “📋 Copy my code” and send it to a friend in any messenger. Paste their code with “Paste friend's code” — a shared weekly table appears.","Натисни «📋 Скопіювати мій код» і надішли другові в будь-якому месенджері. Його код встав через «Вставити код друга» — з’явиться спільна таблиця за тиждень."),
+  L("🥇 Андрей — 1 240 XP за неделю · 🥈 ты — 980 XP.","🥇 Andrew — 1,240 XP this week · 🥈 you — 980 XP.","🥇 Андрій — 1 240 XP за тиждень · 🥈 ти — 980 XP.")],
+ ap:[function(){return!(st.ap&&st.ap.length)},L("Записывай, куда отправил резюме, и меняй статус: ответили, собеседование, оффер. Так видно, где ещё ждать ответа.","Note where you sent your CV and change the status: replied, interview, offer. You see where you are still waiting.","Записуй, куди надіслав резюме, і змінюй статус: відповіли, співбесіда, офер. Так видно, де ще чекати відповіді."),
+  L("«Крюинг Marlow — 2/E» → Собеседование.","“Marlow crewing — 2/E” → Interview.","«Крюїнг Marlow — 2/E» → Співбесіда.")]};
+window.polEH=EH;
+function box(k,e){var d=document.createElement("div");d.className="poe";d.setAttribute("translate","no");
+ var h='<p><b>💡 '+L("Что здесь делать","What to do here","Що тут робити")+':</b> '+esc(e[1])+'</p>';
+ if(e[2]=="rw")h+='<div class="pob">'+RW.map(function(r,i){return'<button type="button" data-poe="'+i+'">'+esc(r[0])+' <small>'+r[1]+' 🪙</small></button>'}).join("")+'</div>';
+ else if(e[2]=="cells")h+='<p class="poex"><span class="poel">'+L("ПРИМЕР","EXAMPLE","ПРИКЛАД")+'</span>'+L("неделя: 5 дней с делами","a week: 5 active days","тиждень: 5 днів зі справами")+'</p><div class="hmg poeh" aria-hidden="true">'+[1,3,0,2,4,0,3].map(function(l){return'<i class="'+(l?"l"+l:"")+'"></i>'}).join("")+'</div>';
+ else h+='<p class="poex"><span class="poel">'+L("ПРИМЕР","EXAMPLE","ПРИКЛАД")+'</span>'+esc(e[2])+'</p>';
+ d.innerHTML=h;return d}
+function chk(){if(!fmm.classList.contains("on"))return;[].forEach.call(fmc.querySelectorAll(":scope>section"),function(s){var k=key(s),e=EH[k],x=s.querySelector(":scope>.poe"),need=false;
+ if(e)try{need=!!e[0]()}catch(er){}if(!need){if(x)x.remove();return}if(x)return;var d=box(k,e),h=s.querySelector(":scope>h2,:scope>h3");if(h)s.insertBefore(d,h.nextSibling);else s.insertBefore(d,s.firstChild)})}
+var q=0,go=function(){clearTimeout(q);q=setTimeout(chk,30)};new MutationObserver(go).observe(fmc,{childList:true,subtree:true});new MutationObserver(go).observe(fmm,{attributes:true,attributeFilter:["class"]});
+fmc.addEventListener("click",function(e){var b=e.target.closest("[data-poe]");if(!b)return;var r=RW[+b.dataset.poe];if(!r)return;(st.rw=st.rw||[]).push({t:r[0],c:r[1]});save();render();if(window.toast)toast("🛒 "+L("Награда добавлена","Reward added","Нагороду додано"))});
+});
+</script>
 <style id="gv-css">/* 🧭 Путеводитель (#gv, блок gv-js): главы, «Главное», шаги, живой показ (#gvo) */
 #fmb:has(#fmc>#gv) #hnt{display:none!important}
 html:has(#fmc>#gv) #toast{top:calc(env(safe-area-inset-top,0px) + 10px);bottom:auto;max-width:calc(100vw - 130px);white-space:normal;text-align:center;pointer-events:none;transform:translate(-50%,-30px)}html:has(#fmc>#gv) #toast.show{transform:translate(-50%,0)}
