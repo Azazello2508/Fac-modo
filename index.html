@@ -390,7 +390,6 @@ main:not([data-tab="set"])>[data-t="set"]{display:none}
 <p class="note" id="sn" style="margin:0 0 4px">Приложение работает без интернета: всё хранится на устройстве. Сохраняй копию, чтобы не потерять прогресс при очистке браузера. Значок 📶 означает, что для этого нужен интернет.</p>
 <div class="add"><button type="button" id="ex">Сохранить в файл</button><button type="button" id="cp">Скопировать код</button><button type="button" id="im">Загрузить из файла</button><button type="button" id="pc2">Вставить код</button><input type="file" id="fi" accept=".json,application/json" hidden></div><textarea id="pta" rows="3" hidden aria-label="Код прогресса"></textarea><div class="add"><button type="button" id="pap" hidden>Применить код</button></div></section>
 <section class="card" data-t="set" id="trn" translate="no"></section>
-<section class="card" data-t="set"><h3>Расписание</h3><p class="note" style="margin:0 0 8px">Редактор расписания находится на палубе: «Мой день» → «Расписание».</p><div class="add"><button type="button" class="alt" id="edgo2">Перейти к редактору</button></div></section>
 <section class="card" data-t="set" id="uxp" translate="no"></section>
 <section class="card" data-t="set" id="prv" translate="no"></section>
 <section class="card" data-t="set" id="elg" translate="no"></section>
@@ -402,7 +401,6 @@ main:not([data-tab="set"])>[data-t="set"]{display:none}
 <section class="card" data-t="diary" id="d2"></section>
 <section class="card" data-t="diary" id="d3"></section>
 <section class="card" data-t="diary" id="d4"></section>
-<section class="card" data-t="shore" id="prf2"></section>
 <section class="card" data-t="shore" id="sh1"></section>
 <section class="card" data-t="shore" id="sh2"></section>
 <section class="card" data-t="shore" id="sh5"></section>
@@ -787,7 +785,7 @@ $("fi").onchange=function(e){var f=e.target.files[0];e.target.value="";if(!f)ret
 
 var PROF={el:["⚡","Электромеханик","электромеханика"],me:["⚙️","Механик","механика"],na:["🧭","Штурман","штурмана"]};
 function pf(){return PROF[st.prof]?st.prof:"el"}
-function prfr(){var h='<h3>Моя специальность</h3><p class="note" style="margin:0 0 8px">Советы, экзамен, термины, резюме и курс на берег подстроятся под выбор.</p><div class="add">'+Object.keys(PROF).map(function(k){return'<button type="button" data-prof="'+k+'" class="alt'+(k==pf()?" cur":"")+'">'+PROF[k][0]+" "+PROF[k][1]+'</button>'}).join("")+'</div>';["prf","prf2"].forEach(function(i){if($(i))$(i).innerHTML=h})}
+function prfr(){var h='<h3>Моя специальность</h3><p class="note" style="margin:0 0 8px">Советы, экзамен, термины, резюме и курс на берег подстроятся под выбор.</p><div class="add">'+Object.keys(PROF).map(function(k){return'<button type="button" data-prof="'+k+'" class="alt'+(k==pf()?" cur":"")+'">'+PROF[k][0]+" "+PROF[k][1]+'</button>'}).join("")+'</div>';if($("prf"))$("prf").innerHTML=h}
 var TP=["Научись быстро читать однолинейную схему судовой электростанции: она показывает большую часть того, что нужно при поиске неисправности. Хватит 15 минут в день на одну секцию.","Выучи условия синхронизации генераторов: напряжение, частота, порядок фаз и совпадение фазы. Одной карточки хватит вместо страницы конспекта.","Мегомметр: пойми, как и когда замерять изоляцию двигателей и кабелей, и держи таблицу норм под рукой. Это одна из самых частых практических задач.","Разбери порядок действий при блэкауте как чек-лист из 5–7 шагов и проговаривай вслух, чтобы он работал на автомате.","Пусковые схемы двигателей (прямой пуск, звезда–треугольник, частотник): сравни в одной таблице пусковой ток, момент и где применяют.","Частотные преобразователи: начни с трёх вещей: параметры двигателя, время разгона, типовые аварийные коды. Этого хватает для большинства задач.","Защиты: сделай шпаргалку «что отключает автомат или реле и почему» по своему судну.","Где разрешено, сфотографируй щит и подпиши цепи: так схема запоминается быстрее, чем по учебнику."];
 var FS=["25 минут работы и 5 минут паузы: так учиться легче, чем одним длинным куском.","Закрой конспект и объясни тему вслух. Это запоминается лучше, чем перечитывание.","Повторяй тему через 1, 3, 7 и 14 дней: так знания держатся дольше при меньших затратах времени.","Одна тема за сеанс. Сначала самое сложное, пока голова свежая.","Тест после темы даёт больше, чем второе прочтение. Проходи экзамен ниже.","Учись в одно и то же время: привычка снижает усилие на старт."];
 var ID=["Составь одностраничную шпаргалку по одной теме и повесь у койки.","Объясни сегодняшнюю тему воображаемому новичку за 2 минуты.","Задай одному из старших по службе один вопрос по теме дня.","Запиши 3 вещи, которые узнал сегодня.","Пройди экзамен по теме, в которой слабее.","Выучи 10 английских терминов своей специальности из глоссария: «Учебный класс» → «Знания» → «Термины».","Если устал, поменяй местами чтение и учёбу: главное, не пропустить оба.","Поставь себе цель на месяц по уровню и запиши её в заметки."];
@@ -1164,7 +1162,7 @@ else if(k=="del"){if(st.fr&&st.fr[frSel]){delete st.fr[frSel];frSel="";save();fr
 else{frSel=frSel==k?"":k;frr()}});
 
 function gotoEd(){setTab("today");ED=day;edr();setTimeout(function(){var e=$("ed");if(e&&e.scrollIntoView)e.scrollIntoView({behavior:"smooth",block:"start"})},60)}
-document.addEventListener("click",function(e){if(e.target.closest("#edgo,#edgo2"))gotoEd()});
+document.addEventListener("click",function(e){if(e.target.closest("#edgo"))gotoEd()});
 (function(){try{var c=document.createElement("canvas").getContext("2d");c.font="20px serif";if(Math.abs(c.measureText("\u{1D571}\u{1D586}").width-c.measureText("\u{10FFFF}\u{10FFFF}").width)<.5)document.documentElement.classList.add("nofr")}catch(x){}})();
 /* Напоминания: считаются по расписанию на устройстве, без сервера */
 function NT(){var n=st.nt=st.nt||{};if(n.lead==null)n.lead=10;if(!n.am)n.am="07:00";if(!n.pm)n.pm="21:00";if(n.amOn==null)n.amOn=1;if(n.pmOn==null)n.pmOn=1;if(n.snd==null)n.snd=1;if(!n.sent)n.sent={};return n}
@@ -1453,10 +1451,7 @@ document.addEventListener("input",function(e){var t=e.target;if(!t.closest||!t.c
 document.addEventListener("change",function(e){var t=e.target;if(!t.closest||!t.closest("#cvm"))return;if(t.id=="cvc"){cvC=t.value;cvr()}else cvu()});
 var AS=["Отправлено","Ответили","Собеседование","Оффер","Отказ"];
 function apr(){var A=st.ap||[];$("ap").innerHTML='<h3>Трекер откликов</h3><p class="note" style="margin:0 0 6px">Всего: '+A.length+', собеседований: '+A.filter(function(a){return a.s==2}).length+'.</p><ul>'+A.map(function(a,i){return'<li style="--c:var(--acc);grid-template-columns:1fr auto auto"><span class="n">'+esc(a.c)+' <small style="color:var(--mute)">'+esc(String(a.d||"").slice(5))+'</small></span><select data-aps="'+i+'" aria-label="Статус">'+AS.map(function(t,j){return'<option value="'+j+'"'+(a.s==j?" selected":"")+'>'+t+'</option>'}).join("")+'</select><button class="del" data-x="apd" data-v="'+i+'">×</button></li>'}).join("")+'</ul><div class="add"><input type="text" id="apn" placeholder="Компания и должность" maxlength="60"><button type="button" data-x="apa">Добавить</button></div>'}
-var ME=["Diagnosing and repairing industrial electrical systems","On-call duty and incident response","Technical documentation and reporting","Planned preventive maintenance","Working in international teams, business English","Spare parts, stock and supplier management"],MEm=["Diagnosing and repairing diesel engines and auxiliary machinery", "Engine room watchkeeping and emergency response", "Technical documentation and reporting", "Planned preventive maintenance", "Working in international teams, business English", "Bunkering, spare parts and supplier management"],MEn=["Navigational watchkeeping and decision-making 24/7", "Passage planning and route optimisation", "Cargo operations and stability control", "Inspections and audits (PSC, vetting)", "Working in international teams, business English", "Crew training, drills and safety management"],PE=["Smart home","Industrial automation","IT","Shore-based maritime roles","Marine service engineer","VTS, pilotage and port roles"],rzv="";
-function rzr(){var s=shs();$("rz").innerHTML='<h3>Генератор резюме</h3><div class="add"><label>Лет опыта в море<input type="number" min="0" data-sv="yrs" value="'+esc(s.yrs||"")+'"></label></div><div class="add"><button type="button" data-x="rzru">Собрать на русском</button><button type="button" data-x="rzen">Собрать на английском</button></div><textarea id="rzt" rows="9" placeholder="Здесь появится черновик. Допиши свои достижения и цифры: работодатель смотрит на результаты.">'+esc(rzv)+'</textarea><div class="add"><button type="button" data-x="rzcp" class="alt">Скопировать</button></div>'}
-function rzgen(en){var s=shs(),n=st.name||(en?"Your name":"Имя Фамилия"),y=s.yrs||"N",ss=skSet(),sk=SK[s.p][2].filter(function(_,i){return ss["s_"+s.p+"_"+i]});
-return en?n+"\n"+{el:"Marine Electro-Technical Officer",me:"Marine Engineer Officer",na:"Deck Officer (Navigator)"}[pf()]+", "+y+" years at sea\nTarget: "+PE[s.p]+"\n\nExperience:\n"+(pf()=="me"?MEm:pf()=="na"?MEn:ME).map(function(x){return"- "+x}).join("\n")+"\n\nCurrently learning: "+sk.length+" of 6 skills for the chosen direction\nLanguages: Russian (native), English (improving)\n\nAchievements: add numbers (equipment, voltage, downtime reduced, people trained)":n+"\n"+{el:"Судовой электромеханик",me:"Судовой механик",na:"Штурман"}[pf()]+", "+y+" лет опыта в море\nЦель: "+SK[s.p][1]+"\n\nОпыт:\n"+MSL().map(function(m){return"- "+m[1]}).join("\n")+"\n\nОсвоено по направлению: "+(sk.join("; ")||"пока ничего")+"\nЯзыки: русский (родной), английский (в изучении)\n\nДостижения: добавь цифры (оборудование, напряжение, сокращение простоев, обученные люди)"}
+function rzr(){}/* резюме рисует window.rzr (блок rzb-js); старый генератор резюме удалён */
 function hmr(){var h='<h3>Календарь активности</h3><div class="hmg">',i;for(i=83;i>=0;i--){var d=new Date(now);d.setDate(d.getDate()-i);var k=iso(d),x=dayXP(k),l=x>=250?4:x>=150?3:x>=50?2:x>0?1:0;h+='<i class="'+(l?"l"+l:"")+'" title="'+k+": "+x+' XP"></i>'}$("hm").innerHTML=h+'</div><p class="note">Последние 12 недель: чем ярче клетка, тем больше XP за день.</p>'}
 function glr(){$("gl").innerHTML='<h3>Глоссарий '+PROF[pf()][2]+'</h3><input type="text" id="gls" placeholder="'+(function(a,b,g){return g=="en"?"Search: "+a:g=="uk"?"Пошук: "+a:"Поиск: "+a+" или "+b})(ENL()[0][0],ENL()[0][1],st.lang)+'" style="width:100%;padding:10px;border:1px solid var(--line);background:var(--bg);color:var(--ink);border-radius:10px;font:inherit"><div id="glr"></div>';glf("")}
 function glf(q){q=q.toLowerCase();$("glr").innerHTML=ENL().filter(function(t){return!q||t[0].indexOf(q)>=0||t[1].indexOf(q)>=0}).map(function(t){return'<div class="dp" translate="no" style="margin:6px 0"><b>'+t[0]+'</b><span>'+t[1]+'</span><button type="button" class="alt" data-vd="'+esc(t[1])+' на судне" aria-label="Видео" style="padding:2px 8px;min-width:0">🎬</button></div>'}).join("")||'<p class="note">Ничего не найдено</p>'}
@@ -1484,13 +1479,10 @@ else if(a=="buy"){var R=st.rw[+v],co=Math.floor(calc().xp/10)-(st.sp||0);if(R&&c
 else if(a=="rwd"){st.rw.splice(+v,1);save();render()}
 else if(a=="apa"){var an=$("apn").value.trim();if(!an)return;(st.ap=st.ap||[]).push({c:an,s:0,d:today});save();render()}
 else if(a=="apd"){st.ap.splice(+v,1);save();render()}
-else if(a=="rzru"){rzv=rzgen(0);rzr()}
-else if(a=="rzen"){rzv=rzgen(1);rzr()}
-else if(a=="rzcp"){var tx=$("rzt").value;if(navigator.clipboard&&navigator.clipboard.writeText)navigator.clipboard.writeText(tx).then(function(){toast("Скопировано")},function(){showCode(tx)});else showCode(tx)}
 else if(a=="ck"){st.ck=st.ck||{};if(st.ck[v])delete st.ck[v];else st.ck[v]=1;save();render()}});
 $("mn").addEventListener("input",function(e){var t=e.target;
 if(t.id=="dnt"){dset(dy,"note",t.value);var dd=st.done[today];if(dy==today&&t.value.trim().length>=20&&!(dd&&dd.dn)){st.done[today]=st.done[today]||{};st.done[today].dn={x:15,c:"read"};save();render()}}
-else if(t.id=="rzt")rzv=t.value;else if(t.id=="gls")glf(t.value)});
+else if(t.id=="gls")glf(t.value)});
 $("mn").addEventListener("change",function(e){var t=e.target;if(t.dataset.aps!==undefined){st.ap[+t.dataset.aps].s=+t.value;save();render()}else if(t.dataset.opt=="big"){st.big=t.checked;save();render()}});
 function refreshAll(){render();edr();dall();qzr();if(typeof bkr=="function"){try{bkS.l=st.bk&&st.bk.l=="en"?"en":"ru";bkS.g=st.bk?+st.bk.g||0:0}catch(e){}bkr()}}
 dqr();dall();glr();
@@ -3143,20 +3135,19 @@ var W=function(r,I){return has(I,"work")},SH={hfm:"home",ktr:"home",cth:"home",f
  rlg:function(r,I){return has(I,"work")&&(r=="el"||r=="me")},cvm:function(r,I){return has(I,"work")&&(r=="el"||r=="me"||r=="na")},
  lib:W,gl:W,en:W,iv:W,qz:W,vdw:W,mat:W,ck:W,prf:W,tip:W,ls:W,pom:W,rk:W,
  tk:"rest",sm:"rest",bg:"rest",mt2:"rest",pzl:"rest",bk:"rest",flm:"rest",snd:"rest",ch:"rest",shop:"rest",gym:"gym",brt:"gym",
- sh1:"shore",sh2:"shore",sh5:"shore",sh4:"shore",ap:"shore",rz:"shore",sh3:"shore",prf2:"shore",vis:"shore",dq:"diary",d1:"diary",d2:"diary",d3:"diary",d4:"diary"};
+ sh1:"shore",sh2:"shore",sh5:"shore",sh4:"shore",ap:"shore",rz:"shore",sh3:"shore",vis:"shore",dq:"diary",d1:"diary",d2:"diary",d3:"diary",d4:"diary"};
 function U(){var u=st.ux=st.ux||{};return u}
 function show(k){var u=U();if(!u.ob||u.all)return true;var s=SH[k];if(!s)return true;var I=u.i||[];return typeof s=="string"?has(I,s):!!s(u.r||"ot",I)}
 window.uxDef=function(){var r=U().r;return{na:["shn","srf","dc","en","lib","sky"],me:["rlg","cvm","ck","dc","lib","srf"],el:["cvm","rlg","gl","dc","lib","srf"],rt:["en","srf","dc","lib","ck","bk"]}[r]||["dc","en","lib","bk","flm","gym"]};
 /* применить: спрятать лишние плитки, заголовки пустых групп, подсказка «скрыто N» */
-var TI={shore:"shore",diary:"diary",game:"rest"};
 function apply(){var cnt={},vis={};Object.keys(P).forEach(function(k){var b=P[k].b,v=show(k),t=b.getAttribute("data-t");if(v){b.removeAttribute("data-uxh");if(!b.hidden)vis[t]=1}else{b.setAttribute("data-uxh","1");cnt[t]=(cnt[t]||0)+1}});
  [].forEach.call(mn.querySelectorAll(":scope>.tgxh"),function(h){var n=h.nextElementSibling,v=false;while(n&&!n.classList.contains("tgxh")&&!n.classList.contains("uxhn")){if(n.classList.contains("fmt")&&!n.hidden&&!n.hasAttribute("data-uxh"))v=true;n=n.nextElementSibling}if(v)h.removeAttribute("data-uxh");else h.setAttribute("data-uxh","1")});
  [].forEach.call(mn.querySelectorAll(":scope>.uxhn"),function(x){x.remove()});
  Object.keys(cnt).forEach(function(t){var all=[].filter.call(mn.children,function(e){return e.getAttribute("data-t")==t&&(e.classList.contains("fmt")||e.classList.contains("tgxh"))}),last=all[all.length-1];if(!last)return;
-  var d=document.createElement("div");d.className="uxhn";d.setAttribute("data-t",t);d.setAttribute("translate","no");d.innerHTML=!vis[t]&&TI[t]?'<span>'+L("Эта вкладка не в твоих интересах (разделов: ","This tab is not in your interests (sections: ","Ця вкладка не у твоїх інтересах (розділів: ")+cnt[t]+L("). Их можно открыть и через «🔍 Все разделы».","). You can also open them from “🔍 All sections”.","). Їх можна відкрити й через «🔍 Усі розділи».")+'</span><button type="button" data-uxw="tab" data-i="'+TI[t]+'">'+L("Показывать эту вкладку","Show this tab","Показувати цю вкладку")+'</button>':'<span>'+L("Под твой профиль скрыто разделов: ","Hidden for your profile: ","Під твій профіль приховано розділів: ")+cnt[t]+L(". Они в «🔍 Все разделы».",". They are in “🔍 All sections”.",". Вони в «🔍 Усі розділи».")+'</span><button type="button" data-uxw="all">'+L("Показать всё","Show all","Показати все")+'</button>';mn.insertBefore(d,last.nextSibling)});
+  var d=document.createElement("div");d.className="uxhn";d.setAttribute("data-t",t);d.setAttribute("translate","no");d.innerHTML='<span>'+L("Под твой профиль скрыто разделов: ","Hidden for your profile: ","Під твій профіль приховано розділів: ")+cnt[t]+L(". Они в «🔍 Все разделы».",". They are in “🔍 All sections”.",". Вони в «🔍 Усі розділи».")+'</span><button type="button" data-uxw="all">'+L("Показать всё","Show all","Показати все")+'</button>';mn.insertBefore(d,last.nextSibling)});
  ["game","shore"].forEach(function(t){var nb=document.querySelector('#nav [data-n="'+t+'"]');if(!nb)return;var h=!vis[t]&&!!cnt[t];if(h)nb.setAttribute("data-uxh","1");else nb.removeAttribute("data-uxh");if(h&&mn.getAttribute("data-tab")==t&&window.setTab)setTab("today")});
  if(window.uxRefresh)uxRefresh();uxpr()}
-mn.addEventListener("click",function(e){var b=e.target.closest('[data-uxw="all"],[data-uxw="tab"]');if(!b)return;var u=U();if(b.dataset.uxw=="tab"){u.i=u.i||[];if(u.i.indexOf(b.dataset.i)<0)u.i.push(b.dataset.i)}else u.all=1;try{save()}catch(x){}apply()});
+mn.addEventListener("click",function(e){var b=e.target.closest('[data-uxw="all"]');if(!b)return;var u=U();u.all=1;try{save()}catch(x){}apply()});
 /* первый запуск */
 var O=document.createElement("div");O.id="uxw";O.setAttribute("role","dialog");O.setAttribute("aria-modal","true");O.setAttribute("aria-label","Fac Modo");O.setAttribute("translate","no");document.body.appendChild(O);
 var step=1,selR=null,selI=null,nm="";
@@ -3202,7 +3193,7 @@ main>.fmt.uxrow i{font-size:22px}main>.fmt.uxrow b{font-size:14.5px;width:auto}
 document.addEventListener("DOMContentLoaded",function(){var mn=document.getElementById("mn"),P=window.uxP;if(!mn||!P)return;var L=function(r,e,u){return window.fmL?fmL(r,e,u):r};
 function key(s){if(!s||s.tagName!="SECTION")return"";if(s.id)return s.id;var e=s.querySelector("[id]");return e?"#"+e.id:""}
 /* 1. объединения: главный раздел → спутники, которые открываются в том же окне */
-var COMP={mat:["vdw"],cvm:["clc"]},J=["vdw","clc","prf2"];
+var COMP={mat:["vdw"],cvm:["clc"]},J=["vdw","clc"];
 J.forEach(function(k){if(P[k])P[k].b.setAttribute("data-uxj","1")});
 var fmm=document.getElementById("fmm"),fmc=document.getElementById("fmc"),cur=null;
 function restore(){if(!cur)return;cur.a.forEach(function(x){x.ph.parentNode.insertBefore(x.s,x.ph);x.ph.remove();x.s.classList.remove("uxcmp")});cur=null}
@@ -3283,7 +3274,6 @@ var GR=[
  ["#sn","💾",L("Копии и перенос","Backup and transfer","Копії й перенесення"),[[L("Копия","Backup","Копія"),["#sn"]],[L("Автокопии","Auto backups","Автокопії"),["abk"]],[L("Новый телефон","New phone","Новий телефон"),["trn"]]]]
 ];
 /* повторы: «Серия» в настройках (та же кнопка заморозки есть в «Серии дней») и «Расписание» (ссылка на редактор, он теперь в «Моём дне») */
-["#edgo2"].forEach(function(k){if(P[k])P[k].b.setAttribute("data-uxj","1")});
 var OF={};GR.forEach(function(g){g[3]=g[3].map(function(t){return[t[0],t[1].filter(function(k){return P[k]})]}).filter(function(t){return t[1].length});
  if(!P[g[0]]||g[3].length<2)return;g[3].forEach(function(t,i){t[1].forEach(function(k){OF[k]={g:g,i:i}})});
  var b=P[g[0]].b;b.dataset.ic=g[1];b.dataset.ttl=g[2];if(b.firstChild)b.firstChild.textContent=g[1];if(b.lastChild){b.lastChild.textContent=g[2];b.lastChild.setAttribute("translate","no")}
@@ -3690,7 +3680,7 @@ srr();rgr();achn();rt()});
 <script id="lz-js">/* Быстрее после каждого действия: render() перерисовывал ~40 разделов, даже закрытых (и в режимах en/uk каждый заново переводился — до 50 мс на нажатие).
  Теперь функция раздела, который сейчас закрыт, не выполняется сразу, а запоминается и выполняется при открытии раздела (окно #fmc, в том числе вкладки one-js).
  Главная, квесты, «Сегодня», шапка и магазин (его название на плитке меняется) обновляются как раньше. Список: LZ[функция] = id разделов. */
-document.addEventListener("DOMContentLoaded",function(){var LZ={prfr:["prf","prf2"],fcr:["fc"],lsr:["ls"],lbr:["lib"],chr:["ch"],shore:["sh1","sh2","sh3","sh4"],plr:["sh5"],engr:["en"],ivr:["iv"],pomr:["pom"],shcard:["shr"],
+document.addEventListener("DOMContentLoaded",function(){var LZ={prfr:["prf"],fcr:["fc"],lsr:["ls"],lbr:["lib"],chr:["ch"],shore:["sh1","sh2","sh3","sh4"],plr:["sh5"],engr:["en"],ivr:["iv"],pomr:["pom"],shcard:["shr"],
  dsv:["d1"],dfd:["d4"],cfgr:["cfg"],ntr:["nfc"],abtr:["abt"],wkr:["wkc"],frr:["cmpt"],apr:["ap"],dcr:["dc","dcw"],ctr:["ct"],rhr:["rh"],rkr:["rk"],hfr:["hfm"],cvr:["cvm"],fnr:["fnm"],hmr:["hm"],ckr:["ck"]};
 var fmm=document.getElementById("fmm"),fmc=document.getElementById("fmc"),dirty={},O={};if(!fmm||!fmc)return;
 function sec(id){var e=document.getElementById(id);return e?(e.tagName=="SECTION"?e:e.closest("section")):null}
@@ -3759,7 +3749,7 @@ clc:["Ток двигателя, cos φ, сечение кабеля, оборо
 cvm:["Перевод единиц, закон Ома, расчёты рейса","Unit conversion, Ohm’s law, voyage maths","Переведення одиниць, закон Ома, розрахунки рейсу"],
 rlg:["Что чинил: дата, оборудование, фото; выгрузка таблицей","What you repaired: date, equipment, photo; export as a table","Що ремонтував: дата, обладнання, фото; вивантаження таблицею"],
 ck:["Готовые чек-листы для работы на судне","Ready-made checklists for work on board","Готові чек-листи для роботи на судні"],
-prf:["Выбор специальности и её путь","Choose your speciality and its path","Вибір спеціальності та її шлях"],prf2:["Выбор специальности и её путь","Choose your speciality and its path","Вибір спеціальності та її шлях"],
+prf:["Выбор специальности и её путь","Choose your speciality and its path","Вибір спеціальності та її шлях"],
 tip:["Совет и идея на каждый день","A tip and an idea for every day","Порада й ідея на кожен день"],
 ls:["Полезные навыки для жизни вне работы","Useful life skills beyond work","Корисні навички для життя поза роботою"],
 pom:["Таймер для учёбы без отвлечений","A focus timer for study","Таймер для навчання без відволікань"],
@@ -4173,35 +4163,30 @@ main>.tgxh{margin:8px 2px -2px;font-size:12px;font-weight:800;letter-spacing:.06
 main>.tgxh[hidden]{display:none!important}
 .fmore{display:none!important}
 #vdw .vs input{width:100%;min-width:0;box-sizing:border-box}#vdw .vc,#vdw .vb{display:flex;flex-wrap:wrap;gap:6px}#vdw .vb a{flex:1 1 auto;min-width:0}</style>
-<script id="tgx-js">/* Группы плиток и перенос разделов между вкладками. Разделы не удаляются: меняется только вкладка (data-t) и порядок.
- Новый раздел, которого нет в списке, попадает в группу «Ещё» в конце своей вкладки. */
-(function(){var mn=document.getElementById("mn");if(!mn)return;var L=window.fmL||function(r){return r};
+<script id="tgx-js">/* Перенос разделов между старыми вкладками (MV) и порядок разделов внутри вкладки (O). Разделы не удаляются: меняется только вкладка (data-t) и порядок.
+ Заголовков групп здесь больше нет: на судне плитки раскладывает по помещениям shp-js (R), заголовки в каюте ставит он же. */
+(function(){var mn=document.getElementById("mn");if(!mn)return;
 var MV={rh:"today",vdw:"know",vis:"me",pck:"today"};
-var G={today:[[L("День","Day","День"),["gv","#days","fc","pnl","stk","cmp","ed"]],[L("Вахта и дом","Watch and home","Вахта і дім"),["wch","rh","cth","hfm","ktr","pck","dcw"]]],
-know:[[L("Учёба","Study","Навчання"),["lib","srs","gl","en","iv","qz","vdw","mat"]],[L("Работа на судне","Work on board","Робота на судні"),["shn","srf","clc","cvm","rlg","ck","prf"]],[L("Для себя","For yourself","Для себе"),["tip","ls","pom"]]],
-game:[[L("Игры","Games","Ігри"),["tk","sm","bg","mt2","pzl"]],[L("Отдых","Rest","Відпочинок"),["bk","flm","snd","brt","sky","gym"]],[L("Награды","Rewards","Нагороди"),["ch","shop"]]],
-shore:[[L("Путь на берег","Path ashore","Шлях на берег"),["sh1","sh4","sh2","sh5","prf2"]],[L("Работа","Job","Робота"),["rz","ap","sh3"]]],
-me:[[L("Документы и деньги","Documents and money","Документи й гроші"),["dc","ct","fnm","rk"]],[L("Прогресс","Progress","Прогрес"),["#stats","#ach","rwd","wkc","hm","cmpt","vis","shr"]]]};
+var O={today:["gv","#days","fc","pnl","stk","cmp","ed","wch","rh","cth","hfm","ktr","pck","dcw"],
+know:["lib","srs","gl","en","iv","qz","vdw","mat","shn","srf","clc","cvm","rlg","ck","prf","tip","ls","pom"],
+game:["tk","sm","bg","mt2","pzl","bk","flm","snd","brt","sky","gym","ch","shop"],
+shore:["sh1","sh4","sh2","sh5","rz","ap","sh3"],
+me:["dc","ct","fnm","rk","#stats","#ach","rwd","wkc","hm","cmpt","vis","shr"]};
 function sec(k){var e=k.charAt(0)=="#"?document.getElementById(k.slice(1)):document.getElementById(k);if(e&&k.charAt(0)=="#")e=e.closest("#mn>section");return e&&e.parentNode==mn?e:null}
 function tiled(s){return s.tagName=="SECTION"&&!s.classList.contains("hero")&&!s.classList.contains("quote")&&s.id!="tdy"}
 var mvd=[];Object.keys(MV).forEach(function(k){var s=sec(k);if(s){s.setAttribute("data-t",MV[k]);mvd.push(s)}});
-Object.keys(G).forEach(function(t){var all=[].filter.call(mn.children,function(s){return s.getAttribute("data-t")==t&&tiled(s)});if(!all.length)return;
- var ph=document.createComment("tgx");var top=[].filter.call(mn.children,function(s){return s.getAttribute("data-t")==t&&s.tagName=="SECTION"&&!tiled(s)});mn.insertBefore(ph,top.length?top[top.length-1].nextSibling:all.filter(function(s){return mvd.indexOf(s)<0})[0]||all[0]);var used=[],grp=G[t].slice();
- grp.forEach(function(g){g[1].forEach(function(k){var s=sec(k);if(s&&s.getAttribute("data-t")==t)used.push(s)})});
- var rest=all.filter(function(s){return used.indexOf(s)<0});if(rest.length)grp.push([L("Ещё","More","Ще"),null]);
- grp.forEach(function(g){var h=document.createElement("div");h.className="tgxh";h.setAttribute("data-t",t);h.setAttribute("translate","no");h.textContent=g[0];mn.insertBefore(h,ph);
-  (g[1]?g[1].map(sec).filter(function(s){return s&&s.getAttribute("data-t")==t}):rest).forEach(function(s){mn.insertBefore(s,ph)})});
+Object.keys(O).forEach(function(t){var all=[].filter.call(mn.children,function(s){return s.getAttribute("data-t")==t&&tiled(s)});if(!all.length)return;
+ var ph=document.createComment("tgx");var top=[].filter.call(mn.children,function(s){return s.getAttribute("data-t")==t&&s.tagName=="SECTION"&&!tiled(s)});mn.insertBefore(ph,top.length?top[top.length-1].nextSibling:all.filter(function(s){return mvd.indexOf(s)<0})[0]||all[0]);
+ var used=O[t].map(sec).filter(function(s){return s&&s.getAttribute("data-t")==t});
+ used.concat(all.filter(function(s){return used.indexOf(s)<0})).forEach(function(s){mn.insertBefore(s,ph)});
  mn.removeChild(ph)});
-/* Заголовок группы прячется, если все её плитки скрыты */
-function hd(){[].forEach.call(mn.querySelectorAll(":scope>.tgxh"),function(h){var n=h.nextElementSibling,v=false;while(n&&!n.classList.contains("tgxh")){if(n.classList.contains("fmt")&&!n.hidden)v=true;n=n.nextElementSibling}if(h.hidden!=!v)h.hidden=!v})}
-document.addEventListener("DOMContentLoaded",function(){[].forEach.call(mn.querySelectorAll(":scope>.fmt[data-sec]"),function(b){b.removeAttribute("data-sec")});hd();
- try{new MutationObserver(hd).observe(mn,{attributes:true,attributeFilter:["hidden"],subtree:true})}catch(e){}});
+document.addEventListener("DOMContentLoaded",function(){[].forEach.call(mn.querySelectorAll(":scope>.fmt[data-sec]"),function(b){b.removeAttribute("data-sec")})});
 /* Переходы из «Сегодня» ведут на вкладку, где раздел лежит сейчас */
 document.addEventListener("click",function(e){var b=e.target.closest&&e.target.closest("[data-td]");if(!b)return;var q=b.dataset.td.split("|"),s=q[0]&&document.getElementById(q[0]);if(s&&s.getAttribute("data-t")&&s.getAttribute("data-t")!=q[1])b.dataset.td=q[0]+"|"+s.getAttribute("data-t")},true);
 })();</script>
 <div id="fmm"><div id="fmb" role="dialog" aria-modal="true" aria-label="Раздел"><div id="fmh"><button type="button" id="fmx">✕ Закрыть</button></div><div id="fmc" tabindex="0"></div></div></div>
 <script>(function(){var mn=document.getElementById("mn"),m=document.getElementById("fmm"),box=document.getElementById("fmc"),cur=null,ph=document.createComment("fm"),tiles=[],de=document.documentElement;mn.appendChild(m);
-var IC={gv:"🧭",srf:"📘",uxp:"🎛️",cmf:"🖐️",rwd:"🎖️",pck:"🎒",trn:"📲",prv:"🔒",elg:"🩺",abk:"🛟",shn:"🔭",pzl:"🧩",snd:"🌙",brt:"🫁",sky:"✨",vis:"🗺️",fc:"🎯",pnl:"⚖️",wch:"⚓",mt2:"🧠",clc:"🧮",rlg:"🛠️",cth:"📞",ktr:"⏳",stk:"🔥",flm:"🎬",gym:"🏋️",cmp:"📊",prf:"👤",prf2:"👤",tip:"💡",ls:"🧭",pom:"⏱️",lib:"🗂️",bk:"📚",mat:"🎬",gl:"📖",ck:"☑️",shop:"🛒",iv:"🎤",en:"🔤",ch:"🎁",qz:"❓",hm:"📅",shr:"🔗",ed:"🗓️",dq:"🌤️",d1:"😊",d2:"✍️",d3:"🎨",d4:"📔",sh1:"🧭",sh2:"🌳",sh5:"🗺️",sh4:"👣",ap:"📨",rz:"📄",sh3:"🔄",stats:"📈",ach:"🏅",th:"🎨",sn:"💾",days:"✅",cfg:"🖥️",nfc:"🔔",wkc:"📈",cmpt:"🏆",abt:"ℹ️"};
+var IC={gv:"🧭",srf:"📘",uxp:"🎛️",cmf:"🖐️",rwd:"🎖️",pck:"🎒",trn:"📲",prv:"🔒",elg:"🩺",abk:"🛟",shn:"🔭",pzl:"🧩",snd:"🌙",brt:"🫁",sky:"✨",vis:"🗺️",fc:"🎯",pnl:"⚖️",wch:"⚓",mt2:"🧠",clc:"🧮",rlg:"🛠️",cth:"📞",ktr:"⏳",stk:"🔥",flm:"🎬",gym:"🏋️",cmp:"📊",prf:"👤",tip:"💡",ls:"🧭",pom:"⏱️",lib:"🗂️",bk:"📚",mat:"🎬",gl:"📖",ck:"☑️",shop:"🛒",iv:"🎤",en:"🔤",ch:"🎁",qz:"❓",hm:"📅",shr:"🔗",ed:"🗓️",dq:"🌤️",d1:"😊",d2:"✍️",d3:"🎨",d4:"📔",sh1:"🧭",sh2:"🌳",sh5:"🗺️",sh4:"👣",ap:"📨",rz:"📄",sh3:"🔄",stats:"📈",ach:"🏅",th:"🎨",sn:"💾",days:"✅",cfg:"🖥️",nfc:"🔔",wkc:"📈",cmpt:"🏆",abt:"ℹ️"};
 function ico(s){if(IC[s.id])return IC[s.id];for(var k in IC)if(s.querySelector("#"+k))return IC[k];return"📌"}
 function ttl(s){var h=s.querySelector("h2,h3,h4");if(h){h=h.cloneNode(true);[].forEach.call(h.querySelectorAll("button,input,select,textarea"),function(x){x.remove()})}var t=(h?h.textContent:"").replace(/\s+/g," ").trim();return t.length>48?t.slice(0,46)+"…":t}
 function split(t){var r=t.match(/^((?:\p{Extended_Pictographic}|[\u{1F1E6}-\u{1F1FF}])[️‍\u{1F3FB}-\u{1F3FF}\p{Extended_Pictographic}\u{1F1E6}-\u{1F1FF}]*)\s*(.*)$/u);return r&&r[2]?[r[1],r[2]]:[null,t]}
