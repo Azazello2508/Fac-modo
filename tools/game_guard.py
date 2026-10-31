@@ -28,6 +28,12 @@ RULES = [
     (r"(?<![\w.$])(window\.)?parent\.(?!postMessage\b)\w+", "лезет в окно приложения (parent.…)"),
     (r"window\.top\b|(?<![\w.$])top\.(document|location|localStorage|window|frames|st|save|fmTx|applyData)\b", "лезет в окно приложения (top.…)"),
     (r"\bopener\b|\bframeElement\b", "лезет в окно приложения (opener/frameElement)"),
+    # Обходы правил выше: self.parent.st, globalThis.top.save(), window["parent"].x, parent["st"] (сравнение window.parent===window и parent.postMessage — можно)
+    (r"""\b(?:self|globalThis|window|frames)\s*(?:\.\s*|\[\s*["'`])(?:parent|top|opener|frameElement)\b["'`]?\s*\]?\s*(?:\.\s*(?!postMessage\b)\w|\[)""", "лезет в окно приложения (self/globalThis/window.parent…)"),
+    (r"(?<![\w.$])parent\s*\[", "лезет в окно приложения (parent[…])"),
+    (r"""["'`]quest-?["'`]\s*\+""", "собирает имя данных приложения по частям (quest-v2)"),
+    (r"""["']fm[_-](ota|store|broken)""", "трогает ключи самообновления приложения"),
+    (r"\bCapacitor\b|\bmessageHandlers\b|\bandroidBridge\b|\bcordova\b", "обращается к функциям телефона (Capacitor)"),
     (r"<script[^>]+src\s*=", "подгружает внешний скрипт"),
     (r"<(iframe|embed|object)\b", "встраивает чужую страницу"),
     (r"<link[^>]+rel\s*=\s*[\"']?(stylesheet|import|preload|modulepreload)[^>]+href\s*=\s*[\"']?(https?:)?//", "подгружает внешний файл"),

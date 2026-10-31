@@ -158,6 +158,10 @@ function embeddedGames() {
   const bad = [];
   for (const g of G) { const r = guard.check(g.html, g.id); if (r.length) bad.push(g.id + ': ' + r.join(', ')); }
   ok(bad.length === 0, 'Ни одна игра не трогает данные приложения, не ходит на чужие сайты и не прячет код', bad.join('; '));
+  // Известные обходы сторожа должны ловиться
+  const ATT = ['x=self.parent.st', 'globalThis.top.save()', 'window["parent"].fmTx(1)', 'parent["st"]', 'Capacitor.Plugins.Filesystem.writeFile({})', 'localStorage.getItem("quest"+"-v2")', 'localStorage.getItem("fm_otabad")'];
+  const miss = ATT.filter(a => !guard.check('<script>' + a + '</script>', 'dr-src').length);
+  ok(miss.length === 0, 'Сторож ловит обходы (self.parent, globalThis.top, parent[…], Capacitor, "quest"+…, fm_ota*)', miss.join(' | '));
   const online = G.filter(g => /new WebSocket|fetch\(/.test(g.html)).map(g => g.id + ' → ' + [...new Set(g.html.match(/https:\/\/[a-z0-9.-]+/g) || [])].join(', '));
   rec('info', 'Игры с игрой через интернет: ' + (online.join('; ') || 'нет'));
   // Игры запускаются внутри приложения без «песочницы» — у них тот же доступ к памяти телефона
