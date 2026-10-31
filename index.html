@@ -724,6 +724,14 @@ function iso(d){return d.getFullYear()+"-"+p2(d.getMonth()+1)+"-"+p2(d.getDate()
 var now=new Date(),today=iso(now),mon=new Date(now.getFullYear(),now.getMonth(),now.getDate()-((now.getDay()+6)%7));
 function dateOf(i){return new Date(mon.getFullYear(),mon.getMonth(),mon.getDate()+i)}
 var day=(now.getDay()+6)%7,st={done:{},custom:{},bonus:{}};
+/* Новый день без перезагрузки (приложение открыто или вернулось из фона после полуночи): today, now, mon, day и «дата дня» пересчитываются,
+   блоки досчитывают своё по событию fmday (штрафы — pnSnap в fm3-js), экран перерисовывается. Проверка — при возврате в приложение и раз в минуту. */
+function fmDayRoll(){var n=new Date(),t=iso(n);if(t===today)return false;var old=today,wd=(now.getDay()+6)%7,om=+mon;
+ now=n;today=t;mon=new Date(n.getFullYear(),n.getMonth(),n.getDate()-((n.getDay()+6)%7));if(day===wd||+mon!==om)day=(n.getDay()+6)%7;
+ li2=Math.floor(n.getTime()/864e5);if(dy===old)dy=today;if(rhD===old)rhD=today;
+ try{document.dispatchEvent(new Event("fmday"))}catch(e){console.error(e)}try{localStorage.setItem("fm_seen",today)}catch(e){}
+ if(window.fmLog)fmLog("info","day-roll",{from:old,to:today});try{render();if(window.tdr)tdr()}catch(e){console.error(e)}return true}
+document.addEventListener("visibilitychange",function(){if(!document.hidden)fmDayRoll()});
 /* Данные не читаются (испорчены) или это не объект — сырая строка сохраняется в fm_broken до того, как первое save() её перезапишет */
 try{var r=localStorage.getItem("quest-v2");if(r){var o0=JSON.parse(r);if(o0&&typeof o0=="object"&&!Array.isArray(o0))st=o0;else throw new Error("not an object")}}catch(e){try{if(r)localStorage.setItem("fm_broken",JSON.stringify({t:Date.now(),d:r}))}catch(x){}if(window.fmLog)fmLog("error","load",{msg:String(e&&e.message||e),kept:"fm_broken",len:r?r.length:0})}
 if(window.fmMigrate)st=fmMigrate(st);
@@ -1602,7 +1610,7 @@ function qIdx(){return(li2*3+Math.floor(new Date().getHours()/8))%Q.length}
 function quoteShow(n){qi=n;$("qt").textContent="«"+Q[n][0]+"»";$("qa").textContent="— "+Q[n][1]}
 function quote(){var n;do{n=Math.floor(Math.random()*Q.length)}while(n===qi);quoteShow(n)}
 var qSlot=qIdx();
-setInterval(function(){if(iso(new Date())!==today){location.reload();return}var k=qIdx();if(k!==qSlot){qSlot=k;quoteShow(k);render()}},60000);
+setInterval(function(){fmDayRoll();var k=qIdx();if(k!==qSlot){qSlot=k;quoteShow(k);render()}},60000);
 LX.el2="Реле — аппарат, который при подаче сигнала на катушку замыкает или размыкает контакты в цепи управления: бывают электромагнитные, тепловые, реле времени и напряжения. Контактор рассчитан на коммутацию больших токов нагрузки, имеет главные контакты, дугогасительные камеры и вспомогательные контакты для блокировок. Типовая схема пуска двигателя: кнопка «пуск» подаёт питание на катушку контактора, его вспомогательный контакт шунтирует кнопку (самоподхват), кнопка «стоп» разрывает цепь. Сгоревшая катушка, залипшие или подгоревшие контакты и ослабленные клеммы — частые причины отказа. Проверку выполняют на обесточенной схеме, по инструкциям и допускам.";
 LX.el3="Аварийный источник питания на судне должен обеспечивать важнейших потребителей при потере основного питания: освещение, навигационные и радиосредства, сигнализацию, часть насосов. Точный состав и время работы определяют правила. Обычно это аварийный дизель-генератор с автоматическим запуском и аккумуляторные батареи, иногда переходный источник для питания на время запуска. Регулярные испытания (пробный пуск, проверка автоматики и нагрузки, измерение напряжения и состояния батарей) записывают в журнал. Главная проблема резервных систем — когда их не проверяли: в нужный момент оказывается, что батарея села или топливо старое.";
 LX.sh2="Огнестойкие переборки и палубы делят пассажирское судно на главные вертикальные зоны, внутри которых пожар должен удерживаться на время, достаточное для тушения и эвакуации. Конструкции классов А и В характеризуются временем сохранения целостности и теплоизоляции. Огнестойкие двери держат закрытыми либо они закрываются дистанционно и автоматически, а вентиляционные каналы пересекают границы зон через противопожарные заслонки. Системы обнаружения, спринклеры и аварийная сигнализация дополняют конструктивную защиту. Для электромеханика важно: кабельные проходки через переборки должны сохранять огнестойкость, поэтому работы с ними согласуют и восстанавливают по процедуре.";
@@ -1805,6 +1813,7 @@ for(k in p.w)if(k<today){delete p.w[k];ch=1}
 if(ch)save();return add}
 function pnTotal(){var t=0,d=PN().d;for(var k in d)t+=d[k].x||0;return t}
 var pnNew=pnSnap();
+document.addEventListener("fmday",function(){var a=pnSnap();if(a>0)toast(fmL("⚖️ Штраф за невыполненные квесты: −","⚖️ Penalty for unfinished quests: −","⚖️ Штраф за невиконані квести: −")+a+" XP"+fmL(". Подробности в «Штрафах»",". Details in Penalties",". Подробиці у «Штрафах»"))});
 var _calc=calc;calc=function(){var c=_calc();c.raw=c.xp;c.pen=pnTotal();c.xp=Math.max(0,c.xp-c.pen);return c};
 function pnToday(){var k=today,it=items(k,wdOf(k)),dd=st.done[k]||{},miss=it.filter(function(x){return!dd[x.id]});return{it:it,miss:miss,x:miss.reduce(function(a,x){return a+pnCost(x)},0)}}
 function pnDrop(x){var c=calc(),a=lvl(c.xp)[0],b=lvl(Math.max(0,c.raw-c.pen-x))[0];return b<a?[a,b]:null}
@@ -3515,7 +3524,7 @@ function R(){var r=st.ret;if(!r||typeof r!="object"||Array.isArray(r))r=st.ret={
 function go(k){if(!P[k])return;if(window.fmClose)fmClose();P[k].b.click()}
 function nat(){return typeof dcNP=="function"&&dcNP()}
 /* --- визиты: «с возвращением» и итоги недели --- */
-var seen=localStorage.getItem("fm_seen")||"",gap=seen?days(seen,today):0;if(gap>=3)W("fm_back",today);var back=localStorage.getItem("fm_back")==today;W("fm_seen",today);
+var seen=localStorage.getItem("fm_seen")||"",gap=seen?days(seen,today):0;if(gap>=3)W("fm_back",today);var back=localStorage.getItem("fm_back")==today;W("fm_seen",today);document.addEventListener("fmday",function(){back=localStorage.getItem("fm_back")==today});
 /* --- первые шаги --- */
 window.rtCard=function(){card()};
 function steps(){var c=calc(),w=st.wch||{},o=[
