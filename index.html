@@ -489,7 +489,7 @@ window.fmDLQ={on:function(kind,fn){H[kind]=fn},
  retry:function(kind,key){var x=rd(QK).filter(function(y){return y.k==kind&&y.key==String(key)})[0];if(x&&H[x.k]){H[x.k](x.key,x);return true}return false}};
 /* Миграции данных: у сохранения есть номер версии st._v. Шаги выполняются по порядку на копии, при ошибке остаются старые данные. */
 /* Флаги функций: включить или выключить часть приложения без новой версии кода (меняет разработчик в разделе «🩺»; хранится в fm_flags) */
-var FLAGS={autobackup:true,alerts:true,doclock:true,gamebox:false};
+var FLAGS={autobackup:true,alerts:true,doclock:true,gamebox:true};
 window.fmFlag=function(k){try{var o=JSON.parse(localStorage.getItem("fm_flags")||"{}");if(o&&typeof o[k]=="boolean")return o[k]}catch(e){}return FLAGS[k]!==false};
 fmFlag.all=function(){var r={},k;for(k in FLAGS)r[k]=fmFlag(k);return r};
 fmFlag.set=function(k,v){try{var o=JSON.parse(localStorage.getItem("fm_flags")||"{}")||{};o[k]=!!v;localStorage.setItem("fm_flags",JSON.stringify(o))}catch(e){}fmLog("info","audit:flag",{flag:k,on:!!v})};

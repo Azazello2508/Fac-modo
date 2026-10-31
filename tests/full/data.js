@@ -6,7 +6,7 @@ const { suite, rec, ok, warn, openApp, baseState } = require('./lib');
 async function tryState(browser, URL, state, ls) {
   const ctx = await browser.newContext(); const p = await ctx.newPage(); const errs = [];
   p.on('pageerror', e => errs.push(e.message.slice(0, 120)));
-  await ctx.addInitScript(({ s, ls }) => { if (sessionStorage.i) return; sessionStorage.i = 1; try { localStorage.setItem('quest-v2', s); if (ls) for (const k in ls) localStorage.setItem(k, ls[k]); } catch (e) {} }, { s: state, ls: ls || null });
+  await ctx.addInitScript(({ s, ls }) => { if (window !== window.top || sessionStorage.i) return; sessionStorage.i = 1; try { localStorage.setItem('quest-v2', s); if (ls) for (const k in ls) localStorage.setItem(k, ls[k]); } catch (e) {} }, { s: state, ls: ls || null });
   let hang = false;
   try { await p.goto(URL + 'index.html', { timeout: 12000 }); await p.waitForTimeout(600);
     hang = !(await Promise.race([p.evaluate(async () => { for (const b of document.querySelectorAll('#nav [data-n]')) { b.click(); await new Promise(r => setTimeout(r, 20)); }

@@ -35,6 +35,8 @@ module.exports = async function (browser, URL) {
   suite('9. Все игры запускаются и закрываются');
   {
     const { ctx, p, errs } = await openApp(browser, URL);
+    // «обезьяна» лезет внутрь iframe — для неё песочница gamebox выключена; с песочницей ниже — открытие и закрытие каждой игры
+    await p.evaluate(() => localStorage.setItem('fm_flags', JSON.stringify({ gamebox: false })));
     const ids = await p.evaluate(() => [...document.querySelectorAll('script[type="text/plain"][id$="-src"]')].map(s => s.id));
     const res = [];
     for (const id of ids) {
@@ -55,6 +57,18 @@ module.exports = async function (browser, URL) {
         await W(300);
         document.getElementById('tkx').click(); await W(200);
         return { id, err: (window.__FERR || []).slice(0, 2).join(' | '), left: !!document.querySelector('#tkw iframe') };
+      }, id);
+      res.push(r);
+    }
+    await p.evaluate(() => localStorage.setItem('fm_flags', JSON.stringify({ gamebox: true })));
+    for (const id of ids) {
+      const r = await p.evaluate(async id => {
+        const W = ms => new Promise(r => setTimeout(r, ms));
+        fmGame(id, id); await W(1200);
+        const f = document.querySelector('#tkw iframe'); if (!f) return { id: id + ' (песочница)', err: 'не открылась' };
+        if (f.getAttribute('sandbox') !== 'allow-scripts') return { id: id + ' (песочница)', err: 'нет sandbox' };
+        document.getElementById('tkx').click(); await W(200);
+        return { id: id + ' (песочница)', left: !!document.querySelector('#tkw iframe') };
       }, id);
       res.push(r);
     }

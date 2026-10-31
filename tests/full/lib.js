@@ -46,6 +46,8 @@ async function openApp(browser, URL, opts) {
     window.alert = m => window.__XSS.push('alert:' + m);
     // ошибки внутри игр (iframe) собираем в главное окно
     if (window !== window.top) addEventListener('error', e => { try { (window.top.__FERR = window.top.__FERR || []).push((document.title || 'игра') + ': ' + e.message); } catch (x) {} });
+    // начальные данные — только в главном окне (игра в песочнице gamebox не имеет доступа к хранилищу)
+    if (window !== window.top) return;
     if (sessionStorage.getItem('__init')) return;
     sessionStorage.setItem('__init', '1');
     try {
