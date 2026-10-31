@@ -295,7 +295,7 @@ main:not([data-tab="set"])>[data-t="set"]{display:none}
 @media (max-width:360px){.hudi::before{font-size:17px}.hudi{gap:8px}}
 #ed{scroll-margin-top:70px}
 .ntr{display:flex!important;flex-direction:row!important;align-items:center;gap:8px;flex:none!important;font-size:15px;color:var(--ink)!important}
-#nfc .add input[type=time]{padding:8px;border:1px solid var(--line);background:var(--bg);color:var(--ink);border-radius:8px;font:inherit}
+#nfc .ntk{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin:6px 0}#nfc .ntk .ntr{flex:1 1 200px}#nfc .ntk input[type=time],#nfc .add input[type=time]{padding:8px;border:1px solid var(--line);background:var(--bg);color:var(--ink);border-radius:8px;font:inherit}
 </style>
 </head>
 <body>
@@ -382,7 +382,7 @@ main:not([data-tab="set"])>[data-t="set"]{display:none}
 <section class="card" data-t="me" id="hm"></section>
 <section class="card" data-t="set" id="cfg"></section>
 <section class="card" data-t="set" id="cmf" translate="no"></section>
-<section class="card" data-t="set" id="nfc"></section>
+<section class="card" data-t="set" id="nfc" translate="no"></section>
 <section class="card" data-t="set" id="opt"></section>
 <section class="card" data-t="me" id="shr"></section>
 
@@ -1186,24 +1186,34 @@ function ntPerm(cb){if(window.fmDesktop){cb("granted");return}if(!window.Notific
 try{var r=Notification.requestPermission(function(v){cb(v)});if(r&&r.then)r.then(cb,function(){cb("denied")})}catch(e){cb("denied")}}
 function ntStatus(){if(window.fmDesktop)return["ok","Системные уведомления Windows: включены."];if(!window.Notification)return["warn","Этот браузер или приложение не умеет системные уведомления. Напоминания будут появляться внутри приложения, пока оно открыто."];
 var p=Notification.permission;return p=="granted"?["ok","Системные уведомления разрешены."]:p=="denied"?["warn","Системные уведомления запрещены в настройках браузера для этого сайта. Разреши их там, а пока напоминания видны внутри приложения."]:["warn","Системные уведомления ещё не разрешены. Нажми «Разрешить»."]}
-function ntr(){var n=NT(),s=ntStatus(),perm=!window.fmDesktop&&window.Notification&&Notification.permission=="default";
+function ntr(){var n=NT(),L=window.fmL||function(r){return r},R=window.fmRem,nat=!!(R&&R.nat()),q=R?R.q():{},on=!!(n.on||q.on||(nat&&st.dcn!==0)),ph=!nat||q.on,s=ntStatus(),perm=!window.fmDesktop&&window.Notification&&Notification.permission=="default";
 function seg(k,cur,o){return'<div class="add">'+o.map(function(x){return'<button type="button" class="alt'+(String(cur)==String(x[0])?" cur":"")+'" data-nt="'+k+'" data-v="'+x[0]+'">'+x[1]+'</button>'}).join("")+'</div>'}
 function cap(t){return'<p class="note" style="margin:12px 0 4px"><b>'+t+'</b></p>'}
-$("nfc").innerHTML='<h3>🔔 Уведомления</h3>'+seg("on",n.on?1:0,[[1,"Включены"],[0,"Выключены"]])+'<p class="note" style="margin:4px 0 0'+(s[0]=="warn"?";color:var(--xp)":"")+'">'+s[1]+'</p>'+(perm?'<div class="add"><button type="button" data-nt="perm">Разрешить уведомления</button></div>':'')
-+(n.on?cap("Напоминать о квесте")+seg("lead",n.lead,[[0,"В момент начала"],[5,"За 5 мин"],[10,"За 10 мин"],[15,"За 15 мин"],[30,"За 30 мин"]])
-+cap("Какие квесты")+seg("skipLife",n.skipLife?1:0,[[0,"Все"],[1,"Без бытовых (обед, сон)"]])
-+cap("Утренняя сводка")+'<div class="add"><label class="ntr"><input type="checkbox" data-ntc="amOn" '+(n.amOn?"checked":"")+'>Присылать в</label><input type="time" data-ntt="am" value="'+esc(n.am)+'" aria-label="Время утренней сводки"></div>'
-+cap("Вечерний итог дня")+'<div class="add"><label class="ntr"><input type="checkbox" data-ntc="pmOn" '+(n.pmOn?"checked":"")+'>Присылать в</label><input type="time" data-ntt="pm" value="'+esc(n.pm)+'" aria-label="Время вечернего итога"></div>'
-+cap("Звук")+seg("snd",n.snd?1:0,[[1,"Со звуком"],[0,"Без звука"]])
-+'<div class="add" style="margin-top:12px"><button type="button" class="alt" data-nt="test">Проверить уведомление</button></div>':'')
-+'<p class="note">Уведомления приходят по расписанию на этом устройстве, интернет не нужен. На компьютере программа должна быть запущена: она может работать в фоне у часов. Напоминания, которые приходят даже при закрытом приложении, — на вкладке «Напоминания».</p>'}
-$("nfc").addEventListener("click",function(e){var b=e.target.closest("button[data-nt]");if(!b)return;var k=b.dataset.nt,v=b.dataset.v,n=NT();
-if(k=="on"){n.on=v=="1"?1:0;save();if(n.on)ntPerm(function(){ntr()});render();return}
+function ck(k,v,t,d){return'<div class="ntk"><label class="ntr"><input type="checkbox" data-ntc="'+k+'" '+(v?"checked":"")+'>'+t+'</label>'+(d||"")+'</div>'}
+function tm(k,v,a){return'<input type="time" data-ntt="'+k+'" value="'+esc(v)+'" aria-label="'+a+'">'}
+var am=nat&&q.on&&q.am?q.am:n.am,pm=nat&&q.on&&q.pm?q.pm:n.pm;
+var h='<h3>🔔 '+L("Уведомления","Notifications","Сповіщення")+'</h3>'+seg("on",on?1:0,[[1,L("Включены","On","Увімкнені")],[0,L("Выключены","Off","Вимкнені")]])
++'<p class="note" style="margin:4px 0 0">'+(nat?L("Приходят, даже когда приложение закрыто. Интернет не нужен. Во время вахты и сна по графику не беспокоят.","They arrive even when the app is closed. No internet needed. They never disturb you on watch or during sleep from your rota.","Приходять, навіть коли застосунок закрито. Інтернет не потрібен. Під час вахти і сну за графіком не турбують."):L("На сайте и в программе на компьютере приходят, пока приложение открыто. При закрытом приложении — только в приложении на телефоне.","On the website and in the desktop program they arrive while the app is open. With the app closed, only in the phone app.","На сайті та в програмі на комп'ютері приходять, поки застосунок відкрито. При закритому застосунку — лише в застосунку на телефоні."))+'</p>';
+if(!nat&&on&&s[0]=="warn")h+='<p class="note" style="margin:4px 0 0;color:var(--xp)">'+L("Системные уведомления не разрешены: видно только внутри приложения.","System notifications are not allowed: you only see them inside the app.","Системні сповіщення не дозволені: видно лише всередині застосунку.")+'</p>'+(perm?'<div class="add"><button type="button" data-nt="perm">'+L("Разрешить уведомления","Allow notifications","Дозволити сповіщення")+'</button></div>':'');
+if(on){h+=cap(L("Что присылать","What to send","Що надсилати"))
++ck("amOn",n.amOn&&ph,L("Утром: сколько квестов сегодня","Morning: how many quests today","Вранці: скільки квестів сьогодні"),tm("am",am,L("Время утренней сводки","Morning summary time","Час ранкового зведення")))
++ck("pmOn",n.pmOn&&ph,L("Вечером: итог дня, если остались квесты","Evening: day summary if quests are left","Увечері: підсумок дня, якщо лишилися квести"),tm("pm",pm,L("Время вечернего итога","Evening summary time","Час вечірнього підсумку")))
++ck("pnw",n.pnw!==0,L("В 21:00: предупреждение о штрафе за незакрытые квесты","At 21:00: penalty warning for open quests","О 21:00: попередження про штраф за незакриті квести"))
++ck("dcn",st.dcn!==0,L("Документы: за 90, 30 и 7 дней до конца срока","Documents: 90, 30 and 7 days before expiry","Документи: за 90, 30 і 7 днів до кінця строку"))
++'<div class="ntk"><span class="ntr">👨‍👩‍👧 '+L("Близкие: кому пора позвонить — в «Дом и семья»","Close people: who is due a call is in “Home and family”","Близькі: кому час подзвонити — у «Дім і сім'я»")+'</span><button type="button" class="alt" data-nt="go" data-v="hfm">'+L("Открыть","Open","Відкрити")+'</button></div>'
++cap(L("Перед началом квеста (пока приложение открыто)","Before a quest starts (while the app is open)","Перед початком квесту (поки застосунок відкрито)"))+seg("lead",n.lead,[[0,L("В момент начала","At start","У момент початку")],[5,L("За 5 мин","5 min before","За 5 хв")],[10,L("За 10 мин","10 min before","За 10 хв")],[15,L("За 15 мин","15 min before","За 15 хв")],[30,L("За 30 мин","30 min before","За 30 хв")]])
++seg("skipLife",n.skipLife?1:0,[[0,L("Все квесты","All quests","Усі квести")],[1,L("Без бытовых (обед, сон)","Without chores (lunch, sleep)","Без побутових (обід, сон)")]])
++cap(L("Звук","Sound","Звук"))+seg("snd",n.snd?1:0,[[1,L("Со звуком","With sound","Зі звуком")],[0,L("Без звука","Silent","Без звуку")]])
++'<div class="add" style="margin-top:12px"><button type="button" class="alt" data-nt="test">'+L("Проверить уведомление","Test notification","Перевірити сповіщення")+'</button></div>'}
+$("nfc").innerHTML=h}
+$("nfc").addEventListener("click",function(e){var b=e.target.closest("button[data-nt]");if(!b)return;var k=b.dataset.nt,v=b.dataset.v,n=NT(),R=window.fmRem;
+if(k=="on"){var o=v=="1";n.on=o?1:0;if(o&&st.dcn===0)st.dcn=1;if(!o)st.dcn=0;save();if(typeof dcSync=="function")dcSync(1);if(R&&R.nat())R.on(o);if(o)ntPerm(function(){ntr()});render();ntr();return}
+if(k=="go"){if(window.fmClose)fmClose();var P=window.uxP||{};if(P[v])P[v].b.click();return}
 if(k=="perm"){ntPerm(function(r){ntr();toast(r=="granted"?"Уведомления разрешены":"Уведомления не разрешены")});return}
 if(k=="test"){ntPerm(function(){ntSend("Fac Modo","Проверка уведомлений: всё работает","test");ntr()});return}
 if(k=="lead")n.lead=+v;else if(k=="skipLife")n.skipLife=+v;else if(k=="snd")n.snd=+v;
 save();ntr()});
-$("nfc").addEventListener("change",function(e){var t=e.target,n=NT();if(t.dataset.ntc){n[t.dataset.ntc]=t.checked?1:0;save()}else if(t.dataset.ntt&&/^\d\d:\d\d$/.test(t.value)){n[t.dataset.ntt]=t.value;var s=n.sent[iso(new Date())];if(s)delete s[t.dataset.ntt];save()}});
+$("nfc").addEventListener("change",function(e){var t=e.target,n=NT(),R=window.fmRem;if(t.dataset.ntc){var c=t.dataset.ntc;if(c=="dcn"){st.dcn=t.checked?1:0;save();if(typeof dcSync=="function")dcSync(1)}else{n[c]=t.checked?1:0;save();if(R){if(t.checked&&(c=="amOn"||c=="pmOn")&&R.nat()&&!R.q().on)R.on(true);else R.sync(1)}}}else if(t.dataset.ntt&&/^\d\d:\d\d$/.test(t.value)){n[t.dataset.ntt]=t.value;var s=n.sent[iso(new Date())];if(s)delete s[t.dataset.ntt];if(R){var q=R.q();q[t.dataset.ntt]=t.value;R.set(q)}save()}});
 function cfgr(){var c=st.cfg||{},RMq=false;try{RMq=matchMedia("(prefers-reduced-motion:reduce)").matches}catch(e){}
 var an=c.anim==null?(RMq?0:2):+c.anim,sh=c.ship||"auto",td=c.tod||"auto";
 function seg(k,cur,o){return'<div class="add">'+o.map(function(x){return'<button type="button" class="alt'+(String(cur)==String(x[0])?" cur":"")+'" data-cfg="'+k+'" data-v="'+x[0]+'">'+x[1]+'</button>'}).join("")+'</div>'}
@@ -1820,7 +1830,7 @@ else{var t=pnToday();if(!t.miss.length)s=fmL("✅ Всё закрыто: штр�
 else{var dr=pnDrop(t.x);s=fmL("⚖️ Не закроешь до полуночи: ","⚖️ Not done by midnight: ","⚖️ Не закриєш до півночі: ")+'<span class="mx">−'+t.x+' XP</span>'+(dr?fmL(", уровень ",", level ",", рівень ")+dr[0]+" → "+dr[1]:"");
 var it=items(k,day),dd=st.done[k]||{},li=$("list").children;for(var i=0;i<it.length&&i<li.length;i++){var xb=li[i].querySelector(".xpb");if(xb&&!dd[it[i].id]&&!xb.querySelector(".pnx"))xb.insertAdjacentHTML("beforeend",'<small class="pnx" translate="no"> −'+pnCost(it[i])+'</small>')}}}
 q.innerHTML=s;q.hidden=!s}
-function pnWarn(){var p=PN();if(today<p.s||new Date().getHours()<PNH||p.w[today]||pnHard(today)||iso(new Date())!==today)return;var t=pnToday();if(!t.miss.length)return;
+function pnWarn(){var p=PN();if(st.nt&&st.nt.pnw===0)return;if(today<p.s||new Date().getHours()<PNH||p.w[today]||pnHard(today)||iso(new Date())!==today)return;var t=pnToday();if(!t.miss.length)return;
 var ti=fmL("⚠️ Штраф −","⚠️ Penalty −","⚠️ Штраф −")+t.x+fmL(" XP в полночь"," XP at midnight"," XP опівночі"),bo=fmL("Не закрыто: ","Still open: ","Не закрито: ")+t.miss.slice(0,3).map(function(x){return window.trEN?trEN(x.n):x.n}).join(", ")+(t.miss.length>3?"…":"");
 if(typeof NT=="function"&&NT().on&&typeof ntSend=="function"){ntSend(ti,bo,"pn");p.w[today]=1;save()}
 else if(document.visibilityState==="visible"){toast(ti+". "+bo);p.w[today]=1;save()}
@@ -3265,7 +3275,6 @@ var GR=[
  ["dc","🛂",L("Документы и стаж","Documents and sea time","Документи й стаж"),[[L("Документы","Documents","Документи"),["dc"]],[L("Контракты","Contracts","Контракти"),["ct"]]]],
  ["rz","📄",L("Резюме и отклики","CV and applications","Резюме й відгуки"),[[L("Резюме","CV","Резюме"),["rz"]],[L("Отклики","Applications","Відгуки"),["ap"]]]],
  ["cfg","🖥️",L("Внешний вид","Appearance","Вигляд"),[[L("Экран","Screen","Екран"),["cfg"]],[L("Тема и фото","Theme & photo","Тема і фото"),["#th"]]]],
- ["nfc","🔔",L("Уведомления","Notifications","Сповіщення"),[[L("Уведомления","Notifications","Сповіщення"),["nfc"]],[L("Напоминания","Reminders","Нагадування"),["rem"]]]],
  ["#sn","💾",L("Копии и перенос","Backup and transfer","Копії й перенесення"),[[L("Копия","Backup","Копія"),["#sn"]],[L("Автокопии","Auto backups","Автокопії"),["abk"]],[L("Новый телефон","New phone","Новий телефон"),["trn"]]]]
 ];
 /* повторы: «Серия» в настройках (та же кнопка заморозки есть в «Серии дней») и «Расписание» (ссылка на редактор, он теперь в «Моём дне») */
@@ -3467,7 +3476,7 @@ new MutationObserver(function(){setTimeout(upd,0)}).observe(fmc,{childList:true}
 #rtw h3{margin:0 0 4px;font-size:22px}#rtw .rtg{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin:14px 0}
 #rtw .rtg div{padding:12px;border-radius:14px;border:1px solid var(--line);background:var(--card)}#rtw .rtg b{display:block;font-size:24px}#rtw .rtg span{font-size:13px;color:var(--mute)}
 #rtw button{width:100%;min-height:50px;border:0;border-radius:14px;background:var(--acc);color:#0e1424;font:inherit;font-size:17px;font-weight:800;cursor:pointer}
-#rem .rmr{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin:8px 0}#rem .rmr label{flex:1;min-width:150px}#rem input[type=time]{min-height:44px}
+#nfc input[type=time]{min-height:44px}
 </style>
 <script id="ret-js">/* Чтобы хотелось вернуться — всё на главной в карточке «Сегодня» (#rtx, перерисовка в обёртке tdr) и без интернета:
  1) «Первые шаги» новичку (5 дел, за все +50 XP один раз, st.ret.f); 2) «Продолжить» — последний открытый раздел (fm_last);
@@ -3476,7 +3485,6 @@ new MutationObserver(function(){setTimeout(upd,0)}).observe(fmc,{childList:true}
  утро — сколько квестов, вечер — закрыть день, если не закрыт (не во время вахты и сна — fit()); через 3 дня без входа — «Давно не виделись». Настройки — раздел #rem, состояние — fm_rem. */
 /* +50 XP за «Первые шаги» — обёртка calc сразу при загрузке, до кэша calc в elg-js */
 (function(){var oc=window.calc;if(typeof oc=="function")calc=function(){var c=oc.apply(this,arguments);if(window.st&&st.ret&&st.ret.f){c.xp+=50;if(c.raw!=null)c.raw+=50}return c}})();
-(function(){var nf=document.getElementById("nfc");if(!nf)return;var s=document.createElement("section");s.className="card";s.setAttribute("data-t","set");s.id="rem";s.setAttribute("translate","no");nf.parentNode.insertBefore(s,nf.nextSibling)})();
 document.addEventListener("DOMContentLoaded",function(){var P=window.uxP||{},L=function(r,e,u){return window.fmL?fmL(r,e,u):r};
 function J(k,d){try{return JSON.parse(localStorage.getItem(k)||"")||d}catch(e){return d}}function W(k,v){try{localStorage.setItem(k,typeof v=="string"?v:JSON.stringify(v))}catch(e){}}
 function days(a,b){return Math.round((new Date(b+"T00:00:00")-new Date(a+"T00:00:00"))/864e5)}
@@ -3541,11 +3549,11 @@ function fit(dt,endH,backH){var w=null;try{w=window.fm3&&fm3.wd&&fm3.wd()}catch(
  function ok(t){return t.getDate()==dt.getDate()&&t.getHours()<endH&&t.getHours()>=backH&&!busy(t,w)}
  for(var d=0;d<=960;d+=15){var f=new Date(dt.getTime()+d*6e4),b=new Date(dt.getTime()-d*6e4);if(ok(b))return b;if(ok(f))return f}return null}
 var rq=Promise.resolve(),rsig="";
-function remSync(force){var N=nat();if(!N)return;var q=rem(),arr=[],now=Date.now(),sk=0;try{sk=calc().streak}catch(e){}
+function remSync(force){var N=nat();if(!N)return;var q=rem(),ntq=(window.st&&st.nt)||{},arr=[],now=Date.now(),sk=0;try{sk=calc().streak}catch(e){}
  if(q.on){for(var i=0;i<7;i++){var d=new Date();d.setDate(d.getDate()+i);var k=dk(d),it=items(k,(d.getDay()+6)%7),dd=st.done[k]||{},left=it.filter(function(z){return!dd[z.id]}).length;
   var a=fit(new Date(k+"T"+q.am+":00"),13,5),b=fit(new Date(k+"T"+q.pm+":00"),24,14);
-  if(a&&a.getTime()>now+6e4&&it.length)arr.push({id:3000+i,at:a,t:"⚓ Fac Modo",b:(a.getHours()<12?L("Доброе утро! ","Good morning! ","Доброго ранку! "):"")+L("Квестов сегодня: ","Quests today: ","Квестів сьогодні: ")+it.length});
-  if(b&&b.getTime()>now+6e4&&left)arr.push({id:3010+i,at:b,t:"🔥 Fac Modo",b:i==0&&sk>0?L("Осталось дел: ","Tasks left: ","Залишилось справ: ")+left+L(". Сохрани серию — ",". Keep your streak — ",". Збережи серію — ")+sk+L(" дн."," days"," дн."):L("Отметь, что сделано сегодня — день засчитается.","Tick off what you did today so the day counts.","Відміть, що зроблено сьогодні, — день зарахується.")})}
+  if(a&&ntq.amOn!==0&&a.getTime()>now+6e4&&it.length)arr.push({id:3000+i,at:a,t:"⚓ Fac Modo",b:(a.getHours()<12?L("Доброе утро! ","Good morning! ","Доброго ранку! "):"")+L("Квестов сегодня: ","Quests today: ","Квестів сьогодні: ")+it.length});
+  if(b&&ntq.pmOn!==0&&b.getTime()>now+6e4&&left)arr.push({id:3010+i,at:b,t:"🔥 Fac Modo",b:i==0&&sk>0?L("Осталось дел: ","Tasks left: ","Залишилось справ: ")+left+L(". Сохрани серию — ",". Keep your streak — ",". Збережи серію — ")+sk+L(" дн."," days"," дн."):L("Отметь, что сделано сегодня — день засчитается.","Tick off what you did today so the day counts.","Відміть, що зроблено сьогодні, — день зарахується.")})}
   (window.RTN||[]).forEach(function(f){try{arr=arr.concat(f(fit,now)||[])}catch(e){}});
   var z=new Date(now+3*864e5);z.setHours(10,0,0,0);z=fit(z,22,8)||z;arr.push({id:3090,at:z,t:"⚓ Fac Modo",b:L("Давно не виделись! Загляни — квесты и задача дня ждут.","Long time no see! Your quests and daily puzzle are waiting.","Давно не бачились! Зазирни — квести й задача дня чекають.")})}
  var sig=JSON.stringify(arr.map(function(x){return x.id+":"+x.at.getTime()+x.b}));if(!force&&sig==rsig)return;rsig=sig;
@@ -3553,14 +3561,9 @@ function remSync(force){var N=nat();if(!N)return;var q=rem(),arr=[],now=Date.now
   .then(function(){if(arr.length)return N.schedule({notifications:arr.map(function(x){return{id:x.id,title:x.t,body:x.b,schedule:{at:x.at,allowWhileIdle:true}}})})}).catch(function(e){if(window.fmLog)fmLog("warn","rem",{e:String(e&&e.message||e)})})}
 var rt=0;if(typeof save=="function"){var os=save;save=function(){var v=os.apply(this,arguments);clearTimeout(rt);rt=setTimeout(remSync,4000);return v}}
 document.addEventListener("visibilitychange",function(){if(document.hidden)remSync();else card()});setTimeout(remSync,3000);
-/* --- раздел «Напоминания» в настройках --- */
-function remR(){var c=document.getElementById("rem");if(!c)return;var q=rem(),n=!!nat();
- c.innerHTML='<h3>⏰ '+L("Напоминания","Reminders","Нагадування")+'</h3><p class="note" style="margin:0 0 8px">'+(n?L("Приходят, даже когда приложение закрыто. Интернет не нужен. Во время вахты и сна по графику не беспокоят — сдвигаются на свободное время.","They arrive even when the app is closed. No internet needed. They never disturb you on watch or during sleep from your rota — they move to free time.","Приходять, навіть коли застосунок закрито. Інтернет не потрібен. Під час вахти і сну за графіком не турбують — зсуваються на вільний час."):L("Работают в приложении на телефоне (iPhone или Android).","They work in the phone app (iPhone or Android).","Працюють у застосунку на телефоні (iPhone або Android)."))+'</p>'+
- '<div class="add"><button type="button" data-rm="tog" class="'+(q.on?"alt":"")+'">'+(q.on?L("Выключить","Turn off","Вимкнути"):L("🔔 Включить","🔔 Turn on","🔔 Увімкнути"))+'</button></div>'+
- '<div class="rmr"><label for="rmam">'+L("Утром, сколько квестов","Morning: today’s quests","Вранці: скільки квестів")+'</label><input type="time" id="rmam" value="'+esc(q.am)+'"></div>'+
- '<div class="rmr"><label for="rmpm">'+L("Вечером, если день не закрыт","Evening: if the day isn’t closed","Увечері: якщо день не закрито")+'</label><input type="time" id="rmpm" value="'+esc(q.pm)+'"></div>'}
-var rc=document.getElementById("rem");if(rc){rc.addEventListener("click",function(e){var b=e.target.closest("[data-rm]");if(b)remOn(!rem().on)});
- rc.addEventListener("change",function(e){var t=e.target;if(!/^\d\d:\d\d$/.test(t.value||""))return;var q=rem();if(t.id=="rmam")q.am=t.value;else if(t.id=="rmpm")q.pm=t.value;else return;W("fm_rem",q);remSync(1)})}
+/* --- настройки — в едином разделе «🔔 Уведомления» (#nfc, ntr в основном скрипте) --- */
+function remR(){if(typeof ntr=="function"&&document.getElementById("nfc"))ntr()}
+window.fmRem={q:rem,set:function(q){W("fm_rem",q);remSync(1)},on:remOn,sync:remSync,nat:function(){return!!nat()}};
 remR()});
 </script>
 <style id="rs-css">/* Рейс: воспоминания, праздники рейса, повторение слов (#srs), цели на рейс (#rg), «почти получил» (блок rs-js) */
@@ -3774,7 +3777,7 @@ rg:["1–5 целей на контракт с прогрессом","1–5 goal
 d1:["Настроение, энергия, сон — за минуту","Mood, energy, sleep — in a minute","Настрій, енергія, сон — за хвилину"],d2:["Запись дня — только на этом телефоне","Today’s entry — stays on this phone","Запис дня — лише на цьому телефоні"],
 d3:["Нарисуй что-нибудь пальцем","Draw something with your finger","Намалюй щось пальцем"],d4:["Все записи и настроение по дням","All entries and mood by day","Усі записи й настрій по днях"],dq:["Поддержка в трудный день","Support on a hard day","Підтримка у важкий день"],
 cfg:["Размер текста, анимация, вид","Text size, animation, look","Розмір тексту, анімація, вигляд"],"#th":["Тема оформления и фото профиля","Colour theme and profile photo","Тема оформлення і фото профілю"],
-nfc:["Напоминания о квестах внутри приложения","Quest reminders inside the app","Нагадування про квести всередині застосунку"],rem:["Напоминания на телефоне, даже когда приложение закрыто","Phone reminders even when the app is closed","Нагадування на телефоні, навіть коли застосунок закрито"],
+nfc:["Все напоминания в одном месте: квесты утром и вечером, штраф, документы, близкие","All reminders in one place: morning and evening quests, penalty, documents, close people","Усі нагадування в одному місці: квести вранці й увечері, штраф, документи, близькі"],
 "#sn":["Сохранить копию данных в файл","Save a copy of your data to a file","Зберегти копію даних у файл"],abk:["Копии, которые приложение делает само","Backups the app makes by itself","Копії, які застосунок робить сам"],
 trn:["Перенести всё на новый телефон без интернета","Move everything to a new phone offline","Перенести все на новий телефон без інтернету"],cmf:["Одна рука, левша или правша, листать помещения пальцем","One hand, left or right, swipe between rooms","Одна рука, шульга чи правша, гортати приміщення пальцем"],uxp:["Какие разделы показывать","Which sections to show","Які розділи показувати"],
 prv:["Конфиденциальность и поддержка","Privacy and support","Конфіденційність і підтримка"],abt:["Версия и о приложении","Version and about","Версія і про застосунок"],
@@ -3804,7 +3807,7 @@ if(fmm&&fmc){new MutationObserver(seen).observe(fmc,{childList:true});new Mutati
 /* --- порядок знакомства по должности --- */
 var R=(st.ux&&st.ux.r)||st.prof||"ot",ST={me:["cvm","rlg","gl","ck","srs"],el:["clc","cvm","rlg","gl","srs"],na:["shn","srf","sky","rh","srs"],rt:["rh","srs","en","qz","ck"],ot:["wch","hfm","gym","bk","snd"]},
  BASE=["#days","mat","wch","dc","hfm"],ORDR=BASE.concat(ST[R]||ST.ot);
-function order(){var o=ORDR.slice();["#days","wch","rh","dc","hfm","ktr","srf","cvm","srs","lib","rlg","fnm","ct","bk","flm","snd","gym","mt2","bg","sky","brt","pzl","rg","d1","rz","sh1","vis","cth","pck","ck","en","gl","qz","iv","shn","clc","tip","ls","pom","ch","shop","tk","sm","#stats","#ach","rwd","rem","#sn","trn"].forEach(function(k){if(o.indexOf(k)<0)o.push(k)});
+function order(){var o=ORDR.slice();["#days","wch","rh","dc","hfm","ktr","srf","cvm","srs","lib","rlg","fnm","ct","bk","flm","snd","gym","mt2","bg","sky","brt","pzl","rg","d1","rz","sh1","vis","cth","pck","ck","en","gl","qz","iv","shn","clc","tip","ls","pom","ch","shop","tk","sm","#stats","#ach","rwd","#sn","trn"].forEach(function(k){if(o.indexOf(k)<0)o.push(k)});
  all().forEach(function(k){if(o.indexOf(k)<0)o.push(k)});return o.filter(vis)}
 function tod(){var t=J("fm_tod",{});if(t.d==today&&t.k&&vis(t.k))return t.k;var v=G().v,k=order().filter(function(x){return!v[x]})[0]||"";W("fm_tod",{d:today,k:k});return k}
 function ic(k){var b=P[k]&&P[k].b;return(b&&b.firstChild&&b.firstChild.textContent)||"🧰"}
@@ -5381,8 +5384,7 @@ function cmfr(){var c=document.getElementById("cmf");if(!c)return;var g=G(),tl=P
 document.addEventListener("click",function(e){var b=e.target.closest("#cmf [data-cmf]");if(!b)return;var c=G(),k=b.dataset.cmf,v=b.dataset.v;c[k]=k=="h"?v:+v;S(c)});
 /* 4. поиск по настройкам и сброс вида */
 var KW={cfg:"имя тема море фон анимация батарея заряд судно время суток размер текста крупный шрифт карточки компактно панели вид name theme sea background animation battery ship text size large font cards compact view ім'я тема море фон батарея судно розмір тексту великий шрифт картки вигляд",
- nfc:"уведомления оповещения звук напоминания документы notifications alerts sound reminders сповіщення звук нагадування",
- rem:"напоминания утро вечер закрытое приложение reminders morning evening нагадування ранок вечір",
+ nfc:"уведомления оповещения звук напоминания документы утро вечер штраф близкие notifications alerts sound reminders morning evening penalty сповіщення звук нагадування ранок вечір штраф",
  opt:"серия заморозка пропуск streak freeze серія заморозка",
  trn:"перенос новый телефон без интернета перенести move transfer new phone перенесення новий телефон",
  uxp:"что показывать разделы должность интересы скрыть показать всё what to show sections role interests hide show all що показувати розділи посада інтереси",
