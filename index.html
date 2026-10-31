@@ -3281,10 +3281,12 @@ var OF={};GR.forEach(function(g){g[3]=g[3].map(function(t){return[t[0],t[1].filt
 window.oneOf=function(k){return OF[k]?OF[k].g[0]:k};
 function key(s){if(!s||s.tagName!="SECTION")return"";if(s.id)return s.id;var e=s.querySelector("[id]");return e?"#"+e.id:""}
 var T=document.createElement("div");T.id="onet";T.setAttribute("role","tablist");T.setAttribute("translate","no");T.hidden=true;fmb.insertBefore(T,fmh.nextSibling);
+/* название группы в шапке окна (как на плитке), под ним — вкладки; у одиночного раздела шапка — его заголовок, как на плитке */
+var GT=document.createElement("b");GT.id="onegt";GT.setAttribute("translate","no");GT.hidden=true;fmh.insertBefore(GT,document.getElementById("fmx"));
 var cur=null,busy=false,tap=null;mn.addEventListener("click",function(e){var b=e.target.closest&&e.target.closest("button.fmt");tap=e.isTrusted&&b?b:null},true);
 function ok(k){return P[k]&&(!window.uxShow||uxShow(k)||k==cur.k0)}
 function restore(){if(!cur)return;busy=true;cur.a.forEach(function(x){x.ph.parentNode.insertBefore(x.s,x.ph);x.ph.remove()});
- [].forEach.call(fmc.querySelectorAll(":scope>section.oneh"),function(s){s.classList.remove("oneh")});cur=null;T.hidden=true;T.innerHTML="";busy=false}
+ [].forEach.call(fmc.querySelectorAll(":scope>section.oneh"),function(s){s.classList.remove("oneh")});cur=null;T.hidden=true;T.innerHTML="";GT.hidden=true;fmh.classList.remove("oneg");busy=false}
 function show(i){if(!cur)return;busy=true;cur.i=i;var first=null;
  cur.g[3].forEach(function(t,j){t[1].forEach(function(k){var s=P[k].s;if(s.parentNode!==fmc)return;s.classList.toggle("oneh",j!=i);if(j==i&&!first)first=s})});
  if(first&&fmc.firstElementChild!==first){var keep=[];cur.g[3][i][1].forEach(function(k){if(P[k].s.parentNode===fmc)keep.push(P[k].s)});for(var n=keep.length-1;n>=0;n--)fmc.insertBefore(keep[n],fmc.firstChild)}
@@ -3292,9 +3294,11 @@ function show(i){if(!cur)return;busy=true;cur.i=i;var first=null;
  var a=T.querySelector('[aria-selected="true"]');if(a&&a.scrollIntoView)try{a.scrollIntoView({block:"nearest",inline:"center"})}catch(e){}
  busy=false;try{var u=JSON.parse(localStorage.getItem("fm_one")||"{}");u[cur.g[0]]=i;localStorage.setItem("fm_one",JSON.stringify(u))}catch(e){}}
 function sync(){if(busy)return;var on=fmm.classList.contains("on"),f=fmc.firstElementChild,k=key(f);
+ if(on&&k&&P[k]){var nm=OF[k]?OF[k].g[2]:(P[k].b.lastChild&&P[k].b.lastChild.textContent)||"";if(nm)fmb.setAttribute("aria-label",nm)}
  if(cur&&(!on||!f||!OF[k]||OF[k].g!==cur.g)){restore();f=fmc.firstElementChild;k=key(f)}
  if(!on||!f||!OF[k]||cur)return;var o=OF[k];cur={g:o.g,a:[],k0:k,i:o.i};busy=true;
  o.g[3].forEach(function(t){t[1].forEach(function(c){var s=P[c].s;if(c==k||!s||s.parentNode!==mn)return;if(window.uxShow&&!uxShow(c))return;var ph=document.createComment("one");mn.insertBefore(ph,s);fmc.appendChild(s);cur.a.push({s:s,ph:ph})})});
+ GT.textContent=o.g[1]+" "+o.g[2];GT.hidden=false;fmh.classList.add("oneg");
  T.innerHTML=o.g[3].map(function(t,j){var vis=t[1].some(function(c){return P[c].s.parentNode===fmc});return vis?'<button type="button" role="tab" data-i="'+j+'">'+esc(t[0])+'</button>':""}).join("");T.hidden=false;busy=false;
  /* последняя вкладка группы — только когда плитку нажал сам человек; переходы из «Сегодня», путеводителя, поиска и т.п. открывают именно свой раздел */
  var i=o.i;if(k==o.g[0]&&tap===P[k].b){try{var u=JSON.parse(localStorage.getItem("fm_one")||"{}");if(u[k]!=null&&T.querySelector('[data-i="'+u[k]+'"]'))i=+u[k]}catch(e){}}show(i)}
@@ -5479,6 +5483,8 @@ var q=0,go=function(){clearTimeout(q);q=setTimeout(sib,30)};new MutationObserver
 </script>
 <style id="pol-css">/* Удобство и ясность (блок pol-js): босс недели в «Итогах недели», название группы в шапке окна, подсказки в пустых разделах, ночной режим в «Тема и фото» */
 #fmc p.cmpb{margin:12px 0 6px;font-size:15px;font-weight:700;color:var(--ink)}
+#fmh #onegt{flex:1 1 auto;min-width:0;align-self:center;padding:0 8px;font-size:17px;font-weight:800;line-height:1.2;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+#fmh #onegt[hidden]{display:none}#fmh.oneg .uxst{margin-right:0}
 </style>
 <style id="gv-css">/* 🧭 Путеводитель (#gv, блок gv-js): главы, «Главное», шаги, живой показ (#gvo) */
 #fmb:has(#fmc>#gv) #hnt{display:none!important}
