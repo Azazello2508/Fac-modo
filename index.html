@@ -3790,7 +3790,7 @@ var TK={rh:"сколько я отдыхал работал устал уста�
 window.gdDesc=function(k){var d=GD[k];return d?d[li]:""};
 window.uxKW=function(k){var d=GD[k];return(d?d.join(" "):"")+" "+(TK[k]||"")};
 /* «Все разделы»: описание под названием */
-var UL=document.getElementById("uxl");function desc(){if(!UL)return;[].forEach.call(UL.querySelectorAll('button[data-ux="go"][data-k]'),function(b){if(b.querySelector(".gdd"))return;var d=gdDesc(b.dataset.k);if(!d)return;var sp=b.querySelector("span");if(sp){var s=document.createElement("small");s.className="gdd";s.textContent=d;sp.appendChild(s)}})}
+var UL=document.getElementById("uxl");function desc(){if(!UL)return;[].forEach.call(UL.querySelectorAll('button[data-ux="go"][data-k]'),function(b){if(b.querySelector(".gdd"))return;var d=(window.shpDS&&shpDS[b.dataset.k])||gdDesc(b.dataset.k);if(!d)return;var sp=b.querySelector("span");if(sp){var s=document.createElement("small");s.className="gdd";s.textContent=d;sp.appendChild(s)}})}
 if(UL)new MutationObserver(desc).observe(UL,{childList:true});
 /* --- исследователь --- */
 function G(){var g=st.gd;if(!g||typeof g!="object"||Array.isArray(g))g=st.gd={};g.v=g.v||{};return g}
@@ -5240,7 +5240,10 @@ var DS={"#days":L("Квесты, цель дня, серия, расписани
  snd:L("Шум моря, дождь и другие звуки для сна с таймером","Sea, rain and other sleep sounds with a timer","Шум моря, дощ та інші звуки для сну з таймером"),ch:L("Сундук дня и магазин наград","Daily chest and reward shop","Скриня дня й крамниця нагород"),
  hfm:L("Дата домой, дни до дома, звонки","Date home, days left, calls","Дата додому, дні до дому, дзвінки"),sh1:L("Курс, шаг дня, навыки, план, опыт","Course, daily step, skills, plan, experience","Курс, крок дня, навички, план, досвід"),
  rz:L("Резюме в PDF и отклики","CV in PDF and applications","Резюме в PDF і відгуки"),"#stats":L("Уровень, итоги недели, достижения, цели","Level, week summary, achievements, goals","Рівень, підсумки тижня, досягнення, цілі"),
- d1:L("Настроение, записи, рисунки","Mood, entries, drawings","Настрій, записи, малюнки")};
+ d1:L("Настроение, записи, рисунки","Mood, entries, drawings","Настрій, записи, малюнки"),
+ cfg:L("Имя, размер текста, море на фоне, тема и фото","Name, text size, sea background, theme and photo","Ім'я, розмір тексту, море на фоні, тема і фото"),
+ "#sn":L("Копия в файл, автокопии, перенос на новый телефон","Backup to a file, auto backups, moving to a new phone","Копія у файл, автокопії, перенесення на новий телефон")};
+window.shpDS=DS;
 function one(k){return window.oneOf?oneOf(k):k}
 var RM={},RI={};R.forEach(function(r){RI[r[0]]=r;r[4].forEach(function(k,i){RM[k]=r[0]})});
 function room(k){var m=one(k),b=P[k].b;if(DECK[k]||DECK[m])return"";if(RM[m])return RM[m];if(RM[k])return RM[k];if(b.classList.contains("uxrow"))return"cab";var t=(P[m]||P[k]).b.getAttribute("data-t");return FB[t]||"cab"}
