@@ -92,6 +92,7 @@ jobs:
     needs: sync
     if: needs.sync.outputs.changed == 'true'
     uses: ./.github/workflows/android.yml
+    secrets: inherit   # ключ подписи ANDROID_KEYSTORE: без него сборка из main падает
 
   site:
     needs: sync

@@ -59,14 +59,16 @@ jobs:
       - name: Подписать приложение
         # Ключ подписи хранится в GitHub Secrets (ANDROID_KEYSTORE — файл .p12 в base64, ANDROID_KEY_PASS — пароль).
         # Один и тот же ключ нужен, чтобы новая версия ставилась поверх старой без потери данных.
-        # Пока ключа нет, каждый раз создаётся временный: приложение работает, но новую версию придётся ставить заново.
+        # Без ключа сборка из main падает и ничего не выкладывает: APK с временным ключом не ставится поверх старого,
+        # человек удалил бы приложение и потерял данные. Временный ключ — только для проверочных запусков не из main (без выпуска).
         env:
           KS: ${{ secrets.ANDROID_KEYSTORE }}
           KP: ${{ secrets.ANDROID_KEY_PASS }}
         run: |
           BT=$(ls -d $ANDROID_HOME/build-tools/* | sort -V | tail -1)
           if [ -n "$KS" ]; then echo "$KS" | base64 -d > key.p12; PASS="$KP"
-          else echo "::warning::Нет ключа ANDROID_KEYSTORE — подписано временным ключом"; PASS=$(openssl rand -hex 16)
+          elif [ "$GITHUB_REF" = "refs/heads/main" ]; then echo "::error::Нет секрета ANDROID_KEYSTORE — сборка из main не подписывается временным ключом и не публикуется"; exit 1
+          else echo "::warning::Нет ключа ANDROID_KEYSTORE — подписано временным ключом (не из main, в выпуск не попадёт)"; PASS=$(openssl rand -hex 16)
             keytool -genkeypair -keystore key.p12 -storetype PKCS12 -storepass "$PASS" -alias facmodo -keyalg RSA -keysize 2048 -validity 10950 -dname "CN=Fac Modo"; fi
           $BT/zipalign -f -p 4 android/app/build/outputs/apk/release/app-release-unsigned.apk aligned.apk
           $BT/apksigner sign --ks key.p12 --ks-type PKCS12 --ks-pass "pass:$PASS" --out FacModo.apk aligned.apk
