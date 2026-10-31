@@ -489,7 +489,7 @@ window.fmImg=function(f){var L=function(r,e,u){return window.fmL?fmL(r,e,u):r};i
  if(!/^image\/(jpeg|png|gif|webp|heic|heif|bmp|avif)$/i.test(f.type||"")&&!/\.(jpe?g|png|gif|webp|heic|heif|bmp|avif)$/i.test(f.name||"")){fmLog("warn","upload-bad-type",{type:f.type,name:String(f.name).slice(-20)});return L("Это не картинка. Выбери фото (JPG, PNG, HEIC).","This is not an image. Choose a photo (JPG, PNG, HEIC).","Це не картинка. Обери фото (JPG, PNG, HEIC).")}
  if(f.size>30*1024*1024){fmLog("warn","upload-too-big",{size:f.size});return L("Фото слишком большое (больше 30 МБ)","The photo is too big (over 30 MB)","Фото завелике (понад 30 МБ)")}return""};
 window.fmImgFail=function(){toast(window.fmL?fmL("Не получилось открыть картинку","Could not open the image","Не вдалося відкрити картинку"):"Не получилось открыть картинку");fmLog("warn","upload-decode-fail")};
-window.FMV=5;
+window.FMV=6;
 var MIG={3:function(o){/* 2→3: починка повреждённых данных, из-за которых приложение падало при подсчёте XP */
  ["done","custom","bonus"].forEach(function(k){if(!o[k]||typeof o[k]!="object"||Array.isArray(o[k]))o[k]={}});
  for(var d in o.done){var v=o.done[d];if(!v||typeof v!="object"||Array.isArray(v))delete o.done[d]}},
@@ -502,7 +502,10 @@ var MIG={3:function(o){/* 2→3: починка повреждённых дан�
  if(ob(o.shore)&&D.test(o.shore.d||"")){if(!ob(o.fam))o.fam={};if(!D.test(o.fam.d||""))o.fam.d=o.shore.d}
  var kc=ob(o.kt)&&{"$":"USD","€":"EUR","₽":"RUB","₴":"UAH"}[o.kt.c];
  if(kc){var fn=ob(o.fn)?o.fn:null;if(!fn||!fn.c||(fn.c=="USD"&&!(Array.isArray(fn.e)&&fn.e.length))){if(!fn)fn=o.fn={};fn.c=kc}}
- var g=ob(o.gym)&&ob(o.gym.wd)?o.gym.wd:null;if(g&&D.test(g.d||"")&&+g.n>0){if(!ob(o.dr))o.dr={};var dr=ob(o.dr[g.d])?o.dr[g.d]:(o.dr[g.d]={});dr.w=Math.max(+dr.w||0,+g.n||0)}}};
+ var g=ob(o.gym)&&ob(o.gym.wd)?o.gym.wd:null;if(g&&D.test(g.d||"")&&+g.n>0){if(!ob(o.dr))o.dr={};var dr=ob(o.dr[g.d])?o.dr[g.d]:(o.dr[g.d]={});dr.w=Math.max(+dr.w||0,+g.n||0)}},
+ 6:function(o){/* 5→6: имя одно — st.name («Внешний вид», мастер). Поле «Твоё имя» в «Поделиться» писало в тот же st.name; если имени нет,
+   а в анкете резюме оно есть — взять оттуда (как делает и сама анкета при вводе). Анкета резюме остаётся отдельной. */
+ if(!(typeof o.name=="string"&&o.name.trim())){var cn=o.cv&&typeof o.cv=="object"&&typeof o.cv.name=="string"?o.cv.name.trim():"";if(cn)o.name=cn.slice(0,30)}}};
 /* Лечение при каждом запуске (не только при смене версии): поле не того типа из испорченной или подделанной копии убирается,
    раздел сам создаст его заново. Без этого, например, st.done=null или st.pck="…" ломали приложение (tests/full.js data). */
 var SHAPE={done:"o",custom:"o",bonus:"o",dr:"o",shore:"o",cfg:"o",nt:"o",fn:"o",sk:"o",pn:"o",wch:"o",m2:"o",rl:"a",cth:"o",kt:"o",fsk:"o",vis:"o",sky5:"o",rwd:"o",pck:"o",shn:"o",flmc:"a",flm:"o",cv:"o",ux:"o",gv:"o",qz:"o",light:"o",fz:"o",sched:"o",pin:"o",dcn:"n",dc:"a",ct:"a",ap:"a",ls:"a",rw:"a",name:"s",uid:"s",lang:"s"};
@@ -1057,7 +1060,7 @@ if(!ivs.show)h+='<textarea id="ivt" rows="3" placeholder="Напиши свой 
 else h+='<p class="note" style="margin:8px 0 6px">'+(ivs.cnt?"✅ Ответ засчитан. Сравни со своим:":"Пример ответа:")+'</p><p class="tp">'+q[1]+'</p><div class="add"><button type="button" data-x="ivn2">Дальше</button></div>'}
 else h+='<p class="qq">Готово. Написано ответов: '+ivs.typed+'. Бонус за сегодня: +'+(d.iv?d.iv.x:0)+' XP.</p><div class="add"><button type="button" data-x="ivrs" class="alt">Ещё раз</button></div>';
 $("iv").innerHTML=h}
-function shcard(){$("shr").innerHTML='<h3>Поделиться и начать путь</h3><div class="add"><label>Твоё имя<input type="text" data-nm="1" value="'+esc(st.name||"")+'" maxlength="30"></label></div><p class="note" style="margin:8px 0">Друг получит своё приложение и свой прогресс: твои данные ему не передаются.</p><div class="add"><button type="button" data-x="share">Поделиться приложением</button></div><p class="note">Онлайн: отправь ссылку на страницу. Офлайн: отправь файл fac-modo.html, он открывается в любом браузере без интернета. Версия 2.0. На компьютере клавиши 1–6 переключают вкладки.</p>'}
+function shcard(){$("shr").innerHTML='<h3>Поделиться и начать путь</h3><p class="note" style="margin:8px 0">Друг получит своё приложение и свой прогресс: твои данные ему не передаются.</p><div class="add"><button type="button" data-x="share">Поделиться приложением</button></div><p class="note">Онлайн: отправь ссылку на страницу. Офлайн: отправь файл fac-modo.html, он открывается в любом браузере без интернета. Версия 2.0. На компьютере клавиши 1–6 переключают вкладки.</p>'}
 function side(c){var L=lvl(c.xp),di=(now.getDay()+6)%7,tn=new Date(),hh=p2(tn.getHours())+":"+p2(tn.getMinutes()),dd=st.done[today]||{},nx=items(today,di).filter(function(x){return!dd[x.id]&&x.t.slice(0,5)>=hh}).slice(0,3),qq=Q[qIdx()];
 var bf=["штиль","тихий","лёгкий","слабый","умеренный","свежий","сильный","крепкий","очень крепкий","шторм","сильный шторм","жестокий шторм","ураган"],sp=["<1","1–3","4–6","7–10","11–16","17–21","22–27","28–33","34–40","41–47","48–55","56–63","64+"];
 $("sl").innerHTML='<section class="card"><h3>Фраза дня</h3><p class="tp">«'+esc(qq[0])+'»</p><p class="note" style="margin:0">— '+esc(qq[1])+'</p></section><section class="card"><h3>Факт дня</h3><p class="tp" style="margin:0">'+CF[li2%CF.length]+'</p></section><section class="card"><h3>Шкала Бофорта</h3>'+bf.map(function(n,i){return'<div class="dp" style="margin:2px 0"><span>'+i+' · '+n+'</span><span>'+sp[i]+' уз.</span></div>'}).join("")+'</section>';
@@ -1229,10 +1232,9 @@ $("cfg").innerHTML='<h3>Внешний вид</h3><div class="add"><label>Тво
 +cap("Время суток на море")+seg("tod",td,[["auto","По часам"],["day","День"],["dusk","Закат"],["night","Ночь"]])
 +cap("Размер текста")+seg("big",st.big?1:0,[[0,"Обычный"],[1,"Крупный"]])
 +cap("Карточки")+seg("compact",c.compact?1:0,[[0,"Просторно"],[1,"Компактно"]])
-+cap("Боковые панели на большом экране")+seg("side",c.side===0?0:1,[[1,"Показывать"],[0,"Скрыть"]])
-+'<div class="add" style="margin-top:12px"><button type="button" class="alt" data-cfg="reset" data-v="1">Вернуть вид по умолчанию</button></div>'}
++cap("Боковые панели на большом экране")+seg("side",c.side===0?0:1,[[1,"Показывать"],[0,"Скрыть"]])}
 $("cfg").addEventListener("click",function(e){var b=e.target.closest("button[data-cfg]");if(!b)return;var k=b.dataset.cfg,v=b.dataset.v;st.cfg=st.cfg||{};
-if(k=="reset"){var sv=st.cfg.simple;st.cfg={simple:sv};delete st.big}else if(k=="big")st.big=v=="1";else if(k=="anim"||k=="side"||k=="compact")st.cfg[k]=+v;else st.cfg[k]=v;
+if(k=="reset"){if(window.cmfReset)return cmfReset();var sv=st.cfg.simple;st.cfg={simple:sv};delete st.big}else if(k=="big")st.big=v=="1";else if(k=="anim"||k=="side"||k=="compact")st.cfg[k]=+v;else st.cfg[k]=v;
 save();render();if(window.FMSEA)FMSEA.redraw()});
 $("cfg").addEventListener("change",function(e){if(e.target.dataset.cfgname){st.name=e.target.value.trim().slice(0,30);save();render()}});
 function abtr(){var b=window.FM_BUILD||0,d=b?new Date(b*1000):null,ds=d?p2(d.getDate())+"."+p2(d.getMonth()+1)+"."+d.getFullYear():"";
@@ -5406,6 +5408,7 @@ function reset(){if(!confirm(L("Вернуть стандартные настр
  var sv=st.cfg&&st.cfg.simple;st.cfg={};if(sv!=null)st.cfg.simple=sv;delete st.big;delete st.theme;try{localStorage.removeItem(K)}catch(e){}
  if(de.classList.contains("nv")){var n=document.getElementById("nvb");if(n)n.click()}
  save();render();if(window.FMSEA&&FMSEA.redraw)FMSEA.redraw();ap();cmfr();if(window.toast)toast("↺ "+L("Стандартные настройки вида возвращены","Default display settings restored","Стандартні налаштування вигляду повернуто"))}
+window.cmfReset=reset;
 var hd=mn.querySelector(':scope>.tgxh[data-t="r-cab"]');
 if(hd){bx2=document.createElement("div");bx2.className="cfs";bx2.setAttribute("data-t","r-cab");bx2.setAttribute("translate","no");
  bx2.innerHTML='<input type="search" enterkeyhint="search" aria-label="'+esc(L("Найти настройку","Find a setting","Знайти налаштування"))+'" placeholder="🔍 '+esc(L("Найти настройку: язык, текст, копия…","Find a setting: language, text, backup…","Знайти налаштування: мова, текст, копія…"))+'"><div class="cfx"></div><p class="cfn"></p>'
@@ -5496,6 +5499,7 @@ var q=0,go=function(){clearTimeout(q);q=setTimeout(sib,30)};new MutationObserver
 .poe .pob{display:flex;flex-wrap:wrap;gap:8px}
 .poe .pob button{min-height:40px;padding:0 12px;border-radius:10px;border:1px solid var(--line);background:var(--bg);color:var(--ink);font:inherit;font-size:14px;font-weight:700;cursor:pointer}
 .poe .pob button small{color:var(--xp);font-weight:800}
+.ponv{margin:10px 0 4px}.ponv .note{margin:0 0 6px}
 </style>
 <script id="pol-js">/* Удобство и ясность:
  1) подсказка «что здесь делать» + пример в пустых разделах (EH: ключ → [пусто?, что делать, пример]): Главная цель дня, Календарь активности, Магазин наград,
@@ -5525,6 +5529,16 @@ function chk(){if(!fmm.classList.contains("on"))return;[].forEach.call(fmc.query
  if(e)try{need=!!e[0]()}catch(er){}if(!need){if(x)x.remove();return}if(x)return;var d=box(k,e),h=s.querySelector(":scope>h2,:scope>h3");if(h)s.insertBefore(d,h.nextSibling);else s.insertBefore(d,s.firstChild)})}
 var q=0,go=function(){clearTimeout(q);q=setTimeout(chk,30)};new MutationObserver(go).observe(fmc,{childList:true,subtree:true});new MutationObserver(go).observe(fmm,{attributes:true,attributeFilter:["class"]});
 fmc.addEventListener("click",function(e){var b=e.target.closest("[data-poe]");if(!b)return;var r=RW[+b.dataset.poe];if(!r)return;(st.rw=st.rw||[]).push({t:r[0],c:r[1]});save();render();if(window.toast)toast("🛒 "+L("Награда добавлена","Reward added","Нагороду додано"))});
+/* 2) «Тема и фото»: тема «Ночная вахта» — это только цвета; рядом строка про красный ночной режим 🔴 (nv-js) и кнопка, которая его включает */
+var th=document.getElementById("th"),ts=th&&th.closest("section"),de=document.documentElement;
+if(ts&&th.parentNode===ts){var nv=document.createElement("div");nv.className="ponv";nv.setAttribute("translate","no");ts.insertBefore(nv,th.nextSibling);var was=null;
+ var nvr=function(){var on=de.classList.contains("nv");if(on===was)return;was=on;nv.innerHTML='<p class="note">'+esc(L("Тема «Ночная вахта» меняет только цвета. Для вахты ночью есть красный режим 🔴: весь экран в красном, не слепит и не сбивает ночное зрение. Его кнопка 🔴 — в шапке справа.","The “Night watch” theme only changes colours. For night watches there is the red mode 🔴: the whole screen turns red, so it won’t dazzle you or spoil your night vision. Its 🔴 button is at the top right.","Тема «Нічна вахта» змінює лише кольори. Для вахти вночі є червоний режим 🔴: увесь екран у червоному, не сліпить і не збиває нічний зір. Його кнопка 🔴 — у шапці праворуч."))+'</p><div class="add"><button type="button" class="alt" data-ponv="1">'+(on?"☀️ "+esc(L("Выключить красный режим","Turn off red mode","Вимкнути червоний режим")):"🔴 "+esc(L("Включить красный режим","Turn on red mode","Увімкнути червоний режим")))+'</button></div>'};
+ nvr();nv.addEventListener("click",function(e){if(!e.target.closest("[data-ponv]"))return;var b=document.getElementById("nvb");if(b)b.click();nvr()});
+ new MutationObserver(nvr).observe(de,{attributes:true,attributeFilter:["class"]})}
+/* 3) имя: анкета резюме — отдельный документ, но пустое имя в ней при открытии берётся из st.name */
+var cvn=function(){if(!fmm.classList.contains("on"))return;var r=document.getElementById("rz");if(!r||!fmc.contains(r))return;var v=st.cv;
+ if(v&&v.v&&!String(v.name||"").trim()&&st.name){v.name=String(st.name).slice(0,60);save();if(window.rzr)rzr()}};
+new MutationObserver(cvn).observe(fmm,{attributes:true,attributeFilter:["class"]});new MutationObserver(cvn).observe(fmc,{childList:true});
 });
 </script>
 <style id="tap2-css">/* Удобно пальцу, часть 2: кнопки, поля и строки «подробнее», которые tap-css не задевал, — не меньше 40×40 px
