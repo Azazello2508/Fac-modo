@@ -5541,7 +5541,7 @@ if(ts&&th.parentNode===ts){var nv=document.createElement("div");nv.className="po
  new MutationObserver(nvr).observe(de,{attributes:true,attributeFilter:["class"]})}
 /* 3) имя: анкета резюме — отдельный документ, но пустое имя в ней при открытии берётся из st.name */
 var cvn=function(){if(!fmm.classList.contains("on"))return;var r=document.getElementById("rz");if(!r||!fmc.contains(r))return;var v=st.cv;
- if(v&&v.v&&!String(v.name||"").trim()&&st.name){v.name=String(st.name).slice(0,60);save();if(window.rzr)rzr()}};
+ var nm=typeof st.name=="string"?st.name.trim():"";if(v&&typeof v=="object"&&v.v&&!String(v.name||"").trim()&&nm){v.name=nm.slice(0,60);save();if(window.rzr)rzr()}};
 new MutationObserver(cvn).observe(fmm,{attributes:true,attributeFilter:["class"]});new MutationObserver(cvn).observe(fmc,{childList:true});
 });
 </script>
