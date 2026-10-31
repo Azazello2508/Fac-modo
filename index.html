@@ -295,14 +295,7 @@ main:not([data-tab="set"])>[data-t="set"]{display:none}
 @media (max-width:360px){.hudi::before{font-size:17px}.hudi{gap:8px}}
 #ed{scroll-margin-top:70px}
 .ntr{display:flex!important;flex-direction:row!important;align-items:center;gap:8px;flex:none!important;font-size:15px;color:var(--ink)!important}
-#nfc .add input[type=time]{padding:8px;border:1px solid var(--line);background:var(--bg);color:var(--ink);border-radius:8px;font:inherit}
-html.simple:not(.sfull) main[data-tab="today"]>[data-t="today"]:not(#nw):not(.quote){display:none}
-html.simple #nav button[data-n="game"],html.simple #nav button[data-n="shore"],html.simple #nav button[data-n="diary"],html.simple #nav button[data-n="me"]{display:none}
-html:not(.simple) #nw{display:none}
-#nw .nwi{display:flex;flex-direction:column;gap:2px;padding:10px 12px;margin:6px 0;border-left:4px solid var(--c,var(--acc));background:var(--bg);border-radius:8px}
-#nw .nwi time{font-size:14px;color:var(--mute)}#nw .nwi b{font-size:20px}
-#nw .nwl{list-style:none;margin:8px 0;padding:0;font-size:14px;color:var(--mute)}#nw .nwl time{color:var(--ink)}
-#nw .nwm button{flex:1 1 40%}
+#nfc .ntk{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin:6px 0}#nfc .ntk .ntr{flex:1 1 200px}#nfc .ntk input[type=time],#nfc .add input[type=time]{padding:8px;border:1px solid var(--line);background:var(--bg);color:var(--ink);border-radius:8px;font:inherit}
 </style>
 </head>
 <body>
@@ -330,7 +323,6 @@ html:not(.simple) #nw{display:none}
 <section class="card quote" data-t="today"><p id="qt"></p><footer><span id="qa"></span><button id="qn" type="button">Другая фраза</button></footer></section>
 <section class="card" data-t="today" id="vdw"></section>
 <section class="card" data-t="today" id="tdy"></section>
-<section class="card" data-t="today" id="nw"></section>
 <section class="card" data-t="today" id="gv" translate="no"><h3>🧭 Путеводитель</h3></section>
 <section class="card" data-t="today" id="dcw" hidden></section>
 <section class="card" data-t="today" id="hfm"></section>
@@ -390,8 +382,7 @@ html:not(.simple) #nw{display:none}
 <section class="card" data-t="me" id="hm"></section>
 <section class="card" data-t="set" id="cfg"></section>
 <section class="card" data-t="set" id="cmf" translate="no"></section>
-<section class="card" data-t="set" id="nfc"></section>
-<section class="card" data-t="set" id="opt"></section>
+<section class="card" data-t="set" id="nfc" translate="no"></section>
 <section class="card" data-t="me" id="shr"></section>
 
 <section class="card" data-t="set"><h3>Тема и фото</h3><div class="add" id="th"></div><div class="add"><button type="button" class="alt" id="pb2">Выбрать фото</button><button type="button" class="alt" id="pd">Убрать фото</button><input type="file" id="pf" accept="image/*" hidden></div></section>
@@ -399,7 +390,6 @@ html:not(.simple) #nw{display:none}
 <p class="note" id="sn" style="margin:0 0 4px">Приложение работает без интернета: всё хранится на устройстве. Сохраняй копию, чтобы не потерять прогресс при очистке браузера. Значок 📶 означает, что для этого нужен интернет.</p>
 <div class="add"><button type="button" id="ex">Сохранить в файл</button><button type="button" id="cp">Скопировать код</button><button type="button" id="im">Загрузить из файла</button><button type="button" id="pc2">Вставить код</button><input type="file" id="fi" accept=".json,application/json" hidden></div><textarea id="pta" rows="3" hidden aria-label="Код прогресса"></textarea><div class="add"><button type="button" id="pap" hidden>Применить код</button></div></section>
 <section class="card" data-t="set" id="trn" translate="no"></section>
-<section class="card" data-t="set"><h3>Расписание</h3><p class="note" style="margin:0 0 8px">Редактор расписания находится на палубе: «Мой день» → «Расписание».</p><div class="add"><button type="button" class="alt" id="edgo2">Перейти к редактору</button></div></section>
 <section class="card" data-t="set" id="uxp" translate="no"></section>
 <section class="card" data-t="set" id="prv" translate="no"></section>
 <section class="card" data-t="set" id="elg" translate="no"></section>
@@ -411,7 +401,6 @@ html:not(.simple) #nw{display:none}
 <section class="card" data-t="diary" id="d2"></section>
 <section class="card" data-t="diary" id="d3"></section>
 <section class="card" data-t="diary" id="d4"></section>
-<section class="card" data-t="shore" id="prf2"></section>
 <section class="card" data-t="shore" id="sh1"></section>
 <section class="card" data-t="shore" id="sh2"></section>
 <section class="card" data-t="shore" id="sh5"></section>
@@ -500,14 +489,20 @@ window.fmImg=function(f){var L=function(r,e,u){return window.fmL?fmL(r,e,u):r};i
  if(!/^image\/(jpeg|png|gif|webp|heic|heif|bmp|avif)$/i.test(f.type||"")&&!/\.(jpe?g|png|gif|webp|heic|heif|bmp|avif)$/i.test(f.name||"")){fmLog("warn","upload-bad-type",{type:f.type,name:String(f.name).slice(-20)});return L("Это не картинка. Выбери фото (JPG, PNG, HEIC).","This is not an image. Choose a photo (JPG, PNG, HEIC).","Це не картинка. Обери фото (JPG, PNG, HEIC).")}
  if(f.size>30*1024*1024){fmLog("warn","upload-too-big",{size:f.size});return L("Фото слишком большое (больше 30 МБ)","The photo is too big (over 30 MB)","Фото завелике (понад 30 МБ)")}return""};
 window.fmImgFail=function(){toast(window.fmL?fmL("Не получилось открыть картинку","Could not open the image","Не вдалося відкрити картинку"):"Не получилось открыть картинку");fmLog("warn","upload-decode-fail")};
-window.FMV=4;
+window.FMV=5;
 var MIG={3:function(o){/* 2→3: починка повреждённых данных, из-за которых приложение падало при подсчёте XP */
  ["done","custom","bonus"].forEach(function(k){if(!o[k]||typeof o[k]!="object"||Array.isArray(o[k]))o[k]={}});
  for(var d in o.done){var v=o.done[d];if(!v||typeof v!="object"||Array.isArray(v))delete o.done[d]}},
  4:function(o){/* 3→4: напоминания о документах — своё поле st.dcn (1/0), st.nt — только настройки уведомлений квестов */
  if(!o.nt||typeof o.nt!="object"||Array.isArray(o.nt)){if(!("dcn" in o))o.dcn=o.nt===0?0:1;o.nt={}}
  /* специальность не выбирали (по умолчанию «Электромеханик»), а в мастере выбрана другая должность — выровнять */
- var r=o.ux&&o.ux.r;if(!o.prof&&(r=="na"||r=="me")){o.prof=r;var sh=o.shore&&typeof o.shore=="object"?o.shore:(o.shore={p:0,d:"",e:0,sv:0});if(!sh.p)sh.p=r=="me"?4:5}}};
+ var r=o.ux&&o.ux.r;if(!o.prof&&(r=="na"||r=="me")){o.prof=r;var sh=o.shore&&typeof o.shore=="object"?o.shore:(o.shore={p:0,d:"",e:0,sv:0});if(!sh.p)sh.p=r=="me"?4:5}},
+ 5:function(o){/* 4→5: одна дата «домой» (st.fam.d), одна валюта (st.fn.c), один счётчик воды (st.dr[день].w). Старые поля не удаляются */
+ var D=/^\d{4}-\d\d-\d\d$/,ob=function(x){return x&&typeof x=="object"&&!Array.isArray(x)};
+ if(ob(o.shore)&&D.test(o.shore.d||"")){if(!ob(o.fam))o.fam={};if(!D.test(o.fam.d||""))o.fam.d=o.shore.d}
+ var kc=ob(o.kt)&&{"$":"USD","€":"EUR","₽":"RUB","₴":"UAH"}[o.kt.c];
+ if(kc){var fn=ob(o.fn)?o.fn:null;if(!fn||!fn.c||(fn.c=="USD"&&!(Array.isArray(fn.e)&&fn.e.length))){if(!fn)fn=o.fn={};fn.c=kc}}
+ var g=ob(o.gym)&&ob(o.gym.wd)?o.gym.wd:null;if(g&&D.test(g.d||"")&&+g.n>0){if(!ob(o.dr))o.dr={};var dr=ob(o.dr[g.d])?o.dr[g.d]:(o.dr[g.d]={});dr.w=Math.max(+dr.w||0,+g.n||0)}}};
 /* Лечение при каждом запуске (не только при смене версии): поле не того типа из испорченной или подделанной копии убирается,
    раздел сам создаст его заново. Без этого, например, st.done=null или st.pck="…" ломали приложение (tests/full.js data). */
 var SHAPE={done:"o",custom:"o",bonus:"o",dr:"o",shore:"o",cfg:"o",nt:"o",fn:"o",sk:"o",pn:"o",wch:"o",m2:"o",rl:"a",cth:"o",kt:"o",fsk:"o",vis:"o",sky5:"o",rwd:"o",pck:"o",shn:"o",flmc:"a",flm:"o",cv:"o",ux:"o",gv:"o",qz:"o",light:"o",fz:"o",sched:"o",pin:"o",dcn:"n",dc:"a",ct:"a",ap:"a",ls:"a",rw:"a",name:"s",uid:"s",lang:"s"};
@@ -790,12 +785,12 @@ $("fi").onchange=function(e){var f=e.target.files[0];e.target.value="";if(!f)ret
 
 var PROF={el:["⚡","Электромеханик","электромеханика"],me:["⚙️","Механик","механика"],na:["🧭","Штурман","штурмана"]};
 function pf(){return PROF[st.prof]?st.prof:"el"}
-function prfr(){var h='<h3>Моя специальность</h3><p class="note" style="margin:0 0 8px">Советы, экзамен, термины, резюме и курс на берег подстроятся под выбор.</p><div class="add">'+Object.keys(PROF).map(function(k){return'<button type="button" data-prof="'+k+'" class="alt'+(k==pf()?" cur":"")+'">'+PROF[k][0]+" "+PROF[k][1]+'</button>'}).join("")+'</div>';["prf","prf2"].forEach(function(i){if($(i))$(i).innerHTML=h})}
+function prfr(){var h='<h3>Моя специальность</h3><p class="note" style="margin:0 0 8px">Советы, экзамен, термины, резюме и курс на берег подстроятся под выбор.</p><div class="add">'+Object.keys(PROF).map(function(k){return'<button type="button" data-prof="'+k+'" class="alt'+(k==pf()?" cur":"")+'">'+PROF[k][0]+" "+PROF[k][1]+'</button>'}).join("")+'</div>';if($("prf"))$("prf").innerHTML=h}
 var TP=["Научись быстро читать однолинейную схему судовой электростанции: она показывает большую часть того, что нужно при поиске неисправности. Хватит 15 минут в день на одну секцию.","Выучи условия синхронизации генераторов: напряжение, частота, порядок фаз и совпадение фазы. Одной карточки хватит вместо страницы конспекта.","Мегомметр: пойми, как и когда замерять изоляцию двигателей и кабелей, и держи таблицу норм под рукой. Это одна из самых частых практических задач.","Разбери порядок действий при блэкауте как чек-лист из 5–7 шагов и проговаривай вслух, чтобы он работал на автомате.","Пусковые схемы двигателей (прямой пуск, звезда–треугольник, частотник): сравни в одной таблице пусковой ток, момент и где применяют.","Частотные преобразователи: начни с трёх вещей: параметры двигателя, время разгона, типовые аварийные коды. Этого хватает для большинства задач.","Защиты: сделай шпаргалку «что отключает автомат или реле и почему» по своему судну.","Где разрешено, сфотографируй щит и подпиши цепи: так схема запоминается быстрее, чем по учебнику."];
 var FS=["25 минут работы и 5 минут паузы: так учиться легче, чем одним длинным куском.","Закрой конспект и объясни тему вслух. Это запоминается лучше, чем перечитывание.","Повторяй тему через 1, 3, 7 и 14 дней: так знания держатся дольше при меньших затратах времени.","Одна тема за сеанс. Сначала самое сложное, пока голова свежая.","Тест после темы даёт больше, чем второе прочтение. Проходи экзамен ниже.","Учись в одно и то же время: привычка снижает усилие на старт."];
 var ID=["Составь одностраничную шпаргалку по одной теме и повесь у койки.","Объясни сегодняшнюю тему воображаемому новичку за 2 минуты.","Задай одному из старших по службе один вопрос по теме дня.","Запиши 3 вещи, которые узнал сегодня.","Пройди экзамен по теме, в которой слабее.","Выучи 10 английских терминов своей специальности из глоссария: «Учебный класс» → «Знания» → «Термины».","Если устал, поменяй местами чтение и учёбу: главное, не пропустить оба.","Поставь себе цель на месяц по уровню и запиши её в заметки."];
 var TH=[["sea","Море"],["cosmos","Космос"],["bridge","Рубка"],["night","Ночная вахта"],["auto","Авто"],["dark","Тёмная"],["light","Светлая"],["ocean","Океан"],["sunset","Закат"],["forest","Лес"]];
-function extras(c){prfr();fcr();lsr();lbr();chr();hud(c);shore();plr();engr();ivr();pomr();shcard();side(c);dsv();dfd();ltr();optr();cfgr();simR();ntr();abtr();wkr();frr();shopr(c);apr();dcr();ctr();rhr();rkr();hfr();cvr();fnr();vdr();tdr();rzr();hmr();ckr();document.body.style.fontSize=st.big?"19px":"";var ph=$("ph"),pl=$("pl");if(okImg(st.photo)){ph.src=st.photo;ph.style.display="block";pl.style.display="none"}else{ph.style.display="none";pl.style.display=""}
+function extras(c){prfr();fcr();lsr();lbr();chr();hud(c);shore();plr();engr();ivr();pomr();shcard();side(c);dsv();dfd();ltr();cfgr();ntr();abtr();wkr();frr();shopr(c);apr();dcr();ctr();rhr();rkr();hfr();cvr();fnr();vdr();tdr();rzr();hmr();ckr();document.body.style.fontSize=st.big?"19px":"";var ph=$("ph"),pl=$("pl");if(okImg(st.photo)){ph.src=st.photo;ph.style.display="block";pl.style.display="none"}else{ph.style.display="none";pl.style.display=""}
 var t=st.theme||"sea",R=document.documentElement;if(t=="auto")R.removeAttribute("data-theme");else R.setAttribute("data-theme",t);
 $("th").innerHTML=TH.map(function(x){return'<button type="button" data-t="'+x[0]+'" class="alt'+(x[0]==t?" cur":"")+'">'+x[1]+'</button>'}).join("");
 var y=new Date(now);y.setDate(y.getDate()-1);var xt=dayXP(today),xy=dayXP(iso(y)),df=xt-xy,dn=dayN(today)-dayN(iso(y));
@@ -947,10 +942,10 @@ function MSL(){return pf()=="me"?MSm:pf()=="na"?MSn:MS}
 var SD=["Выпиши 5 вакансий по выбранному направлению и подчеркни повторяющиеся требования.","Напиши 3 строки резюме: что ты умеешь и как это звучит на языке берега.","Найди двух людей, которые сошли на берег в похожую профессию, и подготовь вопрос к ним.","Пройди бесплатный вводный урок по выбранной теме (25 минут).","Создай или обнови профиль в профессиональной соцсети: фото, заголовок, 3 навыка.","Посчитай расходы на жизнь на берегу и сравни с накоплениями.","Составь список своих сертификатов и допусков.","Прочитай описание вакансии service engineer или электромонтажника и отметь, что уже знаешь."];
 function shs(){return st.shore=st.shore||{p:0,d:"",e:0,sv:0}}
 function skSet(){var r={};for(var k in st.done)for(var id in st.done[k])if(id.slice(0,2)=="s_")r[id]=1;return r}
-function shore(){var s=shs();if(!SK[s.p])s.p=0;var P=SK[s.p],rs=skSet(),n=0,i;for(i=0;i<P[2].length;i++)if(rs["s_"+s.p+"_"+i])n++;
-var left=P[2].length-n,days=s.d?Math.ceil((new Date(s.d+"T00:00:00")-new Date(today+"T00:00:00"))/864e5):null,run=s.e>0?s.sv/s.e:0,pc=Math.round(n/P[2].length*100);
+function shore(){var s=shs(),hd=st.fam&&/^\d{4}-\d\d-\d\d$/.test(st.fam.d||"")?st.fam.d:(s.d||"");if(!SK[s.p])s.p=0;var P=SK[s.p],rs=skSet(),n=0,i;for(i=0;i<P[2].length;i++)if(rs["s_"+s.p+"_"+i])n++;
+var left=P[2].length-n,days=hd?Math.ceil((new Date(hd+"T00:00:00")-new Date(today+"T00:00:00"))/864e5):null,run=s.e>0?s.sv/s.e:0,pc=Math.round(n/P[2].length*100);
 var h='<h3>Курс на берег</h3><p class="note" style="margin:0 0 10px">Выбери направление, поставь дату конца контракта и иди по дереву навыков. Данные хранятся только на твоём устройстве.</p><div class="add">'+SK.map(function(x,k){return'<button type="button" data-x="path" data-v="'+k+'" class="alt'+(k==s.p?" cur":"")+'">'+x[0]+' '+x[1]+'</button>'}).join("")+'</div><p class="dsc">'+P[3]+'</p>';
-h+='<div class="add"><label>Конец контракта<input type="date" data-sv="d" value="'+esc(s.d)+'"></label><label>Расходы в месяц<input type="number" min="0" data-sv="e" value="'+esc(s.e||"")+'"></label><label>Накопления<input type="number" min="0" data-sv="sv" value="'+esc(s.sv||"")+'"></label></div>';
+h+='<div class="add"><label>Конец контракта<input type="date" data-sv="d" value="'+esc(hd)+'"></label><label>Расходы в месяц<input type="number" min="0" data-sv="e" value="'+esc(s.e||"")+'"></label><label>Накопления<input type="number" min="0" data-sv="sv" value="'+esc(s.sv||"")+'"></label></div>';
 h+='<div class="cmpr" style="margin-top:14px"><div><b>'+(days===null?"—":Math.max(0,days))+'</b><span>дней до берега</span></div><div><b>'+pc+'%</b><span>готовность</span></div><div class="'+(run>=6?"up":"dn")+'"><b>'+(s.e>0?run.toFixed(1):"—")+'</b><span>мес. подушки (цель 6)</span></div></div><div class="bar" style="margin-top:12px"><i style="width:'+pc+'%;background:var(--ok)"></i></div>';
 if(days>0&&left>0)h+='<p class="note">Чтобы успеть, осваивай один навык примерно раз в '+Math.max(1,Math.floor(days/left))+' дн. Подушка — ориентир, а не финансовый совет.</p>';
 $("sh1").innerHTML=h;
@@ -1023,7 +1018,7 @@ else if(a=="pms"){pm.end=Date.now()+25*60000;pomr()}
 else if(a=="pmx"){pm.end=0;pomr()}
 else if(a=="mo"){var mid="m_"+shs().p+"_"+v,mk=null;for(var m2 in st.done)if(st.done[m2][mid])mk=m2;if(mk)delete st.done[mk][mid];else{st.done[today]=st.done[today]||{};st.done[today][mid]={x:40,c:"study"}}save();render()}
 });
-$("mn").addEventListener("change",function(e){var t=e.target,f=t.dataset.sv;if(!f)return;shs()[f]=f=="d"?t.value:(+t.value||0);save();render()});
+$("mn").addEventListener("change",function(e){var t=e.target,f=t.dataset.sv;if(!f)return;shs()[f]=f=="d"?t.value:(+t.value||0);if(f=="d"){st.fam=st.fam||{};st.fam.d=/^\d{4}-\d\d-\d\d$/.test(t.value)?t.value:""}save();render()});
 
 Q.push(["Невозможно? Это слово не из французского языка.","Наполеон Бонапарт, письмо 1813 г."],["От великого до смешного один шаг.","Наполеон Бонапарт, 1812 г."],["Победа достаётся самым упорным.","Наполеон Бонапарт (приписывается)"],["В конечном счёте дух всегда побеждает меч.","Наполеон Бонапарт (приписывается)"],["Кадры решают всё.","Иосиф Сталин, речь 1935 г. (политик, ответственный за массовые репрессии; цитата дана как исторический факт)"]);
 CF.push("Самая глубокая точка океана — Марианская впадина, около 11 километров.","Сигнал SOS в азбуке Морзе: три точки, три тире, три точки.","Первый трансатлантический телеграфный кабель проложили в 1858 году, но он проработал недолго.");
@@ -1167,7 +1162,7 @@ else if(k=="del"){if(st.fr&&st.fr[frSel]){delete st.fr[frSel];frSel="";save();fr
 else{frSel=frSel==k?"":k;frr()}});
 
 function gotoEd(){setTab("today");ED=day;edr();setTimeout(function(){var e=$("ed");if(e&&e.scrollIntoView)e.scrollIntoView({behavior:"smooth",block:"start"})},60)}
-document.addEventListener("click",function(e){if(e.target.closest("#edgo,#edgo2"))gotoEd()});
+document.addEventListener("click",function(e){if(e.target.closest("#edgo"))gotoEd()});
 (function(){try{var c=document.createElement("canvas").getContext("2d");c.font="20px serif";if(Math.abs(c.measureText("\u{1D571}\u{1D586}").width-c.measureText("\u{10FFFF}\u{10FFFF}").width)<.5)document.documentElement.classList.add("nofr")}catch(x){}})();
 /* Напоминания: считаются по расписанию на устройстве, без сервера */
 function NT(){var n=st.nt=st.nt||{};if(n.lead==null)n.lead=10;if(!n.am)n.am="07:00";if(!n.pm)n.pm="21:00";if(n.amOn==null)n.amOn=1;if(n.pmOn==null)n.pmOn=1;if(n.snd==null)n.snd=1;if(!n.sent)n.sent={};return n}
@@ -1194,24 +1189,34 @@ function ntPerm(cb){if(window.fmDesktop){cb("granted");return}if(!window.Notific
 try{var r=Notification.requestPermission(function(v){cb(v)});if(r&&r.then)r.then(cb,function(){cb("denied")})}catch(e){cb("denied")}}
 function ntStatus(){if(window.fmDesktop)return["ok","Системные уведомления Windows: включены."];if(!window.Notification)return["warn","Этот браузер или приложение не умеет системные уведомления. Напоминания будут появляться внутри приложения, пока оно открыто."];
 var p=Notification.permission;return p=="granted"?["ok","Системные уведомления разрешены."]:p=="denied"?["warn","Системные уведомления запрещены в настройках браузера для этого сайта. Разреши их там, а пока напоминания видны внутри приложения."]:["warn","Системные уведомления ещё не разрешены. Нажми «Разрешить»."]}
-function ntr(){var n=NT(),s=ntStatus(),perm=!window.fmDesktop&&window.Notification&&Notification.permission=="default";
+function ntr(){var n=NT(),L=window.fmL||function(r){return r},R=window.fmRem,nat=!!(R&&R.nat()),q=R?R.q():{},on=!!(n.on||q.on||(nat&&st.dcn!==0)),ph=!nat||q.on,s=ntStatus(),perm=!window.fmDesktop&&window.Notification&&Notification.permission=="default";
 function seg(k,cur,o){return'<div class="add">'+o.map(function(x){return'<button type="button" class="alt'+(String(cur)==String(x[0])?" cur":"")+'" data-nt="'+k+'" data-v="'+x[0]+'">'+x[1]+'</button>'}).join("")+'</div>'}
 function cap(t){return'<p class="note" style="margin:12px 0 4px"><b>'+t+'</b></p>'}
-$("nfc").innerHTML='<h3>🔔 Уведомления</h3>'+seg("on",n.on?1:0,[[1,"Включены"],[0,"Выключены"]])+'<p class="note" style="margin:4px 0 0'+(s[0]=="warn"?";color:var(--xp)":"")+'">'+s[1]+'</p>'+(perm?'<div class="add"><button type="button" data-nt="perm">Разрешить уведомления</button></div>':'')
-+(n.on?cap("Напоминать о квесте")+seg("lead",n.lead,[[0,"В момент начала"],[5,"За 5 мин"],[10,"За 10 мин"],[15,"За 15 мин"],[30,"За 30 мин"]])
-+cap("Какие квесты")+seg("skipLife",n.skipLife?1:0,[[0,"Все"],[1,"Без бытовых (обед, сон)"]])
-+cap("Утренняя сводка")+'<div class="add"><label class="ntr"><input type="checkbox" data-ntc="amOn" '+(n.amOn?"checked":"")+'>Присылать в</label><input type="time" data-ntt="am" value="'+esc(n.am)+'" aria-label="Время утренней сводки"></div>'
-+cap("Вечерний итог дня")+'<div class="add"><label class="ntr"><input type="checkbox" data-ntc="pmOn" '+(n.pmOn?"checked":"")+'>Присылать в</label><input type="time" data-ntt="pm" value="'+esc(n.pm)+'" aria-label="Время вечернего итога"></div>'
-+cap("Звук")+seg("snd",n.snd?1:0,[[1,"Со звуком"],[0,"Без звука"]])
-+'<div class="add" style="margin-top:12px"><button type="button" class="alt" data-nt="test">Проверить уведомление</button></div>':'')
-+'<p class="note">Уведомления приходят по расписанию на этом устройстве, интернет не нужен. На компьютере программа должна быть запущена: она может работать в фоне у часов. Напоминания, которые приходят даже при закрытом приложении, — на вкладке «Напоминания».</p>'}
-$("nfc").addEventListener("click",function(e){var b=e.target.closest("button[data-nt]");if(!b)return;var k=b.dataset.nt,v=b.dataset.v,n=NT();
-if(k=="on"){n.on=v=="1"?1:0;save();if(n.on)ntPerm(function(){ntr()});render();return}
+function ck(k,v,t,d){return'<div class="ntk"><label class="ntr"><input type="checkbox" data-ntc="'+k+'" '+(v?"checked":"")+'>'+t+'</label>'+(d||"")+'</div>'}
+function tm(k,v,a){return'<input type="time" data-ntt="'+k+'" value="'+esc(v)+'" aria-label="'+a+'">'}
+var am=nat&&q.on&&q.am?q.am:n.am,pm=nat&&q.on&&q.pm?q.pm:n.pm;
+var h='<h3>🔔 '+L("Уведомления","Notifications","Сповіщення")+'</h3>'+seg("on",on?1:0,[[1,L("Включены","On","Увімкнені")],[0,L("Выключены","Off","Вимкнені")]])
++'<p class="note" style="margin:4px 0 0">'+(nat?L("Приходят, даже когда приложение закрыто. Интернет не нужен. Во время вахты и сна по графику не беспокоят.","They arrive even when the app is closed. No internet needed. They never disturb you on watch or during sleep from your rota.","Приходять, навіть коли застосунок закрито. Інтернет не потрібен. Під час вахти і сну за графіком не турбують."):L("На сайте и в программе на компьютере приходят, пока приложение открыто. При закрытом приложении — только в приложении на телефоне.","On the website and in the desktop program they arrive while the app is open. With the app closed, only in the phone app.","На сайті та в програмі на комп'ютері приходять, поки застосунок відкрито. При закритому застосунку — лише в застосунку на телефоні."))+'</p>';
+if(!nat&&on&&s[0]=="warn")h+='<p class="note" style="margin:4px 0 0;color:var(--xp)">'+L("Системные уведомления не разрешены: видно только внутри приложения.","System notifications are not allowed: you only see them inside the app.","Системні сповіщення не дозволені: видно лише всередині застосунку.")+'</p>'+(perm?'<div class="add"><button type="button" data-nt="perm">'+L("Разрешить уведомления","Allow notifications","Дозволити сповіщення")+'</button></div>':'');
+if(on){h+=cap(L("Что присылать","What to send","Що надсилати"))
++ck("amOn",n.amOn&&ph,L("Утром: сколько квестов сегодня","Morning: how many quests today","Вранці: скільки квестів сьогодні"),tm("am",am,L("Время утренней сводки","Morning summary time","Час ранкового зведення")))
++ck("pmOn",n.pmOn&&ph,L("Вечером: итог дня, если остались квесты","Evening: day summary if quests are left","Увечері: підсумок дня, якщо лишилися квести"),tm("pm",pm,L("Время вечернего итога","Evening summary time","Час вечірнього підсумку")))
++ck("pnw",n.pnw!==0,L("В 21:00: предупреждение о штрафе за незакрытые квесты","At 21:00: penalty warning for open quests","О 21:00: попередження про штраф за незакриті квести"))
++ck("dcn",st.dcn!==0,L("Документы: за 90, 30 и 7 дней до конца срока","Documents: 90, 30 and 7 days before expiry","Документи: за 90, 30 і 7 днів до кінця строку"))
++'<div class="ntk"><span class="ntr">👨‍👩‍👧 '+L("Близкие: кому пора позвонить — в «Дом и семья»","Close people: who is due a call is in “Home and family”","Близькі: кому час подзвонити — у «Дім і сім'я»")+'</span><button type="button" class="alt" data-nt="go" data-v="hfm">'+L("Открыть","Open","Відкрити")+'</button></div>'
++cap(L("Перед началом квеста (пока приложение открыто)","Before a quest starts (while the app is open)","Перед початком квесту (поки застосунок відкрито)"))+seg("lead",n.lead,[[0,L("В момент начала","At start","У момент початку")],[5,L("За 5 мин","5 min before","За 5 хв")],[10,L("За 10 мин","10 min before","За 10 хв")],[15,L("За 15 мин","15 min before","За 15 хв")],[30,L("За 30 мин","30 min before","За 30 хв")]])
++seg("skipLife",n.skipLife?1:0,[[0,L("Все квесты","All quests","Усі квести")],[1,L("Без бытовых (обед, сон)","Without chores (lunch, sleep)","Без побутових (обід, сон)")]])
++cap(L("Звук","Sound","Звук"))+seg("snd",n.snd?1:0,[[1,L("Со звуком","With sound","Зі звуком")],[0,L("Без звука","Silent","Без звуку")]])
++'<div class="add" style="margin-top:12px"><button type="button" class="alt" data-nt="test">'+L("Проверить уведомление","Test notification","Перевірити сповіщення")+'</button></div>'}
+$("nfc").innerHTML=h}
+$("nfc").addEventListener("click",function(e){var b=e.target.closest("button[data-nt]");if(!b)return;var k=b.dataset.nt,v=b.dataset.v,n=NT(),R=window.fmRem;
+if(k=="on"){var o=v=="1";n.on=o?1:0;if(o&&st.dcn===0)st.dcn=1;if(!o)st.dcn=0;save();if(typeof dcSync=="function")dcSync(1);if(R&&R.nat())R.on(o);if(o)ntPerm(function(){ntr()});render();ntr();return}
+if(k=="go"){if(window.fmClose)fmClose();var P=window.uxP||{};if(P[v])P[v].b.click();return}
 if(k=="perm"){ntPerm(function(r){ntr();toast(r=="granted"?"Уведомления разрешены":"Уведомления не разрешены")});return}
 if(k=="test"){ntPerm(function(){ntSend("Fac Modo","Проверка уведомлений: всё работает","test");ntr()});return}
 if(k=="lead")n.lead=+v;else if(k=="skipLife")n.skipLife=+v;else if(k=="snd")n.snd=+v;
 save();ntr()});
-$("nfc").addEventListener("change",function(e){var t=e.target,n=NT();if(t.dataset.ntc){n[t.dataset.ntc]=t.checked?1:0;save()}else if(t.dataset.ntt&&/^\d\d:\d\d$/.test(t.value)){n[t.dataset.ntt]=t.value;var s=n.sent[iso(new Date())];if(s)delete s[t.dataset.ntt];save()}});
+$("nfc").addEventListener("change",function(e){var t=e.target,n=NT(),R=window.fmRem;if(t.dataset.ntc){var c=t.dataset.ntc;if(c=="dcn"){st.dcn=t.checked?1:0;save();if(typeof dcSync=="function")dcSync(1)}else{n[c]=t.checked?1:0;save();if(R){if(t.checked&&(c=="amOn"||c=="pmOn")&&R.nat()&&!R.q().on)R.on(true);else R.sync(1)}}}else if(t.dataset.ntt&&/^\d\d:\d\d$/.test(t.value)){n[t.dataset.ntt]=t.value;var s=n.sent[iso(new Date())];if(s)delete s[t.dataset.ntt];if(R){var q=R.q();q[t.dataset.ntt]=t.value;R.set(q)}save()}});
 function cfgr(){var c=st.cfg||{},RMq=false;try{RMq=matchMedia("(prefers-reduced-motion:reduce)").matches}catch(e){}
 var an=c.anim==null?(RMq?0:2):+c.anim,sh=c.ship||"auto",td=c.tod||"auto";
 function seg(k,cur,o){return'<div class="add">'+o.map(function(x){return'<button type="button" class="alt'+(String(cur)==String(x[0])?" cur":"")+'" data-cfg="'+k+'" data-v="'+x[0]+'">'+x[1]+'</button>'}).join("")+'</div>'}
@@ -1222,45 +1227,19 @@ $("cfg").innerHTML='<h3>Внешний вид</h3><div class="add"><label>Тво
 +'<p class="note" style="margin:4px 0 0">«Лёгкая» и «Статично» экономят заряд телефона.</p>'
 +cap("Судно")+seg("ship",sh,[["auto","По уровню"],["sail","Парусник"],["ferry","Паром"],["ship","Пассажирское"],["cruise","Лайнер"],["off","Нет"]])
 +cap("Время суток на море")+seg("tod",td,[["auto","По часам"],["day","День"],["dusk","Закат"],["night","Ночь"]])
-+cap("Вид приложения")+seg("simple",c.simple==1?1:0,[[1,"Простой"],[0,"Полный"]])+'<p class="note" style="margin:4px 0 0">«Простой»: на главной только «Что дальше», остальное в меню «Ещё». Ничего не удаляется.</p>'+cap("Размер текста")+seg("big",st.big?1:0,[[0,"Обычный"],[1,"Крупный"]])
++cap("Размер текста")+seg("big",st.big?1:0,[[0,"Обычный"],[1,"Крупный"]])
 +cap("Карточки")+seg("compact",c.compact?1:0,[[0,"Просторно"],[1,"Компактно"]])
 +cap("Боковые панели на большом экране")+seg("side",c.side===0?0:1,[[1,"Показывать"],[0,"Скрыть"]])
 +'<div class="add" style="margin-top:12px"><button type="button" class="alt" data-cfg="reset" data-v="1">Вернуть вид по умолчанию</button></div>'}
 $("cfg").addEventListener("click",function(e){var b=e.target.closest("button[data-cfg]");if(!b)return;var k=b.dataset.cfg,v=b.dataset.v;st.cfg=st.cfg||{};
-if(k=="reset"){var sv=st.cfg.simple;st.cfg={simple:sv};delete st.big}else if(k=="big")st.big=v=="1";else if(k=="anim"||k=="side"||k=="compact"||k=="simple")st.cfg[k]=+v;else st.cfg[k]=v;
+if(k=="reset"){var sv=st.cfg.simple;st.cfg={simple:sv};delete st.big}else if(k=="big")st.big=v=="1";else if(k=="anim"||k=="side"||k=="compact")st.cfg[k]=+v;else st.cfg[k]=v;
 save();render();if(window.FMSEA)FMSEA.redraw()});
 $("cfg").addEventListener("change",function(e){if(e.target.dataset.cfgname){st.name=e.target.value.trim().slice(0,30);save();render()}});
-/* Простой вид: одна карточка «Что дальше», остальное в меню «Ещё». */
-function simR(){var c=st.cfg=st.cfg||{};
-if(c.simple==null){var fresh=true,k;for(k in st.done){fresh=false;break}c.simple=0;save()}
-var on=c.simple==1,R=document.documentElement;R.classList.toggle("simple",on);R.classList.toggle("sfull",on&&!!c.sfull);
-var el=$("nw");if(!on){el.innerHTML="";return}
-var d=new Date(),k=iso(d),di=(d.getDay()+6)%7,it=items(k,di),dd=st.done[k]||{},mins=d.getHours()*60+d.getMinutes();
-var left=it.filter(function(x){return!dd[x.id]}),dn=it.length-left.length,pc=it.length?Math.round(dn/it.length*100):0;
-var nx=null,i;for(i=0;i<left.length;i++){if(/^\d\d:\d\d/.test(left[i].t)&&ntMin(left[i].t)>=mins-30){nx=left[i];break}}
-if(!nx&&left.length)nx=left[0];
-var h='<h3>Что дальше</h3>';
-if(!it.length)h+='<p class="note">На сегодня ничего не запланировано. Добавь пункт в расписании.</p>';
-else if(!nx)h+='<p class="tp" style="font-size:18px;margin:6px 0">🎉 Все пункты на сегодня выполнены.</p>';
-else h+='<div class="nwi" style="--c:'+CAT[nx.c][1]+'"><time>'+esc(nx.t)+'</time><b>'+esc(nx.n)+'</b><span class="note">'+CAT[nx.c][0]+' · +'+nx.x+' XP</span></div><div class="add"><button type="button" data-sm="done" data-id="'+esc(nx.id)+'">✓ Сделано</button></div>';
-h+='<div class="dp"><span>Сегодня: '+dn+' из '+it.length+'</span><span>'+pc+'%</span></div><div class="bar"><i style="width:'+pc+'%;background:var(--ok)"></i></div>';
-var rest=nx?left.slice(left.indexOf(nx)+1,left.indexOf(nx)+4):[];
-if(rest.length)h+='<ul class="nwl">'+rest.map(function(x){return'<li><time>'+esc(x.t)+'</time> '+esc(x.n)+'</li>'}).join("")+'</ul>';
-h+='<div class="add"><button type="button" class="alt" data-sm="full">'+(c.sfull?"Скрыть полное расписание":"Всё расписание и редактор")+'</button></div>'
-+'<p class="note" style="margin:12px 0 4px"><b>Ещё</b></p><div class="add nwm"><button type="button" class="alt" data-sm="tab" data-v="diary">📓 Дневник</button><button type="button" class="alt" data-sm="tab" data-v="r-cab">⚓ Моя каюта</button><button type="button" class="alt" data-sm="tab" data-v="r-mes">🛋️ Кают-компания</button><button type="button" class="alt" data-sm="tab" data-v="r-hom">🏠 Дом и берег</button></div>'
-+'<p class="note" style="margin:8px 0 0">Хочешь видеть все разделы: Моя каюта → Настройки → Внешний вид → Вид приложения → Полный.</p>';
-el.innerHTML=h}
-$("nw").addEventListener("click",function(e){var b=e.target.closest("button[data-sm]");if(!b)return;var m=b.dataset.sm;
-if(m=="tab"){setTab(b.dataset.v);return}
-if(m=="full"){st.cfg.sfull=st.cfg.sfull?0:1;save();render();return}
-if(m=="done"){var k=iso(new Date()),id=b.dataset.id,it=items(k,(new Date().getDay()+6)%7).filter(function(x){return x.id==id})[0];if(!it)return;
-st.done[k]=st.done[k]||{};st.done[k][id]={x:it.x,c:it.c};var bn=fixBonus();save();render(bn)}});
 function abtr(){var b=window.FM_BUILD||0,d=b?new Date(b*1000):null,ds=d?p2(d.getDate())+"."+p2(d.getMonth()+1)+"."+d.getFullYear():"";
 $("abt").innerHTML='<h3>О приложении</h3><p class="note" style="margin:0 0 8px">Fac Modo, сборка от '+ds+'. Прогресс хранится только на этом устройстве.</p><div class="add"><button type="button" id="upd">🔄 Проверить обновление</button></div><p class="note" id="updn" style="margin:6px 0 0">Нажми, если тебе сообщили, что вышла новая версия: страница загрузится заново, прогресс сохранится.</p>'}
 document.addEventListener("click",function(e){var b=e.target.closest("#upd");if(!b)return;var n=$("updn");n.textContent="Загружаю свежую версию…";
 try{if(navigator.serviceWorker&&navigator.serviceWorker.getRegistrations)navigator.serviceWorker.getRegistrations().then(function(r){r.forEach(function(x){x.update()})})}catch(x){}
 setTimeout(function(){location.reload()},400)});
-function optr(){var rec=Object.keys(st.fz||{}).some(function(k){return(new Date(today)-new Date(k))/864e5<7});$("opt").innerHTML='<h3>Серия</h3><div class="add"><button type="button" data-x="freeze" class="alt"'+(rec?" disabled":"")+'>❄️ Заморозить серию на сегодня</button></div><p class="note">'+(rec?"Заморозка использована на этой неделе.":"Раз в 7 дней можно сохранить серию, если день пропущен.")+'</p>'}
 function shopr(c){var co=Math.floor(c.xp/10)-(st.sp||0),R=st.rw||[];$("shop").innerHTML='<h3>Магазин наград: 🪙 '+co+'</h3><p class="note" style="margin:0 0 6px">10 XP = 1 монета. Награды придумываешь ты, уровень от трат не падает.</p><ul>'+R.map(function(r,i){return'<li style="--c:var(--xp);grid-template-columns:1fr auto auto auto"><span class="n">'+esc(r.t)+(r.b?" · куплено "+r.b:"")+'</span><span class="xpb">'+(+r.c||0)+' 🪙</span><button type="button" class="alt" data-x="buy" data-v="'+i+'"'+(co<r.c?" disabled":"")+' style="padding:6px 10px;border-radius:8px;border:1px solid var(--line);background:var(--bg);color:var(--ink);cursor:pointer">Купить</button><button class="del" data-x="rwd" data-v="'+i+'" title="Удалить">×</button></li>'}).join("")+'</ul><div class="add"><input type="text" id="rwn" placeholder="Награда (кофе, фильм…)" maxlength="40"><input type="number" id="rwc" min="1" value="20" style="width:90px" aria-label="Цена в монетах"><button type="button" data-x="rwa">Добавить</button></div>'}
 var DCP=["Паспорт","Моряцкая книжка","Диплом (CoC)","Подтверждение диплома","Медицинское заключение","Виза","Жёлтая карточка (вакцинация)","GMDSS","Базовая подготовка (BST)","Спасательные шлюпки и плоты","Расширенная пожарная подготовка","Первая помощь","ECDIS","Радар и САРП","BRM (управление ресурсами мостика)","ERM (управление ресурсами машинного отделения)","Лидерство и управление","Высоковольтные установки (HV)","Офицер по охране судна (SSO)","Медицинская помощь на судне","Охрана судна (DSD)","Контракт"];
 function dcDays(e){return Math.round((new Date(e+"T00:00:00")-new Date(today+"T00:00:00"))/864e5)}
@@ -1312,10 +1291,10 @@ if(L.length){h+='<p class="note" style="margin:0 0 6px">Всего: '+tot+' дн
 else h+='<p class="note" style="margin:0 0 6px">Пока нет контрактов. Добавь судно, должность и даты: стаж посчитается сам.</p>';
 h+='<ul>'+L.map(function(o){var x=o.x,on=!CTX.test(x.b||"");return'<li style="--c:'+(on?"var(--ok)":"var(--acc)")+';grid-template-columns:1fr auto auto"><span class="n">'+esc(x.v||"—")+(x.r?" · "+esc(x.r):"")+'<small style="display:block;color:var(--mute)">'+ctF(x.a)+' – '+(on?"…":ctF(x.b))+'</small><small style="display:block;color:var(--mute)">'+(on?"На борту: ":"")+o.d+' дн.</small></span><input type="date" data-ctb="'+esc(x.id)+'" value="'+esc(on?"":x.b)+'" aria-label="Дата окончания"><button class="del" data-kt="del" data-v="'+esc(x.id)+'" aria-label="Удалить">×</button></li>'}).join("")+'</ul>';
 h+='<div class="add"><input type="text" id="ctv" placeholder="Судно" maxlength="40"><input type="text" id="ctk" list="ctl" placeholder="Должность" maxlength="30"><datalist id="ctl">'+CTRK.map(function(p){return'<option value="'+p+'">'}).join("")+'</datalist><label>Начало<input type="date" id="cta"></label><label>Окончание (если закончен)<input type="date" id="ctb"></label><button type="button" data-kt="add">Добавить</button></div>';
-h+='<div class="add"><button type="button" class="alt" data-kt="csv"'+(L.length?"":" disabled")+'>Сохранить таблицу (Excel)</button></div><p class="note" style="margin:8px 0 0">Если дату окончания не указать, контракт считается текущим. Закончил рейс: впиши дату в его строке.</p>';
+var hm=st.fam&&/^\d{4}-\d\d-\d\d$/.test(st.fam.d||"")?"":L.map(function(o){return o.x.b}).filter(function(b){return CTX.test(b||"")&&b>=today}).sort()[0];if(hm){var Lf=window.fmL||function(r){return r};h+='<div class="add" translate="no"><button type="button" class="alt" data-kt="home" data-v="'+esc(hm)+'">🏠 '+Lf("Это дата возвращения домой: ","This is my date home: ","Це дата повернення додому: ")+ctF(hm)+'</button></div>'}h+='<div class="add"><button type="button" class="alt" data-kt="csv"'+(L.length?"":" disabled")+'>Сохранить таблицу (Excel)</button></div><p class="note" style="margin:8px 0 0">Если дату окончания не указать, контракт считается текущим. Закончил рейс: впиши дату в его строке.</p>';
 var c=$("ct");if(c)c.innerHTML=h}
 function ctCsv(){var q=function(v){return'"'+String(v==null?"":v).replace(/"/g,'""')+'"'},r=[["Vessel","Rank","Sign on","Sign off","Days"].map(q).join(";")];ctList().reverse().forEach(function(o){r.push([o.x.v,o.x.r,o.x.a,o.x.b||"",o.d].map(q).join(";"))});return"﻿"+r.join("\r\n")}
-document.addEventListener("click",function(e){var b=e.target.closest("[data-kt]");if(!b)return;var a=b.dataset.kt;
+document.addEventListener("click",function(e){var b=e.target.closest("[data-kt]");if(!b)return;var a=b.dataset.kt;if(a=="home"){if(/^\d{4}-\d\d-\d\d$/.test(b.dataset.v||"")){st.fam=st.fam||{};st.fam.d=b.dataset.v;save();render();ctr()}return}
 if(a=="add"){var v=$("ctv").value.trim(),k=$("ctk").value.trim(),d1=$("cta").value,d2=$("ctb").value;if(!v||!CTX.test(d1)){toast("Укажи судно и дату начала");return}if(d2&&(!CTX.test(d2)||d2<d1)){toast("Окончание раньше начала");return}(st.ct=st.ct||[]).push({id:Date.now().toString(36)+Math.floor(Math.random()*1e3).toString(36),v:v,r:k,a:d1,b:d2||""});save();ctr();toast("Контракт добавлен")}
 else if(a=="del"){var id=b.dataset.v,q=(st.ct||[]).filter(function(x){return x.id==id})[0];if(!q)return;if(!confirm((window.trEN?trEN("Удалить контракт?"):"Удалить контракт?")+" "+(q.v||"")))return;st.ct=st.ct.filter(function(x){return x.id!=id});save();ctr()}
 else if(a=="csv"){var n="sea-service-"+today+".csv",t=ctCsv();try{var f=new File([t],n,{type:"text/csv"});if(window.Capacitor&&navigator.canShare&&navigator.canShare({files:[f]})){navigator.share({files:[f],title:n}).catch(function(){});return}}catch(x){}var l=document.createElement("a");l.href=URL.createObjectURL(new Blob([t],{type:"text/csv"}));l.download=n;document.body.appendChild(l);l.click();l.remove();toast("Таблица сохранена")}});
@@ -1408,11 +1387,13 @@ if(P.length)R.push(['hfm','today','📞','<span>Пора позвонить:</sp
 var v=rhG(today);R.push(v?['rh','me','🕐','<span>Отдых сегодня:</span> <b>'+v.split("").filter(function(z){return z=="0"}).length+'</b> <span>ч</span>','']:['rh','me','🕐','<span>Отметь часы работы за сегодня</span>','w']);
 var bkp=st.bkp||(typeof st.bk=="string"?st.bk:""),bd=/^\d{4}-\d\d-\d\d$/.test(bkp)?hfd(bkp,today):null;
 if((bd===null&&Object.keys(st.done||{}).length>=3)||bd>14)R.push(['','set','💾','<span>Сделай резервную копию (Моя каюта → Настройки)</span>','w']);
-c.innerHTML='<h3>☀️ Сегодня</h3><p class="note" style="margin:0 0 8px">🔥 <span>Дней подряд в приложении:</span> <b>'+(sk.n||1)+'</b></p><ul style="padding:0;list-style:none;margin:0">'+R.map(function(r){return'<li style="margin:0 0 6px"><button type="button" data-td="'+r[0]+'|'+r[1]+'" style="width:100%;text-align:left;display:flex;gap:8px;align-items:center;'+(r[4]=="w"?"border-left:3px solid #f5a524;padding-left:8px":"")+'"><span>'+r[2]+'</span><span>'+r[3]+'</span></button></li>'}).join("")+'</ul>'}
+c.innerHTML='<h3>☀️ Сегодня</h3><p class="note" style="margin:0 0 8px">🔥 <span translate="no">'+(st.lang=="en"?"Streak:":st.lang=="uk"?"Серія:":"Серия:")+' <b>'+calc().streak+'</b> '+(st.lang=="en"?"days":"дн.")+'</span></p><ul style="padding:0;list-style:none;margin:0">'+R.map(function(r){return'<li style="margin:0 0 6px"><button type="button" data-td="'+r[0]+'|'+r[1]+'" style="width:100%;text-align:left;display:flex;gap:8px;align-items:center;'+(r[4]=="w"?"border-left:3px solid #f5a524;padding-left:8px":"")+'"><span>'+r[2]+'</span><span>'+r[3]+'</span></button></li>'}).join("")+'</ul>'}
 document.addEventListener("click",function(e){var b=e.target.closest("[data-td]");if(!b)return;var q=b.dataset.td.split("|");if(window.fmClose)fmClose();setTab(q[1]);if(q[0]){var s=$(q[0]),t=s&&s.previousElementSibling;if(t&&t.classList.contains("fmt"))t.click()}});
 /* Деньги и накопления */
 var FNI=["Зарплата","Премия","Прочий доход"],FNO=["Семье","Жильё","Еда","Связь","Билеты","Здоровье","Прочее"],FNC=["USD","EUR","GEL","RUB","UAH","PHP","INR"],fnS=false;
 function fnG(){var F=st.fn=st.fn||{};F.e=F.e||[];F.c=F.c||"USD";return F}
+/* Одна валюта для «Деньги и накопления» и «До дома»: st.fn.c (код), знак для «До дома» — fmCurS() */
+function fmCurS(){var c=(st.fn&&st.fn.c)||"USD";return{USD:"$",EUR:"€",RUB:"₽",UAH:"₴",GEL:"₾",PHP:"₱",INR:"₹"}[c]||c}
 function fnM(v,c){var n=Math.round(Math.abs(v)),t=String(n).replace(/\B(?=(\d{3})+(?!\d))/g," ");return(v<0?"−":"")+t+" "+c}
 function fnr(){var c=$("fnm");if(!c)return;var F=fnG(),E=F.e,cur=esc(F.c),ym=today.slice(0,7),mi=0,mo=0,net=0,n90=0,lim=iso(new Date(Date.now()-90*864e5));
 E.forEach(function(x){var v=x.t=="in"?x.a:-x.a;net+=v;if(x.d.slice(0,7)==ym){if(x.t=="in")mi+=x.a;else mo+=x.a}if(x.d>=lim)n90+=v});
@@ -1470,10 +1451,7 @@ document.addEventListener("input",function(e){var t=e.target;if(!t.closest||!t.c
 document.addEventListener("change",function(e){var t=e.target;if(!t.closest||!t.closest("#cvm"))return;if(t.id=="cvc"){cvC=t.value;cvr()}else cvu()});
 var AS=["Отправлено","Ответили","Собеседование","Оффер","Отказ"];
 function apr(){var A=st.ap||[];$("ap").innerHTML='<h3>Трекер откликов</h3><p class="note" style="margin:0 0 6px">Всего: '+A.length+', собеседований: '+A.filter(function(a){return a.s==2}).length+'.</p><ul>'+A.map(function(a,i){return'<li style="--c:var(--acc);grid-template-columns:1fr auto auto"><span class="n">'+esc(a.c)+' <small style="color:var(--mute)">'+esc(String(a.d||"").slice(5))+'</small></span><select data-aps="'+i+'" aria-label="Статус">'+AS.map(function(t,j){return'<option value="'+j+'"'+(a.s==j?" selected":"")+'>'+t+'</option>'}).join("")+'</select><button class="del" data-x="apd" data-v="'+i+'">×</button></li>'}).join("")+'</ul><div class="add"><input type="text" id="apn" placeholder="Компания и должность" maxlength="60"><button type="button" data-x="apa">Добавить</button></div>'}
-var ME=["Diagnosing and repairing industrial electrical systems","On-call duty and incident response","Technical documentation and reporting","Planned preventive maintenance","Working in international teams, business English","Spare parts, stock and supplier management"],MEm=["Diagnosing and repairing diesel engines and auxiliary machinery", "Engine room watchkeeping and emergency response", "Technical documentation and reporting", "Planned preventive maintenance", "Working in international teams, business English", "Bunkering, spare parts and supplier management"],MEn=["Navigational watchkeeping and decision-making 24/7", "Passage planning and route optimisation", "Cargo operations and stability control", "Inspections and audits (PSC, vetting)", "Working in international teams, business English", "Crew training, drills and safety management"],PE=["Smart home","Industrial automation","IT","Shore-based maritime roles","Marine service engineer","VTS, pilotage and port roles"],rzv="";
-function rzr(){var s=shs();$("rz").innerHTML='<h3>Генератор резюме</h3><div class="add"><label>Лет опыта в море<input type="number" min="0" data-sv="yrs" value="'+esc(s.yrs||"")+'"></label></div><div class="add"><button type="button" data-x="rzru">Собрать на русском</button><button type="button" data-x="rzen">Собрать на английском</button></div><textarea id="rzt" rows="9" placeholder="Здесь появится черновик. Допиши свои достижения и цифры: работодатель смотрит на результаты.">'+esc(rzv)+'</textarea><div class="add"><button type="button" data-x="rzcp" class="alt">Скопировать</button></div>'}
-function rzgen(en){var s=shs(),n=st.name||(en?"Your name":"Имя Фамилия"),y=s.yrs||"N",ss=skSet(),sk=SK[s.p][2].filter(function(_,i){return ss["s_"+s.p+"_"+i]});
-return en?n+"\n"+{el:"Marine Electro-Technical Officer",me:"Marine Engineer Officer",na:"Deck Officer (Navigator)"}[pf()]+", "+y+" years at sea\nTarget: "+PE[s.p]+"\n\nExperience:\n"+(pf()=="me"?MEm:pf()=="na"?MEn:ME).map(function(x){return"- "+x}).join("\n")+"\n\nCurrently learning: "+sk.length+" of 6 skills for the chosen direction\nLanguages: Russian (native), English (improving)\n\nAchievements: add numbers (equipment, voltage, downtime reduced, people trained)":n+"\n"+{el:"Судовой электромеханик",me:"Судовой механик",na:"Штурман"}[pf()]+", "+y+" лет опыта в море\nЦель: "+SK[s.p][1]+"\n\nОпыт:\n"+MSL().map(function(m){return"- "+m[1]}).join("\n")+"\n\nОсвоено по направлению: "+(sk.join("; ")||"пока ничего")+"\nЯзыки: русский (родной), английский (в изучении)\n\nДостижения: добавь цифры (оборудование, напряжение, сокращение простоев, обученные люди)"}
+function rzr(){}/* резюме рисует window.rzr (блок rzb-js); старый генератор резюме удалён */
 function hmr(){var h='<h3>Календарь активности</h3><div class="hmg">',i;for(i=83;i>=0;i--){var d=new Date(now);d.setDate(d.getDate()-i);var k=iso(d),x=dayXP(k),l=x>=250?4:x>=150?3:x>=50?2:x>0?1:0;h+='<i class="'+(l?"l"+l:"")+'" title="'+k+": "+x+' XP"></i>'}$("hm").innerHTML=h+'</div><p class="note">Последние 12 недель: чем ярче клетка, тем больше XP за день.</p>'}
 function glr(){$("gl").innerHTML='<h3>Глоссарий '+PROF[pf()][2]+'</h3><input type="text" id="gls" placeholder="'+(function(a,b,g){return g=="en"?"Search: "+a:g=="uk"?"Пошук: "+a:"Поиск: "+a+" или "+b})(ENL()[0][0],ENL()[0][1],st.lang)+'" style="width:100%;padding:10px;border:1px solid var(--line);background:var(--bg);color:var(--ink);border-radius:10px;font:inherit"><div id="glr"></div>';glf("")}
 function glf(q){q=q.toLowerCase();$("glr").innerHTML=ENL().filter(function(t){return!q||t[0].indexOf(q)>=0||t[1].indexOf(q)>=0}).map(function(t){return'<div class="dp" translate="no" style="margin:6px 0"><b>'+t[0]+'</b><span>'+t[1]+'</span><button type="button" class="alt" data-vd="'+esc(t[1])+' на судне" aria-label="Видео" style="padding:2px 8px;min-width:0">🎬</button></div>'}).join("")||'<p class="note">Ничего не найдено</p>'}
@@ -1501,13 +1479,10 @@ else if(a=="buy"){var R=st.rw[+v],co=Math.floor(calc().xp/10)-(st.sp||0);if(R&&c
 else if(a=="rwd"){st.rw.splice(+v,1);save();render()}
 else if(a=="apa"){var an=$("apn").value.trim();if(!an)return;(st.ap=st.ap||[]).push({c:an,s:0,d:today});save();render()}
 else if(a=="apd"){st.ap.splice(+v,1);save();render()}
-else if(a=="rzru"){rzv=rzgen(0);rzr()}
-else if(a=="rzen"){rzv=rzgen(1);rzr()}
-else if(a=="rzcp"){var tx=$("rzt").value;if(navigator.clipboard&&navigator.clipboard.writeText)navigator.clipboard.writeText(tx).then(function(){toast("Скопировано")},function(){showCode(tx)});else showCode(tx)}
 else if(a=="ck"){st.ck=st.ck||{};if(st.ck[v])delete st.ck[v];else st.ck[v]=1;save();render()}});
 $("mn").addEventListener("input",function(e){var t=e.target;
 if(t.id=="dnt"){dset(dy,"note",t.value);var dd=st.done[today];if(dy==today&&t.value.trim().length>=20&&!(dd&&dd.dn)){st.done[today]=st.done[today]||{};st.done[today].dn={x:15,c:"read"};save();render()}}
-else if(t.id=="rzt")rzv=t.value;else if(t.id=="gls")glf(t.value)});
+else if(t.id=="gls")glf(t.value)});
 $("mn").addEventListener("change",function(e){var t=e.target;if(t.dataset.aps!==undefined){st.ap[+t.dataset.aps].s=+t.value;save();render()}else if(t.dataset.opt=="big"){st.big=t.checked;save();render()}});
 function refreshAll(){render();edr();dall();qzr();if(typeof bkr=="function"){try{bkS.l=st.bk&&st.bk.l=="en"?"en":"ru";bkS.g=st.bk?+st.bk.g||0:0}catch(e){}bkr()}}
 dqr();dall();glr();
@@ -1853,7 +1828,7 @@ else{var t=pnToday();if(!t.miss.length)s=fmL("✅ Всё закрыто: штр�
 else{var dr=pnDrop(t.x);s=fmL("⚖️ Не закроешь до полуночи: ","⚖️ Not done by midnight: ","⚖️ Не закриєш до півночі: ")+'<span class="mx">−'+t.x+' XP</span>'+(dr?fmL(", уровень ",", level ",", рівень ")+dr[0]+" → "+dr[1]:"");
 var it=items(k,day),dd=st.done[k]||{},li=$("list").children;for(var i=0;i<it.length&&i<li.length;i++){var xb=li[i].querySelector(".xpb");if(xb&&!dd[it[i].id]&&!xb.querySelector(".pnx"))xb.insertAdjacentHTML("beforeend",'<small class="pnx" translate="no"> −'+pnCost(it[i])+'</small>')}}}
 q.innerHTML=s;q.hidden=!s}
-function pnWarn(){var p=PN();if(today<p.s||new Date().getHours()<PNH||p.w[today]||pnHard(today)||iso(new Date())!==today)return;var t=pnToday();if(!t.miss.length)return;
+function pnWarn(){var p=PN();if(st.nt&&st.nt.pnw===0)return;if(today<p.s||new Date().getHours()<PNH||p.w[today]||pnHard(today)||iso(new Date())!==today)return;var t=pnToday();if(!t.miss.length)return;
 var ti=fmL("⚠️ Штраф −","⚠️ Penalty −","⚠️ Штраф −")+t.x+fmL(" XP в полночь"," XP at midnight"," XP опівночі"),bo=fmL("Не закрыто: ","Still open: ","Не закрито: ")+t.miss.slice(0,3).map(function(x){return window.trEN?trEN(x.n):x.n}).join(", ")+(t.miss.length>3?"…":"");
 if(typeof NT=="function"&&NT().on&&typeof ntSend=="function"){ntSend(ti,bo,"pn");p.w[today]=1;save()}
 else if(document.visibilityState==="visible"){toast(ti+". "+bo);p.w[today]=1;save()}
@@ -2110,12 +2085,12 @@ function ktr(){var el=$("ktr");if(!el)return;if(document.activeElement&&el.conta
 if(ok.test(k.a)&&ok.test(k.b)&&k.b>k.a){var all=dd(k.a,k.b)+1,done=today<k.a?0:Math.min(all,dd(k.a,today)+1),left=Math.max(0,dd(today,k.b)),pc=Math.min(100,Math.round(done/all*100)),sal=+String(k.s).replace(",",".")||0,pp=+String(k.p).replace(",",".")||0;
 h+=left?'<div class="kbig"><b>'+left+'</b><span>'+L("дн. до списания","days until sign-off","дн. до списання")+' · '+k.b.split("-").reverse().join(".")+'</span></div>':'<div class="kbig"><b>🏠</b><span>'+L("Контракт закончен. С возвращением домой!","Contract finished. Welcome home!","Контракт закінчено. З поверненням додому!")+'</span></div>';
 h+='<div class="kbar"><i style="width:'+pc+'%"></i></div><p class="note" style="margin:0">'+L("Пройдено ","Done ","Пройдено ")+pc+'% · '+done+L(" из "," of "," з ")+all+L(" дн."," days"," дн.")+(left&&left<=all/2&&left>14?L(" · больше половины позади!"," · more than halfway!"," · більше половини позаду!"):left&&left<=14?L(" · скоро домой!"," · going home soon!"," · скоро додому!"):"")+'</p>';
-if(sal>0){var ear=sal*12/365*done,tot=sal*12/365*all;h+='<div class="kgr"><div><small>'+L("Заработано","Earned","Зароблено")+'</small><b>'+money(ear,k.c)+'</b></div><div><small>'+L("За весь контракт","Whole contract","За весь контракт")+'</small><b>'+money(tot,k.c)+'</b></div>'+(pp>0?'<div><small>'+L("Отложено","Saved","Відкладено")+' ('+f(pp,0)+'%)</small><b>'+money(ear*pp/100,k.c)+'</b></div><div><small>'+L("Отложишь к концу","Saved by the end","Відкладеш до кінця")+'</small><b>'+money(tot*pp/100,k.c)+'</b></div>':'')+'</div>'}
+if(sal>0){var ear=sal*12/365*done,tot=sal*12/365*all;h+='<div class="kgr"><div><small>'+L("Заработано","Earned","Зароблено")+'</small><b>'+money(ear,fmCurS())+'</b></div><div><small>'+L("За весь контракт","Whole contract","За весь контракт")+'</small><b>'+money(tot,fmCurS())+'</b></div>'+(pp>0?'<div><small>'+L("Отложено","Saved","Відкладено")+' ('+f(pp,0)+'%)</small><b>'+money(ear*pp/100,fmCurS())+'</b></div><div><small>'+L("Отложишь к концу","Saved by the end","Відкладеш до кінця")+'</small><b>'+money(tot*pp/100,fmCurS())+'</b></div>':'')+'</div>'}
 var wk=Math.floor(left/7);if(left>7)h+='<p class="note">'+L("Это примерно ","That is about ","Це приблизно ")+wk+L(" недель и "," weeks and "," тижнів і ")+(left%7)+L(" дн."," days"," дн.")+'</p>'}
 else h+='<p class="note" style="margin:0 0 6px">'+L("Впиши даты контракта: приложение покажет, сколько дней до дома, сколько заработано и отложено.","Enter your contract dates and the app will show the days until home, money earned and saved.","Впиши дати контракту: застосунок покаже, скільки днів до дому, скільки зароблено й відкладено.")+'</p>';
-h+='<div class="kgr" style="grid-template-columns:repeat(auto-fit,minmax(130px,1fr))"><label>'+L("Начало контракта","Sign-on","Початок контракту")+'<input type="date" id="kta" value="'+esc(k.a||"")+'"></label><label>'+L("Домой (дата списания)","Home (sign-off date)","Додому (дата списання)")+'<input type="date" id="ktb" value="'+esc(k.b||"")+'"></label><label>'+L("Зарплата в месяц","Salary per month","Зарплата на місяць")+'<input id="kts" inputmode="decimal" value="'+esc(k.s)+'"></label><label>'+L("Валюта","Currency","Валюта")+'<select id="ktc">'+["$","€","₽","₴"].map(function(c){return'<option'+(k.c==c?" selected":"")+'>'+c+'</option>'}).join("")+'</select></label><label>'+L("Откладываю, %","I save, %","Відкладаю, %")+'<input id="ktp" inputmode="decimal" value="'+esc(k.p)+'"></label></div><p class="note">'+L("Данные хранятся только на телефоне.","Data stays on your phone only.","Дані зберігаються лише на телефоні.")+'</p>';
+h+='<div class="kgr" style="grid-template-columns:repeat(auto-fit,minmax(130px,1fr))"><label>'+L("Начало контракта","Sign-on","Початок контракту")+'<input type="date" id="kta" value="'+esc(k.a||"")+'"></label><label>'+L("Домой (дата списания)","Home (sign-off date)","Додому (дата списання)")+'<input type="date" id="ktb" value="'+esc(k.b||"")+'"></label><label>'+L("Зарплата в месяц","Salary per month","Зарплата на місяць")+'<input id="kts" inputmode="decimal" value="'+esc(k.s)+'"></label><label>'+L("Валюта","Currency","Валюта")+'<select id="ktc">'+["USD","EUR","GEL","RUB","UAH","PHP","INR"].map(function(c){var cs=(st.fn&&st.fn.c)||"USD";return'<option value="'+c+'"'+(cs==c?" selected":"")+'>'+c+'</option>'}).join("")+'</select></label><label>'+L("Откладываю, %","I save, %","Відкладаю, %")+'<input id="ktp" inputmode="decimal" value="'+esc(k.p)+'"></label></div><p class="note">'+L("Данные хранятся только на телефоне.","Data stays on your phone only.","Дані зберігаються лише на телефоні.")+'</p>';
 el.innerHTML=h}
-document.addEventListener("change",function(e){var m={kta:"a",ktb:"b",kts:"s",ktc:"c",ktp:"p"}[e.target.id];if(!m)return;KT()[m]=e.target.value;if(m=="b"){st.fam=st.fam||{};st.fam.d=/^\d{4}-\d\d-\d\d$/.test(e.target.value)?e.target.value:""}save();e.target.blur();render()});
+document.addEventListener("change",function(e){var m={kta:"a",ktb:"b",kts:"s",ktc:"c",ktp:"p"}[e.target.id];if(!m)return;if(m=="c"){fnG().c=e.target.value;KT().c=fmCurS();save();e.target.blur();render();return}KT()[m]=e.target.value;if(m=="b"){st.fam=st.fam||{};st.fam.d=/^\d{4}-\d\d-\d\d$/.test(e.target.value)?e.target.value:""}save();e.target.blur();render()});
 
 /* ---------- Огонёк серии ---------- */
 var SKM=[[3,30],[7,70],[14,150],[30,300],[60,600],[100,1000]];
@@ -3049,7 +3024,6 @@ el.innerHTML="<h3>"+L("🔒 Конфиденциальность и поддер
 <style id="ux-css">/* Все разделы, поиск и «⭐ Моё» (этап 1 нового вида) */
 main>.uxs{display:flex;align-items:center;gap:8px;width:100%;box-sizing:border-box;min-height:44px;margin:0;padding:0 12px;border-radius:12px;border:1px solid var(--line);background:var(--card);color:var(--mute);font:inherit;font-size:15px;text-align:left;cursor:pointer;backdrop-filter:blur(4px)}
 main>.uxs svg,#uxc svg{flex:none}
-html.simple main[data-tab="today"]>.uxs[data-t="today"]{display:flex!important}
 main>.uxm{display:flex;flex-direction:column;gap:8px;margin:0}
 .uxm .uxh{display:flex;justify-content:space-between;align-items:center;margin:4px 2px 0}
 .uxm .uxh b{font-size:12px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;opacity:.85;text-shadow:0 1px 4px #000c}
@@ -3161,20 +3135,19 @@ var W=function(r,I){return has(I,"work")},SH={hfm:"home",ktr:"home",cth:"home",f
  rlg:function(r,I){return has(I,"work")&&(r=="el"||r=="me")},cvm:function(r,I){return has(I,"work")&&(r=="el"||r=="me"||r=="na")},
  lib:W,gl:W,en:W,iv:W,qz:W,vdw:W,mat:W,ck:W,prf:W,tip:W,ls:W,pom:W,rk:W,
  tk:"rest",sm:"rest",bg:"rest",mt2:"rest",pzl:"rest",bk:"rest",flm:"rest",snd:"rest",ch:"rest",shop:"rest",gym:"gym",brt:"gym",
- sh1:"shore",sh2:"shore",sh5:"shore",sh4:"shore",ap:"shore",rz:"shore",sh3:"shore",prf2:"shore",vis:"shore",dq:"diary",d1:"diary",d2:"diary",d3:"diary",d4:"diary"};
+ sh1:"shore",sh2:"shore",sh5:"shore",sh4:"shore",ap:"shore",rz:"shore",sh3:"shore",vis:"shore",dq:"diary",d1:"diary",d2:"diary",d3:"diary",d4:"diary"};
 function U(){var u=st.ux=st.ux||{};return u}
 function show(k){var u=U();if(!u.ob||u.all)return true;var s=SH[k];if(!s)return true;var I=u.i||[];return typeof s=="string"?has(I,s):!!s(u.r||"ot",I)}
 window.uxDef=function(){var r=U().r;return{na:["shn","srf","dc","en","lib","sky"],me:["rlg","cvm","ck","dc","lib","srf"],el:["cvm","rlg","gl","dc","lib","srf"],rt:["en","srf","dc","lib","ck","bk"]}[r]||["dc","en","lib","bk","flm","gym"]};
 /* применить: спрятать лишние плитки, заголовки пустых групп, подсказка «скрыто N» */
-var TI={shore:"shore",diary:"diary",game:"rest"};
 function apply(){var cnt={},vis={};Object.keys(P).forEach(function(k){var b=P[k].b,v=show(k),t=b.getAttribute("data-t");if(v){b.removeAttribute("data-uxh");if(!b.hidden)vis[t]=1}else{b.setAttribute("data-uxh","1");cnt[t]=(cnt[t]||0)+1}});
  [].forEach.call(mn.querySelectorAll(":scope>.tgxh"),function(h){var n=h.nextElementSibling,v=false;while(n&&!n.classList.contains("tgxh")&&!n.classList.contains("uxhn")){if(n.classList.contains("fmt")&&!n.hidden&&!n.hasAttribute("data-uxh"))v=true;n=n.nextElementSibling}if(v)h.removeAttribute("data-uxh");else h.setAttribute("data-uxh","1")});
  [].forEach.call(mn.querySelectorAll(":scope>.uxhn"),function(x){x.remove()});
  Object.keys(cnt).forEach(function(t){var all=[].filter.call(mn.children,function(e){return e.getAttribute("data-t")==t&&(e.classList.contains("fmt")||e.classList.contains("tgxh"))}),last=all[all.length-1];if(!last)return;
-  var d=document.createElement("div");d.className="uxhn";d.setAttribute("data-t",t);d.setAttribute("translate","no");d.innerHTML=!vis[t]&&TI[t]?'<span>'+L("Эта вкладка не в твоих интересах (разделов: ","This tab is not in your interests (sections: ","Ця вкладка не у твоїх інтересах (розділів: ")+cnt[t]+L("). Их можно открыть и через «🔍 Все разделы».","). You can also open them from “🔍 All sections”.","). Їх можна відкрити й через «🔍 Усі розділи».")+'</span><button type="button" data-uxw="tab" data-i="'+TI[t]+'">'+L("Показывать эту вкладку","Show this tab","Показувати цю вкладку")+'</button>':'<span>'+L("Под твой профиль скрыто разделов: ","Hidden for your profile: ","Під твій профіль приховано розділів: ")+cnt[t]+L(". Они в «🔍 Все разделы».",". They are in “🔍 All sections”.",". Вони в «🔍 Усі розділи».")+'</span><button type="button" data-uxw="all">'+L("Показать всё","Show all","Показати все")+'</button>';mn.insertBefore(d,last.nextSibling)});
+  var d=document.createElement("div");d.className="uxhn";d.setAttribute("data-t",t);d.setAttribute("translate","no");d.innerHTML='<span>'+L("Под твой профиль скрыто разделов: ","Hidden for your profile: ","Під твій профіль приховано розділів: ")+cnt[t]+L(". Они в «🔍 Все разделы».",". They are in “🔍 All sections”.",". Вони в «🔍 Усі розділи».")+'</span><button type="button" data-uxw="all">'+L("Показать всё","Show all","Показати все")+'</button>';mn.insertBefore(d,last.nextSibling)});
  ["game","shore"].forEach(function(t){var nb=document.querySelector('#nav [data-n="'+t+'"]');if(!nb)return;var h=!vis[t]&&!!cnt[t];if(h)nb.setAttribute("data-uxh","1");else nb.removeAttribute("data-uxh");if(h&&mn.getAttribute("data-tab")==t&&window.setTab)setTab("today")});
  if(window.uxRefresh)uxRefresh();uxpr()}
-mn.addEventListener("click",function(e){var b=e.target.closest('[data-uxw="all"],[data-uxw="tab"]');if(!b)return;var u=U();if(b.dataset.uxw=="tab"){u.i=u.i||[];if(u.i.indexOf(b.dataset.i)<0)u.i.push(b.dataset.i)}else u.all=1;try{save()}catch(x){}apply()});
+mn.addEventListener("click",function(e){var b=e.target.closest('[data-uxw="all"]');if(!b)return;var u=U();u.all=1;try{save()}catch(x){}apply()});
 /* первый запуск */
 var O=document.createElement("div");O.id="uxw";O.setAttribute("role","dialog");O.setAttribute("aria-modal","true");O.setAttribute("aria-label","Fac Modo");O.setAttribute("translate","no");document.body.appendChild(O);
 var step=1,selR=null,selI=null,nm="";
@@ -3210,7 +3183,6 @@ apply();if(!U().ob)setTimeout(wOpen,300)});
 <style id="ux3-css">/* Новый вид, этап 3: объединённые разделы, меню из 5 вкладок, настройки списком */
 main>.fmt[data-uxj]{display:none!important}
 #nav button[data-n="diary"],#nav button[data-n="set"]{display:none!important}
-html.simple #nav button[data-n="me"]{display:block!important}
 main>.fmt.uxrow{grid-column:1/-1;flex-direction:row;align-items:center;justify-content:flex-start;min-height:50px;padding:8px 12px;gap:12px}
 main>.fmt.uxrow i{font-size:22px}main>.fmt.uxrow b{font-size:14.5px;width:auto}
 #fmc>section.uxcmp{margin-top:14px}
@@ -3221,7 +3193,7 @@ main>.fmt.uxrow i{font-size:22px}main>.fmt.uxrow b{font-size:14.5px;width:auto}
 document.addEventListener("DOMContentLoaded",function(){var mn=document.getElementById("mn"),P=window.uxP;if(!mn||!P)return;var L=function(r,e,u){return window.fmL?fmL(r,e,u):r};
 function key(s){if(!s||s.tagName!="SECTION")return"";if(s.id)return s.id;var e=s.querySelector("[id]");return e?"#"+e.id:""}
 /* 1. объединения: главный раздел → спутники, которые открываются в том же окне */
-var COMP={mat:["vdw"],cvm:["clc"]},J=["vdw","clc","prf2"];
+var COMP={mat:["vdw"],cvm:["clc"]},J=["vdw","clc"];
 J.forEach(function(k){if(P[k])P[k].b.setAttribute("data-uxj","1")});
 var fmm=document.getElementById("fmm"),fmc=document.getElementById("fmc"),cur=null;
 function restore(){if(!cur)return;cur.a.forEach(function(x){x.ph.parentNode.insertBefore(x.s,x.ph);x.ph.remove();x.s.classList.remove("uxcmp")});cur=null}
@@ -3271,7 +3243,7 @@ var fm=document.getElementById("fmm");if(fm&&typeof tdr=="function")new Mutation
 fstSh()});
 </script>
 <style id="one-css">/* Объединённые разделы: одна плитка — несколько разделов вкладками вверху окна (блок one-js) */
-#onet{display:flex;gap:6px;overflow-x:auto;padding:0 12px 8px;scrollbar-width:none;-webkit-overflow-scrolling:touch}#onet::-webkit-scrollbar{display:none}#onet[hidden]{display:none}
+#onet{display:flex;flex-shrink:0;gap:6px;overflow-x:auto;padding:0 12px 8px;scrollbar-width:none;-webkit-overflow-scrolling:touch}#onet::-webkit-scrollbar{display:none}#onet[hidden]{display:none}
 #onet button{flex:0 0 auto;min-height:40px;padding:0 14px;border-radius:99px;border:1px solid var(--line);background:var(--card);color:var(--ink);font:inherit;font-size:14.5px;font-weight:700;cursor:pointer;white-space:nowrap}
 #onet button[aria-selected=true]{background:var(--acc);border-color:var(--acc);color:#0e1424}
 #fmc>section.oneh{display:none!important}
@@ -3286,7 +3258,7 @@ var GR=[
  ["#days","✅",L("Мой день","My day","Мій день"),[[L("Квесты","Quests","Квести"),["#days"]],[L("Цель","Goal","Ціль"),["fc"]],[L("Итоги","Summary","Підсумки"),["cmp"]],[L("Серия","Streak","Серія"),["stk"]],[L("Штрафы","Penalties","Штрафи"),["pnl"]],[L("Расписание","Schedule","Розклад"),["ed"]]]],
  ["wch","⚓",L("Вахта и отдых","Watch and rest","Вахта і відпочинок"),[[L("Вахта и сон","Watch & sleep","Вахта і сон"),["wch"]],[L("Часы отдыха","Rest hours","Години відпочинку"),["rh"]]]],
  ["hfm","🏠",L("Дом и семья","Home and family","Дім і сім'я"),[[L("Семья","Family","Сім'я"),["hfm"]],[L("До дома","Until home","До дому"),["ktr"]],[L("Звонок","Call","Дзвінок"),["cth"]]]],
- ["ck","☑️",L("Чек-листы","Checklists","Чек-листи"),[[L("На судне","On board","На судні"),["ck"]],[L("Сборы","Packing","Збори"),["pck"]],[L("Должность","Promotion","Посада"),["rk"]]]],
+ ["ck","☑️",L("Чек-листы","Checklists","Чек-листи"),[[L("На судне","On board","На судні"),["ck"]],[L("Должность","Promotion","Посада"),["rk"]]]],
  ["#stats","📈",L("Прогресс","Progress","Прогрес"),[[L("Характеристики","Stats","Характеристики"),["#stats"]],[L("Достижения","Achievements","Досягнення"),["#ach"]],[L("Награды","Rewards","Нагороди"),["rwd"]],[L("Цели рейса","Trip goals","Цілі рейсу"),["rg"]],[L("Неделя","Week","Тиждень"),["wkc"]],[L("Календарь","Calendar","Календар"),["hm"]],[L("С другом","With a friend","З другом"),["cmpt"]],[L("Где я был","Places","Де я був"),["vis"]],[L("Поделиться","Share","Поділитися"),["shr"]]]],
  ["d1","📓",L("Дневник","Diary","Щоденник"),[[L("Состояние","Mood","Стан"),["d1","dq"]],[L("Запись","Entry","Запис"),["d2"]],[L("Рисунок","Drawing","Малюнок"),["d3"]],[L("Все записи","All entries","Усі записи"),["d4"]]]],
  ["sh1","🧭",L("Курс на берег","Course ashore","Курс на берег"),[[L("Курс","Course","Курс"),["sh1"]],[L("Шаг дня","Step","Крок дня"),["sh4"]],[L("Навыки","Skills","Навички"),["sh2"]],[L("План","Plan","План"),["sh5"]],[L("Опыт","Experience","Досвід"),["sh3"]]]],
@@ -3295,16 +3267,13 @@ var GR=[
  ["tk","🎮",L("Игры","Games","Ігри"),[[L("Танчики","Tanks","Танчики"),["tk"]],[L("Самолётики","Planes","Літачки"),["sm"]],[L("Настольные","Board games","Настільні"),["bg"]],[L("Головоломки","Puzzles","Головоломки"),["pzl"]],[L("Задача дня","Daily puzzle","Задача дня"),["mt2"]]]],
  ["en","🇬🇧",L("Английский","English","Англійська"),[[L("Слова","Words","Слова"),["en"]],[L("Повторение","Review","Повторення"),["srs"]],[L("Собеседование","Interview","Співбесіда"),["iv"]]]],
  ["lib","📚",L("Знания","Knowledge","Знання"),[[L("Библиотека","Library","Бібліотека"),["lib"]],[L("Термины","Terms","Терміни"),["gl"]],[L("Тест","Quiz","Тест"),["qz"]],[L("Совет дня","Daily tip","Порада дня"),["tip"]],[L("Для жизни","Life skills","Для життя"),["ls"]],[L("Специальность","Specialty","Спеціальність"),["prf"]],[L("Таймер","Timer","Таймер"),["pom"]]]],
- ["snd","🌙",L("Сон и звёзды","Sleep and stars","Сон і зорі"),[[L("Звуки для сна","Sleep sounds","Звуки для сну"),["snd"]],[L("Звёздное небо","Night sky","Зоряне небо"),["sky"]]]],
  ["flm","🍿",L("Кино и книги","Films and books","Кіно й книжки"),[[L("Фильмы","Films","Фільми"),["flm"]],[L("Книги","Books","Книжки"),["bk"]]]],
  ["dc","🛂",L("Документы и стаж","Documents and sea time","Документи й стаж"),[[L("Документы","Documents","Документи"),["dc"]],[L("Контракты","Contracts","Контракти"),["ct"]]]],
  ["rz","📄",L("Резюме и отклики","CV and applications","Резюме й відгуки"),[[L("Резюме","CV","Резюме"),["rz"]],[L("Отклики","Applications","Відгуки"),["ap"]]]],
  ["cfg","🖥️",L("Внешний вид","Appearance","Вигляд"),[[L("Экран","Screen","Екран"),["cfg"]],[L("Тема и фото","Theme & photo","Тема і фото"),["#th"]]]],
- ["nfc","🔔",L("Уведомления","Notifications","Сповіщення"),[[L("Уведомления","Notifications","Сповіщення"),["nfc"]],[L("Напоминания","Reminders","Нагадування"),["rem"]]]],
  ["#sn","💾",L("Копии и перенос","Backup and transfer","Копії й перенесення"),[[L("Копия","Backup","Копія"),["#sn"]],[L("Автокопии","Auto backups","Автокопії"),["abk"]],[L("Новый телефон","New phone","Новий телефон"),["trn"]]]]
 ];
 /* повторы: «Серия» в настройках (та же кнопка заморозки есть в «Серии дней») и «Расписание» (ссылка на редактор, он теперь в «Моём дне») */
-["opt","#edgo2"].forEach(function(k){if(P[k])P[k].b.setAttribute("data-uxj","1")});
 var OF={};GR.forEach(function(g){g[3]=g[3].map(function(t){return[t[0],t[1].filter(function(k){return P[k]})]}).filter(function(t){return t[1].length});
  if(!P[g[0]]||g[3].length<2)return;g[3].forEach(function(t,i){t[1].forEach(function(k){OF[k]={g:g,i:i}})});
  var b=P[g[0]].b;b.dataset.ic=g[1];b.dataset.ttl=g[2];if(b.firstChild)b.firstChild.textContent=g[1];if(b.lastChild){b.lastChild.textContent=g[2];b.lastChild.setAttribute("translate","no")}
@@ -3446,7 +3415,7 @@ m.addEventListener("click",function(e){var x=e.target.closest("[data-qa]");if(!x
 document.addEventListener("click",function(e){if(!e.target.closest("#qam,#qab"))close()})});
 </script>
 <style id="hn-css">/* Подсказка при первом входе в раздел (блок hn-js) */
-#hnt{margin:0 12px 8px;padding:10px 12px;border-radius:12px;border:1px dashed var(--acc);background:color-mix(in srgb,var(--acc) 10%,var(--card));font-size:14px;line-height:1.45;display:flex;gap:10px;align-items:flex-start}#hnt[hidden]{display:none}
+#hnt{flex-shrink:0;margin:0 12px 8px;padding:10px 12px;border-radius:12px;border:1px dashed var(--acc);background:color-mix(in srgb,var(--acc) 10%,var(--card));font-size:14px;line-height:1.45;display:flex;gap:10px;align-items:flex-start}#hnt[hidden]{display:none}
 #hnt span{flex:1}#hnt button{flex:0 0 auto;min-height:38px;padding:0 12px;border-radius:10px;border:1px solid var(--line);background:var(--bg);color:var(--acc);font:inherit;font-size:14px;font-weight:700;cursor:pointer}
 </style>
 <script id="hn-js">/* Подсказка «как этим пользоваться» при первом входе в раздел: одна строка над разделом, «Понятно» прячет её навсегда (localStorage fm_hint).
@@ -3469,7 +3438,7 @@ cvm:L("Переводы единиц и расчёты — работают бе
 srf:L("Флаги, огни, звуки, буи, конвенции — коротко. Нажми на строку, чтобы прочитать подробнее.","Flags, lights, sounds, buoys, conventions — in short. Tap a line for details.","Прапори, вогні, звуки, буї, конвенції — коротко. Натисни на рядок, щоб прочитати детальніше."),
 shn:L("Выбери инструмент вверху: компас, секстан, звёзды, счисление, расхождение, прилив.","Pick a tool at the top: compass, sextant, stars, dead reckoning, CPA, tide.","Обери інструмент угорі: компас, секстант, зорі, числення, розходження, приплив."),
 lib:L("Статьи по темам. Прочитал — отметь, за это дают опыт.","Articles by topic. Mark them as read to earn XP.","Статті за темами. Прочитав — відміть, за це дають досвід."),
-ck:L("Готовые чек-листы. Во вкладках — сборы в рейс и подготовка к повышению.","Ready-made checklists. Other tabs: packing for a trip and preparing for promotion.","Готові чек-листи. У вкладках — збори в рейс і підготовка до підвищення."),
+ck:L("Готовые чек-листы. Во вкладке — подготовка к повышению.","Ready-made checklists. Another tab: preparing for promotion.","Готові чек-листи. У вкладці — підготовка до підвищення."),
 "#stats":L("Твой уровень и навыки растут от выполненных дел. Во вкладках — достижения и награды.","Your level and skills grow as you complete tasks. Other tabs: achievements and rewards.","Твій рівень і навички зростають від виконаних справ. У вкладках — досягнення і нагороди."),
 d1:L("Отметь настроение — так видно, как меняется самочувствие в рейсе.","Log your mood to see how you feel over the trip.","Відміть настрій — так видно, як змінюється самопочуття в рейсі."),
 rz:L("Заполни анкету по шагам — резюме соберётся само, его можно сохранить в PDF.","Fill in the form step by step — the CV builds itself and saves as PDF.","Заповни анкету по кроках — резюме збереться саме, його можна зберегти в PDF."),
@@ -3502,7 +3471,7 @@ new MutationObserver(function(){setTimeout(upd,0)}).observe(fmc,{childList:true}
 #rtw h3{margin:0 0 4px;font-size:22px}#rtw .rtg{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin:14px 0}
 #rtw .rtg div{padding:12px;border-radius:14px;border:1px solid var(--line);background:var(--card)}#rtw .rtg b{display:block;font-size:24px}#rtw .rtg span{font-size:13px;color:var(--mute)}
 #rtw button{width:100%;min-height:50px;border:0;border-radius:14px;background:var(--acc);color:#0e1424;font:inherit;font-size:17px;font-weight:800;cursor:pointer}
-#rem .rmr{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin:8px 0}#rem .rmr label{flex:1;min-width:150px}#rem input[type=time]{min-height:44px}
+#nfc input[type=time]{min-height:44px}
 </style>
 <script id="ret-js">/* Чтобы хотелось вернуться — всё на главной в карточке «Сегодня» (#rtx, перерисовка в обёртке tdr) и без интернета:
  1) «Первые шаги» новичку (5 дел, за все +50 XP один раз, st.ret.f); 2) «Продолжить» — последний открытый раздел (fm_last);
@@ -3511,7 +3480,6 @@ new MutationObserver(function(){setTimeout(upd,0)}).observe(fmc,{childList:true}
  утро — сколько квестов, вечер — закрыть день, если не закрыт (не во время вахты и сна — fit()); через 3 дня без входа — «Давно не виделись». Настройки — раздел #rem, состояние — fm_rem. */
 /* +50 XP за «Первые шаги» — обёртка calc сразу при загрузке, до кэша calc в elg-js */
 (function(){var oc=window.calc;if(typeof oc=="function")calc=function(){var c=oc.apply(this,arguments);if(window.st&&st.ret&&st.ret.f){c.xp+=50;if(c.raw!=null)c.raw+=50}return c}})();
-(function(){var nf=document.getElementById("nfc");if(!nf)return;var s=document.createElement("section");s.className="card";s.setAttribute("data-t","set");s.id="rem";s.setAttribute("translate","no");nf.parentNode.insertBefore(s,nf.nextSibling)})();
 document.addEventListener("DOMContentLoaded",function(){var P=window.uxP||{},L=function(r,e,u){return window.fmL?fmL(r,e,u):r};
 function J(k,d){try{return JSON.parse(localStorage.getItem(k)||"")||d}catch(e){return d}}function W(k,v){try{localStorage.setItem(k,typeof v=="string"?v:JSON.stringify(v))}catch(e){}}
 function days(a,b){return Math.round((new Date(b+"T00:00:00")-new Date(a+"T00:00:00"))/864e5)}
@@ -3576,11 +3544,11 @@ function fit(dt,endH,backH){var w=null;try{w=window.fm3&&fm3.wd&&fm3.wd()}catch(
  function ok(t){return t.getDate()==dt.getDate()&&t.getHours()<endH&&t.getHours()>=backH&&!busy(t,w)}
  for(var d=0;d<=960;d+=15){var f=new Date(dt.getTime()+d*6e4),b=new Date(dt.getTime()-d*6e4);if(ok(b))return b;if(ok(f))return f}return null}
 var rq=Promise.resolve(),rsig="";
-function remSync(force){var N=nat();if(!N)return;var q=rem(),arr=[],now=Date.now(),sk=0;try{sk=calc().streak}catch(e){}
+function remSync(force){var N=nat();if(!N)return;var q=rem(),ntq=(window.st&&st.nt)||{},arr=[],now=Date.now(),sk=0;try{sk=calc().streak}catch(e){}
  if(q.on){for(var i=0;i<7;i++){var d=new Date();d.setDate(d.getDate()+i);var k=dk(d),it=items(k,(d.getDay()+6)%7),dd=st.done[k]||{},left=it.filter(function(z){return!dd[z.id]}).length;
   var a=fit(new Date(k+"T"+q.am+":00"),13,5),b=fit(new Date(k+"T"+q.pm+":00"),24,14);
-  if(a&&a.getTime()>now+6e4&&it.length)arr.push({id:3000+i,at:a,t:"⚓ Fac Modo",b:(a.getHours()<12?L("Доброе утро! ","Good morning! ","Доброго ранку! "):"")+L("Квестов сегодня: ","Quests today: ","Квестів сьогодні: ")+it.length});
-  if(b&&b.getTime()>now+6e4&&left)arr.push({id:3010+i,at:b,t:"🔥 Fac Modo",b:i==0&&sk>0?L("Осталось дел: ","Tasks left: ","Залишилось справ: ")+left+L(". Сохрани серию — ",". Keep your streak — ",". Збережи серію — ")+sk+L(" дн."," days"," дн."):L("Отметь, что сделано сегодня — день засчитается.","Tick off what you did today so the day counts.","Відміть, що зроблено сьогодні, — день зарахується.")})}
+  if(a&&ntq.amOn!==0&&a.getTime()>now+6e4&&it.length)arr.push({id:3000+i,at:a,t:"⚓ Fac Modo",b:(a.getHours()<12?L("Доброе утро! ","Good morning! ","Доброго ранку! "):"")+L("Квестов сегодня: ","Quests today: ","Квестів сьогодні: ")+it.length});
+  if(b&&ntq.pmOn!==0&&b.getTime()>now+6e4&&left)arr.push({id:3010+i,at:b,t:"🔥 Fac Modo",b:i==0&&sk>0?L("Осталось дел: ","Tasks left: ","Залишилось справ: ")+left+L(". Сохрани серию — ",". Keep your streak — ",". Збережи серію — ")+sk+L(" дн."," days"," дн."):L("Отметь, что сделано сегодня — день засчитается.","Tick off what you did today so the day counts.","Відміть, що зроблено сьогодні, — день зарахується.")})}
   (window.RTN||[]).forEach(function(f){try{arr=arr.concat(f(fit,now)||[])}catch(e){}});
   var z=new Date(now+3*864e5);z.setHours(10,0,0,0);z=fit(z,22,8)||z;arr.push({id:3090,at:z,t:"⚓ Fac Modo",b:L("Давно не виделись! Загляни — квесты и задача дня ждут.","Long time no see! Your quests and daily puzzle are waiting.","Давно не бачились! Зазирни — квести й задача дня чекають.")})}
  var sig=JSON.stringify(arr.map(function(x){return x.id+":"+x.at.getTime()+x.b}));if(!force&&sig==rsig)return;rsig=sig;
@@ -3588,14 +3556,9 @@ function remSync(force){var N=nat();if(!N)return;var q=rem(),arr=[],now=Date.now
   .then(function(){if(arr.length)return N.schedule({notifications:arr.map(function(x){return{id:x.id,title:x.t,body:x.b,schedule:{at:x.at,allowWhileIdle:true}}})})}).catch(function(e){if(window.fmLog)fmLog("warn","rem",{e:String(e&&e.message||e)})})}
 var rt=0;if(typeof save=="function"){var os=save;save=function(){var v=os.apply(this,arguments);clearTimeout(rt);rt=setTimeout(remSync,4000);return v}}
 document.addEventListener("visibilitychange",function(){if(document.hidden)remSync();else card()});setTimeout(remSync,3000);
-/* --- раздел «Напоминания» в настройках --- */
-function remR(){var c=document.getElementById("rem");if(!c)return;var q=rem(),n=!!nat();
- c.innerHTML='<h3>⏰ '+L("Напоминания","Reminders","Нагадування")+'</h3><p class="note" style="margin:0 0 8px">'+(n?L("Приходят, даже когда приложение закрыто. Интернет не нужен. Во время вахты и сна по графику не беспокоят — сдвигаются на свободное время.","They arrive even when the app is closed. No internet needed. They never disturb you on watch or during sleep from your rota — they move to free time.","Приходять, навіть коли застосунок закрито. Інтернет не потрібен. Під час вахти і сну за графіком не турбують — зсуваються на вільний час."):L("Работают в приложении на телефоне (iPhone или Android).","They work in the phone app (iPhone or Android).","Працюють у застосунку на телефоні (iPhone або Android)."))+'</p>'+
- '<div class="add"><button type="button" data-rm="tog" class="'+(q.on?"alt":"")+'">'+(q.on?L("Выключить","Turn off","Вимкнути"):L("🔔 Включить","🔔 Turn on","🔔 Увімкнути"))+'</button></div>'+
- '<div class="rmr"><label for="rmam">'+L("Утром, сколько квестов","Morning: today’s quests","Вранці: скільки квестів")+'</label><input type="time" id="rmam" value="'+esc(q.am)+'"></div>'+
- '<div class="rmr"><label for="rmpm">'+L("Вечером, если день не закрыт","Evening: if the day isn’t closed","Увечері: якщо день не закрито")+'</label><input type="time" id="rmpm" value="'+esc(q.pm)+'"></div>'}
-var rc=document.getElementById("rem");if(rc){rc.addEventListener("click",function(e){var b=e.target.closest("[data-rm]");if(b)remOn(!rem().on)});
- rc.addEventListener("change",function(e){var t=e.target;if(!/^\d\d:\d\d$/.test(t.value||""))return;var q=rem();if(t.id=="rmam")q.am=t.value;else if(t.id=="rmpm")q.pm=t.value;else return;W("fm_rem",q);remSync(1)})}
+/* --- настройки — в едином разделе «🔔 Уведомления» (#nfc, ntr в основном скрипте) --- */
+function remR(){if(typeof ntr=="function"&&document.getElementById("nfc"))ntr()}
+window.fmRem={q:rem,set:function(q){W("fm_rem",q);remSync(1)},on:remOn,sync:remSync,nat:function(){return!!nat()}};
 remR()});
 </script>
 <style id="rs-css">/* Рейс: воспоминания, праздники рейса, повторение слов (#srs), цели на рейс (#rg), «почти получил» (блок rs-js) */
@@ -3717,8 +3680,8 @@ srr();rgr();achn();rt()});
 <script id="lz-js">/* Быстрее после каждого действия: render() перерисовывал ~40 разделов, даже закрытых (и в режимах en/uk каждый заново переводился — до 50 мс на нажатие).
  Теперь функция раздела, который сейчас закрыт, не выполняется сразу, а запоминается и выполняется при открытии раздела (окно #fmc, в том числе вкладки one-js).
  Главная, квесты, «Сегодня», шапка и магазин (его название на плитке меняется) обновляются как раньше. Список: LZ[функция] = id разделов. */
-document.addEventListener("DOMContentLoaded",function(){var LZ={prfr:["prf","prf2"],fcr:["fc"],lsr:["ls"],lbr:["lib"],chr:["ch"],shore:["sh1","sh2","sh3","sh4"],plr:["sh5"],engr:["en"],ivr:["iv"],pomr:["pom"],shcard:["shr"],
- dsv:["d1"],dfd:["d4"],optr:["opt"],cfgr:["cfg"],ntr:["nfc"],abtr:["abt"],wkr:["wkc"],frr:["cmpt"],apr:["ap"],dcr:["dc","dcw"],ctr:["ct"],rhr:["rh"],rkr:["rk"],hfr:["hfm"],cvr:["cvm"],fnr:["fnm"],hmr:["hm"],ckr:["ck"]};
+document.addEventListener("DOMContentLoaded",function(){var LZ={prfr:["prf"],fcr:["fc"],lsr:["ls"],lbr:["lib"],chr:["ch"],shore:["sh1","sh2","sh3","sh4"],plr:["sh5"],engr:["en"],ivr:["iv"],pomr:["pom"],shcard:["shr"],
+ dsv:["d1"],dfd:["d4"],cfgr:["cfg"],ntr:["nfc"],abtr:["abt"],wkr:["wkc"],frr:["cmpt"],apr:["ap"],dcr:["dc","dcw"],ctr:["ct"],rhr:["rh"],rkr:["rk"],hfr:["hfm"],cvr:["cvm"],fnr:["fnm"],hmr:["hm"],ckr:["ck"]};
 var fmm=document.getElementById("fmm"),fmc=document.getElementById("fmc"),dirty={},O={};if(!fmm||!fmc)return;
 function sec(id){var e=document.getElementById(id);return e?(e.tagName=="SECTION"?e:e.closest("section")):null}
 function open(n){if(!fmm.classList.contains("on"))return false;return LZ[n].some(function(id){var s=sec(id);return s&&s.parentNode===fmc})}
@@ -3786,7 +3749,7 @@ clc:["Ток двигателя, cos φ, сечение кабеля, оборо
 cvm:["Перевод единиц, закон Ома, расчёты рейса","Unit conversion, Ohm’s law, voyage maths","Переведення одиниць, закон Ома, розрахунки рейсу"],
 rlg:["Что чинил: дата, оборудование, фото; выгрузка таблицей","What you repaired: date, equipment, photo; export as a table","Що ремонтував: дата, обладнання, фото; вивантаження таблицею"],
 ck:["Готовые чек-листы для работы на судне","Ready-made checklists for work on board","Готові чек-листи для роботи на судні"],
-prf:["Выбор специальности и её путь","Choose your speciality and its path","Вибір спеціальності та її шлях"],prf2:["Выбор специальности и её путь","Choose your speciality and its path","Вибір спеціальності та її шлях"],
+prf:["Выбор специальности и её путь","Choose your speciality and its path","Вибір спеціальності та її шлях"],
 tip:["Совет и идея на каждый день","A tip and an idea for every day","Порада й ідея на кожен день"],
 ls:["Полезные навыки для жизни вне работы","Useful life skills beyond work","Корисні навички для життя поза роботою"],
 pom:["Таймер для учёбы без отвлечений","A focus timer for study","Таймер для навчання без відволікань"],
@@ -3809,7 +3772,7 @@ rg:["1–5 целей на контракт с прогрессом","1–5 goal
 d1:["Настроение, энергия, сон — за минуту","Mood, energy, sleep — in a minute","Настрій, енергія, сон — за хвилину"],d2:["Запись дня — только на этом телефоне","Today’s entry — stays on this phone","Запис дня — лише на цьому телефоні"],
 d3:["Нарисуй что-нибудь пальцем","Draw something with your finger","Намалюй щось пальцем"],d4:["Все записи и настроение по дням","All entries and mood by day","Усі записи й настрій по днях"],dq:["Поддержка в трудный день","Support on a hard day","Підтримка у важкий день"],
 cfg:["Размер текста, анимация, вид","Text size, animation, look","Розмір тексту, анімація, вигляд"],"#th":["Тема оформления и фото профиля","Colour theme and profile photo","Тема оформлення і фото профілю"],
-nfc:["Напоминания о квестах внутри приложения","Quest reminders inside the app","Нагадування про квести всередині застосунку"],rem:["Напоминания на телефоне, даже когда приложение закрыто","Phone reminders even when the app is closed","Нагадування на телефоні, навіть коли застосунок закрито"],
+nfc:["Все напоминания в одном месте: квесты утром и вечером, штраф, документы, близкие","All reminders in one place: morning and evening quests, penalty, documents, close people","Усі нагадування в одному місці: квести вранці й увечері, штраф, документи, близькі"],
 "#sn":["Сохранить копию данных в файл","Save a copy of your data to a file","Зберегти копію даних у файл"],abk:["Копии, которые приложение делает само","Backups the app makes by itself","Копії, які застосунок робить сам"],
 trn:["Перенести всё на новый телефон без интернета","Move everything to a new phone offline","Перенести все на новий телефон без інтернету"],cmf:["Одна рука, левша или правша, листать помещения пальцем","One hand, left or right, swipe between rooms","Одна рука, шульга чи правша, гортати приміщення пальцем"],uxp:["Какие разделы показывать","Which sections to show","Які розділи показувати"],
 prv:["Конфиденциальность и поддержка","Privacy and support","Конфіденційність і підтримка"],abt:["Версия и о приложении","Version and about","Версія і про застосунок"],
@@ -3839,7 +3802,7 @@ if(fmm&&fmc){new MutationObserver(seen).observe(fmc,{childList:true});new Mutati
 /* --- порядок знакомства по должности --- */
 var R=(st.ux&&st.ux.r)||st.prof||"ot",ST={me:["cvm","rlg","gl","ck","srs"],el:["clc","cvm","rlg","gl","srs"],na:["shn","srf","sky","rh","srs"],rt:["rh","srs","en","qz","ck"],ot:["wch","hfm","gym","bk","snd"]},
  BASE=["#days","mat","wch","dc","hfm"],ORDR=BASE.concat(ST[R]||ST.ot);
-function order(){var o=ORDR.slice();["#days","wch","rh","dc","hfm","ktr","srf","cvm","srs","lib","rlg","fnm","ct","bk","flm","snd","gym","mt2","bg","sky","brt","pzl","rg","d1","rz","sh1","vis","cth","pck","ck","en","gl","qz","iv","shn","clc","tip","ls","pom","ch","shop","tk","sm","#stats","#ach","rwd","rem","#sn","trn"].forEach(function(k){if(o.indexOf(k)<0)o.push(k)});
+function order(){var o=ORDR.slice();["#days","wch","rh","dc","hfm","ktr","srf","cvm","srs","lib","rlg","fnm","ct","bk","flm","snd","gym","mt2","bg","sky","brt","pzl","rg","d1","rz","sh1","vis","cth","pck","ck","en","gl","qz","iv","shn","clc","tip","ls","pom","ch","shop","tk","sm","#stats","#ach","rwd","#sn","trn"].forEach(function(k){if(o.indexOf(k)<0)o.push(k)});
  all().forEach(function(k){if(o.indexOf(k)<0)o.push(k)});return o.filter(vis)}
 function tod(){var t=J("fm_tod",{});if(t.d==today&&t.k&&vis(t.k))return t.k;var v=G().v,k=order().filter(function(x){return!v[x]})[0]||"";W("fm_tod",{d:today,k:k});return k}
 function ic(k){var b=P[k]&&P[k].b;return(b&&b.firstChild&&b.firstChild.textContent)||"🧰"}
@@ -4200,41 +4163,36 @@ main>.tgxh{margin:8px 2px -2px;font-size:12px;font-weight:800;letter-spacing:.06
 main>.tgxh[hidden]{display:none!important}
 .fmore{display:none!important}
 #vdw .vs input{width:100%;min-width:0;box-sizing:border-box}#vdw .vc,#vdw .vb{display:flex;flex-wrap:wrap;gap:6px}#vdw .vb a{flex:1 1 auto;min-width:0}</style>
-<script id="tgx-js">/* Группы плиток и перенос разделов между вкладками. Разделы не удаляются: меняется только вкладка (data-t) и порядок.
- Новый раздел, которого нет в списке, попадает в группу «Ещё» в конце своей вкладки. */
-(function(){var mn=document.getElementById("mn");if(!mn)return;var L=window.fmL||function(r){return r};
+<script id="tgx-js">/* Перенос разделов между старыми вкладками (MV) и порядок разделов внутри вкладки (O). Разделы не удаляются: меняется только вкладка (data-t) и порядок.
+ Заголовков групп здесь больше нет: на судне плитки раскладывает по помещениям shp-js (R), заголовки в каюте ставит он же. */
+(function(){var mn=document.getElementById("mn");if(!mn)return;
 var MV={rh:"today",vdw:"know",vis:"me",pck:"today"};
-var G={today:[[L("День","Day","День"),["gv","#days","fc","pnl","stk","cmp","ed"]],[L("Вахта и дом","Watch and home","Вахта і дім"),["wch","rh","cth","hfm","ktr","pck","dcw"]]],
-know:[[L("Учёба","Study","Навчання"),["lib","srs","gl","en","iv","qz","vdw","mat"]],[L("Работа на судне","Work on board","Робота на судні"),["shn","srf","clc","cvm","rlg","ck","prf"]],[L("Для себя","For yourself","Для себе"),["tip","ls","pom"]]],
-game:[[L("Игры","Games","Ігри"),["tk","sm","bg","mt2","pzl"]],[L("Отдых","Rest","Відпочинок"),["bk","flm","snd","brt","sky","gym"]],[L("Награды","Rewards","Нагороди"),["ch","shop"]]],
-shore:[[L("Путь на берег","Path ashore","Шлях на берег"),["sh1","sh4","sh2","sh5","prf2"]],[L("Работа","Job","Робота"),["rz","ap","sh3"]]],
-me:[[L("Документы и деньги","Documents and money","Документи й гроші"),["dc","ct","fnm","rk"]],[L("Прогресс","Progress","Прогрес"),["#stats","#ach","rwd","wkc","hm","cmpt","vis","shr"]]]};
+var O={today:["gv","#days","fc","pnl","stk","cmp","ed","wch","rh","cth","hfm","ktr","pck","dcw"],
+know:["lib","srs","gl","en","iv","qz","vdw","mat","shn","srf","clc","cvm","rlg","ck","prf","tip","ls","pom"],
+game:["tk","sm","bg","mt2","pzl","bk","flm","snd","brt","sky","gym","ch","shop"],
+shore:["sh1","sh4","sh2","sh5","rz","ap","sh3"],
+me:["dc","ct","fnm","rk","#stats","#ach","rwd","wkc","hm","cmpt","vis","shr"]};
 function sec(k){var e=k.charAt(0)=="#"?document.getElementById(k.slice(1)):document.getElementById(k);if(e&&k.charAt(0)=="#")e=e.closest("#mn>section");return e&&e.parentNode==mn?e:null}
-function tiled(s){return s.tagName=="SECTION"&&!s.classList.contains("hero")&&!s.classList.contains("quote")&&s.id!="nw"&&s.id!="tdy"}
+function tiled(s){return s.tagName=="SECTION"&&!s.classList.contains("hero")&&!s.classList.contains("quote")&&s.id!="tdy"}
 var mvd=[];Object.keys(MV).forEach(function(k){var s=sec(k);if(s){s.setAttribute("data-t",MV[k]);mvd.push(s)}});
-Object.keys(G).forEach(function(t){var all=[].filter.call(mn.children,function(s){return s.getAttribute("data-t")==t&&tiled(s)});if(!all.length)return;
- var ph=document.createComment("tgx");var top=[].filter.call(mn.children,function(s){return s.getAttribute("data-t")==t&&s.tagName=="SECTION"&&!tiled(s)});mn.insertBefore(ph,top.length?top[top.length-1].nextSibling:all.filter(function(s){return mvd.indexOf(s)<0})[0]||all[0]);var used=[],grp=G[t].slice();
- grp.forEach(function(g){g[1].forEach(function(k){var s=sec(k);if(s&&s.getAttribute("data-t")==t)used.push(s)})});
- var rest=all.filter(function(s){return used.indexOf(s)<0});if(rest.length)grp.push([L("Ещё","More","Ще"),null]);
- grp.forEach(function(g){var h=document.createElement("div");h.className="tgxh";h.setAttribute("data-t",t);h.setAttribute("translate","no");h.textContent=g[0];mn.insertBefore(h,ph);
-  (g[1]?g[1].map(sec).filter(function(s){return s&&s.getAttribute("data-t")==t}):rest).forEach(function(s){mn.insertBefore(s,ph)})});
+Object.keys(O).forEach(function(t){var all=[].filter.call(mn.children,function(s){return s.getAttribute("data-t")==t&&tiled(s)});if(!all.length)return;
+ var ph=document.createComment("tgx");var top=[].filter.call(mn.children,function(s){return s.getAttribute("data-t")==t&&s.tagName=="SECTION"&&!tiled(s)});mn.insertBefore(ph,top.length?top[top.length-1].nextSibling:all.filter(function(s){return mvd.indexOf(s)<0})[0]||all[0]);
+ var used=O[t].map(sec).filter(function(s){return s&&s.getAttribute("data-t")==t});
+ used.concat(all.filter(function(s){return used.indexOf(s)<0})).forEach(function(s){mn.insertBefore(s,ph)});
  mn.removeChild(ph)});
-/* Заголовок группы прячется, если все её плитки скрыты */
-function hd(){[].forEach.call(mn.querySelectorAll(":scope>.tgxh"),function(h){var n=h.nextElementSibling,v=false;while(n&&!n.classList.contains("tgxh")){if(n.classList.contains("fmt")&&!n.hidden)v=true;n=n.nextElementSibling}if(h.hidden!=!v)h.hidden=!v})}
-document.addEventListener("DOMContentLoaded",function(){[].forEach.call(mn.querySelectorAll(":scope>.fmt[data-sec]"),function(b){b.removeAttribute("data-sec")});hd();
- try{new MutationObserver(hd).observe(mn,{attributes:true,attributeFilter:["hidden"],subtree:true})}catch(e){}});
+document.addEventListener("DOMContentLoaded",function(){[].forEach.call(mn.querySelectorAll(":scope>.fmt[data-sec]"),function(b){b.removeAttribute("data-sec")})});
 /* Переходы из «Сегодня» ведут на вкладку, где раздел лежит сейчас */
 document.addEventListener("click",function(e){var b=e.target.closest&&e.target.closest("[data-td]");if(!b)return;var q=b.dataset.td.split("|"),s=q[0]&&document.getElementById(q[0]);if(s&&s.getAttribute("data-t")&&s.getAttribute("data-t")!=q[1])b.dataset.td=q[0]+"|"+s.getAttribute("data-t")},true);
 })();</script>
 <div id="fmm"><div id="fmb" role="dialog" aria-modal="true" aria-label="Раздел"><div id="fmh"><button type="button" id="fmx">✕ Закрыть</button></div><div id="fmc" tabindex="0"></div></div></div>
 <script>(function(){var mn=document.getElementById("mn"),m=document.getElementById("fmm"),box=document.getElementById("fmc"),cur=null,ph=document.createComment("fm"),tiles=[],de=document.documentElement;mn.appendChild(m);
-var IC={gv:"🧭",srf:"📘",uxp:"🎛️",cmf:"🖐️",rwd:"🎖️",pck:"🎒",trn:"📲",prv:"🔒",elg:"🩺",abk:"🛟",shn:"🔭",pzl:"🧩",snd:"🌙",brt:"🫁",sky:"✨",vis:"🗺️",fc:"🎯",pnl:"⚖️",wch:"⚓",mt2:"🧠",clc:"🧮",rlg:"🛠️",cth:"📞",ktr:"⏳",stk:"🔥",flm:"🎬",gym:"🏋️",cmp:"📊",prf:"👤",prf2:"👤",tip:"💡",ls:"🧭",pom:"⏱️",lib:"🗂️",bk:"📚",mat:"🎬",gl:"📖",ck:"☑️",shop:"🛒",iv:"🎤",en:"🔤",ch:"🎁",qz:"❓",hm:"📅",opt:"⚙️",shr:"🔗",ed:"🗓️",dq:"🌤️",d1:"😊",d2:"✍️",d3:"🎨",d4:"📔",sh1:"🧭",sh2:"🌳",sh5:"🗺️",sh4:"👣",ap:"📨",rz:"📄",sh3:"🔄",stats:"📈",ach:"🏅",th:"🎨",sn:"💾",days:"✅",cfg:"🖥️",nfc:"🔔",wkc:"📈",cmpt:"🏆",abt:"ℹ️"};
+var IC={gv:"🧭",srf:"📘",uxp:"🎛️",cmf:"🖐️",rwd:"🎖️",pck:"🎒",trn:"📲",prv:"🔒",elg:"🩺",abk:"🛟",shn:"🔭",pzl:"🧩",snd:"🌙",brt:"🫁",sky:"✨",vis:"🗺️",fc:"🎯",pnl:"⚖️",wch:"⚓",mt2:"🧠",clc:"🧮",rlg:"🛠️",cth:"📞",ktr:"⏳",stk:"🔥",flm:"🎬",gym:"🏋️",cmp:"📊",prf:"👤",tip:"💡",ls:"🧭",pom:"⏱️",lib:"🗂️",bk:"📚",mat:"🎬",gl:"📖",ck:"☑️",shop:"🛒",iv:"🎤",en:"🔤",ch:"🎁",qz:"❓",hm:"📅",shr:"🔗",ed:"🗓️",dq:"🌤️",d1:"😊",d2:"✍️",d3:"🎨",d4:"📔",sh1:"🧭",sh2:"🌳",sh5:"🗺️",sh4:"👣",ap:"📨",rz:"📄",sh3:"🔄",stats:"📈",ach:"🏅",th:"🎨",sn:"💾",days:"✅",cfg:"🖥️",nfc:"🔔",wkc:"📈",cmpt:"🏆",abt:"ℹ️"};
 function ico(s){if(IC[s.id])return IC[s.id];for(var k in IC)if(s.querySelector("#"+k))return IC[k];return"📌"}
 function ttl(s){var h=s.querySelector("h2,h3,h4");if(h){h=h.cloneNode(true);[].forEach.call(h.querySelectorAll("button,input,select,textarea"),function(x){x.remove()})}var t=(h?h.textContent:"").replace(/\s+/g," ").trim();return t.length>48?t.slice(0,46)+"…":t}
 function split(t){var r=t.match(/^((?:\p{Extended_Pictographic}|[\u{1F1E6}-\u{1F1FF}])[️‍\u{1F3FB}-\u{1F3FF}\p{Extended_Pictographic}\u{1F1E6}-\u{1F1FF}]*)\s*(.*)$/u);return r&&r[2]?[r[1],r[2]]:[null,t]}
 function set(e,v){if(e.textContent!=v)e.textContent=v}
 function upd(){tiles.forEach(function(p){var b=p[0],s=p[1],t=ttl(s),hd=!t||s.hidden;if(b.hidden!=hd)b.hidden=hd;if(hd)return;var q=split(t);set(b.firstChild,b.dataset.ic||q[0]||ico(s));set(b.lastChild,b.dataset.ttl||q[1])})}
-[].slice.call(mn.children).forEach(function(s){if(s.tagName!="SECTION"||s.classList.contains("hero")||s.classList.contains("quote")||s.id=="nw"||s.id=="tdy")return;var b=document.createElement("button");b.type="button";b.className="fmt";b.setAttribute("data-t",s.getAttribute("data-t"));b.innerHTML="<i></i><b></b>";mn.insertBefore(b,s);s.classList.add("fmc");b.onclick=function(){open(s)};tiles.push([b,s])});
+[].slice.call(mn.children).forEach(function(s){if(s.tagName!="SECTION"||s.classList.contains("hero")||s.classList.contains("quote")||s.id=="tdy")return;var b=document.createElement("button");b.type="button";b.className="fmt";b.setAttribute("data-t",s.getAttribute("data-t"));b.innerHTML="<i></i><b></b>";mn.insertBefore(b,s);s.classList.add("fmc");b.onclick=function(){open(s)};tiles.push([b,s])});
 function open(s){close();if(!s||s.parentNode!==mn)return;cur=s;mn.insertBefore(ph,s);box.appendChild(s);s.classList.remove("fmc");m.classList.add("on");de.classList.add("fmo");box.scrollTop=0}
 function close(){if(!cur)return;cur.classList.add("fmc");mn.insertBefore(cur,ph);mn.removeChild(ph);cur=null;m.classList.remove("on");de.classList.remove("fmo");upd()}
 window.fmClose=close;document.getElementById("fmx").onclick=close;m.addEventListener("click",function(e){if(e.target==m)close()});
@@ -4764,7 +4722,9 @@ function menu(r){var D=MN[mn%MN.length],base=0;D.forEach(function(m){m[2].forEac
   return'<li>'+esc(T(x[0],x[1]))+' — '+v+' '+(x[5]?T("шт.","pcs"):T("г","g"))+'</li>'}).join("");tk+=mk;tp+=mp;
   return'<div class="gym"><b>'+T(m[0],m[1])+'<small>'+Math.round(mk/10)*10+' '+T("ккал","kcal")+' · '+Math.round(mp)+' '+T("г белка","g protein")+'</small></b><ul>'+li+'</ul></div>'}).join("");
  return'<div class="gyb"><h4>'+T("📋 Меню на день","📋 Menu for the day")+'<small>'+Math.round(tk/10)*10+' '+T("ккал","kcal")+' · '+Math.round(tp)+' '+T("г белка","g protein")+'</small></h4>'+h+'<button type="button" class="gyx" data-gm="1">🔄 '+T("Другое меню","Another menu")+' ('+(mn%MN.length+1)+'/'+MN.length+')</button><p class="gyn">'+T("Порции уже подогнаны под твою цель. Крупы и макароны — в сухом виде.","Portions are already scaled to your goal. Grains and pasta are weighed dry.")+'</p></div>'}
-function nut(){var g=G(),r=R(),pk=r.p*4,fk=r.f*9,P1=Math.round(pk/r.k*360),F1=P1+Math.round(fk/r.k*360),wd=g.wd&&g.wd.d==today?g.wd.n:0,wn=Math.max(0,Math.min(40,Math.round(r.l/0.25)||0)),h="";
+/* Вода — один счётчик с дневником: st.dr[сегодня].w (стаканы по 250 мл); g.wd — старое поле, читается, если в дневнике пусто */
+function gyW(g){var r=st.dr&&st.dr[today];if(r&&r.w!=null)return +r.w||0;return g.wd&&g.wd.d==today?+g.wd.n||0:0}
+function nut(){var g=G(),r=R(),pk=r.p*4,fk=r.f*9,P1=Math.round(pk/r.k*360),F1=P1+Math.round(fk/r.k*360),wd=gyW(g),wn=Math.max(0,Math.min(40,Math.round(r.l/0.25)||0)),h="";
  h+='<div class="gyh"><div class="gyd" style="background:conic-gradient(#ff8a65 0 '+P1+'deg,#ffd54f 0 '+F1+'deg,#4fc3f7 0)"><div><b>'+r.k+'</b><small>'+T("ккал в день","kcal / day")+'</small></div></div><div class="gyl">'+
   [["#ff8a65",T("Белки","Protein"),r.p],["#ffd54f",T("Жиры","Fat"),r.f],["#4fc3f7",T("Углеводы","Carbs"),r.c]].map(function(x){return'<div><i style="background:'+x[0]+'"></i>'+x[1]+'<b>'+x[2]+' '+T("г","g")+'</b></div>'}).join("")+
   '<div style="color:var(--mute);font-size:12px">'+T("Норма без цели","Maintenance")+': '+r.m+' '+T("ккал","kcal")+'</div></div></div>';
@@ -4798,7 +4758,7 @@ c.addEventListener("click",function(e){var b=e.target.closest("[data-gy],[data-g
  if(d.gy){tab=d.gy;draw();return}
  if(d.gg!=null){g.g=+d.gg;save();draw();return}
  if(d.gm){mn++;$("gyo").innerHTML=nut();return}
- if(d.gw){var n=+d.gw,cur=g.wd&&g.wd.d==today?g.wd.n:0;g.wd={d:today,n:cur==n?n-1:n};save();$("gyo").innerHTML=nut()}});
+ if(d.gw){var n=+d.gw,cur=gyW(g),nw=cur==n?n-1:n;g.wd={d:today,n:nw};st.dr=st.dr||{};(st.dr[today]=st.dr[today]||{}).w=nw;save();$("gyo").innerHTML=nut()}});
 c.addEventListener("input",function(e){var k=e.target.dataset.gk;if(!k)return;var g=G(),v=e.target.value;
  if(k=="s")g.s=v=="f"?"f":"m";else{v=parseFloat(v);if(!isFinite(v))return;var lim={w:[35,250],h:[130,230],a:[14,90],k:[1.2,1.725]}[k];if(v<lim[0]||v>lim[1])return;g[k]=v}
  g.ok=1;save();$("gyo").innerHTML=nut();var s=$("gyds");if(s)s.textContent=g.w+" "+T("кг","kg")+" · "+g.h+" "+T("см","cm")+" · "+g.a+" "+T("лет","y.o.")});
@@ -5232,7 +5192,6 @@ html.shpon #nav{display:none!important}html.shpon #qab{bottom:calc(env(safe-area
 main:not([data-tab="r-brg"])>[data-t="r-brg"],main:not([data-tab="r-eng"])>[data-t="r-eng"],main:not([data-tab="r-cls"])>[data-t="r-cls"],main:not([data-tab="r-mes"])>[data-t="r-mes"],
 main:not([data-tab="r-gym"])>[data-t="r-gym"],main:not([data-tab="r-hom"])>[data-t="r-hom"],main:not([data-tab="r-cab"])>[data-t="r-cab"],main[data-tab^="r-"]>[data-t="today"]{display:none!important}
 #shp{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
-html.simple:not(.sfull) main[data-tab="today"]>#shp{display:grid!important}
 #shp .shh{grid-column:1/-1;margin:6px 2px -2px;font-size:12px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;opacity:.85;text-shadow:0 1px 4px #000c}
 #shp .shr{position:relative;display:flex;flex-direction:column;align-items:flex-start;gap:3px;min-width:0;min-height:128px;margin:0;padding:12px;border-radius:18px;border:1px solid var(--line);
  background:linear-gradient(160deg,color-mix(in srgb,var(--acc) 18%,var(--card)),var(--card));color:var(--ink);text-align:left;font:inherit;cursor:pointer;box-shadow:0 6px 18px #0005;backdrop-filter:blur(4px)}
@@ -5260,21 +5219,21 @@ main[data-tab^="r-"]>.fmt:not(.uxrow)>small.shd,main>.fmt.shw>small.shd{grid-are
  Раздел без помещения попадает туда, где лежала его вкладка (FB), — новый раздел ничего не потеряет, но лучше добавить его ключ в R. */
 document.addEventListener("DOMContentLoaded",function(){var mn=document.getElementById("mn"),P=window.uxP,nav=document.getElementById("nav");if(!mn||!P||!nav||typeof window.setTab!="function")return;
 var L=function(r,e,u){return window.fmL?fmL(r,e,u):r},de=document.documentElement;
-var R=[["brg","🧭",L("Мостик","Bridge","Місток"),L("Вахта и отдых, штурман, справочник, документы","Watch and rest, navigation, reference, documents","Вахта й відпочинок, штурман, довідник, документи"),["wch","shn","srf","dc"]],
+var R=[["brg","🧭",L("Мостик","Bridge","Місток"),L("Вахта и отдых, штурман, звёздное небо, справочник, документы","Watch and rest, navigation, night sky, reference, documents","Вахта й відпочинок, штурман, зоряне небо, довідник, документи"),["wch","shn","sky","srf","dc"]],
  ["eng","⚙️",L("Машинное","Engine room","Машинне"),L("Расчёты, журнал ремонтов, чек-листы","Calculations, repair log, checklists","Розрахунки, журнал ремонтів, чек-листи"),["cvm","rlg","ck"]],
  ["cls","📚",L("Учебный класс","Classroom","Навчальний клас"),L("Знания, английский, видео на любую тему","Knowledge, English, videos on any topic","Знання, англійська, відео на будь-яку тему"),["lib","en","mat"]],
  ["mes","🛋️",L("Кают-компания","Mess room","Кают-компанія"),L("Игры, кино и книги, звуки для сна, сундук","Games, films and books, sleep sounds, chest","Ігри, кіно й книжки, звуки для сну, скриня"),["tk","flm","snd","ch"]],
  ["gym","💪",L("Спортзал","Gym","Спортзал"),L("Тренировки, питание, дыхание","Workouts, nutrition, breathing","Тренування, харчування, дихання"),["gym","brt"]],
- ["hom","🏠",L("Дом и берег","Home and shore","Дім і берег"),L("Семья, деньги, путь на берег, резюме","Family, money, path ashore, CV","Сім'я, гроші, шлях на берег, резюме"),["hfm","fnm","sh1","rz"]],
+ ["hom","🏠",L("Дом и берег","Home and shore","Дім і берег"),L("Семья, деньги, сборы, путь на берег, резюме","Family, money, packing, path ashore, CV","Сім'я, гроші, збори, шлях на берег, резюме"),["hfm","fnm","pck","sh1","rz"]],
  ["cab","⚓",L("Моя каюта","My cabin","Моя каюта"),L("Прогресс, дневник, настройки","Progress, diary, settings","Прогрес, щоденник, налаштування"),["#stats","d1"]]];
 var FB={today:"brg",know:"cls",game:"mes",shore:"hom",me:"cab",set:"cab",diary:"cab"},DECK={"#days":1,gv:1,dcw:1};
 /* описания объединённых плиток (у одиночных — из gd-js) */
 var DS={"#days":L("Квесты, цель дня, серия, расписание","Quests, daily goal, streak, schedule","Квести, ціль дня, серія, розклад"),
  wch:L("График вахт, сон, часы отдыха","Watch rota, sleep, rest hours","Графік вахт, сон, години відпочинку"),dc:L("Документы, контракты и морской стаж","Documents, contracts and sea time","Документи, контракти й морський стаж"),
- ck:L("На судне, сборы в рейс, на должность","On board, packing, promotion","На судні, збори в рейс, на посаду"),cvm:L("Единицы, закон Ома, калькуляторы ЭМ","Units, Ohm's law, electrical calculators","Одиниці, закон Ома, калькулятори ЕМ"),
+ ck:L("На судне и на должность","On board and for promotion","На судні й на посаду"),cvm:L("Единицы, закон Ома, калькуляторы ЭМ","Units, Ohm's law, electrical calculators","Одиниці, закон Ома, калькулятори ЕМ"),
  lib:L("Статьи, термины, тест, совет дня, таймер","Articles, terms, quiz, daily tip, timer","Статті, терміни, тест, порада дня, таймер"),en:L("Слова, повторение, собеседование","Words, review, interview","Слова, повторення, співбесіда"),
  tk:L("Танчики, самолётики, карты, шахматы, головоломки","Tanks, planes, cards, chess, puzzles","Танчики, літачки, карти, шахи, головоломки"),flm:L("Фильмы, сериалы и книги","Films, series and books","Фільми, серіали й книжки"),
- snd:L("Звуки для сна и звёздное небо","Sleep sounds and the night sky","Звуки для сну й зоряне небо"),ch:L("Сундук дня и магазин наград","Daily chest and reward shop","Скриня дня й крамниця нагород"),
+ snd:L("Шум моря, дождь и другие звуки для сна с таймером","Sea, rain and other sleep sounds with a timer","Шум моря, дощ та інші звуки для сну з таймером"),ch:L("Сундук дня и магазин наград","Daily chest and reward shop","Скриня дня й крамниця нагород"),
  hfm:L("Дата домой, дни до дома, звонки","Date home, days left, calls","Дата додому, дні до дому, дзвінки"),sh1:L("Курс, шаг дня, навыки, план, опыт","Course, daily step, skills, plan, experience","Курс, крок дня, навички, план, досвід"),
  rz:L("Резюме в PDF и отклики","CV in PDF and applications","Резюме в PDF і відгуки"),"#stats":L("Уровень, достижения, цели, где побывал","Level, achievements, goals, places","Рівень, досягнення, цілі, де побував"),
  d1:L("Настроение, записи, рисунки","Mood, entries, drawings","Настрій, записи, малюнки")};
@@ -5416,10 +5375,8 @@ function cmfr(){var c=document.getElementById("cmf");if(!c)return;var g=G(),tl=P
  +seg("sw",g.sw,[[1,on],[0,off]])}
 document.addEventListener("click",function(e){var b=e.target.closest("#cmf [data-cmf]");if(!b)return;var c=G(),k=b.dataset.cmf,v=b.dataset.v;c[k]=k=="h"?v:+v;S(c)});
 /* 4. поиск по настройкам и сброс вида */
-var KW={cfg:"имя тема море фон анимация батарея заряд судно время суток простой полный размер текста крупный шрифт карточки компактно панели вид name theme sea background animation battery ship simple full text size large font cards compact view ім'я тема море фон батарея судно простий повний розмір тексту великий шрифт картки вигляд",
- nfc:"уведомления оповещения звук напоминания документы notifications alerts sound reminders сповіщення звук нагадування",
- rem:"напоминания утро вечер закрытое приложение reminders morning evening нагадування ранок вечір",
- opt:"серия заморозка пропуск streak freeze серія заморозка",
+var KW={cfg:"имя тема море фон анимация батарея заряд судно время суток размер текста крупный шрифт карточки компактно панели вид name theme sea background animation battery ship text size large font cards compact view ім'я тема море фон батарея судно розмір тексту великий шрифт картки вигляд",
+ nfc:"уведомления оповещения звук напоминания документы утро вечер штраф близкие notifications alerts sound reminders morning evening penalty сповіщення звук нагадування ранок вечір штраф",
  trn:"перенос новый телефон без интернета перенести move transfer new phone перенесення новий телефон",
  uxp:"что показывать разделы должность интересы скрыть показать всё what to show sections role interests hide show all що показувати розділи посада інтереси",
  abk:"автокопии копия резервная восстановить откат backup restore автокопії копія резервна відновити",
@@ -5577,7 +5534,7 @@ var C=[
   {q:"#shp",ic:"🚢",n:["Судно","The ship","Судно"],t:["Твоё судно: 7 помещений. ✨ — сколько разделов внутри ещё не открыто, за каждый новый +5 XP.","Your ship: 7 rooms. ✨ shows how many sections inside are still unopened; +5 XP for each new one.","Твоє судно: 7 приміщень. ✨ — скільки розділів усередині ще не відкрито, за кожен новий +5 XP."]},
   {tour:1,ic:"🧭",n:["Короткий тур по палубе","A short tour of the deck","Короткий тур палубою"],t:["4 шага: судно, поиск, «Моё» и ＋.","4 steps: the ship, search, “My sections” and ＋.","4 кроки: судно, пошук, «Моє» і ＋."]}],
  x:["fc","pnl","stk","cmp","ed"]},
-{id:"brg",ic:"🧭",r:"brg",t:["Мостик","Bridge","Місток"],s:["Вахта, часы отдыха, документы, штурман","Watch, rest hours, documents, navigation","Вахта, години відпочинку, документи, штурман"],
+{id:"brg",ic:"🧭",r:"brg",t:["Мостик","Bridge","Місток"],s:["Вахта, часы отдыха, документы, штурман, звёзды","Watch, rest hours, documents, navigation, stars","Вахта, години відпочинку, документи, штурман, зорі"],
  w:["Вахта, нормы отдыха и сроки документов — то, о чём спросят на проверке. Здесь всё это под рукой и без интернета.","Watch, rest-hour rules and document expiry dates are what inspections ask about. Here they are at hand, offline.","Вахта, норми відпочинку і строки документів — те, про що запитають на перевірці. Тут усе під рукою і без інтернету."],
  m:[["⚓",["Вахта и сон","Watch and sleep","Вахта і сон"],["Выбери график (4/8, 6/6 или свой) — приложение покажет, когда вахта и когда лучше спать, и учтёт перевод судовых часов.","Choose a rota (4/8, 6/6 or your own) — the app shows when you are on watch and the best time to sleep, and handles ship clock changes.","Обери графік (4/8, 6/6 або свій) — застосунок покаже, коли вахта і коли краще спати, і врахує переведення суднових годин."]],
   ["🕐",["Часы отдыха по MLC и ПДНВ","Rest hours under MLC and STCW","Години відпочинку за MLC і ПДНВ"],["Отмечаешь часы работы — приложение проверяет нормы: не меньше 10 часов отдыха в сутки и 77 за 7 суток.","Mark your working hours — the app checks the rules: at least 10 hours of rest a day and 77 in 7 days.","Відмічаєш години роботи — застосунок перевіряє норми: не менше 10 годин відпочинку на добу і 77 за 7 діб."]],
@@ -5585,18 +5542,19 @@ var C=[
  h:[["В «Вахта и отдых» выбери свой график вахт в списке.","In “Watch and rest”, pick your watch rota from the list.","У «Вахта і відпочинок» обери свій графік вахт у списку."],
   ["На вкладке «Часы отдыха» нажимай на часы, когда работал, или выбери готовую вахту. Красное — норма нарушена.","On the “Rest hours” tab, tap the hours you worked or pick a ready-made watch. Red means a rule is broken.","На вкладці «Години відпочинку» натискай на години, коли працював, або обери готову вахту. Червоне — норму порушено."],
   ["В «Документы и стаж» впиши название и дату окончания и нажми «Добавить». Продлил — просто поменяй дату.","In “Documents and sea time”, enter a name and expiry date and tap “Add”. Renewed it? Just change the date.","У «Документи й стаж» впиши назву й дату закінчення і натисни «Додати». Продовжив — просто зміни дату."],
-  ["Штурману — «🔭 Инструменты штурмана» и «📘 Справочник моряка»: флаги, огни, буи, конвенции.","For navigators: “🔭 Navigator's tools” and the “📘 Seafarer’s handbook” with flags, lights, buoys and conventions.","Штурману — «🔭 Інструменти штурмана» і «📘 Довідник моряка»: прапори, вогні, буї, конвенції."]],
+  ["Штурману — «🔭 Инструменты штурмана», «✨ Звёздное небо» и «📘 Справочник моряка»: флаги, огни, буи, конвенции.","For navigators: “🔭 Navigator's tools”, “✨ Star sky” and the “📘 Seafarer’s handbook” with flags, lights, buoys and conventions.","Штурману — «🔭 Інструменти штурмана», «✨ Зоряне небо» і «📘 Довідник моряка»: прапори, вогні, буї, конвенції."]],
  d:[{k:"wch",q:["#wcp"],t:["Выбери здесь свой график вахт — ниже появятся вахты и окна сна на сутки.","Choose your watch rota here — your watches and sleep windows for the day appear below.","Обери тут свій графік вахт — нижче з’являться вахти й вікна сну на добу."]},
   {k:"rh",q:["^[data-hk=t]"],t:["Каждая клетка — час. Нажимай на часы, когда работал: остальное считается отдыхом, нормы проверяются сразу.","Each cell is an hour. Tap the hours you worked: the rest counts as rest, and the rules are checked at once.","Кожна клітинка — година. Натискай на години, коли працював: решта — відпочинок, норми перевіряються одразу."]},
   {k:"dc",q:["^#dcn","#dcn"],t:["Впиши документ и дату окончания и нажми «Добавить» — напоминание придёт заранее.","Enter the document and expiry date and tap “Add” — you’ll get a reminder in advance.","Впиши документ і дату закінчення та натисни «Додати» — нагадування прийде заздалегідь."]},
   {k:"ct",q:["^#ctv","#ctv"],t:["Добавь судно, должность и даты — стаж посчитается сам и пригодится для дипломов и резюме.","Add the ship, rank and dates — your sea service is counted for certificates and your CV.","Додай судно, посаду й дати — стаж порахується сам і знадобиться для дипломів і резюме."]},
   {k:"shn",q:[".sntb"],t:["Выбери инструмент: компас, секстан, звёзды, ориентиры, счисление, расхождение, прилив. Всё считается без интернета.","Pick a tool: compass, sextant, stars, landmarks, dead reckoning, collision risk, tide. Everything works offline.","Обери інструмент: компас, секстант, зорі, орієнтири, числення, розходження, приплив. Усе рахується без інтернету."]},
+  {k:"sky",q:[".skf",".skt"],t:["Впиши широту и долготу — увидишь, какие навигационные звёзды сейчас над горизонтом, как их найти и когда сумерки для наблюдений.","Enter latitude and longitude to see which navigation stars are above the horizon now, how to find them and when twilight allows sights.","Впиши широту й довготу — побачиш, які навігаційні зорі зараз над горизонтом, як їх знайти і коли сутінки для спостережень."]},
   {k:"srf",q:[".srt"],t:["Темы справочника: флаги, огни, звуки, тревоги, ГМССБ, буи, спасательные средства, конвенции. Сверху — поиск.","Handbook topics: flags, lights, sounds, alarms, GMDSS, buoys, life-saving appliances, conventions. Search is at the top.","Теми довідника: прапори, вогні, звуки, тривоги, ГМЗЛБ, буї, рятувальні засоби, конвенції. Вгорі — пошук."]}]},
 {id:"eng",ic:"⚙️",r:"eng",t:["Машинное","Engine room","Машинне"],s:["Расчёты, журнал ремонтов, чек-листы","Calculations, repair log, checklists","Розрахунки, журнал ремонтів, чек-листи"],
  w:["Расчёты на месте, журнал ремонтов и чек-листы — чтобы не держать всё в голове и не искать калькулятор.","On-the-spot calculations, a repair log and checklists — so you don’t have to keep everything in your head.","Розрахунки на місці, журнал ремонтів і чек-листи — щоб не тримати все в голові й не шукати калькулятор."],
  m:[["🧮",["Расчёты без интернета","Calculations offline","Розрахунки без інтернету"],["Перевод единиц, закон Ома, расчёты рейса и калькуляторы ЭМ: ток двигателя, cos φ, сечение кабеля по IEC 60092-352, обороты.","Unit conversion, Ohm’s law, voyage maths and ETO calculators: motor current, cos φ, cable size per IEC 60092-352, speed.","Переведення одиниць, закон Ома, розрахунки рейсу і калькулятори ЕМ: струм двигуна, cos φ, переріз кабелю за IEC 60092-352, оберти."]],
   ["🛠️",["Журнал ремонтов","Repair log","Журнал ремонтів"],["Что сломалось, причина, что сделал, часы и фото. Пригодится в следующий раз и на собеседовании; выгрузка таблицей.","What broke, the cause, what you did, hours and a photo. Useful next time and at interviews; export as a table.","Що зламалося, причина, що зробив, години й фото. Знадобиться наступного разу і на співбесіді; вивантаження таблицею."]],
-  ["☑️",["Чек-листы","Checklists","Чек-листи"],["Готовые списки для работы на судне, сборы в рейс и домой, что нужно для следующей должности.","Ready lists for work on board, packing for the ship and for home, and what you need for the next rank.","Готові списки для роботи на судні, збори в рейс і додому, що потрібно для наступної посади."]]],
+  ["☑️",["Чек-листы","Checklists","Чек-листи"],["Готовые списки для работы на судне и что нужно для следующей должности.","Ready lists for work on board and what you need for the next rank.","Готові списки для роботи на судні й що потрібно для наступної посади."]]],
  h:[["Открой «Расчёты» и выбери вкладку: «Единицы», «Рейс» или «Электро».","Open “Calculators” and choose a tab: “Units”, “Voyage” or “Electrical”.","Відкрий «Розрахунки» і обери вкладку: «Одиниці», «Рейс» або «Електро»."],
   ["В калькуляторах ЭМ выбери расчёт, например «Сечение кабеля», и впиши значения — ответ появится сразу.","In the ETO calculators pick a calculation, e.g. “Cable size”, and enter the values — the answer appears at once.","У калькуляторах ЕМ обери розрахунок, наприклад «Переріз кабелю», і впиши значення — відповідь з’явиться одразу."],
   ["В «Журнал ремонтов» заполни дату, оборудование и что сделал, при желании «📷 Добавить фото», затем «Сохранить запись».","In the “Repair log”, fill in the date, equipment and what you did, add a photo with “📷 Add photo” if you like, then tap “Save entry”.","У «Журнал ремонтів» заповни дату, обладнання і що зробив, за бажанням «📷 Додати фото», потім «Зберегти запис»."],
@@ -5604,8 +5562,7 @@ var C=[
  d:[{k:"cvm",q:["^[data-cvt]"],t:["Вкладки расчётов: единицы, рейс, электро. Впиши число — перевод и результат сразу.","Calculator tabs: units, voyage, electrical. Enter a number — the result appears at once.","Вкладки розрахунків: одиниці, рейс, електро. Впиши число — результат одразу."]},
   {k:"clc",q:["^button"],t:["Калькуляторы ЭМ: ток двигателя, cos φ, сечение кабеля, обороты. Выбери нужный и впиши значения.","ETO calculators: motor current, cos φ, cable size, speed. Pick one and enter the values.","Калькулятори ЕМ: струм двигуна, cos φ, переріз кабелю, оберти. Обери потрібний і впиши значення."]},
   {k:"rlg",q:["#rle"],t:["Начни с оборудования: что чинил. Ниже — что случилось, причина, что сделал и фото. Затем «Сохранить запись».","Start with the equipment you repaired. Below: what happened, the cause, what you did and a photo. Then “Save entry”.","Почни з обладнання: що ремонтував. Нижче — що сталося, причина, що зробив і фото. Потім «Зберегти запис»."]},
-  {k:"ck",q:["ul"],t:["Готовый чек-лист: нажимай на пункт, чтобы отметить. Вкладки сверху — сборы и должность.","A ready checklist: tap an item to tick it. The tabs on top are packing and promotion.","Готовий чек-лист: натискай на пункт, щоб відмітити. Вкладки вгорі — збори й посада."]},
-  {k:"pck",q:["^button"],t:["Два списка: в рейс и домой. Отмечай, что уже уложил, и добавляй свои пункты.","Two lists: to the ship and going home. Tick what you’ve packed and add your own items.","Два списки: у рейс і додому. Відмічай, що вже поклав, і додавай свої пункти."]}]},
+  {k:"ck",q:["ul"],t:["Готовый чек-лист: нажимай на пункт, чтобы отметить. Вкладка сверху — на должность.","A ready checklist: tap an item to tick it. The tab on top is for promotion.","Готовий чек-лист: натискай на пункт, щоб відмітити. Вкладка вгорі — на посаду."]}]},
 {id:"cls",ic:"📚",r:"cls",t:["Учебный класс","Classroom","Навчальний клас"],s:["Статьи, английский, видео на любую тему","Articles, English, videos on any topic","Статті, англійська, відео на будь-яку тему"],
  w:["Учёба маленькими порциями: статья, 5 слов или ролик в свободные полчаса. Всё, кроме видео, работает без интернета.","Learning in small bites: an article, 5 words or a video in a spare half hour. Everything except videos works offline.","Навчання маленькими порціями: стаття, 5 слів або ролик за вільні півгодини. Усе, крім відео, працює без інтернету."],
  m:[["🗂️",["Библиотека знаний","Knowledge library","Бібліотека знань"],["Статьи по темам: электромеханика, механика, навигация, суда, деньги, психология. В каждой — «Проверь себя».","Articles by topic: electrical, engineering, navigation, ships, money, psychology. Each ends with a self-check.","Статті за темами: електромеханіка, механіка, навігація, судна, гроші, психологія. У кожній — «Перевір себе»."]],
@@ -5644,7 +5601,7 @@ var C=[
   ["В «Дыхание и отдых» выбери упражнение и время, нажми «▶ Начать» и дыши за кругом.","In “Breathing and rest”, choose an exercise and a duration, tap “▶ Start” and breathe with the circle.","У «Дихання і відпочинок» обери вправу й час, натисни «▶ Почати» і дихай за колом."]],
  d:[{k:"gym",q:["^[data-gy]"],t:["Четыре вкладки: программы, питание, сон и советы. Начни с программы для новичка.","Four tabs: programmes, nutrition, sleep and tips. Start with the beginner programme.","Чотири вкладки: програми, харчування, сон і поради. Почни з програми для новачка."]},
   {k:"brt",q:["^[data-brp]"],t:["Выбери упражнение: чтобы уснуть, снять напряжение или успокоиться. Потом время и «▶ Начать».","Choose an exercise: to fall asleep, to release tension or to calm down. Then a duration and “▶ Start”.","Обери вправу: щоб заснути, зняти напругу чи заспокоїтися. Потім час і «▶ Почати»."]}]},
-{id:"hom",ic:"🏠",r:"hom",t:["Дом и берег","Home and shore","Дім і берег"],s:["Семья, до дома, деньги, резюме","Family, days to home, money, CV","Сім’я, до дому, гроші, резюме"],
+{id:"hom",ic:"🏠",r:"hom",t:["Дом и берег","Home and shore","Дім і берег"],s:["Семья, до дома, деньги, сборы, резюме","Family, days to home, money, packing, CV","Сім’я, до дому, гроші, збори, резюме"],
  w:["Ради этого и идём в рейс: семья, деньги и жизнь после моря. Здесь видно, сколько до дома и сколько заработано.","This is what the trip is for: family, money and life after the sea. Here you see the days to home and what you’ve earned.","Заради цього й ідемо в рейс: сім’я, гроші й життя після моря. Тут видно, скільки до дому і скільки зароблено."],
  m:[["⏳",["До дома","Until home","До дому"],["Дата списания, дни до дома, сколько заработано и отложено, праздники на 25, 50 и 75 % рейса.","Sign-off date, days to home, what you’ve earned and saved, celebrations at 25, 50 and 75 % of the trip.","Дата списання, дні до дому, скільки зароблено й відкладено, свята на 25, 50 і 75 % рейсу."]],
   ["📞",["Звонки близким","Calls to family","Дзвінки рідним"],["Когда дома не спят и ты не на вахте — с учётом часовых поясов. Напоминания позвонить.","When your family is awake and you are off watch — across time zones. Reminders to call.","Коли вдома не сплять і ти не на вахті — з урахуванням часових поясів. Нагадування подзвонити."]],
@@ -5657,6 +5614,7 @@ var C=[
   {k:"ktr",q:["#ktb","#kta"],t:["Даты контракта и зарплата — приложение посчитает дни до дома, заработок и сколько отложено.","Contract dates and salary — the app counts the days to home, earnings and savings.","Дати контракту й зарплата — застосунок порахує дні до дому, заробіток і скільки відкладено."]},
   {k:"cth",q:["#cthz"],t:["Выбери город, где живёт семья, — приложение покажет, когда им удобно позвонить, без твоих вахт и сна.","Choose the city where your family lives — the app shows good times to call, avoiding your watches and sleep.","Обери місто, де живе родина, — застосунок покаже, коли їм зручно подзвонити, без твоїх вахт і сну."]},
   {k:"fnm",q:["^#fna","#fna"],t:["Расход или доход, категория, сумма — «Записать». Вверху — итог за месяц и баланс.","Expense or income, category, amount — then save. At the top: totals for the month and the balance.","Витрата чи дохід, категорія, сума — «Записати». Вгорі — підсумок за місяць і баланс."]},
+  {k:"pck",q:["^button"],t:["Два списка: в рейс и домой. Отмечай, что уже уложил, и добавляй свои пункты.","Two lists: to the ship and going home. Tick what you’ve packed and add your own items.","Два списки: у рейс і додому. Відмічай, що вже поклав, і додавай свої пункти."]},
   {k:"rz",q:[".rzbr"],t:["Выбери язык и для чего резюме. Заполни анкету — резюме соберётся ниже и сохранится в PDF без интернета.","Choose the language and the purpose. Fill in the form — the CV builds below and saves as a PDF offline.","Обери мову й для чого резюме. Заповни анкету — резюме збереться нижче й збережеться в PDF без інтернету."]},
   {k:"sh1",q:["^[data-x=path]"],t:["Курс на берег: выбери направление — увидишь шаги, навыки и план по месяцам.","Course ashore: choose a direction to see steps, skills and a month-by-month plan.","Курс на берег: обери напрямок — побачиш кроки, навички й план по місяцях."]}]},
 {id:"cab",ic:"⚓",r:"cab",t:["Моя каюта","My cabin","Моя каюта"],s:["Прогресс, награды, дневник, настройки","Progress, rewards, diary, settings","Прогрес, нагороди, щоденник, налаштування"],
