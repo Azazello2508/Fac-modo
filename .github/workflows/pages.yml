@@ -18,7 +18,16 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
+  # Сначала автотесты (gate.yml): если упали — ничего не публикуется
+  test:
+    permissions:
+      contents: read
+    uses: ./.github/workflows/gate.yml
+    with:
+      ref: main
+
   deploy:
+    needs: test
     runs-on: ubuntu-latest
     environment:
       name: github-pages
@@ -28,9 +37,12 @@ jobs:
         with:
           ref: main
 
+      - name: Номер сборки (время коммита, но не позже текущего — tools/build_no.sh)
+        run: echo "FM_B=$(bash tools/build_no.sh)" >> "$GITHUB_ENV"
+
       - name: Подготовить сайт
         run: |
-          B=$(git log -1 --format=%ct)
+          B=$FM_B
           mkdir _site
           cp index.html privacy.html support.html manifest.webmanifest sw.js apple-touch-icon.png icon-192.png icon-512.png _site/
           touch _site/.nojekyll
@@ -43,7 +55,7 @@ jobs:
         env:
           K: ${{ secrets.OTA_SIGN_KEY }}
         run: |
-          B=$(git log -1 --format=%ct)
+          B=$FM_B
           SO=0; if git log -1 --format=%B | grep -qF '[store-ok]'; then SO=1; fi
           KF=""
           if [ -n "$K" ]; then KF="$RUNNER_TEMP/ota.pem"; printf '%s\n' "$K" > "$KF"; else echo "::warning::Нет секрета OTA_SIGN_KEY — обновление публикуется без подписи"; fi

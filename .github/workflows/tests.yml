@@ -41,7 +41,7 @@ jobs:
         run: |
           mkdir -p preview
           cp -r index.html sw.js manifest.webmanifest *.png privacy.html support.html games assets preview/ 2>/dev/null || true
-          sed -i "s/__FM_BUILD__/$(git log -1 --format=%ct)/" preview/index.html
+          sed -i "s/__FM_BUILD__/$(bash tools/build_no.sh)/" preview/index.html
       - uses: actions/upload-artifact@v4
         if: always()
         with:

@@ -7,8 +7,8 @@ set -euo pipefail
 # --- файлы приложения ---
 rm -rf www && mkdir www
 cp index.html manifest.webmanifest apple-touch-icon.png icon-192.png icon-512.png www/
-# номер версии = время последнего изменения; по нему приложение понимает, что вышло обновление
-sed -i '' "s/__FM_BUILD__/$(git log -1 --format=%ct)/" www/index.html
+# номер версии = время последнего изменения (не позже текущего, tools/build_no.sh); по нему приложение понимает, что вышло обновление
+sed -i '' "s/__FM_BUILD__/$(bash tools/build_no.sh)/" www/index.html
 grep -c 'FM_BUILD=parseInt("[0-9]' www/index.html
 # сборка для App Store (ios-store.yml задаёт FM_STORE=1): самообновление принимает только обновления с store_ok (только исправления, правило Apple 2.5.2)
 if [ "${FM_STORE:-0}" = "1" ]; then sed -i '' 's/__FM_STORE__/1/' www/index.html; grep -c '"1"=="1")?1:0' www/index.html; fi

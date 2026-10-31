@@ -511,7 +511,7 @@ var MIG={3:function(o){/* 2→3: починка повреждённых дан�
  var r=o.ux&&o.ux.r;if(!o.prof&&(r=="na"||r=="me")){o.prof=r;var sh=o.shore&&typeof o.shore=="object"?o.shore:(o.shore={p:0,d:"",e:0,sv:0});if(!sh.p)sh.p=r=="me"?4:5}}};
 /* Лечение при каждом запуске (не только при смене версии): поле не того типа из испорченной или подделанной копии убирается,
    раздел сам создаст его заново. Без этого, например, st.done=null или st.pck="…" ломали приложение (tests/full.js data). */
-var SHAPE={done:"o",custom:"o",bonus:"o",dr:"o",shore:"o",cfg:"o",nt:"o",fn:"o",sk:"o",pn:"o",wch:"o",m2:"o",rl:"a",cth:"o",kt:"o",fsk:"o",vis:"o",sky5:"o",rwd:"o",pck:"o",shn:"o",flmc:"a",flm:"o",cv:"o",ux:"o",gv:"o",dcn:"n",dc:"a",ct:"a",ap:"a",ls:"a",rw:"a",name:"s",uid:"s",lang:"s"};
+var SHAPE={done:"o",custom:"o",bonus:"o",dr:"o",shore:"o",cfg:"o",nt:"o",fn:"o",sk:"o",pn:"o",wch:"o",m2:"o",rl:"a",cth:"o",kt:"o",fsk:"o",vis:"o",sky5:"o",rwd:"o",pck:"o",shn:"o",flmc:"a",flm:"o",cv:"o",ux:"o",gv:"o",qz:"o",light:"o",fz:"o",sched:"o",pin:"o",dcn:"n",dc:"a",ct:"a",ap:"a",ls:"a",rw:"a",name:"s",uid:"s",lang:"s"};
 window.fmHeal=function(o){var bad=[],k,t;if(!o||typeof o!="object"||Array.isArray(o)){fmLog("warn","heal",{f:"всё"});return{done:{},custom:{},bonus:{}}}
  if(typeof o.nt=="number"){if(!("dcn" in o))o.dcn=o.nt?1:0;o.nt={}}
  for(k in SHAPE){if(!(k in o))continue;t=o[k];var ok=SHAPE[k]=="a"?Array.isArray(t):SHAPE[k]=="s"?typeof t=="string":SHAPE[k]=="n"?typeof t=="number":(t&&typeof t=="object"&&!Array.isArray(t));if(!ok){bad.push(k);delete o[k]}}
@@ -724,6 +724,14 @@ function iso(d){return d.getFullYear()+"-"+p2(d.getMonth()+1)+"-"+p2(d.getDate()
 var now=new Date(),today=iso(now),mon=new Date(now.getFullYear(),now.getMonth(),now.getDate()-((now.getDay()+6)%7));
 function dateOf(i){return new Date(mon.getFullYear(),mon.getMonth(),mon.getDate()+i)}
 var day=(now.getDay()+6)%7,st={done:{},custom:{},bonus:{}};
+/* Новый день без перезагрузки (приложение открыто или вернулось из фона после полуночи): today, now, mon, day и «дата дня» пересчитываются,
+   блоки досчитывают своё по событию fmday (штрафы — pnSnap в fm3-js), экран перерисовывается. Проверка — при возврате в приложение и раз в минуту. */
+function fmDayRoll(){var n=new Date(),t=iso(n);if(t===today)return false;var old=today,wd=(now.getDay()+6)%7,om=+mon;
+ now=n;today=t;mon=new Date(n.getFullYear(),n.getMonth(),n.getDate()-((n.getDay()+6)%7));if(day===wd||+mon!==om)day=(n.getDay()+6)%7;
+ li2=Math.floor(n.getTime()/864e5);if(dy===old)dy=today;if(rhD===old)rhD=today;
+ try{document.dispatchEvent(new Event("fmday"))}catch(e){console.error(e)}try{localStorage.setItem("fm_seen",today)}catch(e){}
+ if(window.fmLog)fmLog("info","day-roll",{from:old,to:today});try{render();if(window.tdr)tdr()}catch(e){console.error(e)}return true}
+document.addEventListener("visibilitychange",function(){if(!document.hidden)fmDayRoll()});
 /* Данные не читаются (испорчены) или это не объект — сырая строка сохраняется в fm_broken до того, как первое save() её перезапишет */
 try{var r=localStorage.getItem("quest-v2");if(r){var o0=JSON.parse(r);if(o0&&typeof o0=="object"&&!Array.isArray(o0))st=o0;else throw new Error("not an object")}}catch(e){try{if(r)localStorage.setItem("fm_broken",JSON.stringify({t:Date.now(),d:r}))}catch(x){}if(window.fmLog)fmLog("error","load",{msg:String(e&&e.message||e),kept:"fm_broken",len:r?r.length:0})}
 if(window.fmMigrate)st=fmMigrate(st);
@@ -1116,7 +1124,7 @@ function dtool(){[].forEach.call(document.querySelectorAll("#d3 .sw"),function(b
 function dfd(){var ks=Object.keys(st.dr||{}).filter(function(k){var r=st.dr[k];return r.note||r.img||r.mood}).sort().reverse().slice(0,14),mo=["😞","😕","😐","🙂","😄"],bars=[],i;
 for(i=6;i>=0;i--){var d=new Date(now);d.setDate(d.getDate()-i);bars.push([D[(d.getDay()+6)%7],dr0(iso(d)).mood||0])}
 $("d4").innerHTML='<h3>Мои записи и настроение</h3><div class="spark">'+bars.map(function(b){return'<div><i style="height:'+(b[1]*20)+'%;background:var(--ok)"></i><small>'+(b[1]?mo[b[1]-1]:b[0])+'</small></div>'}).join("")+'</div>'+(ks.length?ks.map(function(k){var r=st.dr[k];return'<div class="fd" data-dgo="'+esc(k)+'"><b>'+esc(k.slice(5))+'</b><span>'+(r.mood?mo[r.mood-1]+" ":"")+esc((r.note||"").slice(0,70))+'</span>'+(okImg(r.img)?'<img src="'+r.img+'" alt="">':"<span></span>")+'</div>'}).join(""):'<p class="note">Пока пусто. Начни с настроения и пары строк.</p>')}
-function ltr(){var k=iso(dateOf(day)),on=!!(st.light&&st.light[k]);$("lt").innerHTML='<button type="button" data-x="light" class="alt'+(on?" cur":"")+'">'+(on?"Тяжёлый день: хватит 3 дел":"Тяжёлый день: нужно только 3 дела")+'</button>'}
+function ltr(){var k=iso(dateOf(day)),on=!!(st.light&&st.light[k]);$("lt").innerHTML='<button type="button" data-x="light" class="alt'+(on?" cur":"")+'"'+(k!==today?" disabled":"")+'>'+(on?"Тяжёлый день: хватит 3 дел":"Тяжёлый день: нужно только 3 дела")+'</button>'}
 
 /* График навыков за неделю и соревнование с другом */
 function catDay(k){var r={},dd=st.done[k]||{};for(var id in dd){if(id.slice(0,2)=="a_")continue;var e=dd[id];if(e&&CAT[e.c])r[e.c]=(r[e.c]||0)+(+e.x||0)}var q=((st.qz&&st.qz.d)||{})[k]||0;if(q)r.study=(r.study||0)+q;return r}
@@ -1490,7 +1498,7 @@ else if(a=="deras"){DC.e=1;dtool()}
 else if(a=="dund"){if(ust.length)cvx.putImageData(ust.pop(),0,0)}
 else if(a=="dclr"){ust.push(cvx.getImageData(0,0,600,320));cvx.fillStyle="#fff";cvx.fillRect(0,0,600,320)}
 else if(a=="dsave"){dset(dy,"img",$("cv").toDataURL("image/jpeg",.7));toast("Рисунок сохранён");if(dy==today){st.done[today]=st.done[today]||{};if(!st.done[today].dd){st.done[today].dd={x:10,c:"read"};save()}}render()}
-else if(a=="light"){var k=iso(dateOf(day));st.light=st.light||{};if(st.light[k])delete st.light[k];else st.light[k]=1;var bb=fixBonus();save();render(bb)}
+else if(a=="light"){var k=iso(dateOf(day));if(k!==today)return;st.light=st.light||{};if(st.light[k])delete st.light[k];else st.light[k]=1;var bb=fixBonus();save();render(bb)}
 else if(a=="freeze"){st.fz=st.fz||{};st.fz[today]=1;save();render();toast("❄️ Серия заморожена")}
 else if(a=="rwa"){var rn=$("rwn").value.trim(),rc=+$("rwc").value;if(!rn||rc<1)return;(st.rw=st.rw||[]).push({t:rn,c:Math.round(rc)});save();render()}
 else if(a=="buy"){var R=st.rw[+v],co=Math.floor(calc().xp/10)-(st.sp||0);if(R&&co>=R.c){st.sp=(st.sp||0)+R.c;R.b=(R.b||0)+1;save();render();toast("🎁 Награда получена: "+R.t)}}
@@ -1602,7 +1610,7 @@ function qIdx(){return(li2*3+Math.floor(new Date().getHours()/8))%Q.length}
 function quoteShow(n){qi=n;$("qt").textContent="«"+Q[n][0]+"»";$("qa").textContent="— "+Q[n][1]}
 function quote(){var n;do{n=Math.floor(Math.random()*Q.length)}while(n===qi);quoteShow(n)}
 var qSlot=qIdx();
-setInterval(function(){if(iso(new Date())!==today){location.reload();return}var k=qIdx();if(k!==qSlot){qSlot=k;quoteShow(k);render()}},60000);
+setInterval(function(){fmDayRoll();var k=qIdx();if(k!==qSlot){qSlot=k;quoteShow(k);render()}},60000);
 LX.el2="Реле — аппарат, который при подаче сигнала на катушку замыкает или размыкает контакты в цепи управления: бывают электромагнитные, тепловые, реле времени и напряжения. Контактор рассчитан на коммутацию больших токов нагрузки, имеет главные контакты, дугогасительные камеры и вспомогательные контакты для блокировок. Типовая схема пуска двигателя: кнопка «пуск» подаёт питание на катушку контактора, его вспомогательный контакт шунтирует кнопку (самоподхват), кнопка «стоп» разрывает цепь. Сгоревшая катушка, залипшие или подгоревшие контакты и ослабленные клеммы — частые причины отказа. Проверку выполняют на обесточенной схеме, по инструкциям и допускам.";
 LX.el3="Аварийный источник питания на судне должен обеспечивать важнейших потребителей при потере основного питания: освещение, навигационные и радиосредства, сигнализацию, часть насосов. Точный состав и время работы определяют правила. Обычно это аварийный дизель-генератор с автоматическим запуском и аккумуляторные батареи, иногда переходный источник для питания на время запуска. Регулярные испытания (пробный пуск, проверка автоматики и нагрузки, измерение напряжения и состояния батарей) записывают в журнал. Главная проблема резервных систем — когда их не проверяли: в нужный момент оказывается, что батарея села или топливо старое.";
 LX.sh2="Огнестойкие переборки и палубы делят пассажирское судно на главные вертикальные зоны, внутри которых пожар должен удерживаться на время, достаточное для тушения и эвакуации. Конструкции классов А и В характеризуются временем сохранения целостности и теплоизоляции. Огнестойкие двери держат закрытыми либо они закрываются дистанционно и автоматически, а вентиляционные каналы пересекают границы зон через противопожарные заслонки. Системы обнаружения, спринклеры и аварийная сигнализация дополняют конструктивную защиту. Для электромеханика важно: кабельные проходки через переборки должны сохранять огнестойкость, поэтому работы с ними согласуют и восстанавливают по процедуре.";
@@ -1805,6 +1813,7 @@ for(k in p.w)if(k<today){delete p.w[k];ch=1}
 if(ch)save();return add}
 function pnTotal(){var t=0,d=PN().d;for(var k in d)t+=d[k].x||0;return t}
 var pnNew=pnSnap();
+document.addEventListener("fmday",function(){var a=pnSnap();if(a>0)toast(fmL("⚖️ Штраф за невыполненные квесты: −","⚖️ Penalty for unfinished quests: −","⚖️ Штраф за невиконані квести: −")+a+" XP"+fmL(". Подробности в «Штрафах»",". Details in Penalties",". Подробиці у «Штрафах»"))});
 var _calc=calc;calc=function(){var c=_calc();c.raw=c.xp;c.pen=pnTotal();c.xp=Math.max(0,c.xp-c.pen);return c};
 function pnToday(){var k=today,it=items(k,wdOf(k)),dd=st.done[k]||{},miss=it.filter(function(x){return!dd[x.id]});return{it:it,miss:miss,x:miss.reduce(function(a,x){return a+pnCost(x)},0)}}
 function pnDrop(x){var c=calc(),a=lvl(c.xp)[0],b=lvl(Math.max(0,c.raw-c.pen-x))[0];return b<a?[a,b]:null}
@@ -1835,6 +1844,8 @@ document.addEventListener("click",function(e){var b=e.target.closest("[data-pn]"
 if(pnHard(today))pnSet(today,0);else if(pnHardLeft()>0){pnSet(today,1);toast(fmL("🛡️ Тяжёлый день: сегодня без штрафов","🛡️ Hard day: no penalties today","🛡️ Важкий день: сьогодні без штрафів"))}});
 /* Кнопка «Тяжёлый день» в квестах дня: не больше двух в неделю */
 window.addEventListener("click",function(e){var b=e.target.closest&&e.target.closest('[data-x="light"]');if(!b)return;var k=iso(dateOf(day));
+/* Тяжёлый день — только сегодня: задним числом (уйти от штрафа, получить бонус) и заранее нельзя */
+if(k!==today){e.stopImmediatePropagation();e.preventDefault();toast(fmL("Тяжёлый день можно отметить только сегодня","A hard day can only be set for today","Важкий день можна відмітити лише сьогодні"));return}
 if(!pnHard(k)&&pnWeekHard(k).length>=PNL){e.stopImmediatePropagation();e.preventDefault();toast(fmL("На этой неделе уже "+PNL+" тяжёлых дня","You already have "+PNL+" hard days this week","Цього тижня вже "+PNL+" важких дні"))}},true);
 /* Подсказка в квестах дня: сколько снимут за каждый незакрытый квест */
 function pnq(){var lt=$("lt");if(!lt)return;var q=$("pnq");if(!q){q=document.createElement("p");q.id="pnq";q.className="note";q.setAttribute("translate","no");lt.parentNode.insertBefore(q,lt.nextSibling)}
@@ -2541,7 +2552,10 @@ if(d.pkx=="def"&&confirm(L("Вернуть стандартный список? 
 
 /* ---------- Перенос на новый телефон без интернета ---------- */
 var TR={buf:[],n:0,role:""};
-function trData(){var o={app:"fac-modo",st:st,ls:{}};for(var i=0;i<localStorage.length;i++){var k=localStorage.key(i);if(/^fm_/.test(k)&&!/^fm_flv/.test(k))o.ls[k]=localStorage.getItem(k)}return JSON.stringify(o)}
+/* Не переносятся ключи этого телефона: журнал, очередь, PIN-попытки, режим разработчика, список автокопий, флаги, предупреждения, повреждённые данные,
+   самообновление и магазинный режим (fm_ota*, fm_store), свои видео и место просмотра (fm_flv*: файлов на другом телефоне нет). Получатель их тоже пропускает. */
+var TRX=/^fm_(flv|log|dlq|pintry|dev|bkx|flags|alert|broken|ota|store|hc)/;
+function trData(){var o={app:"fac-modo",st:st,ls:{}};for(var i=0;i<localStorage.length;i++){var k=localStorage.key(i);if(/^fm_/.test(k)&&!TRX.test(k))o.ls[k]=localStorage.getItem(k)}return JSON.stringify(o)}
 function trMsg(t){var e=$("trp");if(e)e.textContent=t}
 function trSink(m){if(m.fm=="net-ready"){if(TR.role=="send")trSend();else trMsg(L("Соединено. Получаю данные…","Connected. Receiving data…","З'єднано. Отримую дані…"));return}
 if(m.fm=="net-closed"){if(TR.role&&TR.role!="done")trMsg(L("Связь прервалась. Попробуй ещё раз.","The connection dropped. Try again.","Зв'язок перервався. Спробуй ще раз."));return}
@@ -2550,11 +2564,13 @@ if(d.t=="h"){if(TR.role=="send"||TR.role=="done"||!Number.isInteger(d.n)||d.n<1|
 if(d.t=="c"){if(TR.role!="recv"||!Number.isInteger(d.i)||d.i<0||d.i>=TR.n||typeof d.s!="string")return;TR.buf[d.i]=d.s;var got=TR.buf.filter(function(x){return x!=null}).length;trMsg(L("Получено ","Received ","Отримано ")+Math.round(got/TR.n*100)+"%");return}
 if(d.t=="e"){if(TR.role!="recv")return;var full=TR.buf.length==TR.n,o=null;for(var ci=0;ci<TR.n;ci++)if(typeof TR.buf[ci]!="string")full=false;
 if(full)try{o=JSON.parse(TR.buf.join(""))}catch(x){}
-if(o&&(typeof o.ls!="object"||!o.ls||Array.isArray(o.ls)||Object.keys(o.ls).some(function(k){return!/^fm_/.test(k)||/^fm_flv/.test(k)||typeof o.ls[k]!="string"})))o=null;
+if(o&&(typeof o.ls!="object"||!o.ls||Array.isArray(o.ls)||Object.keys(o.ls).some(function(k){return!/^fm_/.test(k)||typeof o.ls[k]!="string"})))o=null;
+if(o)Object.keys(o.ls).forEach(function(k){if(TRX.test(k))delete o.ls[k]});
 if(!o||o.app!="fac-modo"||!o.st||typeof o.st!="object"){TR.role="";TR.buf=[];trMsg(L("Данные пришли с ошибкой. Попробуй ещё раз.","The data arrived damaged. Try again.","Дані прийшли з помилкою. Спробуй ще раз."));gnSend({t:"bad"});return}
 if(!confirm(L("Заменить всё на этом телефоне данными со старого телефона? Уровень, квесты, дневник и настройки станут как там.","Replace everything on this phone with the data from the old phone? Level, quests, diary and settings will become the same as there.","Замінити все на цьому телефоні даними зі старого телефона? Рівень, квести, щоденник і налаштування стануть як там."))){gnSend({t:"no"});trMsg(L("Перенос отменён.","Transfer cancelled.","Перенесення скасовано."));setTimeout(gnClose,500);return}
+if(window.abPre)abPre("before-import");
 try{fmTx(function(){for(var k in o.ls)localStorage.setItem(k,o.ls[k]);applyData(JSON.stringify(o.st))});if(window.fmAudit)fmAudit("transfer-in");TR.role="done";gnSend({t:"ok"});trMsg("✅ "+L("Готово! Все данные перенесены.","Done! All data has been moved.","Готово! Усі дані перенесено."));toast("✅ "+L("Данные перенесены","Data moved","Дані перенесено"))}
-catch(x){console.error(x);trMsg(L("Не получилось применить данные.","Could not apply the data.","Не вдалося застосувати дані."));gnSend({t:"bad"})}
+catch(x){console.error(x);if(window.abPre)abPre();trMsg(L("Не получилось применить данные.","Could not apply the data.","Не вдалося застосувати дані."));gnSend({t:"bad"})}
 setTimeout(gnClose,1500);return}
 if(d.t=="ok"){TR.role="done";trMsg("✅ "+L("Готово! Данные на новом телефоне. Этот телефон можно не трогать — на нём всё осталось.","Done! The data is on the new phone. Nothing was removed from this phone.","Готово! Дані на новому телефоні. На цьому телефоні все залишилося."));setTimeout(gnClose,1500);return}
 if(d.t=="no"){trMsg(L("На новом телефоне перенос отменили.","The transfer was cancelled on the new phone.","На новому телефоні перенесення скасували."));setTimeout(gnClose,500);return}
@@ -3508,7 +3524,7 @@ function R(){var r=st.ret;if(!r||typeof r!="object"||Array.isArray(r))r=st.ret={
 function go(k){if(!P[k])return;if(window.fmClose)fmClose();P[k].b.click()}
 function nat(){return typeof dcNP=="function"&&dcNP()}
 /* --- визиты: «с возвращением» и итоги недели --- */
-var seen=localStorage.getItem("fm_seen")||"",gap=seen?days(seen,today):0;if(gap>=3)W("fm_back",today);var back=localStorage.getItem("fm_back")==today;W("fm_seen",today);
+var seen=localStorage.getItem("fm_seen")||"",gap=seen?days(seen,today):0;if(gap>=3)W("fm_back",today);var back=localStorage.getItem("fm_back")==today;W("fm_seen",today);document.addEventListener("fmday",function(){back=localStorage.getItem("fm_back")==today});
 /* --- первые шаги --- */
 window.rtCard=function(){card()};
 function steps(){var c=calc(),w=st.wch||{},o=[
@@ -5093,11 +5109,13 @@ function snap(why,t){t=t||pack();var id=Date.now(),rec={id:id,t:new Date().toISO
  .catch(function(e){fmLog("error","backup-fail",{why:why,msg:String(e&&e.message||e)});return false})}
 window.abSnap=snap;
 /* Откат: перед каждой загрузкой данных (файл, код, перенос, восстановление) — копия того, что было */
-if(typeof applyData=="function"){var oa=applyData;applyData=window.applyData=function(t){try{snap(label||"before-import",pack())}catch(e){}label="";return oa.apply(this,arguments)}}
+/* Восстановление и перенос сначала пишут ключи fm_*, потом вызывают applyData — поэтому снимок «как было» они снимают заранее: abPre(причина) до записи, abPre() — отмена */
+var pre=null;window.abPre=function(why){if(!why){pre=null;label="";return}try{pre=pack();label=why}catch(e){pre=null}};
+if(typeof applyData=="function"){var oa=applyData;applyData=window.applyData=function(t){try{var p=pre;pre=null;snap(label||"before-import",p||pack())}catch(e){}label="";return oa.apply(this,arguments)}}
 function restore(id){if(!confirm(L("Вернуть данные из этой копии? Нынешние данные тоже сохранятся копией, так что передумать можно.","Restore data from this copy? The current data will also be saved as a copy, so you can change your mind.","Повернути дані з цієї копії? Поточні дані теж збережуться копією, тож можна передумати.")))return;
- tx("readonly",function(s){return s.get(id)}).then(function(r){if(!r||!check(r.data))throw Error("bad copy");var o=JSON.parse(r.data);label="before-restore";
+ tx("readonly",function(s){return s.get(id)}).then(function(r){if(!r||!check(r.data))throw Error("bad copy");var o=JSON.parse(r.data);window.abPre("before-restore");
   fmTx(function(){for(var k in o.ls)localStorage.setItem(k,o.ls[k]);applyData(JSON.stringify(o.st))});fmAudit("restore",{from:r.t});toast(L("✅ Данные восстановлены","✅ Data restored","✅ Дані відновлено"));draw()})
- .catch(function(e){label="";fmLog("error","restore-fail",{msg:String(e&&e.message||e)});toast(L("Не получилось восстановить эту копию","Could not restore this copy","Не вдалося відновити цю копію"))})}
+ .catch(function(e){window.abPre();fmLog("error","restore-fail",{msg:String(e&&e.message||e)});toast(L("Не получилось восстановить эту копию","Could not restore this copy","Не вдалося відновити цю копію"))})}
 var WHY={auto:["Ежедневная","Daily","Щоденна"],manual:["Вручную","Manual","Вручну"],"before-import":["Перед загрузкой данных","Before loading data","Перед завантаженням даних"],"before-restore":["Перед восстановлением","Before restoring","Перед відновленням"]};
 function draw(){var el=document.getElementById("abk");if(!el)return;var a=meta().sort(function(x,y){return y.id-x.id}),h='<h3>🛟 '+L("Автокопии","Auto backups","Автокопії")+'</h3>';
  h+='<p class="note" style="margin:0 0 8px">'+L("Каждый день приложение само сохраняет копию всех данных на этом телефоне (последние 7 дней), а ещё — перед каждой загрузкой данных. Каждая копия проверяется: её точно можно восстановить. Если потеряешь телефон, эти копии не помогут — для этого есть «Резервная копия» в файл.","Every day the app saves a copy of all data on this phone (last 7 days), and also before every data load. Each copy is checked to be restorable. If you lose the phone these copies won't help — use the file backup for that.","Щодня застосунок сам зберігає копію всіх даних на цьому телефоні (останні 7 днів), а ще — перед кожним завантаженням даних. Кожна копія перевіряється: її точно можна відновити. Якщо загубиш телефон, ці копії не допоможуть — для цього є «Резервна копія» у файл.")+'</p>';
@@ -5107,7 +5125,7 @@ document.addEventListener("click",function(e){var b=e.target.closest&&e.target.c
  if(b.dataset.abk=="now")snap("manual").then(function(ok){toast(ok?L("✅ Копия сохранена и проверена","✅ Copy saved and checked","✅ Копію збережено й перевірено"):L("Не получилось сохранить копию","Could not save a copy","Не вдалося зберегти копію"))});
  else if(b.dataset.abk=="restore")restore(+b.dataset.v)});
 /* Фоновая задача: раз в день автокопия (флаг autobackup) */
-function daily(){if(!fmFlag("autobackup"))return;var d=new Date().toISOString().slice(0,10);if(!meta().some(function(x){return x.why=="auto"&&x.ok&&String(x.t).slice(0,10)==d}))snap("auto")}
+function daily(){if(!fmFlag("autobackup"))return;var d=iso(new Date());if(!meta().some(function(x){return x.why=="auto"&&x.ok&&iso(new Date(x.id))==d}))snap("auto")}
 setTimeout(daily,15000);setInterval(daily,3600000);
 /* Проверка здоровья (health check): память, данные, хранилища, копии, ошибки */
 window.fmHealth=function(){var r={},i,k,n=0;try{localStorage.setItem("fm_hc","1");localStorage.removeItem("fm_hc");r.storage=true}catch(e){r.storage=false}
@@ -5119,7 +5137,7 @@ window.fmHealth=function(){var r={},i,k,n=0;try{localStorage.setItem("fm_hc","1"
 window.fmHealthHTML=function(){var h=fmHealth(),row=function(n,v,ok){return'<tr><td>'+(ok?"✅":"⚠")+' '+n+'</td><td>'+E(v)+'</td></tr>'};
  return'<h4>'+L("Здоровье приложения","App health","Здоров'я застосунку")+'</h4><table class="hc">'+row(L("Запись в память","Storage writable","Запис у пам'ять"),h.storage?"OK":"НЕТ",h.storage)+row(L("Занято памяти","Storage used","Зайнято пам'яті"),h.lsMB+" / ~5 MB",h.lsMB<4.5)+row(L("Данные","Data","Дані"),"v"+h.dataV,h.data)+row("IndexedDB",h.idb?"OK":"—",h.idb)+row(L("Последняя автокопия","Last auto backup","Остання автокопія"),h.backupDays===null?"—":h.backupDays+" "+L("дн. назад","days ago","дн. тому"),h.backupDays!==null&&h.backupDays<=2)+row(L("Ошибок за сутки","Errors in 24 h","Помилок за добу"),h.errors24h,h.errors24h==0)+row("Service worker",h.sw?"OK":"—",true)+'</table>'};
 /* Предупреждения (alerting): если памяти почти не осталось или копии не сохраняются — говорим пользователю (не чаще раза в день) */
-function alerts(){if(!fmFlag("alerts"))return;var h=fmHealth(),d=new Date().toISOString().slice(0,10),last="";try{last=localStorage.getItem("fm_alert")||""}catch(e){}if(last==d)return;var m="";
+function alerts(){if(!fmFlag("alerts"))return;var h=fmHealth(),d=iso(new Date()),last="";try{last=localStorage.getItem("fm_alert")||""}catch(e){}if(last==d)return;var m="";
  if(!h.storage)m=L("⚠ Телефон не даёт сохранять данные. Освободи место и сделай резервную копию в файл.","⚠ The phone does not let the app save data. Free up space and make a file backup.","⚠ Телефон не дає зберігати дані. Звільни місце й зроби резервну копію у файл.");
  else if(h.lsMB>=4.2)m=L("⚠ Память приложения почти заполнена. Удали лишние рисунки и фото, сделай резервную копию в файл.","⚠ The app storage is almost full. Delete extra drawings and photos and make a file backup.","⚠ Пам'ять застосунку майже заповнена. Видали зайві малюнки й фото, зроби резервну копію у файл.");
  else if(h.backupDays!==null&&h.backupDays>3&&fmFlag("autobackup"))m=L("⚠ Автокопии давно не сохранялись. Сделай резервную копию в файл.","⚠ Auto backups have not been saved for a while. Make a file backup.","⚠ Автокопії давно не зберігалися. Зроби резервну копію у файл.");
