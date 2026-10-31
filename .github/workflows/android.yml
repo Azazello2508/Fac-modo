@@ -29,6 +29,9 @@ jobs:
           distribution: temurin
           java-version: 21
 
+      - name: Номер сборки (время коммита, но не позже текущего — tools/build_no.sh)
+        run: echo "FM_B=$(bash tools/build_no.sh)" >> "$GITHUB_ENV"
+
       - name: Установить Capacitor (обёртка, которая делает из страницы приложение)
         # Те же закреплённые версии, что в сборке для iPhone
         run: |
@@ -81,7 +84,7 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          B=$(git log -1 --format=%ct)
+          B=$FM_B
           WHEN=$(TZ=Asia/Baku date -d @$B '+%d.%m.%Y %H:%M')
           # Один постоянный выпуск «android-apk»: файл заменяется, ссылка для скачивания не меняется
           gh release view android-apk >/dev/null 2>&1 || gh release create android-apk --target main --latest=false             --title "Fac Modo для Android" --notes "Установка — в README."

@@ -24,6 +24,9 @@ jobs:
         with:
           node-version: 22
 
+      - name: Номер сборки (время коммита, но не позже текущего — tools/build_no.sh)
+        run: echo "FM_B=$(bash tools/build_no.sh)" >> "$GITHUB_ENV"
+
       - name: Установить Capacitor (обёртка, которая делает из страницы приложение)
         # Версии закреплены (а не @latest): новая версия чужой библиотеки не попадёт в сборку сама, без проверки
         run: npm install --no-audit --no-fund @capacitor/core@8.5.3 @capacitor/cli@8.5.3 @capacitor/ios@8.5.3 @capacitor/filesystem@8.1.5 @capacitor/local-notifications@8.3.1
@@ -39,7 +42,7 @@ jobs:
             -destination 'generic/platform=iOS' -derivedDataPath build \
             CODE_SIGNING_ALLOWED=NO CODE_SIGNING_REQUIRED=NO CODE_SIGN_IDENTITY="" \
             TARGETED_DEVICE_FAMILY=1 \
-            MARKETING_VERSION=$(node -p "require('../../package.json').version") CURRENT_PROJECT_VERSION=$(git -C ../.. log -1 --format=%ct) \
+            MARKETING_VERSION=$(node -p "require('../../package.json').version") CURRENT_PROJECT_VERSION=$FM_B \
             build | tail -n 40
           rm -rf Payload && mkdir Payload
           cp -R build/Build/Products/Release-iphoneos/App.app Payload/
@@ -56,7 +59,7 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          B=$(git log -1 --format=%ct)
+          B=$FM_B
           WHEN=$(TZ=Asia/Baku date -d @$B '+%d.%m.%Y %H:%M' 2>/dev/null || TZ=Asia/Baku date -r $B '+%d.%m.%Y %H:%M')
           gh release create "ios-${{ github.run_id }}" FacModo.ipa \
             --title "Fac Modo для iPhone — версия от $WHEN" \

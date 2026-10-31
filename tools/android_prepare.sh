@@ -6,8 +6,8 @@ set -euo pipefail
 # --- файлы приложения (те же, что в iPhone) ---
 rm -rf www && mkdir www
 cp index.html manifest.webmanifest apple-touch-icon.png icon-192.png icon-512.png www/
-# номер версии = время последнего изменения; по нему приложение понимает, что вышло обновление
-sed -i "s/__FM_BUILD__/$(git log -1 --format=%ct)/" www/index.html
+# номер версии = время последнего изменения (не позже текущего, tools/build_no.sh); по нему приложение понимает, что вышло обновление
+sed -i "s/__FM_BUILD__/$(bash tools/build_no.sh)/" www/index.html
 grep -c 'FM_BUILD=parseInt("[0-9]' www/index.html
 
 # --- проект Android ---
@@ -53,5 +53,5 @@ grep -c 'tools:node="remove"' "$M"
 
 # --- номер версии: для людей — version из package.json, для телефона — время коммита ---
 G=android/app/build.gradle
-sed -i -E "s/versionCode [0-9]+/versionCode $(git log -1 --format=%ct)/; s/versionName \"[^\"]*\"/versionName \"$(node -p "require('./package.json').version")\"/" "$G"
+sed -i -E "s/versionCode [0-9]+/versionCode $(bash tools/build_no.sh)/; s/versionName \"[^\"]*\"/versionName \"$(node -p "require('./package.json').version")\"/" "$G"
 grep -E 'versionCode|versionName' "$G"
