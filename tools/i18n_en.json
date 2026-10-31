@@ -10,11 +10,6 @@
 1
 ],
 [
-"Уровень",
-"Level",
-1
-],
-[
 "Время",
 "Time",
 1
@@ -22,11 +17,6 @@
 [
 "Свой квест (+# XP)",
 "Custom quest (+# XP)",
-1
-],
-[
-"Название",
-"Name",
 1
 ],
 [
@@ -72,11 +62,6 @@
 [
 "Квесты дня",
 "Daily quests",
-1
-],
-[
-"Добавить",
-"Add",
 1
 ],
 [
@@ -187,11 +172,6 @@
 [
 "Берег",
 "Shore",
-1
-],
-[
-"Дневник",
-"Journal",
 1
 ],
 [
@@ -395,11 +375,6 @@
 1
 ],
 [
-"Язык",
-"Language",
-1
-],
-[
 "Интеллект",
 "Intellect",
 1
@@ -450,41 +425,6 @@
 1
 ],
 [
-"Пн",
-"Mon",
-1
-],
-[
-"Вт",
-"Tue",
-1
-],
-[
-"Ср",
-"Wed",
-1
-],
-[
-"Чт",
-"Thu",
-1
-],
-[
-"Пт",
-"Fri",
-1
-],
-[
-"Сб",
-"Sat",
-1
-],
-[
-"Вс",
-"Sun",
-1
-],
-[
 "Подготовка ко сну",
 "Getting ready for bed",
 1
@@ -532,11 +472,6 @@
 [
 "Занятие английским",
 "English lesson",
-1
-],
-[
-"Зал",
-"Gym",
 1
 ],
 [
@@ -760,11 +695,6 @@
 1
 ],
 [
-"Удалить",
-"Delete",
-1
-],
-[
 "Понедельник",
 "Monday",
 1
@@ -845,18 +775,8 @@
 1
 ],
 [
-"Механик",
-"Engineer",
-1
-],
-[
 "механика",
 "an engineer",
-1
-],
-[
-"Штурман",
-"Navigator",
 1
 ],
 [
@@ -970,8 +890,8 @@
 0
 ],
 [
-"Выучи # английских терминов своей специальности из глоссария во вкладке «Знания».",
-"Learn # English terms for your specialty from the glossary in the Knowledge tab.",
+"Выучи # английских терминов своей специальности из глоссария: «Учебный класс» → «Знания» → «Термины».",
+"Learn # English terms for your specialty from the glossary: Classroom → Knowledge → Terms.",
 0
 ],
 [
@@ -1303,11 +1223,6 @@
 "Конвенция по охране человеческой жизни на море",
 "The Convention for the Safety of Life at Sea",
 0
-],
-[
-"Правила швартовки",
-"Mooring rules",
-1
 ],
 [
 "Нормы выбросов",
@@ -2020,11 +1935,6 @@
 1
 ],
 [
-"Человек за бортом",
-"A person has fallen overboard",
-1
-],
-[
 "Пожар",
 "Fire",
 1
@@ -2630,11 +2540,6 @@
 1
 ],
 [
-"Скорость судна",
-"Ship speed",
-1
-],
-[
 "Для чего нужна дейдвудная труба?",
 "What is the stern tube for?",
 1
@@ -2702,11 +2607,6 @@
 [
 "Тормоз гребного винта",
 "A propeller brake",
-1
-],
-[
-"Рулевая машина",
-"Steering gear",
 1
 ],
 [
@@ -2842,11 +2742,6 @@
 [
 "Сомнение в намерениях другого судна",
 "Doubt about the other vessel's intentions",
-1
-],
-[
-"Изменяю курс влево",
-"I am altering my course to port",
 1
 ],
 [
@@ -3383,11 +3278,6 @@
 "Что означает один короткий звук при виде друг друга (МППСС)?",
 "What does one short blast mean when vessels are in sight of one another (COLREG)?",
 0
-],
-[
-"Изменяю курс вправо",
-"I am altering my course to starboard",
-1
 ],
 [
 "Работаю движителями назад",
@@ -4195,11 +4085,6 @@
 1
 ],
 [
-"Капитан",
-"Captain",
-1
-],
-[
 "Адмирал",
 "Admiral",
 1
@@ -4257,11 +4142,6 @@
 [
 "из #.",
 "of #.",
-1
-],
-[
-"Открыть сундук",
-"Open chest",
 1
 ],
 [
@@ -4373,11 +4253,6 @@
 "Международные правила предупреждения столкновений судов определяют, кто уступает дорогу, какие огни и знаки нести и какие звуковые сигналы подавать. Главное правило — заранее и явно действовать так, чтобы избежать чрезмерного сближения.",
 "The International Regulations for Preventing Collisions at Sea set out who gives way, which lights and shapes to show and which sound signals to give. The main rule: act early and clearly to avoid a close-quarters situation.",
 0
-],
-[
-"Радар и САРП",
-"Radar and ARPA",
-1
 ],
 [
 "Радар показывает цели вокруг судна, а САРП (ARPA) сам рассчитывает их курс, скорость, дистанцию кратчайшего сближения (CPA) и время до неё (TCPA). Эти данные помогают решить, есть ли опасность столкновения.",
@@ -6190,11 +6065,6 @@
 0
 ],
 [
-"🏛️ Философия",
-"🏛️ Philosophy",
-1
-],
-[
 "Стоицизм (Stanford Encyclopedia)",
 "Stoicism (Stanford Encyclopedia)",
 1
@@ -6290,16 +6160,6 @@
 0
 ],
 [
-"Электродвигатель",
-"Electric motor",
-1
-],
-[
-"ГРЩ",
-"Main switchboard",
-1
-],
-[
 "Судовой дизель",
 "Marine diesel",
 1
@@ -6320,11 +6180,6 @@
 1
 ],
 [
-"Радар САРП",
-"ARPA radar",
-1
-],
-[
 "электродвигатель",
 "electric motor",
 1
@@ -6332,21 +6187,6 @@
 [
 "Тема, например: электродвигатель",
 "Topic, for example: electric motor",
-1
-],
-[
-"Материалы и видео",
-"Materials and videos",
-1
-],
-[
-"🎬 Найти ролик в TikTok и Instagram",
-"🎬 Find a video on TikTok and Instagram",
-1
-],
-[
-"Покажет список роликов по теме. Нажмите на ролик, и он откроется в TikTok или Instagram. Нужен интернет.",
-"Shows a list of videos on the topic. Tap a video and it opens in TikTok or Instagram. Internet required.",
 1
 ],
 [
@@ -6497,16 +6337,6 @@
 [
 "Добро пожаловать в Fac Modo!",
 "Welcome to Fac Modo!",
-1
-],
-[
-"Это игра-помощник для моряка: расписание, знания, английский и план выхода на берег. Как тебя зовут?",
-"It's a helper game for seafarers: schedule, knowledge, English and a plan for moving ashore. What's your name?",
-1
-],
-[
-"Начать путь",
-"Start the journey",
 1
 ],
 [
@@ -6667,11 +6497,6 @@
 [
 "Код не подошёл",
 "The code didn't work",
-1
-],
-[
-"Нажми ещё раз, чтобы удалить всё",
-"Tap again to delete everything",
 1
 ],
 [
@@ -6920,8 +6745,8 @@
 1
 ],
 [
-"Сегодня непросто, и это нормально. Выбери минимум: вода, еда, # минут тишины или короткий звонок близким. Режим «Тяжёлый день» на вкладке «Миссии» оставит всего # дела.",
-"Today is hard, and that's okay. Choose the minimum: water, food, # minutes of quiet or a short call to someone close. The \"Hard day\" mode on the Missions tab will leave only # tasks.",
+"Сегодня непросто, и это нормально. Выбери минимум: вода, еда, # минут тишины или короткий звонок близким. Режим «Тяжёлый день» («Мой день» → «Квесты») оставит всего # дела.",
+"Today is hard, and that's okay. Choose the minimum: water, food, # minutes of quiet or a short call to someone close. The \"Hard day\" mode (My day → Quests) will leave only # tasks.",
 0
 ],
 [
@@ -7040,16 +6865,6 @@
 1
 ],
 [
-"Цвет",
-"Colour",
-1
-],
-[
-"Ластик",
-"Eraser",
-1
-],
-[
 "Тонко",
 "Thin",
 1
@@ -7102,16 +6917,6 @@
 [
 "Настройки",
 "Settings",
-1
-],
-[
-"Крупный текст",
-"Large text",
-1
-],
-[
-"❄️ Заморозить серию на сегодня",
-"❄️ Freeze streak for today",
 1
 ],
 [
@@ -7222,11 +7027,6 @@
 [
 "Судовой электромеханик",
 "Marine electro-technical officer",
-1
-],
-[
-"Судовой механик",
-"Marine engineer",
 1
 ],
 [
@@ -7630,18 +7430,8 @@
 1
 ],
 [
-"Другая статья",
-"Another article",
-1
-],
-[
 "Заменить фото",
 "Replace photo",
-1
-],
-[
-"Своё фото",
-"My photo",
 1
 ],
 [
@@ -8015,33 +7805,8 @@
 1
 ],
 [
-"🇷🇺 На русском",
-"🇷🇺 In Russian",
-1
-],
-[
-"Жанр",
-"Genre",
-1
-],
-[
 ", пер.",
 ", transl.",
-1
-],
-[
-"⬇ Скачать EPUB",
-"⬇ Download EPUB",
-1
-],
-[
-"Читать онлайн ↗",
-"Read online ↗",
-1
-],
-[
-"Выбрать издание и скачать ↗",
-"Choose an edition and download ↗",
 1
 ],
 [
