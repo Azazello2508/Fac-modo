@@ -18,7 +18,16 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
+  # Сначала автотесты (gate.yml): если упали — ничего не публикуется
+  test:
+    permissions:
+      contents: read
+    uses: ./.github/workflows/gate.yml
+    with:
+      ref: main
+
   deploy:
+    needs: test
     runs-on: ubuntu-latest
     environment:
       name: github-pages

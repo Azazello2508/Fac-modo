@@ -13,7 +13,16 @@ permissions:
   contents: write
 
 jobs:
+  # Сначала автотесты (gate.yml): если упали — ничего не публикуется
+  test:
+    permissions:
+      contents: read
+    uses: ./.github/workflows/gate.yml
+    with:
+      ref: main
+
   ios:
+    needs: test
     runs-on: macos-latest
     steps:
       - uses: actions/checkout@v7

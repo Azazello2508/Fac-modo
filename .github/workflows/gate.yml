@@ -1,0 +1,35 @@
+# Проверка перед публикацией: tests/e2e.js (приложение открывается, вкладки, XP, автокопия, мобильный экран,
+# контракты игр по сети, доступность). Её вызывают pages.yml, ios.yml и android.yml (needs: test):
+# если тест упал, сайт, version.json и выпуски не публикуются. Большой тест здесь не запускается (он долгий).
+name: Проверка перед публикацией
+
+on:
+  workflow_call:
+    inputs:
+      ref:
+        description: Что проверять (ветка или коммит) — то же, что потом публикуется
+        type: string
+        required: false
+        default: main
+
+permissions:
+  contents: read
+
+jobs:
+  e2e:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.ref }}
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Установить Playwright и axe-core (версии закреплены, как в tests.yml)
+        run: |
+          npm install --no-save --no-audit --no-fund playwright@1.63.0 axe-core@4.10.2
+          npx playwright install --with-deps chromium
+      - name: Тесты
+        run: node tests/e2e.js
