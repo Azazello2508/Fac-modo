@@ -511,7 +511,7 @@ var MIG={3:function(o){/* 2→3: починка повреждённых дан�
  var r=o.ux&&o.ux.r;if(!o.prof&&(r=="na"||r=="me")){o.prof=r;var sh=o.shore&&typeof o.shore=="object"?o.shore:(o.shore={p:0,d:"",e:0,sv:0});if(!sh.p)sh.p=r=="me"?4:5}}};
 /* Лечение при каждом запуске (не только при смене версии): поле не того типа из испорченной или подделанной копии убирается,
    раздел сам создаст его заново. Без этого, например, st.done=null или st.pck="…" ломали приложение (tests/full.js data). */
-var SHAPE={done:"o",custom:"o",bonus:"o",dr:"o",shore:"o",cfg:"o",nt:"o",fn:"o",sk:"o",pn:"o",wch:"o",m2:"o",rl:"a",cth:"o",kt:"o",fsk:"o",vis:"o",sky5:"o",rwd:"o",pck:"o",shn:"o",flmc:"a",flm:"o",cv:"o",ux:"o",gv:"o",dcn:"n",dc:"a",ct:"a",ap:"a",ls:"a",rw:"a",name:"s",uid:"s",lang:"s"};
+var SHAPE={done:"o",custom:"o",bonus:"o",dr:"o",shore:"o",cfg:"o",nt:"o",fn:"o",sk:"o",pn:"o",wch:"o",m2:"o",rl:"a",cth:"o",kt:"o",fsk:"o",vis:"o",sky5:"o",rwd:"o",pck:"o",shn:"o",flmc:"a",flm:"o",cv:"o",ux:"o",gv:"o",qz:"o",light:"o",fz:"o",sched:"o",pin:"o",dcn:"n",dc:"a",ct:"a",ap:"a",ls:"a",rw:"a",name:"s",uid:"s",lang:"s"};
 window.fmHeal=function(o){var bad=[],k,t;if(!o||typeof o!="object"||Array.isArray(o)){fmLog("warn","heal",{f:"всё"});return{done:{},custom:{},bonus:{}}}
  if(typeof o.nt=="number"){if(!("dcn" in o))o.dcn=o.nt?1:0;o.nt={}}
  for(k in SHAPE){if(!(k in o))continue;t=o[k];var ok=SHAPE[k]=="a"?Array.isArray(t):SHAPE[k]=="s"?typeof t=="string":SHAPE[k]=="n"?typeof t=="number":(t&&typeof t=="object"&&!Array.isArray(t));if(!ok){bad.push(k);delete o[k]}}
