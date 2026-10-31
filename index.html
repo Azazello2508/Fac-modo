@@ -5114,7 +5114,7 @@ document.addEventListener("click",function(e){var b=e.target.closest&&e.target.c
  if(b.dataset.abk=="now")snap("manual").then(function(ok){toast(ok?L("✅ Копия сохранена и проверена","✅ Copy saved and checked","✅ Копію збережено й перевірено"):L("Не получилось сохранить копию","Could not save a copy","Не вдалося зберегти копію"))});
  else if(b.dataset.abk=="restore")restore(+b.dataset.v)});
 /* Фоновая задача: раз в день автокопия (флаг autobackup) */
-function daily(){if(!fmFlag("autobackup"))return;var d=new Date().toISOString().slice(0,10);if(!meta().some(function(x){return x.why=="auto"&&x.ok&&String(x.t).slice(0,10)==d}))snap("auto")}
+function daily(){if(!fmFlag("autobackup"))return;var d=iso(new Date());if(!meta().some(function(x){return x.why=="auto"&&x.ok&&iso(new Date(x.id))==d}))snap("auto")}
 setTimeout(daily,15000);setInterval(daily,3600000);
 /* Проверка здоровья (health check): память, данные, хранилища, копии, ошибки */
 window.fmHealth=function(){var r={},i,k,n=0;try{localStorage.setItem("fm_hc","1");localStorage.removeItem("fm_hc");r.storage=true}catch(e){r.storage=false}
@@ -5126,7 +5126,7 @@ window.fmHealth=function(){var r={},i,k,n=0;try{localStorage.setItem("fm_hc","1"
 window.fmHealthHTML=function(){var h=fmHealth(),row=function(n,v,ok){return'<tr><td>'+(ok?"✅":"⚠")+' '+n+'</td><td>'+E(v)+'</td></tr>'};
  return'<h4>'+L("Здоровье приложения","App health","Здоров'я застосунку")+'</h4><table class="hc">'+row(L("Запись в память","Storage writable","Запис у пам'ять"),h.storage?"OK":"НЕТ",h.storage)+row(L("Занято памяти","Storage used","Зайнято пам'яті"),h.lsMB+" / ~5 MB",h.lsMB<4.5)+row(L("Данные","Data","Дані"),"v"+h.dataV,h.data)+row("IndexedDB",h.idb?"OK":"—",h.idb)+row(L("Последняя автокопия","Last auto backup","Остання автокопія"),h.backupDays===null?"—":h.backupDays+" "+L("дн. назад","days ago","дн. тому"),h.backupDays!==null&&h.backupDays<=2)+row(L("Ошибок за сутки","Errors in 24 h","Помилок за добу"),h.errors24h,h.errors24h==0)+row("Service worker",h.sw?"OK":"—",true)+'</table>'};
 /* Предупреждения (alerting): если памяти почти не осталось или копии не сохраняются — говорим пользователю (не чаще раза в день) */
-function alerts(){if(!fmFlag("alerts"))return;var h=fmHealth(),d=new Date().toISOString().slice(0,10),last="";try{last=localStorage.getItem("fm_alert")||""}catch(e){}if(last==d)return;var m="";
+function alerts(){if(!fmFlag("alerts"))return;var h=fmHealth(),d=iso(new Date()),last="";try{last=localStorage.getItem("fm_alert")||""}catch(e){}if(last==d)return;var m="";
  if(!h.storage)m=L("⚠ Телефон не даёт сохранять данные. Освободи место и сделай резервную копию в файл.","⚠ The phone does not let the app save data. Free up space and make a file backup.","⚠ Телефон не дає зберігати дані. Звільни місце й зроби резервну копію у файл.");
  else if(h.lsMB>=4.2)m=L("⚠ Память приложения почти заполнена. Удали лишние рисунки и фото, сделай резервную копию в файл.","⚠ The app storage is almost full. Delete extra drawings and photos and make a file backup.","⚠ Пам'ять застосунку майже заповнена. Видали зайві малюнки й фото, зроби резервну копію у файл.");
  else if(h.backupDays!==null&&h.backupDays>3&&fmFlag("autobackup"))m=L("⚠ Автокопии давно не сохранялись. Сделай резервную копию в файл.","⚠ Auto backups have not been saved for a while. Make a file backup.","⚠ Автокопії давно не зберігалися. Зроби резервну копію у файл.");
