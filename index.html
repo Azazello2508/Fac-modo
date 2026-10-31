@@ -3958,7 +3958,7 @@ function boot(D){var W=window,P=W.parent,H=Object.prototype.hasOwnProperty;
  if(document.readyState=="loading")document.addEventListener("DOMContentLoaded",css);else css()}
 window.fmGbx=function(f,src,h){var ks=K[src]||[],D={};ks.forEach(function(k){try{var v=localStorage.getItem(k);if(v!==null)D[k]=v}catch(e){}});
  f.setAttribute("sandbox","allow-scripts");f.setAttribute("allow","autoplay; clipboard-write");cur={f:f,k:ks};
- var s="<script>("+boot+")("+JSON.stringify(D).replace(/</g,"\u003c").replace(/\u2028/g,"\u2028").replace(/\u2029/g,"\u2029")+");<\/script>",m=/<head[^>]*>/i.exec(h);
+ var s="<script>("+boot+")("+JSON.stringify(D).replace(/</g,"\\u003c").replace(/\u2028/g,"\\u2028").replace(/\u2029/g,"\\u2029")+");<\/script>",m=/<head[^>]*>/i.exec(h);
  return m?h.slice(0,m.index+m[0].length)+s+h.slice(m.index+m[0].length):s+h};
 addEventListener("message",function(e){var m=e.data;if(!cur||!m||typeof m!="object"||!cur.f.isConnected||e.source!==cur.f.contentWindow)return;
  if(m.fmgs===1){var k=m.k,v=m.v;if(typeof k!="string"||cur.k.indexOf(k)<0)return;
