@@ -1316,7 +1316,7 @@ return{rest:mn,okP:okP,mx:mx,w7:w7,roll:!!p,bad:mn<10||!okP||mx>14||(w7!==null&&
 function rhr(){var c=$("rh");if(!c)return;if(!rhD)rhD=today;var d=rhD,v=rhG(d),S=v?rhX(d):null;
 var h='<h3>🕐 Часы отдыха</h3><p class="note" style="margin:0 0 8px">Отмечай часы РАБОТЫ (цветные клетки), остальное считается отдыхом. Каждая клетка — один час, начиная с указанного.</p>';
 h+='<div class="add" style="align-items:center"><button type="button" class="alt" data-hk="prev" aria-label="Предыдущий день">‹</button><input type="date" id="rhd" value="'+d+'" aria-label="Дата"><button type="button" class="alt" data-hk="next" aria-label="Следующий день">›</button></div>';
-h+='<div style="display:grid;grid-template-columns:repeat(6,1fr);gap:6px;margin:10px 0">';
+h+='<div style="display:grid;grid-template-columns:repeat(6,1fr);gap:4px;margin:10px 0">';
 for(var i=0;i<24;i++){var on=v&&v.charAt(i)=="1";h+='<button type="button" data-hk="t" data-v="'+i+'" style="min-width:0;padding:10px 0;border-radius:10px;border:1px solid var(--line);font-weight:700;'+(on?"background:var(--acc);color:#10182c":"background:transparent;color:var(--ink)")+'">'+(i<10?"0":"")+i+'</button>'}
 h+='</div><div class="add">'+RHP.map(function(p,j){return'<button type="button" class="alt" data-hk="pre" data-v="'+j+'">'+p[0]+'</button>'}).join("")+'<button type="button" class="alt" data-hk="off">Выходной (без работы)</button><button type="button" class="alt" data-hk="clr">Сбросить день</button></div>';
 var ln=function(ok,t){return'<p style="margin:6px 0;font-weight:600;color:'+(ok?"var(--ok)":"#e5484d")+'">'+(ok?"✓ ":"⚠ ")+t+'</p>'};
@@ -5487,7 +5487,7 @@ var q=0,go=function(){clearTimeout(q);q=setTimeout(sib,30)};new MutationObserver
 <style id="pol-css">/* Удобство и ясность (блок pol-js): босс недели в «Итогах недели», название группы в шапке окна, подсказки в пустых разделах, ночной режим в «Тема и фото» */
 #fmc p.cmpb{margin:12px 0 6px;font-size:15px;font-weight:700;color:var(--ink)}
 #fmh #onegt{flex:1 1 auto;min-width:0;align-self:center;padding:0 8px;font-size:17px;font-weight:800;line-height:1.2;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-#fmh #onegt[hidden]{display:none}#fmh.oneg .uxst{margin-right:0}
+#fmh #onegt[hidden]{display:none}#fmh.oneg .uxst{margin-right:0}#fmh #fmx{flex-shrink:0;white-space:nowrap}
 .poe{margin:0 0 12px;padding:10px 12px;border-radius:12px;border:1px dashed var(--acc);background:color-mix(in srgb,var(--acc) 8%,var(--bg));font-size:14px;line-height:1.45}
 .poe p{margin:0}.poe p+p,.poe p+div{margin-top:8px}
 .poe .poel{display:inline-block;margin-right:6px;padding:1px 8px;border-radius:99px;background:var(--acc);color:#0e1424;font-size:12px;font-weight:800}
@@ -5527,6 +5527,20 @@ var q=0,go=function(){clearTimeout(q);q=setTimeout(chk,30)};new MutationObserver
 fmc.addEventListener("click",function(e){var b=e.target.closest("[data-poe]");if(!b)return;var r=RW[+b.dataset.poe];if(!r)return;(st.rw=st.rw||[]).push({t:r[0],c:r[1]});save();render();if(window.toast)toast("🛒 "+L("Награда добавлена","Reward added","Нагороду додано"))});
 });
 </script>
+<style id="tap2-css">/* Удобно пальцу, часть 2: кнопки, поля и строки «подробнее», которые tap-css не задевал, — не меньше 40×40 px
+ (замер по палубе, помещениям и всем окнам на 390×844 и 320×568). Исключения: доска «Задачи дня» и полоска 7 дней в «Часах отдыха» на 320 px — 8 и 7 клеток в ряд шире не станут; игры в iframe не трогаются. */
+html body #lgb,html body #nvb{width:40px;height:40px}html body #nvb{right:56px}html body #hud{padding-right:104px}
+.vqb button,.uxm .uxh button,#uxc .uxb,#uxc label input,#uxp .uxpb,#fmh button,#hnt button,main>.uxhn button,#rs.reset{min-height:40px}
+#fmc .chips button,#fmc .cltb button,#fmc #rh [data-hk],#ls h3 button,#fmc .pka button,#fmc .sdg button,#fmc #flm button,#rz .add button{min-height:40px;min-width:40px}
+#fmc .chips button.sw{width:40px;height:40px}
+main>.vqb .vqc button{min-height:40px}#fmc #edgo,#fmc [data-fst]{min-height:42px}#fmc .rzbeh button{min-height:40px;min-width:40px}
+#fmc input:not([type=checkbox]):not([type=radio]):not([type=range]):not([type=color]):not([type=file]),#fmc textarea{min-height:40px}
+#fmc input[type=range]{height:40px}
+#fmc details>summary{padding-top:10px;padding-bottom:10px}
+#fmc #pck label{min-height:40px}
+#fmc #elgdv{min-height:40px!important}
+#tdy li>button[data-td]{min-height:40px}#fmc #rz .rzbh>summary{padding:10px 0}#fmc .vfm button{min-width:40px}#fmc .lk a{min-height:40px}
+</style>
 <style id="gv-css">/* 🧭 Путеводитель (#gv, блок gv-js): главы, «Главное», шаги, живой показ (#gvo) */
 #fmb:has(#fmc>#gv) #hnt{display:none!important}
 html:has(#fmc>#gv) #toast{top:calc(env(safe-area-inset-top,0px) + 10px);bottom:auto;max-width:calc(100vw - 130px);white-space:normal;text-align:center;pointer-events:none;transform:translate(-50%,-30px)}html:has(#fmc>#gv) #toast.show{transform:translate(-50%,0)}
