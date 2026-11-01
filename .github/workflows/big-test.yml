@@ -59,7 +59,7 @@ jobs:
           npx playwright install --with-deps chromium
       - name: Большой тест
         run: node tests/full.js
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v7
         if: always()
         with:
           name: big-test-report
