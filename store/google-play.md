@@ -13,7 +13,7 @@
 | Категория | Productivity (Производительность); теги — Education, Lifestyle (по желанию) |
 | Политика конфиденциальности | https://azazello2508.github.io/Fac-modo/privacy.html |
 | Сайт | https://azazello2508.github.io/Fac-modo/ |
-| E-mail для связи | **нужно завести и вписать** (Play показывает его всем; в privacy.html и support.html оставлены комментарии `<!-- EMAIL: вписать почту -->`) |
+| E-mail для связи | адрес поддержки в privacy.html и support.html — facmodo111@gmail.com; какой ящик указать в Play Console как контакт разработчика (Play показывает его всем), решает Костя |
 | Версия | `versionName` = `version` из package.json (1.0.0), `versionCode` = время коммита (растёт само) |
 
 ## Сборка для Google Play
