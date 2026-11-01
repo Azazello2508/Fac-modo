@@ -57,7 +57,7 @@ jobs:
           echo "blocked=$BLOCKED" >> "$GITHUB_OUTPUT"
 
       # Перед сохранением в main — автотесты с новыми играми: если упали, ничего не сохраняется и не публикуется
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v7
         if: steps.embed.outputs.changed == 'true'
         with:
           node-version: 22
