@@ -6,8 +6,8 @@ set -euo pipefail
 # --- файлы приложения (те же, что в iPhone) ---
 rm -rf www && mkdir www
 cp index.html manifest.webmanifest apple-touch-icon.png icon-192.png icon-512.png www/
-# номер версии = время последнего изменения; по нему приложение понимает, что вышло обновление
-sed -i "s/__FM_BUILD__/$(git log -1 --format=%ct)/" www/index.html
+# номер версии = время последнего изменения (не позже текущего, tools/build_no.sh); по нему приложение понимает, что вышло обновление
+sed -i "s/__FM_BUILD__/$(bash tools/build_no.sh)/" www/index.html
 grep -c 'FM_BUILD=parseInt("[0-9]' www/index.html
 
 # --- проект Android ---
@@ -44,7 +44,14 @@ grep -q 'android.permission.CAMERA' "$M" || sed -i 's#<uses-permission android:n
 grep -q 'requestLegacyExternalStorage' "$M" || sed -i 's#<application#<application android:requestLegacyExternalStorage="true"#' "$M"
 grep -c 'android.permission.CAMERA\|requestLegacyExternalStorage' "$M"
 
+# --- убрать точные будильники: плагин уведомлений добавляет SCHEDULE_EXACT_ALARM, но напоминания раз в день
+#     в них не нуждаются (без разрешения плагин ставит неточный будильник allowWhileIdle — сработает с небольшим сдвигом).
+#     Google Play требует объяснять это разрешение, поэтому лучше его не иметь. ---
+grep -q 'xmlns:tools' "$M" || sed -i '0,/<manifest /s#<manifest #<manifest xmlns:tools="http://schemas.android.com/tools" #' "$M"
+grep -q 'SCHEDULE_EXACT_ALARM' "$M" || sed -i 's#<uses-permission android:name="android.permission.INTERNET" />#&\n    <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM" tools:node="remove" />\n    <uses-permission android:name="android.permission.USE_EXACT_ALARM" tools:node="remove" />#' "$M"
+grep -c 'tools:node="remove"' "$M"
+
 # --- номер версии: для людей — version из package.json, для телефона — время коммита ---
 G=android/app/build.gradle
-sed -i -E "s/versionCode [0-9]+/versionCode $(git log -1 --format=%ct)/; s/versionName \"[^\"]*\"/versionName \"$(node -p "require('./package.json').version")\"/" "$G"
+sed -i -E "s/versionCode [0-9]+/versionCode $(bash tools/build_no.sh)/; s/versionName \"[^\"]*\"/versionName \"$(node -p "require('./package.json').version")\"/" "$G"
 grep -E 'versionCode|versionName' "$G"

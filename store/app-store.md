@@ -136,13 +136,14 @@ Fac Modo — помічник для моряків. Він допомагає �
 ```
 Fac Modo is a companion app for merchant seafarers. It works fully offline; there is no login, no account and no server — all user data is stored locally on the device (WKWebView storage), so no demo account is needed.
 
-How to try it: Missions tab → Daily quests (tick a quest to earn XP); Knowledge tab → Navigator's tools (compass, sextant, stars, collision risk calculators); Leisure tab → games, books, sleep sounds.
+How to try it: the home screen is a ship deck. On the deck, “My day” → Quests (tick a quest to earn XP); room Bridge → Navigator's tools (compass, sextant, stars, collision risk calculators); room Mess room → games, books, sleep sounds; room My cabin → Settings (backup, reset).
 
 Content notes:
 - Books (Project Gutenberg, Wikisource) and films in the "Free to download" genre (Internet Archive) are public-domain works; other films only link to JustWatch, which lists legal services. The app does not download from YouTube or any streaming service.
 - External links (YouTube search, Wikipedia, official maritime sites) open in Safari.
 - Navigation calculations are labelled as a study aid and must be checked against official charts and instruments.
 - The app may refresh its bundled web content (bug fixes and text updates) from our own site azazello2508.github.io; this never changes the app's purpose or adds paid features. New features are shipped through App Store updates.
+- Online games "Tanks" and "Planes" have an optional two-player mode by room code that connects to our relay server (tanchiki-server.pinkovskyi2508.workers.dev, Cloudflare). Only the game state is relayed; nothing is stored, no account, no personal data. Chess, checkers, etc. "over the network" are peer-to-peer between two phones on the same Wi-Fi.
 - Camera / photo library are used only when the user chooses to add a photo to the repair log or profile.
 - Background audio is used only for "Sleep sounds" (white/sea noise that keeps playing with the screen locked).
 ```

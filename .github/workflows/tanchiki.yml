@@ -2,7 +2,8 @@
 #   «Танчики»    — Azazello2508/Tanchiki
 #   «Самолётики» — Azazello2508/Samolety
 #   Карты и настольные игры (durak, debertz, chess, checkers, nardy) — из папки games/ этого репозитория
-# Если игра изменилась — встраивает новую версию в Fac Modo, публикует сайт и пересобирает приложение для iPhone.
+# Если игра изменилась — встраивает новую версию в Fac Modo, проверяет автотестами (tests/e2e.js),
+# сохраняет в main, публикует сайт и пересобирает приложения (там ещё раз gate.yml).
 name: Обновление игр
 
 on:
@@ -55,6 +56,18 @@ jobs:
           echo "changed=$CHANGED" >> "$GITHUB_OUTPUT"
           echo "blocked=$BLOCKED" >> "$GITHUB_OUTPUT"
 
+      # Перед сохранением в main — автотесты с новыми играми: если упали, ничего не сохраняется и не публикуется
+      - uses: actions/setup-node@v4
+        if: steps.embed.outputs.changed == 'true'
+        with:
+          node-version: 22
+      - name: Автотесты с новыми играми
+        if: steps.embed.outputs.changed == 'true'
+        run: |
+          npm install --no-save --no-audit --no-fund playwright@1.63.0 axe-core@4.10.2
+          npx playwright install --with-deps chromium
+          node tests/e2e.js
+
       - name: Сохранить обновление
         if: steps.embed.outputs.changed == 'true'
         run: |
@@ -79,8 +92,10 @@ jobs:
     needs: sync
     if: needs.sync.outputs.changed == 'true'
     uses: ./.github/workflows/android.yml
+    secrets: inherit   # ключ подписи ANDROID_KEYSTORE: без него сборка из main падает
 
   site:
     needs: sync
     if: needs.sync.outputs.changed == 'true'
     uses: ./.github/workflows/pages.yml
+    secrets: inherit

@@ -15,7 +15,7 @@ const FILL = async (box, name) => {
   const fields = [...box.querySelectorAll('input:not([type]),input[type=text],input[type=search],input[type=url],input[type=email],input[type=tel],textarea')]
     .filter(x => x.offsetParent && !x.readOnly && !x.disabled);
   for (const f of fields) { const n = ++window.__fid; window.__fmap[n] = name.slice(0, 30) + ' / ' + (f.id || f.placeholder || f.name || f.tagName).slice(0, 30); set(f, pay(n)); }
-  const BAD = /Удал|Сброс|Очист|Стереть|Delete|Reset|Clear|Выйти|Восстанов|Загруз|Скача|Поделит|Экспорт|Импорт|Скопир|Камер|Подключ|Перенос|Шаг|✕|×|🗑|Закрыть|Отмена|PIN|Начать заново/i;
+  const BAD = /Удал|Сброс|Очист|Стереть|Delete|Reset|Clear|Выйти|Восстанов|Загруз|Скача|Поделит|Экспорт|Импорт|Скопир|Камер|Подключ|Перенос|Шаг|✕|×|🗑|Закрыть|Отмена|PIN|Начать заново|обновлен/i;
   const GOOD = /Добав|Сохран|Запис|Постав|Готово|Создать|Отправ|Провер|Посчит|Рассчит|Найти|^\s*(➕|\+|OK|ОК)\s*/i;
   const btns = [...box.querySelectorAll('button')].filter(b => b.offsetParent && GOOD.test(b.textContent) && !BAD.test(b.textContent));
   for (const b of btns.slice(0, 12)) { try { b.click(); } catch (e) {} await W(15); }

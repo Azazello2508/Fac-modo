@@ -41,8 +41,8 @@ function secrets() {
   ok(/var DEVH="[0-9a-f]{64}"/.test(app), 'Код разработчика хранится только как отпечаток SHA-256', 'не найден DEVH');
   // Секреты App Store используются только в ios-store.yml, ключ Android — только в android.yml, и только через secrets.*
   const wf = files.filter(f => f.startsWith('.github/workflows/'));
-  const leak = wf.filter(f => f !== '.github/workflows/ios-store.yml' && (f === '.github/workflows/android.yml' ? /secrets\.(?!GITHUB_TOKEN|ANDROID_KEYSTORE\b|ANDROID_KEY_PASS\b)/ : /secrets\.(?!GITHUB_TOKEN)/).test(read(f).toString()));
-  ok(leak.length === 0, 'Секреты App Store используются только в ios-store.yml, ключ Android — только в android.yml', leak.join(', '));
+  const leak = wf.filter(f => f !== '.github/workflows/ios-store.yml' && (f === '.github/workflows/android.yml' ? /secrets\.(?!GITHUB_TOKEN|ANDROID_KEYSTORE\b|ANDROID_KEY_PASS\b)/ : f === '.github/workflows/pages.yml' ? /secrets\.(?!GITHUB_TOKEN|OTA_SIGN_KEY\b)/ : /secrets\.(?!GITHUB_TOKEN)/).test(read(f).toString()));
+  ok(leak.length === 0, 'Секреты App Store используются только в ios-store.yml, ключ Android — только в android.yml, ключ подписи обновлений OTA_SIGN_KEY — только в pages.yml', leak.join(', '));
 }
 
 function dangerousCode() {
@@ -158,6 +158,10 @@ function embeddedGames() {
   const bad = [];
   for (const g of G) { const r = guard.check(g.html, g.id); if (r.length) bad.push(g.id + ': ' + r.join(', ')); }
   ok(bad.length === 0, 'Ни одна игра не трогает данные приложения, не ходит на чужие сайты и не прячет код', bad.join('; '));
+  // Известные обходы сторожа должны ловиться
+  const ATT = ['x=self.parent.st', 'globalThis.top.save()', 'window["parent"].fmTx(1)', 'parent["st"]', 'Capacitor.Plugins.Filesystem.writeFile({})', 'localStorage.getItem("quest"+"-v2")', 'localStorage.getItem("fm_otabad")'];
+  const miss = ATT.filter(a => !guard.check('<script>' + a + '</script>', 'dr-src').length);
+  ok(miss.length === 0, 'Сторож ловит обходы (self.parent, globalThis.top, parent[…], Capacitor, "quest"+…, fm_ota*)', miss.join(' | '));
   const online = G.filter(g => /new WebSocket|fetch\(/.test(g.html)).map(g => g.id + ' → ' + [...new Set(g.html.match(/https:\/\/[a-z0-9.-]+/g) || [])].join(', '));
   rec('info', 'Игры с игрой через интернет: ' + (online.join('; ') || 'нет'));
   // Игры запускаются внутри приложения без «песочницы» — у них тот же доступ к памяти телефона
