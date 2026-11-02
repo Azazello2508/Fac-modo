@@ -1,7 +1,7 @@
 # Fac Modo — всё для App Store
 
 Готовые тексты и ответы для App Store Connect. Копировать в соответствующие поля.
-Скриншоты 1320×2868 (iPhone 6.9″) лежат в папке пользователя `Клод\Костя\AppStore\` (ru-*.png и en-*.png).
+Скриншоты 1320×2868 (iPhone 6.9″) лежат в папке пользователя `Клод\Костя\AppStore\` по языкам: `ru\`, `en\`, `uk\` (по 8 штук, вид «судно из 7 помещений», сняты 02.11.2026; там же `ПРОЧТИ.txt`).
 
 ## Основное
 | Поле | Значение |
@@ -147,7 +147,7 @@ Content notes:
 - Camera / photo library are used only when the user chooses to add a photo to the repair log or profile.
 - Background audio is used only for "Sleep sounds" (white/sea noise that keeps playing with the screen locked).
 ```
-Контакт для проверяющего: имя, телефон, e-mail — заполнить при отправке (почта для приложения ещё заводится).
+Контакт для проверяющего: имя, телефон, e-mail — заполнить при отправке (почта приложения — facmodo111@gmail.com).
 
 ## Что сделать, когда появится аккаунт Apple Developer
 1. Оплатить Apple Developer Program (99 $ в год) на developer.apple.com.
