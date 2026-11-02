@@ -51,6 +51,19 @@ const srv=http.createServer((q,r)=>{let u=decodeURIComponent(q.url.split('?')[0]
   await p.evaluate(()=>document.getElementById('tkx').click());F=await og();
   ok(await F.evaluate(()=>LVL===2)&&await p.evaluate(()=>localStorage.getItem('quest-v2')!=='x'),'Песочница игр: сохранение живёт после выхода, чужой ключ не записан');
   ok(errs.length===0,'Песочница игр: нет ошибок'+(errs.length?' — '+errs.slice(0,3).join(' | '):''));await ctx.close()}
+ // 3c. Самообновление не перезапускает приложение, пока человек печатает (fmOtaBusy/fmOtaGo)
+ {const {ctx,p,errs}=await open();
+  await p.evaluate(()=>{const t=document.createElement('textarea');t.id='e2eota';document.body.prepend(t)});
+  ok(await p.evaluate(()=>fmOtaBusy()===false),'Обновление: без набора текста переход разрешён');
+  await p.focus('#e2eota');await p.keyboard.type('Пишу запись');
+  ok(await p.evaluate(()=>fmOtaBusy()&&fmOtaGo(location.href.split('?')[0]+'?ota=1')===false),'Обновление: пока поле в фокусе, перезапуск отложен');
+  await p.evaluate(()=>document.activeElement.blur());
+  ok(await p.evaluate(()=>fmOtaBusy()===true&&document.getElementById('e2eota').value==='Пишу запись'),'Обновление: несохранённый текст в поле тоже откладывает перезапуск');
+  ok(!p.url().includes('ota=1'),'Обновление: страница не перезагрузилась, текст на месте');
+  await p.evaluate(()=>document.getElementById('e2eota').remove());
+  await Promise.all([p.waitForURL(/ota=1/,{timeout:15000}),p.evaluate(()=>fmOtaGo(location.href.split('?')[0]+'?ota=1'))]);
+  ok(p.url().includes('ota=1'),'Обновление: без набора текста новая версия включается');
+  ok(errs.length===0,'Обновление: нет ошибок'+(errs.length?' — '+errs.slice(0,3).join(' | '):''));await ctx.close()}
  // 4. Доступность
  let axe=null;try{axe=require.resolve('axe-core/axe.min.js')}catch(e){}
  if(!axe)console.log('ℹ axe-core не установлен — проверка доступности пропущена (npm i axe-core)');
