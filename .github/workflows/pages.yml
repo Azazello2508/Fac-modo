@@ -36,6 +36,8 @@ jobs:
       - uses: actions/checkout@v7
         with:
           ref: main
+          # вся история — чтобы найти коммиты с прошлой публикации (для [store-ok])
+          fetch-depth: 0
 
       - name: Номер сборки (время коммита, но не позже текущего — tools/build_no.sh)
         run: echo "FM_B=$(bash tools/build_no.sh)" >> "$GITHUB_ENV"
@@ -48,15 +50,31 @@ jobs:
           touch _site/.nojekyll
           sed -i "s/__FM_BUILD__/$B/" _site/index.html
           grep -c "FM_BUILD=parseInt(\"$B\")" _site/index.html
+          # какой коммит опубликован — по нему следующая публикация находит, что изменилось ([store-ok])
+          git rev-parse HEAD > _site/deployed-sha.txt
 
       # Подпись обновления (ECDSA P-256, секрет OTA_SIGN_KEY — закрытый ключ PEM). Без секрета — version.json без подписи, как раньше.
-      # [store-ok] в сообщении последнего коммита (или в названии PR) — обновление только с исправлениями, его примет и версия из App Store.
+      # store_ok (обновление только с исправлениями, его примет и версия из App Store) ставится, только если [store-ok] есть
+      # в сообщении КАЖДОГО коммита (без слияний) с прошлой опубликованной версии до этой. Прошлую версию узнаём по файлу
+      # deployed-sha.txt на сайте (его кладёт каждая публикация). Не скачался, коммита нет в истории main, новых коммитов нет —
+      # store_ok 0 (безопасно: магазинная версия просто подождёт). При слиянии PR через squash метка нужна в названии PR.
       - name: Подписать обновление
         env:
           K: ${{ secrets.OTA_SIGN_KEY }}
         run: |
           B=$FM_B
-          SO=0; if git log -1 --format=%B | grep -qF '[store-ok]'; then SO=1; fi
+          SO=0
+          O="${GITHUB_REPOSITORY_OWNER,,}"; R="${GITHUB_REPOSITORY#*/}"
+          P=$(curl -fsSL --max-time 30 "https://$O.github.io/$R/deployed-sha.txt?t=$(date +%s)" 2>/dev/null | tr -dc '0-9a-f' | head -c 40 || true)
+          if [ ${#P} -eq 40 ] && git cat-file -e "$P^{commit}" 2>/dev/null && git merge-base --is-ancestor "$P" HEAD; then
+            N=0; BAD=0
+            for c in $(git rev-list --no-merges "$P..HEAD"); do N=$((N+1)); git log -1 --format=%B "$c" | grep -qF '[store-ok]' || BAD=$((BAD+1)); done
+            echo "С прошлой публикации ($P): коммитов $N, без [store-ok] $BAD"
+            if [ "$N" -gt 0 ] && [ "$BAD" -eq 0 ]; then SO=1; fi
+          else
+            echo "Прошлая публикация не найдена — store_ok 0"
+          fi
+          echo "store_ok=$SO"
           KF=""
           if [ -n "$K" ]; then KF="$RUNNER_TEMP/ota.pem"; printf '%s\n' "$K" > "$KF"; else echo "::warning::Нет секрета OTA_SIGN_KEY — обновление публикуется без подписи"; fi
           python3 tools/ota_sign.py _site "$B" "$SO" $KF
