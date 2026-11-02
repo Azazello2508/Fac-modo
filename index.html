@@ -81,13 +81,18 @@ window.fmOtaVerify=function(j,ab){var u=new Uint8Array(ab),b=+j.build||0,so=j.st
 window.OTATEST={sha:function(u){return hex(sha(u))},ecv:function(m,s){return digest(m).then(function(h){return ecv(b64(OTA_PUB),h,b64(s))})}};
 })();</script>
 <script>/* Самообновление: работает только внутри приложения на телефоне.
-Если ранее скачана более новая версия — открываем её. */
+Если ранее скачана более новая версия — открываем её.
+Откат: fm-ota-try — сколько раз подряд новая версия запускалась, но ещё не доказала, что работает
+(сбрасывает в 0 сама новая версия только после загрузки и отрисовки, см. «Самообновление» в основном скрипте).
+Две неудачные попытки — сборка помечается fm_otabad (больше не скачивается), запускается встроенная версия,
+а следующая исправленная сборка скачается как обычно. */
 window.FM_BUILD=parseInt("__FM_BUILD__")||0;
 (function(){try{var C=window.Capacitor;if(!C||!C.isNativePlatform||!C.isNativePlatform())return;
 if(location.href.indexOf("/_capacitor_file_/")>=0)return;
 var L=localStorage;L.setItem("fm-bundle-b",FM_BUILD);
 var ob=+L.getItem("fm-ota-b")||0,u=L.getItem("fm-ota-url"),tr=+L.getItem("fm-ota-try")||0;
-if(u&&ob>FM_BUILD&&tr<3){L.setItem("fm-ota-try",tr+1);document.documentElement.style.visibility="hidden";location.replace(u)}}catch(e){}})();</script>
+if(u&&ob>FM_BUILD){if(tr<2){L.setItem("fm-ota-try",tr+1);document.documentElement.style.visibility="hidden";location.replace(u)}
+ else{L.setItem("fm_otabad",String(ob));L.setItem("fm-ota-rb",String(ob));L.removeItem("fm-ota-url");L.removeItem("fm-ota-b");L.removeItem("fm-ota-try")}}}catch(e){}})();</script>
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
 <title>Fac Modo</title>
 <link rel="manifest" href="manifest.webmanifest">
@@ -1715,10 +1720,22 @@ $("bk").addEventListener("click",function(e){var b=e.target.closest("[data-b]");
 $("bk").addEventListener("change",function(e){if(e.target.id=="bkg"){bkS.g=+e.target.value;bkS.n=20;bkSave();bkr()}});
 bkr();
 
+/* Не перезапускать ради обновления, пока человек печатает: поле в фокусе или в видимом текстовом поле есть несохранённый текст.
+   fmOtaGo(адрес) — перейти на новую версию, если можно (true), иначе отложить до следующего возврата в приложение или запуска (false). */
+window.fmOtaBusy=function(){var a=document.activeElement,T=/^(text|search|email|url|tel|password|)$/,N=/^(checkbox|radio|button|submit|reset|range|file|color|image|hidden)$/;
+ function tx(e){return e.tagName=="TEXTAREA"||(e.tagName=="INPUT"&&T.test((e.getAttribute("type")||"").toLowerCase()))}
+ if(a&&a!=document.body&&!a.disabled&&!a.readOnly&&(a.isContentEditable||a.tagName=="TEXTAREA"||(a.tagName=="INPUT"&&!N.test((a.type||"").toLowerCase()))))return true;
+ for(var l=document.querySelectorAll("textarea,input"),i=0;i<l.length;i++){var e=l[i];if(tx(e)&&e.offsetParent&&e.value&&e.value!=e.defaultValue)return true}return false};
+window.fmOtaGo=function(u){if(fmOtaBusy()){if(window.fmLog)fmLog("info","ota-defer",{});return false}location.replace(u);return true};
 /* Самообновление: проверяем новую версию на сайте приложения, скачиваем и включаем при следующем возврате в приложение */
 (function(){var C=window.Capacitor;if(!C||!C.isNativePlatform||!C.isNativePlatform())return;
 var L=localStorage,BASE="https://azazello2508.github.io/Fac-modo/",pending=null,busy=false;
-if(location.href.indexOf("/_capacitor_file_/")>=0)L.setItem("fm-ota-try","0");
+/* Скачанная версия доказала, что работает, только когда страница загрузилась и нарисовала палубу (через 4 с после load).
+   До этого fm-ota-try не сбрасывается: белый экран или падение — на следующем запуске загрузчик в <head> откатит. */
+if(location.href.indexOf("/_capacitor_file_/")>=0){var otaOk=function(){setTimeout(function(){try{var t=document.getElementById("tdy");
+ if(document.body&&document.body.offsetHeight>0&&(document.getElementById("shp")||(t&&t.children.length))){L.setItem("fm-ota-try","0");L.removeItem("fm-ota-rb")}}catch(e){}},4000)};
+ if(document.readyState=="complete")otaOk();else addEventListener("load",otaOk)}
+if(L.getItem("fm-ota-rb")&&window.fmLog){fmLog("warn","ota-rollback",{b:+L.getItem("fm-ota-rb")});L.removeItem("fm-ota-rb")}
 function cur(){return Math.max(+L.getItem("fm-bundle-b")||0,+L.getItem("fm-ota-b")||0,FM_BUILD)}
 function fs(){return(C.Plugins&&C.Plugins.Filesystem)||(C.registerPlugin&&C.registerPlugin("Filesystem"))}
 function get(u,t){return fetch(BASE+u+"?t="+Date.now(),{cache:"no-store"}).then(function(r){if(!r.ok)throw 0;return t==2?r.arrayBuffer():t?r.text():r.json()})}
@@ -1733,7 +1750,7 @@ function check(){if(busy||pending||!navigator.onLine)return;busy=true;
     pending=L.getItem("fm-ota-url");toast("⬇ Скачано обновление Fac Modo. Оно включится, когда снова откроешь приложение.")})})})
  .catch(function(){}).then(function(){busy=false})}
 setTimeout(check,3000);
-document.addEventListener("visibilitychange",function(){if(document.hidden)return;if(pending){location.replace(pending);return}check()});
+document.addEventListener("visibilitychange",function(){if(document.hidden)return;if(pending){var tr=+L.getItem("fm-ota-try")||0;if(tr<2){L.setItem("fm-ota-try",tr+1);if(!fmOtaGo(pending))L.setItem("fm-ota-try",tr)}return}check()});
 })();
 </script>
 <style id="fm3-css">
