@@ -1,7 +1,5 @@
-# Каждый час проверяет игры на GitHub:
-#   «Танчики»    — Azazello2508/Tanchiki
-#   «Самолётики» — Azazello2508/Samolety
-#   Карты и настольные игры (durak, debertz, chess, checkers, nardy) — из папки games/ этого репозитория
+# Каждый час проверяет, что все игры из папки games/ этого репозитория встроены в приложение
+# (Танчики, Самолётики, карты и настольные игры, головоломки). Игры правятся здесь, в games/*.html.
 # Если игра изменилась — встраивает новую версию в Fac Modo, проверяет автотестами (tests/e2e.js),
 # сохраняет в main, публикует сайт и пересобирает приложения (там ещё раз gate.yml).
 name: Обновление игр
@@ -24,7 +22,7 @@ jobs:
     steps:
       - uses: actions/checkout@v7
 
-      - name: Скачать свежие игры и встроить в приложение
+      - name: Встроить игры из games/ в приложение
         id: embed
         run: |
           CHANGED=false
@@ -40,17 +38,8 @@ jobs:
               return 1
             fi
           }
-          embed () {  # $1 — адрес игры, $2 — id блока, $3 — копия в репозитории (может быть пустой)
-            if curl -fsSL -o /tmp/game.html "$1"; then
-              if put /tmp/game.html "$2" && [ -n "$3" ]; then cp /tmp/game.html "$3"; fi
-            else
-              echo "$2: игра пока недоступна по адресу $1 — пропускаю"
-            fi
-          }
-          embed https://raw.githubusercontent.com/Azazello2508/Tanchiki/main/index.html tk-src ""
-          embed https://raw.githubusercontent.com/Azazello2508/Samolety/main/index.html sm-src games/samolety.html
-          # Настольные игры правятся прямо здесь, в games/*.html (оба разработчика могут их менять)
-          for g in durak:dr-src debertz:db-src chess:cs-src checkers:cr-src nardy:nd-src morboy:mb-src sudoku:su-src pyatnashki:p15-src krossvord:kw-src more2048:g2-src; do
+          # Все игры правятся прямо здесь, в games/*.html (оба разработчика могут их менять)
+          for g in tanchiki:tk-src samolety:sm-src durak:dr-src debertz:db-src chess:cs-src checkers:cr-src nardy:nd-src morboy:mb-src sudoku:su-src pyatnashki:p15-src krossvord:kw-src more2048:g2-src; do
             put "games/${g%%:*}.html" "${g##*:}" || true
           done
           echo "changed=$CHANGED" >> "$GITHUB_OUTPUT"
@@ -74,7 +63,7 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add -A
-          git commit -m "Обновлены игры из Tanchiki, Samolety и games/"
+          git commit -m "Обновлены игры из games/"
           git push
 
       - name: Сторож заблокировал игру
