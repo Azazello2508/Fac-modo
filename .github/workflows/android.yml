@@ -83,7 +83,7 @@ jobs:
           $BT/aapt2 dump badging FacModo.apk | grep -E "^package|uses-permission|application-label:" || true
           ls -la FacModo.apk
 
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v7
         with:
           name: FacModo-apk
           path: |
