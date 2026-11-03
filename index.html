@@ -5864,9 +5864,40 @@ document.addEventListener("click",function(e){var b=e.target.closest&&e.target.c
 function gvOffer(){var g=G();if(!(st.ux&&st.ux.ob)||g.x||g.c||Object.keys(g.d).length)return false;if(g.h&&dd(g.h,today)<3)return false;return true}
 function gvTile(){if(P.gv)P.gv.b[gvOffer()?"setAttribute":"removeAttribute"]("data-uxj","1")}
 window.gvTile=gvTile;
+window.gvProg=function(){return[done(),M]};
 (window.RTX=window.RTX||[]).push(function(){gvTile();if(!gvOffer())return"";
  return'<div class="rtc hi"><div class="gdt"><i>🧭</i><div><b class="rtt">'+L("Пройди путеводитель — 10 минут, +100 XP","Take the guide — 10 minutes, +100 XP","Пройди путівник — 10 хвилин, +100 XP")+'</b>'+L("Коротко о каждом помещении судна и живой показ: где что лежит и как этим пользоваться.","A quick look at each room of the ship with live demos: where things are and how to use them.","Коротко про кожне приміщення судна й живий показ: де що лежить і як цим користуватися.")+'</div></div><div class="rtb"><button type="button" class="go" data-gv="start">'+L("Начать","Start","Почати")+'</button><button type="button" data-gv="later">'+L("Позже","Later","Пізніше")+'</button></div></div>'});
 gvr();gvTile();if(window.rtCard)rtCard()});
+</script>
+<style id="gvw-css">/* 🧭 Путеводитель на палубе — широкая зелёная карточка (блок gvw-js): значок, название, «10 глав…», «Пройдено N / 10» с полоской и › */
+main>button.fmt.gvw{grid-column:1/-1;display:grid;grid-template-columns:52px minmax(0,1fr);grid-template-areas:"i b" "i d" "i p";align-items:center;justify-items:start;column-gap:14px;row-gap:3px;min-height:92px;padding:14px 16px;border:2px solid var(--ok);border-radius:16px;
+ background:linear-gradient(135deg,color-mix(in srgb,var(--ok) 14%,var(--card)),var(--card) 70%);box-shadow:0 0 0 1px color-mix(in srgb,var(--ok) 18%,transparent),0 6px 18px #0005}
+main>button.fmt.gvw[hidden]{display:none!important}
+main>button.fmt.gvw>i{grid-area:i;justify-self:center;font-size:40px;filter:drop-shadow(0 2px 7px color-mix(in srgb,var(--ok) 55%,transparent))}
+main>button.fmt.gvw>b{grid-area:b;width:auto;font-size:17.5px}
+main>button.fmt.gvw>small.shd,main>button.fmt.gvw>small.lvs{display:none}
+main>button.fmt.gvw>.gvws{grid-area:d;display:block;font-size:13px;line-height:1.3;color:var(--mute)}
+main>button.fmt.gvw>.gvwp{grid-area:p;display:flex;align-items:center;gap:10px;width:100%;margin-top:5px;font-size:13px;font-weight:700;color:color-mix(in srgb,var(--ok) 72%,var(--ink));white-space:nowrap}
+.gvwp>.gvwb{flex:1;min-width:30px;height:7px;border-radius:9px;background:var(--line);overflow:hidden}.gvwp>.gvwb>span{display:block;height:100%;min-width:7px;border-radius:9px;background:var(--ok)}
+.gvwp>.gvwc{color:var(--ok);font-size:22px;line-height:1;font-weight:800;margin-top:-3px}
+.big main>button.fmt.gvw>b{font-size:18px}.big main>button.fmt.gvw>.gvws,.big main>button.fmt.gvw>.gvwp{font-size:14.5px}
+</style>
+<script id="gvw-js">/* Путеводитель на палубе — широкая карточка (стиль gvw-css). Новые элементы ставятся МЕЖДУ значком и названием: скрипт плиток пишет значок в firstChild
+ и название в lastChild (<b>), gv-js/ux-js тоже читают lastChild. Прогресс — window.gvProg() из gv-js (те же главы C и st.gv.d), обновление после save(). */
+document.addEventListener("DOMContentLoaded",function(){var P=window.uxP,b=P&&P.gv&&P.gv.b;if(!b||!b.lastChild)return;
+var L=function(r,e,u){return window.fmL?fmL(r,e,u):r};
+b.classList.add("gvw");
+var s=document.createElement("small");s.className="gvws";s.setAttribute("translate","no");
+var p=document.createElement("span");p.className="gvwp";p.setAttribute("translate","no");
+p.innerHTML='<span class="gvwt"></span><span class="gvwb"><span></span></span><span class="gvwc" aria-hidden="true">›</span>';
+b.insertBefore(s,b.lastChild);b.insertBefore(p,b.lastChild);
+var t=p.firstChild,f=p.children[1].firstChild;
+function gvwr(){var q=window.gvProg?gvProg():[0,10],n=q[0]||0,m=q[1]||10,x;
+ x=L("10 глав: как устроено приложение","10 chapters: how the app works","10 глав: як улаштований застосунок").replace(/10/,m);if(s.textContent!=x)s.textContent=x;
+ x=L("Пройдено ","Completed ","Пройдено ")+n+" / "+m+(n>=m?" ✓":"");if(t.textContent!=x)t.textContent=x;
+ x=Math.round(Math.min(n,m)/m*100)+"%";if(f.style.width!=x)f.style.width=x}
+window.gvwr=gvwr;gvwr();
+if(typeof save=="function"){var o=save;save=function(){var r=o.apply(this,arguments);try{gvwr()}catch(e){}return r}}});
 </script>
 <script id="and-js">/* Android: в приложении ссылки «скачать файл» (резервная копия, таблицы CSV, резюме PDF) не работают сами — сохраняем файл в «Документы/Fac Modo» */
 (function(){var C=window.Capacitor;if(!C||!C.getPlatform||C.getPlatform()!="android")return;
