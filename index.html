@@ -3378,7 +3378,7 @@ var LV={
  dc:function(){var a=(st.dc||[]).filter(function(x){return x&&/^\d{4}-\d\d-\d\d$/.test(x.e)});if(!a.length)return null;var bad=a.filter(function(x){return days(today,x.e)<0}).length,soon=a.filter(function(x){var d=days(today,x.e);return d>=0&&d<=30}).length;
   return bad?["⚠ "+bad+" "+L("просрочен","expired","прострочено"),"r"]:soon?["⚠ "+soon+" "+L("истекает","expiring","спливає"),"w"]:["✓ "+L("в порядке","all good","гаразд"),"ok"]},
  "#stats":function(){return[L("Уровень ","Level ","Рівень ")+lvl(calc().xp)[0],""]},
- rlg:function(){var n=(st.rl||[]).length;return n?[n+" "+L("зап.","entries","зап."),""]:null},
+ rlg:function(){var n=(st.rl||[]).length;return n?[n+" "+L("зап.",n==1?"entry":"entries","зап."),""]:null},
  mt2:function(){var d=st.done[today]||{};return d.m2?["✓ "+L("решена","solved","розв'язано"),"ok"]:[L("Новая задача","New puzzle","Нова задача"),""]},
  brt:function(){var d=st.done[today]||{};return d.br?["✓ "+L("сегодня было","done today","сьогодні було"),"ok"]:null}
 };
