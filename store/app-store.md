@@ -10,7 +10,7 @@
 | SKU | `facmodo-ios` |
 | Основной язык | Русский |
 | Категория | Основная — Производительность (Productivity), дополнительная — Образование (Education) |
-| Цена | Бесплатно |
+| Цена | Бесплатно. **Решено 04.11.2026: + разовая покупка внутри приложения** (In-App Purchase, тип Non-Consumable — один раз навсегда, не подписка); что открывает и цена — ещё решить. Нужны договор Paid Apps, банк и налоги; комиссия 15 % в Small Business Program |
 | Устройства | Только iPhone (сборка с `TARGETED_DEVICE_FAMILY=1`) |
 | Privacy Policy URL | https://azazello2508.github.io/Fac-modo/privacy.html |
 | Support URL | https://azazello2508.github.io/Fac-modo/support.html |
