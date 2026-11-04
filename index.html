@@ -5882,6 +5882,22 @@ main>button.fmt.gvw>.gvwp{grid-area:p;display:flex;align-items:center;gap:10px;w
 .gvwp>.gvwc{color:var(--ok);font-size:22px;line-height:1;font-weight:800;margin-top:-3px}
 .big main>button.fmt.gvw>b{font-size:18px}.big main>button.fmt.gvw>.gvws,.big main>button.fmt.gvw>.gvwp{font-size:14.5px}
 </style>
+<style id="cst-css">/* Контраст текста (axe color-contrast). --onacc — цвет текста на кнопке цвета --acc: тёмный в тёмных темах (там --acc светлый),
+   белый в светлой (там --acc тёмно-синий). Новой кнопке с background:var(--acc) — color:var(--onacc). */
+:root{--onacc:#0e1424}
+/* --xpt, --gymt — тёмные варианты --xp и --gym для текста в светлой теме (фоны остаются прежними) */
+.xpb{color:var(--xpt,var(--xp))}
+#pnl .mx{color:var(--gymt,var(--gym))}
+:root[data-theme="light"]{--onacc:#fff;--xpt:#9a6200;--gymt:#c62a37}
+@media (prefers-color-scheme:light){:root:not([data-theme]){--onacc:#fff;--xpt:#9a6200;--gymt:#c62a37}}
+.add button,.days button[aria-selected="true"],.chips button.on,#fbs,#flm .fmn button,#rz .rzbr button.cur,#rz .rzbch button.cur,
+#uxw .uxwl button.cur,#uxw .uxwgo,#onet button[aria-selected=true],#qab,#rtx .rtb button.go,#rtw button,#gdo .gdn button.go,.gdx .gdxl,
+main>.vqb button,#shp .shn,#ovn button.on,.poe .poel,#gv .gvb.go,#gv .gvr button,#gvo .gvon button.go{color:var(--onacc)}
+.vb a#vyt,.vb a#vdyt,#vyt{background:#c4302b}
+/* закрытые награды и достижения — серые, но подпись читается */
+#rwd .rwr button.lk{opacity:1;background:var(--bg);border:1px solid var(--line);color:var(--ink)}
+.a{opacity:.8}
+</style>
 <script id="gvw-js">/* Путеводитель на палубе — широкая карточка (стиль gvw-css). Новые элементы ставятся МЕЖДУ значком и названием: скрипт плиток пишет значок в firstChild
  и название в lastChild (<b>), gv-js/ux-js тоже читают lastChild. Прогресс — window.gvProg() из gv-js (те же главы C и st.gv.d), обновление после save(). */
 document.addEventListener("DOMContentLoaded",function(){var P=window.uxP,b=P&&P.gv&&P.gv.b;if(!b||!b.lastChild)return;
