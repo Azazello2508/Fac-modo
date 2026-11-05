@@ -26,6 +26,12 @@ const srv=http.createServer((q,r)=>{let u=decodeURIComponent(q.url.split('?')[0]
    const x=document.createElement('button');x.dataset.abk='restore';x.dataset.v=m.id;document.body.appendChild(x);x.click();await new Promise(r=>setTimeout(r,800));return m.ok&&st.name==='E2E'});
   ok(r===true,'Restore test: копия проверена и восстанавливается');
   ok(await p.evaluate(()=>{try{applyData('{"broken":1}');return false}catch(e){return true}}),'E2E: повреждённый файл копии не принимается');
+  const pro=await p.evaluate(()=>{const T=PROTEST.decide,t=localStorage.getItem('fm_pro'),o=JSON.parse(t||'null');
+   return{free:fmPro.has('shn')&&fmPro.has('qz')&&fmPro.tier('shn')==='free'&&!fmPro.on(),st:!!o&&o.t0>0&&o.own===0,tr:fmPro.trial().on&&fmPro.trial().left===PROTEST.trial,
+    // таблица решений: переключатель выключен — всё открыто; включён — платное закрыто, пока нет покупки или пробного периода
+    t:T(0,1,0,0)&&T(1,0,0,0)&&T(1,1,1,0)&&T(1,1,0,1)&&!T(1,1,0,0)}});
+  ok(pro.free&&pro.st&&pro.tr&&pro.t,'Покупка (заготовка): всё бесплатно, пробный период 3 дня, таблица решений верна');
+  {const h=fs.readFileSync(path.join(ROOT,'index.html'),'utf8');ok(h.includes('|ota|store|hc|pro)/')&&h.includes('|alert|broken|pro)/.test(k)'),'Покупка (заготовка): fm_pro не переносится и не попадает в копии')}
   ok(errs.length===0,'E2E: нет ошибок в консоли'+(errs.length?' — '+errs.slice(0,3).join(' | '):''));await ctx.close()}
  // 2. Мобильный браузер
  {const {ctx,p,errs}=await open({...devices['iPhone 13'],defaultBrowserType:undefined});await tabs(p);
