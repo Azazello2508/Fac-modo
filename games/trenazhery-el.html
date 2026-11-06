@@ -1,0 +1,140 @@
+<!doctype html>
+<html lang="ru"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Электроника и схемы</title>
+<style>
+:root{--bg:#0d2236;--fg:#eef;--card:#123552;--line:#2d5a80;--muted:#9ab;--accent:#2f7a5a}
+*{box-sizing:border-box}
+body{margin:0 auto;font-family:Segoe UI,Arial,sans-serif;background:var(--bg);color:var(--fg);padding:12px 10px 28px;max-width:980px}
+h2{margin:6px 0 4px;padding-right:120px}p.help{color:var(--muted);font-size:14px;margin:0 0 12px}
+#menu{display:flex;flex-direction:column;gap:8px}
+#menu button{display:flex;gap:12px;align-items:center;text-align:left;font:inherit;padding:12px;border-radius:12px;border:2px solid #3b6488;background:#24405c;color:#eef;cursor:pointer;min-height:56px}
+#menu button i{font-style:normal;font-size:26px}#menu button b{display:block;font-size:16px}#menu button span{display:block;font-size:13px;color:#b9cde0;margin-top:2px}
+#back{margin:6px 0 10px}
+.sim{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:14px}
+.sim canvas{max-width:100%;height:auto;background:var(--card);border:1px solid var(--line);border-radius:10px}
+.ctls{display:flex;flex-wrap:wrap;gap:10px 16px;align-items:center;margin:8px 0}
+.ctl{font-size:14px;display:flex;flex-direction:column;min-width:170px;background:#17405f;border:1px solid var(--line);border-radius:10px;padding:8px 12px}.ctl b{color:#9fe7c0}
+.ctl input[type=range]{width:100%}.ctl select{margin-top:4px;padding:6px;border-radius:8px;border:1px solid var(--line);background:#0f2c44;color:#eef;font:inherit}
+.btn{padding:7px 14px;border-radius:8px;border:2px solid #3b6488;background:#24405c;color:#eef;cursor:pointer;font:inherit;font-size:14px;min-height:38px}
+.btn.on{background:var(--accent);border-color:#7fe0b0;color:#fff}
+.out{margin-top:8px;font-size:15px;line-height:1.45}.sim .out{background:#0b1a14;color:#7dffb0;font-family:Consolas,monospace;border:2px solid #2a4a3a;border-radius:8px;padding:10px 12px}
+.sim .out b{color:#fff3a8}.sim .out .bad{color:#ff9a8a}.sim .out .good{color:#7dffb0}.note{color:var(--muted);font-size:14px}
+.sim h5{margin:6px 0 2px}
+
+</style></head><body>
+<h2>🔌 Электроника и схемы</h2>
+<p class="help">Учебные модели: числа условные и типичные. На судне всегда действуй по инструкции изготовителя и проекту судна.</p>
+<div id="menu"></div>
+<div id="stage" hidden><button class="btn" id="back" type="button">← К списку тренажёров</button><div id="host"></div></div>
+<script>
+const SIMS = {};
+const $ = (r, s) => r.querySelector(s);
+function slider(id, label, min, max, val, step = 1, unit = '') {
+  return `<label class="ctl">${label}: <b id="${id}v">${val}</b> ${unit}<input type="range" id="${id}" min="${min}" max="${max}" step="${step}" value="${val}" oninput="var b=this.parentNode.querySelector('b');if(b)b.textContent=this.value"></label>`;
+}
+function bind(root, ids, fn) {
+  ids.forEach(id => $(root, '#' + id).addEventListener('input', () => { $(root, '#' + id + 'v').textContent = $(root, '#' + id).value; fn(); }));
+}
+const val = (root, id) => +$(root, '#' + id).value;
+function cv(root, w = 640, h = 300) { const c = $(root, 'canvas'); c.width = w; c.height = h; return c.getContext('2d'); }
+const css = n => getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+// f(t, dt): t — номер кадра, dt — секунды с прошлого кадра (не больше 0.1 с), чтобы скорость не зависела от частоты монитора.
+function loop(root, f) { let t = 0, last = performance.now(); (function frame(now) { if (!root.isConnected) return; now = now || performance.now(); const dt = Math.min(0.1, Math.max(0, (now - last) / 1000)); last = now; f(t++, dt); requestAnimationFrame(frame); })(); }
+
+const esc = s => String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+// 4. Судовая электростанция (тренажёр)
+SIMS.shipgrid = root => {
+  root.innerHTML = `<div class="sim"><p class="note">Тренажёр: судно в море, 3 дизель-генератора по 800 кВт на общих шинах ГРЩ. Включайте/отключайте генераторы (на старте работают ДГ1 и ДГ2) и держите нагрузку. Если генераторы перегружены более 5 секунд — сработает защита и вы получите <b>блэкаут</b>. Реальные правила: нагрузка не выше ~80–85%, резерв — всегда.</p>
+  <div class="ctls">${slider('load', 'Нагрузка судна', 200, 2400, 1100, 50, 'кВт')}<button id="gen0" class="btn on">ДГ1 ВКЛ</button><button id="gen1" class="btn on">ДГ2 ВКЛ</button><button id="gen2" class="btn">ДГ3 ВЫКЛ</button><button id="thr" class="btn">Включить подруливающее (+600 кВт)</button></div><canvas></canvas><div id="out" class="out"></div></div>`;
+  const g = cv(root, 640, 220); const on = [true, true, false]; let thr = false, over = 0, black = false;
+  [0, 1, 2].forEach(i => $(root, '#gen' + i).onclick = e => { if (black) { black = false; over = 0; thr = false; $(root, '#thr').className = 'btn'; on.fill(false); [0, 1, 2].forEach(j => { const b = $(root, '#gen' + j); b.className = 'btn'; b.textContent = `ДГ${j + 1} ВЫКЛ`; }); } on[i] = !on[i]; e.target.className = 'btn' + (on[i] ? ' on' : ''); e.target.textContent = `ДГ${i + 1} ` + (on[i] ? 'ВКЛ' : 'ВЫКЛ'); });
+  $(root, '#thr').onclick = e => { thr = !thr; e.target.className = 'btn' + (thr ? ' on' : ''); };
+  loop(root, (t, dt) => {
+    const total = val(root, 'load') + (thr ? 600 : 0), cap = on.filter(Boolean).length * 800, pct = cap ? total / cap * 100 : 999;
+    if (!black) { if (pct > 100) over += dt; else over = Math.max(0, over - dt); if (over >= 5) { black = true; over = 0; thr = false; $(root, '#thr').className = 'btn'; on.fill(false); [0, 1, 2].forEach(i => { const b = $(root, '#gen' + i); b.className = 'btn'; b.textContent = `ДГ${i + 1} ВЫКЛ`; }); } }
+    g.clearRect(0, 0, 640, 220); g.fillStyle = black ? '#111' : '#1e3a2f'; g.fillRect(0, 0, 640, 220);
+    g.strokeStyle = black ? '#444' : '#f1c40f'; g.lineWidth = 6; g.beginPath(); g.moveTo(40, 120); g.lineTo(600, 120); g.stroke();
+    g.font = '13px sans-serif';
+    on.forEach((o, i) => { const x = 100 + i * 200; g.fillStyle = o ? '#2ecc71' : '#555'; g.fillRect(x - 30, 30, 60, 50); g.fillStyle = '#fff'; g.fillText('ДГ' + (i + 1), x - 12, 60); g.strokeStyle = o ? '#f1c40f' : '#444'; g.beginPath(); g.moveTo(x, 80); g.lineTo(x, 120); g.stroke(); });
+    g.fillStyle = '#fff'; g.fillText('ГРЩ (главный распределительный щит)', 40, 145);
+    const col = pct > 100 ? '#e74c3c' : pct > 85 ? '#f39c12' : '#2ecc71';
+    g.fillStyle = '#333'; g.fillRect(40, 170, 560, 20); g.fillStyle = col; g.fillRect(40, 170, Math.min(560, pct * 5.6 / 1), 20);
+    $(root, '#out').innerHTML = black ? '<b style="color:#e74c3c">⚠ БЛЭКАУТ! Судно обесточено.</b> Нажмите ДГ, чтобы запустить заново. Вывод: перед включением мощного потребителя запускайте резервный генератор заранее.' :
+      `Нагрузка ${total} кВт / мощность в работе ${cap} кВт = <b style="color:${col}">${cap ? pct.toFixed(0) : '—'}%</b>${over > 0.05 ? ` · перегруз ${over.toFixed(1)}/5 с` : ''}${pct > 85 && pct <= 100 ? ' — мало резерва!' : ''}`;
+  });
+};
+
+// 5. RC-цепь (электроника)
+SIMS.rc = root => {
+  root.innerHTML = `<div class="sim"><div class="ctls">${slider('R', 'R', 1, 100, 10, 1, 'кОм')}${slider('C', 'C', 1, 100, 10, 1, 'мкФ')}${slider('V', 'Напряжение', 1, 24, 12, 1, 'В')}<label class="ctl">Ось времени: <select id="ts"><option value="0.01">0–10 мс</option><option value="0.1">0–100 мс</option><option value="1" selected>0–1 с</option><option value="10">0–10 с</option></select></label></div><canvas></canvas><div id="out" class="out"></div></div>`;
+  const g = cv(root, 640, 280);
+  const upd = () => {
+    const R = val(root, 'R') * 1e3, C = val(root, 'C') * 1e-6, V = val(root, 'V'), tau = R * C;
+    g.clearRect(0, 0, 640, 280); g.strokeStyle = '#999'; g.beginPath(); g.moveTo(40, 240); g.lineTo(620, 240); g.moveTo(40, 20); g.lineTo(40, 240); g.stroke();
+    const T = +$(root, '#ts').value, VM = 24; g.strokeStyle = '#2980b9'; g.lineWidth = 2; g.beginPath();
+    for (let x = 0; x <= 580; x++) { const t = x / 580 * T, v = V * (1 - Math.exp(-t / tau)); const y = 240 - v / VM * 200; x ? g.lineTo(40 + x, y) : g.moveTo(40, y); } g.stroke(); g.lineWidth = 1;
+    g.fillStyle = css('--fg'); g.font = '13px sans-serif';
+    if (tau < T) { g.strokeStyle = '#e67e22'; g.setLineDash([5, 5]); const xt = 40 + tau / T * 580; g.beginPath(); g.moveTo(xt, 240); g.lineTo(xt, 240 - 0.632 * V / VM * 200); g.stroke(); g.setLineDash([]); g.fillText('τ', xt - 3, 258); }
+    g.fillText('0', 30, 256); g.fillText(T >= 1 ? T + ' с' : T * 1000 + ' мс', 590, 258); g.fillText('0 В', 8, 244); g.fillText('24 В', 8, 44); g.fillText('Uc(t) — заряд конденсатора (ось 0…24 В)', 60, 30);
+    $(root, '#out').innerHTML = `Постоянная времени τ = R·C = <b>${(tau * 1000).toFixed(0)} мс</b>. За τ конденсатор заряжается до 63% (${(V * 0.632).toFixed(1)} В), за 5τ — почти полностью. Ось времени выбирается справа. Частота среза RC-фильтра fc = 1/(2πRC) = <b>${(1 / (2 * Math.PI * tau)).toFixed(1)} Гц</b>.`;
+  };
+  bind(root, ['R', 'C', 'V'], upd); $(root, '#ts').onchange = upd; upd();
+};
+
+// 6. Логические элементы
+SIMS.logic = root => {
+  root.innerHTML = `<div class="sim"><div class="ctls"><button id="A" class="btn">A = 0</button><button id="B" class="btn">B = 0</button></div><table class="tt"><tr><th>Элемент</th><th>Результат</th><th>Идея</th></tr></table></div>`;
+  let A = 0, B = 0;
+  const gates = [['AND (И)', (a, b) => a & b, 'оба условия'], ['OR (ИЛИ)', (a, b) => a | b, 'хотя бы одно'], ['XOR', (a, b) => a ^ b, 'ровно одно'], ['NAND', (a, b) => 1 - (a & b), 'НЕ-И'], ['NOR', (a, b) => 1 - (a | b), 'НЕ-ИЛИ'], ['NOT A', (a) => 1 - a, 'инверсия']];
+  const upd = () => {
+    $(root, '#A').textContent = 'A = ' + A; $(root, '#A').className = 'btn' + (A ? ' on' : ''); $(root, '#B').textContent = 'B = ' + B; $(root, '#B').className = 'btn' + (B ? ' on' : '');
+    const t = $(root, 'table'); t.innerHTML = '<tr><th>Элемент</th><th>Результат</th><th>Идея</th></tr>' + gates.map(([n, f, d]) => { const r = f(A, B); return `<tr><td>${n}</td><td style="font-weight:700;color:${r ? '#27ae60' : '#c0392b'}">${r}</td><td>${d}</td></tr>`; }).join('');
+  };
+  $(root, '#A').onclick = () => { A ^= 1; upd(); }; $(root, '#B').onclick = () => { B ^= 1; upd(); }; upd();
+};
+
+// 7. Выбор языка программирования
+
+// 15. АЧХ RC-фильтра и расчёты светодиода/транзистора-ключа
+SIMS.bode = root => {
+  root.innerHTML = `<div class="sim"><div class="ctls">${slider('R', 'R', 100, 100000, 1600, 100, 'Ом')}${slider('C', 'C', 1, 1000, 100, 1, 'нФ')}${slider('fi', 'Частота сигнала: 10^x Гц, x', 0, 5, 2.5, 0.1, '')}</div><canvas></canvas><div id="out" class="out"></div>
+  <h4>Светодиод и транзистор-ключ</h4><div class="ctls">${slider('U', 'Напряжение питания / входа', 3, 24, 5, 1, 'В')}${slider('uf', 'Падение на светодиоде', 1.8, 3.4, 2, 0.1, 'В')}${slider('il', 'Ток светодиода / коллектора', 2, 50, 10, 1, 'мА')}${slider('beta', 'Усиление β', 20, 300, 100, 10)}</div><div id="out2" class="out"></div></div>`;
+  const g = cv(root, 640, 260);
+  const upd = () => {
+    const R = val(root, 'R'), C = val(root, 'C') * 1e-9, fc = 1 / (2 * Math.PI * R * C), fi = Math.pow(10, val(root, 'fi'));
+    const dB = f => -10 * Math.log10(1 + Math.pow(f / fc, 2)), X = f => 50 + Math.log10(f) / 5 * 560, Y = d => 30 + (-d) / 60 * 200;
+    g.clearRect(0, 0, 640, 260); g.strokeStyle = '#999'; g.beginPath(); g.moveTo(50, 30); g.lineTo(50, 230); g.lineTo(610, 230); g.stroke();
+    g.fillStyle = css('--fg'); g.font = '12px sans-serif';
+    for (let e = 0; e <= 5; e++) { g.fillText(e === 0 ? '1 Гц' : '10^' + e, X(Math.pow(10, e)) - 10, 246); g.strokeStyle = 'rgba(150,150,150,.25)'; g.beginPath(); g.moveTo(X(Math.pow(10, e)), 30); g.lineTo(X(Math.pow(10, e)), 230); g.stroke(); }
+    for (let d = 0; d >= -60; d -= 20) g.fillText(d + ' дБ', 8, Y(d) + 4);
+    g.strokeStyle = '#2980b9'; g.lineWidth = 2; g.beginPath(); for (let i = 0; i <= 560; i++) { const f = Math.pow(10, i / 560 * 5), y = Math.min(230, Y(dB(f))); i ? g.lineTo(50 + i, y) : g.moveTo(50 + i, y); } g.stroke(); g.lineWidth = 1;
+    if (fc >= 1 && fc <= 1e5) { g.strokeStyle = '#e67e22'; g.setLineDash([4, 4]); g.beginPath(); g.moveTo(X(fc), 30); g.lineTo(X(fc), 230); g.stroke(); g.setLineDash([]); g.fillStyle = '#e67e22'; g.beginPath(); g.arc(X(fc), Y(-3.01), 5, 0, 7); g.fill(); g.fillText('fc, −3 дБ', X(fc) + 6, Y(-3.01) - 8); }
+    g.fillStyle = '#27ae60'; g.beginPath(); g.arc(X(fi), Math.min(230, Y(dB(fi))), 6, 0, 7); g.fill(); g.fillStyle = css('--fg'); g.fillText('АЧХ фильтра нижних частот RC: |H| в дБ от частоты', 60, 20);
+    const h = 1 / Math.sqrt(1 + Math.pow(fi / fc, 2)), ph = -Math.atan(fi / fc) * 180 / Math.PI;
+    $(root, '#out').innerHTML = `fc = 1/(2π·R·C) = <b>${fc.toFixed(fc < 100 ? 1 : 0)} Гц</b> · Сигнал ${fi.toFixed(fi < 100 ? 1 : 0)} Гц: |H| = <b>${h.toFixed(3)}</b> (${dB(fi).toFixed(1)} дБ, амплитуда ${(h * 100).toFixed(0)}% входной), фазовый сдвиг ${ph.toFixed(0)}°. Выше fc спад −20 дБ на декаду.`;
+    const U = val(root, 'U'), uf = val(root, 'uf'), I = val(root, 'il') / 1000, be = val(root, 'beta'), Rl = (U - uf) / I, Ib = 3 * I / be, Rb = (U - 0.7) / Ib;
+    $(root, '#out2').innerHTML = `Резистор светодиода R = (U − Uf)/I = <b>${Rl.toFixed(0)} Ом</b> (на нём выделяется ${((U - uf) * I * 1000).toFixed(0)} мВт).<br>Ключ на биполярном транзисторе: ток базы с запасом ×3 на насыщение Iб = 3·Iк/β = <b>${(Ib * 1000).toFixed(2)} мА</b>, Rб = (Uвх − 0,7)/Iб = <b>${(Rb / 1000).toFixed(1)} кОм</b>. Берите ближайшее стандартное значение в меньшую сторону.`;
+  };
+  bind(root, ['R', 'C', 'fi', 'U', 'uf', 'il', 'beta'], upd); upd();
+};
+
+// 16. Python: «предскажи вывод кода» (только заранее заданные задачи, код не исполняется)
+
+
+const LIST = [
+ ["shipgrid","🔌","Судовая электростанция и ГРЩ","Генераторы на шинах, нагрузка потребителей, включение и отключение."],
+ ["rc","📈","RC-цепь","Закон Ома, заряд и разряд конденсатора, постоянная времени."],
+ ["logic","🔣","Логические элементы","И, ИЛИ, НЕ и другие: таблицы истинности и схемы автоматики."],
+ ["bode","〰️","АЧХ фильтра, светодиод, транзистор-ключ","Как фильтр пропускает частоты и как посчитать резистор для светодиода и ключа."]
+];
+const menu = document.getElementById('menu'), stage = document.getElementById('stage'), host = document.getElementById('host');
+menu.innerHTML = LIST.map(x => '<button type="button" data-s="' + x[0] + '"><i>' + x[1] + '</i><div><b>' + x[2] + '</b><span>' + x[3] + '</span></div></button>').join('');
+function open(id) {
+  host.innerHTML = ''; const root = document.createElement('div'); host.appendChild(root);
+  menu.hidden = true; stage.hidden = false; window.scrollTo(0, 0);
+  try { SIMS[id](root); } catch (e) { root.textContent = 'Тренажёр не запустился.'; }
+}
+function close() { host.innerHTML = ''; stage.hidden = true; menu.hidden = false; }
+menu.addEventListener('click', e => { const b = e.target.closest('[data-s]'); if (b) open(b.dataset.s); });
+document.getElementById('back').addEventListener('click', close);
+</script></body></html>
