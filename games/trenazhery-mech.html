@@ -1,0 +1,239 @@
+<!doctype html>
+<html lang="ru"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Тренажёры механика</title>
+<style>
+:root{--bg:#0d2236;--fg:#eef;--card:#123552;--line:#2d5a80;--muted:#9ab;--accent:#2f7a5a}
+*{box-sizing:border-box}
+body{margin:0 auto;font-family:Segoe UI,Arial,sans-serif;background:var(--bg);color:var(--fg);padding:12px 10px 28px;max-width:980px}
+h2{margin:6px 0 4px;padding-right:120px}p.help{color:var(--muted);font-size:14px;margin:0 0 12px}
+#menu{display:flex;flex-direction:column;gap:8px}
+#menu button{display:flex;gap:12px;align-items:center;text-align:left;font:inherit;padding:12px;border-radius:12px;border:2px solid #3b6488;background:#24405c;color:#eef;cursor:pointer;min-height:56px}
+#menu button i{font-style:normal;font-size:26px}#menu button b{display:block;font-size:16px}#menu button span{display:block;font-size:13px;color:#b9cde0;margin-top:2px}
+#back{margin:6px 0 10px}
+.sim{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:14px}
+.sim canvas{max-width:100%;height:auto;background:var(--card);border:1px solid var(--line);border-radius:10px}
+.ctls{display:flex;flex-wrap:wrap;gap:10px 16px;align-items:center;margin:8px 0}
+.ctl{font-size:14px;display:flex;flex-direction:column;min-width:170px;background:#17405f;border:1px solid var(--line);border-radius:10px;padding:8px 12px}.ctl b{color:#9fe7c0}
+.ctl input[type=range]{width:100%}.ctl select{margin-top:4px;padding:6px;border-radius:8px;border:1px solid var(--line);background:#0f2c44;color:#eef;font:inherit}
+.btn{padding:7px 14px;border-radius:8px;border:2px solid #3b6488;background:#24405c;color:#eef;cursor:pointer;font:inherit;font-size:14px;min-height:38px}
+.btn.on{background:var(--accent);border-color:#7fe0b0;color:#fff}
+.out{margin-top:8px;font-size:15px;line-height:1.45}.sim .out{background:#0b1a14;color:#7dffb0;font-family:Consolas,monospace;border:2px solid #2a4a3a;border-radius:8px;padding:10px 12px}
+.sim .out b{color:#fff3a8}.sim .out .bad{color:#ff9a8a}.sim .out .good{color:#7dffb0}.note{color:var(--muted);font-size:14px}
+.sim h5{margin:6px 0 2px}
+.mx-grid{display:flex;flex-wrap:wrap;gap:12px;align-items:flex-start}.mx-grid canvas{flex:1 1 380px;min-width:300px;max-width:100%;border:1px solid var(--line);border-radius:10px;background:var(--card)}
+.mx-panel{flex:1 1 280px;display:flex;flex-direction:column;gap:6px}.mx-panel h5{margin:6px 0 2px;font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.mx-row{display:flex;flex-wrap:wrap;gap:6px}.mx-panel .btn{font-size:13px;padding:6px 10px}.mx-panel .btn.warn{border-color:#dc2626;color:#dc2626}.mx-panel .btn.go{background:#22a05a;border-color:#22a05a;color:#fff}
+.mx-steps{display:flex;flex-wrap:wrap;gap:6px;margin:10px 0}.mx-steps span{font-size:12.5px;padding:3px 9px;border-radius:12px;border:1px solid var(--line);color:var(--muted)}.mx-steps span.ok{background:rgba(34,160,90,.18);border-color:#22a05a;color:var(--fg)}
+.mx-log{max-height:190px;overflow:auto;font-size:14px}.mx-log div{padding:3px 0;border-bottom:1px dashed var(--line)}.mx-log .g{color:#22a05a}.mx-log .b{color:#dc2626}.mx-log .w{color:#b8860b}
+</style></head><body>
+<h2>⚙️ Тренажёры механика</h2>
+<p class="help">Учебные модели: числа условные и типичные. На судне всегда действуй по инструкции изготовителя и проекту судна.</p>
+<div id="menu"></div>
+<div id="stage" hidden><button class="btn" id="back" type="button">← К списку тренажёров</button><div id="host"></div></div>
+<script>
+const SIMS = {};
+const $ = (r, s) => r.querySelector(s);
+function slider(id, label, min, max, val, step = 1, unit = '') {
+  return `<label class="ctl">${label}: <b id="${id}v">${val}</b> ${unit}<input type="range" id="${id}" min="${min}" max="${max}" step="${step}" value="${val}" oninput="var b=this.parentNode.querySelector('b');if(b)b.textContent=this.value"></label>`;
+}
+function bind(root, ids, fn) {
+  ids.forEach(id => $(root, '#' + id).addEventListener('input', () => { $(root, '#' + id + 'v').textContent = $(root, '#' + id).value; fn(); }));
+}
+const val = (root, id) => +$(root, '#' + id).value;
+function cv(root, w = 640, h = 300) { const c = $(root, 'canvas'); c.width = w; c.height = h; return c.getContext('2d'); }
+const css = n => getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+// f(t, dt): t — номер кадра, dt — секунды с прошлого кадра (не больше 0.1 с), чтобы скорость не зависела от частоты монитора.
+function loop(root, f) { let t = 0, last = performance.now(); (function frame(now) { if (!root.isConnected) return; now = now || performance.now(); const dt = Math.min(0.1, Math.max(0, (now - last) / 1000)); last = now; f(t++, dt); requestAnimationFrame(frame); })(); }
+
+const esc = s => String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+(function () {
+  const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
+  const toward = (v, t, r) => v < t ? Math.min(t, v + r) : Math.max(t, v - r);
+  function logger(root) {
+    const box = root.querySelector('.mx-log');
+    return (txt, cls) => { const d = document.createElement('div'); if (cls) d.className = cls; d.textContent = txt; box.prepend(d); };
+  }
+  function bar(g, x, y, w, label, v, max, okFrom, okTo, unit, fg) {
+    g.fillStyle = css('--line'); g.fillRect(x, y, w, 10);
+    const ok = v >= okFrom && v <= okTo; g.fillStyle = ok ? '#22a05a' : (v > okTo ? '#dc2626' : '#e0a100'); g.fillRect(x, y, w * clamp(v / max, 0, 1), 10);
+    g.fillStyle = fg; g.font = '12px sans-serif'; g.fillText(label + ': ' + (Math.abs(v) < 10 ? v.toFixed(1) : Math.round(v)) + ' ' + unit, x, y - 4);
+  }
+
+
+  // ===== 1. Пуск главного двигателя =====
+  SIMS.mainstart = root => {
+    root.innerHTML = `<div class="sim mx"><p class="note">Вы вахтенный механик у пульта. Задача: безопасно подготовить и запустить малооборотный реверсивный дизель (главный двигатель). Кнопки можно нажимать в любом порядке, но блокировки и защиты накажут за ошибки. Подсказка: идите по цепочке «шаги» ниже.</p>
+    <div class="mx-grid"><canvas width="560" height="330"></canvas><div class="mx-panel">
+    <h5>Подготовка</h5><div class="mx-row"><button class="btn" data-a="oil">Маслонасос</button><button class="btn" data-a="jw">Подогрев воды</button><button class="btn" data-a="fuel">Подогрев топлива</button><button class="btn" data-a="air">Пусковой воздух</button></div>
+    <div class="mx-row"><button class="btn" data-a="vpuon">Валоповорот: включить</button><button class="btn" data-a="cocks">Инд. краны</button><button class="btn" data-a="blow">Продувка воздухом</button><button class="btn" data-a="vpuoff">Валоповорот: выключить</button></div>
+    <h5>Мостик → телеграф</h5><div class="mx-row"><button class="btn" data-t="stop">СТОП</button><button class="btn" data-t="dead">Самый малый</button><button class="btn" data-t="slow">Малый</button><button class="btn" data-t="half">Средний</button><button class="btn" data-t="full">Полный</button></div>
+    <div class="mx-row"><button class="btn" data-d="1">Вперёд</button><button class="btn" data-d="-1">Назад</button></div>
+    <h5>Пуск</h5><div class="mx-row"><button class="btn go" data-a="start">▶ ПУСК</button><button class="btn" data-a="stop">■ Стоп</button><button class="btn warn" data-a="fault">⚠ Отказ маслонасоса</button><button class="btn" data-a="reset">↺ Заново</button></div></div></div>
+    <div class="mx-steps"></div><div class="out mx-log"></div></div>`;
+    const g = root.querySelector('canvas').getContext('2d'), log = logger(root), B = (a) => root.querySelector(`[data-a="${a}"]`);
+    const RPM = { stop: 0, dead: 35, slow: 55, half: 70, full: 85 }, TN = { stop: 'СТОП', dead: 'Самый малый', slow: 'Малый', half: 'Средний', full: 'Полный' };
+    let s;
+    const fresh = () => ({ oil: false, oilP: 0, jw: false, jwT: 25, fuel: false, fuelT: 40, air: false, vpu: false, turned: false, turn: 0, cocks: false, blow: 0, blown: false, run: false, rpm: 0, tel: 'stop', dir: 1, ph: 0, mist: 0, starts: 0, shut: false, cold: false });
+    const reset = () => { s = fresh(); root.querySelector('.mx-log').innerHTML = ''; log('Двигатель остановлен, всё выключено. Начинайте подготовку.'); };
+    const bad = t => { s.mist++; log('✗ ' + t, 'b'); }, warn = t => log('! ' + t, 'w'), good = t => log('✓ ' + t, 'g');
+    const A = {
+      oil() { s.oil = !s.oil; log(s.oil ? 'Маслонасос включён: давление растёт.' : 'Маслонасос выключен.'); },
+      jw() { s.jw = !s.jw; log(s.jw ? 'Подогрев рубашки включён (для пуска нужно не меньше 50 °C).' : 'Подогрев выключен.'); },
+      fuel() { s.fuel = !s.fuel; log(s.fuel ? 'Подогрев тяжёлого топлива включён: холодное оно густое.' : 'Подогрев топлива выключен.'); },
+      air() { s.air = !s.air; log(s.air ? 'Пусковой воздух открыт (30 бар).' : 'Пусковой воздух закрыт.'); },
+      vpuon() { if (s.run) return bad('Валоповорот при работающем двигателе нельзя!'); if (s.oilP < 1.5) return bad('Проворачивать без смазки нельзя: сначала включите маслонасос и дождитесь давления.'); s.vpu = true; s.turn = 4; log('Валоповорот включён, вал медленно проворачивается: слушаем, нет ли заеданий.'); },
+      vpuoff() { if (!s.vpu) return; s.vpu = false; s.turn = 0; good('Валоповорот выведен из зацепления: блокировка пуска снята.'); },
+      cocks() { s.cocks = !s.cocks; log(s.cocks ? 'Индикаторные краны открыты: из цилиндров можно выдуть воду, масло, топливо.' : 'Индикаторные краны закрыты.'); },
+      blow() {
+        if (s.vpu) return warn('Продувка при включённом валоповороте запрещена (блокировка).');
+        if (!s.air) return warn('Нет пускового воздуха.'); if (s.oilP < 1.5) return warn('Нет смазки.');
+        if (!s.cocks) return warn('Краны закрыты: продувать нечем, вода из цилиндра не выйдет. Откройте краны.');
+        s.blow = 3; log('Проворот воздухом при открытых кранах…');
+      },
+      start() {
+        if (s.run) return;
+        if (s.vpu) return log('⛔ Блокировка: валоповорот включён, пуск запрещён. (Так защищают людей и двигатель.)', 'b');
+        if (s.tel === 'stop') return warn('Телеграф на СТОП. Мостик ещё не дал команду: выберите «Самый малый».');
+        if (!s.air) return bad('Пусковой воздух закрыт: двигатель не провернётся.');
+        if (s.oilP < 1.5) return log('⛔ Защита: давление масла низкое, пуск запрещён.', 'b');
+        if (s.fuelT < 100) return bad('Топливо не прогрето (' + Math.round(s.fuelT) + ' °C): густое топливо не распылится, пуск не получится.');
+        if (s.cocks) return bad('Краны открыты: при пуске из них вырвутся газы и масло, опасно для людей. Закройте краны.');
+        let note = '';
+        if (!s.blown) { s.mist++; note += ' Но вы не проворачивали двигатель воздухом: если бы в цилиндре скопилась вода или топливо, случился бы гидроудар и поломка.'; }
+        if (s.jwT < 50) { s.mist++; s.cold = true; note += ' Двигатель холодный (' + Math.round(s.jwT) + ' °C): износ и риск закоксовывания.'; }
+        s.run = true; s.starts++; s.rpm = 8;
+        log('Пуск воздухом, подача топлива: двигатель пошёл, ' + (s.dir > 0 ? 'ход вперёд' : 'ход назад') + '.' + note, note ? 'w' : 'g');
+      },
+      stop() { if (s.run) { s.run = false; log('Топливо отсечено, двигатель останавливается.'); } },
+      fault() { if (!s.run) return warn('Отказ имитируется на работающем двигателе.'); s.oil = false; bad('Маслонасос отказал! Смотрите, как падает давление: сработает защита.'); },
+      reset() { reset(); }
+    };
+    root.querySelectorAll('[data-a]').forEach(b => b.onclick = () => A[b.dataset.a]());
+    root.querySelectorAll('[data-t]').forEach(b => b.onclick = () => { s.tel = b.dataset.t; log('Телеграф: ' + TN[s.tel] + '.'); });
+    root.querySelectorAll('[data-d]').forEach(b => b.onclick = () => {
+      const d = +b.dataset.d; if (d === s.dir) return;
+      if (s.run) { s.run = false; log('Реверс: двигатель остановлен, распределительный вал перекладывается на другой ход. Нажмите ПУСК, чтобы запустить его в новом направлении.', 'w'); }
+      s.dir = d; if (s.tel === 'stop') s.tel = 'dead';
+      log('Направление: ' + (d > 0 ? 'вперёд' : 'назад') + '. Пуск на реверс делают воздухом, как обычный.');
+    });
+    const fg = () => css('--fg') || '#222';
+    reset();
+    loop(root, (t, dt) => {
+      if (s.run && s.shut) s.shut = false;
+      // физика
+      s.oilP = s.oil ? toward(s.oilP, 2.3, 0.9 * dt) : toward(s.oilP, 0, (s.run ? 0.45 : 0.9) * dt);
+      const load = s.run ? Math.pow(s.rpm / 85, 3) * 100 : 0;
+      const jwT = s.run ? 62 + load * 0.25 : (s.jw ? 65 : 25);
+      s.jwT = toward(s.jwT, jwT, 5 * dt);
+      s.fuelT = toward(s.fuelT, s.fuel ? 125 : 40, 9 * dt);
+      if (s.turn > 0) { s.turn -= dt; s.ph += 1.2 * dt; if (s.turn <= 0) { s.turned = true; good('Провернули: ничего не заедает. Теперь выключите валоповорот (иначе пуск заблокирован).'); } }
+      if (s.blow > 0) { s.blow -= dt; s.ph += 5 * dt; if (s.blow <= 0) { s.blown = true; good('Продувка: из кранов вышел только воздух, воды в цилиндрах нет. Закройте краны.'); } }
+      if (s.run) {
+        const tgt = RPM[s.tel]; if (tgt === 0) { s.rpm = toward(s.rpm, 0, 20 * dt); if (s.rpm <= 0.5) { s.run = false; log('Телеграф СТОП: двигатель остановился.'); } }
+        else s.rpm = toward(s.rpm, tgt, 18 * dt);
+        if (s.oilP < 1.2) { s.run = false; log('⛔ SHUTDOWN: аварийная остановка по низкому давлению масла. Без масла вал за секунды «съест» подшипники.', 'b'); s.mist++; }
+      } else s.rpm = toward(s.rpm, 0, 25 * dt);
+      s.ph += s.rpm / 60 * 2 * Math.PI * dt * 0.16 * s.dir;
+      // рисование
+      g.clearRect(0, 0, 560, 330); const f = fg();
+      g.fillStyle = css('--line'); g.fillRect(14, 188, 340, 14); // коленвал
+      for (let i = 0; i < 6; i++) {
+        const x = 40 + i * 54, a = s.ph + i * 1.05, y = 40 + 50 * (1 - Math.cos(a)) / 2;
+        g.strokeStyle = f; g.lineWidth = 2; g.strokeRect(x - 16, 30, 32, 120);
+        g.fillStyle = '#8899b4'; g.fillRect(x - 14, y, 28, 20);
+        g.beginPath(); g.moveTo(x, y + 20); g.lineTo(x + 18 * Math.sin(a), 195 - 6 * Math.cos(a)); g.strokeStyle = '#667'; g.stroke();
+        if (s.run && Math.cos(a) > 0.9) { g.fillStyle = 'rgba(255,140,0,.85)'; g.beginPath(); g.arc(x, 44, 9, 0, 7); g.fill(); }
+        if (s.cocks) { g.fillStyle = s.blow > 0 ? '#9ad' : '#e0a100'; g.fillRect(x + 16, 60, 8, 4); }
+      }
+      g.fillStyle = f; g.font = '12px sans-serif'; g.fillText('6 цилиндров (вид сбоку, замедлено)', 14, 18);
+      g.font = 'bold 28px sans-serif'; g.fillText(Math.round(s.rpm) + ' об/мин' + (s.dir < 0 && s.rpm > 1 ? ' ◀' : ''), 14, 250);
+      g.font = '13px sans-serif'; g.fillStyle = s.run ? '#22a05a' : '#888'; g.fillText(s.run ? '● РАБОТАЕТ' : s.vpu ? '● валоповорот включён' : '● остановлен', 14, 272);
+      g.fillStyle = f; g.fillText('Телеграф: ' + TN[s.tel] + (s.dir > 0 ? ', вперёд' : ', назад'), 14, 292);
+      g.fillText('Нагрузка ' + Math.round(load) + '% от макс., t выхлопа ≈ ' + Math.round(s.run ? 230 + load * 1.9 : 40) + ' °C', 14, 312);
+      bar(g, 380, 40, 160, 'Давление масла', s.oilP, 3, 1.5, 3, 'бар', f);
+      bar(g, 380, 85, 160, 'Вода рубашки', s.jwT, 100, 50, 90, '°C', f);
+      bar(g, 380, 130, 160, 'Топливо', s.fuelT, 150, 100, 140, '°C', f);
+      bar(g, 380, 175, 160, 'Пусковой воздух', s.air ? 30 : 0, 35, 25, 35, 'бар', f);
+      bar(g, 380, 220, 160, 'Обороты', s.rpm, 100, 0, 90, 'об/мин', f);
+      // шаги
+      const steps = [['Масло', s.oilP >= 1.5], ['Прогрев воды', s.jwT >= 50], ['Топливо прогрето', s.fuelT >= 100], ['Воздух открыт', s.air], ['Проворот ВПУ', s.turned], ['Продувка', s.blown], ['Краны закрыты, ВПУ выкл.', !s.cocks && !s.vpu && s.blown], ['Пуск', s.run || s.starts > 0]];
+      root.querySelector('.mx-steps').innerHTML = steps.map(([n, ok], i) => `<span class="${ok ? 'ok' : ''}">${i + 1}. ${ok ? '✓ ' : ''}${n}</span>`).join('');
+      [['oil', s.oil], ['jw', s.jw], ['fuel', s.fuel], ['air', s.air], ['cocks', s.cocks], ['vpuon', s.vpu]].forEach(([a, on]) => B(a).classList.toggle('on', on));
+      root.querySelectorAll('[data-t]').forEach(b => b.classList.toggle('on', b.dataset.t === s.tel)); root.querySelectorAll('[data-d]').forEach(b => b.classList.toggle('on', +b.dataset.d === s.dir));
+      if (s.starts > 0 && !s.done && s.run && s.rpm > 30) {
+        s.done = true;
+        const clean = s.mist === 0;
+        log(clean ? '🏅 Чистый пуск: ни одной ошибки. Именно так это делает хороший механик.' : 'Двигатель работает, ошибок за подготовку: ' + s.mist + '. Нажмите «Заново» и попробуйте без ошибок.', clean ? 'g' : 'w');
+        window.dispatchEvent(new CustomEvent('uni:game', { detail: { game: 'mainstart', score: Math.max(0, 5 - s.mist), max: 5 } }));
+      }
+    });
+  };
+
+
+  // ===== 3. Система охлаждения главного двигателя =====
+  SIMS.coolsys = root => {
+    root.innerHTML = `<div class="sim mx"><p class="note">Контур пресной воды охлаждения двигателя: насос гонит воду через двигатель, а трёхходовой терморегулятор решает, сколько воды идёт на холодильник (его охлаждает забортная вода). Попробуйте: поднять нагрузку, отключить насос, включить режим «резерв на автомате».</p>
+    <div class="mx-grid"><canvas width="560" height="300"></canvas><div class="mx-panel">
+    <label class="ctl">Нагрузка двигателя: <b id="cldv">60</b> %<input type="range" id="cld" min="0" max="100" step="5" value="60"></label>
+    <label class="ctl">Температура забортной воды: <b id="csev">25</b> °C<input type="range" id="cse" min="0" max="35" step="1" value="25"></label>
+    <h5>Насосы</h5><div class="mx-row"><button class="btn on" data-a="p1">Насос 1</button><button class="btn" data-a="p2">Насос 2</button><button class="btn on" data-a="auto">Резерв на автомате</button><button class="btn warn" data-a="fail">⚠ Отказ работающего насоса</button></div>
+    <h5>Терморегулятор</h5><div class="mx-row"><button class="btn on" data-a="tauto">Автомат (держит 80 °C)</button></div>
+    <label class="ctl">Ручное положение клапана: <b id="cvlv">50</b> % на холодильник<input type="range" id="cvl" min="0" max="100" step="5" value="50"></label></div></div>
+    <div class="out mx-log"></div></div>`;
+    const g = root.querySelector('canvas').getContext('2d'), log = logger(root);
+    const s = { p1: true, p2: false, auto: true, tauto: true, T: 78, valve: 0.5, flow: 1, pr: 2.5, low: 0, down: false, fail1: false, fail2: false, stopped: false };
+    const val = id => +root.querySelector('#' + id).value;
+    ['cld', 'cse', 'cvl'].forEach(id => root.querySelector('#' + id).oninput = e => { root.querySelector('#' + { cld: 'cldv', cse: 'csev', cvl: 'cvlv' }[id]).textContent = e.target.value; });
+    const run = () => (s.p1 && !s.fail1) || (s.p2 && !s.fail2);
+    root.querySelector('[data-a=p1]').onclick = () => { s.p1 = !s.p1; s.fail1 = false; log('Насос 1 ' + (s.p1 ? 'включён' : 'выключен') + '.'); };
+    root.querySelector('[data-a=p2]').onclick = () => { s.p2 = !s.p2; s.fail2 = false; log('Насос 2 ' + (s.p2 ? 'включён' : 'выключен') + '.'); };
+    root.querySelector('[data-a=auto]').onclick = () => { s.auto = !s.auto; log('Автозапуск резерва ' + (s.auto ? 'включён' : 'выключен') + '.'); };
+    root.querySelector('[data-a=tauto]').onclick = () => { s.tauto = !s.tauto; log('Терморегулятор: ' + (s.tauto ? 'автомат' : 'ручной режим')); };
+    root.querySelector('[data-a=fail]').onclick = () => { if (s.p1 && !s.fail1) { s.fail1 = true; log('⚠ Насос 1 отказал: давление падает.', 'b'); } else if (s.p2 && !s.fail2) { s.fail2 = true; log('⚠ Насос 2 отказал: давление падает.', 'b'); } };
+    loop(root, (t, dt) => {
+      const load = val('cld') / 100, sea = val('cse');
+      const flowT = run() ? 1 : 0; s.flow = toward(s.flow, flowT, 1.5 * dt); s.pr = s.flow * 2.5;
+      // автозапуск резерва при низком давлении
+      if (s.auto && s.pr < 1.5 && !s.stopped) { s.low += dt; if (s.low > 1.2) { s.low = 0; const use = (!s.p1 || s.fail1) && !s.fail2 ? 2 : 1; if (use === 2) { s.p2 = true; s.fail2 = false; } else { s.p1 = true; s.fail1 = false; } log('✓ Низкое давление: автоматически запущен резервный насос ' + use + '.', 'g'); } } else s.low = 0;
+      const sw = val('cse');
+      if (s.tauto) s.valve = toward(s.valve, clamp(0.5 + (s.T - 80) * 0.12, 0.05, 1), 0.3 * dt); else s.valve = val('cvl') / 100;
+      const heat = load * 100 + 8, cool = s.flow * (0.25 + s.valve * 1.1) * (s.T - sea) * 1.2;
+      if (!s.stopped) s.T += (heat - cool) / 14 * dt * 4;
+      s.T = clamp(s.T, sea, 130);
+      if (!s.stopped && s.T > 95) { s.stopped = true; log('⛔ SHUTDOWN: перегрев двигателя (' + Math.round(s.T) + ' °C). Остановка защитой. Охладите и перезапустите страницу тренажёра.', 'b'); }
+      else if (s.T > 90 && !s.warned) { s.warned = true; log('⚠ Аварийная сигнализация: высокая температура воды ' + Math.round(s.T) + ' °C. Пора снижать нагрузку.', 'w'); } else if (s.T < 88) s.warned = false;
+      if (s.stopped && s.T < 85 && sw < 90) { s.stopped = false; log('Двигатель остыл, защита сброшена.', 'g'); }
+      // рисование
+      const f = css('--fg') || '#222'; g.clearRect(0, 0, 560, 300); g.font = '13px sans-serif'; g.lineWidth = 3;
+      const pipe = (x1, y1, x2, y2, c) => { g.strokeStyle = c; g.beginPath(); g.moveTo(x1, y1); g.lineTo(x2, y2); g.stroke(); };
+      const hot = `rgb(${Math.round(clamp((s.T - 40) * 5, 40, 230))},90,${Math.round(clamp(230 - (s.T - 40) * 5, 40, 230))})`, cold = '#3c8ee6';
+      g.fillStyle = hot; g.fillRect(40, 70, 130, 120); g.fillStyle = '#fff'; g.fillText('ДВИГАТЕЛЬ', 62, 120); g.fillText(Math.round(s.T) + ' °C', 80, 144);
+      pipe(170, 90, 330, 90, hot); pipe(330, 90, 330, 160, hot); // горячая -> клапан
+      g.fillStyle = f; g.fillText('Терморегулятор', 285, 76); g.beginPath(); g.arc(330, 170, 14, 0, 7); g.fillStyle = '#d0a020'; g.fill();
+      pipe(344, 170, 430, 170, hot); g.fillStyle = cold; g.fillRect(430, 120, 100, 100); g.fillStyle = '#fff'; g.fillText('ХОЛОДИЛЬНИК', 436, 164); g.fillText('(забортная)', 442, 184);
+      pipe(480, 220, 480, 260, cold); pipe(480, 260, 190, 260, cold); pipe(190, 260, 190, 190, cold);
+      pipe(330, 184, 330, 230, hot); pipe(330, 230, 120, 230, hot); pipe(120, 230, 120, 190, hot);
+      g.fillStyle = f; g.fillText('на холодильник: ' + Math.round(s.valve * 100) + '% потока', 345, 215);
+      g.fillStyle = run() ? '#22a05a' : '#dc2626'; g.beginPath(); g.arc(70, 40, 12, 0, 7); g.fill(); g.fillStyle = f; g.fillText('Насос 1' + (s.p1 ? (s.fail1 ? ' (отказ)' : ' (раб.)') : ' (стоит)') + ' · Насос 2' + (s.p2 ? (s.fail2 ? ' (отказ)' : ' (раб.)') : ' (стоит)'), 90, 45);
+      g.fillText('Давление: ' + s.pr.toFixed(1) + ' бар', 40, 285); g.fillStyle = s.T > 88 ? '#dc2626' : '#22a05a'; g.fillText('Норма 75–85 °C', 330, 285);
+    });
+    log('Режим работы нормальный: нагрузка 60%, насос 1 в работе, насос 2 в резерве.');
+  };
+})();
+
+
+const LIST = [
+ ["mainstart","🚢","Пуск главного двигателя","Подготовка и пуск малооборотного дизеля: масло, подогрев, валоповорот, продувка, пусковой воздух."],
+ ["coolsys","💧","Система охлаждения двигателя","Контур пресной воды: насосы, терморегулятор, нагрузка и температура забортной воды."]
+];
+const menu = document.getElementById('menu'), stage = document.getElementById('stage'), host = document.getElementById('host');
+menu.innerHTML = LIST.map(x => '<button type="button" data-s="' + x[0] + '"><i>' + x[1] + '</i><div><b>' + x[2] + '</b><span>' + x[3] + '</span></div></button>').join('');
+function open(id) {
+  host.innerHTML = ''; const root = document.createElement('div'); host.appendChild(root);
+  menu.hidden = true; stage.hidden = false; window.scrollTo(0, 0);
+  try { SIMS[id](root); } catch (e) { root.textContent = 'Тренажёр не запустился.'; }
+}
+function close() { host.innerHTML = ''; stage.hidden = true; menu.hidden = false; }
+menu.addEventListener('click', e => { const b = e.target.closest('[data-s]'); if (b) open(b.dataset.s); });
+document.getElementById('back').addEventListener('click', close);
+</script></body></html>
