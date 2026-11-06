@@ -1,0 +1,767 @@
+<!doctype html>
+<html lang="ru"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Судовые системы</title>
+<style>
+:root{--bg:#0d2236;--fg:#eef;--card:#123552;--line:#2d5a80;--muted:#9ab;--accent:#2f7a5a}
+*{box-sizing:border-box}
+body{margin:0 auto;font-family:Segoe UI,Arial,sans-serif;background:var(--bg);color:var(--fg);padding:12px 10px 28px;max-width:980px}
+h2{margin:6px 0 4px;padding-right:120px}p.help{color:var(--muted);font-size:14px;margin:0 0 12px}
+#menu{display:flex;flex-direction:column;gap:8px}
+#menu button{display:flex;gap:12px;align-items:center;text-align:left;font:inherit;padding:12px;border-radius:12px;border:2px solid #3b6488;background:#24405c;color:#eef;cursor:pointer;min-height:56px}
+#menu button i{font-style:normal;font-size:26px}#menu button b{display:block;font-size:16px}#menu button span{display:block;font-size:13px;color:#b9cde0;margin-top:2px}
+#back{margin:6px 0 10px}
+.sim{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:14px}
+.sim canvas{max-width:100%;height:auto;background:var(--card);border:1px solid var(--line);border-radius:10px}
+.ctls{display:flex;flex-wrap:wrap;gap:10px 16px;align-items:center;margin:8px 0}
+.ctl{font-size:14px;display:flex;flex-direction:column;min-width:170px;background:#17405f;border:1px solid var(--line);border-radius:10px;padding:8px 12px}.ctl b{color:#9fe7c0}
+.ctl input[type=range]{width:100%}.ctl select{margin-top:4px;padding:6px;border-radius:8px;border:1px solid var(--line);background:#0f2c44;color:#eef;font:inherit}
+.btn{padding:7px 14px;border-radius:8px;border:2px solid #3b6488;background:#24405c;color:#eef;cursor:pointer;font:inherit;font-size:14px;min-height:38px}
+.btn.on{background:var(--accent);border-color:#7fe0b0;color:#fff}
+.out{margin-top:8px;font-size:15px;line-height:1.45}.sim .out{background:#0b1a14;color:#7dffb0;font-family:Consolas,monospace;border:2px solid #2a4a3a;border-radius:8px;padding:10px 12px}
+.sim .out b{color:#fff3a8}.sim .out .bad{color:#ff9a8a}.sim .out .good{color:#7dffb0}.note{color:var(--muted);font-size:14px}
+.sim h5{margin:6px 0 2px}
+.scheme-info{margin:10px 0;padding:10px 14px;border-left:5px solid #f4c430;background:rgba(244,196,48,.1);border-radius:0 4px 4px 0;font-size:15px;min-height:64px}.tour{margin-top:4px}
+</style></head><body>
+<h2>🚢 Судовые системы</h2>
+<p class="help">Учебные модели: числа условные и типичные. На судне всегда действуй по инструкции изготовителя и проекту судна.</p>
+<div id="menu"></div>
+<div id="stage" hidden><button class="btn" id="back" type="button">← К списку тренажёров</button><div id="host"></div></div>
+<script>
+const SIMS = {};
+const $ = (r, s) => r.querySelector(s);
+function slider(id, label, min, max, val, step = 1, unit = '') {
+  return `<label class="ctl">${label}: <b id="${id}v">${val}</b> ${unit}<input type="range" id="${id}" min="${min}" max="${max}" step="${step}" value="${val}" oninput="var b=this.parentNode.querySelector('b');if(b)b.textContent=this.value"></label>`;
+}
+function bind(root, ids, fn) {
+  ids.forEach(id => $(root, '#' + id).addEventListener('input', () => { $(root, '#' + id + 'v').textContent = $(root, '#' + id).value; fn(); }));
+}
+const val = (root, id) => +$(root, '#' + id).value;
+function cv(root, w = 640, h = 300) { const c = $(root, 'canvas'); c.width = w; c.height = h; return c.getContext('2d'); }
+const css = n => getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+// f(t, dt): t — номер кадра, dt — секунды с прошлого кадра (не больше 0.1 с), чтобы скорость не зависела от частоты монитора.
+function loop(root, f) { let t = 0, last = performance.now(); (function frame(now) { if (!root.isConnected) return; now = now || performance.now(); const dt = Math.min(0.1, Math.max(0, (now - last) / 1000)); last = now; f(t++, dt); requestAnimationFrame(frame); })(); }
+
+const esc = s => String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+// Общий конструктор «объясняющих схем»: блоки с подписями, клик по блоку — объяснение простыми словами,
+// экскурсия по шагам («далее»/«авто»), подсветка. Используется в судовых тренажёрах (sims-ship-*.js).
+// schemeKit(root, { w, h, parts, steps, draw(g, t, ctx), controls })
+//   parts: [{ id, x, y, w, h, label, desc, color }]   label может содержать \n
+//   steps: [{ part: 'id', text: 'Что происходит на этом шаге' }]
+//   draw(g, t, { sel, hover, tour }): рисует фон, трубы, потоки, анимацию ПОД блоками
+//   controls: HTML с ползунками/кнопками под схемой (подключайте через bind/val из sims.js)
+function schemeKit(root, o) {
+  root.innerHTML = `<div class="sim"><canvas></canvas>
+  <div class="scheme-info" id="sinfo"><b>Нажмите на любой блок схемы</b> — здесь появится объяснение: что это и зачем оно нужно. Или запустите экскурсию кнопкой «Далее».</div>
+  <div class="ctls tour"><button class="btn" id="tprev">← Назад</button><button class="btn" id="tnext">Экскурсия: далее →</button><button class="btn" id="tauto">Авто</button><span class="note" id="tstep"></span></div>
+  ${o.controls || ''}</div>`;
+  const cv = root.querySelector('canvas'); cv.width = o.w; cv.height = o.h; cv.style.cursor = 'pointer';
+  const g = cv.getContext('2d'), info = root.querySelector('#sinfo'), stepEl = root.querySelector('#tstep');
+  const ctx = { sel: null, hover: null, tour: -1 };
+  const esc = s => String(s).replace(/[&<>]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;' }[c]));
+  const find = id => o.parts.find(p => p.id === id);
+  const show = (p, extra) => { info.innerHTML = `<b>${esc(p.label.replace(/\n/g, ' '))}</b>${extra ? '<br>' + esc(extra) : ''}<br>${esc(p.desc || '')}`; };
+  function select(id) { ctx.sel = id; const p = find(id); if (p) show(p); }
+  function go(i) {
+    if (!o.steps || !o.steps.length) return;
+    ctx.tour = (i + o.steps.length) % o.steps.length; const s = o.steps[ctx.tour], p = find(s.part);
+    ctx.sel = s.part; if (p) show(p, s.text); else info.textContent = s.text;
+    stepEl.textContent = `Шаг ${ctx.tour + 1} из ${o.steps.length}`;
+  }
+  const at = e => { const r = cv.getBoundingClientRect(), x = (e.clientX - r.left) * o.w / r.width, y = (e.clientY - r.top) * o.h / r.height; return o.parts.find(p => x >= p.x && x <= p.x + p.w && y >= p.y && y <= p.y + p.h); };
+  cv.onmousemove = e => { const p = at(e); ctx.hover = p ? p.id : null; };
+  cv.onmouseleave = () => { ctx.hover = null; };
+  cv.onclick = e => { const p = at(e); if (p) { ctx.tour = -1; stepEl.textContent = ''; select(p.id); } };
+  root.querySelector('#tnext').onclick = () => go(ctx.tour + 1);
+  root.querySelector('#tprev').onclick = () => go(ctx.tour - 1);
+  let autoOn = false; const ab = root.querySelector('#tauto');
+  ab.onclick = () => { autoOn = !autoOn; ab.className = 'btn' + (autoOn ? ' on' : ''); if (autoOn && ctx.tour < 0) go(0); };
+  const timer = setInterval(() => { if (!root.isConnected) return clearInterval(timer); if (autoOn) go(ctx.tour + 1); }, 5000);
+  (function frame() {
+    if (!root.isConnected) return; const t = performance.now() / 1000;
+    g.clearRect(0, 0, o.w, o.h); o.draw && o.draw(g, t, ctx);
+    for (const p of o.parts) {
+      const on = ctx.sel === p.id, hv = ctx.hover === p.id;
+      g.fillStyle = p.color || '#2c3e68'; g.globalAlpha = on || hv ? 1 : 0.88; g.beginPath(); g.roundRect(p.x, p.y, p.w, p.h, 8); g.fill(); g.globalAlpha = 1;
+      g.lineWidth = on ? 3 + Math.sin(t * 5) : hv ? 2 : 1; g.strokeStyle = on ? '#f4c430' : hv ? '#ffffff' : 'rgba(255,255,255,.35)'; g.stroke();
+      g.fillStyle = '#fff'; g.font = '600 13px system-ui, sans-serif'; g.textAlign = 'center'; g.textBaseline = 'middle';
+      const L = p.label.split('\n'); L.forEach((s, i) => g.fillText(s, p.x + p.w / 2, p.y + p.h / 2 + (i - (L.length - 1) / 2) * 15));
+    }
+    requestAnimationFrame(frame);
+  })();
+  return { select, go, ctx };
+}
+
+// Тренажёры «Исполнителя А»: судовой котёл (shipboiler) и подруливающее устройство (shipthruster).
+// Все числа условные, учебные («типично, задаёт проект»); реальные уставки берите из документации судна.
+(function () {
+const clamp = (x, a, b) => Math.max(a, Math.min(b, x));
+const fgc = () => css('--fg') || '#d8dde8';
+function plen(pts) { let L = 0; for (let i = 1; i < pts.length; i++) L += Math.hypot(pts[i][0] - pts[i - 1][0], pts[i][1] - pts[i - 1][1]); return L; }
+function pat(pts, d) {
+  for (let i = 1; i < pts.length; i++) {
+    const a = pts[i - 1], b = pts[i], l = Math.hypot(b[0] - a[0], b[1] - a[1]);
+    if (d <= l || i === pts.length - 1) { const k = l ? clamp(d / l, 0, 1) : 0; return [a[0] + (b[0] - a[0]) * k, a[1] + (b[1] - a[1]) * k]; }
+    d -= l;
+  }
+}
+// Труба с бегущими частицами: flow 0..1 (интенсивность), o: {w, gap, speed, rev}
+function pipe(g, pts, col, flow, t, o) {
+  o = o || {}; const w = o.w || 6, gap = o.gap || 22, sp = o.speed || 45, L = plen(pts);
+  g.save(); g.lineJoin = 'round'; g.lineCap = 'round';
+  g.strokeStyle = 'rgba(130,140,160,.30)'; g.lineWidth = w + 4; g.beginPath(); pts.forEach((p, i) => i ? g.lineTo(p[0], p[1]) : g.moveTo(p[0], p[1])); g.stroke();
+  g.globalAlpha = flow > 0 ? 0.45 : 0.18; g.strokeStyle = col; g.lineWidth = w; g.stroke(); g.globalAlpha = 1;
+  if (flow > 0) {
+    const n = Math.max(1, Math.floor(L / gap)), off = (t * sp * (0.3 + flow)) % gap;
+    g.fillStyle = col;
+    for (let k = 0; k < n + 1; k++) { let d = (k * gap + off) % (n * gap || 1); if (o.rev) d = L - d; if (d > L || d < 0) continue; const p = pat(pts, d); g.beginPath(); g.arc(p[0], p[1], w / 2 + 1, 0, 7); g.fill(); }
+  }
+  const n2 = pts.length, tip = o.rev ? pts[0] : pts[n2 - 1], prev = o.rev ? pts[1] : pts[n2 - 2], an = Math.atan2(tip[1] - prev[1], tip[0] - prev[0]);
+  g.fillStyle = flow > 0 ? col : 'rgba(150,160,180,.6)'; g.beginPath(); g.moveTo(tip[0], tip[1]); g.lineTo(tip[0] - 11 * Math.cos(an - 0.45), tip[1] - 11 * Math.sin(an - 0.45)); g.lineTo(tip[0] - 11 * Math.cos(an + 0.45), tip[1] - 11 * Math.sin(an + 0.45)); g.closePath(); g.fill();
+  g.restore();
+}
+function wire(g, pts, on, t, col) {
+  g.save(); g.lineWidth = on ? 2.2 : 1.2; g.setLineDash([6, 5]); g.lineDashOffset = on ? -t * 28 : 0; g.strokeStyle = on ? (col || '#f4c430') : 'rgba(244,196,48,.28)';
+  g.beginPath(); pts.forEach((p, i) => i ? g.lineTo(p[0], p[1]) : g.moveTo(p[0], p[1])); g.stroke(); g.restore();
+}
+function txt(g, s, x, y, col, font, al) { g.fillStyle = col; g.font = font || '12px system-ui, sans-serif'; g.textAlign = al || 'left'; g.textBaseline = 'alphabetic'; g.fillText(s, x, y); }
+function lamp(g, x, y, on, col, label, fg) {
+  g.fillStyle = on ? col : 'rgba(130,130,130,.35)'; g.beginPath(); g.arc(x, y, 7, 0, 7); g.fill();
+  if (on) { g.strokeStyle = col; g.globalAlpha = 0.4; g.lineWidth = 4; g.stroke(); g.globalAlpha = 1; }
+  txt(g, label, x + 13, y + 4, fg, '11px system-ui, sans-serif');
+}
+function legend(g, items, x, y, fg) {
+  items.forEach(([l, c], i) => { g.fillStyle = c; g.fillRect(x + i * 78, y - 8, 14, 8); txt(g, l, x + i * 78 + 18, y, fg, '11px system-ui, sans-serif'); });
+}
+const f1 = (x, n) => x.toFixed(n === undefined ? 1 : n).replace('.', ',');
+
+// ============================== 1. СУДОВОЙ КОТЁЛ ==============================
+SIMS.shipboiler = root => {
+  const W = 900, H = 540;
+  const parts = [
+    { id: 'fuel', x: 20, y: 190, w: 130, h: 70, label: 'Топливный насос\nи подогрев', color: '#8a5a2b', desc: 'Насос берёт топливо из расходной цистерны и гонит его к горелке под давлением. Тяжёлое топливо холодным густое, как мёд, поэтому электрический или паровой подогреватель греет его (порядка 90–130 °C, зависит от сорта топлива). Если насос встал или топливо холодное — форсунка не сможет распылить его в туман, факел будет плохим или не загорится вовсе.' },
+    { id: 'fan', x: 20, y: 330, w: 130, h: 70, label: 'Вентилятор\nвоздуха', color: '#2d7fa6', desc: 'Электродвигатель с крыльчаткой подаёт воздух для горения и перед каждым розжигом продувает топку. Топливо без воздуха не горит, а лишний воздух уносит тепло в трубу. Если вентилятор встал — защита не даёт включить топливо: без воздуха в топке копились бы пары топлива, а потом они могут хлопнуть.' },
+    { id: 'burner', x: 200, y: 310, w: 120, h: 70, label: 'Горелка\nс форсункой', color: '#c0562b', desc: 'Форсунка превращает струйку топлива в мелкий туман (как пульверизатор), горелка смешивает его с воздухом и направляет в топку. Рядом стоят два электрода: между ними проскакивает искра от трансформатора розжига. Забилась форсунка — факел рваный, дымит, может погаснуть.' },
+    { id: 'furnace', x: 360, y: 290, w: 220, h: 110, label: 'Топка', color: 'rgba(0,0,0,0)', desc: 'Огнеупорная камера, где горит факел. Горячие газы омывают трубки с водой и отдают им тепло, затем уходят в дымовую трубу. Перед розжигом топку обязательно продувают воздухом — иначе остатки паров топлива могут вспыхнуть взрывом («хлопок»).' },
+    { id: 'drum', x: 360, y: 130, w: 220, h: 120, label: 'Паровой барабан', color: 'rgba(0,0,0,0)', desc: 'Большая ёмкость, наполовину с водой, сверху — пар. Вода по трубкам греется в топке, кипит, и пар собирается наверху. Это «кастрюля» котла. Главное правило: трубки и барабан всегда должны быть в воде. Остался без воды при горящем факеле — металл перегреется и порвётся.' },
+    { id: 'level', x: 190, y: 125, w: 130, h: 75, label: 'Водомерное стекло\nи датчики уровня', color: '#2f6f8f', desc: 'Стеклянная трубка показывает уровень воды глазами (как в чайнике с прозрачной стенкой), а электрические датчики дают сигналы автоматике: «мало — включи питательный насос», «низко — тревога», «аварийно низко — погаси горелку». Это самая важная защита котла; уровень проверяют вахтенные.' },
+    { id: 'feed', x: 650, y: 300, w: 200, h: 70, label: 'Питательный бак\nи насос (конденсат)', color: '#2a6f9c', desc: 'В тёплый бак возвращается конденсат (вода из остывшего пара) и подпитка. Питательный насос подаёт воду в барабан, когда уровень упал. Это «подливание воды в кастрюлю». Насос включается и выключается по датчикам уровня. Отказал насос — уровень медленно падает, пока защита не погасит горелку.' },
+    { id: 'safety', x: 360, y: 68, w: 100, h: 46, label: 'Предохранит.\nклапан', color: '#a33a3a', desc: 'Пружинный клапан — последняя линия обороны от разрыва. Если давление поднялось выше настройки (типично чуть выше рабочего, задаёт проект и правила), пружина поддаётся, клапан приподнимается, и пар со свистом уходит наружу. Давление падает, клапан садится. Он работает без электричества и без автоматики.' },
+    { id: 'press', x: 480, y: 68, w: 100, h: 46, label: 'Датчик давления\nи прессостат', color: '#6b4fa3', desc: 'Прессостат — выключатель, который срабатывает от давления. Достигли верхней уставки (в тренажёре 7,5 бар) — горелка выключается; упало до нижней (6,0 бар) — включается. Рядом — второй, независимый ограничитель давления (8,5 бар) на случай, если первый залип.' },
+    { id: 'flame', x: 200, y: 420, w: 130, h: 55, label: 'Фотоэлемент\nконтроля факела', color: '#c28a1e', desc: '«Глаз» горелки: смотрит в топку и видит свет факела (бывают инфракрасные и ультрафиолетовые). Нет света — значит, топливо подаётся, а огня нет. За секунды топливный клапан закрывается и горелка блокируется. Без этого топка наполнилась бы горючим туманом.' },
+    { id: 'consumers', x: 700, y: 130, w: 180, h: 110, label: 'Потребители пара', color: '#4f7a4f', desc: 'Пар по трубе идёт на подогрев топлива и масла, в камбуз (варка, посудомойка), в прачечную (гладильные катки, сушка), на обогрев помещений. Отдав тепло, пар превращается обратно в воду — конденсат — и по трубе возвращается в питательный бак.' },
+    { id: 'panel', x: 600, y: 8, w: 260, h: 46, label: 'Щит управления\n+ трансформатор розжига', color: '#555f7a', desc: 'Электрический «мозг» котла: пускатели двигателей вентилятора и насосов, реле времени (продувка, время безопасности), защиты. Трансформатор розжига повышает напряжение до нескольких киловольт (порядка 10 кВ) для искры. Вся последовательность розжига выполняется по программе, и любая защита способна остановить её.' }
+  ];
+  const steps = [
+    { part: 'level', text: 'Шаг 1. Перед любым пуском автоматика проверяет воду. Датчики видят норму (около 50 %), и сигнал «вода есть» разрешает розжиг. Без воды горелка не запустится вообще.' },
+    { part: 'fuel', text: 'Шаг 2. Включается топливный насос и подогрев. Топливо циркулирует и греется до рабочей температуры. Пока оно холодное, розжиг не разрешён.' },
+    { part: 'fan', text: 'Шаг 3. Запускается вентилятор — начинается ПРОДУВКА топки. Несколько объёмов воздуха вытесняют остатки паров топлива в дымовую трубу. Топливо ещё закрыто.' },
+    { part: 'panel', text: 'Шаг 4. Продувка закончена. Реле времени в щите включает трансформатор розжига: между электродами горелки пошла искра. Топлива ещё нет — сначала нужна искра.' },
+    { part: 'burner', text: 'Шаг 5. Открывается топливный клапан: форсунка распыляет топливо, оно смешивается с воздухом и вспыхивает от искры. Это самый ответственный момент — «время безопасности» (несколько секунд).' },
+    { part: 'flame', text: 'Шаг 6. Фотоэлемент видит факел и «подтверждает» огонь, искра выключается. Если за время безопасности факела нет — топливо отсекается и котёл блокируется (авария «нет факела»).' },
+    { part: 'furnace', text: 'Шаг 7. Идёт нормальная работа: факел греет топку и трубки. Мощность горелки — полная или плавно меняется по необходимости.' },
+    { part: 'drum', text: 'Шаг 8. Вода в трубках закипает, пар собирается в барабане, давление растёт. Уровень воды поддерживает питательный насос.' },
+    { part: 'press', text: 'Шаг 9. Давление достигло верхней уставки — прессостат отключает горелку. Пар расходуется, давление падает до нижней уставки — цикл розжига повторяется. Если прессостат залип — сработает ограничитель, а в крайнем случае предохранительный клапан.' },
+    { part: 'consumers', text: 'Шаг 10. Пар идёт к потребителям (подогрев топлива, камбуз, прачечная), отдаёт тепло и конденсируется. Конденсат возвращается в питательный бак — круг замкнулся.' }
+  ];
+  const ctl = `<div class="ctls">${slider('dm', 'Расход пара потребителями', 0, 100, 50, 5, '%')}<label class="ctl">Регулирование: <select id="reg"><option value="onoff">Вкл/выкл (полная мощность)</option><option value="mod">Плавное (модуляция)</option></select></label><label class="ctl">Скорость показа: <select id="spd"><option value="1">×1</option><option value="2" selected>×2</option><option value="4">×4</option></select></label></div>
+  <div class="ctls"><button class="btn" id="bstart">▶ Пуск котла</button><button class="btn" id="bstop">■ Стоп</button><button class="btn" id="bfeed">Авария: отказ питательного насоса</button><button class="btn" id="bflame">Авария: пропал факел</button><button class="btn" id="bpr1">Авария: залип прессостат</button><button class="btn" id="bpr2">Авария: отказали прессостат и ограничитель</button><button class="btn" id="brst">Сброс блокировки</button></div>
+  <div class="out" id="bout"></div>
+  <p class="note">Все уставки и времена здесь учебные: пуск горелки 6,0 бар, останов 7,5 бар, ограничитель 8,5 бар, предохранительный клапан 9,0 бар, аварийно-низкий уровень 15 %. Продувка в тренажёре 6 с (в жизни — десятки секунд, по инструкции котла). Реальные значения задаёт проект и требования классификационного общества и флага — сверяйте.</p>`;
+  const S = { m: 'off', tm: 0, tIgn: 0, tFl: 0, P: 3.0, L: 55, T: 25, fire: 0, fl: false, valve: false, sp: false, pump: false, feedFail: false, flameLost: false, prFail: 0, relief: false, lock: null, flow: 0, last: 0, log: [], dirty: true };
+  const PURGE = 6, TRIAL = 4;
+  const logm = s => { S.log.unshift(s); if (S.log.length > 5) S.log.pop(); S.dirty = true; };
+  const names = { off: 'Котёл остановлен', wait: 'Ожидание: давление выше нижней уставки', heat: 'Подогрев топлива', purge: 'Продувка топки', ign: 'Розжиг', run: 'Работа', post: 'Дутьё после останова', lock: 'БЛОКИРОВКА (нужен сброс)' };
+  function trip(r, msg) { S.m = 'lock'; S.lock = r; S.valve = false; S.fl = false; S.sp = false; S.fire = 0; logm('АВАРИЯ: ' + msg); }
+  const dm = () => val(root, 'dm') / 100;
+  const speed = () => +$(root, '#spd').value;
+  function upd(dt) {
+    const mod = $(root, '#reg').value === 'mod', cutIn = mod ? 6.3 : 6.0, cutOut = mod ? 7.8 : 7.5;
+    if (!S.feedFail) { if (S.L < 45) S.pump = true; else if (S.L > 62) S.pump = false; } else S.pump = false;
+    const act = ['heat', 'purge', 'ign', 'run'].includes(S.m);
+    if (S.m !== 'off' && S.m !== 'lock') {
+      if (S.L <= 15) trip('low', 'аварийно-низкий уровень воды (≤ 15 %) — горелка заблокирована');
+      else if (S.P >= 8.5 && S.prFail < 2 && act) trip('hp', 'сработал ограничитель давления (8,5 бар) — горелка заблокирована');
+    }
+    switch (S.m) {
+      case 'wait': if (S.P < cutIn) { S.m = 'heat'; logm('Давление упало до ' + f1(cutIn) + ' бар — запрос на пуск горелки'); } break;
+      case 'heat': S.T = Math.min(110, S.T + 9 * dt); if (S.T >= 90) { S.m = 'purge'; S.tm = PURGE; logm('Топливо готово (90 °C). Продувка топки'); } break;
+      case 'purge': S.tm -= dt; if (S.tm <= 0) { S.m = 'ign'; S.tIgn = 0; S.sp = true; logm('Продувка завершена. Искра розжига'); } break;
+      case 'ign':
+        S.tIgn += dt; S.valve = S.tIgn > 1;
+        if (S.valve && !S.flameLost && S.tIgn > 1.8) { S.fl = true; S.sp = false; S.m = 'run'; logm('Фотоэлемент видит факел — работа'); }
+        else if (S.tIgn >= TRIAL) trip('flame', 'нет факела за время безопасности — топливный клапан закрыт');
+        break;
+      case 'run':
+        if (S.flameLost) { S.fl = false; S.tFl += dt; if (S.tFl > 1) trip('flame', 'пропал факел — фотоэлемент отсёк топливо за ~1 с'); } else { S.tFl = 0; S.fl = true; }
+        if (S.m === 'run' && S.P >= cutOut && S.prFail === 0) { S.m = 'post'; S.tm = 4; S.valve = false; S.fl = false; logm('Давление ' + f1(cutOut) + ' бар — прессостат отключил горелку'); }
+        break;
+      case 'post': S.tm -= dt; if (S.tm <= 0) S.m = 'wait'; break;
+    }
+    if (!act && S.m !== 'post') S.T = Math.max(25, S.T - 0.25 * dt);
+    S.fire = (S.m === 'run' && S.fl) ? (mod ? clamp(0.25 + (7.4 - S.P) * 0.55, 0.25, 1) : 1) : 0;
+    const gen = 0.30 * S.fire, use = (0.02 + 0.20 * dm()) * (0.6 + S.P / 15);
+    if (S.P > 9.0) S.relief = true; else if (S.P < 8.6) S.relief = false;
+    const rel = S.relief ? 0.35 + (S.P - 8.6) * 0.8 : 0;
+    S.P = Math.max(0.2, S.P + (gen - use - rel) * dt);
+    S.L = clamp(S.L + ((S.pump ? 1.6 : 0) - 5 * (use + rel * 0.3)) * dt, 0, 100);
+    S.flow = (use + rel) * 9;
+  }
+  function out() {
+    if (!S.dirty) return; S.dirty = false;
+    $(root, '#bout').innerHTML = '<b>Журнал событий:</b><br>' + (S.log.length ? S.log.map(s => '• ' + s).join('<br>') : 'Нажмите «Пуск котла».');
+  }
+  function setup() {
+  $(root, '#bstart').onclick = () => { if (S.m === 'off') { S.m = S.P < 6.0 ? 'heat' : 'wait'; logm('Пуск котла. ' + (S.m === 'wait' ? 'Давление высокое — ждём падения до 6,0 бар' : 'Подогрев топлива')); } };
+  $(root, '#bstop').onclick = () => { if (S.m !== 'off') { S.m = 'off'; S.valve = false; S.fl = false; S.sp = false; S.lock = null; logm('Котёл остановлен оператором'); } };
+  $(root, '#brst').onclick = () => {
+    if (S.m !== 'lock') return;
+    if (S.lock === 'low' && S.L < 35) return logm('Сброс невозможен: уровень воды ниже 35 % — сначала восстановите воду (питательный насос)');
+    if (S.lock === 'hp' && S.P > 7) return logm('Сброс невозможен: давление выше 7 бар — подождите, пока оно упадёт');
+    S.m = 'wait'; S.lock = null; logm('Блокировка сброшена вручную, цикл начнётся заново');
+  };
+  const tog = (id, key, msg) => { const b = $(root, id); b.onclick = () => { S[key] = !S[key]; b.className = 'btn' + (S[key] ? ' on' : ''); logm(msg + (S[key] ? ' — ВКЛЮЧЕНА' : ' — снята')); }; };
+  tog('#bfeed', 'feedFail', 'Неисправность: отказ питательного насоса');
+  tog('#bflame', 'flameLost', 'Неисправность: пропал факел (форсунка/подача)');
+  const b1 = $(root, '#bpr1'), b2 = $(root, '#bpr2');
+  b1.onclick = () => { S.prFail = S.prFail === 1 ? 0 : 1; b1.className = 'btn' + (S.prFail === 1 ? ' on' : ''); b2.className = 'btn'; logm(S.prFail ? 'Неисправность: залип прессостат (ограничитель 8,5 бар работает)' : 'Прессостат исправен'); };
+  b2.onclick = () => { S.prFail = S.prFail === 2 ? 0 : 2; b2.className = 'btn' + (S.prFail === 2 ? ' on' : ''); b1.className = 'btn'; logm(S.prFail ? 'Неисправность: отказали прессостат И ограничитель — остаётся предохранительный клапан (9,0 бар)' : 'Защиты по давлению исправны'); };
+  bind(root, ['dm'], () => { });
+  }
+  schemeKit(root, { w: W, h: H, parts, steps, controls: ctl, draw: (g, t, ctx) => {
+    const dt = clamp(t - S.last, 0, 0.1); S.last = t; upd(dt * speed()); out();
+    const fg = fgc(), run = S.m === 'run', fanOn = ['purge', 'ign', 'run', 'post'].includes(S.m), fuelOn = ['heat', 'purge', 'ign', 'run'].includes(S.m);
+    g.fillStyle = '#2b3b55'; g.beginPath(); g.roundRect(360, 130, 220, 120, 10); g.fill();
+    const wy = 250 - S.L / 100 * 120;
+    g.save(); g.beginPath(); g.roundRect(360, 130, 220, 120, 10); g.clip();
+    g.fillStyle = '#2f6fb8'; g.fillRect(360, wy, 220, 250 - wy);
+    g.fillStyle = 'rgba(255,255,255,.28)'; g.fillRect(360, wy, 220, 2);
+    if (S.fire > 0) for (let i = 0; i < 9; i++) { const bx = 375 + i * 23, by = 250 - ((t * 25 * (0.5 + S.fire) + i * 31) % Math.max(10, 250 - wy)); g.beginPath(); g.arc(bx, by, 2.5, 0, 7); g.fillStyle = 'rgba(255,255,255,.55)'; g.fill(); }
+    g.restore();
+    [[15, 'ав. низкий 15 %', '#e74c3c'], [30, 'низкий 30 %', '#e67e22'], [80, 'высокий 80 %', '#f1c40f']].forEach(([m, l, c]) => {
+      const y = 250 - m / 100 * 120; g.strokeStyle = c; g.lineWidth = 1; g.setLineDash([4, 3]); g.beginPath(); g.moveTo(362, y); g.lineTo(578, y); g.stroke(); g.setLineDash([]); txt(g, l, 576, y - 2, c, '10px system-ui, sans-serif', 'right');
+    });
+    g.fillStyle = '#2e1f1c'; g.beginPath(); g.roundRect(360, 290, 220, 110, 10); g.fill();
+    g.strokeStyle = 'rgba(255,255,255,.12)'; g.lineWidth = 1; for (let i = 0; i < 6; i++) { g.beginPath(); g.moveTo(375 + i * 36, 290); g.lineTo(375 + i * 36, 262); g.stroke(); }
+    if (S.fl && S.fire > 0) {
+      const len = 50 + 150 * S.fire, fl = Math.sin(t * 17) * 5 + Math.sin(t * 29) * 3;
+      const gr = g.createLinearGradient(362, 0, 362 + len, 0); gr.addColorStop(0, '#fff3b0'); gr.addColorStop(0.45, '#ff9f1c'); gr.addColorStop(1, 'rgba(231,76,60,0)');
+      g.fillStyle = gr; g.beginPath(); g.moveTo(362, 335); g.quadraticCurveTo(362 + len * 0.5, 315 + fl, 362 + len, 345); g.quadraticCurveTo(362 + len * 0.5, 375 - fl, 362, 355); g.closePath(); g.fill();
+    }
+    if (S.valve && !S.fl) { g.fillStyle = 'rgba(231,76,60,.35)'; g.fillRect(362, 320, 120, 50); txt(g, 'топливо без огня!', 372, 350, '#ffb4a8', '11px system-ui, sans-serif'); }
+    if (S.m === 'purge') { const k = (t * 80) % 160; for (let i = 0; i < 4; i++) { g.fillStyle = 'rgba(127,200,232,.6)'; g.beginPath(); g.arc(365 + (k + i * 40) % 160, 345 + Math.sin(i * 2 + t * 4) * 12, 3, 0, 7); g.fill(); } }
+    if (S.sp && Math.sin(t * 45) > -0.2) { g.strokeStyle = '#ffe66d'; g.lineWidth = 2; g.beginPath(); g.moveTo(322, 338); g.lineTo(332 + Math.random() * 4, 348); g.lineTo(340, 340); g.lineTo(350 + Math.random() * 4, 352); g.stroke(); }
+    const A = (c, f, pts, o) => pipe(g, pts, c, f, t, o), sf = S.flow > 0.05 ? clamp(S.flow / 2.5, 0.2, 1) : 0;
+    A('#d9822b', fuelOn ? 0.8 : 0, [[150, 225], [260, 225], [260, 310]]);
+    A('#d9822b', S.valve ? 0.9 : 0, [[320, 345], [360, 345]], { w: 5, gap: 10 });
+    A('#7fc8e8', fanOn ? 0.9 : 0, [[150, 365], [200, 365]], { gap: 14 });
+    A('#3d8ed8', S.L > 20 ? 0.5 : 0, [[320, 165], [360, 165]], { w: 4, gap: 14 });
+    A('#cfd8e3', sf, [[580, 170], [700, 170]], { w: 8 });
+    A('#cfd8e3', S.P > 1 ? 0.3 : 0, [[410, 130], [410, 114]], { w: 4, gap: 10 });
+    A('#cfd8e3', S.P > 1 ? 0.3 : 0, [[530, 130], [530, 114]], { w: 4, gap: 10 });
+    A('#3d8ed8', S.pump ? 0.9 : 0, [[650, 335], [615, 335], [615, 215], [580, 215]]);
+    A('#2ec4b6', sf, [[790, 240], [790, 300]]);
+    A('#9aa3b2', S.fire > 0 ? 0.7 : 0, [[470, 400], [470, 440], [560, 440]], { w: 7, gap: 20 });
+    txt(g, 'дымовые газы в трубу', 565, 444, fg, '11px system-ui, sans-serif');
+    if (S.relief) { A('#cfd8e3', 1, [[410, 66], [410, 44]], { w: 5, gap: 8, speed: 70 }); txt(g, 'выброс пара!', 420, 48, '#ff7675', 'bold 12px system-ui, sans-serif'); }
+    g.save(); g.strokeStyle = S.fl ? '#ffe66d' : 'rgba(150,200,220,.5)'; g.lineWidth = 1.5; g.setLineDash([3, 3]); g.beginPath(); g.moveTo(330, 447); g.lineTo(390, 402); g.stroke(); g.restore();
+    wire(g, [[600, 31], [8, 31], [8, 460]], true, t, 'rgba(244,196,48,.55)');
+    wire(g, [[8, 165], [190, 165]], true, t); wire(g, [[8, 225], [20, 225]], fuelOn, t); wire(g, [[8, 365], [20, 365]], fanOn, t);
+    wire(g, [[8, 318], [200, 335]], S.sp, t); wire(g, [[8, 447], [200, 447]], true, t);
+    wire(g, [[530, 31], [530, 68]], true, t);
+    wire(g, [[860, 31], [895, 31], [895, 335], [850, 335]], S.pump, t);
+    txt(g, 'ТР', 100, 316, S.sp ? '#ffe66d' : fg, '11px system-ui, sans-serif');
+    txt(g, 'жёлтые пунктиры — электрические цепи', 14, 24, '#f4c430', '10px system-ui, sans-serif');
+    const mod = $(root, '#reg').value === 'mod', stCol = S.m === 'lock' ? '#ff7675' : run ? '#55efc4' : fg;
+    txt(g, 'Давление пара: ' + f1(S.P) + ' бар', 640, 405, S.P > 8.5 ? '#ff7675' : fg, 'bold 13px system-ui, sans-serif');
+    txt(g, 'Уровень воды: ' + Math.round(S.L) + ' %' + (S.pump ? '  (насос работает)' : ''), 640, 423, S.L < 30 ? '#ffb347' : fg, '13px system-ui, sans-serif');
+    txt(g, 'Мощность горелки: ' + Math.round(S.fire * 100) + ' %', 640, 441, fg, '13px system-ui, sans-serif');
+    txt(g, 'Топливо: ' + Math.round(S.T) + ' °C   Пар: ' + f1(S.flow) + ' т/ч', 640, 459, fg, '13px system-ui, sans-serif');
+    txt(g, 'Режим: ' + (mod ? 'модуляция' : 'вкл/выкл'), 640, 477, fg, '12px system-ui, sans-serif');
+    let st = names[S.m]; if (S.m === 'purge') st += ' (' + Math.ceil(S.tm) + ' с)'; if (S.m === 'ign') st += ' (' + f1(S.tIgn) + ' из ' + TRIAL + ' с)';
+    txt(g, 'Состояние: ' + st, 20, 520, stCol, 'bold 14px system-ui, sans-serif');
+    lamp(g, 650, 500, S.L < 30, S.L <= 15 ? '#e74c3c' : '#e67e22', 'Низкий уровень', fg);
+    lamp(g, 750, 500, S.lock === 'flame' || (S.m === 'run' && !S.fl), '#e74c3c', 'Нет факела', fg);
+    lamp(g, 835, 500, S.P > 8.5 || S.relief, '#e74c3c', 'Давление', fg);
+    legend(g, [['топливо', '#d9822b'], ['воздух', '#7fc8e8'], ['вода', '#3d8ed8'], ['пар', '#cfd8e3'], ['конденсат', '#2ec4b6'], ['газы', '#9aa3b2'], ['ток', '#f4c430']], 20, 496, fg);
+    txt(g, 'Нажмите «Пуск котла», затем включайте аварии.', 20, 470, fg, 'italic 11px system-ui, sans-serif');
+  } });
+  setup();
+};
+
+// ============================== 2. ПОДРУЛИВАЮЩЕЕ УСТРОЙСТВО ==============================
+SIMS.shipthruster = root => {
+  const W = 900, H = 612;
+  const parts = [
+    { id: 'dgs', x: 15, y: 12, w: 175, h: 60, label: 'Дизель-\nгенераторы (ДГ)', color: '#8a5a2b', desc: 'Источник всей энергии на судне. Каждый ДГ в тренажёре даёт 2000 кВт (условно). Подруливающее на 1,5 МВт — крупный потребитель: на небольшой станции оно способно «съесть» почти весь запас мощности. Работающих ДГ должно хватать на нагрузку судна плюс подруливающее.' },
+    { id: 'bus', x: 215, y: 12, w: 200, h: 60, label: 'Шины ГРЩ\n(главный щит)', color: '#2c3e68', desc: 'Общие «электрические трубы», на которые работают все генераторы и от которых питаются потребители. Любой удар по току (мощный пуск) сразу виден на шинах как проседание напряжения и частоты — и его «чувствуют» все: освещение, насосы, рулевая машина.' },
+    { id: 'pms', x: 445, y: 12, w: 170, h: 60, label: 'PMS: система\nуправления энергией', color: '#6b4fa3', desc: 'PMS (Power Management System) — «диспетчер энергии». Перед пуском подруливающего проверяет, хватит ли свободной мощности. Если нет — заранее запускает ещё один ДГ, синхронизирует его и только потом разрешает пуск. Во время работы может ограничить тягу, чтобы не допустить перегруза и блэкаута.' },
+    { id: 'console', x: 645, y: 12, w: 240, h: 60, label: 'Пульт на мостике\n(джойстик, кнопки)', color: '#555f7a', desc: 'Штурман отклоняет рукоятку влево или вправо — это команда «хочу тягу такой величины и в такую сторону». Сам пульт ничего не двигает: он отправляет сигнал в шкаф управления. Есть местный пост у двигателя для обслуживания и аварийного управления.' },
+    { id: 'starter', x: 215, y: 120, w: 200, h: 60, label: 'Пусковое устройство\n(Y-Δ или частотник)', color: '#c0562b', desc: 'Смягчает удар при пуске. «Звезда-треугольник» сначала включает обмотки так, что ток втрое меньше, потом переключает. Частотный преобразователь плавно поднимает частоту от нуля, и двигатель разгоняется без рывка. Прямой пуск (просто включить в сеть) даёт ток в 5–7 раз больше номинального.' },
+    { id: 'ctrl', x: 445, y: 120, w: 200, h: 60, label: 'Шкаф управления\nи блокировки', color: '#555f7a', desc: 'Автоматика подруливающего. Разрешает пуск только если выполнены условия (блокировки): рукоятка на нуле, есть давление масла в гидравлике, идёт охлаждение, PMS даёт «добро», нет аварий. Следит за температурой и током и останавливает двигатель при угрозе.' },
+    { id: 'motor', x: 15, y: 235, w: 170, h: 64, label: 'Электродвигатель\n(порядка 1,5 МВт)', color: '#2d7fa6', desc: 'Сердце подруливающего: на круизных судах типично 1–3 МВт (задаёт проект). Асинхронный двигатель на 440 В или 690 В, а на мощных — на 6,6 кВ. Нагревается при работе и особенно при пусках — поэтому нужно охлаждение и ограничение числа пусков в час.' },
+    { id: 'gear', x: 215, y: 235, w: 140, h: 64, label: 'Угловой\nредуктор', color: '#7f8c8d', desc: 'Двигатель стоит горизонтально, а вал винта в тоннеле — поперёк судна. Редуктор «поворачивает» вращение на 90° и (часто) снижает обороты. Нужна смазка и охлаждение масла; перегрев или нехватка масла — причина поломки.' },
+    { id: 'prop', x: 385, y: 235, w: 200, h: 64, label: 'Винт в тоннеле\n(лопасти рег. шага)', color: '#1f8a70', desc: 'Тоннель — это сквозная труба поперёк корпуса у носа под водой. Винт внутри гонит воду из одного борта в другой, и по закону действия-противодействия нос толкает в обратную сторону. Лопасти поворотные: меняя их шаг, меняют направление и силу тяги без остановки двигателя.' },
+    { id: 'hyd', x: 385, y: 335, w: 200, h: 60, label: 'Гидростанция\nшага лопастей', color: '#5e8c2a', desc: 'Масляный насос создаёт давление и по команде автоматики поворачивает лопасти винта. Это как руль для воды: ноль — лопасти плоские, тяги нет; больше шаг — больше тяга. Пропало давление — шаг «замораживается» и тягой управлять нельзя; судоводителя об этом предупреждают.' },
+    { id: 'cool', x: 15, y: 335, w: 170, h: 60, label: 'Охлаждение\nдвигателя', color: '#2a6f9c', desc: 'Вода или воздух через теплообменник уносят тепло обмоток. Двигатель на 1,5 МВт при потерях в несколько процентов выделяет десятки киловатт тепла: без охлаждения за считанные минуты температура вырастет до опасной. Датчики температуры обмоток отключат двигатель по аварии.' }
+  ];
+  const steps = [
+    { part: 'console', text: 'Шаг 1. Штурман готовится прижать нос к причалу. Рукоятка стоит в нуле, он нажимает «Пуск подруливающего» на пульте. Команда уходит в шкаф управления.' },
+    { part: 'pms', text: 'Шаг 2. PMS считает: свободная мощность = то, что могут дать работающие ДГ, минус текущая нагрузка судна. Нужно запас под 1,5 МВт плюс небольшой резерв. Хватает — пуск разрешён. Не хватает — следующий шаг.' },
+    { part: 'dgs', text: 'Шаг 3. Если мощности мало, PMS запускает резервный ДГ (десятки секунд в жизни), синхронизирует его с шинами и принимает нагрузку. Только ПОСЛЕ этого пуск подруливающего разрешается. Это и есть защита от блэкаута.' },
+    { part: 'ctrl', text: 'Шаг 4. Блокировки: рукоятка в нуле, давление масла гидравлики есть, охлаждение работает, нет аварийных сигналов. Любое условие не выполнено — пуск запрещён, на пульте горит причина.' },
+    { part: 'starter', text: 'Шаг 5. Включается пусковое устройство. Y-Δ: сначала ток ~в 2 раза выше номинального, потом переключение со всплеском. ЧР (частотный преобразователь): плавный разгон. Прямой пуск — удар в 5–7 раз.' },
+    { part: 'motor', text: 'Шаг 6. Двигатель разгоняется до рабочих оборотов. Пока винт на нулевом шаге, нагрузка на валу мала, и потребляется немного. Разгон тяжёлых вращающихся масс — самый нагруженный по току момент.' },
+    { part: 'cool', text: 'Шаг 7. Пошла охлаждающая вода. Датчики температуры обмоток и подшипников следят за нагревом. Пуски нагревают сильнее работы, поэтому число пусков в час ограничивают.' },
+    { part: 'hyd', text: 'Шаг 8. Двигатель набрал обороты. Теперь по команде джойстика гидростанция плавно поворачивает лопасти: тяга растёт от нуля до заданной за время порядка десятков секунд. Электрическая мощность растёт вместе с тягой.' },
+    { part: 'prop', text: 'Шаг 9. Винт гонит воду через тоннель в один борт, нос судна движется в другой. Смотрите на вид сверху: чем больше тяга, тем быстрее нос идёт к причалу. Сняли тягу — движение прекращается.' },
+    { part: 'bus', text: 'Шаг 10. Всё это время на шинах следят за напряжением, частотой и нагрузкой ДГ. Если запаса не хватило, нагрузка >100 % держится дольше 10 с — и ДГ отключаются. Так подруливающее может вызвать блэкаут (см. урок про электростанцию).' }
+  ];
+  const ctl = `<div class="ctls">${slider('thr', 'Джойстик: ← нос влево … нос вправо →', -100, 100, 0, 5, '%')}${slider('ld', 'Нагрузка судна без подруливающего', 800, 3800, 2200, 100, 'кВт')}<label class="ctl">Способ пуска: <select id="meth"><option value="dol">Прямой пуск + ВРШ (шаг на нуле)</option><option value="yd" selected>Звезда-треугольник + ВРШ</option><option value="vfd">Частотный преобразователь, винт фикс. шага</option></select></label></div>
+  <div class="ctls"><button class="btn" id="bstart">▶ Пуск подруливающего</button><button class="btn" id="bstop">■ Стоп</button><button class="btn" id="bz">Джойстик в ноль</button><button class="btn on" id="dg0">ДГ1 работает</button><button class="btn on" id="dg1">ДГ2 работает</button><button class="btn" id="dg2">ДГ3 остановлен</button><button class="btn" id="bbyp">Обойти PMS (опасно!)</button></div>
+  <div class="ctls"><button class="btn" id="bcool">Авария: нет охлаждения</button><button class="btn" id="bhyd">Авария: нет давления гидравлики</button><button class="btn" id="brst">Сброс аварии / восстановить станцию</button><button class="btn" id="bship">Вернуть судно к исходному положению</button></div>
+  <div class="out" id="tout"></div>
+  <p class="note">Учебная модель: ДГ по 2000 кВт, двигатель 1500 кВт (≈1750 кВА), просадка напряжения оценивается упрощённо. Кратность пускового тока: прямой 6, Y-Δ 2 (+всплеск при переключении), ЧР не более ~1. Реальные значения берите из паспорта двигателя и расчёта электростанции (типично, задаёт проект; нормы — по требованиям классификационного общества и флага).</p>`;
+  const Pn = 1500, Sn = 1750, DGP = 2000, DGS = 8900;
+  const TE = { dol: 3, yd: 6.8, vfd: 12 }, INL = { dol: 0.3, yd: 0.3, vfd: 0.12 }, COL = { dol: '#e74c3c', yd: '#f39c12', vfd: '#2ecc71' };
+  const NAME = { dol: 'Прямой пуск', yd: 'Звезда-треугольник', vfd: 'Частотный преобразователь' };
+  function Ist(m, tau) {
+    const inl = INL[m];
+    if (m === 'dol') return tau < 3 ? inl + (6 - inl) * (1 - Math.pow(tau / 3, 2.5)) : inl;
+    if (m === 'yd') { if (tau < 6) return inl + (2 - inl) * (1 - Math.pow(tau / 6, 2.5)); if (tau < 6.8) return inl + 3.0 * Math.exp(-(tau - 6) / 0.25); return inl; }
+    return tau < 12 ? inl + (1.0 - inl) * Math.min(1, tau / 2) * (tau > 10 ? (12 - tau) / 2 : 1) : inl;
+  }
+  const T = { m: 'idle', dg: [true, true, false], dgTm: 0, dgIdx: 2, bypass: false, coolFail: false, hydFail: false, tau: 0, tt: 0, I: 0, thr: 0, temp: 45, ovT: 0, dip: 0, dMax: 0, hist: [], d: 0, rot: 0, meth: 'yd', log: [], dirty: true, black: false, last: 0, limited: false, f: 60, ratio: 0, pact: 0, nsp: 0, why: '' };
+  const logm = s => { T.log.unshift(s); if (T.log.length > 6) T.log.pop(); T.dirty = true; };
+  const names = { idle: 'Подруливающее остановлено', dgwait: 'PMS: пуск резервного ДГ…', start: 'Пуск двигателя', run: 'Работа', trip: 'АВАРИЙНЫЙ ОСТАНОВ (нужен сброс)', black: 'БЛЭКАУТ — на шинах нет напряжения' };
+  const sel = () => $(root, '#meth').value;
+  const nDG = () => T.dg.filter(Boolean).length;
+  function blackout(why) { T.m = 'black'; T.black = true; T.dg = [false, false, false]; T.I = 0; T.thr = 0; T.sp = 0; T.ovT = 0; T.f = 0; logm('БЛЭКАУТ: ' + why); [0, 1, 2].forEach(i => dgBtn(i)); }
+  function dgBtn(i) { const b = $(root, '#dg' + i); b.className = 'btn' + (T.dg[i] ? ' on' : ''); b.textContent = 'ДГ' + (i + 1) + (T.dg[i] ? ' работает' : ' остановлен'); }
+  function begin() {
+    T.m = 'start'; T.tau = 0; T.tt = 0; T.hist = []; T.dMax = 0; T.meth = sel(); T.thr = 0;
+    logm('Пуск: ' + NAME[T.meth] + '. Разгон ' + TE[T.meth] + ' с');
+  }
+  function tryStart() {
+    if (T.m !== 'idle') return;
+    if (T.black) return logm('Нет напряжения на шинах — сначала восстановите станцию.');
+    const cpp = sel() !== 'vfd', cmd = Math.abs(val(root, 'thr'));
+    if (T.coolFail) return logm('БЛОКИРОВКА: нет охлаждения двигателя — пуск запрещён.');
+    if (T.hydFail && cpp) return logm('БЛОКИРОВКА: нет давления в гидросистеме шага лопастей — пуск запрещён.');
+    if (cmd > 0) return logm('БЛОКИРОВКА: джойстик не в нуле — пуск разрешён только при нулевой тяге (нулевом шаге).');
+    const cap = DGP * nDG(), load = val(root, 'ld'), free = cap - load;
+    if (T.bypass) { logm('PMS ОБОЙДЕНА вручную: проверки мощности нет! Свободно ' + Math.round(free) + ' кВт.'); return begin(); }
+    if (free >= Pn * 1.05) { logm('PMS: свободно ' + Math.round(free) + ' кВт ≥ ' + Math.round(Pn * 1.05) + ' кВт — пуск разрешён.'); return begin(); }
+    const idx = T.dg.indexOf(false);
+    if (idx < 0) return logm('PMS: ЗАПРЕТ пуска. Свободно ' + Math.round(free) + ' кВт, нужно ' + Math.round(Pn * 1.05) + ' кВт, резервных ДГ нет. Уменьшите нагрузку судна.');
+    T.m = 'dgwait'; T.dgTm = 8; T.dgIdx = idx; logm('PMS: свободно только ' + Math.round(free) + ' кВт — запрашивает пуск ДГ' + (idx + 1) + ' ДО пуска подруливающего.');
+  }
+  function upd(dt) {
+    const meth = T.m === 'start' || T.m === 'run' ? T.meth : sel(), cap = DGP * nDG(), load = T.black ? 0 : val(root, 'ld'), cmd = val(root, 'thr') / 100;
+    if (T.m === 'dgwait') { T.dgTm -= dt; if (T.dgTm <= 0) { T.dg[T.dgIdx] = true; dgBtn(T.dgIdx); logm('ДГ' + (T.dgIdx + 1) + ' запущен, синхронизирован, принял нагрузку. Теперь пуск подруливающего.'); const free = DGP * nDG() - load; if (free >= Pn * 1.05 || T.bypass) begin(); else { T.m = 'idle'; logm('PMS: мощности всё ещё мало — пуск запрещён.'); } } }
+    let I = 0, pact = 0, sp = 0;
+    if (T.m === 'start') {
+      T.tau += dt; T.tt += dt; I = Ist(meth, T.tau); sp = Math.min(1, T.tau / TE[meth]);
+      pact = meth === 'vfd' ? Pn * (0.05 + 0.35 * sp * sp) : Math.min(Sn * 0.25 * I, 3200);
+      if (T.tau >= TE[meth]) { T.m = 'run'; logm('Двигатель на рабочих оборотах. Теперь джойстик меняет тягу.'); }
+    } else if (T.m === 'run') {
+      T.tt += dt;
+      let tgt = cmd;
+      if (!T.bypass) {
+        const pno = meth === 'vfd' ? 0.04 : 0.18, avail = cap * 0.95 - load, x = (avail / Pn - pno) / (1 - pno), lim = x > 0 ? Math.pow(Math.min(1, x), 2 / 3) : 0;
+        T.limited = Math.abs(tgt) > lim + 0.01; if (T.limited) tgt = Math.sign(tgt) * lim;
+      } else T.limited = false;
+      const rate = meth === 'vfd' ? 0.08 : 0.06;
+      if (!(T.hydFail && meth !== 'vfd')) T.thr += clamp(tgt - T.thr, -rate * dt, rate * dt);
+      const a = Math.pow(Math.abs(T.thr), 1.5), inl = INL[meth], pno2 = meth === 'vfd' ? 0.04 : 0.18;
+      I = inl + (1 - inl) * a; pact = Pn * (pno2 + (1 - pno2) * a);
+      sp = meth === 'vfd' ? 0.15 + 0.85 * Math.sqrt(Math.abs(T.thr)) : 1;
+    } else { T.thr = 0; }
+    T.I = I; T.pact = pact; T.nsp = sp;
+    const total = load + pact; T.ratio = cap > 0 ? total / cap : 0;
+    if (!T.black) {
+      T.f = 60 - 6 * Math.max(0, T.ratio - 0.95);
+      const Sst = I * Sn, Ssc = nDG() * DGS; T.dip = 100 * Sst / (Sst + Ssc); T.dMax = Math.max(T.dMax, T.dip);
+      if (T.m === 'start' || T.m === 'run') {
+        if (T.dip > 50) blackout('просадка напряжения ' + Math.round(T.dip) + ' % (> 50 %): падают контакторы и частотные преобразователи, срабатывает защита ДГ');
+        else if (T.dip > 35 && T.m === 'start') { T.m = 'trip'; T.I = 0; T.thr = 0; logm('АВАРИЯ: просадка напряжения ' + Math.round(T.dip) + ' % (> 35 %) — защита по минимальному напряжению сорвала пуск. На судне мигает свет!'); }
+      }
+      if (T.m !== 'black') {
+        if (T.ratio > 1) T.ovT += dt; else T.ovT = Math.max(0, T.ovT - 2 * dt);
+        if (T.ovT > 10) blackout('нагрузка ДГ > 100 % дольше 10 с — ДГ отключились по перегрузу');
+        else if (T.f < 56) blackout('частота упала ниже 56 Гц — защита по частоте отключила ДГ');
+      }
+    }
+    // температура
+    const Ie = Math.min(T.I, 1.2), eq = 40 + 55 * Ie * Ie * (T.coolFail ? 6 : 1);
+    T.temp += (eq - T.temp) / 25 * dt + (T.I > 1.2 ? 0.25 * T.I * T.I * dt : 0);
+    if (T.temp >= 125 && (T.m === 'run' || T.m === 'start')) { T.m = 'trip'; T.thr = 0; T.I = 0; logm('АВАРИЯ: перегрев обмотки двигателя (≥ 125 °C) — защита остановила двигатель'); }
+    if (T.m !== 'start' && T.m !== 'run') T.I = 0;
+    if (T.m === 'start' || T.m === 'run') { if (T.tt <= 30) T.hist.push({ t: T.tt, I: T.I }); }
+    T.rot += (T.m === 'start' || T.m === 'run' ? T.nsp : 0) * dt * 14;
+    // судно
+    const v = T.m === 'run' ? 0.8 * T.thr : 0;
+    T.d = clamp(T.d + v * dt, -20, 20);
+    if (T.d >= 20 && v > 0 && !T.touch) { T.touch = true; logm('Нос коснулся кранцев причала — тягу надо снимать заранее!'); }
+    if (T.d < 19) T.touch = false;
+  }
+  function out() { if (!T.dirty) return; T.dirty = false; $(root, '#tout').innerHTML = '<b>Журнал событий:</b><br>' + (T.log.length ? T.log.map(s => '• ' + s).join('<br>') : 'Нажмите «Пуск подруливающего».'); }
+  function setup() {
+  $(root, '#bstart').onclick = tryStart;
+  $(root, '#bstop').onclick = () => { if (T.m === 'idle' || T.m === 'black') return; T.m = 'idle'; T.thr = 0; logm('Подруливающее остановлено.'); };
+  $(root, '#bz').onclick = () => { $(root, '#thr').value = 0; $(root, '#thrv').textContent = '0'; };
+  [0, 1, 2].forEach(i => { $(root, '#dg' + i).onclick = () => { if (T.black) return; T.dg[i] = !T.dg[i]; dgBtn(i); logm('ДГ' + (i + 1) + (T.dg[i] ? ' включён на шины вручную.' : ' остановлен.')); }; });
+  $(root, '#bbyp').onclick = function () { T.bypass = !T.bypass; this.className = 'btn' + (T.bypass ? ' on' : ''); logm(T.bypass ? 'PMS обойдена: пуски и тяга без проверки мощности!' : 'PMS снова в работе.'); };
+  $(root, '#bcool').onclick = function () { T.coolFail = !T.coolFail; this.className = 'btn' + (T.coolFail ? ' on' : ''); logm(T.coolFail ? 'Неисправность: пропало охлаждение двигателя.' : 'Охлаждение восстановлено.'); };
+  $(root, '#bhyd').onclick = function () { T.hydFail = !T.hydFail; this.className = 'btn' + (T.hydFail ? ' on' : ''); logm(T.hydFail ? 'Неисправность: пропало давление гидравлики шага (для ВРШ — шаг замёрз).' : 'Давление гидравлики восстановлено.'); };
+  $(root, '#brst').onclick = () => {
+    if (T.black) { T.black = false; T.dg = [true, true, false]; [0, 1, 2].forEach(i => dgBtn(i)); T.m = 'idle'; T.ovT = 0; T.f = 60; logm('Станция восстановлена: ДГ1 и ДГ2 на шинах.'); }
+    else if (T.m === 'trip') { if (T.temp > 100) return logm('Сброс невозможен: двигатель ещё горячий (> 100 °C), подождите.'); T.m = 'idle'; logm('Авария сброшена.'); }
+  };
+  $(root, '#bship').onclick = () => { T.d = 0; T.touch = false; };
+  bind(root, ['thr', 'ld'], () => { });
+  }
+  schemeKit(root, { w: W, h: H, parts, steps, controls: ctl, draw: (g, t, ctx) => {
+    const dt = clamp(t - T.last, 0, 0.1); T.last = t; upd(dt * 1); out();
+    const fg = fgc(), meth = (T.m === 'start' || T.m === 'run') ? T.meth : sel(), act = T.m === 'start' || T.m === 'run';
+    const ew = (pts, I, on) => { g.save(); g.lineWidth = on ? 2 + Math.min(I, 6) * 0.9 : 1.2; g.setLineDash([7, 5]); g.lineDashOffset = on ? -t * 35 : 0; g.strokeStyle = on ? (I > 2.5 ? '#ff5252' : I > 1.3 ? '#ff9f43' : '#f4c430') : 'rgba(244,196,48,.28)'; g.beginPath(); pts.forEach((p, i) => i ? g.lineTo(p[0], p[1]) : g.moveTo(p[0], p[1])); g.stroke(); g.restore(); };
+    const cap = DGP * nDG(), Iall = act ? T.I : 0;
+    ew([[190, 42], [215, 42]], Iall, !T.black && nDG() > 0);
+    ew([[315, 72], [315, 120]], Iall, !T.black);
+    ew([[240, 180], [240, 210], [100, 210], [100, 235]], Iall, act);
+    wire(g, [[415, 42], [445, 42]], !T.black, t, '#74b9ff'); wire(g, [[530, 72], [530, 120]], !T.black, t, '#74b9ff');
+    wire(g, [[765, 72], [765, 150], [645, 150]], true, t, '#74b9ff'); wire(g, [[445, 150], [415, 150]], !T.black, t, '#74b9ff'); wire(g, [[600, 180], [600, 365], [585, 365]], act, t, '#74b9ff');
+    // валы
+    [[185, 215], [355, 385]].forEach(([x1, x2]) => { g.save(); g.lineWidth = 9; g.strokeStyle = '#8d99a6'; g.setLineDash([6, 6]); g.lineDashOffset = -T.rot * 6; g.beginPath(); g.moveTo(x1, 267); g.lineTo(x2, 267); g.stroke(); g.restore(); });
+    pipe(g, [[485, 335], [485, 299]], '#8bc34a', act ? (Math.abs(T.thr) > 0.01 ? 0.9 : 0.3) : 0, t, { w: 6, gap: 10 });
+    pipe(g, [[100, 335], [100, 299]], '#4fc3f7', act && !T.coolFail ? 0.8 : 0, t, { w: 6, gap: 10 });
+    // левая зона: ДГ
+    txt(g, 'Состав станции (2000 кВт каждый)', 15, 134, fg, 'bold 11px system-ui, sans-serif');
+    [0, 1, 2].forEach(i => lamp(g, 24, 152 + i * 20, T.dg[i], '#55efc4', 'ДГ' + (i + 1) + (T.dg[i] ? ' в работе' : T.m === 'dgwait' && T.dgIdx === i ? ' запускается… ' + Math.ceil(T.dgTm) + ' с' : ' резерв'), fg));
+    legend(g, [['ток', '#f4c430'], ['масло', '#8bc34a'], ['охл. вода', '#4fc3f7'], ['сигнал', '#74b9ff']], 15, 106, fg);
+    // вид сверху
+    g.fillStyle = 'rgba(40,110,170,.18)'; g.fillRect(640, 195, 192, 275); g.fillStyle = 'rgba(120,130,120,.25)'; g.fillRect(832, 195, 63, 275);
+    g.fillStyle = '#7f8c8d'; g.fillRect(830, 195, 6, 275);
+    for (let y = 215; y < 460; y += 45) { g.fillStyle = '#2d3436'; g.fillRect(826, y, 5, 14); }
+    txt(g, 'причал', 848, 330, fg, '11px system-ui, sans-serif', 'center'); txt(g, 'вид сверху', 645, 209, fg, 'italic 11px system-ui, sans-serif');
+    g.save(); g.translate(770, 460); g.rotate(Math.atan2(T.d * 1.2, 245));
+    const hull = () => { g.beginPath(); g.moveTo(-38, 0); g.lineTo(-38, -165); g.quadraticCurveTo(-34, -225, 0, -248); g.quadraticCurveTo(34, -225, 38, -165); g.lineTo(38, 0); g.closePath(); };
+    g.fillStyle = '#dfe6ee'; hull(); g.fill(); g.strokeStyle = '#34495e'; g.lineWidth = 2; g.stroke();
+    g.fillStyle = 'rgba(52,73,94,.35)'; g.fillRect(-26, -150, 52, 90);
+    g.fillStyle = '#34495e'; g.fillRect(-38, -214, 76, 8);
+    if (act) { g.strokeStyle = '#1f8a70'; g.lineWidth = 3; const a = T.rot; g.beginPath(); g.moveTo(Math.cos(a) * 14, -210 + Math.sin(a) * 2); g.lineTo(-Math.cos(a) * 14, -210 - Math.sin(a) * 2); g.stroke(); }
+    const th = T.thr, ath = Math.abs(th);
+    if (ath > 0.02) {
+      const dir = Math.sign(th), n = 6;
+      for (let i = 0; i < n; i++) { const k = ((t * 1.2 + i / n) % 1), x = -dir * (38 + k * 34 * (0.4 + ath)); g.fillStyle = 'rgba(79,195,247,' + (1 - k) + ')'; g.beginPath(); g.arc(x, -210 + (i - 2.5) * 2.4, 3, 0, 7); g.fill(); }
+      g.strokeStyle = '#e74c3c'; g.fillStyle = '#e74c3c'; g.lineWidth = 4; const L = 18 + 40 * ath; g.beginPath(); g.moveTo(0, -250); g.lineTo(dir * L, -250); g.stroke(); g.beginPath(); g.moveTo(dir * (L + 9), -250); g.lineTo(dir * L, -257); g.lineTo(dir * L, -243); g.fill();
+    }
+    g.restore();
+    txt(g, 'Тяга: ' + Math.round(th * 100) + ' % (' + (th > 0.02 ? 'нос вправо' : th < -0.02 ? 'нос влево' : '—') + ')', 645, 223, ath > 0.02 ? '#ff7675' : fg, 'bold 12px system-ui, sans-serif');
+    txt(g, 'Нос до причала: ' + f1(20 - T.d) + ' м', 645, 240, 20 - T.d < 3 ? '#ffb347' : fg, '12px system-ui, sans-serif');
+    if (T.limited && T.m === 'run') txt(g, 'PMS ограничила тягу!', 645, 257, '#ffb347', 'bold 12px system-ui, sans-serif');
+    // график тока
+    const gx0 = 60, gx1 = 600, gy0 = 575, gy1 = 425, ky = (gy0 - gy1) / 7, kx = (gx1 - gx0) / 30;
+    txt(g, 'Ток двигателя после нажатия «Пуск» (кратность к номинальному; 1 — номинальный ток)', 15, 418, fg, 'bold 11px system-ui, sans-serif');
+    g.strokeStyle = 'rgba(150,160,180,.5)'; g.lineWidth = 1; g.beginPath(); g.moveTo(gx0, gy1 - 6); g.lineTo(gx0, gy0); g.lineTo(gx1, gy0); g.stroke();
+    [1, 2, 6].forEach(v => { const y = gy0 - v * ky; g.setLineDash(v === 6 ? [2, 3] : [5, 4]); g.strokeStyle = v === 6 ? 'rgba(231,76,60,.6)' : 'rgba(150,160,180,.35)'; g.beginPath(); g.moveTo(gx0, y); g.lineTo(gx1, y); g.stroke(); g.setLineDash([]); txt(g, v + '×', gx0 - 8, y + 4, fg, '11px system-ui, sans-serif', 'right'); });
+    txt(g, '0', gx0 - 8, gy0 + 4, fg, '11px system-ui, sans-serif', 'right');
+    for (let s = 0; s <= 30; s += 5) txt(g, s + ' с', gx0 + s * kx, gy0 + 14, fg, '11px system-ui, sans-serif', 'center');
+    ['dol', 'yd', 'vfd'].forEach(m => {
+      const on = m === meth;
+      g.beginPath(); for (let tau = 0; tau <= 30; tau += 0.1) { const x = gx0 + tau * kx, y = gy0 - Math.min(Ist(m, tau), 7) * ky; tau ? g.lineTo(x, y) : g.moveTo(x, y); }
+      g.save(); g.strokeStyle = COL[m]; g.lineWidth = 1.5; g.globalAlpha = on ? 0.55 : 0.4; g.setLineDash([5, 4]); g.stroke(); g.restore();
+    });
+    if (T.hist.length > 1) { g.save(); g.strokeStyle = COL[T.meth]; g.lineWidth = 3; g.beginPath(); T.hist.forEach((p, i) => { const x = gx0 + p.t * kx, y = gy0 - Math.min(p.I, 7) * ky; i ? g.lineTo(x, y) : g.moveTo(x, y); }); g.stroke(); g.restore(); }
+    ['dol', 'yd', 'vfd'].forEach((m, i) => { g.fillStyle = COL[m]; g.fillRect(gx0 + 20 + i * 165, 437, 14, 6); txt(g, NAME[m] + (m === meth ? ' (выбран)' : ''), gx0 + 38 + i * 165, 444, fg, '10px system-ui, sans-serif'); });
+    txt(g, 'пунктир — кривая при пуске без нагрузки на винте; сплошная — как идёт сейчас', gx0 + 20, 458, fg, 'italic 10px system-ui, sans-serif');
+    // показания
+    const sc = T.black ? '#ff7675' : T.m === 'run' ? '#55efc4' : T.m === 'trip' ? '#ff7675' : fg;
+    txt(g, 'Ток: ' + f1(T.I) + ' × Iн' + (T.I > 2.5 ? '  (удар!)' : ''), 640, 492, T.I > 2.5 ? '#ff7675' : fg, 'bold 13px system-ui, sans-serif');
+    txt(g, 'Просадка напряжения: ' + Math.round(T.dip) + ' % (макс. ' + Math.round(T.dMax) + ' %)', 640, 510, T.dip > 20 ? '#ffb347' : fg, '12px system-ui, sans-serif');
+    txt(g, 'Мощность двигателя: ' + Math.round(T.pact) + ' кВт   Частота: ' + (T.black ? '0' : f1(T.f)) + ' Гц', 640, 527, fg, '12px system-ui, sans-serif');
+    txt(g, 'Станция: ' + Math.round((T.black ? 0 : val(root, 'ld')) + T.pact) + ' из ' + cap + ' кВт', 640, 544, T.ratio > 1 ? '#ff7675' : fg, '12px system-ui, sans-serif');
+    g.fillStyle = 'rgba(150,160,180,.3)'; g.fillRect(640, 550, 240, 10); const rr = clamp(T.ratio, 0, 1.4) / 1.4; g.fillStyle = T.ratio > 1 ? '#e74c3c' : T.ratio > 0.85 ? '#f39c12' : '#2ecc71'; g.fillRect(640, 550, 240 * rr, 10); g.fillStyle = fg; g.fillRect(640 + 240 / 1.4, 547, 2, 16);
+    txt(g, 'Темп. обмотки: ' + Math.round(T.temp) + ' °C' + (T.temp > 110 ? '  (тревога)' : ''), 640, 580, T.temp > 110 ? '#ff7675' : fg, '12px system-ui, sans-serif');
+    txt(g, names[T.m] + (T.ovT > 0.2 ? '  перегруз ' + f1(T.ovT) + ' с / 10' : ''), 640, 600, sc, 'bold 11px system-ui, sans-serif');
+    if (T.black) { g.fillStyle = 'rgba(0,0,0,.55)'; g.fillRect(0, 0, 900, 195); txt(g, 'БЛЭКАУТ', 450, 120, '#ff5252', 'bold 44px system-ui, sans-serif', 'center'); txt(g, 'нажмите «Сброс аварии / восстановить станцию»', 450, 150, '#fff', '14px system-ui, sans-serif', 'center'); }
+  } });
+  setup();
+};
+})();
+
+// Судовые тренажёры исполнителя Б: главный двигатель с электронным управлением и навигационное электрооборудование.
+// Опираются на schemeKit (sims-kit.js) и вспомогательные функции sims.js (slider, bind, val, css).
+
+// Анимированная линия потока: пунктир «бежит» вдоль пути. pts — массив [x,y]; on — идёт ли поток.
+function flowB(g, pts, color, t, on, w = 3, speed = 45) {
+  g.save(); g.lineWidth = w; g.lineJoin = 'round'; g.strokeStyle = on ? color : 'rgba(140,140,140,.4)';
+  g.setLineDash(on ? [10, 8] : [2, 8]); g.lineDashOffset = on ? -t * speed : 0;
+  g.beginPath(); pts.forEach((p, i) => i ? g.lineTo(p[0], p[1]) : g.moveTo(p[0], p[1])); g.stroke(); g.restore();
+}
+const clampB = (x, a, b) => Math.max(a, Math.min(b, x));
+const fmtT = s => { s = Math.max(0, Math.round(s)); const h = Math.floor(s / 3600), m = Math.floor(s % 3600 / 60), c = s % 60; return h ? `${h} ч ${m} мин` : m ? `${m} мин ${c} с` : `${c} с`; };
+
+// ============ 1. Главный двигатель с электронным управлением ============
+SIMS.mainengine = root => {
+  const W = 920, H = 540;
+  const S = { sens: 0, pump: 0, shut: false, slow: false, rpm: 80, P: 300, th: 0, last: null, mode: 'e', inj: false };
+  const parts = [
+    { id: 'tel', x: 20, y: 16, w: 140, h: 52, label: 'Телеграф\nс мостика', color: '#34495e', desc: 'Рычаг на мостике: вахтенный штурман ставит «Малый, Средний, Полный вперёд». Это просьба, а не прямое управление двигателем. Если сломается — команды на машину передают по резервному каналу или голосом, двигатель при этом продолжает работать на последнем режиме.' },
+    { id: 'rem', x: 190, y: 16, w: 150, h: 52, label: 'Дистанционное\nуправление (ДАУ)', color: '#34495e', desc: 'Система дистанционного автоматического управления: переводит просьбу телеграфа в заданные обороты и следит, чтобы двигатель не разгоняли слишком резко (есть программа разгона). Если откажет — управление переходит на пульт в ЦПУ (центральный пост управления) или прямо у двигателя.' },
+    { id: 'ecu', x: 370, y: 16, w: 170, h: 52, label: 'Электронный блок\nуправления (ECU)', color: '#1f6fa5', desc: 'Мозг двигателя: компьютер (ECU, Engine Control Unit). 1000 раз в секунду он решает, когда открыть клапан впрыска и выпускной клапан в каждом цилиндре. Блоков обычно два-три с дублированием. Если откажет один — работает второй; если оба — двигатель останавливается.' },
+    { id: 'gov', x: 570, y: 16, w: 150, h: 52, label: 'Регулятор\nоборотов', color: '#1f6fa5', desc: 'Программа внутри ECU, которая держит обороты: сравнивает заданные обороты с настоящими (по датчику) и прибавляет или убавляет подачу топлива. Как водитель круиз-контроля. Если откажет — обороты начнут «плавать» вверх-вниз, сработает защита от разноса.' },
+    { id: 'saf', x: 750, y: 16, w: 150, h: 52, label: 'Система защиты\n(SHUTDOWN / SLOWDOWN)', color: '#a93226', desc: 'Независимая от ECU цепочка датчиков и реле. SLOWDOWN — «сбросить нагрузку»: двигатель сам снижает обороты, пока не исчезнет опасность. SHUTDOWN — аварийная остановка: топливо отсекается сразу. Это как предохранитель: должна работать, даже когда «мозг» завис.' },
+    { id: 'fiva', x: 260, y: 120, w: 170, h: 56, label: 'Гидроблок цилиндра\n(клапан впрыска FIVA)', color: '#8e5a1a', desc: 'У каждого цилиндра свой гидроблок. Внутри — быстрый электромагнитный клапан (FIVA, Fuel Injection Valve Actuator). По сигналу ECU он впускает масло под высоким давлением, оно давит на плунжер-усилитель, а тот выдавливает топливо к форсункам под давлением около 1000 бар. Заклинит — цилиндр перестанет получать топливо или будет «лить» непрерывно (поэтому есть аварийная защита).' },
+    { id: 'exv', x: 260, y: 210, w: 170, h: 56, label: 'Привод выпускного\nклапана (ELVA)', color: '#8e5a1a', desc: 'Вместо кулачка на валу выпускной клапан открывает масло под давлением: электроклапан ELVA (Exhaust Valve Actuator) подаёт его в гидроцилиндр над клапаном, а пружина (воздушная) закрывает. ECU выбирает момент открытия и закрытия отдельно для каждого цилиндра. Не откроется — цилиндр не «выдохнет» и двигатель не пойдёт на этом цилиндре.' },
+    { id: 'hps', x: 20, y: 165, w: 190, h: 70, label: 'Гидравлическая силовая\nустановка (насосы), 300 бар', color: '#b03a2e', desc: 'Насосы высокого давления (гидравлическая силовая установка, HPS): часть качает масло от самого двигателя, часть — от электромоторов (резерв и пуск). Создают около 300 бар (типично, задаёт проект). Это «мускулы» электроники: сигнал ECU слабый, а клапан открыть надо с силой. Откажет один насос — включится резервный; откажут все — давление упадёт и двигатель остановится.' },
+    { id: 'inj', x: 500, y: 96, w: 140, h: 36, label: 'Форсунки', color: '#9a7d0a', desc: 'Распылители топлива в крышке цилиндра (обычно 2–3 на цилиндр). Топливо под давлением открывает их иглу, и оно вылетает мелким туманом. Нагар или износ — плохое распыление, дым, перерасход топлива.' },
+    { id: 'cyl', x: 700, y: 232, w: 190, h: 50, label: 'Цилиндр и поршень\n(двухтактный)', color: '#2c3e68', desc: 'Здесь сгорает топливо. Двухтактный двигатель: за один оборот вала — один рабочий ход. Воздух входит через окна внизу цилиндра, продукты сгорания уходят через выпускной клапан сверху. Поршень толкает шатун и вращает коленвал, а тот — гребной винт.' },
+    { id: 'sen', x: 710, y: 380, w: 190, h: 50, label: 'Датчик положения\nколенвала (энкодер)', color: '#6c3483', desc: 'Диск с метками на коленвале и считывающие головки (обычно два комплекта). ECU по ним знает угол поворота с точностью долей градуса и обороты. Без этого сигнала ECU «слепой»: не знает, когда впрыскивать. Потеряли один — работает резервный; оба — аварийная остановка.' }
+  ];
+  const steps = [
+    { part: 'tel', text: 'Штурман ставит рукоятку телеграфа на «Средний ход». На мостике загорается лампа подтверждения, когда машина ответила.' },
+    { part: 'rem', text: 'Система дистанционного управления переводит «Средний ход» в заданные обороты (по ползунку «Заданные обороты») и плавно их наращивает.' },
+    { part: 'ecu', text: 'ECU получает заданные обороты и рассчитывает, сколько топлива нужно и в какой момент оборота впрыснуть и открыть клапан для каждого цилиндра.' },
+    { part: 'sen', text: 'Датчик на коленвале постоянно сообщает ECU точный угол поворота. Попробуйте кнопку «Потеря датчика» и посмотрите, что произойдёт.' },
+    { part: 'hps', text: 'Насосы создают масло под давлением ~300 бар (красные потоки). Оно — мускулы электроники. Попробуйте «Отказ насоса масла».' },
+    { part: 'fiva', text: 'ECU подаёт короткий сигнал на электроклапан. Он открывается на миллисекунды, масло давит на усилитель и топливо (жёлтый поток) летит к форсункам под ~1000 бар.' },
+    { part: 'inj', text: 'Форсунки впрыскивают топливо в горячий сжатый воздух — на схеме видно облако распыла в момент впрыска. Сдвигайте «Момент впрыска».' },
+    { part: 'exv', text: 'Когда поршень отработал вниз, ECU открывает выпускной клапан: газы уходят из цилиндра, через окна входит свежий воздух (зелёные стрелки).' },
+    { part: 'gov', text: 'Регулятор сравнивает заданные и фактические обороты и корректирует топливо — например, при встречной волне, когда винт тормозит.' },
+    { part: 'saf', text: 'Если масло, температура или обороты вышли за предел — защита сама снижает нагрузку или останавливает двигатель. Нажмите «Аварийная остановка».' }
+  ];
+  const controls = `<div class="ctls">${slider('rpm', 'Заданные обороты', 10, 100, 80, 1, 'об/мин (100 = полный ход)')}${slider('inj', 'Поправка момента впрыска', -8, 8, 0, 1, '° угла поворота коленвала (− раньше)')}${slider('exo', 'Открытие выпускного клапана', 80, 120, 100, 1, '° после ВМТ')}
+  <label class="ctl">Замедление показа: <select id="slow"><option value="1">×1</option><option value="5">×5</option><option value="15" selected>×15</option><option value="40">×40</option></select></label>
+  <label class="ctl">Привод клапанов: <select id="mode"><option value="e">электронный (как MAN ME / WinGD X)</option><option value="c">кулачковый вал (классика)</option></select></label></div>
+  <div class="ctls"><button class="btn" id="b1">Потеря датчика</button><button class="btn" id="b2">Отказ насоса масла</button><button class="btn" id="b3">Сброс нагрузки (SLOWDOWN)</button><button class="btn" id="b4">Аварийная остановка</button><button class="btn" id="b0">Сбросить аварии</button></div>
+  <p class="note" id="cmp"></p>
+  <p class="note"><b>Зачем электроника вместо кулачкового вала.</b> Кулачок «заточен» под один режим — полный ход. На малой нагрузке давление в цилиндре низкое, топливо сгорает хуже, двигатель дымит и дёргается на малых оборотах. Электроника подбирает момент впрыска и закрытия выпускного клапана под каждую нагрузку — отсюда экономия топлива на частичных режимах (порядка нескольких процентов, типично), меньше дыма и устойчивая работа на самых малых оборотах. Переключите «Привод клапанов» и сравните цифры на схеме. <b>Для сравнения:</b> на многих пассажирских судах стоят четырёхтактные среднеоборотные дизели (~500–1000 об/мин): они крутят генераторы, а гребной винт вращает электромотор (дизель-электрическая схема); в гондоле Azipod мотор стоит прямо в поворотной колонке, и руль не нужен. У таких дизелей часто насос-форсунки или Common Rail (общая топливная рампа с электроуправлением), а клапаны чаще кулачковые. Числа учебные: типично, задаёт проект.</p>`;
+  const kit = schemeKit(root, {
+    w: W, h: H, parts, steps, controls,
+    draw(g, t, ctx) {
+      const dt = S.last === null ? 0 : Math.min(0.1, t - S.last); S.last = t;
+      const set = val(root, 'rpm'), slowK = +$(root, '#slow').value, exo = val(root, 'exo'), elec = $(root, '#mode').value === 'e'; S.mode = elec ? 'e' : 'c';
+      // --- логика ---
+      let target = set, why = '';
+      if (S.slow) target = Math.min(target, 60);
+      if (S.shut) { target = 0; why = 'АВАРИЙНАЯ ОСТАНОВКА (SHUTDOWN): топливо отсечено.'; }
+      if (S.sens === 2) { target = 0; why = 'Потеряны оба датчика угла: ECU не знает, когда впрыскивать, — остановка.'; }
+      if (S.pump === 2) { S.P = Math.max(0, S.P - 40 * dt); } else { const goal = S.pump === 1 ? 285 : 300; S.P += (goal - S.P) * Math.min(1, 3 * dt); }
+      if (S.P < 150) { target = 0; if (!why) why = 'Давление масла упало ниже ~150 бар: клапаны не работают — остановка.'; }
+      const firing = target > 0;
+      if (S.rpm < target) S.rpm = Math.min(target, S.rpm + 8 * dt); else S.rpm = Math.max(target, S.rpm - (firing ? 10 : 7) * dt);
+      const rpm = S.rpm; S.th = (S.th + rpm / 60 * 360 * dt / slowK) % 360;
+      let th = S.th; if (th > 180) th -= 360; // угол от ВМТ: −180..180
+      const load = Math.pow(rpm / 100, 3), ps = (1 + 2.5 * load) * (elec ? 1 + 1.2 * (1 - load) : 1);
+      const baseT = elec ? -4 - 6 * (1 - load) : -4, start = baseT + val(root, 'inj'), dur = 4 + 14 * load;
+      const V = a => 1 / 17 + (1 - Math.cos(a * Math.PI / 180)) / 2;
+      const burning = firing && rpm > 3;
+      const pAt = a => { if (a < -120 || a > exo) return ps; let p = ps * Math.pow(V(-120) / V(a), 1.3); if (burning) { p *= 1 + (0.15 + 0.4 * load) * clampB((a - start - 5) / 18, 0, 1); } return p; };
+      let pmax = 0; for (let a = -40; a <= 60; a++) pmax = Math.max(pmax, pAt(a));
+      const pnow = pAt(th), injOn = burning && th >= start && th <= start + dur;
+      const exhaustOpen = S.P >= 150 && rpm > 0.5 && (th >= exo || th <= -120 + 0) && th !== undefined;
+      const sfoc = 170 + Math.max(0, 150 - pmax) * 0.12;
+      // --- фон: линии ---
+      const sigOn = S.sens < 2 && !S.shut, oilOn = S.P >= 150, fuelOn = burning;
+      const SIG = '#5dade2', OIL = '#e74c3c', FUEL = '#f1c40f', AIR = '#58d68d', GAS = '#aab7b8';
+      flowB(g, [[160, 42], [190, 42]], SIG, t, true); flowB(g, [[340, 42], [370, 42]], SIG, t, true);
+      flowB(g, [[540, 42], [570, 42]], SIG, t, sigOn); flowB(g, [[720, 42], [750, 42]], SIG, t, true);
+      flowB(g, [[447, 68], [447, 162], [430, 162]], SIG, t, sigOn, 2, 90); flowB(g, [[447, 162], [447, 252], [430, 252]], SIG, t, sigOn, 2, 90);
+      flowB(g, [[690, 405], [690, 85], [500, 85], [500, 68]], SIG, t, S.sens < 2, 2, 70); flowB(g, [[690, 405], [626, 405]], SIG, t, S.sens < 2, 2, 70);
+      flowB(g, [[210, 200], [235, 200], [235, 148], [260, 148]], OIL, t, oilOn, 4); flowB(g, [[235, 200], [235, 238], [260, 238]], OIL, t, oilOn, 4);
+      flowB(g, [[430, 115], [500, 115]], FUEL, t, fuelOn, 4); flowB(g, [[545, 132], [545, 196]], FUEL, t, fuelOn, 4);
+      flowB(g, [[430, 224], [470, 224], [470, 172], [620, 172]], OIL, t, oilOn, 4);
+      // --- цилиндр ---
+      const cx = 580, cy0 = 403, r = 46, L = 130, a = th * Math.PI / 180;
+      const pinX = cx + r * Math.sin(a), pinY = cy0 - r * Math.cos(a), pb = pinY - Math.sqrt(L * L - (r * Math.sin(a)) ** 2), pt = pb - 22;
+      const gasFlash = burning ? clampB((th - start - 5) / 18, 0, 1) * (th < exo ? 1 : 0) : 0;
+      g.fillStyle = 'rgba(60,70,90,.55)'; g.fillRect(496, 190, 8, 150); g.fillRect(656, 190, 8, 150); g.fillRect(496, 186, 168, 36); // стенки и крышка
+      g.fillStyle = gasFlash > 0 ? `rgba(255,${Math.round(150 - 60 * gasFlash)},40,${0.2 + 0.55 * gasFlash})` : `rgba(120,190,255,${0.12 + Math.min(0.4, pnow / 250)})`;
+      g.fillRect(504, 222, 152, pt - 222);
+      const portsOpen = pt > 300 && exhaustOpen; // продувочные окна 300–330
+      g.fillStyle = '#7f8c8d'; g.fillRect(504, 300, 6, 28); g.fillRect(650, 300, 6, 28);
+      if (pt > 298) { g.fillStyle = 'rgba(88,214,141,.7)'; [[470, 314, 500], [690, 314, 660]].forEach(([x0, y0, x1]) => { g.beginPath(); g.moveTo(x0, y0); g.lineTo(x1, y0); g.lineWidth = 5; g.strokeStyle = AIR; g.setLineDash([8, 6]); g.lineDashOffset = -t * 40; g.stroke(); g.setLineDash([]); }); }
+      g.fillStyle = 'rgba(160,160,160,.2)'; g.fillRect(504, 300, 152, 28);
+      // поршень, шатун, коленвал
+      g.fillStyle = '#d5d8dc'; g.fillRect(506, pt, 148, 22); g.fillStyle = '#85929e'; g.fillRect(506, pt, 148, 4);
+      g.strokeStyle = '#aeb6bf'; g.lineWidth = 7; g.beginPath(); g.moveTo(cx, pb); g.lineTo(pinX, pinY); g.stroke(); g.lineWidth = 1;
+      g.strokeStyle = '#7f8c8d'; g.lineWidth = 3; g.beginPath(); g.arc(cx, cy0, r + 14, 0, 7); g.stroke();
+      for (let k = 0; k < 36; k++) { const q = k * Math.PI / 18 + a; g.beginPath(); g.moveTo(cx + (r + 14) * Math.sin(q), cy0 - (r + 14) * Math.cos(q)); g.lineTo(cx + (r + 20) * Math.sin(q), cy0 - (r + 20) * Math.cos(q)); g.stroke(); }
+      g.lineWidth = 1; g.fillStyle = '#5d6d7e'; g.beginPath(); g.arc(cx, cy0, 8, 0, 7); g.fill(); g.fillStyle = '#e67e22'; g.beginPath(); g.arc(pinX, pinY, 8, 0, 7); g.fill();
+      // выпускной клапан (x=620) и форсунка (x=545)
+      const lift = exhaustOpen ? 14 : 0;
+      g.fillStyle = '#566573'; g.fillRect(617, 168, 6, 54 + lift); g.fillRect(606, 222 + lift, 28, 5);
+      g.fillStyle = exhaustOpen ? '#e74c3c' : '#7b241c'; g.fillRect(608, 164 - (exhaustOpen ? 0 : 0), 24, 14);
+      if (exhaustOpen) { flowB(g, [[620, 235], [660, 235], [668, 205], [668, 160]], GAS, t, true, 6, 60); g.fillStyle = css('--fg'); g.font = '11px system-ui'; g.textAlign = 'left'; g.fillText('выхлоп', 674, 170); }
+      g.fillStyle = '#7d6608'; g.fillRect(541, 190, 8, 32);
+      if (injOn) { for (let k = -2; k <= 2; k++) { g.strokeStyle = 'rgba(241,196,15,.9)'; g.lineWidth = 2; g.beginPath(); g.moveTo(545, 224); g.lineTo(545 + k * 14, 224 + 34 + Math.abs(k) * -4); g.stroke(); } g.lineWidth = 1; }
+      g.fillStyle = css('--fg'); g.font = '11px system-ui'; g.textAlign = 'left';
+      g.fillText('форсунка', 505, 183); g.fillText('выпускной клапан', 566, 160); g.fillText('впуск воздуха', 428, 330); g.fillText('впуск воздуха', 668, 330);
+      g.fillText('поршень', 508, pt - 4 > 232 ? pt - 4 : 240);
+      g.font = '12px system-ui'; g.fillText('угол ' + (th >= 0 ? '+' : '') + th.toFixed(0) + '° от ВМТ', 498, 478);
+      g.strokeStyle = 'rgba(255,255,255,.45)'; g.beginPath(); g.moveTo(700, 257); g.lineTo(664, 257); g.stroke();
+      // --- показания ---
+      g.font = '13px system-ui'; g.fillStyle = css('--fg'); g.textAlign = 'left';
+      const lines = [
+        `Обороты: ${rpm.toFixed(0)} об/мин (${rpm.toFixed(0)} % от полных), мощность ≈ ${(load * 100).toFixed(0)} %`,
+        `Давление масла силовой установки: ${S.P.toFixed(0)} бар`,
+        `Впрыск: начало ${start.toFixed(1)}° от ВМТ, длит. ${dur.toFixed(0)}°`,
+        `Давление в цилиндре: сейчас ${pnow.toFixed(0)} бар`,
+        `Pсжатия≈${(pAt(0) / (burning ? 1 + (0.15 + 0.4 * load) * clampB((0 - start - 5) / 18, 0, 1) : 1)).toFixed(0)} бар · Pmax ≈ ${pmax.toFixed(0)} бар`,
+        `Расход топлива ≈ ${sfoc.toFixed(0)} г/кВт·ч (учебная модель)`
+      ];
+      lines.forEach((s, i) => g.fillText(s, 20, 282 + i * 20));
+      let msg = why, col = '#e74c3c';
+      if (!msg && S.slow) msg = 'СБРОС НАГРУЗКИ (SLOWDOWN): обороты ограничены 60 %.';
+      else if (!msg && S.sens === 1) msg = 'Тревога: датчик №1 потерян, ECU работает по резервному датчику №2.', col = '#f39c12';
+      else if (!msg && S.pump === 1) msg = 'Тревога: насос масла отказал, включился резервный электронасос (давление ниже нормы).', col = '#f39c12';
+      else if (!msg && !elec && rpm < 30 && rpm > 3) msg = 'Кулачковый вал: на малых оборотах топливо сгорает плохо — дым, неровная работа.', col = '#f39c12';
+      if (!msg) { msg = 'Норма: все системы в порядке.'; col = '#2ecc71'; }
+      g.fillStyle = col; g.font = '600 13px system-ui'; g.fillText(msg.length > 62 ? msg.slice(0, msg.lastIndexOf(' ', 62)) : msg, 20, 418); if (msg.length > 62) g.fillText(msg.slice(msg.lastIndexOf(' ', 62) + 1), 20, 436);
+      // легенда
+      g.font = '12px system-ui'; [[SIG, 'сигнал (слабый ток, команды ECU)'], [OIL, 'масло под давлением ~300 бар'], [FUEL, 'топливо ~1000 бар при впрыске'], [AIR, 'воздух (продувка)'], [GAS, 'выхлопные газы']].forEach((q, i) => { g.strokeStyle = q[0]; g.lineWidth = 4; g.beginPath(); g.moveTo(20, 462 + i * 15); g.lineTo(50, 462 + i * 15); g.stroke(); g.lineWidth = 1; g.fillStyle = css('--fg'); g.fillText(q[1], 58, 463 + i * 15); });
+      // цвета блоков по состоянию
+      const pc = id => parts.find(p => p.id === id);
+      pc('sen').color = S.sens === 2 ? '#7b241c' : S.sens === 1 ? '#9c640c' : '#6c3483';
+      pc('hps').color = S.P < 150 ? '#7b241c' : S.pump === 1 ? '#9c640c' : '#b03a2e';
+      pc('saf').color = S.shut || S.slow ? '#e74c3c' : '#a93226';
+      pc('ecu').color = S.sens === 2 || S.shut ? '#5d6d7e' : '#1f6fa5';
+      $(root, '#cmp').innerHTML = `<b>Сравнение при текущей нагрузке (${(load * 100).toFixed(0)} %):</b> ${elec ? 'электроника' : 'кулачковый вал'} — Pmax ≈ ${pmax.toFixed(0)} бар, расход ≈ ${sfoc.toFixed(0)} г/кВт·ч. Для справки идеальное Pmax ≈ 150 бар (расход 170 г/кВт·ч).`;
+    }
+  });
+  const B = (id, f) => { $(root, '#' + id).onclick = f; };
+  B('b1', () => { S.sens = Math.min(2, S.sens + 1); }); B('b2', () => { S.pump = Math.min(2, S.pump + 1); });
+  B('b3', () => { S.slow = !S.slow; }); B('b4', () => { S.shut = true; });
+  B('b0', () => { S.sens = 0; S.pump = 0; S.slow = false; S.shut = false; S.P = Math.max(S.P, 0); });
+  bind(root, ['rpm', 'inj', 'exo'], () => { });
+  return kit;
+};
+
+// ============ 2. Навигационное электрооборудование мостика ============
+SIMS.navpower = root => {
+  const W = 920, H = 540;
+  const S = { mainOK: true, tb: 0, genFail: false, soc: 1, gm: 1, gyro: 1, radar: 1, last: null };
+  const parts = [
+    { id: 'msb', x: 20, y: 40, w: 170, h: 70, label: 'Главный распред. щит\n(ГРЩ) 440 В', color: '#a04000', desc: 'Главный распределительный щит: сюда подключены судовые генераторы. Это основной источник для всего судна, в том числе для мостика. Блэкаут — когда все генераторы встали и щит остался без напряжения.' },
+    { id: 'esb', x: 20, y: 200, w: 170, h: 70, label: 'Аварийный щит (АРЩ)\n+ аварийный ДГ', color: '#6c3483', desc: 'Аварийный распределительный щит и аварийный дизель-генератор. В нормальном режиме щит питается от ГРЩ. При блэкауте дизель стартует сам и принимает нагрузку в течение 45 секунд (требование SOLAS, сверять с классификационным обществом). Он питает только самое важное: навигацию, связь, освещение, рули.' },
+    { id: 'nsb', x: 270, y: 110, w: 190, h: 110, label: 'Распределительный щит\nнавигации (АВР)\nФидеры: основной и аварийный', color: '#1f6fa5', desc: 'Щит мостика с двумя входами — основным (от ГРЩ) и аварийным (от АРЩ). АВР (автоматический ввод резерва) сам переключается на запасной фидер, когда основной пропал. Если откажет — мостик останется без питания, поэтому приборы дополнительно подстрахованы аккумуляторами.' },
+    { id: 'ups', x: 270, y: 300, w: 190, h: 70, label: 'Аккумуляторы и ИБП 24 В\n(бесперебойное питание)', color: '#1e8449', desc: 'ИБП — источник бесперебойного питания: зарядное устройство плюс батарея на 24 В. Пока сеть есть — заряжает батарею. Пропала сеть — приборы переходят на батарею без пропуска. Это «переходный источник»: перекрывает пустоту, пока запускается аварийный дизель. Сели аккумуляторы — приборы гаснут.' },
+    { id: 'gyro', x: 650, y: 14, w: 250, h: 52, label: 'Гирокомпас', color: '#1e8449', desc: 'Прибор, который сам находит направление на север. Ему нужен стабильный ток: ротор раскручен до десятков тысяч оборотов. Если питание пропало — гироскоп останавливается и после включения идёт на меридиан (на север) несколько часов (типично 3–6 ч). Поэтому его подключают к ИБП.' },
+    { id: 'mag', x: 650, y: 77, w: 250, h: 52, label: 'Магнитный компас', color: '#1e8449', desc: 'Обычный компас со стрелкой. Электричества не требует вообще — только лампочка подсветки. Это последний резерв направления: если все электрические приборы погасли, курс всё равно виден. Ошибка — девиация (влияние стальных конструкций), её периодически проверяют.' },
+    { id: 'gnss', x: 650, y: 140, w: 250, h: 52, label: 'GNSS/GPS и AIS', color: '#1e8449', desc: 'GNSS (глобальная навигационная спутниковая система, включая GPS) — определяет место судна. AIS (автоматическая идентификационная система) — передаёт данные о судне другим кораблям и берегу. Потеряют питание — пропадёт точка на карте, суда перестанут видеть вас на экранах.' },
+    { id: 'rad', x: 650, y: 203, w: 250, h: 52, label: 'Радар', color: '#1e8449', desc: 'Радиолокатор показывает берег и другие суда, в тумане и ночью. Мощный потребитель, поэтому обычно не стоит на ИБП: при блэкауте гаснет, а когда аварийный фидер появился, прогревается около минуты (типично).' },
+    { id: 'ecd', x: 650, y: 266, w: 250, h: 52, label: 'ECDIS (электронная карта)\n+ резервный комплект', color: '#1e8449', desc: 'ECDIS (электронная картографическая навигационная информационная система) заменяет бумажную карту. Обязателен резервный: второй ECDIS на отдельном питании или бумажные карты. Если пропадёт питание, карта гаснет — важно, чтобы резерв был на другом источнике.' },
+    { id: 'ap', x: 650, y: 329, w: 250, h: 52, label: 'Автопилот, эхолот, лаг', color: '#1e8449', desc: 'Автопилот держит курс, эхолот измеряет глубину под килём, лаг — скорость относительно воды. При аварийном питании автопилот обычно отключается: на ручном управлении рулём судно ведёт рулевой. Эхолот и лаг тоже зависят от проекта.' },
+    { id: 'vdr', x: 650, y: 392, w: 250, h: 52, label: 'VDR («чёрный ящик»)\n+ BNWAS (бдительность)', color: '#1e8449', desc: 'VDR (регистратор данных рейса) записывает переговоры на мостике, радар, курс, скорость — для расследования аварий. После пропажи основной сети должен работать от резервной батареи ещё около 2 часов (сверять с требованиями). BNWAS (система сигнализации бдительности вахтенного) будит вахтенного, если он не нажал кнопку.' },
+    { id: 'gm', x: 650, y: 455, w: 250, h: 52, label: 'Радиостанции ГМССБ\n(своя резервная батарея)', color: '#1e8449', desc: 'ГМССБ — глобальная морская система связи при бедствии и для безопасности. Передаёт сигнал бедствия, принимает штормовые предупреждения. Имеет собственную резервную батарею: 1 или 6 часов (в зависимости от того, есть ли на судне соответствующий аварийный источник; сверять с требованиями классификационного общества и флага).' }
+  ];
+  const steps = [
+    { part: 'msb', text: 'В нормальном режиме мостик питается от главного щита: ток 440 В идёт на щит навигации. Оттуда — на приборы.' },
+    { part: 'esb', text: 'Аварийный щит запитан от главного (серые стрелки). Аварийный дизель стоит наготове: по сигналу пропажи напряжения стартует.' },
+    { part: 'nsb', text: 'Щит навигации сам выбирает источник. Нажмите «Блэкаут»: основной фидер погаснет, АВР дождётся аварийного дизеля и переключится.' },
+    { part: 'ups', text: 'Пока дизель запускается (до 45 с), все критичные приборы держатся на аккумуляторах, а у радара питание пропадает.' },
+    { part: 'gyro', text: 'Гирокомпас — на ИБП: потеряет питание, придётся ждать часы выхода на меридиан. Попробуйте «Только АКБ» и маленькую ёмкость.' },
+    { part: 'mag', text: 'Магнитный компас работает всегда — в нём нет электроники. Последний друг штурмана при блэкауте.' },
+    { part: 'rad', text: 'Радар гаснет при блэкауте и прогревается после появления аварийного питания. Автопилот на аварийный фидер не переходит.' },
+    { part: 'ecd', text: 'ECDIS на ИБП работает без перерыва; второй комплект должен быть на отдельном питании.' },
+    { part: 'vdr', text: 'VDR продолжает запись от своей резервной батареи; без неё расследование аварии потеряет все данные.' },
+    { part: 'gm', text: 'ГМССБ имеет собственный резерв: 1 или 6 часов (ползунок «Резерв ГМССБ»). Потратили — радио замолчит.' }
+  ];
+  const controls = `<div class="ctls">${slider('cap', 'Ёмкость АКБ ИБП', 20, 200, 60, 10, 'А·ч (24 В)')}
+  <label class="ctl">Режим питания: <select id="mode"><option value="auto">Автоматически (АВР)</option><option value="main">Принудительно основной фидер</option><option value="emerg">Принудительно аварийный фидер</option><option value="batt">Только АКБ (оба фидера отключены)</option></select></label>
+  <label class="ctl">Резерв ГМССБ: <select id="gmh"><option value="1">1 час (есть аварийный источник)</option><option value="6" selected>6 часов (нет аварийного источника)</option></select></label>
+  <label class="ctl">Скорость времени: <select id="spd"><option value="1">×1</option><option value="10" selected>×10</option><option value="60">×60</option><option value="600">×600</option></select></label></div>
+  <div class="ctls"><button class="btn" id="n1">Блэкаут</button><button class="btn" id="n2">Аварийный ДГ не запустился</button><button class="btn" id="n3">Восстановить питание</button></div>
+  <p class="note">Цифры учебные: типично, задаёт проект. Нормы SOLAS (глава V — навигационное оборудование; глава IV — ГМССБ: резерв 1 час при соответствующем аварийном источнике, 6 часов при его отсутствии; аварийный ДГ принимает нагрузку не позднее 45 с; переходный источник на пассажирских судах — 30 мин; аварийный источник — до 36 ч) изложены кратко и неполно — <b>сверять с требованиями классификационного общества и флага.</b></p>`;
+  const kit = schemeKit(root, {
+    w: W, h: H, parts, steps, controls,
+    draw(g, t) {
+      const dt = S.last === null ? 0 : Math.min(0.1, t - S.last); S.last = t;
+      const dS = dt * +$(root, '#spd').value, cap = val(root, 'cap'), gmh = +$(root, '#gmh').value, mode = $(root, '#mode').value;
+      if (!S.mainOK) S.tb += dS;
+      const genUp = !S.mainOK && !S.genFail && S.tb >= 45, emBus = S.mainOK || genUp;
+      const src = mode === 'batt' ? 'none' : mode === 'main' ? (S.mainOK ? 'main' : 'none') : mode === 'emerg' ? (emBus ? 'emerg' : 'none') : S.mainOK ? 'main' : emBus ? 'emerg' : 'none';
+      const live = src !== 'none', Wups = 250 + 200 + 60 + 100;
+      if (live) S.soc = Math.min(1, S.soc + dS / 36000); else S.soc = Math.max(0, S.soc - Wups * dS / 3600 / (cap * 24 * 0.8));
+      if (live) S.gm = Math.min(1, S.gm + dS / 36000); else S.gm = Math.max(0, S.gm - dS / 3600 / gmh);
+      const upsAlive = live || S.soc > 0, gmAlive = live || S.gm > 0;
+      if (upsAlive) S.gyro = Math.min(1, S.gyro + dS / 14400); else S.gyro = 0;
+      if (live) S.radar = Math.min(1, S.radar + dS / 60); else S.radar = 0;
+      const apOn = src === 'main';
+      const ON = '#1e8449', BAT = '#b9770e', OFF = '#4d5656', WARM = '#7d6608';
+      const fromW = (alive, w, ups, name, extra) => { // состояние и подпись
+        const p = parts.find(q => q.id === name.id);
+        let c, s;
+        if (!alive) { c = OFF; s = 'ОТКЛЮЧЁН'; }
+        else { c = live ? ON : BAT; s = live ? 'питание от сети' : 'работает от АКБ'; }
+        if (alive && extra) { s = extra; c = WARM; }
+        p.color = c; p.label = name.t + '\n' + s + (alive ? ' · ' + w + ' Вт' : '');
+      };
+      fromW(upsAlive, 250, 1, { id: 'gyro', t: 'Гирокомпас' }, S.gyro < 1 ? `выход на меридиан ${(S.gyro * 100).toFixed(0)} %` : null);
+      parts.find(q => q.id === 'mag').label = 'Магнитный компас\nработает без тока (только подсветка)'; parts.find(q => q.id === 'mag').color = ON;
+      fromW(upsAlive, 60, 1, { id: 'gnss', t: 'GNSS/GPS и AIS' });
+      fromW(live, 350, 0, { id: 'rad', t: 'Радар' }, live && S.radar < 1 ? `прогрев ${(S.radar * 100).toFixed(0)} %` : null);
+      fromW(upsAlive, 200, 1, { id: 'ecd', t: 'ECDIS + резервный комплект' });
+      fromW(apOn, 120, 0, { id: 'ap', t: 'Автопилот, эхолот, лаг' });
+      fromW(upsAlive, 100, 1, { id: 'vdr', t: 'VDR + BNWAS' });
+      fromW(gmAlive, 300, 1, { id: 'gm', t: 'Радиостанции ГМССБ' }, gmAlive && !live ? 'работает от своей АКБ' : null);
+      parts.find(q => q.id === 'msb').color = S.mainOK ? '#a04000' : '#4d5656';
+      parts.find(q => q.id === 'esb').color = genUp ? '#6c3483' : S.mainOK ? '#6c3483' : '#4d5656';
+      parts.find(q => q.id === 'nsb').color = live ? '#1f6fa5' : '#4d5656';
+      parts.find(q => q.id === 'ups').color = !live && S.soc > 0 ? '#b9770e' : S.soc <= 0 ? '#7b241c' : '#1e8449';
+      parts.find(q => q.id === 'ups').label = `АКБ и ИБП 24 В\nзаряд ${(S.soc * 100).toFixed(0)} % · ${cap} А·ч`;
+      const MAIN = '#e67e22', EM = '#b36bff', AC = '#f4d03f', DC = '#2ecc71';
+      flowB(g, [[190, 75], [230, 75], [230, 140], [270, 140]], MAIN, t, src === 'main', 4);
+      flowB(g, [[190, 235], [230, 235], [230, 190], [270, 190]], EM, t, src === 'emerg', 4);
+      flowB(g, [[105, 110], [105, 200]], MAIN, t, S.mainOK, 3);
+      flowB(g, live ? [[365, 220], [365, 300]] : [[365, 300], [365, 220]], DC, t, live || S.soc > 0, 3);
+      flowB(g, [[460, 165], [560, 165]], AC, t, live, 4);
+      const busCol = live ? AC : DC;
+      flowB(g, [[560, 40], [560, 481]], busCol, t, upsAlive || gmAlive, 4);
+      const list = [['gyro', 40, upsAlive], ['mag', 103, true], ['gnss', 166, upsAlive], ['rad', 229, live], ['ecd', 292, upsAlive], ['ap', 355, apOn], ['vdr', 418, upsAlive], ['gm', 481, gmAlive]];
+      list.forEach(([id, y, on]) => { flowB(g, [[560, y], [650, y]], live ? AC : DC, t, on && id !== 'mag', 3); });
+      if (!live && S.soc > 0) flowB(g, [[460, 335], [560, 335]], DC, t, true, 4);
+      g.fillStyle = css('--fg'); g.font = '12px system-ui'; g.textAlign = 'left';
+      g.fillText('основной фидер', 232, 100); g.fillText('аварийный фидер', 192, 262); g.fillText('ток', 569, 55);
+      g.fillText(live ? '230 В переменного тока' : '24 В от АКБ', 466, 156);
+      // показания
+      g.font = '13px system-ui'; const srcT = { main: 'основной (ГРЩ)', emerg: 'аварийный (АРЩ)', none: 'НЕТ (АКБ)' }[src];
+      const rows = [
+        `Время блэкаута: ${S.mainOK ? '—' : fmtT(S.tb)}`, `Источник мостика: ${srcT}`,
+        `Аварийный ДГ: ${S.mainOK ? 'готов (в дежурстве)' : S.genFail ? 'НЕ ЗАПУСТИЛСЯ' : genUp ? 'в работе' : 'запуск (до 45 с)…'}`,
+        `АКБ ИБП: ${(S.soc * 100).toFixed(0)} % · хватит на ${live ? '—' : fmtT(S.soc * cap * 24 * 0.8 / Wups * 3600)}`,
+        `Нагрузка на ИБП: ${Wups} Вт`, `ГМССБ: осталось ${(S.gm * gmh).toFixed(1)} ч из ${gmh} ч`,
+        `Гирокомпас: ${upsAlive ? (S.gyro < 1 ? 'выход на меридиан ' + (S.gyro * 100).toFixed(0) + ' %' : 'готов') : 'остановлен'}`
+      ];
+      rows.forEach((s, i) => g.fillText(s, 20, 322 + i * 21));
+      g.font = '600 13px system-ui'; g.fillStyle = !live && S.soc <= 0 ? '#e74c3c' : S.mainOK ? '#2ecc71' : '#f39c12';
+      g.fillText(!live && S.soc <= 0 ? 'АКБ разряжены: мостик без питания!' : S.mainOK ? 'Нормальное питание.' : live ? 'Блэкаут: питание от аварийного источника.' : 'Блэкаут: питание только от АКБ.', 20, 480);
+      g.font = '12px system-ui'; [[MAIN, 'сеть 440 В от ГРЩ'], [EM, 'аварийный фидер'], [AC, '230 В на приборы'], [DC, '24 В постоянный ток (АКБ)']].forEach((q, i) => { g.strokeStyle = q[0]; g.lineWidth = 4; g.beginPath(); g.moveTo(275, 410 + i * 17); g.lineTo(305, 410 + i * 17); g.stroke(); g.lineWidth = 1; g.fillStyle = css('--fg'); g.fillText(q[1], 313, 411 + i * 17); });
+      g.fillText('серый пунктир — нет тока', 275, 490);
+    }
+  });
+  const B = (id, f) => { $(root, '#' + id).onclick = f; };
+  B('n1', () => { S.mainOK = false; S.tb = 0; }); B('n2', () => { S.genFail = !S.genFail; $(root, '#n2').className = 'btn' + (S.genFail ? ' on' : ''); });
+  B('n3', () => { S.mainOK = true; S.tb = 0; });
+  bind(root, ['cap'], () => { });
+  return kit;
+};
+
+
+const LIST = [
+ ["shipboiler","🔥","Судовой котёл","Топливо, воздух, вода и пар: как котёл держит давление и уровень, что делает автоматика."],
+ ["shipthruster","🌀","Подруливающее устройство","Электродвигатель, шаг винта и тяга носового подруливающего: пуск и управление."],
+ ["mainengine","🚢","Главный двигатель с электронным управлением","Схема системы: блоки, экскурсия по шагам, что происходит при пуске и нагрузке."],
+ ["navpower","🧭","Питание навигационного оборудования","Основное и аварийное питание, ИБП: что остаётся работать при пропадании напряжения."]
+];
+const menu = document.getElementById('menu'), stage = document.getElementById('stage'), host = document.getElementById('host');
+menu.innerHTML = LIST.map(x => '<button type="button" data-s="' + x[0] + '"><i>' + x[1] + '</i><div><b>' + x[2] + '</b><span>' + x[3] + '</span></div></button>').join('');
+function open(id) {
+  host.innerHTML = ''; const root = document.createElement('div'); host.appendChild(root);
+  menu.hidden = true; stage.hidden = false; window.scrollTo(0, 0);
+  try { SIMS[id](root); } catch (e) { root.textContent = 'Тренажёр не запустился.'; }
+}
+function close() { host.innerHTML = ''; stage.hidden = true; menu.hidden = false; }
+menu.addEventListener('click', e => { const b = e.target.closest('[data-s]'); if (b) open(b.dataset.s); });
+document.getElementById('back').addEventListener('click', close);
+</script></body></html>
