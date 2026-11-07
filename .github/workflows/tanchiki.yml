@@ -39,7 +39,7 @@ jobs:
             fi
           }
           # Все игры правятся прямо здесь, в games/*.html (оба разработчика могут их менять)
-          for g in tanchiki:tk-src samolety:sm-src durak:dr-src debertz:db-src chess:cs-src checkers:cr-src nardy:nd-src morboy:mb-src sudoku:su-src pyatnashki:p15-src krossvord:kw-src more2048:g2-src; do
+          for g in tanchiki:tk-src samolety:sm-src durak:dr-src debertz:db-src chess:cs-src checkers:cr-src nardy:nd-src morboy:mb-src sudoku:su-src pyatnashki:p15-src krossvord:kw-src more2048:g2-src trenazhery:tr-src trenazhery-mech:tm-src trenazhery-ship:ts-src trenazhery-el:te-src; do
             put "games/${g%%:*}.html" "${g##*:}" || true
           done
           echo "changed=$CHANGED" >> "$GITHUB_OUTPUT"
