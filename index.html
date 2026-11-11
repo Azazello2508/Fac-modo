@@ -35,8 +35,9 @@ fmOtaVerify(j, байты) — проверка ДО сохранения: не�
 FM_STORE — сборка для App Store (ios-store.yml подставляет 1): обновление ставится только с store_ok:true (только исправления, правило Apple 2.5.2).
 Флаг запоминается в fm_store, потому что скачанная с сайта версия собрана с FM_STORE=0. */
 window.FM_STORE=("__FM_STORE__"=="1")?1:0;
+window.FM_PLAY=("__FM_PLAY__"=="1")?1:0;/* сборка для Google Play (android.yml подставляет 1 в AAB): включает покупку (pro-js) и выключает самообновление с сайта (правила Google Play) */
 (function(){var OTA_PUB="MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEfyRIlFfANodRpXCPVIJOXUm1fKPszkKBJxZKodBwqQKCr4NDKzA1wKrjBdHSx6e124qPZBdzSpY2WuQUQcNwkQ==",L=localStorage;
-try{var C=window.Capacitor;if(C&&C.isNativePlatform&&C.isNativePlatform()&&location.href.indexOf("/_capacitor_file_/")<0){if(FM_STORE)L.setItem("fm_store","1");else L.removeItem("fm_store")}}catch(e){}
+try{var C=window.Capacitor;if(C&&C.isNativePlatform&&C.isNativePlatform()&&location.href.indexOf("/_capacitor_file_/")<0){if(FM_STORE)L.setItem("fm_store","1");else L.removeItem("fm_store");if(FM_PLAY)L.setItem("fm_play","1")}}catch(e){}
 function lg(ev,d){try{if(window.fmLog)fmLog("warn","ota:"+ev,d||{})}catch(e){}}
 function b64(s){var b=atob(s),u=new Uint8Array(b.length);for(var i=0;i<b.length;i++)u[i]=b.charCodeAt(i);return u}
 function hex(u){var s="";for(var i=0;i<u.length;i++)s+=(u[i]<16?"0":"")+u[i].toString(16);return s}
@@ -68,10 +69,12 @@ function verify(msg,sg){var pub=b64(OTA_PUB),S=sub();
  if(!S)return js();
  return S.importKey("spki",pub,{name:"ECDSA",namedCurve:"P-256"},false,["verify"]).then(function(k){return S.verify({name:"ECDSA",hash:"SHA-256"},k,sg,msg)}).catch(js)}
 window.fmOtaStore=function(){return!!(FM_STORE||L.getItem("fm_store")=="1")};
+window.fmOtaPlay=function(){return!!(FM_PLAY||L.getItem("fm_play")=="1")};
 /* до скачивания index.html: не качать 4 МБ, если версию всё равно не примем (магазинный режим, нет подписи после подписанной, эта сборка уже не прошла проверку подписи) */
-window.fmOtaPre=function(j){var b=+j.build||0;return!(fmOtaStore()&&j.store_ok!==true)&&!(!j.sig&&L.getItem("fm_otasig")=="1")&&String(b)!==L.getItem("fm_otabad")};
+window.fmOtaPre=function(j){var b=+j.build||0;return!fmOtaPlay()&&!(fmOtaStore()&&j.store_ok!==true)&&!(!j.sig&&L.getItem("fm_otasig")=="1")&&String(b)!==L.getItem("fm_otabad")};
 window.fmOtaVerify=function(j,ab){var u=new Uint8Array(ab),b=+j.build||0,so=j.store_ok===true;
  var txt=function(){return new TextDecoder("utf-8").decode(u)};
+ if(fmOtaPlay()){lg("play-skip",{b:b});return Promise.reject("play")}
  if(fmOtaStore()&&!so){lg("store-skip",{b:b});return Promise.reject("store")}
  if(!j.sig){if(L.getItem("fm_otasig")=="1"){lg("unsigned",{b:b});return Promise.reject("unsigned")}return Promise.resolve(txt())}
  return digest(u).then(function(h){var hx=hex(h);if(typeof j.sha256!="string"||j.sha256.toLowerCase()!==hx){lg("sha",{b:b});throw"sha"}
@@ -365,6 +368,7 @@ main:not([data-tab="set"])>[data-t="set"]{display:none}
 <section class="card" data-t="know" id="ecl" translate="no"></section>
 <section class="card" data-t="know" id="mcl" translate="no"></section>
 <section class="card" data-t="know" id="trs" translate="no"></section>
+<section class="card" data-t="set" id="pro" translate="no" hidden></section>
 <section class="card" data-t="know" id="shn" translate="no"></section>
 <section class="card" data-t="know" id="srf" translate="no"></section>
 <section class="card" data-t="know" id="rlg" translate="no"></section>
@@ -2750,7 +2754,7 @@ if(d.pkx=="def"&&confirm(L("Вернуть стандартный список? 
 var TR={buf:[],n:0,role:""};
 /* Не переносятся ключи этого телефона: журнал, очередь, PIN-попытки, режим разработчика, список автокопий, флаги, предупреждения, повреждённые данные,
    самообновление и магазинный режим (fm_ota*, fm_store), свои видео и место просмотра (fm_flv*: файлов на другом телефоне нет). Получатель их тоже пропускает. */
-var TRX=/^fm_(flv|log|dlq|pintry|dev|bkx|flags|alert|broken|ota|store|hc|pro)/;
+var TRX=/^fm_(flv|log|dlq|pintry|dev|bkx|flags|alert|broken|ota|store|hc|pro|play)/;
 function trData(){var o={app:"fac-modo",st:st,ls:{}};for(var i=0;i<localStorage.length;i++){var k=localStorage.key(i);if(/^fm_/.test(k)&&!TRX.test(k))o.ls[k]=localStorage.getItem(k)}return JSON.stringify(o)}
 function trMsg(t){var e=$("trp");if(e)e.textContent=t}
 function trSink(m){if(m.fm=="net-ready"){if(TR.role=="send")trSend();else trMsg(L("Соединено. Получаю данные…","Connected. Receiving data…","З'єднано. Отримую дані…"));return}
@@ -3276,27 +3280,80 @@ el.addEventListener("click",function(e){var b=e.target.closest&&e.target.closest
  if(e.target.closest&&e.target.closest("#fbs")){if(!d.x.trim()){e.preventDefault();x.focus();if(window.toast)toast(L("Сначала напишите пару слов","Write a few words first","Спершу напишіть кілька слів"));return}
   s.href=href();setTimeout(function(){d.x="";x.value="";keep();paint();if(window.toast)toast(L("Спасибо! Письмо открыто в почте — нажмите «Отправить» там.","Thank you! The message is open in Mail — tap Send there.","Дякуємо! Лист відкрито в пошті — натисніть «Надіслати» там."))},800)}});
 x.addEventListener("input",function(){d.x=x.value.slice(0,4000);keep();paint()});paint()})();</script>
-<script id="pro-js">/* Заготовка под покупку (fmPro). Решение 04.11.2026: приложение бесплатное + разовая покупка «навсегда» (Non-Consumable), пробный период 3 дня.
-ПОКА ВСЁ БЕСПЛАТНО: переключатель ON=0, поэтому fmPro.has() всегда true. Оплаты, окон покупки и закрытых разделов здесь нет.
-Какие разделы платные, ещё не решено: когда решит Костя, id раздела вписывается в PAID (и включается ON). Уровень раздела берётся ТОЛЬКО отсюда.
-Ключ fm_pro = {v, t0 (первое открытие, мс), b0 (сборка при первом открытии: по ней позже отличить старых пользователей), own (куплено, 0/1)}.
-Ключ не переносится и не попадает в копии (иначе купленное «ушло бы» вместе с файлом копии): покупка возвращается из магазина, а не из файла.
-Нужно ли магазину ОТПРАВЛЯТЬ купленное на другой телефон — решит плагин оплаты (восстановление покупок), он вызовет fmPro.setOwned(1). Проверка: PROTEST.decide(...) */
-(function(){var K="fm_pro",DAY=864e5,TRIAL=3,ON=0,PAID={},L=localStorage;
+<style id="pro-css">
+#fpw{position:fixed;inset:0;z-index:60;display:none;align-items:flex-end;justify-content:center;background:rgba(0,0,0,.6)}#fpw.on{display:flex}
+#fpw .fpb{width:100%;max-width:520px;max-height:92vh;overflow:auto;background:var(--bg);color:var(--ink);border-radius:18px 18px 0 0;padding:16px 16px calc(18px + env(safe-area-inset-bottom,0px));border:1px solid var(--line)}
+#fpw h3,#pro h3{margin:0 0 6px}#fpw .fpl{margin:8px 0;padding:0;list-style:none}#fpw .fpl li{margin:6px 0;padding:8px 10px;border-radius:10px;background:var(--card);font-size:14px}#fpw .fpl b{display:block}
+.fpbtn{display:block;width:100%;min-height:48px;margin:8px 0 0;border-radius:12px;font:inherit;font-weight:700}
+</style>
+<script id="pro-js">/* Покупка «Полный доступ» (fmPro). Решения Кости: приложение бесплатное + разовая покупка «навсегда» (Non-Consumable, Google Play Billing),
+пробный период 3 ДНЯ ИСПОЛЬЗОВАНИЯ (считаются разные дни, когда приложение открывали), цена 9,99 $ (задаётся в Play Console).
+ВКЛЮЧЕНО ТОЛЬКО В СБОРКЕ ДЛЯ GOOGLE PLAY (FM_PLAY=1: android.yml подставляет 1 в AAB). Во всех остальных сборках (сайт, ПК, apk для друзей и тестировщиков, iPhone) fmPro.on()=false, и всё открыто.
+Платные разделы — список PKG ниже (единственное место, где это задаётся). Покупка одна и открывает все три пакета.
+Ключ fm_pro = {v, t0, b0 (сборка при первом открытии), own (куплено, 0/1), d (дни использования)}. Не переносится и не попадает в копии (TRX: |pro): покупка возвращается из магазина (восстановление), а не из файла.
+Плагин оплаты — cordova-plugin-purchase (глобальный CdvPurchase), ставится ТОЛЬКО в сборку AAB (android.yml). Без него (или без интернета) окно покупки пишет, что покупка недоступна; уже купленное остаётся (own=1), отзыв покупки не отнимает доступ.
+Проверка логики: PROTEST.decide(...), PROTEST.force(on) (только для тестов). */
+(function(){var K="fm_pro",PID="fm_full",TRIAL=3,L=localStorage,ON=(window.FM_PLAY||L.getItem("fm_play")=="1")?1:0;
+var PKG={coast:["sh1","sh2","sh3","sh5","rz","ap","iv"],exams:["lib","gl"],tools:["ecl","mcl","trs"]},PAID={};
+Object.keys(PKG).forEach(function(k){PKG[k].forEach(function(i){PAID[i]=k})});
+var T=function(r,e,u){return window.fmL?fmL(r,e,u):r};
 function rd(){try{var o=JSON.parse(L.getItem(K)||"null");if(o&&typeof o=="object"&&o.t0>0)return o}catch(e){}return null}
 function wr(o){try{L.setItem(K,JSON.stringify(o))}catch(e){}return o}
-function st0(){return rd()||wr({v:1,t0:Date.now(),b0:+window.FM_BUILD||0,own:0})}
+function day(){var t=new Date();return t.getFullYear()+"-"+("0"+(t.getMonth()+1)).slice(-2)+"-"+("0"+t.getDate()).slice(-2)}
+/* состояние; новый день использования записывается сразу (не больше TRIAL+2 штук, дальше счёт не нужен) */
+function st0(){var o=rd(),ch=!o;if(!o)o={v:2,t0:Date.now(),b0:+window.FM_BUILD||0,own:0,d:[]};if(!Array.isArray(o.d)){o.d=[];ch=1}
+ var dd=day();if(o.d.indexOf(dd)<0&&o.d.length<TRIAL+2){o.d.push(dd);ch=1}if(ch)wr(o);return o}
 /* можно ли пользоваться разделом: on — переключатель, paid — раздел платный, own — куплено, tr — идёт пробный период */
 function decide(on,paid,own,tr){return!on||!paid||!!own||!!tr}
+var S=null,PR=null,note="",tries=0;
 var P=window.fmPro={
  on:function(){return!!ON},
  tier:function(id){return PAID[id]?"paid":"free"},
+ pkg:function(id){return PAID[id]||""},
  owned:function(){return!!st0().own},
- trial:function(){var left=TRIAL-Math.floor((Date.now()-st0().t0)/DAY);return{on:left>0,left:Math.max(0,left)}},
+ trial:function(){var u=st0().d.length;return{on:u<=TRIAL,left:Math.max(0,TRIAL-u+1)}},
  has:function(id){return decide(ON,PAID[id],P.owned(),P.trial().on)},
- setOwned:function(v){var s=st0();s.own=v?1:0;wr(s);try{dispatchEvent(new CustomEvent("fmpro"))}catch(e){}}
+ setOwned:function(v){var s=st0();s.own=v?1:0;wr(s);ev()},
+ price:function(){try{var o=PR&&PR.offers&&PR.offers[0];if(!o)return"";var p=(o.pricingPhases&&o.pricingPhases[0])||o.pricing||{};return p.price||""}catch(e){return""}},
+ ready:function(){return!!(S&&PR)},
+ note:function(){return note},
+ buy:function(){try{var o=PR&&PR.getOffer&&PR.getOffer();if(!o){note=T("Покупка сейчас недоступна: нужен интернет и Google Play.","Purchase is unavailable now: internet and Google Play are required.","Покупка зараз недоступна: потрібен інтернет і Google Play.");ev();return}
+   note=T("Открываю окно Google Play…","Opening Google Play…","Відкриваю вікно Google Play…");ev();o.order().then(function(e){if(e&&e.isError){note=String(e.message||e.code||"");ev()}})}catch(e){note=String(e&&e.message||e);ev()}},
+ restore:function(){try{if(!S){note=T("Магазин недоступен.","Store is unavailable.","Магазин недоступний.");ev();return}
+   note=T("Проверяю покупки…","Checking purchases…","Перевіряю покупки…");ev();S.restorePurchases().then(function(){sync();if(!P.owned()){note=T("Покупок на этом аккаунте Google не найдено.","No purchases found on this Google account.","Покупок на цьому акаунті Google не знайдено.");ev()}})}catch(e){note=String(e&&e.message||e);ev()}},
+ wall:function(id){wall(id)}
 };
-window.PROTEST={decide:decide,trial:TRIAL};
+function ev(){try{dispatchEvent(new CustomEvent("fmpro"))}catch(e){}}
+function sync(){try{if(!S)return;PR=S.get(PID,window.CdvPurchase.Platform.GOOGLE_PLAY)||PR;if(S.owned(PID)||(PR&&PR.owned))P.setOwned(1);else ev()}catch(e){}}
+function initStore(){if(!ON||S)return;var C=window.CdvPurchase;
+ if(!C||!C.store){if(tries++<5)setTimeout(initStore,2000);return}
+ try{var st=C.store,PL=C.Platform.GOOGLE_PLAY;st.register([{id:PID,type:C.ProductType.NON_CONSUMABLE,platform:PL}]);
+  st.when().approved(function(t){try{t.finish()}catch(e){}});st.when().productUpdated(sync);st.when().receiptUpdated(sync);
+  st.error(function(e){note=String(e&&e.message||e);ev()});S=st;st.initialize([PL]).then(sync)}catch(e){S=null;note=String(e&&e.message||e)}}
+document.addEventListener("deviceready",initStore);window.addEventListener("load",function(){setTimeout(initStore,500)});
+/* окно покупки */
+var W=null;
+function pk(k,r){return"<li><b>"+r[0]+"</b>"+r[1]+"</li>"}
+function body(id){var tr=P.trial(),h="<h3>💎 "+T("Полный доступ","Full access","Повний доступ")+"</h3>";
+ if(P.owned())return h+"<p>✅ "+T("Куплено. Спасибо! Всё открыто навсегда.","Purchased. Thank you! Everything is unlocked for good.","Придбано. Дякуємо! Усе відкрито назавжди.")+"</p>";
+ h+="<p>"+(tr.on?T("Пробный период: осталось дней использования — ","Trial: days of use left — ","Пробний період: залишилось днів використання — ")+tr.left+".":(id?T("Этот раздел входит в полный доступ. ","This section is part of full access. ","Цей розділ входить у повний доступ. "):"")+T("Пробный период закончился.","The trial is over.","Пробний період закінчився."))+"</p>";
+ h+='<ul class="fpl">'+pk("coast",[T("Берег и карьера","Shore and career","Берег і кар’єра"),T("Курс на берег, дерево навыков, дорожные карты, резюме, трекер откликов, собеседование на английском","Shore course, skill tree, roadmaps, résumé, job tracker, English interview","Курс на берег, дерево навичок, дорожні карти, резюме, трекер відгуків, співбесіда англійською")])
+  +pk("exams",[T("Дипломы и экзамены","Certificates and exams","Дипломи та іспити"),T("Библиотека знаний и глоссарий","Knowledge library and glossary","Бібліотека знань і глосарій")])
+  +pk("tools",[T("Тренажёры и расчёты","Trainers and calculators","Тренажери та розрахунки"),T("18 тренажёров, расчёты электромеханика и механика, новые тренажёры и расчёты","18 trainers, electrician’s and engineer’s calculations, new trainers and calculations","18 тренажерів, розрахунки електромеханіка та механіка, нові тренажери й розрахунки")])+"</ul>";
+ h+='<p class="note" style="margin:6px 0">'+T("Один платёж, навсегда, без подписки. Бесплатными остаются вахта и сон, часы отдыха, документы, дом, игры и справочник.","One payment, forever, no subscription. Watch and sleep, rest hours, documents, home, games and the reference stay free.","Один платіж, назавжди, без підписки. Безкоштовними лишаються вахта і сон, години відпочинку, документи, дім, ігри та довідник.")+"</p>";
+ var pr=P.price();h+='<button type="button" class="fpbtn" data-fp="buy" style="background:var(--acc);color:#fff;border:0">'+T("Купить навсегда","Buy for good","Придбати назавжди")+(pr?" — "+pr:"")+"</button>";
+ h+='<button type="button" class="fpbtn" data-fp="restore" style="background:var(--card);color:var(--ink);border:1px solid var(--line)">'+T("Восстановить покупку","Restore purchase","Відновити покупку")+"</button>";
+ if(note)h+='<p class="note" role="status" style="margin:8px 0 0">'+String(note).replace(/[&<>]/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;"}[c]})+"</p>";return h}
+function paint(){var h=null;if(W&&W.classList.contains("on"))W.firstChild.innerHTML=body(W.dataset.id)+'<button type="button" class="fpbtn" data-fp="x" style="background:transparent;color:var(--mute);border:0">'+T("Закрыть","Close","Закрити")+"</button>"}
+function wall(id){if(!W){W=document.createElement("div");W.id="fpw";W.setAttribute("role","dialog");W.setAttribute("aria-modal","true");W.setAttribute("translate","no");W.innerHTML='<div class="fpb"></div>';document.body.appendChild(W);
+  W.addEventListener("click",function(e){var b=e.target.closest("[data-fp]");if(e.target==W||(b&&b.dataset.fp=="x")){W.classList.remove("on");return}if(!b)return;if(b.dataset.fp=="buy")P.buy();else if(b.dataset.fp=="restore")P.restore()})}
+ W.dataset.id=id||"";W.classList.add("on");paint()}
+addEventListener("fmpro",function(){paint();try{if(window.fmProPaint)fmProPaint()}catch(e){}});
+window.PROTEST={decide:decide,trial:TRIAL,force:function(v){ON=v?1:0;ev()},ids:PAID};
+function sec(){var e=document.getElementById("pro");if(!e)return;e.hidden=!ON;e.innerHTML=ON?body(""):""}
+window.fmProPaint=sec;
+document.addEventListener("click",function(e){var b=e.target.closest("#pro [data-fp]");if(!b)return;if(b.dataset.fp=="buy")P.buy();else if(b.dataset.fp=="restore")P.restore()});
+document.addEventListener("DOMContentLoaded",sec);
 st0()})();</script>
 <style id="ux-css">/* Все разделы, поиск и «⭐ Моё» (этап 1 нового вида) */
 main>.uxs{display:flex;align-items:center;gap:8px;width:100%;box-sizing:border-box;min-height:44px;margin:0;padding:0 12px;border-radius:12px;border:1px solid var(--line);background:var(--card);color:var(--mute);font:inherit;font-size:15px;text-align:left;cursor:pointer;backdrop-filter:blur(4px)}
@@ -4475,7 +4532,7 @@ function split(t){var r=t.match(/^((?:\p{Extended_Pictographic}|[\u{1F1E6}-\u{1F
 function set(e,v){if(e.textContent!=v)e.textContent=v}
 function upd(){tiles.forEach(function(p){var b=p[0],s=p[1],t=ttl(s),hd=!t||s.hidden;if(b.hidden!=hd)b.hidden=hd;if(hd)return;var q=split(t);set(b.firstChild,b.dataset.ic||q[0]||ico(s));set(b.lastChild,b.dataset.ttl||q[1])})}
 [].slice.call(mn.children).forEach(function(s){if(s.tagName!="SECTION"||s.classList.contains("hero")||s.classList.contains("quote")||s.id=="tdy")return;var b=document.createElement("button");b.type="button";b.className="fmt";b.setAttribute("data-t",s.getAttribute("data-t"));b.innerHTML="<i></i><b></b>";mn.insertBefore(b,s);s.classList.add("fmc");b.onclick=function(){open(s)};tiles.push([b,s])});
-function open(s){close();if(!s||s.parentNode!==mn)return;cur=s;mn.insertBefore(ph,s);box.appendChild(s);s.classList.remove("fmc");m.classList.add("on");de.classList.add("fmo");box.scrollTop=0}
+function open(s){close();if(!s||s.parentNode!==mn)return;if(window.fmPro&&s.id&&!fmPro.has(s.id)){fmPro.wall(s.id);return}cur=s;mn.insertBefore(ph,s);box.appendChild(s);s.classList.remove("fmc");m.classList.add("on");de.classList.add("fmo");box.scrollTop=0}
 function close(){if(!cur)return;cur.classList.add("fmc");mn.insertBefore(cur,ph);mn.removeChild(ph);cur=null;m.classList.remove("on");de.classList.remove("fmo");upd()}
 window.fmClose=close;document.getElementById("fmx").onclick=close;m.addEventListener("click",function(e){if(e.target==m)close()});
 document.addEventListener("keydown",function(e){if(e.key=="Escape")close()});document.getElementById("nav").addEventListener("click",close,true);
@@ -5353,7 +5410,7 @@ function setMeta(a){try{localStorage.setItem(MK,JSON.stringify(a))}catch(e){}}
 function db(){return DB||(DB=new Promise(function(ok,no){if(!window.indexedDB)return no(Error("no indexedDB"));var r=indexedDB.open("fm-backup",1);r.onupgradeneeded=function(){r.result.createObjectStore("b",{keyPath:"id"})};r.onsuccess=function(){ok(r.result)};r.onerror=function(){DB=null;no(r.error)}}))}
 function tx(mode,fn){return db().then(function(d){return new Promise(function(ok,no){var t=d.transaction("b",mode),q=fn(t.objectStore("b")),res;if(q)q.onsuccess=function(){res=q.result};t.oncomplete=function(){ok(res)};t.onerror=t.onabort=function(){no(t.error)}})})}
 /* Что входит в копию: прогресс и настройки fm_*, кроме журнала, очереди, счётчика попыток PIN и режима разработчика */
-function pack(){var o={app:"fac-modo",v:st._v||FMV,st:st,ls:{}},i,k;for(i=0;i<localStorage.length;i++){k=localStorage.key(i);if(/^fm_/.test(k)&&!/^fm_(flv|log|dlq|pintry|dev|bkx|flags|alert|broken|pro)/.test(k))o.ls[k]=localStorage.getItem(k)}return JSON.stringify(o)}
+function pack(){var o={app:"fac-modo",v:st._v||FMV,st:st,ls:{}},i,k;for(i=0;i<localStorage.length;i++){k=localStorage.key(i);if(/^fm_/.test(k)&&!/^fm_(flv|log|dlq|pintry|dev|bkx|flags|alert|broken|pro|play)/.test(k))o.ls[k]=localStorage.getItem(k)}return JSON.stringify(o)}
 /* Проверка восстановления (restore test): копию можно прочитать, данные на месте, миграция до текущей версии проходит */
 function check(t){try{var o=JSON.parse(t);if(!o||o.app!="fac-modo"||!o.st||typeof o.st!="object")return false;var m=fmMigrate(JSON.parse(JSON.stringify(o.st)));
  if(!m||typeof m.done!="object"||!m.done||typeof m.custom!="object"||!m.custom||typeof m.bonus!="object"||!m.bonus)return false;
