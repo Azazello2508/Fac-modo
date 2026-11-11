@@ -50,13 +50,13 @@ jobs:
       - name: Подготовить проект Android (файлы, иконки, разрешения, версия)
         run: bash tools/android_prepare.sh
 
-      - name: Собрать приложение (APK по ссылке: для друзей и тестировщиков, покупки нет, всё открыто)
+      - name: "Собрать приложение (APK по ссылке для друзей и тестировщиков: покупки нет, всё открыто)"
         run: |
           cd android
           ./gradlew assembleRelease --no-daemon -q
           ls -la app/build/outputs/apk/release/
 
-      - name: Собрать пакет для Google Play (AAB: с покупкой «Полный доступ», без самообновления)
+      - name: "Собрать пакет для Google Play (AAB с покупкой «Полный доступ», без самообновления)"
         # Только в AAB: плагин оплаты cordova-plugin-purchase (Google Play Billing) и флаг FM_PLAY=1 в index.html.
         # В APK по ссылке этого нет: там нечем платить, поэтому всё остаётся бесплатным (решение Кости: друзья и тестировщики).
         run: |
