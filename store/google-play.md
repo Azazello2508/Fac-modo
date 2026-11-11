@@ -13,7 +13,7 @@
 | Категория | Productivity (Производительность); теги — Education, Lifestyle (по желанию) |
 | Политика конфиденциальности | https://azazello2508.github.io/Fac-modo/privacy.html |
 | Сайт | https://azazello2508.github.io/Fac-modo/ |
-| E-mail для связи | адрес поддержки в privacy.html и support.html — facmodo111@gmail.com; какой ящик указать в Play Console как контакт разработчика (Play показывает его всем), решает Костя |
+| E-mail для связи | адрес поддержки в privacy.html и support.html — facmodo111@gmail.com; его же указать в Play Console как контакт разработчика (решение Кости 08.11.2026; Play показывает его всем) |
 | Версия | `versionName` = `version` из package.json (1.0.0), `versionCode` = время коммита (растёт само) |
 
 ## Сборка для Google Play
@@ -158,7 +158,7 @@ Fac Modo — помічник для моряків. Він допомагає �
 План: закрытый трек → список тестировщиков (Google-группа или e-mail’ы) → 12+ человек принимают приглашение и ставят приложение из Play → 14 дней не удаляют → «Apply for production». Тестировщиков можно набрать среди коллег-моряков.
 
 ## Что сделать пользователю — по шагам
-1. Завести отдельную почту для приложения → вписать в `privacy.html` и `support.html` (заменить комментарии `<!-- EMAIL: вписать почту -->` видимой строкой) и в Play Console.
+1. Почта приложения facmodo111@gmail.com уже вписана в `privacy.html` и `support.html`. Осталось указать её в Play Console.
 2. Создать аккаунт разработчика на play.google.com/console (разово 25 $), подтвердить личность.
 3. Create app: имя Fac Modo, язык по умолчанию русский, «Приложение», «Бесплатное».
 4. Дождаться сборки Android на GitHub и скачать `FacModo.aab` (ссылка выше).
