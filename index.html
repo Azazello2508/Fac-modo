@@ -2750,7 +2750,7 @@ if(d.pkx=="def"&&confirm(L("Вернуть стандартный список? 
 var TR={buf:[],n:0,role:""};
 /* Не переносятся ключи этого телефона: журнал, очередь, PIN-попытки, режим разработчика, список автокопий, флаги, предупреждения, повреждённые данные,
    самообновление и магазинный режим (fm_ota*, fm_store), свои видео и место просмотра (fm_flv*: файлов на другом телефоне нет). Получатель их тоже пропускает. */
-var TRX=/^fm_(flv|log|dlq|pintry|dev|bkx|flags|alert|broken|ota|store|hc)/;
+var TRX=/^fm_(flv|log|dlq|pintry|dev|bkx|flags|alert|broken|ota|store|hc|pro)/;
 function trData(){var o={app:"fac-modo",st:st,ls:{}};for(var i=0;i<localStorage.length;i++){var k=localStorage.key(i);if(/^fm_/.test(k)&&!TRX.test(k))o.ls[k]=localStorage.getItem(k)}return JSON.stringify(o)}
 function trMsg(t){var e=$("trp");if(e)e.textContent=t}
 function trSink(m){if(m.fm=="net-ready"){if(TR.role=="send")trSend();else trMsg(L("Соединено. Получаю данные…","Connected. Receiving data…","З'єднано. Отримую дані…"));return}
@@ -3276,6 +3276,28 @@ el.addEventListener("click",function(e){var b=e.target.closest&&e.target.closest
  if(e.target.closest&&e.target.closest("#fbs")){if(!d.x.trim()){e.preventDefault();x.focus();if(window.toast)toast(L("Сначала напишите пару слов","Write a few words first","Спершу напишіть кілька слів"));return}
   s.href=href();setTimeout(function(){d.x="";x.value="";keep();paint();if(window.toast)toast(L("Спасибо! Письмо открыто в почте — нажмите «Отправить» там.","Thank you! The message is open in Mail — tap Send there.","Дякуємо! Лист відкрито в пошті — натисніть «Надіслати» там."))},800)}});
 x.addEventListener("input",function(){d.x=x.value.slice(0,4000);keep();paint()});paint()})();</script>
+<script id="pro-js">/* Заготовка под покупку (fmPro). Решение 04.11.2026: приложение бесплатное + разовая покупка «навсегда» (Non-Consumable), пробный период 3 дня.
+ПОКА ВСЁ БЕСПЛАТНО: переключатель ON=0, поэтому fmPro.has() всегда true. Оплаты, окон покупки и закрытых разделов здесь нет.
+Какие разделы платные, ещё не решено: когда решит Костя, id раздела вписывается в PAID (и включается ON). Уровень раздела берётся ТОЛЬКО отсюда.
+Ключ fm_pro = {v, t0 (первое открытие, мс), b0 (сборка при первом открытии: по ней позже отличить старых пользователей), own (куплено, 0/1)}.
+Ключ не переносится и не попадает в копии (иначе купленное «ушло бы» вместе с файлом копии): покупка возвращается из магазина, а не из файла.
+Нужно ли магазину ОТПРАВЛЯТЬ купленное на другой телефон — решит плагин оплаты (восстановление покупок), он вызовет fmPro.setOwned(1). Проверка: PROTEST.decide(...) */
+(function(){var K="fm_pro",DAY=864e5,TRIAL=3,ON=0,PAID={},L=localStorage;
+function rd(){try{var o=JSON.parse(L.getItem(K)||"null");if(o&&typeof o=="object"&&o.t0>0)return o}catch(e){}return null}
+function wr(o){try{L.setItem(K,JSON.stringify(o))}catch(e){}return o}
+function st0(){return rd()||wr({v:1,t0:Date.now(),b0:+window.FM_BUILD||0,own:0})}
+/* можно ли пользоваться разделом: on — переключатель, paid — раздел платный, own — куплено, tr — идёт пробный период */
+function decide(on,paid,own,tr){return!on||!paid||!!own||!!tr}
+var P=window.fmPro={
+ on:function(){return!!ON},
+ tier:function(id){return PAID[id]?"paid":"free"},
+ owned:function(){return!!st0().own},
+ trial:function(){var left=TRIAL-Math.floor((Date.now()-st0().t0)/DAY);return{on:left>0,left:Math.max(0,left)}},
+ has:function(id){return decide(ON,PAID[id],P.owned(),P.trial().on)},
+ setOwned:function(v){var s=st0();s.own=v?1:0;wr(s);try{dispatchEvent(new CustomEvent("fmpro"))}catch(e){}}
+};
+window.PROTEST={decide:decide,trial:TRIAL};
+st0()})();</script>
 <style id="ux-css">/* Все разделы, поиск и «⭐ Моё» (этап 1 нового вида) */
 main>.uxs{display:flex;align-items:center;gap:8px;width:100%;box-sizing:border-box;min-height:44px;margin:0;padding:0 12px;border-radius:12px;border:1px solid var(--line);background:var(--card);color:var(--mute);font:inherit;font-size:15px;text-align:left;cursor:pointer;backdrop-filter:blur(4px)}
 main>.uxs svg,#uxc svg{flex:none}
@@ -5331,7 +5353,7 @@ function setMeta(a){try{localStorage.setItem(MK,JSON.stringify(a))}catch(e){}}
 function db(){return DB||(DB=new Promise(function(ok,no){if(!window.indexedDB)return no(Error("no indexedDB"));var r=indexedDB.open("fm-backup",1);r.onupgradeneeded=function(){r.result.createObjectStore("b",{keyPath:"id"})};r.onsuccess=function(){ok(r.result)};r.onerror=function(){DB=null;no(r.error)}}))}
 function tx(mode,fn){return db().then(function(d){return new Promise(function(ok,no){var t=d.transaction("b",mode),q=fn(t.objectStore("b")),res;if(q)q.onsuccess=function(){res=q.result};t.oncomplete=function(){ok(res)};t.onerror=t.onabort=function(){no(t.error)}})})}
 /* Что входит в копию: прогресс и настройки fm_*, кроме журнала, очереди, счётчика попыток PIN и режима разработчика */
-function pack(){var o={app:"fac-modo",v:st._v||FMV,st:st,ls:{}},i,k;for(i=0;i<localStorage.length;i++){k=localStorage.key(i);if(/^fm_/.test(k)&&!/^fm_(flv|log|dlq|pintry|dev|bkx|flags|alert|broken)/.test(k))o.ls[k]=localStorage.getItem(k)}return JSON.stringify(o)}
+function pack(){var o={app:"fac-modo",v:st._v||FMV,st:st,ls:{}},i,k;for(i=0;i<localStorage.length;i++){k=localStorage.key(i);if(/^fm_/.test(k)&&!/^fm_(flv|log|dlq|pintry|dev|bkx|flags|alert|broken|pro)/.test(k))o.ls[k]=localStorage.getItem(k)}return JSON.stringify(o)}
 /* Проверка восстановления (restore test): копию можно прочитать, данные на месте, миграция до текущей версии проходит */
 function check(t){try{var o=JSON.parse(t);if(!o||o.app!="fac-modo"||!o.st||typeof o.st!="object")return false;var m=fmMigrate(JSON.parse(JSON.stringify(o.st)));
  if(!m||typeof m.done!="object"||!m.done||typeof m.custom!="object"||!m.custom||typeof m.bonus!="object"||!m.bonus)return false;
