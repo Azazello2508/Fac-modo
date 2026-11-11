@@ -3283,7 +3283,7 @@ x.addEventListener("input",function(){d.x=x.value.slice(0,4000);keep();paint()})
 <style id="pro-css">
 #fpw{position:fixed;inset:0;z-index:60;display:none;align-items:flex-end;justify-content:center;background:rgba(0,0,0,.6)}#fpw.on{display:flex}
 #fpw .fpb{width:100%;max-width:520px;max-height:92vh;overflow:auto;background:var(--bg);color:var(--ink);border-radius:18px 18px 0 0;padding:16px 16px calc(18px + env(safe-area-inset-bottom,0px));border:1px solid var(--line)}
-#fpw h3,#pro h3{margin:0 0 6px}#fpw .fpl{margin:8px 0;padding:0;list-style:none}#fpw .fpl li{margin:6px 0;padding:8px 10px;border-radius:10px;background:var(--card);font-size:14px}#fpw .fpl b{display:block}
+#fpw h3,#pro h3{margin:0 0 6px}#fpw .fpl{margin:8px 0;padding:0;list-style:none}#fpw .fpl li{display:block;margin:6px 0;padding:8px 10px;border-radius:10px;background:var(--card);font-size:14px;line-height:1.35}#fpw .fpl b{display:block;margin-bottom:2px}
 .fpbtn{display:block;width:100%;min-height:48px;margin:8px 0 0;border-radius:12px;font:inherit;font-weight:700}
 </style>
 <script id="pro-js">/* Покупка «Полный доступ» (fmPro). Решения Кости: приложение бесплатное + разовая покупка «навсегда» (Non-Consumable, Google Play Billing),
@@ -3341,7 +3341,7 @@ function body(id){var tr=P.trial(),h="<h3>💎 "+T("Полный доступ","
   +pk("exams",[T("Дипломы и экзамены","Certificates and exams","Дипломи та іспити"),T("Библиотека знаний и глоссарий","Knowledge library and glossary","Бібліотека знань і глосарій")])
   +pk("tools",[T("Тренажёры и расчёты","Trainers and calculators","Тренажери та розрахунки"),T("18 тренажёров, расчёты электромеханика и механика, новые тренажёры и расчёты","18 trainers, electrician’s and engineer’s calculations, new trainers and calculations","18 тренажерів, розрахунки електромеханіка та механіка, нові тренажери й розрахунки")])+"</ul>";
  h+='<p class="note" style="margin:6px 0">'+T("Один платёж, навсегда, без подписки. Бесплатными остаются вахта и сон, часы отдыха, документы, дом, игры и справочник.","One payment, forever, no subscription. Watch and sleep, rest hours, documents, home, games and the reference stay free.","Один платіж, назавжди, без підписки. Безкоштовними лишаються вахта і сон, години відпочинку, документи, дім, ігри та довідник.")+"</p>";
- var pr=P.price();h+='<button type="button" class="fpbtn" data-fp="buy" style="background:var(--acc);color:#fff;border:0">'+T("Купить навсегда","Buy for good","Придбати назавжди")+(pr?" — "+pr:"")+"</button>";
+ var pr=P.price();h+='<button type="button" class="fpbtn" data-fp="buy" style="background:var(--acc);color:#04202e;border:0">'+T("Купить навсегда","Buy for good","Придбати назавжди")+(pr?" — "+pr:"")+"</button>";
  h+='<button type="button" class="fpbtn" data-fp="restore" style="background:var(--card);color:var(--ink);border:1px solid var(--line)">'+T("Восстановить покупку","Restore purchase","Відновити покупку")+"</button>";
  if(note)h+='<p class="note" role="status" style="margin:8px 0 0">'+String(note).replace(/[&<>]/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;"}[c]})+"</p>";return h}
 function paint(){var h=null;if(W&&W.classList.contains("on"))W.firstChild.innerHTML=body(W.dataset.id)+'<button type="button" class="fpbtn" data-fp="x" style="background:transparent;color:var(--mute);border:0">'+T("Закрыть","Close","Закрити")+"</button>"}
