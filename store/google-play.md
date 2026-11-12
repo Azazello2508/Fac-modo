@@ -39,7 +39,7 @@ Fac Modo — помощник для моряков всех судовых пр
 ЗНАНИЯ И РАБОТА НА СУДНЕ
 • Инструменты штурмана: поправка компаса, секстан, место по звёздам, широта по Полярной, ориентиры и крюйс-пеленг, счисление, течение и дрейф, расхождение (CPA/TCPA), прилив
 • Расчёты электромеханика и механика: ток, сопротивление, расход топлива, вязкость и другие
-• 18 тренажёров: электростанция, пуск двигателя, котёл, синхронизация генераторов, питание навигации
+• 25 тренажёров: электростанция, пуск двигателя, котёл, синхронизация генераторов, питание навигации
 • Журнал ремонтов с фото
 • Библиотека знаний, глоссарии, чек-листы, английский для моряков, подготовка к собеседованию
 
@@ -75,7 +75,7 @@ DAILY MISSIONS
 KNOWLEDGE AND WORK ON BOARD
 • Navigator's tools: compass error, sextant, star fix, latitude by Polaris, landmarks and running fix, dead reckoning, current and leeway, collision risk (CPA/TCPA), tides
 • Electrician's and engineer's calculations: current, resistance, fuel consumption, viscosity and more
-• 18 trainers: power plant, motor starting, boiler, generator synchronisation, navigation power
+• 25 trainers: power plant, motor starting, boiler, generator synchronisation, navigation power
 • Repair log with photos
 • Knowledge library, glossaries, checklists, maritime English, job interview practice
 
@@ -111,7 +111,7 @@ Fac Modo — помічник для моряків усіх суднових п
 ЗНАННЯ Й РОБОТА НА СУДНІ
 • Інструменти штурмана: поправка компаса, секстан, місце за зірками, широта за Полярною, орієнтири й крюйс-пеленг, числення, течія й дрейф, розходження (CPA/TCPA), приплив
 • Розрахунки електромеханіка та механіка: струм, опір, витрата палива, в’язкість та інші
-• 18 тренажерів: електростанція, пуск двигуна, котел, синхронізація генераторів, живлення навігації
+• 25 тренажерів: електростанція, пуск двигуна, котел, синхронізація генераторів, живлення навігації
 • Журнал ремонтів із фото
 • Бібліотека знань, глосарії, чек-листи, англійська для моряків, підготовка до співбесіди
 

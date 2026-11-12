@@ -34,8 +34,8 @@ const srv=http.createServer((q,r)=>{let u=decodeURIComponent(q.url.split('?')[0]
     bad:!!R('ecl','om',{u:5,r:0}).err&&!!R('ecl','om',{}).hint,ui:!!document.getElementById('ecl').querySelector('[data-cal]')&&!!document.getElementById('mcl').querySelector('[data-cal]')}});
   ok(cal.n==='16,9'&&cal.ohm&&cal.par&&cal.iso&&cal.tr&&cal.fuel&&cal.visc&&cal.vk&&cal.pump&&cal.bad&&cal.ui,'Расчёты электромеханика и механика: формулы сходятся с ручным счётом ('+JSON.stringify(cal)+')');
   const trn=await p.evaluate(()=>{const dec=id=>{try{return new TextDecoder().decode(Uint8Array.from(atob(document.getElementById(id).textContent.trim()),c=>c.charCodeAt(0)))}catch(e){return ''}};
-   const a=dec('tr-src'),b=dec('tm-src'),c=dec('ts-src'),d=dec('te-src');return{i:[a,b,c,d].every(x=>x.includes('fm-i18n')&&x.includes('FM_LANG')),d:/SIMS\.shipgrid/.test(d)&&/SIMS\.bode/.test(d),c:/SIMS\.shipboiler/.test(c)&&/SIMS\.shipthruster/.test(c)&&/SIMS\.mainengine/.test(c)&&/SIMS\.navpower/.test(c),btn:document.querySelectorAll('#trs [data-trs]').length,e:/SIMS\.blackout/.test(a)&&/SIMS\.dgstart/.test(a)&&/SIMS\.generator/.test(a),m:/SIMS\.mainstart/.test(b)&&/SIMS\.coolsys/.test(b)}});
-  ok(trn.btn===4&&trn.i&&trn.d&&trn.e&&trn.m&&trn.c,'Тренажёры: раздел с четырьмя наборами, игры встроены ('+JSON.stringify(trn)+')');
+   const o=dec('to-src'),a=dec('tr-src'),b=dec('tm-src'),c=dec('ts-src'),d=dec('te-src');return{o:/id:"bunker"/.test(o)&&/id:"mob"/.test(o)&&o.includes('FM_LANG'),i:[a,b,c,d].every(x=>x.includes('fm-i18n')&&x.includes('FM_LANG')),d:/SIMS\.shipgrid/.test(d)&&/SIMS\.bode/.test(d),c:/SIMS\.shipboiler/.test(c)&&/SIMS\.shipthruster/.test(c)&&/SIMS\.mainengine/.test(c)&&/SIMS\.navpower/.test(c),btn:document.querySelectorAll('#trs [data-trs]').length,e:/SIMS\.blackout/.test(a)&&/SIMS\.dgstart/.test(a)&&/SIMS\.generator/.test(a),m:/SIMS\.mainstart/.test(b)&&/SIMS\.coolsys/.test(b)}});
+  ok(trn.btn===5&&trn.o&&trn.i&&trn.d&&trn.e&&trn.m&&trn.c,'Тренажёры: раздел с пятью наборами, игры встроены ('+JSON.stringify(trn)+')');
   const pro=await p.evaluate(()=>{const T=PROTEST.decide,t=localStorage.getItem('fm_pro'),o=JSON.parse(t||'null');
    return{free:fmPro.has('shn')&&fmPro.has('qz')&&fmPro.tier('shn')==='free'&&!fmPro.on(),st:!!o&&o.t0>0&&o.own===0,tr:fmPro.trial().on&&fmPro.trial().left===PROTEST.trial,
     // таблица решений: переключатель выключен — всё открыто; включён — платное закрыто, пока нет покупки или пробного периода
@@ -54,6 +54,15 @@ const srv=http.createServer((q,r)=>{let u=decodeURIComponent(q.url.split('?')[0]
    ok(a.on&&a.left===3&&a.ecl&&a.price==='9,99 $'&&a.ota&&a.pro,'Play-сборка: покупка включена, 3 дня пробы, цена из магазина, самообновление выключено ('+JSON.stringify(a)+')');
    ok(!c.tr&&!c.ecl&&c.qz&&c.sh4&&c.wall&&c.inbox&&/9,99/.test(c.btn),'Play-сборка: после пробы платный раздел закрыт окном покупки, бесплатное открыто ('+JSON.stringify(c)+')');
    ok(d.ord===1&&d.own&&d.ecl,'Play-сборка: кнопка «Купить» вызывает оплату, после покупки всё открыто ('+JSON.stringify(d)+')');
+   {/* код доступа для друзей и тестировщиков: пара ключей одноразовая, только для теста */
+    const cr=require('crypto'),kp=cr.generateKeyPairSync('ec',{namedCurve:'P-256'}),u=b=>Buffer.from(b).toString('base64').replace(/\+/g,'-').replace(/\//g,'_').replace(/=+$/,'');
+    const mk=o=>{const d=Buffer.from(JSON.stringify(o));return 'FM1.'+u(d)+'.'+u(cr.sign('sha256',d,{key:kp.privateKey,dsaEncoding:'ieee-p1363'}))};
+    const pub=kp.publicKey.export({type:'spki',format:'der'}).toString('base64');
+    const good=mk({n:'Друг'}),old=mk({n:'Давно',e:'2000-01-01'}),other=cr.generateKeyPairSync('ec',{namedCurve:'P-256'}),od=Buffer.from('{"n":"x"}'),forged='FM1.'+u(od)+'.'+u(cr.sign('sha256',od,{key:other.privateKey,dsaEncoding:'ieee-p1363'}));
+    const r=await q.evaluate(async([pub,good,old,forged])=>{localStorage.setItem('fm_pro',JSON.stringify({v:2,t0:1,b0:0,own:0,d:['2000-01-01','2000-01-02','2000-01-03']}));PROTEST.pub(pub);
+     const a=await fmPro.redeem('мусор'),b=await fmPro.redeem(forged),c=await fmPro.redeem(old),before=fmPro.has('ecl'),g=await fmPro.redeem(good);
+     return{a,b,c,before,g,own:fmPro.owned(),free:fmPro.free(),ecl:fmPro.has('ecl')}},[pub,good,old,forged]);
+    ok(!r.a&&!r.b&&!r.c&&!r.before&&r.g&&r.own&&r.free&&r.ecl,'Код доступа: мусор, чужая подпись и просроченный код не работают, настоящий открывает всё ('+JSON.stringify(r)+')')}
    ok(qe.length===0,'Play-сборка: нет ошибок в консоли'+(qe.length?' — '+qe.slice(0,3).join(' | '):''));await c2.close()}
   ok(errs.length===0,'E2E: нет ошибок в консоли'+(errs.length?' — '+errs.slice(0,3).join(' | '):''));await ctx.close()}
  // 2. Мобильный браузер
