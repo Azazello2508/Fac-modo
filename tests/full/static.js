@@ -142,7 +142,7 @@ function embeddedGames() {
   const G = games();
   rec('info', 'Встроено игр: ' + G.length + ' (' + G.map(g => g.id).join(', ') + ')');
   // Совпадают ли настольные игры с исходниками games/*.html
-  const map = { 'dr-src': 'durak', 'db-src': 'debertz', 'cs-src': 'chess', 'cr-src': 'checkers', 'nd-src': 'nardy', 'mb-src': 'morboy', 'su-src': 'sudoku', 'p15-src': 'pyatnashki', 'kw-src': 'krossvord', 'g2-src': 'more2048', 'sm-src': 'samolety' };
+  const map = { 'dr-src': 'durak', 'db-src': 'debertz', 'cs-src': 'chess', 'cr-src': 'checkers', 'nd-src': 'nardy', 'mb-src': 'morboy', 'su-src': 'sudoku', 'p15-src': 'pyatnashki', 'kw-src': 'krossvord', 'g2-src': 'more2048', 'sm-src': 'samolety', 'tr-src': 'trenazhery', 'tm-src': 'trenazhery-mech', 'ts-src': 'trenazhery-ship', 'te-src': 'trenazhery-el', 'to-src': 'poryadok' };
   const tmp = fs.mkdtempSync(path.join(os.tmpdir(), 'fm-embed-'));
   fs.copyFileSync(path.join(ROOT, 'index.html'), path.join(tmp, 'index.html'));
   const diff = [];

@@ -50,11 +50,25 @@ jobs:
       - name: Подготовить проект Android (файлы, иконки, разрешения, версия)
         run: bash tools/android_prepare.sh
 
-      - name: Собрать приложение
+      - name: "Собрать приложение (APK по ссылке для друзей и тестировщиков: покупки нет, всё открыто)"
         run: |
           cd android
-          ./gradlew assembleRelease bundleRelease --no-daemon -q
-          ls -la app/build/outputs/apk/release/ app/build/outputs/bundle/release/
+          ./gradlew assembleRelease --no-daemon -q
+          ls -la app/build/outputs/apk/release/
+
+      - name: "Собрать пакет для Google Play (AAB с покупкой «Полный доступ», без самообновления)"
+        # Только в AAB: плагин оплаты cordova-plugin-purchase (Google Play Billing) и флаг FM_PLAY=1 в index.html.
+        # В APK по ссылке этого нет: там нечем платить, поэтому всё остаётся бесплатным (решение Кости: друзья и тестировщики).
+        run: |
+          npm install --no-audit --no-fund cordova-plugin-purchase@13.20.0
+          sed -i 's/__FM_PLAY__/1/' www/index.html
+          grep -c '"1"=="1")?1:0' www/index.html
+          npx cap sync android
+          grep -rl 'cordova-plugin-purchase' android/app/src/main/assets | head -3 || echo "::warning::плагин оплаты не найден в assets — проверить сборку"
+          grep -rl 'com.android.vending.BILLING' android/app/src/main/AndroidManifest.xml android/capacitor-cordova-android-plugins 2>/dev/null | head -3 || true
+          cd android
+          ./gradlew bundleRelease --no-daemon -q
+          ls -la app/build/outputs/bundle/release/
 
       - name: Подписать приложение
         # Ключ подписи хранится в GitHub Secrets (ANDROID_KEYSTORE — файл .p12 в base64, ANDROID_KEY_PASS — пароль).
