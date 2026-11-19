@@ -55,6 +55,35 @@ const srv=http.createServer((q,r)=>{let u=decodeURIComponent(q.url.split('?')[0]
     tf:g2.lim===35&&near(g2.a40,0.188299)&&near(g2.a3040,0.056419),max:near(g.ma,44.195,1e-2)&&near(g.mv,0.803868),crit:c.every(x=>x.ok===true),bad:c2.filter(x=>x.ok===false).map(x=>x.k).join(','),
     free:fmPro.has('stb')&&fmPro.pkg('stb')==='tools'&&fmPro.has('shn'),ui,back:bk,th:STBTEST.th>=10&&STBTEST.qz>=8}});
   ok(stb.ld&&stb.fs&&stb.tk&&stb.gg&&stb.heel&&stb.roll&&stb.gz&&stb.tf&&stb.max&&stb.crit&&stb.bad==='a30,a40,a3040,g30,gm'&&stb.free&&stb.ui&&stb.back&&stb.th,'Остойчивость: формулы сходятся с ручным счётом, критерии IS Code, теория, вкладка в «Инструментах штурмана» ('+JSON.stringify(stb)+')');
+  /* Драфт-сюрвей (dsv-js). Ручной счёт учебного примера (DSVTEST.ex): LBP=180; dF=2,50 в корму от FP, dM=0,60 в корму от миделя, dA=5,20 в нос от AP → LBM=180−2,5−5,2=172,3 м.
+     Начальный: F=(4,13+4,15)/2=4,14; M=5,50; A=6,90; t=6,90−4,14=2,76 (на корму).
+       Fp=4,14−2,76·2,5/172,3=4,14−0,040046=4,099954; Mp=5,50−2,76·0,6/172,3=5,490389; Ap=6,90+2,76·5,2/172,3=6,983297; t испр.=2,883343;
+       Mp−(Fp+Ap)/2=−0,0512 (перегиб); MMM=(4,099954+6,983297+6·5,490389)/8=44,025585/8=5,503198.
+       Таблица 5,50/5,60: Δ=24350+0,03198·469=24364,998; TPC=46,8032; LCF=3,10−0,03198·0,05=3,09840 в корму.
+       1-я=2,883343·3,09840·46,8032·100/180=+232,293; 2-я=50·2,883343²·(432,0−418,5)/180=+31,176; Δ испр.=24628,468;
+       Δρ=24628,468·1,018/1,025=24460,273; вычеты 15000+280+820+95+32+12=16239 → чистое 8221,273; константа 8221,273−7850=371,273.
+     Конечный: F=10,50; M=10,68; A=10,80; t=0,30; Fp=10,495647; Mp=10,678955; Ap=10,809054; t испр.=0,313407; прогиб +0,0266; MMM=10,672304.
+       Таблица 10,60/10,70: Δ=47960+0,72304·512=48330,197; TPC=51,2723; LCF=1,308456 в корму. 1-я=+11,681; 2-я=50·0,313407²·21,6/180=+0,589;
+       Δ испр.=48342,467; Δρ=·1,0195/1,025=48083,069; вычеты 1570 → чистое 46513,069. Груз = 46513,069−8221,273 = 38291,796 т (погружено).
+     Знаки: LCF в нос при дифференте на корму → 1-я с минусом; марки в нос от FP → LBM больше LBP−dA; выгрузка → «ds». */
+  const dsv=await p.evaluate(()=>{const T=DSVTEST,E=T.ex,near=(a,b,e)=>Math.abs(a-b)<=(e||1e-3);
+   const a=T.survey(E.i,E.c),b=T.survey(E.f,E.c),c=T.cargo(a.net,b.net),d=T.cargo(b.net,a.net);
+   const g2=T.ship({L:'100',dF:'2',dFd:'f',dA:'3'}),lf=T.survey(Object.assign({},E.i,{lcd:'f'}),E.c),bad=T.survey(Object.assign({},E.i,{fs:'4.20',ro:'1.040'}),E.c),miss=T.survey({fp:'4'},E.c);
+   const sv=JSON.stringify(st.dsv||null),sh=st.shn&&st.shn.t;
+   const btn=[...document.querySelectorAll('#shn [data-snt]')].find(x=>x.dataset.snt==='dsv');if(btn)btn.click();
+   const ui=!!document.querySelector('#shn #snxw [data-dvm]')&&/UN\/ECE/.test((document.querySelector('#shn .dvnote')||{}).textContent||'');
+   st.dsv.c=JSON.parse(JSON.stringify(E.c));st.dsv.i=JSON.parse(JSON.stringify(E.i));st.dsv.i.dd=E.i.dd.map((w,i)=>({k:i,n:'',w:String(w)}));st.dsv.f=JSON.parse(JSON.stringify(E.f));st.dsv.f.dd=E.f.dd.map((w,i)=>({k:i,n:'',w:String(w)}));
+   const run=T.run('i'),sm=T.sum(),ex=T.exTable();
+   const back=[...document.querySelectorAll('#shn [data-snt]')].find(x=>x.dataset.snt==='cmp');if(back)back.click();const bk=!document.querySelector('#shn #snxw');
+   st.dsv=JSON.parse(sv);if(!st.dsv)delete st.dsv;if(sh)st.shn.t=sh;save();
+   return{perp:near(a.m.cF,-0.040046,1e-6)&&near(a.m.cM,-0.009611,1e-6)&&near(a.m.cA,0.083297,1e-6)&&near(a.m.t,2.883343,1e-6)&&near(a.m.LBM,172.3,1e-9),
+    mmm:near(a.m.MMM,5.503198,1e-6)&&near(a.m.dfl,-0.051236,1e-6)&&near(b.m.MMM,10.672304,1e-6)&&b.m.dfl>0,
+    hyd:near(a.h.D,24364.998)&&near(a.h.T,46.80320,1e-5)&&near(a.h.C,3.098401,1e-6)&&a.h.Di&&near(b.h.D,48330.197),
+    trim:near(a.c1,232.2934)&&near(a.c2,31.17625)&&near(b.c1,11.68095)&&near(b.c2,0.589343,1e-5),dens:near(a.Dr,24460.273)&&near(b.Dr,48083.069),
+    net:near(a.S,16239,1e-9)&&near(a.net,8221.273)&&near(b.net,46513.069)&&near(a.cst,371.273),cargo:near(c.w,38291.796)&&c.k==='ld'&&d.k==='ds',
+    sign:near(g2.LBM,99,1e-9)&&lf.c1<0&&near(lf.c1,-232.2934),warn:bad.w.map(x=>x[0]).join(','),miss:miss.miss.join(','),
+    free:fmPro.has('dsv')&&fmPro.pkg('dsv')==='tools'&&fmPro.has('shn'),ui,back:bk,run:/8221\.3/.test(run)&&/24460\.3/.test(run),sum:/38291\.8/.test(sm),ex:/38[ ,.]?291[,.]8/.test(ex),th:T.th>=12&&T.qz>=8}});
+  ok(dsv.perp&&dsv.mmm&&dsv.hyd&&dsv.trim&&dsv.dens&&dsv.net&&dsv.cargo&&dsv.sign&&dsv.warn==='list,ro'&&dsv.miss==='M,A'&&dsv.free&&dsv.ui&&dsv.back&&dsv.run&&dsv.sum&&dsv.ex&&dsv.th,'Драфт-сюрвей: поправки, MMM, дифферент, плотность, вычеты и груз сходятся с ручным счётом, теория, вкладка в «Инструментах штурмана» ('+JSON.stringify(dsv)+')');
   const trn=await p.evaluate(()=>{const dec=id=>{try{return new TextDecoder().decode(Uint8Array.from(atob(document.getElementById(id).textContent.trim()),c=>c.charCodeAt(0)))}catch(e){return ''}};
    const o=dec('to-src'),a=dec('tr-src'),b=dec('tm-src'),c=dec('ts-src'),d=dec('te-src');return{o:/id:"bunker"/.test(o)&&/id:"mob"/.test(o)&&o.includes('FM_LANG'),i:[a,b,c,d].every(x=>x.includes('fm-i18n')&&x.includes('FM_LANG')),d:/SIMS\.shipgrid/.test(d)&&/SIMS\.bode/.test(d),c:/SIMS\.shipboiler/.test(c)&&/SIMS\.shipthruster/.test(c)&&/SIMS\.mainengine/.test(c)&&/SIMS\.navpower/.test(c),btn:document.querySelectorAll('#trs [data-trs]').length,e:/SIMS\.blackout/.test(a)&&/SIMS\.dgstart/.test(a)&&/SIMS\.generator/.test(a),m:/SIMS\.mainstart/.test(b)&&/SIMS\.coolsys/.test(b)}});
   ok(trn.btn===5&&trn.o&&trn.i&&trn.d&&trn.e&&trn.m&&trn.c,'Тренажёры: раздел с пятью наборами, игры встроены ('+JSON.stringify(trn)+')');
@@ -72,9 +101,11 @@ const srv=http.createServer((q,r)=>{let u=decodeURIComponent(q.url.split('?')[0]
    const a=await q.evaluate(()=>({on:fmPro.on(),left:fmPro.trial().left,ecl:fmPro.has('ecl'),price:fmPro.price(),ota:fmOtaPlay()&&!fmOtaPre({build:99999999999,sig:'x'}),pro:!document.getElementById('pro').hidden}));
    await q.evaluate(()=>{localStorage.setItem('fm_pro',JSON.stringify({v:2,t0:1,b0:0,own:0,d:['2000-01-01','2000-01-02','2000-01-03']}))});
    const c=await q.evaluate(()=>{const g=id=>document.getElementById(id);g('ecl').previousElementSibling.click();return{tr:fmPro.trial().on,ecl:fmPro.has('ecl'),qz:fmPro.has('qz'),sh4:fmPro.has('sh4'),wall:!!g('fpw')&&g('fpw').classList.contains('on'),inbox:g('ecl').parentNode===g('mn'),btn:(document.querySelector('#fpw [data-fp=buy]')||{}).textContent||''}});
+   const dv=await q.evaluate(()=>{const x=document.createElement('div'),sv=JSON.stringify(st.dsv||null);SNX.dsv.r(x);const r={has:fmPro.has('dsv'),stb:fmPro.has('stb'),shn:fmPro.has('shn'),g:SNX.dsv.g(),n:/🔒/.test(SNX.dsv.n()),lock:!!x.querySelector('[data-dvw]')&&!x.querySelector('[data-dvv]'),wall:document.getElementById('fpw').classList.contains('on')};st.dsv=JSON.parse(sv);if(!st.dsv)delete st.dsv;return r});
    const d=await q.evaluate(()=>{document.querySelector('#fpw [data-fp=buy]').click();return{ord:window.__ord,own:fmPro.owned(),ecl:fmPro.has('ecl')}});
    ok(a.on&&a.left===3&&a.ecl&&a.price==='9,99 $'&&a.ota&&a.pro,'Play-сборка: покупка включена, 3 дня пробы, цена из магазина, самообновление выключено ('+JSON.stringify(a)+')');
    ok(!c.tr&&!c.ecl&&c.qz&&c.sh4&&c.wall&&c.inbox&&/9,99/.test(c.btn),'Play-сборка: после пробы платный раздел закрыт окном покупки, бесплатное открыто ('+JSON.stringify(c)+')');
+   ok(!dv.has&&!dv.stb&&dv.shn&&dv.g===false&&dv.n&&dv.lock&&dv.wall,'Play-сборка: «Драфт-сюрвей» закрыт (🔒, окно покупки), остальные «Инструменты штурмана» открыты ('+JSON.stringify(dv)+')');
    ok(d.ord===1&&d.own&&d.ecl,'Play-сборка: кнопка «Купить» вызывает оплату, после покупки всё открыто ('+JSON.stringify(d)+')');
    {/* код доступа для друзей и тестировщиков: пара ключей одноразовая, только для теста */
     const cr=require('crypto'),kp=cr.generateKeyPairSync('ec',{namedCurve:'P-256'}),u=b=>Buffer.from(b).toString('base64').replace(/\+/g,'-').replace(/\//g,'_').replace(/=+$/,'');
