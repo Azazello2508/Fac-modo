@@ -18,21 +18,30 @@ GAMES = ["trenazhery", "trenazhery-mech", "trenazhery-ship", "trenazhery-el"]
 COMMON = {"В": ["V", "В"], "А": ["A", "А"], "м": ["m", "м"], "с": ["s", "с"], "ч": ["h", "год"]}
 BEGIN, END = "<!--fm-i18n-->", "<!--/fm-i18n-->"
 
-LAYER = r"""<script>(function(){var L=window.FM_LANG;if(L!=="en"&&L!=="uk")return;var X=L==="en"?0:1,D=__DICT__;
-document.documentElement.lang=L;var CY=/[А-Яа-яЁё]/,keys=Object.keys(D).sort(function(a,b){return b.length-a.length});
-function esc(s){return s.replace(/[.*+?^${}()|[\]\\]/g,"\\$&")}var re=new RegExp(keys.map(esc).join("|"),"g"),cache=new Map();
+LAYER = r"""<script>(function(){var L=window.FM_LANG||"ru",TR=(L==="en"||L==="uk"),X=L==="en"?0:1,D=__DICT__;
+if(TR)document.documentElement.lang=L;var CY=/[А-Яа-яЁё]/,ND=/(?<![\d.,])(\d+)[.,](\d+)(?![\d.,])/g,HN=/\d[.,]\d/;
+var keys=Object.keys(D).sort(function(a,b){return b.length-a.length});
+function esc(s){return s.replace(/[.*+?^${}()|[\]\\]/g,"\\$&")}var re=TR?new RegExp(keys.map(esc).join("|"),"g"):null,cache=new Map();
+/* число: английский пишет десятичную точку, русский и украинский запятую */
+var SEP=L==="en"?".":",";function num(s){return s.replace(ND,function(m,a,b){return a+SEP+b})}
 /* перевод одной строки: самые длинные фразы первыми, фраза не должна начинаться или кончаться внутри русского слова */
-function T(s){if(typeof s!=="string"||!CY.test(s))return s;var c=cache.get(s);if(c!==undefined)return c;
- var r=s.replace(re,function(m,o,str){var v=D[m];if(!v)return m;if(CY.test(m.charAt(0))&&o>0&&CY.test(str.charAt(o-1)))return m;
+function T(s){if(typeof s!=="string")return s;var hc=TR&&CY.test(s),hn=HN.test(s);if(!hc&&!hn)return s;var c=cache.get(s);if(c!==undefined)return c;var r=s;
+ if(hc)r=r.replace(re,function(m,o,str){var v=D[m];if(!v)return m;if(CY.test(m.charAt(0))&&o>0&&CY.test(str.charAt(o-1)))return m;
   if(CY.test(m.charAt(m.length-1))&&CY.test(str.charAt(o+m.length)))return m;return v[X]});
+ if(hn)r=num(r);
  if(cache.size>4000)cache.clear();cache.set(s,r);return r}
 window.FM_T=T;var AT=["title","placeholder","aria-label"],done=new WeakMap();
-function attrs(n){for(var i=0;i<AT.length;i++){var v=n.getAttribute(AT[i]);if(v&&CY.test(v)){var r=T(v);if(r!==v)n.setAttribute(AT[i],r)}}}
-function node(n){if(n.nodeType===3){var v=n.nodeValue;if(!CY.test(v)||done.get(n)===v)return;var r=T(v);if(r!==v)n.nodeValue=r;done.set(n,n.nodeValue)}
+function attrs(n){for(var i=0;i<AT.length;i++){var v=n.getAttribute(AT[i]);if(v){var r=T(v);if(r!==v)n.setAttribute(AT[i],r)}}}
+function node(n){if(n.nodeType===3){var v=n.nodeValue;if(done.get(n)===v)return;var r=T(v);if(r!==v)n.nodeValue=r;done.set(n,n.nodeValue)}
  else if(n.nodeType===1){var t=n.tagName;if(t==="SCRIPT"||t==="STYLE")return;attrs(n);for(var c=n.firstChild;c;c=c.nextSibling)node(c)}}
-/* холст: тексты рисуются через fillText/strokeText, меряются через measureText */
-var P=window.CanvasRenderingContext2D&&CanvasRenderingContext2D.prototype;
-if(P)["fillText","strokeText","measureText"].forEach(function(f){var o=P[f];P[f]=function(s){arguments[0]=T(s);return o.apply(this,arguments)}});
+/* холст: тексты рисуются через fillText/strokeText, меряются через measureText.
+   На узком экране холст сжимается, и мелкие подписи становятся нечитаемыми: поднимаем шрифт так,
+   чтобы на экране он был не меньше 12 пикселей, но не больше чем в 1,4 раза от задуманного */
+var P=window.CanvasRenderingContext2D&&CanvasRenderingContext2D.prototype,FS=/(\d+(?:\.\d+)?)px/,sc=new WeakMap();
+function scale(c){var t=performance.now(),e=sc.get(c);if(e&&t-e.t<250)return e.k;var w=c.getBoundingClientRect().width,k=w>20?c.width/w:1;sc.set(c,{t:t,k:k});return k}
+if(P)["fillText","strokeText","measureText"].forEach(function(f){var o=P[f];P[f]=function(s){arguments[0]=T(s);var k=scale(this.canvas),fo=this.font,m=FS.exec(fo),ch=false;
+ if(m&&k>1){var z=+m[1],w=Math.min(12*k,z*1.4);if(w>z+0.5){this.font=fo.replace(FS,(Math.round(w*10)/10)+"px");ch=true}}
+ var r=o.apply(this,arguments);if(ch)this.font=fo;return r}});
 function start(){node(document.documentElement);new MutationObserver(function(ms){ms.forEach(function(m){
   if(m.type==="characterData")node(m.target);else if(m.type==="attributes")attrs(m.target);else for(var i=0;i<m.addedNodes.length;i++)node(m.addedNodes[i])})})
  .observe(document.documentElement,{childList:true,subtree:true,characterData:true,attributes:true,attributeFilter:AT})}
