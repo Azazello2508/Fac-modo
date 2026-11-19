@@ -33,6 +33,28 @@ const srv=http.createServer((q,r)=>{let u=decodeURIComponent(q.url.split('?')[0]
     fuel:near(fc[2][2],1800)&&near(fc[3][2],43.2),visc:near(vs[0][2],380),vk:near(vk[0][2],100),pump:near(pm[2][2],11.679),
     bad:!!R('ecl','om',{u:5,r:0}).err&&!!R('ecl','om',{}).hint,ui:!!document.getElementById('ecl').querySelector('[data-cal]')&&!!document.getElementById('mcl').querySelector('[data-cal]')}});
   ok(cal.n==='16,9'&&cal.ohm&&cal.par&&cal.iso&&cal.tr&&cal.fuel&&cal.visc&&cal.vk&&cal.pump&&cal.bad&&cal.ui,'Расчёты электромеханика и механика: формулы сходятся с ручным счётом ('+JSON.stringify(cal)+')');
+  /* Остойчивость (stb-js). Ручной счёт:
+     загрузка 2000 т·7,0 м + 3000 т·5,0 м + 500 т·2,0 м: Δ=5500 т, Σm·KG=14000+15000+1000=30000, KG=30000/5500=5,4545 м; KM=6,5 → GM=1,0455 м;
+     цистерна 10×8 м, ρ=1,025: FSM=1,025·10·8³/12=437,333 т·м; + готовый FSM 112,667 → Σ=550 т·м, GG′=550/5500=0,100 м, GM испр.=0,9455 м, KG испр.=5,5545 м;
+     крен w=50 т, d=10 м: tanθ=500/(5500·0,9455)=0,09615 → θ=5,49°; GM≤0 → предупреждение, не число;
+     качка T=15 с, B=20, d=8, L=120: C=0,373+0,023·2,5−0,043·1,2=0,3789; GM=(2·0,3789·20/15)²=1,0209 м;
+     KN 0/1,0/2,05/3,1/4,0/4,6/4,9 при KG=5: GZ=KN−5·sinθ → 0; 0,1318; 0,3399; 0,6; 0,7861; 0,7698; 0,5699;
+     A0–30 (Симпсон 3/8)=3·h/8·(0+3·0,1318+3·0,3399+0,6)=0,13188; A0–40 (Симпсон 1/3)=h/3·(0+4·0,1318+2·0,3399+4·0,6+0,7861)=0,25557; A30–40=0,12369 (h=10°=0,17453 рад);
+     θf=35°: A0–35=0,13188+(5°=0,08727 рад)·(0,6+0,6930)/2=0,18830, A30–35=0,05642; максимум (парабола 30–40–50): 44,2°, GZ 0,8039 м — все 6 критериев ✅.
+     Плохой случай KN 0/0,1/0,2/0,3/0,35/0,38/0,38 при KG=0,5 и GM=0,1: GZ 0; 0,013; 0,029; 0,05; 0,029; −0,003; −0,053 — не проходят площади, GZ≥0,20 и GM, угол максимума ≈30° проходит. */
+  const stb=await p.evaluate(()=>{const T=STBTEST,near=(a,b,e)=>Math.abs(a-b)<=(e||1e-4);
+   const l=T.load([{m:2000,k:7},{m:3000,k:5},{m:500,k:2},{m:'',k:3}]),fs=T.fsm(10,8,1.025),tk=T.tanks([{l:10,b:8,r:1.025},{f:112.6667}]),h=T.heel(50,10,5500,0.945454545),h0=T.heel(50,10,5500,0),
+    r=T.roll(15,20,8,120),g=T.gz([0,1.0,2.05,3.1,4.0,4.6,4.9],5),g2=T.gz([0,1.0,2.05,3.1,4.0,4.6,4.9],5,35),c=T.crit(g,0.9455),c2=T.crit(T.gz([0,0.1,0.2,0.3,0.35,0.38,0.38],0.5),0.1);
+   const sv=JSON.stringify(st.stb||null),sh=st.shn&&st.shn.t;
+   const btn=[...document.querySelectorAll('#shn [data-snt]')].find(b=>b.dataset.snt==='stb');if(btn)btn.click();const ui=!!document.querySelector('#shn #snxw [data-sbm]')&&/учебный|study|навчальний/i.test((document.querySelector('#shn .sbnote')||{}).textContent||'');
+   st.stb.ld=[{n:'L',m:'2000',k:'7'},{n:'C',m:'3000',k:'5'},{n:'F',m:'500',k:'2'}];st.stb.v.km='6.5';st.stb.fs=[{n:'T',l:'10',b:'8',r:'1.025',f:''},{n:'U',f:'112.6667'}];const ch=T.chain();
+   const back=[...document.querySelectorAll('#shn [data-snt]')].find(b=>b.dataset.snt==='cmp');if(back)back.click();const bk=!document.querySelector('#shn #snxw');
+   st.stb=JSON.parse(sv);if(!st.stb)delete st.stb;if(sh)st.shn.t=sh;save();
+   return{ld:near(l.D,5500)&&near(l.KG,5.454545)&&l.c===3,fs:near(fs,437.3333),tk:near(tk.S,550),gg:near(ch.gg,0.1)&&near(ch.GM,1.045455)&&near(ch.GMf,0.945455)&&near(ch.KGf,5.554545),
+    heel:near(h.deg,5.4923,1e-3)&&h0.err==='GM',roll:near(r.C,0.3789)&&near(r.GM,1.020908),gz:near(g.y[1],0.131759)&&near(g.y[4],0.786062)&&near(g.a30,0.131880)&&near(g.a40,0.255568)&&near(g.a3040,0.123689),
+    tf:g2.lim===35&&near(g2.a40,0.188299)&&near(g2.a3040,0.056419),max:near(g.ma,44.195,1e-2)&&near(g.mv,0.803868),crit:c.every(x=>x.ok===true),bad:c2.filter(x=>x.ok===false).map(x=>x.k).join(','),
+    free:fmPro.has('stb')&&fmPro.pkg('stb')==='tools'&&fmPro.has('shn'),ui,back:bk,th:STBTEST.th>=10&&STBTEST.qz>=8}});
+  ok(stb.ld&&stb.fs&&stb.tk&&stb.gg&&stb.heel&&stb.roll&&stb.gz&&stb.tf&&stb.max&&stb.crit&&stb.bad==='a30,a40,a3040,g30,gm'&&stb.free&&stb.ui&&stb.back&&stb.th,'Остойчивость: формулы сходятся с ручным счётом, критерии IS Code, теория, вкладка в «Инструментах штурмана» ('+JSON.stringify(stb)+')');
   const trn=await p.evaluate(()=>{const dec=id=>{try{return new TextDecoder().decode(Uint8Array.from(atob(document.getElementById(id).textContent.trim()),c=>c.charCodeAt(0)))}catch(e){return ''}};
    const o=dec('to-src'),a=dec('tr-src'),b=dec('tm-src'),c=dec('ts-src'),d=dec('te-src');return{o:/id:"bunker"/.test(o)&&/id:"mob"/.test(o)&&o.includes('FM_LANG'),i:[a,b,c,d].every(x=>x.includes('fm-i18n')&&x.includes('FM_LANG')),d:/SIMS\.shipgrid/.test(d)&&/SIMS\.bode/.test(d),c:/SIMS\.shipboiler/.test(c)&&/SIMS\.shipthruster/.test(c)&&/SIMS\.mainengine/.test(c)&&/SIMS\.navpower/.test(c),btn:document.querySelectorAll('#trs [data-trs]').length,e:/SIMS\.blackout/.test(a)&&/SIMS\.dgstart/.test(a)&&/SIMS\.generator/.test(a),m:/SIMS\.mainstart/.test(b)&&/SIMS\.coolsys/.test(b)}});
   ok(trn.btn===5&&trn.o&&trn.i&&trn.d&&trn.e&&trn.m&&trn.c,'Тренажёры: раздел с пятью наборами, игры встроены ('+JSON.stringify(trn)+')');
