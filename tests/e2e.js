@@ -45,16 +45,16 @@ const srv=http.createServer((q,r)=>{let u=decodeURIComponent(q.url.split('?')[0]
   const stb=await p.evaluate(()=>{const T=STBTEST,near=(a,b,e)=>Math.abs(a-b)<=(e||1e-4);
    const l=T.load([{m:2000,k:7},{m:3000,k:5},{m:500,k:2},{m:'',k:3}]),fs=T.fsm(10,8,1.025),tk=T.tanks([{l:10,b:8,r:1.025},{f:112.6667}]),h=T.heel(50,10,5500,0.945454545),h0=T.heel(50,10,5500,0),
     r=T.roll(15,20,8,120),g=T.gz([0,1.0,2.05,3.1,4.0,4.6,4.9],5),g2=T.gz([0,1.0,2.05,3.1,4.0,4.6,4.9],5,35),c=T.crit(g,0.9455),c2=T.crit(T.gz([0,0.1,0.2,0.3,0.35,0.38,0.38],0.5),0.1);
-   const sv=JSON.stringify(st.stb||null),sh=st.shn&&st.shn.t;
-   const btn=[...document.querySelectorAll('#shn [data-snt]')].find(b=>b.dataset.snt==='stb');if(btn)btn.click();const ui=!!document.querySelector('#shn #snxw [data-sbm]')&&/учебный|study|навчальний/i.test((document.querySelector('#shn .sbnote')||{}).textContent||'');
+   const sv=JSON.stringify(st.stb||null),sd=JSON.stringify(st.dsv||null),sc=JSON.stringify(st.cgo||null);
+   const btn=document.querySelector('#cgo [data-cgt=stb]');if(btn)btn.click();const ui=!!document.querySelector('#cgo #cgxw [data-sbm]')&&/учебный|study|навчальний/i.test((document.querySelector('#cgo .sbnote')||{}).textContent||'')&&!document.querySelector('#shn [data-snt=stb]');
    st.stb.ld=[{n:'L',m:'2000',k:'7'},{n:'C',m:'3000',k:'5'},{n:'F',m:'500',k:'2'}];st.stb.v.km='6.5';st.stb.fs=[{n:'T',l:'10',b:'8',r:'1.025',f:''},{n:'U',f:'112.6667'}];const ch=T.chain();
-   const back=[...document.querySelectorAll('#shn [data-snt]')].find(b=>b.dataset.snt==='cmp');if(back)back.click();const bk=!document.querySelector('#shn #snxw');
-   st.stb=JSON.parse(sv);if(!st.stb)delete st.stb;if(sh)st.shn.t=sh;save();
+   const back=document.querySelector('#cgo [data-cgt=dsv]');if(back)back.click();const bk=!document.querySelector('#cgo [data-sbm]')&&!!document.querySelector('#cgo #cgxw [data-dvm]')&&st.cgo.t==='dsv'&&st.stb.on===0;
+   st.stb=JSON.parse(sv);if(!st.stb)delete st.stb;st.dsv=JSON.parse(sd);if(!st.dsv)delete st.dsv;st.cgo=JSON.parse(sc);if(!st.cgo)delete st.cgo;save();cgoR();
    return{ld:near(l.D,5500)&&near(l.KG,5.454545)&&l.c===3,fs:near(fs,437.3333),tk:near(tk.S,550),gg:near(ch.gg,0.1)&&near(ch.GM,1.045455)&&near(ch.GMf,0.945455)&&near(ch.KGf,5.554545),
     heel:near(h.deg,5.4923,1e-3)&&h0.err==='GM',roll:near(r.C,0.3789)&&near(r.GM,1.020908),gz:near(g.y[1],0.131759)&&near(g.y[4],0.786062)&&near(g.a30,0.131880)&&near(g.a40,0.255568)&&near(g.a3040,0.123689),
     tf:g2.lim===35&&near(g2.a40,0.188299)&&near(g2.a3040,0.056419),max:near(g.ma,44.195,1e-2)&&near(g.mv,0.803868),crit:c.every(x=>x.ok===true),bad:c2.filter(x=>x.ok===false).map(x=>x.k).join(','),
     free:fmPro.has('stb')&&fmPro.pkg('stb')==='tools'&&fmPro.has('shn'),ui,back:bk,th:STBTEST.th>=10&&STBTEST.qz>=8}});
-  ok(stb.ld&&stb.fs&&stb.tk&&stb.gg&&stb.heel&&stb.roll&&stb.gz&&stb.tf&&stb.max&&stb.crit&&stb.bad==='a30,a40,a3040,g30,gm'&&stb.free&&stb.ui&&stb.back&&stb.th,'Остойчивость: формулы сходятся с ручным счётом, критерии IS Code, теория, вкладка в «Инструментах штурмана» ('+JSON.stringify(stb)+')');
+  ok(stb.ld&&stb.fs&&stb.tk&&stb.gg&&stb.heel&&stb.roll&&stb.gz&&stb.tf&&stb.max&&stb.crit&&stb.bad==='a30,a40,a3040,g30,gm'&&stb.free&&stb.ui&&stb.back&&stb.th,'Остойчивость: формулы сходятся с ручным счётом, критерии IS Code, теория, вкладка в «⚓ Груз и остойчивость» ('+JSON.stringify(stb)+')');
   /* Драфт-сюрвей (dsv-js). Ручной счёт учебного примера (DSVTEST.ex): LBP=180; dF=2,50 в корму от FP, dM=0,60 в корму от миделя, dA=5,20 в нос от AP → LBM=180−2,5−5,2=172,3 м.
      Начальный: F=(4,13+4,15)/2=4,14; M=5,50; A=6,90; t=6,90−4,14=2,76 (на корму).
        Fp=4,14−2,76·2,5/172,3=4,14−0,040046=4,099954; Mp=5,50−2,76·0,6/172,3=5,490389; Ap=6,90+2,76·5,2/172,3=6,983297; t испр.=2,883343;
@@ -69,13 +69,13 @@ const srv=http.createServer((q,r)=>{let u=decodeURIComponent(q.url.split('?')[0]
   const dsv=await p.evaluate(()=>{const T=DSVTEST,E=T.ex,near=(a,b,e)=>Math.abs(a-b)<=(e||1e-3);
    const a=T.survey(E.i,E.c),b=T.survey(E.f,E.c),c=T.cargo(a.net,b.net),d=T.cargo(b.net,a.net);
    const g2=T.ship({L:'100',dF:'2',dFd:'f',dA:'3'}),lf=T.survey(Object.assign({},E.i,{lcd:'f'}),E.c),bad=T.survey(Object.assign({},E.i,{fs:'4.20',ro:'1.040'}),E.c),miss=T.survey({fp:'4'},E.c);
-   const sv=JSON.stringify(st.dsv||null),sh=st.shn&&st.shn.t;
-   const btn=[...document.querySelectorAll('#shn [data-snt]')].find(x=>x.dataset.snt==='dsv');if(btn)btn.click();
-   const ui=!!document.querySelector('#shn #snxw [data-dvm]')&&/UN\/ECE/.test((document.querySelector('#shn .dvnote')||{}).textContent||'');
+   const sv=JSON.stringify(st.dsv||null),sb=JSON.stringify(st.stb||null),sc=JSON.stringify(st.cgo||null);
+   const btn=document.querySelector('#cgo [data-cgt=dsv]');if(btn)btn.click();
+   const ui=!!document.querySelector('#cgo #cgxw [data-dvm]')&&/UN\/ECE/.test((document.querySelector('#cgo .dvnote')||{}).textContent||'')&&!document.querySelector('#shn [data-snt=dsv]');
    st.dsv.c=JSON.parse(JSON.stringify(E.c));st.dsv.i=JSON.parse(JSON.stringify(E.i));st.dsv.i.dd=E.i.dd.map((w,i)=>({k:i,n:'',w:String(w)}));st.dsv.f=JSON.parse(JSON.stringify(E.f));st.dsv.f.dd=E.f.dd.map((w,i)=>({k:i,n:'',w:String(w)}));
    const run=T.run('i'),sm=T.sum(),ex=T.exTable();
-   const back=[...document.querySelectorAll('#shn [data-snt]')].find(x=>x.dataset.snt==='cmp');if(back)back.click();const bk=!document.querySelector('#shn #snxw');
-   st.dsv=JSON.parse(sv);if(!st.dsv)delete st.dsv;if(sh)st.shn.t=sh;save();
+   const back=document.querySelector('#cgo [data-cgt=stb]');if(back)back.click();const bk=!document.querySelector('#cgo [data-dvm]')&&!!document.querySelector('#cgo #cgxw [data-sbm]')&&st.dsv.on===0;
+   st.dsv=JSON.parse(sv);if(!st.dsv)delete st.dsv;st.stb=JSON.parse(sb);if(!st.stb)delete st.stb;st.cgo=JSON.parse(sc);if(!st.cgo)delete st.cgo;save();cgoR();
    return{perp:near(a.m.cF,-0.040046,1e-6)&&near(a.m.cM,-0.009611,1e-6)&&near(a.m.cA,0.083297,1e-6)&&near(a.m.t,2.883343,1e-6)&&near(a.m.LBM,172.3,1e-9),
     mmm:near(a.m.MMM,5.503198,1e-6)&&near(a.m.dfl,-0.051236,1e-6)&&near(b.m.MMM,10.672304,1e-6)&&b.m.dfl>0,
     hyd:near(a.h.D,24364.998)&&near(a.h.T,46.80320,1e-5)&&near(a.h.C,3.098401,1e-6)&&a.h.Di&&near(b.h.D,48330.197),
@@ -83,7 +83,7 @@ const srv=http.createServer((q,r)=>{let u=decodeURIComponent(q.url.split('?')[0]
     net:near(a.S,16239,1e-9)&&near(a.net,8221.273)&&near(b.net,46513.069)&&near(a.cst,371.273),cargo:near(c.w,38291.796)&&c.k==='ld'&&d.k==='ds',
     sign:near(g2.LBM,99,1e-9)&&lf.c1<0&&near(lf.c1,-232.2934),warn:bad.w.map(x=>x[0]).join(','),miss:miss.miss.join(','),
     free:fmPro.has('dsv')&&fmPro.pkg('dsv')==='tools'&&fmPro.has('shn'),ui,back:bk,run:/8221\.3/.test(run)&&/24460\.3/.test(run),sum:/38291\.8/.test(sm),ex:/38[ ,.]?291[,.]8/.test(ex),th:T.th>=12&&T.qz>=8}});
-  ok(dsv.perp&&dsv.mmm&&dsv.hyd&&dsv.trim&&dsv.dens&&dsv.net&&dsv.cargo&&dsv.sign&&dsv.warn==='list,ro'&&dsv.miss==='M,A'&&dsv.free&&dsv.ui&&dsv.back&&dsv.run&&dsv.sum&&dsv.ex&&dsv.th,'Драфт-сюрвей: поправки, MMM, дифферент, плотность, вычеты и груз сходятся с ручным счётом, теория, вкладка в «Инструментах штурмана» ('+JSON.stringify(dsv)+')');
+  ok(dsv.perp&&dsv.mmm&&dsv.hyd&&dsv.trim&&dsv.dens&&dsv.net&&dsv.cargo&&dsv.sign&&dsv.warn==='list,ro'&&dsv.miss==='M,A'&&dsv.free&&dsv.ui&&dsv.back&&dsv.run&&dsv.sum&&dsv.ex&&dsv.th,'Драфт-сюрвей: поправки, MMM, дифферент, плотность, вычеты и груз сходятся с ручным счётом, теория, вкладка в «⚓ Груз и остойчивость» ('+JSON.stringify(dsv)+')');
   /* Поправка компаса (cpc-js). Ручной счёт:
      створ: ИП 312,0 − КП 309,5 → ΔК = +2,5° E; d = +1,0° E → δ = ΔК − d = +1,5° E (КК 0,5° → строка таблицы КК 0°).
      амплитуда: φ = 40° N, δ⊙ = +15°: sin A = 0,258819/0,766044 = 0,337864 → A = 19,7468°; восход ИП = 90 − 19,7468 = 70,2532° (≈ 70,3°); заход ИП = 270 + 19,7468 = 289,7468°;
@@ -101,7 +101,7 @@ const srv=http.createServer((q,r)=>{let u=decodeURIComponent(q.url.split('?')[0]
    const a=T.amp(40,15,true),a2=T.amp(40,15,false),a3=T.amp(40,-15,true),a4=T.amp(70,23.4,true),g=T.gyr(120,-1,117.5),c=T.coef([-0.2,1.7,2.2,2.1,1.8,0.3,-1.8,-2.1]);
    const ms=Date.UTC(2026,10,20,18,0,0),pz=T.body('pol',ms,40,30),pi=T.polI(),old=SNTEST.alt(SNTEST.bod('s'+pi,ms),40,30),su=T.body('sun',Date.UTC(2026,10,20,8,0,0),40,30),so=SNTEST.alt(SNTEST.bod('sl',Date.UTC(2026,10,20,8,0,0)),40,30);
    const sv=JSON.stringify(st.cpc||null),sh=st.shn&&st.shn.t,sdev=JSON.stringify((st.shn&&st.shn.dev)||[]),svv=JSON.stringify((st.shn&&st.shn.v)||{});
-   const keys=[...document.querySelectorAll('#shn [data-snt]')].map(x=>x.dataset.snt),pos=keys.indexOf('cpc')===keys.indexOf('cmp')+1;
+   shnGo('comp');const keys=[...document.querySelectorAll('#shn [data-snt]')].map(x=>x.dataset.snt),pos=keys.indexOf('cpc')===keys.indexOf('cmp')+1&&st.shn.g==='comp';
    const btn=document.querySelector('#shn [data-snt=cpc]');if(btn)btn.click();
    st.cpc.p='c';st.cpc.m='rng';Object.assign(st.cpc.v,{ip:'312.0',kp:'309.5',kk:'0.5'});Object.assign(st.shn.v,{sn_vd_d:'1',sn_vd_m:'0',sn_vd_h:'E',sn_vy:'',sn_va:''});shnR();
    const ui=!!document.querySelector('#shn #snxw [data-cpm]')&&/Учебный расчёт|study calculation|Навчальний розрахунок/.test((document.querySelector('#shn .cpnote')||{}).textContent||''),r1=T.run('rng');
@@ -123,6 +123,29 @@ const srv=http.createServer((q,r)=>{let u=decodeURIComponent(q.url.split('?')[0]
     tab:dv==='-0.2,1.7,2.2,2.1,1.8,0.3,-1.8,-2.1'&&near(da,0.75),pol:!!pz&&near(pz.z,old.z,1e-9)&&Math.abs(((pz.z+180)%360)-180)<1&&pz.h>39&&pz.h<41&&/Истинный азимут|True azimuth|Істинний азимут/.test(r3),
     sun:!!su&&near(su.z,so.z,1e-9),pos,ui,th:th>=10&&T.th>=10&&T.qz>=8&&fig>=4,back:bk,free:fmPro.has('cpc')&&fmPro.pkg('cpc')==='tools'&&fmPro.has('shn')}});
   ok(Object.values(cpc).every(x=>x===true),'Поправка компаса: створ, амплитуда, Полярная, гирокомпас, ΔГК, склонение, коэффициенты девиации сходятся с ручным счётом, таблица «Компаса» общая, вкладка после «🧭 Компас» ('+JSON.stringify(cpc)+')');
+  /* Группы #shn: 4 группы сверху, инструменты выбранной группы под ними; группа и инструмент запоминаются; старое st.shn.t открывается в своей группе;
+     вкладка SNX с полем grp встаёт в свою группу; «⚓ Груз и остойчивость» (#cgo) — отдельный раздел на Мостике с остойчивостью и драфт-сюрвеем. */
+  const grp=await p.evaluate(()=>{const sv=JSON.stringify(st.shn||{}),q=s=>document.querySelector(s),keys=()=>[...document.querySelectorAll('#shn .sngr+.sntb [data-snt]')].map(x=>x.dataset.snt).join(',');
+   const gb=[...document.querySelectorAll('#shn .sngr [data-sng]')].map(x=>x.dataset.sng).join(','),G={};
+   ['comp','astro','sail','coast'].forEach(g=>{q('#shn [data-sng='+g+']').click();G[g]=keys()+'|'+(q('#shn [data-sng='+g+']').classList.contains('cur')&&st.shn.g===g)});
+   q('#shn [data-sng=sail]').click();q('#shn [data-snt=cpa]').click();q('#shn [data-sng=comp]').click();q('#shn [data-sng=sail]').click();const mem=st.shn.t==='cpa'&&!!q('#shn [data-snt=cpa].cur');
+   const old={};['lmk','tide','sxt','str','dr','cur','cpa','cmp','cpc'].forEach(t=>{st.shn.t=t;shnR();old[t]=st.shn.g+(q('#shn [data-snt='+t+'].cur')?'':'!')});
+   st.shn.t='stb';shnR();const moved=st.shn.t==='cmp'&&st.shn.g==='comp';
+   q('#shn [data-sng=coast]').click();shnGo('cpc');const go=!!q('#shn [data-snt=cpc]')&&st.shn.g==='comp';
+   SNX.zz={grp:'coast',n:'ZZ',r(x){x.textContent='zz'}};shnR();q('#shn [data-sng=coast]').click();const add=/,zz$/.test(keys());delete SNX.zz;
+   const fl=!!q('#shn .snwarn')&&!!q('#shn .sngr');st.shn=JSON.parse(sv);save();shnR();
+   const c=q('#cgo'),cg=[...document.querySelectorAll('#cgo [data-cgt]')].map(x=>x.dataset.cgt).join(',');
+   const kw=window.uxKW?uxKW('cgo'):'',kws=window.uxKW?uxKW('shn'):'';
+   return{gb:gb==='comp,astro,sail,coast',G:JSON.stringify(G),mem,old:JSON.stringify(old),moved,go,add,fl,cg,
+    room:!!c&&c.dataset.t==='r-brg',tile:!!(window.uxP&&uxP.cgo)&&/Груз|Cargo|Вантаж/.test(uxP.cgo.b.textContent),free:fmPro.has('cgo')&&fmPro.tier('cgo')==='free',
+    kw:/осадк/.test(kw)&&/остойчив/.test(kw)&&!/остойчив/.test(kws)&&/поправка компаса/.test(kws)}});
+  ok(grp.gb&&grp.G==='{"comp":"cmp,cpc|true","astro":"sxt,str|true","sail":"dr,cur,cpa|true","coast":"lmk,tide|true"}'&&grp.mem&&grp.old==='{"lmk":"coast","tide":"coast","sxt":"astro","str":"astro","dr":"sail","cur":"sail","cpa":"sail","cmp":"comp","cpc":"comp"}'
+   &&grp.moved&&grp.go&&grp.add&&grp.fl&&grp.cg==='stb,dsv'&&grp.room&&grp.tile&&grp.free&&grp.kw,'Инструменты штурмана: 4 группы, инструменты по группам, память группы, старые вкладки в своих группах; «⚓ Груз и остойчивость» на Мостике ('+JSON.stringify(grp)+')');
+  /* поиск «Все разделы»: остойчивость, драфт, осадка → «Груз и остойчивость»; поправка компаса → «Инструменты штурмана» */
+  const srch=await p.evaluate(async()=>{const r={},sv=JSON.stringify(st.ux||{});st.ux=st.ux||{};st.ux.all=1;if(window.uxApply)uxApply();uxOpen();const Q=document.getElementById('uxq');
+   for(const w of ['остойчивость','драфт','осадка','поправка компаса','stability','остійність']){Q.value=w;Q.dispatchEvent(new Event('input'));await new Promise(z=>setTimeout(z,30));r[w]=[...document.querySelectorAll('#uxl [data-k]')].map(x=>x.dataset.k).filter((x,i,a)=>a.indexOf(x)===i).join(',')}
+   Q.value='';Q.dispatchEvent(new Event('input'));document.getElementById('uxc').classList.remove('on');document.documentElement.classList.remove('uxo');st.ux=JSON.parse(sv);save();if(window.uxApply)uxApply();return r});
+  ok(/cgo/.test(srch['остойчивость'])&&/cgo/.test(srch['драфт'])&&/cgo/.test(srch['осадка'])&&/cgo/.test(srch['stability'])&&/cgo/.test(srch['остійність'])&&/shn/.test(srch['поправка компаса'])&&!/shn/.test(srch['остойчивость']),'Поиск: остойчивость, драфт, осадка → «Груз и остойчивость», поправка компаса → «Инструменты штурмана» ('+JSON.stringify(srch)+')');
   const trn=await p.evaluate(()=>{const dec=id=>{try{return new TextDecoder().decode(Uint8Array.from(atob(document.getElementById(id).textContent.trim()),c=>c.charCodeAt(0)))}catch(e){return ''}};
    const o=dec('to-src'),a=dec('tr-src'),b=dec('tm-src'),c=dec('ts-src'),d=dec('te-src');return{o:/id:"bunker"/.test(o)&&/id:"mob"/.test(o)&&o.includes('FM_LANG'),i:[a,b,c,d].every(x=>x.includes('fm-i18n')&&x.includes('FM_LANG')),d:/SIMS\.shipgrid/.test(d)&&/SIMS\.bode/.test(d),c:/SIMS\.shipboiler/.test(c)&&/SIMS\.shipthruster/.test(c)&&/SIMS\.mainengine/.test(c)&&/SIMS\.navpower/.test(c),btn:document.querySelectorAll('#trs [data-trs]').length,e:/SIMS\.blackout/.test(a)&&/SIMS\.dgstart/.test(a)&&/SIMS\.generator/.test(a),m:/SIMS\.mainstart/.test(b)&&/SIMS\.coolsys/.test(b)}});
   ok(trn.btn===5&&trn.o&&trn.i&&trn.d&&trn.e&&trn.m&&trn.c,'Тренажёры: раздел с пятью наборами, игры встроены ('+JSON.stringify(trn)+')');
@@ -140,15 +163,15 @@ const srv=http.createServer((q,r)=>{let u=decodeURIComponent(q.url.split('?')[0]
    const a=await q.evaluate(()=>({on:fmPro.on(),left:fmPro.trial().left,ecl:fmPro.has('ecl'),price:fmPro.price(),ota:fmOtaPlay()&&!fmOtaPre({build:99999999999,sig:'x'}),pro:!document.getElementById('pro').hidden}));
    await q.evaluate(()=>{localStorage.setItem('fm_pro',JSON.stringify({v:2,t0:1,b0:0,own:0,d:['2000-01-01','2000-01-02','2000-01-03']}))});
    const c=await q.evaluate(()=>{const g=id=>document.getElementById(id);g('ecl').previousElementSibling.click();return{tr:fmPro.trial().on,ecl:fmPro.has('ecl'),qz:fmPro.has('qz'),sh4:fmPro.has('sh4'),wall:!!g('fpw')&&g('fpw').classList.contains('on'),inbox:g('ecl').parentNode===g('mn'),btn:(document.querySelector('#fpw [data-fp=buy]')||{}).textContent||''}});
-   const dv=await q.evaluate(()=>{const x=document.createElement('div'),sv=JSON.stringify(st.dsv||null);SNX.dsv.r(x);const r={has:fmPro.has('dsv'),stb:fmPro.has('stb'),shn:fmPro.has('shn'),g:SNX.dsv.g(),n:/🔒/.test(SNX.dsv.n()),lock:!!x.querySelector('[data-dvw]')&&!x.querySelector('[data-dvv]'),wall:document.getElementById('fpw').classList.contains('on')};st.dsv=JSON.parse(sv);if(!st.dsv)delete st.dsv;return r});
+   const dv=await q.evaluate(()=>{const x=document.createElement('div'),sv=JSON.stringify(st.dsv||null);cgoR();CGX.dsv.r(x);const r={has:fmPro.has('dsv'),stb:fmPro.has('stb'),shn:fmPro.has('shn')&&fmPro.has('cgo'),g:CGX.dsv.g(),n:/🔒/.test(CGX.dsv.n())&&/🔒/.test(CGX.stb.n())&&/🔒/.test(document.querySelector('#cgo [data-cgt=dsv]').textContent),lock:!!x.querySelector('[data-dvw]')&&!x.querySelector('[data-dvv]'),wall:document.getElementById('fpw').classList.contains('on')};st.dsv=JSON.parse(sv);if(!st.dsv)delete st.dsv;return r});
    const cp=await q.evaluate(()=>{const x=document.createElement('div'),sv=JSON.stringify(st.cpc||null),W=document.getElementById('fpw');W.classList.remove('on');const g=SNX.cpc.g(),wall=W.classList.contains('on');W.classList.remove('on');
-    SNX.cpc.r(x);const cm=document.querySelector('#shn [data-snt=cmp]');if(cm)cm.click();
+    SNX.cpc.r(x);shnGo('comp');const cm=document.querySelector('#shn [data-snt=cmp]');if(cm)cm.click();
     const r={has:fmPro.has('cpc'),shn:fmPro.has('shn'),g,wall,n:/🔒/.test(SNX.cpc.n()),lock:!!x.querySelector('[data-cpwl]')&&!x.querySelector('[data-cpv]'),cmp:!!document.querySelector('#shn #sno')&&!document.querySelector('#shn #snxw')};st.cpc=JSON.parse(sv);if(!st.cpc)delete st.cpc;return r});
    ok(!cp.has&&cp.shn&&cp.g===false&&cp.wall&&cp.n&&cp.lock&&cp.cmp,'Play-сборка: «Поправка компаса» закрыта (🔒, окно покупки), «🧭 Компас» открыт ('+JSON.stringify(cp)+')');
    const d=await q.evaluate(()=>{document.querySelector('#fpw [data-fp=buy]').click();return{ord:window.__ord,own:fmPro.owned(),ecl:fmPro.has('ecl')}});
    ok(a.on&&a.left===3&&a.ecl&&a.price==='9,99 $'&&a.ota&&a.pro,'Play-сборка: покупка включена, 3 дня пробы, цена из магазина, самообновление выключено ('+JSON.stringify(a)+')');
    ok(!c.tr&&!c.ecl&&c.qz&&c.sh4&&c.wall&&c.inbox&&/9,99/.test(c.btn),'Play-сборка: после пробы платный раздел закрыт окном покупки, бесплатное открыто ('+JSON.stringify(c)+')');
-   ok(!dv.has&&!dv.stb&&dv.shn&&dv.g===false&&dv.n&&dv.lock&&dv.wall,'Play-сборка: «Драфт-сюрвей» закрыт (🔒, окно покупки), остальные «Инструменты штурмана» открыты ('+JSON.stringify(dv)+')');
+   ok(!dv.has&&!dv.stb&&dv.shn&&dv.g===false&&dv.n&&dv.lock&&dv.wall,'Play-сборка: «Остойчивость» и «Драфт-сюрвей» закрыты (🔒, окно покупки), разделы «Груз и остойчивость» и «Инструменты штурмана» открыты ('+JSON.stringify(dv)+')');
    ok(d.ord===1&&d.own&&d.ecl,'Play-сборка: кнопка «Купить» вызывает оплату, после покупки всё открыто ('+JSON.stringify(d)+')');
    {/* код доступа для друзей и тестировщиков: пара ключей одноразовая, только для теста */
     const cr=require('crypto'),kp=cr.generateKeyPairSync('ec',{namedCurve:'P-256'}),u=b=>Buffer.from(b).toString('base64').replace(/\+/g,'-').replace(/\//g,'_').replace(/=+$/,'');

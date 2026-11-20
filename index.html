@@ -370,6 +370,7 @@ main:not([data-tab="set"])>[data-t="set"]{display:none}
 <section class="card" data-t="know" id="trs" translate="no"></section>
 <section class="card" data-t="set" id="pro" translate="no" hidden></section>
 <section class="card" data-t="know" id="shn" translate="no"></section>
+<section class="card" data-t="know" id="cgo" translate="no"></section>
 <section class="card" data-t="know" id="srf" translate="no"></section>
 <section class="card" data-t="know" id="rlg" translate="no"></section>
 <section class="card" data-t="know" id="cvm"></section>
@@ -521,7 +522,7 @@ var MIG={3:function(o){/* 2→3: починка повреждённых дан�
  if(!(typeof o.name=="string"&&o.name.trim())){var cn=o.cv&&typeof o.cv=="object"&&typeof o.cv.name=="string"?o.cv.name.trim():"";if(cn)o.name=cn.slice(0,30)}}};
 /* Лечение при каждом запуске (не только при смене версии): поле не того типа из испорченной или подделанной копии убирается,
    раздел сам создаст его заново. Без этого, например, st.done=null или st.pck="…" ломали приложение (tests/full.js data). */
-var SHAPE={done:"o",custom:"o",bonus:"o",dr:"o",shore:"o",cfg:"o",nt:"o",fn:"o",sk:"o",pn:"o",wch:"o",m2:"o",rl:"a",cth:"o",kt:"o",fsk:"o",vis:"o",sky5:"o",rwd:"o",pck:"o",shn:"o",stb:"o",dsv:"o",cpc:"o",flmc:"a",flm:"o",cv:"o",ux:"o",gv:"o",qz:"o",light:"o",fz:"o",sched:"o",pin:"o",dcn:"n",dc:"a",ct:"a",ap:"a",ls:"a",rw:"a",name:"s",uid:"s",lang:"s"};
+var SHAPE={done:"o",custom:"o",bonus:"o",dr:"o",shore:"o",cfg:"o",nt:"o",fn:"o",sk:"o",pn:"o",wch:"o",m2:"o",rl:"a",cth:"o",kt:"o",fsk:"o",vis:"o",sky5:"o",rwd:"o",pck:"o",shn:"o",stb:"o",dsv:"o",cpc:"o",cgo:"o",flmc:"a",flm:"o",cv:"o",ux:"o",gv:"o",qz:"o",light:"o",fz:"o",sched:"o",pin:"o",dcn:"n",dc:"a",ct:"a",ap:"a",ls:"a",rw:"a",name:"s",uid:"s",lang:"s"};
 window.fmHeal=function(o){var bad=[],k,t;if(!o||typeof o!="object"||Array.isArray(o)){fmLog("warn","heal",{f:"всё"});return{done:{},custom:{},bonus:{}}}
  if(typeof o.nt=="number"){if(!("dcn" in o))o.dcn=o.nt?1:0;o.nt={}}
  for(k in SHAPE){if(!(k in o))continue;t=o[k];var ok=SHAPE[k]=="a"?Array.isArray(t):SHAPE[k]=="s"?typeof t=="string":SHAPE[k]=="n"?typeof t=="number":(t&&typeof t=="object"&&!Array.isArray(t));if(!ok){bad.push(k);delete o[k]}}
@@ -3069,6 +3070,7 @@ html.fmo,html.fmo body{overflow:hidden}#toast{z-index:40}</style>
 #shn .sno{margin:10px 0 4px;padding:10px 12px;border-left:4px solid var(--ok);background:var(--bg);border-radius:8px;font-size:14.5px;line-height:1.55}#shn .sno b{font-size:17px}#shn .sno.bad{border-color:#e5484d}
 #shn .sno table{width:100%;border-collapse:collapse;font-size:13px;margin:6px 0}#shn .sno td,#shn .sno th{padding:3px 4px;border-bottom:1px solid var(--line);text-align:left}#shn .sno th{color:var(--mute);font-weight:600}
 #shn .snw{color:#e5484d;font-weight:700}#shn h4{margin:12px 0 4px;font-size:14px}#shn .snx{font-size:13px;color:var(--mute);margin:6px 0}
+#shn .sngr{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px;margin:0 0 8px}#shn .sngr button{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;min-width:0;min-height:52px;padding:6px 2px;border:1px solid var(--line);border-radius:10px;background:var(--bg);color:var(--ink);font:inherit;font-size:12px;font-weight:700;line-height:1.15;text-align:center;overflow-wrap:anywhere;cursor:pointer}#shn .sngr button i{font-style:normal;font-size:18px;line-height:1}#shn .sngr button.cur{background:var(--acc);border-color:var(--acc);color:var(--onacc,#0e1424)}@media(max-width:380px){#shn .sngr{gap:4px}#shn .sngr button{font-size:11px;padding:6px 1px}}#shn .sngr+.sntb{margin-top:0;padding-top:8px;border-top:1px solid var(--line)}
 #shn .snfull{grid-column:1/-1}#shn .snr input[type=date]{flex:1.4 1 0}#shn details{margin:8px 0}#shn summary{cursor:pointer;font-weight:700;font-size:14px}
 </style>
 <script id="shn-js">/* Инструменты штурмана (#shn, st.shn): компас, секстан, звёзды, ориентиры, счисление, течение, расхождение, прилив. Всё считается в телефоне, без интернета.
@@ -3243,20 +3245,37 @@ function snC(){var o=E("sno");if(!o)return;var s=S();[].forEach.call(el.querySel
  try{o.innerHTML=calc()}catch(x){o.innerHTML=out(L("Не получилось посчитать — проверь числа.","Could not calculate — check the numbers.","Не вдалося порахувати — перевір числа."),1)}clearTimeout(snC.t);snC.t=setTimeout(function(){try{save()}catch(x){}},400)}
 /* порядок вкладок: свои, затем из SNX; вкладка SNX с полем a (ключ) встаёт сразу после той вкладки */
 function ord(X){var k=Object.keys(T);Object.keys(X).forEach(function(x){var a=X[x].a,i=a?k.indexOf(a):-1;if(i<0){k.push(x);return}var j=i+1;while(j<k.length&&X[k[j]]&&X[k[j]].a==a)j++;k.splice(j,0,x)});return k}
-function snR(){var s=S(),X=window.SNX||{},t=T[s.t]||X[s.t]?s.t:(s.t="cmp"),m=X[t]?"":mode(),xn=function(k){var n=T[k]?T[k].n:X[k].n;return typeof n=="function"?n():n};
- el.innerHTML='<h3>'+L("🔭 Инструменты штурмана","🔭 Navigator's tools","🔭 Інструменти штурмана")+'</h3><p class="note snwarn" style="margin:0 0 10px;padding:8px 10px;border-left:4px solid var(--gym);background:var(--bg);border-radius:8px">⚠ '+L("Учебный помощник, не для навигации — сверяйся с картой и судовыми документами.","A study aid, not for navigation — always check with the chart and the ship's documents.","Навчальний помічник, не для навігації — звіряйся з картою та судновими документами.")+'</p><div class="sntb add">'+ord(X).map(function(k){return'<button type="button" class="alt'+(k==t?" cur":"")+'" data-snt="'+k+'">'+xn(k)+'</button>'}).join("")+'</div>'
+/* два уровня: сверху 4 группы GR, под ними инструменты выбранной группы. Свои инструменты — в группах GT; вкладка SNX кладётся в группу полем grp
+ (ключ из GR), без grp — в группу вкладки a, иначе в последнюю. st.shn: t — инструмент, g — его группа, gt — последний инструмент каждой группы. */
+var GR=[["comp","🧭",L("Компас","Compass","Компас")],["astro","✨",L("Астроно\u00adмия","Astro\u00adnomy","Астроно\u00adмія")],["sail","🗺️",L("Плава\u00adние","Passage","Плаван\u00adня")],["coast","⚓",L("У берега","Near the coast","Біля берега")]],
+ GT={cmp:"comp",sxt:"astro",str:"astro",dr:"sail",cur:"sail",cpa:"sail",lmk:"coast",tide:"coast"};
+function gOk(g){for(var i=0;i<GR.length;i++)if(GR[i][0]==g)return 1;return 0}
+function grp(k,X){if(GT[k])return GT[k];var x=X[k];if(!x)return"";if(x.grp&&gOk(x.grp))return x.grp;if(x.a&&GT[x.a])return GT[x.a];return GR[GR.length-1][0]}
+function inG(g,X){return ord(X).filter(function(k){return grp(k,X)==g})}
+function gtS(){var s=S();if(!s.gt||typeof s.gt!="object"||Array.isArray(s.gt))s.gt={};return s.gt}
+/* открыть группу: последний открытый в ней инструмент или первый */
+function goG(g,X){var l=inG(g,X),t=gtS()[g];if(l.length)S().t=l.indexOf(t)>=0?t:l[0]}
+function snR(){var s=S(),X=window.SNX||{},t=T[s.t]||X[s.t]?s.t:(s.t="cmp"),m=X[t]?"":mode(),xn=function(k){var n=T[k]?T[k].n:X[k].n;return typeof n=="function"?n():n},g=grp(t,X);
+ s.g=g;gtS()[g]=t;
+ /* флаг st[ключ].on у вкладок SNX (по нему они открываются после перезапуска): 1 только у открытой */
+ Object.keys(X).forEach(function(k){var o=st[k];if(o&&typeof o=="object"&&!Array.isArray(o)&&"on" in o)o.on=k==t?1:0});
+ el.innerHTML='<h3>'+L("🔭 Инструменты штурмана","🔭 Navigator's tools","🔭 Інструменти штурмана")+'</h3><p class="note snwarn" style="margin:0 0 10px;padding:8px 10px;border-left:4px solid var(--gym);background:var(--bg);border-radius:8px">⚠ '+L("Учебный помощник, не для навигации — сверяйся с картой и судовыми документами.","A study aid, not for navigation — always check with the chart and the ship's documents.","Навчальний помічник, не для навігації — звіряйся з картою та судновими документами.")+'</p><div class="sngr" role="group" aria-label="'+L("Группы инструментов","Tool groups","Групи інструментів")+'">'+GR.map(function(x){return'<button type="button" class="'+(x[0]==g?"cur":"")+'" data-sng="'+x[0]+'" aria-pressed="'+(x[0]==g)+'"><i aria-hidden="true">'+x[1]+'</i><span>'+x[2]+'</span></button>'}).join("")+'</div><div class="sntb add">'+inG(g,X).map(function(k){return'<button type="button" class="alt'+(k==t?" cur":"")+'" data-snt="'+k+'">'+xn(k)+'</button>'}).join("")+'</div>'
  +(X[t]?'<div id="snxw"></div>':(T[t].m?'<div class="sntb snmb add">'+T[t].m.map(function(x){return'<button type="button" class="alt'+(x[0]==m?" cur":"")+'" data-snm="'+x[0]+'">'+x[1]+'</button>'}).join("")+'</div>':'')
  +form()+'<div id="sno"></div><p class="note" style="margin:8px 0 0">'+L("Учебный помощник: считает без интернета, Солнце и звёзды — с точностью около 1′. Сверяй с картой, альманахом и судовыми приборами.","A study helper: works offline, Sun and stars to about 1′. Always check with the chart, the almanac and the ship's instruments.","Навчальний помічник: рахує без інтернету, Сонце й зірки — з точністю близько 1′. Звіряй з картою, альманахом і судновими приладами.")+'</p>');if(X[t])X[t].r(E("snxw"));else snC()}
 el.addEventListener("click",function(e){var b=e.target.closest("button");if(!b||!el.contains(b))return;var s=S();
  if(b.dataset.snt){var xx=(window.SNX||{})[b.dataset.snt];if(xx&&xx.g&&!xx.g())return;snC();s.t=b.dataset.snt;snR()}else if(b.dataset.snm){snC();s.m[s.t]=b.dataset.snm;snR()}
+ else if(b.dataset.sng){if(b.dataset.sng==s.g)return;snC();goG(b.dataset.sng,window.SNX||{});snR();try{save()}catch(x){}}
  else if(b.dataset.snnow){var n=utcNow();E(b.dataset.snnow+"_dt").value=n[0];E(b.dataset.snnow+"_tm").value=n[1];snC()}
  else if(b.dataset.snneg){var i=E(b.dataset.snneg),v=String(i.value).trim();i.value=v.charAt(0)=="-"?v.slice(1):v?"-"+v:"-";snC()}});
 el.addEventListener("input",snC);el.addEventListener("change",snC);
 window.SNTEST={bod:bod,alt:alt,sun:sun,ghaA:ghaA,jd:jd,hoC:hoC,rhumb:rhumb};
 /* для других вкладок (cpc-js): астрономия и таблица девиации те же, что у «Компаса» */
 window.SNA={bod:bod,alt:alt,sun:sun,jd:jd,stars:function(){return ST},devAt:devAt};
-/* вкладки из других блоков: window.SNX[ключ] = {n: название или функция, r(контейнер) — нарисовать, g() — можно ли открыть (false — вкладка не переключается)}; перерисовать — window.shnR() */
+/* вкладки из других блоков: window.SNX[ключ] = {n: название или функция, r(контейнер) — нарисовать, g() — можно ли открыть (false — вкладка не переключается),
+ grp — группа ("comp" | "astro" | "sail" | "coast"), a — встать сразу после этой вкладки}; перерисовать — window.shnR() */
 window.shnR=snR;
+/* открыть группу по её ключу или по ключу инструмента (путеводитель gv-js: поле go:["shnGo", ключ]) — инструмент не переключается, если он уже в этой группе */
+window.shnGo=function(k){var X=window.SNX||{},g=gOk(k)?k:grp(k,X);if(!g)return;if(grp(S().t,X)!=g){snC();goG(g,X)}snR()};
 snR()})();</script>
 <script id="stbt-js">/* Теория для вкладки «⚖️ Остойчивость» (stb-js): window.STBT(L) → {T: темы [значок, название, суть, подробности (HTML)], Q: вопросы [вопрос, [варианты], верный, пояснение], W: «что это и зачем» для 5 расчётов}.
  Тексты — своими словами, официальные тексты IMO не копируются. Числа и формулы во всех трёх языках одинаковые. */
@@ -3320,28 +3339,28 @@ var W={ld:L("<b>Что это и зачем.</b> Центр тяжести су�
  gz:L("<b>Что это и зачем.</b> GM говорит только о малых углах. Диаграмма GZ показывает остойчивость до опрокидывания, а площади под ней — запас против ветра и волны; по ним проверяют критерии IMO.","<b>What it is and why.</b> GM only tells about small angles. The GZ curve shows stability up to capsizing, and the areas under it — the reserve against wind and waves; IMO criteria are checked on them.","<b>Що це і навіщо.</b> GM говорить лише про малі кути. Діаграма GZ показує остійність до перекидання, а площі під нею — запас проти вітру і хвилі; за ними перевіряють критерії IMO.")};
 return{T:T,Q:Q,W:W}};</script>
 <style id="stb-css">
-#shn .sbsm{margin:0 0 8px;padding:8px 10px;border:1px solid var(--line);border-radius:8px;font-size:13.5px;line-height:1.6;background:var(--bg)}#shn .sbsm b{white-space:nowrap}
-#shn .sbh,#shn .sbrw{display:grid;grid-template-columns:minmax(0,2.2fr) minmax(0,1fr) minmax(0,1fr) 42px;gap:4px;align-items:center;margin:3px 0}#shn .sbh{font-size:12px;color:var(--mute)}
-#shn .sbtk{border:1px solid var(--line);border-radius:8px;padding:6px;margin:6px 0}#shn .sbtk .sbrw{grid-template-columns:minmax(0,1fr) 42px}
-#shn .sbg4{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:4px}#shn .sbg4 label{font-size:12px}
-#shn .sbdel{min-width:40px;min-height:40px;padding:0;font-size:16px}#shn .sbadd{margin:4px 0;min-height:42px}
-#shn .sbkn{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}#shn .sbkn label{font-size:12.5px}
-#shn .sbsvg{width:100%;max-width:520px;height:auto;display:block;margin:8px 0;background:var(--bg);border:1px solid var(--line);border-radius:8px}
-#shn .sbcr{list-style:none;padding:0;margin:6px 0}#shn .sbcr li{display:block;background:none;border:0;border-radius:0;margin:0;padding:5px 0;border-bottom:1px solid var(--line);font-size:13.5px;line-height:1.45}
-#shn .sbnote{margin:12px 0 0;padding:9px 11px;border-left:4px solid #e5484d;background:var(--bg);border-radius:8px;font-size:13.5px;font-weight:600}
-#shn .sbrw input,#shn .sbg4 input,#shn .sbkn input{padding:8px 6px}
-#shn .sbpg{display:flex;gap:6px;margin:0 0 8px}#shn .sbpg button{flex:1 1 0;min-height:42px;font-weight:700}
-#shn .sbwhy{margin:4px 0 8px;padding:8px 10px;border-left:4px solid var(--xp);background:var(--bg);border-radius:8px;font-size:13.5px;line-height:1.5}
-#shn .sbth{border:1px solid var(--line);border-radius:8px;margin:6px 0;padding:0 10px;background:var(--bg)}#shn .sbth summary{min-height:42px;display:flex;flex-wrap:wrap;align-items:center;gap:2px 8px;padding:6px 0;font-weight:700;font-size:14.5px}
-#shn .sbth summary small{flex-basis:100%;font-weight:400;color:var(--mute);font-size:12.5px;line-height:1.35}#shn .sbth>div{padding:0 0 10px;font-size:14px;line-height:1.55}#shn .sbth p{margin:6px 0}#shn .sbth ul{margin:6px 0;padding-left:20px}#shn .sbth li{margin:3px 0}
-#shn .sbfig{width:100%;max-width:420px;height:auto;display:block;margin:8px auto;background:var(--bg);border:1px solid var(--line);border-radius:8px}
-#shn .sbqq{margin:10px 0;padding:8px 0;border-top:1px solid var(--line)}#shn .sbqq b{display:block;margin:0 0 6px}#shn .sbqq button{display:block;width:100%;text-align:left;margin:4px 0;min-height:40px;padding:8px 10px}
-#shn .sbqq button.ok{outline:2px solid var(--ok)}#shn .sbqq button.no{outline:2px solid #e5484d}#shn [data-sbqr]{min-height:42px}#shn .sbqe{font-size:13.5px;margin:4px 0;color:var(--mute)}
+#cgo .sbsm{margin:0 0 8px;padding:8px 10px;border:1px solid var(--line);border-radius:8px;font-size:13.5px;line-height:1.6;background:var(--bg)}#cgo .sbsm b{white-space:nowrap}
+#cgo .sbh,#cgo .sbrw{display:grid;grid-template-columns:minmax(0,2.2fr) minmax(0,1fr) minmax(0,1fr) 42px;gap:4px;align-items:center;margin:3px 0}#cgo .sbh{font-size:12px;color:var(--mute)}
+#cgo .sbtk{border:1px solid var(--line);border-radius:8px;padding:6px;margin:6px 0}#cgo .sbtk .sbrw{grid-template-columns:minmax(0,1fr) 42px}
+#cgo .sbg4{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:4px}#cgo .sbg4 label{font-size:12px}
+#cgo .sbdel{min-width:40px;min-height:40px;padding:0;font-size:16px}#cgo .sbadd{margin:4px 0;min-height:42px}
+#cgo .sbkn{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}#cgo .sbkn label{font-size:12.5px}
+#cgo .sbsvg{width:100%;max-width:520px;height:auto;display:block;margin:8px 0;background:var(--bg);border:1px solid var(--line);border-radius:8px}
+#cgo .sbcr{list-style:none;padding:0;margin:6px 0}#cgo .sbcr li{display:block;background:none;border:0;border-radius:0;margin:0;padding:5px 0;border-bottom:1px solid var(--line);font-size:13.5px;line-height:1.45}
+#cgo .sbnote{margin:12px 0 0;padding:9px 11px;border-left:4px solid #e5484d;background:var(--bg);border-radius:8px;font-size:13.5px;font-weight:600}
+#cgo .sbrw input,#cgo .sbg4 input,#cgo .sbkn input{padding:8px 6px}
+#cgo .sbpg{display:flex;gap:6px;margin:0 0 8px}#cgo .sbpg button{flex:1 1 0;min-height:42px;font-weight:700}
+#cgo .sbwhy{margin:4px 0 8px;padding:8px 10px;border-left:4px solid var(--xp);background:var(--bg);border-radius:8px;font-size:13.5px;line-height:1.5}
+#cgo .sbth{border:1px solid var(--line);border-radius:8px;margin:6px 0;padding:0 10px;background:var(--bg)}#cgo .sbth summary{min-height:42px;display:flex;flex-wrap:wrap;align-items:center;gap:2px 8px;padding:6px 0;font-weight:700;font-size:14.5px}
+#cgo .sbth summary small{flex-basis:100%;font-weight:400;color:var(--mute);font-size:12.5px;line-height:1.35}#cgo .sbth>div{padding:0 0 10px;font-size:14px;line-height:1.55}#cgo .sbth p{margin:6px 0}#cgo .sbth ul{margin:6px 0;padding-left:20px}#cgo .sbth li{margin:3px 0}
+#cgo .sbfig{width:100%;max-width:420px;height:auto;display:block;margin:8px auto;background:var(--bg);border:1px solid var(--line);border-radius:8px}
+#cgo .sbqq{margin:10px 0;padding:8px 0;border-top:1px solid var(--line)}#cgo .sbqq b{display:block;margin:0 0 6px}#cgo .sbqq button{display:block;width:100%;text-align:left;margin:4px 0;min-height:40px;padding:8px 10px}
+#cgo .sbqq button.ok{outline:2px solid var(--ok)}#cgo .sbqq button.no{outline:2px solid #e5484d}#cgo [data-sbqr]{min-height:42px}#cgo .sbqe{font-size:13.5px;margin:4px 0;color:var(--mute)}
 </style>
-<script id="stb-js">/* Остойчивость (вкладка «⚖️ Остойчивость» в #shn, st.stb). Учебный расчёт: загрузка → Δ, KG, GM; свободная поверхность (FSM, GG′, исправленная GM);
+<script id="stb-js">/* Остойчивость (вкладка «⚖️ Остойчивость» в «⚓ Груз и остойчивость» #cgo, st.stb). Учебный расчёт: загрузка → Δ, KG, GM; свободная поверхность (FSM, GG′, исправленная GM);
  крен от перемещения груза; GM по периоду качки (IS Code 2008, ч. B); диаграмма GZ = KN − KG·sinθ, площади (Симпсон по точкам 10°) и критерии IS Code 2008, ч. A 2.2.
- Платно: ключ stb в пакете tools (pro-js). Вкладку добавляет через window.SNX (shn-js). st.stb: on — открыта эта вкладка, m — режим, ld/fs — строки, v — поля. Проверка: window.STBTEST. */
-(function(){var el=document.getElementById("shn");if(!el)return;
+ Платно: ключ stb в пакете tools (pro-js). Вкладку добавляет через window.CGX (cgo-js). st.stb: on — открыта эта вкладка, m — режим, ld/fs — строки, v — поля. Проверка: window.STBTEST. */
+(function(){var el=document.getElementById("cgo");if(!el)return;
 var L=function(r,e,u){return window.fmL?fmL(r,e,u):r},RD=Math.PI/180,H=10*RD,ANG=[0,10,20,30,40,50,60];
 function q(s){return String(s==null?"":s).replace(/[&<>"']/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]})}
 function n(x){x=String(x==null?"":x).replace(",",".").replace(/\s+/g,"");return x===""?NaN:+x}
@@ -3457,7 +3476,7 @@ function render(b){box=b;var s=S();s.on=1;
 function readIn(t){var s=S();if(t.dataset.sbv)s.v[t.dataset.sbv]=t.value;else if(t.dataset.sbkn!=null)s.v.kn[+t.dataset.sbkn]=t.value;else if(t.dataset.sbr){var a=t.dataset.sbr,L2=a.slice(0,2)=="ld"?s.ld:s.fs,r=L2[+a.slice(2)];if(r)r[t.dataset.sbk]=t.value}else return 0;return 1}
 el.addEventListener("input",function(e){if(box&&box.contains(e.target)&&readIn(e.target))upd()});
 el.addEventListener("click",function(e){var b=e.target.closest("button");if(!b||!el.contains(b))return;var s=st.stb;
- if(b.dataset.snt){if(s&&b.dataset.snt!="stb")s.on=0;return}if(!box||!box.contains(b))return;s=S();
+ if(b.dataset.cgt){if(s&&b.dataset.cgt!="stb")s.on=0;return}if(!box||!box.contains(b))return;s=S();
  if(b.dataset.sbw){if(window.fmPro)fmPro.wall("stb");return}if(locked()){if(window.fmPro)fmPro.wall("stb");return}
  if(b.dataset.sbp){s.p=b.dataset.sbp;render(box);try{save()}catch(x){}}
  else if(b.dataset.sbq){var qq=b.dataset.sbq.split(":"),D=TH(),qi=+qq[0];s.qa=s.qa&&typeof s.qa=="object"?s.qa:{};if(s.qa[qi]==null&&D.Q[qi]){s.qa[qi]=+qq[1];var qe=box.querySelector("#sbq"+qi);if(qe)qe.innerHTML=qh(qi,D.Q);var nn=0;D.Q.forEach(function(x,k){if(s.qa[k]==x[2])nn++});var ne=box.querySelector("#sbqn");if(ne)ne.textContent=L("Верно","Correct","Правильно")+": "+nn+" / "+D.Q.length;try{save()}catch(x){}}}
@@ -3465,11 +3484,11 @@ el.addEventListener("click",function(e){var b=e.target.closest("button");if(!b||
  else if(b.dataset.sbm){s.m=b.dataset.sbm;render(box)}
  else if(b.dataset.sbadd){var a=b.dataset.sbadd;if(a=="ld"&&s.ld.length<40)s.ld.push({n:"",m:"",k:""});if(a=="fs"&&s.fs.length<30)s.fs.push({n:"",l:"",b:"",r:"",f:""});render(box);var ins=box.querySelectorAll('[data-sbr="'+a+((a=="ld"?s.ld:s.fs).length-1)+'"]');if(ins[0])try{ins[0].focus()}catch(x){}}
  else if(b.dataset.sbdel){var k=b.dataset.sbdel,arr=k.slice(0,2)=="ld"?s.ld:s.fs,i=+k.slice(2);if(arr[i]&&!(arr==s.ld&&i==0))arr.splice(i,1);render(box)}});
-window.SNX=window.SNX||{};
-SNX.stb={n:function(){return L("⚖️ Остойчивость","⚖️ Stability","⚖️ Остійність")+(locked()?" 🔒":"")},r:render,g:function(){if(!locked())return true;if(window.fmPro)fmPro.wall("stb");return false}};
+window.CGX=window.CGX||{};
+CGX.stb={n:function(){return L("⚖️ Остойчивость","⚖️ Stability","⚖️ Остійність")+(locked()?" 🔒":"")},r:render,g:function(){if(!locked())return true;if(window.fmPro)fmPro.wall("stb");return false}};
 window.STBTEST={th:TH().T.length,qz:TH().Q.length,load:load,fsm:fsm,tanks:tanks,heel:heel,roll:roll,area:area,gz:gz,crit:crit,chain:chain,
  run:function(m){return res(m||mode())}};
-function start(){try{var sh=st.shn=st.shn||{};if(st.stb&&st.stb.on&&!locked())sh.t="stb";if(window.shnR)shnR()}catch(e){}}
+function start(){try{if(window.cgoR)cgoR()}catch(e){}}
 if(document.readyState=="loading")document.addEventListener("DOMContentLoaded",start);else start()})();</script>
 <script id="dsvt-js">/* Теория для вкладки «📏 Драфт-сюрвей» (dsv-js): window.DSVT(L) → {T: темы [значок, название, суть, html], Q: «Проверь себя» [вопрос, [варианты], верный, пояснение], W: «Что это и зачем»}.
  Тексты — своими словами, официальные тексты (UN/ECE Code, IMO) не копируются. Тема «Пример целиком» — метка {EX}, её таблицу рисует dsv-js тем же расчётом, что и вкладка «Расчёт». */
@@ -3537,33 +3556,33 @@ var W=L("<b>Что это и зачем.</b> Впиши судно и марки
  "<b>Що це і навіщо.</b> Впиши судно й марки (один раз), потім осадки, густину, дані таблиць і вирахування для початкового й кінцевого сюрвею. Кожен крок показано з числами — так можна перевірити розрахунок сюрвеєра або навчитися самому. Кнопка «Заповнити прикладом» показує, як це виглядає.");
 return{T:T,Q:Q,W:W}};</script>
 <style id="dsv-css">
-#shn .dvsm{margin:0 0 8px;padding:8px 10px;border:1px solid var(--line);border-radius:8px;font-size:13.5px;line-height:1.6;background:var(--bg)}#shn .dvsm b{white-space:nowrap}#shn .dvsm .dvcg{font-size:16px}
-#shn .dvpg{display:flex;gap:6px;margin:0 0 8px}#shn .dvpg button{flex:1 1 0;min-height:42px;font-weight:700}
-#shn .dvwhy{margin:4px 0 8px;padding:8px 10px;border-left:4px solid var(--xp);background:var(--bg);border-radius:8px;font-size:13.5px;line-height:1.5}
-#shn .dvdr{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr) minmax(0,1fr);gap:6px;align-items:center;margin:4px 0}#shn .dvdr span{font-size:13px}#shn .dvdh{font-size:12px;color:var(--mute)}
-#shn .dvds{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.25fr);gap:6px;align-items:end;margin:6px 0}#shn .dvds label{font-size:12.5px}
-#shn .dvds select,#shn .dvdr input,#shn .dvrw input{width:100%;min-width:0;min-height:40px;box-sizing:border-box}
-#shn .dvrw{display:grid;grid-template-columns:minmax(0,1.6fr) minmax(0,1fr) 42px;gap:4px;align-items:center;margin:3px 0}#shn .dvrw span{font-size:13px}
-#shn .dvdel{min-width:40px;min-height:40px;padding:0;font-size:16px}#shn .dvadd{margin:4px 0;min-height:42px}
-#shn .dvtb{border:1px solid var(--line);border-radius:8px;margin:6px 0;padding:0 8px}#shn .dvtb summary{min-height:42px;display:flex;align-items:center;font-size:13.5px;font-weight:600}
-#shn .dvt4{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:4px;margin:4px 0 8px}#shn .dvt4 label{font-size:11.5px}#shn .dvt4 input{min-width:0;width:100%;padding:8px 4px;box-sizing:border-box}
-#shn .dvst{margin:0;padding-left:18px}#shn .dvst li,#shn .dvth li,#shn .dvwn li{display:list-item;grid-template-columns:none;gap:0;background:none;border:0;border-radius:0;padding:0}#shn .dvst li{margin:3px 0;font-size:13.5px;line-height:1.5}
-#shn .dvwn{list-style:none;padding:0;margin:6px 0}#shn .dvwn li{display:block;margin:3px 0;padding:6px 8px;border-left:3px solid #e5484d;background:var(--card,var(--bg));font-size:13px;line-height:1.45}
-#shn .dvnote{margin:12px 0 0;padding:9px 11px;border-left:4px solid #e5484d;background:var(--bg);border-radius:8px;font-size:13.5px;font-weight:600}
-#shn .dvth{border:1px solid var(--line);border-radius:8px;margin:6px 0;padding:0 10px;background:var(--bg)}#shn .dvth summary{min-height:42px;display:flex;flex-wrap:wrap;align-items:center;gap:2px 8px;padding:6px 0;font-weight:700;font-size:14.5px}
-#shn .dvth summary small{flex-basis:100%;font-weight:400;color:var(--mute);font-size:12.5px;line-height:1.35}#shn .dvth>div{padding:0 0 10px;font-size:14px;line-height:1.55}#shn .dvth p{margin:6px 0}#shn .dvth ul{margin:6px 0;padding-left:20px}#shn .dvth li{margin:3px 0}
-#shn .dvfig{width:100%;max-width:420px;height:auto;display:block;margin:8px auto;background:var(--bg);border:1px solid var(--line);border-radius:8px}
-#shn .dvex{overflow-x:auto;max-width:100%}#shn .dvex table{width:100%;border-collapse:collapse;font-size:12.5px}#shn .dvex td,#shn .dvex th{padding:2px 3px 5px;border-bottom:1px solid var(--line);text-align:right;vertical-align:top;width:50%}#shn .dvex th{color:var(--mute)}#shn .dvex .dvel td{text-align:left;border-bottom:0;padding:6px 3px 0;color:var(--mute);font-size:12px}
-#shn .dvqq{margin:10px 0;padding:8px 0;border-top:1px solid var(--line)}#shn .dvqq b{display:block;margin:0 0 6px}#shn .dvqq button{display:block;width:100%;text-align:left;margin:4px 0;min-height:40px;padding:8px 10px}
-#shn .dvqq button.ok{outline:2px solid var(--ok)}#shn .dvqq button.no{outline:2px solid #e5484d}#shn [data-dvqr],#shn [data-dvex]{min-height:42px}#shn .dvqe{font-size:13.5px;margin:4px 0;color:var(--mute)}
-#shn #dvo .sno{overflow-wrap:anywhere}
+#cgo .dvsm{margin:0 0 8px;padding:8px 10px;border:1px solid var(--line);border-radius:8px;font-size:13.5px;line-height:1.6;background:var(--bg)}#cgo .dvsm b{white-space:nowrap}#cgo .dvsm .dvcg{font-size:16px}
+#cgo .dvpg{display:flex;gap:6px;margin:0 0 8px}#cgo .dvpg button{flex:1 1 0;min-height:42px;font-weight:700}
+#cgo .dvwhy{margin:4px 0 8px;padding:8px 10px;border-left:4px solid var(--xp);background:var(--bg);border-radius:8px;font-size:13.5px;line-height:1.5}
+#cgo .dvdr{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr) minmax(0,1fr);gap:6px;align-items:center;margin:4px 0}#cgo .dvdr span{font-size:13px}#cgo .dvdh{font-size:12px;color:var(--mute)}
+#cgo .dvds{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.25fr);gap:6px;align-items:end;margin:6px 0}#cgo .dvds label{font-size:12.5px}
+#cgo .dvds select,#cgo .dvdr input,#cgo .dvrw input{width:100%;min-width:0;min-height:40px;box-sizing:border-box}
+#cgo .dvrw{display:grid;grid-template-columns:minmax(0,1.6fr) minmax(0,1fr) 42px;gap:4px;align-items:center;margin:3px 0}#cgo .dvrw span{font-size:13px}
+#cgo .dvdel{min-width:40px;min-height:40px;padding:0;font-size:16px}#cgo .dvadd{margin:4px 0;min-height:42px}
+#cgo .dvtb{border:1px solid var(--line);border-radius:8px;margin:6px 0;padding:0 8px}#cgo .dvtb summary{min-height:42px;display:flex;align-items:center;font-size:13.5px;font-weight:600}
+#cgo .dvt4{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:4px;margin:4px 0 8px}#cgo .dvt4 label{font-size:11.5px}#cgo .dvt4 input{min-width:0;width:100%;padding:8px 4px;box-sizing:border-box}
+#cgo .dvst{margin:0;padding-left:18px}#cgo .dvst li,#cgo .dvth li,#cgo .dvwn li{display:list-item;grid-template-columns:none;gap:0;background:none;border:0;border-radius:0;padding:0}#cgo .dvst li{margin:3px 0;font-size:13.5px;line-height:1.5}
+#cgo .dvwn{list-style:none;padding:0;margin:6px 0}#cgo .dvwn li{display:block;margin:3px 0;padding:6px 8px;border-left:3px solid #e5484d;background:var(--card,var(--bg));font-size:13px;line-height:1.45}
+#cgo .dvnote{margin:12px 0 0;padding:9px 11px;border-left:4px solid #e5484d;background:var(--bg);border-radius:8px;font-size:13.5px;font-weight:600}
+#cgo .dvth{border:1px solid var(--line);border-radius:8px;margin:6px 0;padding:0 10px;background:var(--bg)}#cgo .dvth summary{min-height:42px;display:flex;flex-wrap:wrap;align-items:center;gap:2px 8px;padding:6px 0;font-weight:700;font-size:14.5px}
+#cgo .dvth summary small{flex-basis:100%;font-weight:400;color:var(--mute);font-size:12.5px;line-height:1.35}#cgo .dvth>div{padding:0 0 10px;font-size:14px;line-height:1.55}#cgo .dvth p{margin:6px 0}#cgo .dvth ul{margin:6px 0;padding-left:20px}#cgo .dvth li{margin:3px 0}
+#cgo .dvfig{width:100%;max-width:420px;height:auto;display:block;margin:8px auto;background:var(--bg);border:1px solid var(--line);border-radius:8px}
+#cgo .dvex{overflow-x:auto;max-width:100%}#cgo .dvex table{width:100%;border-collapse:collapse;font-size:12.5px}#cgo .dvex td,#cgo .dvex th{padding:2px 3px 5px;border-bottom:1px solid var(--line);text-align:right;vertical-align:top;width:50%}#cgo .dvex th{color:var(--mute)}#cgo .dvex .dvel td{text-align:left;border-bottom:0;padding:6px 3px 0;color:var(--mute);font-size:12px}
+#cgo .dvqq{margin:10px 0;padding:8px 0;border-top:1px solid var(--line)}#cgo .dvqq b{display:block;margin:0 0 6px}#cgo .dvqq button{display:block;width:100%;text-align:left;margin:4px 0;min-height:40px;padding:8px 10px}
+#cgo .dvqq button.ok{outline:2px solid var(--ok)}#cgo .dvqq button.no{outline:2px solid #e5484d}#cgo [data-dvqr],#cgo [data-dvex]{min-height:42px}#cgo .dvqe{font-size:13.5px;margin:4px 0;color:var(--mute)}
+#cgo #dvo .sno{overflow-wrap:anywhere}
 </style>
-<script id="dsv-js">/* Драфт-сюрвей (вкладка «📏 Драфт-сюрвей» в #shn, st.dsv). Учебный расчёт веса груза по осадкам: средние по бортам → поправки к перпендикулярам →
+<script id="dsv-js">/* Драфт-сюрвей (вкладка «📏 Драфт-сюрвей» в «⚓ Груз и остойчивость» #cgo, st.dsv). Учебный расчёт веса груза по осадкам: средние по бортам → поправки к перпендикулярам →
  прогиб/перегиб и MMM = (Fp + Ap + 6·Mp)/8 → Δ по таблицам (можно интерполировать по двум строкам) → 1-я поправка t·LCF·TPC·100/LBP и 2-я (Немото) 50·t²·(MTC₁ − MTC₂)/LBP →
  плотность Δ·ρ/1,025 → вычеты → чистое водоизмещение; груз = |чистое конечное − чистое начальное|, константа = чистое − порожнее.
  Знаки: x от миделя; dF > 0 — носовые марки в корму от FP, dM > 0 — марка миделя в корму от миделя, dA > 0 — кормовые марки в нос от AP; t = A − F (+ на корму); LCF > 0 — в корму от миделя.
- Платно: ключ dsv в пакете tools (pro-js). Вкладку добавляет через window.SNX (shn-js). Теория — window.DSVT (dsvt-js). Проверка: window.DSVTEST. */
-(function(){var el=document.getElementById("shn");if(!el)return;
+ Платно: ключ dsv в пакете tools (pro-js). Вкладку добавляет через window.CGX (cgo-js). Теория — window.DSVT (dsvt-js). Проверка: window.DSVTEST. */
+(function(){var el=document.getElementById("cgo");if(!el)return;
 var L=function(r,e,u){return window.fmL?fmL(r,e,u):r};
 function q(s){return String(s==null?"":s).replace(/[&<>"']/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]})}
 function n(x){x=String(x==null?"":x).replace(",",".").replace(/\s+/g,"");return x===""?NaN:+x}
@@ -3720,7 +3739,7 @@ function fill(){var s=S(),has=["i","f"].some(function(k){return Object.keys(s[k]
 el.addEventListener("input",function(e){if(box&&box.contains(e.target)&&readIn(e.target))upd()});
 el.addEventListener("change",function(e){if(box&&box.contains(e.target)&&e.target.tagName=="SELECT"&&readIn(e.target))upd()});
 el.addEventListener("click",function(e){var b=e.target.closest("button");if(!b||!el.contains(b))return;var s=st.dsv;
- if(b.dataset.snt){if(s&&b.dataset.snt!="dsv")s.on=0;return}if(!box||!box.contains(b))return;s=S();
+ if(b.dataset.cgt){if(s&&b.dataset.cgt!="dsv")s.on=0;return}if(!box||!box.contains(b))return;s=S();
  if(b.dataset.dvw){if(window.fmPro)fmPro.wall("dsv");return}if(locked()){if(window.fmPro)fmPro.wall("dsv");return}
  if(b.dataset.dvp){s.p=b.dataset.dvp;render(box);try{save()}catch(x){}}
  else if(b.dataset.dvex)fill();
@@ -3729,17 +3748,17 @@ el.addEventListener("click",function(e){var b=e.target.closest("button");if(!b||
  else if(b.dataset.dvm){s.m=b.dataset.dvm;render(box);try{save()}catch(x){}}
  else if(b.dataset.dvadd){var v=s[b.dataset.dvadd];if(v&&v.dd.length<30){v.dd.push({n:"",w:""});render(box);var ins=box.querySelector('[data-dvr="'+b.dataset.dvadd+(v.dd.length-1)+'"]');if(ins)try{ins.focus()}catch(x){}}}
  else if(b.dataset.dvdel){var k=b.dataset.dvdel,vv=s[k.charAt(0)],i=+k.slice(1);if(vv&&vv.dd[i]){vv.dd.splice(i,1);render(box);try{save()}catch(x){}}}});
-window.SNX=window.SNX||{};
-SNX.dsv={n:function(){return L("📏 Драфт-сюрвей","📏 Draught survey","📏 Драфт-сюрвей")+(locked()?" 🔒":"")},r:render,g:function(){if(!locked())return true;if(window.fmPro)fmPro.wall("dsv");return false}};
+window.CGX=window.CGX||{};
+CGX.dsv={n:function(){return L("📏 Драфт-сюрвей","📏 Draught survey","📏 Драфт-сюрвей")+(locked()?" 🔒":"")},r:render,g:function(){if(!locked())return true;if(window.fmPro)fmPro.wall("dsv");return false}};
 window.DSVTEST={th:TH().T.length,qz:TH().Q.length,ship:ship,side:side,marks:marks,hyd:hyd,ftc:ftc,stc:stc,dens:dens,ded:ded,survey:survey,cargo:cargo,ex:EX,
  run:function(p){return p=="s"?shipRes():res(p||mode())},sum:sum,exTable:exTable};
-function start(){try{var sh=st.shn=st.shn||{};if(st.dsv&&st.dsv.on&&!locked())sh.t="dsv";if(window.shnR)shnR()}catch(e){}}
+function start(){try{if(window.cgoR)cgoR()}catch(e){}}
 if(document.readyState=="loading")document.addEventListener("DOMContentLoaded",start);else start()})();</script>
 <style id="dg-css">
-#shn .dg{margin:10px auto;max-width:460px;--dgr:#e5484d;--dgw:#3b82f6}
-#shn .dg svg{width:100%;height:auto;display:block;background:var(--bg);border:1px solid var(--line);border-radius:8px}
-@media(max-width:400px){#shn .dg{margin-left:-7px;margin-right:-7px}}
-#shn .dg figcaption{font-size:12.5px;line-height:1.35;color:var(--mute);text-align:center;margin:4px 2px 0}
+#cgo .dg{margin:10px auto;max-width:460px;--dgr:#e5484d;--dgw:#3b82f6}
+#cgo .dg svg{width:100%;height:auto;display:block;background:var(--bg);border:1px solid var(--line);border-radius:8px}
+@media(max-width:400px){#cgo .dg{margin-left:-7px;margin-right:-7px}}
+#cgo .dg figcaption{font-size:12.5px;line-height:1.35;color:var(--mute);text-align:center;margin:4px 2px 0}
 .dg text{fill:var(--ink);font:13px system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;paint-order:stroke;stroke:var(--bg);stroke-width:3px;stroke-linejoin:round}
 .dg .s{font-size:12.5px}.dg .l{font-size:15px}.dg .b{font-weight:700}.dg .m{fill:var(--mute)}.dg .r{fill:var(--dgr)}.dg .w{fill:var(--dgw)}.dg .g{fill:var(--ok)}.dg .y{fill:var(--xp)}.dg .n{fill:var(--bg);stroke:none}
 .dg .dig{font:700 42px Arial,sans-serif}.dg .dig2{font:700 38px Arial,sans-serif}
@@ -4020,6 +4039,33 @@ var oS=window.STBT,oD=window.DSVT;
 if(oS)window.STBT=function(L){var o=oS(L),F=STBF(L);PS.forEach(function(p){var t=o.T[p[0]];if(t)t[3]=put(t[3],p[1],F[p[2]])});return o};
 if(oD)window.DSVT=function(L){var o=oD(L),F=DSVF(L);PD.forEach(function(p){var t=o.T[p[0]];if(t)t[3]=put(t[3],p[1],F[p[2]])});return o};
 })();</script>
+<style id="cgo-css">
+#cgo .sntb{display:flex;flex-wrap:wrap;gap:6px;margin:0 0 8px}#cgo .sntb button{padding:7px 10px;font-size:13.5px}#cgo .snmb button{padding:5px 9px;font-size:12.5px}
+#cgo .sng{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:8px;margin:6px 0}
+#cgo label{display:flex;flex-direction:column;gap:4px;font-size:13px;color:var(--mute);min-width:0}
+#cgo input,#cgo select{padding:8px;border:1px solid var(--line);background:var(--bg);color:var(--ink);border-radius:8px;font:inherit;min-width:0;width:100%;box-sizing:border-box}
+#cgo .snr{display:flex;gap:4px;min-width:0}#cgo .snr input{flex:1 1 0}#cgo .snr select{flex:0 0 auto;width:auto}#cgo .snr button{flex:0 0 auto;padding:6px 8px;min-width:0}
+#cgo .sno{margin:10px 0 4px;padding:10px 12px;border-left:4px solid var(--ok);background:var(--bg);border-radius:8px;font-size:14.5px;line-height:1.55}#cgo .sno b{font-size:17px}#cgo .sno.bad{border-color:#e5484d}
+#cgo .sno table{width:100%;border-collapse:collapse;font-size:13px;margin:6px 0}#cgo .sno td,#cgo .sno th{padding:3px 4px;border-bottom:1px solid var(--line);text-align:left}#cgo .sno th{color:var(--mute);font-weight:600}
+#cgo .snw{color:#e5484d;font-weight:700}#cgo h4{margin:12px 0 4px;font-size:14px}#cgo .snx{font-size:13px;color:var(--mute);margin:6px 0}
+#cgo .snfull{grid-column:1/-1}#cgo details{margin:8px 0}#cgo summary{cursor:pointer;font-weight:700;font-size:14px}
+#cgo .cgwarn{margin:0 0 10px;padding:8px 10px;border-left:4px solid var(--gym);background:var(--bg);border-radius:8px}
+</style>
+<script id="cgo-js">/* ⚓ Груз и остойчивость (#cgo, помещение «Мостик»; решение Кости 20.11.2026 — вынесено из «🔭 Инструменты штурмана»). Сам раздел бесплатный, платность — внутри вкладок (fmPro.has(ключ)).
+ Вкладки из других блоков: window.CGX[ключ] = {n: название или функция, r(контейнер) — нарисовать, g() — можно ли открыть (false — вкладка не переключается)}; порядок — порядок регистрации.
+ Сейчас: stb (stb-js), dsv (dsv-js). st.cgo: t — открытая вкладка; пока её нет — по флагам st.dsv.on / st.stb.on (так вкладки помнились в #shn). Перерисовать — window.cgoR(). */
+(function(){var el=document.getElementById("cgo");if(!el)return;
+var L=function(r,e,u){return window.fmL?fmL(r,e,u):r};
+function S(){var c=st.cgo;if(!c||typeof c!="object"||Array.isArray(c))c=st.cgo={};return c}
+function nm(x){var n=x.n;return typeof n=="function"?n():n}
+function R(){var c=S(),X=window.CGX||{},k=Object.keys(X),t=X[c.t]?c.t:st.dsv&&st.dsv.on&&X.dsv?"dsv":k[0];if(t)c.t=t;
+ k.forEach(function(x){var o=st[x];if(o&&typeof o=="object"&&!Array.isArray(o)&&"on" in o)o.on=x==t?1:0});
+ el.innerHTML='<h3>'+L("⚓ Груз и остойчивость","⚓ Cargo and stability","⚓ Вантаж і остійність")+'</h3><p class="note cgwarn">⚠ '+L("Учебный расчёт — сверяйся с информацией об остойчивости судна и судовыми документами.","A study calculation — always check with the ship's stability information and documents.","Навчальний розрахунок — звіряйся з інформацією про остійність судна та судновими документами.")+'</p>'
+ +(t?'<div class="sntb add" role="group" aria-label="'+L("Расчёты","Calculations","Розрахунки")+'">'+k.map(function(x){return'<button type="button" class="alt'+(x==t?" cur":"")+'" data-cgt="'+x+'" aria-pressed="'+(x==t)+'">'+nm(X[x])+'</button>'}).join("")+'</div><div id="cgxw"></div>':"");
+ if(t)X[t].r(document.getElementById("cgxw"))}
+el.addEventListener("click",function(e){var b=e.target.closest("button[data-cgt]");if(!b||!el.contains(b))return;var k=b.dataset.cgt,x=(window.CGX||{})[k];if(!x||k==S().t)return;if(x.g&&!x.g())return;S().t=k;R();try{save()}catch(z){}});
+window.cgoR=R;
+R();if(document.readyState=="loading")document.addEventListener("DOMContentLoaded",R)})();</script>
 <script id="cpct-js">/* Теория для вкладки «🧲 Поправка компаса» (cpc-js): window.CPCT(L) → {T: темы [значок, название, суть, html], Q: «Проверь себя» [вопрос, [варианты], верный, пояснение], W: {режим: «Что это и зачем»}}.
  Тексты — своими словами, официальные тексты (IMO, ISO, наставления) не копируются. Числа в ru/en/uk одинаковые. Рисунки — SVG в цветах темы. */
 window.CPCT=function(L){var S=function(lab,vb,h){return'<svg class="cpfig" viewBox="'+vb+'" role="img" aria-label="'+lab+'">'+h+'</svg>'},
@@ -4291,7 +4337,7 @@ el.addEventListener("click",function(e){var b=e.target.closest("button");if(!b||
  else if(b.dataset.cpq){var qq=b.dataset.cpq.split(":"),D=TH(),qi=+qq[0];s.qa=s.qa&&typeof s.qa=="object"&&!Array.isArray(s.qa)?s.qa:{};if(s.qa[qi]==null&&D.Q[qi]){s.qa[qi]=+qq[1];var qe=box.querySelector("#cpq"+qi);if(qe)qe.innerHTML=qh(qi,D.Q);var nn=0;D.Q.forEach(function(x,k){if(s.qa[k]==x[2])nn++});var ne=box.querySelector("#cpqn");if(ne)ne.textContent=L("Верно","Correct","Правильно")+": "+nn+" / "+D.Q.length;try{save()}catch(x){}}}
  else if(b.dataset.cpqr){s.qa={};render(box);var dz=box.querySelector("#cpqz");if(dz)dz.open=true;try{save()}catch(x){}}});
 window.SNX=window.SNX||{};
-SNX.cpc={a:"cmp",n:function(){return L("🧲 Поправка компаса","🧲 Compass error","🧲 Поправка компаса")+(locked()?" 🔒":"")},r:render,g:function(){if(!locked())return true;if(window.fmPro)fmPro.wall("cpc");return false}};
+SNX.cpc={a:"cmp",grp:"comp",n:function(){return L("🧲 Поправка компаса","🧲 Compass error","🧲 Поправка компаса")+(locked()?" 🔒":"")},r:render,g:function(){if(!locked())return true;if(window.fmPro)fmPro.wall("cpc");return false}};
 window.CPCTEST={th:TH().T.length,qz:TH().Q.length,rng:rng,amp:amp,gyr:gyr,dgk:dgk,coef:coef,devK:devK,body:body,vari:vari,polI:polI,msOf:msOf,run:function(m){return res(m||mode())}};
 function start(){try{var sh=st.shn=st.shn||{};if(st.cpc&&st.cpc.on&&!locked())sh.t="cpc";if(window.shnR)shnR()}catch(e){}}
 if(document.readyState=="loading")document.addEventListener("DOMContentLoaded",start);else start()})();</script>
@@ -4444,7 +4490,7 @@ main>.uxm{display:flex;flex-direction:column;gap:8px;margin:0}
  Разделы не прячутся и не переносятся: открытие идёт через их плитки. Закреплённые — st.ux.p (ключ: id раздела или "#"+id внутри него). */
 document.addEventListener("DOMContentLoaded",function(){var mn=document.getElementById("mn");if(!mn)return;var L=function(r,e,u){return window.fmL?fmL(r,e,u):r};
 var TABS=["today","r-brg","r-eng","r-cls","r-mes","r-gym","r-hom","r-cab","know","game","shore","diary","me","set"],DEF=["#days","wch","rh","dc","ktr","shn"],P={},ORD=[];
-var KW={gv:"путеводитель гид обучение курс помощь как пользоваться с чего начать guide tutorial course help how to use путівник навчання допомога як користуватися","#days":"квест задачи план quests tasks квести","wch":"вахта сон график watch sleep rota графік","rh":"отдых часы работы mlc stcw пднв rest hours відпочинок","dc":"документы сертификат медкомиссия виза паспорт documents certificate medical документи","ct":"контракт стаж рейс sea service contract стаж","fnm":"деньги бюджет зарплата накопления money budget гроші","ktr":"до дома списание отпуск home sign off додому","cth":"звонок позвонить семья call family дзвінок","hfm":"дом семья близкие family home сім'я","srf":"справочник конвенции solas marpol stcw пднв mlc ism isps мусор балласт сертификат грузовая марка lsa ffe спасательные пожарные огнетушитель плот шлюпка сроки проверок co2 конвенции мппсс colreg огни знаки флаги мсс морзе алфавит буи мамс iala гмссб gmdss mayday укв vhf бофорт тревога handbook flags lights buoys довідник прапори","shn":"штурман компас секстан звёзды звезды пеленг ориентир счисление течение дрейф расхождение cpa прилив navigation compass sextant stars bearing tide","trs":"тренажёр тренажер симулятор пуск двигателя синхронизация генератор блэкаут охлаждение trainer simulator engine start synchronization blackout cooling тренажер симулятор","ecl":"сопротивление резистор закон ома изоляция мегомметр конденсатор трансформатор компенсация cos генератор параллельно аккумулятор пусковой ток скольжение resistance resistor ohm insulation megger capacitor transformer battery starting current slip опір резистор ізоляція","mcl":"расход топлива вязкость подогрев мазут насос охлаждение цилиндр цилиндровое масло переход fuel consumption viscosity heating pump cooling cylinder cylinder oil passage витрата палива в’язкість підігрів","clc":"калькулятор электромеханик кабель сечение двигатель ток cos обороты calculator cable motor current","cvm":"расчёты единицы перевод рейс ом топливо units conversion voyage ohm fuel","rlg":"ремонт журнал поломка repair log ремонт","ck":"чек-лист что взять checklist","lib":"библиотека статьи знания library articles бібліотека","gl":"глоссарий термины словарь glossary","en":"английский слова english words англійська","iv":"собеседование интервью английский interview співбесіда","qz":"экзамен тест вопросы exam quiz іспит","mat":"видео материалы youtube tiktok video","vdw":"видео youtube tiktok instagram video","pom":"таймер фокус помодоро timer focus","tk":"танки игра tanks game","sm":"самолёты самолеты игра planes game","bg":"карты шахматы шашки нарды дурак деберц chess checkers backgammon cards","mt2":"шахматы мат задача chess puzzle","pzl":"морской бой судоку пятнашки кроссворд battleship sudoku crossword","snd":"сон звуки шум sleep sounds noise","brt":"дыхание расслабление breathing relax дихання","sky":"звёзды звезды небо созвездия stars sky зорі","bk":"книги читать books read книжки","flm":"фильмы кино сериалы films movies series фільми","gym":"зал тренировки питание калории вода gym workout nutrition calories","rz":"резюме cv pdf работа job","ap":"отклики вакансии applications jobs","vis":"страны порты карта countries ports map","sh1":"берег карьера shore career","pck":"сборы вещи чемодан packing","trn":"перенос новый телефон move phone transfer","prv":"конфиденциальность поддержка privacy support","fbk":"отзыв идея ошибка предложение улучшить жалоба feedback idea bug suggest improve відгук ідея помилка пропозиція","elg":"журнал ошибок загрузки повторить log errors downloads retry","abk":"автокопии резервная копия восстановить откат backup restore rollback автокопії відновити","cfg":"вид тема имя appearance theme","nfc":"уведомления напоминания notifications reminders","#sn":"резервная копия бэкап backup","shop":"магазин монеты награды shop coins","ch":"сундук бонус chest","rwd":"награды уровни rewards levels"};
+var KW={gv:"путеводитель гид обучение курс помощь как пользоваться с чего начать guide tutorial course help how to use путівник навчання допомога як користуватися","#days":"квест задачи план quests tasks квести","wch":"вахта сон график watch sleep rota графік","rh":"отдых часы работы mlc stcw пднв rest hours відпочинок","dc":"документы сертификат медкомиссия виза паспорт documents certificate medical документи","ct":"контракт стаж рейс sea service contract стаж","fnm":"деньги бюджет зарплата накопления money budget гроші","ktr":"до дома списание отпуск home sign off додому","cth":"звонок позвонить семья call family дзвінок","hfm":"дом семья близкие family home сім'я","srf":"справочник конвенции solas marpol stcw пднв mlc ism isps мусор балласт сертификат грузовая марка lsa ffe спасательные пожарные огнетушитель плот шлюпка сроки проверок co2 конвенции мппсс colreg огни знаки флаги мсс морзе алфавит буи мамс iala гмссб gmdss mayday укв vhf бофорт тревога handbook flags lights buoys довідник прапори","shn":"штурман компас секстан звёзды звезды пеленг ориентир счисление течение дрейф расхождение cpa прилив астрономия плавание у берега navigation compass sextant stars bearing tide astronomy passage coast астрономія плавання біля берега","cgo":"груз остойчивость драфт драфт-сюрвей осадка осадки крен загрузка gm kg водоизмещение cargo stability draught draft survey displacement heel вантаж остійність осадка водотоннажність","trs":"тренажёр тренажер симулятор пуск двигателя синхронизация генератор блэкаут охлаждение trainer simulator engine start synchronization blackout cooling тренажер симулятор","ecl":"сопротивление резистор закон ома изоляция мегомметр конденсатор трансформатор компенсация cos генератор параллельно аккумулятор пусковой ток скольжение resistance resistor ohm insulation megger capacitor transformer battery starting current slip опір резистор ізоляція","mcl":"расход топлива вязкость подогрев мазут насос охлаждение цилиндр цилиндровое масло переход fuel consumption viscosity heating pump cooling cylinder cylinder oil passage витрата палива в’язкість підігрів","clc":"калькулятор электромеханик кабель сечение двигатель ток cos обороты calculator cable motor current","cvm":"расчёты единицы перевод рейс ом топливо units conversion voyage ohm fuel","rlg":"ремонт журнал поломка repair log ремонт","ck":"чек-лист что взять checklist","lib":"библиотека статьи знания library articles бібліотека","gl":"глоссарий термины словарь glossary","en":"английский слова english words англійська","iv":"собеседование интервью английский interview співбесіда","qz":"экзамен тест вопросы exam quiz іспит","mat":"видео материалы youtube tiktok video","vdw":"видео youtube tiktok instagram video","pom":"таймер фокус помодоро timer focus","tk":"танки игра tanks game","sm":"самолёты самолеты игра planes game","bg":"карты шахматы шашки нарды дурак деберц chess checkers backgammon cards","mt2":"шахматы мат задача chess puzzle","pzl":"морской бой судоку пятнашки кроссворд battleship sudoku crossword","snd":"сон звуки шум sleep sounds noise","brt":"дыхание расслабление breathing relax дихання","sky":"звёзды звезды небо созвездия stars sky зорі","bk":"книги читать books read книжки","flm":"фильмы кино сериалы films movies series фільми","gym":"зал тренировки питание калории вода gym workout nutrition calories","rz":"резюме cv pdf работа job","ap":"отклики вакансии applications jobs","vis":"страны порты карта countries ports map","sh1":"берег карьера shore career","pck":"сборы вещи чемодан packing","trn":"перенос новый телефон move phone transfer","prv":"конфиденциальность поддержка privacy support","fbk":"отзыв идея ошибка предложение улучшить жалоба feedback idea bug suggest improve відгук ідея помилка пропозиція","elg":"журнал ошибок загрузки повторить log errors downloads retry","abk":"автокопии резервная копия восстановить откат backup restore rollback автокопії відновити","cfg":"вид тема имя appearance theme","nfc":"уведомления напоминания notifications reminders","#sn":"резервная копия бэкап backup","shop":"магазин монеты награды shop coins","ch":"сундук бонус chest","rwd":"награды уровни rewards levels"};
 function key(s){if(!s||s.tagName!="SECTION")return"";if(s.id)return s.id;var e=s.querySelector("[id]");return e?"#"+e.id:""}
 [].forEach.call(mn.querySelectorAll(":scope>button.fmt"),function(b){var s=b.nextElementSibling,k=key(s);if(k&&!P[k]){P[k]={b:b,s:s};ORD.push(k)}});
 function U(){var u=st.ux=st.ux||{};return u}
@@ -4525,7 +4571,7 @@ var INT=[["work","🛠️",L("Работа и учёба","Work and study","Ро
  ["diary","📓",L("Дневник","Diary","Щоденник"),L("Записи, настроение, рисунки","Notes, mood, drawings","Записи, настрій, малюнки")]];
 function has(I,x){return I.indexOf(x)>=0}
 var W=function(r,I){return has(I,"work")},SH={hfm:"home",ktr:"home",cth:"home",fnm:"home",pck:"home",
- shn:function(r,I){return has(I,"work")&&r=="na"},sky:function(r,I){return r=="na"||has(I,"rest")},clc:function(r,I){return has(I,"work")&&r=="el"},ecl:function(r,I){return has(I,"work")&&(r=="el"||r=="me")},mcl:function(r,I){return has(I,"work")&&(r=="me"||r=="el")},trs:function(r,I){return has(I,"work")},
+ shn:function(r,I){return has(I,"work")&&r=="na"},cgo:function(r){return r=="na"||r=="ot"},sky:function(r,I){return r=="na"||has(I,"rest")},clc:function(r,I){return has(I,"work")&&r=="el"},ecl:function(r,I){return has(I,"work")&&(r=="el"||r=="me")},mcl:function(r,I){return has(I,"work")&&(r=="me"||r=="el")},trs:function(r,I){return has(I,"work")},
  rlg:function(r,I){return has(I,"work")&&(r=="el"||r=="me")},cvm:function(r,I){return has(I,"work")&&(r=="el"||r=="me"||r=="na")},
  lib:W,gl:W,en:W,iv:W,qz:W,vdw:W,mat:W,ck:W,prf:W,tip:W,ls:W,pom:W,rk:W,
  tk:"rest",sm:"rest",bg:"rest",mt2:"rest",pzl:"rest",bk:"rest",flm:"rest",snd:"rest",ch:"rest",shop:"rest",gym:"gym",brt:"gym",
@@ -4834,7 +4880,7 @@ fnm:L("Записывай доходы и расходы — увидишь, с�
 rlg:L("Записывай, что чинил: дата, оборудование, что сделано, фото. Можно выгрузить таблицей.","Log what you repaired: date, equipment, work done, photo. Export as a table.","Записуй, що ремонтував: дата, обладнання, що зроблено, фото. Можна вивантажити таблицею."),
 cvm:L("Переводы единиц и расчёты — работают без интернета.","Unit conversions and calculations — they work offline.","Переведення одиниць і розрахунки — працюють без інтернету."),
 srf:L("Флаги, огни, звуки, буи, конвенции — коротко. Нажми на строку, чтобы прочитать подробнее.","Flags, lights, sounds, buoys, conventions — in short. Tap a line for details.","Прапори, вогні, звуки, буї, конвенції — коротко. Натисни на рядок, щоб прочитати детальніше."),
-shn:L("Выбери инструмент вверху: компас, поправка компаса, секстан, звёзды, счисление, расхождение, прилив, остойчивость, драфт-сюрвей.","Pick a tool at the top: compass, compass error, sextant, stars, dead reckoning, CPA, tide, stability, draught survey.","Обери інструмент угорі: компас, поправка компаса, секстант, зорі, числення, розходження, приплив, остійність, драфт-сюрвей."),
+shn:L("Сверху выбери группу: Компас, Астрономия, Плавание или У берега — под ней появятся её инструменты.","Pick a group at the top: Compass, Astronomy, Passage or Near the coast — its tools appear below.","Угорі обери групу: Компас, Астрономія, Плавання або Біля берега — під нею з’являться її інструменти."),cgo:L("Вверху — «Остойчивость» и «Драфт-сюрвей». В каждой есть теория и расчёт, числа сохраняются сами.","At the top: “Stability” and “Draught survey”. Each has theory and a calculation; your numbers are saved automatically.","Угорі — «Остійність» і «Драфт-сюрвей». У кожній є теорія й розрахунок, числа зберігаються самі."),
 lib:L("Статьи по темам. Прочитал — отметь, за это дают опыт.","Articles by topic. Mark them as read to earn XP.","Статті за темами. Прочитав — відміть, за це дають досвід."),
 ck:L("Готовые чек-листы. Во вкладке — подготовка к повышению.","Ready-made checklists. Another tab: preparing for promotion.","Готові чек-листи. У вкладці — підготовка до підвищення."),
 "#stats":L("Твой уровень и навыки растут от выполненных дел. Во вкладках — достижения и награды.","Your level and skills grow as you complete tasks. Other tabs: achievements and rewards.","Твій рівень і навички зростають від виконаних справ. У вкладках — досягнення і нагороди."),
@@ -5141,7 +5187,7 @@ en:["Морские термины на английском","Marine terms in E
 iv:["Вопросы и ответы для собеседования на английском","Interview questions and answers in English","Питання й відповіді для співбесіди англійською"],
 qz:["Проверь знания в форме теста","Test your knowledge with a quiz","Перевір знання у формі тесту"],
 vdw:["Видео по теме","Videos on the topic","Відео за темою"],mat:["Видео на любой запрос: пишешь тему — сразу открываются ролики именно о ней","Video on request: type a topic — videos on exactly that open right away","Відео на будь-який запит: пишеш тему — одразу відкриваються ролики саме про неї"],
-shn:["Компас и его поправка, секстан, звёзды, счисление, расхождение, прилив, остойчивость, драфт-сюрвей","Compass and compass error, sextant, stars, dead reckoning, CPA, tide, stability, draught survey","Компас і його поправка, секстант, зорі, числення, розходження, приплив, остійність, драфт-сюрвей"],
+shn:["Компас и его поправка, секстан и звёзды, счисление и расхождение, ориентиры и прилив","Compass and compass error, sextant and stars, dead reckoning and CPA, landmarks and tide","Компас і його поправка, секстант і зорі, числення й розходження, орієнтири й приплив"],cgo:["Остойчивость и драфт-сюрвей: загрузка, GM, крен, диаграмма GZ, вес груза по осадкам","Stability and draught survey: loading, GM, heel, GZ curve, cargo weight from draughts","Остійність і драфт-сюрвей: завантаження, GM, крен, діаграма GZ, вага вантажу за осадками"],
 srf:["Флаги, огни, звуки, буи, тревоги, конвенции — коротко","Flags, lights, sounds, buoys, alarms, conventions — in short","Прапори, вогні, звуки, буї, тривоги, конвенції — коротко"],
 clc:["Ток двигателя, cos φ, сечение кабеля, обороты","Motor current, cos φ, cable size, speed","Струм двигуна, cos φ, переріз кабелю, оберти"],ecl:["Сопротивление, изоляция, моторы, трансформаторы, батареи","Resistance, insulation, motors, transformers, batteries","Опір, ізоляція, двигуни, трансформатори, батареї"],mcl:["Расход топлива, вязкость, насосы, охлаждение, цилиндры","Fuel use, viscosity, pumps, cooling, cylinders","Витрата палива, в’язкість, насоси, охолодження, циліндри"],trs:["Генератор, двигатель, блэкаут, пуск и охлаждение — с картинкой","Generator, motor, blackout, start and cooling with a live picture","Генератор, двигун, блекаут, пуск і охолодження — з картинкою"],
 cvm:["Перевод единиц, закон Ома, расчёты рейса","Unit conversion, Ohm’s law, voyage maths","Переведення одиниць, закон Ома, розрахунки рейсу"],
@@ -5180,7 +5226,7 @@ var TK={rh:"сколько я отдыхал работал устал уста�
  dc:"когда истекает виза паспорт диплом медкомиссия срок expires visa коли спливає",tip:"чем заняться скучно идея bored what to do нудно",snd:"не могу уснуть бессонница сон can't sleep insomnia не можу заснути",
  brt:"стресс нервы успокоиться тревога stress calm anxiety стрес",hfm:"позвонить маме жене семье call mom wife подзвонити",ktr:"сколько осталось до дома зарплата days left salary скільки залишилось",
  trs:"тренажёр тренажер симулятор пуск двигателя синхронизация генератор блэкаут охлаждение trainer simulator engine start synchronization blackout cooling тренажер симулятор",ecl:"сопротивление резистор закон ома изоляция мегомметр конденсатор трансформатор компенсация cos генератор параллельно аккумулятор пусковой ток скольжение resistance resistor ohm insulation megger capacitor transformer battery starting current slip опір резистор ізоляція",mcl:"расход топлива вязкость подогрев мазут насос охлаждение цилиндр цилиндровое масло переход fuel consumption viscosity heating pump cooling cylinder cylinder oil passage витрата палива в’язкість підігрів",clc:"кабель автомат двигатель мотор амперы мегомметр изоляция киловатт мощность cable breaker motor amps megger insulation kw power струм ізоляція потужність",rlg:"сломалось починил ремонт насос repair fixed broke pump поламалось",fnm:"деньги потратил отложить money spent save гроші",
- srf:"огни флаги сигнал буй тревога пожар lights flags buoy alarm вогні",shn:"пеленг место широта долгота bearing position latitude longitude пеленг остойчивость остойчивости метацентрическая высота GM KG KM KN GZ крен диаграмма плечо свободная поверхность загрузка теория метацентр центр тяжести центр величины заваливание дифферент MCTC обледенение параметрическая качка пантокарены IS Code stability metacentric height heel list GZ curve free surface loading theory metacentre loll trim icing parametric rolling cross curves остійність остійності метацентрична висота крен завалювання диферент обледеніння теорія драфт-сюрвей драфт сюрвей драфтсюрвей осадка осадки марки осадок вес груза по осадкам водоизмещение ареометр плотность воды перпендикуляры поправка на дифферент Немото MMM TPC LCF MTC константа балласт вычеты прогиб перегиб draught survey draft survey draught marks displacement hydrometer dock water density perpendiculars trim correction Nemoto constant deductibles ballast hog sag cargo weight осадки марки водотоннажність густина води вирахування прогин перегин вага вантажу поправка компаса девиация склонение створ амплитуда Солнца Полярная азимут звезды гирокомпас ГКК поправка гирокомпаса ΔГК ΔК девиационные работы коэффициенты девиации уничтожение девиации таблица девиации compass error deviation variation transit amplitude Polaris azimuth gyro error compass adjustment deviation coefficients deviation card девіація схилення амплітуда гірокомпас поправка гірокомпаса девіаційні роботи",gym:"похудеть мышцы спина живот lose weight muscles back схуднути",
+ srf:"огни флаги сигнал буй тревога пожар lights flags buoy alarm вогні",shn:"пеленг место широта долгота bearing position latitude longitude пеленг поправка компаса девиация склонение створ амплитуда Солнца Полярная азимут звезды гирокомпас ГКК поправка гирокомпаса ΔГК ΔК девиационные работы коэффициенты девиации уничтожение девиации таблица девиации compass error deviation variation transit amplitude Polaris azimuth gyro error compass adjustment deviation coefficients deviation card девіація схилення амплітуда гірокомпас поправка гірокомпаса девіаційні роботи",cgo:"груз остойчивость остойчивости метацентрическая высота GM KG KM KN GZ крен диаграмма плечо свободная поверхность загрузка теория метацентр центр тяжести центр величины заваливание дифферент MCTC обледенение параметрическая качка пантокарены IS Code stability metacentric height heel list GZ curve free surface loading theory metacentre loll trim icing parametric rolling cross curves остійність остійності метацентрична висота крен завалювання диферент обледеніння теорія драфт-сюрвей драфт сюрвей драфтсюрвей осадка осадки марки осадок вес груза по осадкам водоизмещение ареометр плотность воды перпендикуляры поправка на дифферент Немото MMM TPC LCF MTC константа балласт вычеты прогиб перегиб draught survey draft survey draught marks displacement hydrometer dock water density perpendiculars trim correction Nemoto constant deductibles ballast hog sag cargo weight осадки марки водотоннажність густина води вирахування прогин перегин вага вантажу",gym:"похудеть мышцы спина живот lose weight muscles back схуднути",
  bg:"поиграть шахматы карты play chess cards пограти",srs:"учить английский слова learn english words вчити англійську",rz:"работа резюме cv job вакансия робота",mat:"видео ролик посмотреть показать как работает как сделать ютуб youtube tiktok video watch how відео подивитися",wch:"когда спать вахта сон when to sleep коли спати"};
 window.gdDesc=function(k){var d=GD[k];return d?d[li]:""};
 window.uxKW=function(k){var d=GD[k];return(d?d.join(" "):"")+" "+(TK[k]||"")};
@@ -5199,9 +5245,9 @@ function seen(){if(!fmm.classList.contains("on"))return;var k=key(fmc.firstEleme
  setTimeout(function(){toast(m||"🧭 "+L("Новый раздел: +5 XP","New section: +5 XP","Новий розділ: +5 XP"))},400)}
 if(fmm&&fmc){new MutationObserver(seen).observe(fmc,{childList:true});new MutationObserver(seen).observe(fmm,{attributes:true,attributeFilter:["class"]})}
 /* --- порядок знакомства по должности --- */
-var R=(st.ux&&st.ux.r)||st.prof||"ot",ST={me:["mcl","trs","cvm","rlg","gl","ck","srs"],el:["clc","ecl","trs","cvm","rlg","gl","srs"],na:["shn","srf","sky","trs","rh","srs"],rt:["rh","srs","en","qz","ck"],ot:["wch","hfm","gym","bk","snd"]},
+var R=(st.ux&&st.ux.r)||st.prof||"ot",ST={me:["mcl","trs","cvm","rlg","gl","ck","srs"],el:["clc","ecl","trs","cvm","rlg","gl","srs"],na:["shn","cgo","srf","sky","trs","rh","srs"],rt:["rh","srs","en","qz","ck"],ot:["wch","hfm","gym","bk","snd"]},
  BASE=["#days","mat","wch","dc","hfm"],ORDR=BASE.concat(ST[R]||ST.ot);
-function order(){var o=ORDR.slice();["#days","wch","rh","dc","hfm","ktr","srf","cvm","srs","lib","rlg","fnm","ct","bk","flm","snd","gym","mt2","bg","sky","brt","pzl","rg","d1","rz","sh1","vis","cth","pck","ck","en","gl","qz","iv","shn","clc","ecl","mcl","trs","tip","ls","pom","ch","shop","tk","sm","#stats","#ach","rwd","#sn","trn"].forEach(function(k){if(o.indexOf(k)<0)o.push(k)});
+function order(){var o=ORDR.slice();["#days","wch","rh","dc","hfm","ktr","srf","cvm","srs","lib","rlg","fnm","ct","bk","flm","snd","gym","mt2","bg","sky","brt","pzl","rg","d1","rz","sh1","vis","cth","pck","ck","en","gl","qz","iv","shn","cgo","clc","ecl","mcl","trs","tip","ls","pom","ch","shop","tk","sm","#stats","#ach","rwd","#sn","trn"].forEach(function(k){if(o.indexOf(k)<0)o.push(k)});
  all().forEach(function(k){if(o.indexOf(k)<0)o.push(k)});return o.filter(vis)}
 function tod(){var t=J("fm_tod",{});if(t.d==today&&t.k&&vis(t.k))return t.k;var v=G().v,k=order().filter(function(x){return!v[x]})[0]||"";W("fm_tod",{d:today,k:k});return k}
 function ic(k){var b=P[k]&&P[k].b;return(b&&b.firstChild&&b.firstChild.textContent)||"🧰"}
@@ -5567,7 +5613,7 @@ main>.tgxh[hidden]{display:none!important}
 (function(){var mn=document.getElementById("mn");if(!mn)return;
 var MV={rh:"today",vdw:"know",vis:"me",pck:"today"};
 var O={today:["gv","#days","fc","pnl","stk","cmp","ed","wch","rh","cth","hfm","ktr","pck","dcw"],
-know:["lib","srs","gl","en","iv","qz","vdw","mat","shn","srf","clc","ecl","mcl","trs","cvm","rlg","ck","prf","tip","ls","pom"],
+know:["lib","srs","gl","en","iv","qz","vdw","mat","shn","cgo","srf","clc","ecl","mcl","trs","cvm","rlg","ck","prf","tip","ls","pom"],
 game:["tk","sm","bg","mt2","pzl","bk","flm","snd","brt","sky","gym","ch","shop"],
 shore:["sh1","sh4","sh2","sh5","rz","ap","sh3"],
 me:["dc","ct","fnm","rk","#stats","#ach","rwd","wkc","hm","cmpt","vis","shr"]};
@@ -5585,7 +5631,7 @@ document.addEventListener("click",function(e){var b=e.target.closest&&e.target.c
 })();</script>
 <div id="fmm"><div id="fmb" role="dialog" aria-modal="true" aria-label="Раздел"><div id="fmh"><button type="button" id="fmx">✕ Закрыть</button></div><div id="fmc" tabindex="0"></div></div></div>
 <script>(function(){var mn=document.getElementById("mn"),m=document.getElementById("fmm"),box=document.getElementById("fmc"),cur=null,ph=document.createComment("fm"),tiles=[],de=document.documentElement;mn.appendChild(m);
-var IC={gv:"🧭",srf:"📘",uxp:"🎛️",cmf:"🖐️",rwd:"🎖️",pck:"🎒",trn:"📲",prv:"🔒",fbk:"💬",elg:"🩺",abk:"🛟",shn:"🔭",pzl:"🧩",snd:"🌙",brt:"🫁",sky:"✨",vis:"🗺️",fc:"🎯",pnl:"⚖️",wch:"⚓",mt2:"🧠",clc:"🧮",ecl:"⚡",mcl:"⚙️",trs:"🛠️",rlg:"🛠️",cth:"📞",ktr:"⏳",stk:"🔥",flm:"🎬",gym:"🏋️",cmp:"📊",prf:"👤",tip:"💡",ls:"🧭",pom:"⏱️",lib:"🗂️",bk:"📚",mat:"🎬",gl:"📖",ck:"☑️",shop:"🛒",iv:"🎤",en:"🔤",ch:"🎁",qz:"❓",hm:"📅",shr:"🔗",ed:"🗓️",dq:"🌤️",d1:"😊",d2:"✍️",d3:"🎨",d4:"📔",sh1:"🧭",sh2:"🌳",sh5:"🗺️",sh4:"👣",ap:"📨",rz:"📄",sh3:"🔄",stats:"📈",ach:"🏅",th:"🎨",sn:"💾",days:"✅",cfg:"🖥️",nfc:"🔔",wkc:"📈",cmpt:"🏆",abt:"ℹ️"};
+var IC={gv:"🧭",srf:"📘",cgo:"⚓",uxp:"🎛️",cmf:"🖐️",rwd:"🎖️",pck:"🎒",trn:"📲",prv:"🔒",fbk:"💬",elg:"🩺",abk:"🛟",shn:"🔭",pzl:"🧩",snd:"🌙",brt:"🫁",sky:"✨",vis:"🗺️",fc:"🎯",pnl:"⚖️",wch:"⚓",mt2:"🧠",clc:"🧮",ecl:"⚡",mcl:"⚙️",trs:"🛠️",rlg:"🛠️",cth:"📞",ktr:"⏳",stk:"🔥",flm:"🎬",gym:"🏋️",cmp:"📊",prf:"👤",tip:"💡",ls:"🧭",pom:"⏱️",lib:"🗂️",bk:"📚",mat:"🎬",gl:"📖",ck:"☑️",shop:"🛒",iv:"🎤",en:"🔤",ch:"🎁",qz:"❓",hm:"📅",shr:"🔗",ed:"🗓️",dq:"🌤️",d1:"😊",d2:"✍️",d3:"🎨",d4:"📔",sh1:"🧭",sh2:"🌳",sh5:"🗺️",sh4:"👣",ap:"📨",rz:"📄",sh3:"🔄",stats:"📈",ach:"🏅",th:"🎨",sn:"💾",days:"✅",cfg:"🖥️",nfc:"🔔",wkc:"📈",cmpt:"🏆",abt:"ℹ️"};
 function ico(s){if(IC[s.id])return IC[s.id];for(var k in IC)if(s.querySelector("#"+k))return IC[k];return"📌"}
 function ttl(s){var h=s.querySelector("h2,h3,h4");if(h){h=h.cloneNode(true);[].forEach.call(h.querySelectorAll("button,input,select,textarea"),function(x){x.remove()})}var t=(h?h.textContent:"").replace(/\s+/g," ").trim();return t.length>48?t.slice(0,46)+"…":t}
 function split(t){var r=t.match(/^((?:\p{Extended_Pictographic}|[\u{1F1E6}-\u{1F1FF}])[️‍\u{1F3FB}-\u{1F3FF}\p{Extended_Pictographic}\u{1F1E6}-\u{1F1FF}]*)\s*(.*)$/u);return r&&r[2]?[r[1],r[2]]:[null,t]}
@@ -6618,7 +6664,7 @@ main[data-tab^="r-"]>.fmt:not(.uxrow)>small.shd,main>.fmt.shw>small.shd{grid-are
  Раздел без помещения попадает туда, где лежала его вкладка (FB), — новый раздел ничего не потеряет, но лучше добавить его ключ в R. */
 document.addEventListener("DOMContentLoaded",function(){var mn=document.getElementById("mn"),P=window.uxP,nav=document.getElementById("nav");if(!mn||!P||!nav||typeof window.setTab!="function")return;
 var L=function(r,e,u){return window.fmL?fmL(r,e,u):r},de=document.documentElement;
-var R=[["brg","🧭",L("Мостик","Bridge","Місток"),L("Вахта и отдых, штурман, звёздное небо, справочник, документы","Watch and rest, navigation, night sky, reference, documents","Вахта й відпочинок, штурман, зоряне небо, довідник, документи"),["wch","shn","sky","srf","dc"]],
+var R=[["brg","🧭",L("Мостик","Bridge","Місток"),L("Вахта и отдых, штурман, звёздное небо, справочник, документы","Watch and rest, navigation, night sky, reference, documents","Вахта й відпочинок, штурман, зоряне небо, довідник, документи"),["wch","shn","cgo","sky","srf","dc"]],
  ["eng","⚙️",L("Машинное","Engine room","Машинне"),L("Расчёты, журнал ремонтов, чек-листы","Calculations, repair log, checklists","Розрахунки, журнал ремонтів, чек-листи"),["cvm","rlg","ck"]],
  ["cls","📚",L("Учебный класс","Classroom","Навчальний клас"),L("Знания, английский, видео на любую тему","Knowledge, English, videos on any topic","Знання, англійська, відео на будь-яку тему"),["lib","en","mat"]],
  ["mes","🛋️",L("Кают-компания","Mess room","Кают-компанія"),L("Игры, кино и книги, звуки для сна, сундук","Games, films and books, sleep sounds, chest","Ігри, кіно й книжки, звуки для сну, скриня"),["tk","flm","snd","ch"]],
@@ -6997,7 +7043,7 @@ html:has(#fmc>#gv) #toast{top:calc(env(safe-area-inset-top,0px) + 10px);bottom:a
 </style>
 <script id="gv-js">/* 🧭 Путеводитель (#gv — обычный section.card на палубе вместо «С чего начать»): главы по помещениям судна + «Полезные приёмы» + «Преимущества и твои данные».
  Глава C[i]: id, ic, r — помещение ("" — палуба), t название, s одна строка, w «Зачем это моряку», m «Главное» [[значок,[ru,en,uk],[ru,en,uk]]…], h шаги «Как пользоваться»,
- d живые показы {k ключ uxP | null, q селектор цели (строка или список; "^…" — родитель найденного), t текст карточки, r помещение, n/ic подпись для показа без раздела, tour — тур gd-js},
+ d живые показы {k ключ uxP | null, q селектор цели (строка или список; "^…" — родитель найденного), t текст карточки, r помещение, n/ic подпись для показа без раздела, tour — тур gd-js, go [имя глобальной функции, аргумент] — вызвать перед подсветкой (shnGo открывает группу в #shn)},
  x — «Ещё в этом помещении» (иначе все плитки помещения кроме показанных). Тексты [ru,en,uk] → fmL. Состояние st.gv: d {глава:дата}, c — последняя глава, h — «Позже» (дата), x — +100 XP получены (обёртка calc в gvx-js).
  «▶ Показать»: закрыть путеводитель, войти в помещение, открыть раздел (uxP[k].b.click()), подсветить цель в окне (#gvo) — карточка всегда целиком на экране. */
 document.addEventListener("DOMContentLoaded",function(){var S=document.getElementById("gv"),P=window.uxP,mn=document.getElementById("mn");if(!S||!P||!mn)return;
@@ -7033,10 +7079,10 @@ var C=[
   {k:"rh",q:["^[data-hk=t]"],t:["Каждая клетка — час. Нажимай на часы, когда работал: остальное считается отдыхом, нормы проверяются сразу.","Each cell is an hour. Tap the hours you worked: the rest counts as rest, and the rules are checked at once.","Кожна клітинка — година. Натискай на години, коли працював: решта — відпочинок, норми перевіряються одразу."]},
   {k:"dc",q:["^#dcn","#dcn"],t:["Впиши документ и дату окончания и нажми «Добавить» — напоминание придёт заранее.","Enter the document and expiry date and tap “Add” — you’ll get a reminder in advance.","Впиши документ і дату закінчення та натисни «Додати» — нагадування прийде заздалегідь."]},
   {k:"ct",q:["^#ctv","#ctv"],t:["Добавь судно, должность и даты — стаж посчитается сам и пригодится для дипломов и резюме.","Add the ship, rank and dates — your sea service is counted for certificates and your CV.","Додай судно, посаду й дати — стаж порахується сам і знадобиться для дипломів і резюме."]},
-  {k:"shn",q:[".sntb"],t:["Выбери инструмент: компас, секстан, звёзды, ориентиры, счисление, расхождение, прилив. Всё считается без интернета.","Pick a tool: compass, sextant, stars, landmarks, dead reckoning, collision risk, tide. Everything works offline.","Обери інструмент: компас, секстант, зорі, орієнтири, числення, розходження, приплив. Усе рахується без інтернету."]},
-  {k:"shn",q:["[data-snt=cpc]",".sntb"],t:["«🧲 Поправка компаса»: ΔК по створу, амплитуде Солнца, Полярной и звёздам, сличение с гирокомпасом, ΔГК и девиационные работы. Есть теория и «Проверь себя».","“🧲 Compass error”: the error by a transit, the Sun’s amplitude, Polaris and stars, comparison with the gyro, gyro error and compass adjustment. With theory and a quiz.","«🧲 Поправка компаса»: ΔК за створом, амплітудою Сонця, Полярною і зірками, звіряння з гірокомпасом, ΔГК і девіаційні роботи. Є теорія і «Перевір себе»."]},
-  {k:"shn",q:["[data-snt=stb]",".sntb"],t:["«⚖️ Остойчивость»: водоизмещение и KG по загрузке, свободные поверхности, крен, GM по периоду качки, диаграмма GZ и критерии IS Code. Есть теория.","“⚖️ Stability”: displacement and KG from the loading, free surfaces, heel, GM from the rolling period, the GZ curve and IS Code criteria. With theory.","«⚖️ Остійність»: водотоннажність і KG за завантаженням, вільні поверхні, крен, GM за періодом хитавиці, діаграма GZ і критерії IS Code. Є теорія."]},
-  {k:"shn",q:["[data-snt=dsv]",".sntb"],t:["«📏 Драфт-сюрвей»: вес груза по осадкам — поправки к перпендикулярам, MMM, дифферент, плотность, вычеты. Кнопка «Заполнить примером» покажет весь расчёт.","“📏 Draught survey”: cargo weight from the draughts — perpendicular corrections, MMM, trim, density, deductibles. “Fill in the example” shows the whole calculation.","«📏 Драфт-сюрвей»: вага вантажу за осадками — поправки до перпендикулярів, MMM, диферент, густина, вирахування. Кнопка «Заповнити прикладом» покаже весь розрахунок."]},
+  {k:"shn",q:[".sngr"],t:["Сверху — четыре группы: Компас, Астрономия, Плавание, У берега. Под группой — её инструменты. Всё считается без интернета.","At the top are four groups: Compass, Astronomy, Passage, Near the coast. Below a group are its tools. Everything works offline.","Угорі — чотири групи: Компас, Астрономія, Плавання, Біля берега. Під групою — її інструменти. Усе рахується без інтернету."]},
+  {k:"shn",go:["shnGo","cpc"],q:["[data-snt=cpc]",".sntb"],t:["«🧲 Поправка компаса»: ΔК по створу, амплитуде Солнца, Полярной и звёздам, сличение с гирокомпасом, ΔГК и девиационные работы. Есть теория и «Проверь себя».","“🧲 Compass error”: the error by a transit, the Sun’s amplitude, Polaris and stars, comparison with the gyro, gyro error and compass adjustment. With theory and a quiz.","«🧲 Поправка компаса»: ΔК за створом, амплітудою Сонця, Полярною і зірками, звіряння з гірокомпасом, ΔГК і девіаційні роботи. Є теорія і «Перевір себе»."]},
+  {k:"cgo",q:["[data-cgt=stb]","#cgo .sntb"],t:["«⚖️ Остойчивость»: водоизмещение и KG по загрузке, свободные поверхности, крен, GM по периоду качки, диаграмма GZ и критерии IS Code. Есть теория.","“⚖️ Stability”: displacement and KG from the loading, free surfaces, heel, GM from the rolling period, the GZ curve and IS Code criteria. With theory.","«⚖️ Остійність»: водотоннажність і KG за завантаженням, вільні поверхні, крен, GM за періодом хитавиці, діаграма GZ і критерії IS Code. Є теорія."]},
+  {k:"cgo",q:["[data-cgt=dsv]","#cgo .sntb"],t:["«📏 Драфт-сюрвей»: вес груза по осадкам — поправки к перпендикулярам, MMM, дифферент, плотность, вычеты. Кнопка «Заполнить примером» покажет весь расчёт.","“📏 Draught survey”: cargo weight from the draughts — perpendicular corrections, MMM, trim, density, deductibles. “Fill in the example” shows the whole calculation.","«📏 Драфт-сюрвей»: вага вантажу за осадками — поправки до перпендикулярів, MMM, диферент, густина, вирахування. Кнопка «Заповнити прикладом» покаже весь розрахунок."]},
   {k:"sky",q:[".skf",".skt"],t:["Впиши широту и долготу — увидишь, какие навигационные звёзды сейчас над горизонтом, как их найти и когда сумерки для наблюдений.","Enter latitude and longitude to see which navigation stars are above the horizon now, how to find them and when twilight allows sights.","Впиши широту й довготу — побачиш, які навігаційні зорі зараз над горизонтом, як їх знайти і коли сутінки для спостережень."]},
   {k:"srf",q:[".srt"],t:["Темы справочника: флаги, огни, звуки, тревоги, ГМССБ, буи, спасательные средства, конвенции. Сверху — поиск.","Handbook topics: flags, lights, sounds, alarms, GMDSS, buoys, life-saving appliances, conventions. Search is at the top.","Теми довідника: прапори, вогні, звуки, тривоги, ГМЗЛБ, буї, рятувальні засоби, конвенції. Вгорі — пошук."]}]},
 {id:"eng",ic:"⚙️",r:"eng",t:["Машинное","Engine room","Машинне"],s:["Расчёты, журнал ремонтов, чек-листы","Calculations, repair log, checklists","Розрахунки, журнал ремонтів, чек-листи"],
@@ -7192,7 +7238,7 @@ function demo(i,j){var c=C[i],d=c.d[j];if(!d)return;setC(i);V=i;
  if(d.tour){if(window.fmClose)fmClose();setTab("today");setTimeout(function(){if(window.gdTour)gdTour()},250);return}
  if(window.fmClose)fmClose();var r=d.r!=null?d.r:c.r;setTab(r?"r-"+r:"today");try{scrollTo(0,0)}catch(e){}
  if(d.k&&P[d.k]){P[d.k].b.click();if(window.oneTab)setTimeout(function(){oneTab(d.k)},60)}
- setTimeout(function(){spot(i,d)},d.k?420:200)}
+ setTimeout(function(){if(d.go&&typeof window[d.go[0]]=="function")try{window[d.go[0]](d.go[1])}catch(e){}spot(i,d)},d.k?420:200)}
 function spot(i,d){var s=d.k&&P[d.k]?P[d.k].s:null,el=pick(s,d.q)||pick(document,d.q),fb=el?0:1;if(!el&&s)el=pick(s,["h2","h3","h4"])||s;if(!el)fb=2;tg=el;cur=[i,d];
  var t=d.n?X(d.n):nm(d.k);if(O)O.remove();O=document.createElement("div");O.id="gvo";O.setAttribute("translate","no");O.setAttribute("data-gvf",fb);
  O.innerHTML='<div class="gvoh"></div><div class="gvob" role="dialog" aria-modal="true" aria-labelledby="gvot"><b id="gvot">'+esc((d.ic||(d.k?ic(d.k):""))+" "+t)+'</b><p>'+esc(X(d.t))+'</p><div class="gvon"><button type="button" data-gvo="back">← '+L("В путеводитель","Back to the guide","До путівника")+'</button><button type="button" class="go" data-gvo="ok">'+L("Понятно","Got it","Зрозуміло")+'</button></div></div>';
