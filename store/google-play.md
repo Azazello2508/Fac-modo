@@ -204,13 +204,13 @@ Fac Modo — помічник для моряків усіх суднових п
 **«Что нового» в выпуске (Release notes, до 500 знаков на язык)** — вставить в поле как есть:
 ```
 <ru-RU>
-Первая тестовая версия Fac Modo. Попробуйте вахту и сон, часы отдыха, документы, инструменты штурмана (остойчивость, драфт-сюрвей, поправка компаса), расчёты и тренажёры. Первые 3 дня открыто всё. Ошибки и идеи — через «Профиль → Настройки → Отзыв и идеи» или на facmodo111@gmail.com.
+Первая тестовая версия Fac Modo. Попробуйте вахту и сон, часы отдыха, документы, инструменты штурмана (остойчивость, драфт-сюрвей, поправка компаса), расчёты и тренажёры. Первые 3 дня открыто всё. Ошибки и идеи — через «Моя каюта → Отзыв и идеи» или на facmodo111@gmail.com.
 </ru-RU>
 <en-US>
-First test version of Fac Modo. Try watch and sleep, rest hours, documents, navigator's tools (stability, draught survey, compass error), calculations and trainers. Everything is open for your first 3 days. Report bugs and ideas via Profile → Settings → Feedback and ideas or at facmodo111@gmail.com.
+First test version of Fac Modo. Try watch and sleep, rest hours, documents, navigator's tools (stability, draught survey, compass error), calculations and trainers. Everything is open for your first 3 days. Report bugs and ideas via My cabin → Feedback and ideas or at facmodo111@gmail.com.
 </en-US>
 <uk>
-Перша тестова версія Fac Modo. Спробуйте вахту й сон, години відпочинку, документи, інструменти штурмана (остійність, драфт-сюрвей, поправка компаса), розрахунки й тренажери. Перші 3 дні відкрито все. Помилки та ідеї — через «Профіль → Налаштування → Відгук та ідеї» або на facmodo111@gmail.com.
+Перша тестова версія Fac Modo. Спробуйте вахту й сон, години відпочинку, документи, інструменти штурмана (остійність, драфт-сюрвей, поправка компаса), розрахунки й тренажери. Перші 3 дні відкрито все. Помилки та ідеї — через «Моя каюта → Відгук та ідеї» або на facmodo111@gmail.com.
 </uk>
 ```
 
