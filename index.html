@@ -6880,6 +6880,20 @@ nb.addEventListener("click",function(e){if(e.target.closest("[data-ovx]")){if(wi
 new MutationObserver(function(){go()}).observe(de,{attributes:true,attributeFilter:["class"]});
 var q=0,go=function(){clearTimeout(q);q=setTimeout(sib,30)};new MutationObserver(go).observe(fmm,{attributes:true,attributeFilter:["class"]});new MutationObserver(go).observe(fmc,{childList:true})});
 </script>
+<style id="ovf-css">/* Нижняя строка окна раздела (#ovn, ovl-js): затухание у краёв, где строку можно листать; короткие кнопки соседей; отступ перед «Закрыть» */
+#ovn .ovs{--fl:0px;--fr:0px;-webkit-mask-image:linear-gradient(90deg,transparent 0,#000 var(--fl),#000 calc(100% - var(--fr)),transparent 100%);mask-image:linear-gradient(90deg,transparent 0,#000 var(--fl),#000 calc(100% - var(--fr)),transparent 100%)}
+#ovn .ovs.fl{--fl:30px}#ovn .ovs.fr{--fr:30px}
+#ovn .ovs button{max-width:10.5em;overflow:hidden;text-overflow:ellipsis}
+#ovn .ovx{margin-left:4px}html.cmL #ovn .ovx{margin-left:0;margin-right:4px}
+</style>
+<script id="ovf-js">/* Ставит .fl/.fr у #ovn .ovs, когда слева/справа есть что листать (ovf-css рисует затухание) */
+(function(){function u(s){if(!s)return;s.classList.toggle("fl",s.scrollLeft>2);s.classList.toggle("fr",s.scrollLeft+s.clientWidth<s.scrollWidth-2)}
+function all(){var n=document.getElementById("ovn");if(n)u(n.querySelector(".ovs"))}
+document.addEventListener("scroll",function(e){var t=e.target;if(t&&t.classList&&t.classList.contains("ovs")&&t.closest&&t.closest("#ovn"))u(t)},true);
+window.addEventListener("resize",all);
+function hook(){var n=document.getElementById("ovn");if(!n)return setTimeout(hook,500);new MutationObserver(function(){requestAnimationFrame(all)}).observe(n,{childList:true,attributes:true,attributeFilter:["hidden"]});all()}
+if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",hook);else hook()})();
+</script>
 <style id="pol-css">/* Удобство и ясность (блок pol-js): босс недели в «Итогах недели», название группы в шапке окна, подсказки в пустых разделах, ночной режим в «Тема и фото» */
 #fmc p.cmpb{margin:12px 0 6px;font-size:15px;font-weight:700;color:var(--ink)}
 #fmh #onegt{flex:1 1 auto;min-width:0;align-self:center;padding:0 8px;font-size:17px;font-weight:800;line-height:1.2;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
