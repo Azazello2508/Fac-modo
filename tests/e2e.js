@@ -154,7 +154,7 @@ const srv=http.createServer((q,r)=>{let u=decodeURIComponent(q.url.split('?')[0]
     // таблица решений: переключатель выключен — всё открыто; включён — платное закрыто, пока нет покупки или пробного периода
     t:T(0,1,0,0)&&T(1,0,0,0)&&T(1,1,1,0)&&T(1,1,0,1)&&!T(1,1,0,0)}});
   ok(pro.free&&pro.st&&pro.tr&&pro.t,'Покупка (заготовка): всё бесплатно, пробный период 3 дня, таблица решений верна');
-  {const h=fs.readFileSync(path.join(ROOT,'index.html'),'utf8');ok(h.includes('|ota|store|hc|pro|play)/')&&h.includes('|alert|broken|pro|play)/.test(k)'),'Покупка (заготовка): fm_pro не переносится и не попадает в копии')}
+  {const h=fs.readFileSync(path.join(ROOT,'index.html'),'utf8');ok(h.includes('|ota|store|hc|pro|play|rvw)/')&&h.includes('|alert|broken|pro|play|rvw)/.test(k)'),'Покупка и оценка: fm_pro и fm_rvw не переносятся и не попадают в копии')}
   {/* сборка для Google Play: покупка включена, мок плагина оплаты (настоящий Billing проверяется только в Play) */
    const c2=await b.newContext();await c2.addInitScript(()=>{localStorage.setItem('fm_play','1');window.__ord=0;const cb=[],own={v:0};
     const prod={owned:false,offers:[{pricingPhases:[{price:'9,99 $'}],order(){window.__ord++;own.v=1;prod.owned=true;cb.forEach(f=>f());return Promise.resolve()}}],getOffer(){return this.offers[0]}};
@@ -183,6 +183,32 @@ const srv=http.createServer((q,r)=>{let u=decodeURIComponent(q.url.split('?')[0]
      return{a,b,c,before,g,own:fmPro.owned(),free:fmPro.free(),ecl:fmPro.has('ecl')}},[pub,good,old,forged]);
     ok(!r.a&&!r.b&&!r.c&&!r.before&&r.g&&r.own&&r.free&&r.ecl,'Код доступа: мусор, чужая подпись и просроченный код не работают, настоящий открывает всё ('+JSON.stringify(r)+')')}
    ok(qe.length===0,'Play-сборка: нет ошибок в консоли'+(qe.length?' — '+qe.slice(0,3).join(' | '):''));await c2.close()}
+  {/* Оценка в Google Play и «Поделиться приложением» (rvw-js): мок плагина In-App Review, настоящее окно Google проверяется только на телефоне со сборкой из Play */
+   const PLAY='https://play.google.com/store/apps/details?id=io.github.azazello2508.facmodo',SITE='https://azazello2508.github.io/Fac-modo/';
+   const nw=await p.evaluate(async()=>{let sh=null,cb=null;Object.defineProperty(navigator,'share',{value:a=>{sh=a;return Promise.resolve()},configurable:true});const m=fmShareApp();
+    Object.defineProperty(navigator,'share',{value:undefined,configurable:true});Object.defineProperty(navigator,'clipboard',{value:{writeText:t=>{cb=t;return Promise.resolve()}},configurable:true});const m2=fmShareApp();await new Promise(r=>setTimeout(r,50));
+    delete navigator.share;delete navigator.clipboard;let rv=0;RVWTEST.plug({requestReview(){rv++;return Promise.resolve()}});localStorage.setItem('fm_rvw',JSON.stringify({n:30,a:[]}));const w=RVWTEST.why(),a=RVWTEST.ask('t');RVWTEST.plug(null);localStorage.removeItem('fm_rvw');
+    return{m,m2,sh,cb,w,a,rv,on:RVWTEST.on(),rate:!!document.querySelector('#rvwb [data-rvw=rate]'),share:!!document.querySelector('#rvwb [data-rvw=share]')}});
+   ok(nw.m==='web'&&nw.sh&&nw.sh.url===SITE&&/помощник для моряков.*навигация.*без интернета/.test(nw.sh.text)&&!/бесплатн/i.test(nw.sh.text)&&nw.m2==='copy'&&nw.cb===nw.sh.text+'\n'+SITE,'Поделиться приложением: navigator.share с текстом и ссылкой на сайт, без него — копия в буфер ('+JSON.stringify({m:nw.m,m2:nw.m2,url:nw.sh&&nw.sh.url})+')');
+   ok(!nw.on&&nw.w==='off'&&!nw.a&&nw.rv===0&&!nw.rate&&nw.share,'Оценка: не в Play-сборке не просит, кнопки «Оценить» нет, «Поделиться» есть ('+JSON.stringify({w:nw.w,rate:nw.rate,share:nw.share})+')');
+   const c3=await b.newContext();await c3.addInitScript(()=>{if(sessionStorage.getItem('rv0'))return;sessionStorage.setItem('rv0','1');localStorage.setItem('fm_play','1');
+    localStorage.setItem('fm_pro',JSON.stringify({v:2,t0:1,b0:0,own:0,d:['2000-01-01','2000-01-02','2000-01-03','2000-01-04']}));localStorage.setItem('fm_rvw',JSON.stringify({n:5,l:'2000-01-05',a:[]}))});
+   const q=await c3.newPage(),qe=[];q.on('pageerror',e=>qe.push(e.message));await q.goto(URL+'index.html');await q.waitForTimeout(2500);
+   const r1=await q.evaluate(()=>{window.__rv=0;RVWTEST.plug({requestReview(){window.__rv++;return Promise.resolve()}});const n6=RVWTEST.st().n,w6=RVWTEST.why(),a6=RVWTEST.ask('t');RVWTEST.bump('2099-01-01');
+    return{n6,w6,a6,n7:RVWTEST.st().n,rate:!!document.querySelector('#rvwb [data-rvw=rate]'),url:RVWTEST.url()}});
+   const left=await q.evaluate(async()=>{for(let i=0;i<60;i++){const c=document.querySelector('#list input[type=checkbox]:not(:checked)');if(!c)break;c.click();await new Promise(r=>setTimeout(r,30))}return document.querySelectorAll('#list input[type=checkbox]:not(:checked)').length});
+   await q.waitForTimeout(5000);
+   const r2=await q.evaluate(()=>{const c1=window.__rv,o=RVWTEST.st(),t=o.a[0]||Date.now(),D=864e5,log=localStorage.getItem('fm_log')||'';
+    const g=RVWTEST.why(),g59=RVWTEST.why(t+59*D),a2=RVWTEST.ask('t',t+61*D),a3=RVWTEST.ask('t',t+125*D),mx=RVWTEST.why(t+400*D),a4=RVWTEST.ask('t',t+400*D);
+    localStorage.setItem('fm_rvw',JSON.stringify({n:9,a:[]}));const W=document.createElement('div');W.id='fpw';W.className='on';document.body.appendChild(W);const wall=RVWTEST.why();W.remove();
+    return{calls:c1,k:o.a.length,log:/review-ask/.test(log)&&/quests/.test(log),g,g59,a2,a3,mx,a4,calls2:window.__rv,wall,free:RVWTEST.why()}});
+   await q.evaluate(()=>{Object.defineProperty(navigator,'share',{value:a=>{window.__sh=a;return Promise.resolve()},configurable:true});document.querySelector('#rvwb [data-rvw=share]').click()});const sh=await q.evaluate(()=>window.__sh);
+   ok(r1.n6===6&&r1.w6==='days'&&!r1.a6&&r1.n7===7,'Оценка: на 6-й день использования не просит ('+JSON.stringify(r1)+')');
+   ok(left===0&&r2.calls===1&&r2.k===1&&r2.log,'Оценка: на 7-й день после «все квесты закрыты» вызывает окно Google и пишет review-ask в журнал ('+JSON.stringify({left,calls:r2.calls,log:r2.log})+')');
+   ok(r2.g==='gap'&&r2.g59==='gap'&&r2.a2&&r2.a3&&r2.mx==='max'&&!r2.a4&&r2.calls2===3,'Оценка: не раньше чем через 60 дней и не больше 3 раз ('+JSON.stringify(r2)+')');
+   ok(r2.wall==='wall'&&r2.free==='','Оценка: не во время окна покупки');
+   ok(r1.rate&&r1.url===PLAY&&sh&&sh.url===PLAY,'Play-сборка: кнопка «⭐ Оценить в Google Play» есть, «Поделиться» даёт ссылку на Google Play');
+   ok(qe.length===0,'Оценка (Play-сборка): нет ошибок'+(qe.length?' — '+qe.slice(0,3).join(' | '):''));await c3.close()}
   ok(errs.length===0,'E2E: нет ошибок в консоли'+(errs.length?' — '+errs.slice(0,3).join(' | '):''));await ctx.close()}
  // 2. Мобильный браузер
  {const {ctx,p,errs}=await open({...devices['iPhone 13'],defaultBrowserType:undefined});await tabs(p);

@@ -1094,7 +1094,7 @@ else if(a=="ivc"){var v=$("ivt").value.trim();if(v.length<20){toast("Напиш�
 else if(a=="ivx"){ivs.cnt=0;ivs.show=1;ivr()}
 else if(a=="ivn2"){ivs.i++;ivs.show=0;ivs.cnt=0;ivs.txt="";if(ivs.i>=3){var d3=st.done[today]=st.done[today]||{};if(!d3.iv){d3.iv={x:10+ivs.typed*5,c:"eng"};save()}render()}else ivr()}
 else if(a=="ivrs"){ivs={i:0,show:0,typed:0,cnt:0,txt:""};ivr()}
-else if(a=="share"){var u=location.href,tx="Попробуй: игра-помощник для моряков — расписание, знания, английский и план выхода на берег.";if(/^https?:/.test(u)){if(navigator.share)navigator.share({title:"Fac Modo",text:tx,url:u}).catch(function(){});else if(navigator.clipboard)navigator.clipboard.writeText(tx+" "+u).then(function(){toast("Ссылка скопирована")},function(){showCode(u)});else showCode(u)}else toast("Отправь другу файл fac-modo.html: он работает без интернета")}});
+else if(a=="share"){if(window.fmShareApp){fmShareApp();return}var u=location.href,tx="Попробуй: игра-помощник для моряков — расписание, знания, английский и план выхода на берег.";if(/^https?:/.test(u)){if(navigator.share)navigator.share({title:"Fac Modo",text:tx,url:u}).catch(function(){});else if(navigator.clipboard)navigator.clipboard.writeText(tx+" "+u).then(function(){toast("Ссылка скопирована")},function(){showCode(u)});else showCode(u)}else toast("Отправь другу файл fac-modo.html: он работает без интернета")}});
 $("mn").addEventListener("keydown",function(e){if(e.key=="Enter"&&e.target.id=="eni"){var c=document.querySelector('[data-x="enc"]');if(c)c.click()}});
 $("mn").addEventListener("input",function(e){if(e.target.id=="ivt")ivs.txt=e.target.value});
 $("mn").addEventListener("change",function(e){if(e.target.dataset.nm){st.name=e.target.value.trim();save();render()}});
@@ -2756,7 +2756,7 @@ if(d.pkx=="def"&&confirm(L("Вернуть стандартный список? 
 var TR={buf:[],n:0,role:""};
 /* Не переносятся ключи этого телефона: журнал, очередь, PIN-попытки, режим разработчика, список автокопий, флаги, предупреждения, повреждённые данные,
    самообновление и магазинный режим (fm_ota*, fm_store), свои видео и место просмотра (fm_flv*: файлов на другом телефоне нет). Получатель их тоже пропускает. */
-var TRX=/^fm_(flv|log|dlq|pintry|dev|bkx|flags|alert|broken|ota|store|hc|pro|play)/;
+var TRX=/^fm_(flv|log|dlq|pintry|dev|bkx|flags|alert|broken|ota|store|hc|pro|play|rvw)/;
 function trData(){var o={app:"fac-modo",st:st,ls:{}};for(var i=0;i<localStorage.length;i++){var k=localStorage.key(i);if(/^fm_/.test(k)&&!TRX.test(k))o.ls[k]=localStorage.getItem(k)}return JSON.stringify(o)}
 function trMsg(t){var e=$("trp");if(e)e.textContent=t}
 function trSink(m){if(m.fm=="net-ready"){if(TR.role=="send")trSend();else trMsg(L("Соединено. Получаю данные…","Connected. Receiving data…","З'єднано. Отримую дані…"));return}
@@ -4461,6 +4461,69 @@ window.fmProPaint=sec;
 document.addEventListener("click",function(e){var b=e.target.closest("#pro [data-fp]");if(!b)return;if(b.dataset.fp=="buy")P.buy();else if(b.dataset.fp=="restore")P.restore();else if(b.dataset.fp=="code")P.redeem((document.querySelector("#pro .fpc")||{}).value)});
 document.addEventListener("DOMContentLoaded",sec);
 st0()})();</script>
+<style id="rvw-css">/* Оценка в Google Play и «Поделиться приложением» (блок rvw-js) */
+#rvwb{display:flex;flex-wrap:wrap;gap:8px;margin:12px 0 0;padding-top:10px;border-top:1px solid var(--line)}
+#rvwb button{min-height:44px;padding:0 14px;border-radius:10px;border:1px solid var(--line);background:var(--card);color:inherit;font:inherit;font-weight:700;cursor:pointer}
+</style>
+<script id="rvw-js">/* Оценка в Google Play (решение Кости 20.11.2026) и «📤 Поделиться приложением».
+1) Оценка: только в сборке для Google Play (FM_PLAY / fm_play) и только если есть плагин @capacitor-community/in-app-review (ставится ТОЛЬКО в AAB, android.yml).
+   Своего «Нравится?» перед окном нет (правила Google: не влиять на оценку) — сразу нативное окно Google; Google сам решает, показать ли его.
+   Когда: не раньше 7-го разного дня использования (fm_rvw.n), в хороший момент — все квесты дня закрыты или новый уровень; не во время ввода текста (fmOtaBusy),
+   не в пробный период «Полного доступа», не при открытом окне покупки (#fpw). После вызова — не чаще раза в 60 дней, всего не больше 3 раз.
+   fm_rvw = {n: дней использования, l: последний день, a: [время вызовов], lv: уровень}. Привязан к этой установке: не переносится и не попадает в копии (TRX и pack: |rvw),
+   иначе восстановление старой копии обнулило бы счётчик вызовов.
+   Кнопка «⭐ Оценить в Google Play» (Настройки → «💬 Отзыв и идеи») — только в Play-сборке, открывает страницу приложения в магазине.
+2) Поделиться: кнопка там же (во всех сборках), пункт в «＋», кнопка в «Поделиться и начать путь» (#shr) — window.fmShareApp().
+   Ссылка — SHARE_URL ниже (единственное место): в Play-сборке — страница в Google Play, в остальных — сайт. Когда приложение выйдет в магазине для всех, вписать PLAY в обе строки.
+   Как: плагин Capacitor Share (Android, ставится в android.yml), иначе navigator.share (iPhone, браузер), иначе копия текста в буфер и «Скопировано».
+Проверка: RVWTEST (тест «Оценка в Google Play» в tests/e2e.js). */
+(function(){var K="fm_rvw",LS=localStorage,DAYS=7,GAP=60*864e5,MAX=3,PKG="io.github.azazello2508.facmodo",
+PLAY="https://play.google.com/store/apps/details?id="+PKG,SITE="https://azazello2508.github.io/Fac-modo/",
+SHARE_URL=function(){return play()?PLAY:SITE},MOCK=null;
+var T=function(r,e,u){return window.fmL?fmL(r,e,u):r};
+function play(){try{return!!(window.FM_PLAY||LS.getItem("fm_play")=="1")}catch(e){return false}}
+function log(l,ev,d){try{if(window.fmLog)fmLog(l,ev,d||{})}catch(e){}}
+function cap(n){try{if(n=="InAppReview"&&MOCK)return MOCK;var C=window.Capacitor;if(!C||!C.isPluginAvailable||!C.isPluginAvailable(n))return null;return(C.Plugins&&C.Plugins[n])||(C.registerPlugin&&C.registerPlugin(n))||null}catch(e){return null}}
+function on(){return play()&&!!cap("InAppReview")}
+function day(){var d=new Date();return d.getFullYear()+"-"+("0"+(d.getMonth()+1)).slice(-2)+"-"+("0"+d.getDate()).slice(-2)}
+function rd(){var o=null;try{o=JSON.parse(LS.getItem(K)||"null")}catch(e){}if(!o||typeof o!="object")o={};if(!(o.n>=0))o.n=0;if(!Array.isArray(o.a))o.a=[];return o}
+function wr(o){try{LS.setItem(K,JSON.stringify(o))}catch(e){}}
+function bump(d){if(!play())return;var o=rd();d=d||day();if(o.l!=d){o.n++;o.l=d;wr(o)}}
+function why(now){var o=rd(),P=window.fmPro,W=document.getElementById("fpw");now=now||Date.now();
+ if(!on())return"off";if(o.n<DAYS)return"days";if(o.a.length>=MAX)return"max";if(o.a.length&&now-o.a[o.a.length-1]<GAP)return"gap";
+ try{if(P&&P.on()&&!P.owned()&&P.trial().on)return"trial"}catch(e){}if(W&&W.classList.contains("on"))return"wall";
+ try{if(window.fmOtaBusy&&fmOtaBusy())return"busy"}catch(e){}if(document.hidden)return"hidden";return""}
+function ask(r,now){if(why(now))return false;var o=rd(),p=cap("InAppReview");o.a.push(now||Date.now());wr(o);log("info","review-ask",{why:r,n:o.n,k:o.a.length});
+ try{Promise.resolve(p.requestReview()).catch(function(e){log("warn","review-err",{m:String(e&&e.message||e).slice(0,200)})})}catch(e){log("warn","review-err",{m:String(e&&e.message||e).slice(0,200)})}return true}
+var tm=0;function soon(r){if(why())return;clearTimeout(tm);tm=setTimeout(function(){ask(r)},4000)}/* после праздника wm-js (3,6 с) */
+function allDone(){try{var it=items(today,(new Date().getDay()+6)%7),dd=st.done[today]||{};return it.length>0&&!it.some(function(q){return!dd[q.id]})}catch(e){return false}}
+function lvNow(){try{return lvl(calc().xp)[0]}catch(e){return 0}}
+function lvCheck(){if(!on())return;var o=rd(),l=lvNow();if(!l)return;if(!o.lv){o.lv=l;wr(o);return}if(l>o.lv){o.lv=l;wr(o);soon("level")}else if(l<o.lv){o.lv=l;wr(o)}}
+/* открыть страницу приложения в Google Play: market:// (приложение магазина), если не открылось — сайт магазина */
+function rate(){log("info","review-store");try{location.href="market://details?id="+PKG}catch(e){}setTimeout(function(){if(!document.hidden)try{window.open(PLAY,"_blank")}catch(e){}},1500)}
+function copy(t){var ok=function(){if(window.toast)toast(T("Скопировано: отправь другу в любом мессенджере","Copied: send it to a friend in any messenger","Скопійовано: надішли другові в будь-якому месенджері"))};
+ var old=function(){try{var a=document.createElement("textarea");a.value=t;a.setAttribute("readonly","");a.style.cssText="position:fixed;left:-9999px;top:0";document.body.appendChild(a);a.select();var r=document.execCommand("copy");a.remove();if(r){ok();return}}catch(e){}if(window.toast)toast(t)};
+ try{if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(t).then(ok,old);return"copy"}}catch(e){}old();return"copy"}
+function share(){var u=SHARE_URL(),t=T("Fac Modo — помощник для моряков: вахта и сон, часы отдыха, документы, навигация, расчёты, остойчивость, драфт-сюрвей. Работает без интернета.",
+ "Fac Modo — a helper app for seafarers: watch and sleep, rest hours, documents, navigation, calculations, stability, draught survey. Works offline.",
+ "Fac Modo — помічник для моряків: вахта й сон, години відпочинку, документи, навігація, розрахунки, остійність, драфт-сюрвей. Працює без інтернету."),all=t+"\n"+u,S=cap("Share");
+ log("info","share-app");
+ if(S)try{Promise.resolve(S.share({title:"Fac Modo",text:t,url:u,dialogTitle:T("Поделиться приложением","Share the app","Поділитися застосунком")})).catch(function(e){var m=String(e&&e.message||e);if(!/cancel/i.test(m)){log("warn","share-err",{m:m.slice(0,200)});copy(all)}});return"plugin"}catch(e){}
+ if(navigator.share)try{navigator.share({title:"Fac Modo",text:t,url:u}).catch(function(e){if(!e||e.name!="AbortError")copy(all)});return"web"}catch(e){}
+ return copy(all)}
+window.fmShareApp=share;
+function btns(){var f=document.getElementById("fbk")||document.getElementById("prv");if(!f)return;var b=document.getElementById("rvwb");if(!b){b=document.createElement("div");b.id="rvwb";b.setAttribute("translate","no");f.appendChild(b)}
+ b.innerHTML='<button type="button" data-rvw="share">📤 '+T("Поделиться приложением","Share the app","Поділитися застосунком")+"</button>"+(play()?'<button type="button" data-rvw="rate">⭐ '+T("Оценить в Google Play","Rate on Google Play","Оцінити в Google Play")+"</button>":"")}
+document.addEventListener("click",function(e){var x=e.target.closest&&e.target.closest("[data-rvw]");if(!x)return;e.preventDefault();
+ if(x.dataset.rvw=="rate")rate();else{var m=document.getElementById("qam"),q=document.getElementById("qab");if(m&&m.contains(x)){m.classList.remove("on");if(q)q.setAttribute("aria-expanded","false")}share()}});
+var lt=0;function act(){if(!play())return;clearTimeout(lt);lt=setTimeout(lvCheck,1500)}
+document.addEventListener("DOMContentLoaded",function(){btns();bump();lvCheck();
+ var ul=document.getElementById("list");if(ul)ul.addEventListener("change",function(e){var x=e.target;if(!play()||!x||x.type!="checkbox"||!x.checked)return;setTimeout(function(){if(allDone())soon("quests")},60)});
+ document.addEventListener("click",act);document.addEventListener("change",act);
+ document.addEventListener("visibilitychange",function(){if(!document.hidden)bump()});document.addEventListener("fmday",function(){bump()});
+ /* пункт «📤 Поделиться приложением» в меню «＋» (qa-js собирает меню при нажатии — добавляем свой пункт следом) */
+ setTimeout(function(){var q=document.getElementById("qab");if(q)q.addEventListener("click",function(){var m=document.getElementById("qam");if(m&&m.classList.contains("on")&&!m.querySelector("[data-rvw]"))m.insertAdjacentHTML("beforeend",'<button type="button" data-rvw="share">📤 '+esc(T("Поделиться приложением","Share the app","Поділитися застосунком"))+"</button>")})},0)});
+window.RVWTEST={st:rd,why:why,ask:ask,bump:bump,on:on,url:SHARE_URL,share:share,btns:btns,plug:function(p){MOCK=p},days:DAYS,max:MAX}})();</script>
 <style id="ux-css">/* Все разделы, поиск и «⭐ Моё» (этап 1 нового вида) */
 main>.uxs{display:flex;align-items:center;gap:8px;width:100%;box-sizing:border-box;min-height:44px;margin:0;padding:0 12px;border-radius:12px;border:1px solid var(--line);background:var(--card);color:var(--mute);font:inherit;font-size:15px;text-align:left;cursor:pointer;backdrop-filter:blur(4px)}
 main>.uxs svg,#uxc svg{flex:none}
@@ -6516,7 +6579,7 @@ function setMeta(a){try{localStorage.setItem(MK,JSON.stringify(a))}catch(e){}}
 function db(){return DB||(DB=new Promise(function(ok,no){if(!window.indexedDB)return no(Error("no indexedDB"));var r=indexedDB.open("fm-backup",1);r.onupgradeneeded=function(){r.result.createObjectStore("b",{keyPath:"id"})};r.onsuccess=function(){ok(r.result)};r.onerror=function(){DB=null;no(r.error)}}))}
 function tx(mode,fn){return db().then(function(d){return new Promise(function(ok,no){var t=d.transaction("b",mode),q=fn(t.objectStore("b")),res;if(q)q.onsuccess=function(){res=q.result};t.oncomplete=function(){ok(res)};t.onerror=t.onabort=function(){no(t.error)}})})}
 /* Что входит в копию: прогресс и настройки fm_*, кроме журнала, очереди, счётчика попыток PIN и режима разработчика */
-function pack(){var o={app:"fac-modo",v:st._v||FMV,st:st,ls:{}},i,k;for(i=0;i<localStorage.length;i++){k=localStorage.key(i);if(/^fm_/.test(k)&&!/^fm_(flv|log|dlq|pintry|dev|bkx|flags|alert|broken|pro|play)/.test(k))o.ls[k]=localStorage.getItem(k)}return JSON.stringify(o)}
+function pack(){var o={app:"fac-modo",v:st._v||FMV,st:st,ls:{}},i,k;for(i=0;i<localStorage.length;i++){k=localStorage.key(i);if(/^fm_/.test(k)&&!/^fm_(flv|log|dlq|pintry|dev|bkx|flags|alert|broken|pro|play|rvw)/.test(k))o.ls[k]=localStorage.getItem(k)}return JSON.stringify(o)}
 /* Проверка восстановления (restore test): копию можно прочитать, данные на месте, миграция до текущей версии проходит */
 function check(t){try{var o=JSON.parse(t);if(!o||o.app!="fac-modo"||!o.st||typeof o.st!="object")return false;var m=fmMigrate(JSON.parse(JSON.stringify(o.st)));
  if(!m||typeof m.done!="object"||!m.done||typeof m.custom!="object"||!m.custom||typeof m.bonus!="object"||!m.bonus)return false;

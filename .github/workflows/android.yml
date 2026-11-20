@@ -44,7 +44,7 @@ jobs:
       - name: Установить Capacitor (обёртка, которая делает из страницы приложение)
         # Те же закреплённые версии, что в сборке для iPhone
         run: |
-          npm install --no-audit --no-fund @capacitor/core@8.5.3 @capacitor/cli@8.5.3 @capacitor/android@8.5.3 @capacitor/filesystem@8.1.5 @capacitor/local-notifications@8.3.1
+          npm install --no-audit --no-fund @capacitor/core@8.5.3 @capacitor/cli@8.5.3 @capacitor/android@8.5.3 @capacitor/filesystem@8.1.5 @capacitor/local-notifications@8.3.1 @capacitor/share@8.0.3
           python3 -c "import PIL" 2>/dev/null || pip install --quiet pillow
 
       - name: Подготовить проект Android (файлы, иконки, разрешения, версия)
@@ -59,12 +59,14 @@ jobs:
       - name: "Собрать пакет для Google Play (AAB с покупкой «Полный доступ», без самообновления)"
         # Только в AAB: плагин оплаты cordova-plugin-purchase (Google Play Billing) и флаг FM_PLAY=1 в index.html.
         # В APK по ссылке этого нет: там нечем платить, поэтому всё остаётся бесплатным (решение Кости: друзья и тестировщики).
+        # Там же — окно оценки Google (In-App Review, @capacitor-community/in-app-review, блок rvw-js): в APK его нет, приложение просто не просит оценку.
         run: |
-          npm install --no-audit --no-fund cordova-plugin-purchase@13.20.0
+          npm install --no-audit --no-fund cordova-plugin-purchase@13.20.0 @capacitor-community/in-app-review@8.0.0
           sed -i 's/__FM_PLAY__/1/' www/index.html
           grep -c '"1"=="1")?1:0' www/index.html
           npx cap sync android
           grep -rl 'cordova-plugin-purchase' android/app/src/main/assets | head -3 || echo "::warning::плагин оплаты не найден в assets — проверить сборку"
+          grep -q 'in-app-review' android/capacitor.settings.gradle || echo "::warning::плагин оценки не найден в проекте — проверить сборку"
           grep -rl 'com.android.vending.BILLING' android/app/src/main/AndroidManifest.xml android/capacitor-cordova-android-plugins 2>/dev/null | head -3 || true
           cd android
           ./gradlew bundleRelease --no-daemon -q
