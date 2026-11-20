@@ -84,6 +84,45 @@ const srv=http.createServer((q,r)=>{let u=decodeURIComponent(q.url.split('?')[0]
     sign:near(g2.LBM,99,1e-9)&&lf.c1<0&&near(lf.c1,-232.2934),warn:bad.w.map(x=>x[0]).join(','),miss:miss.miss.join(','),
     free:fmPro.has('dsv')&&fmPro.pkg('dsv')==='tools'&&fmPro.has('shn'),ui,back:bk,run:/8221\.3/.test(run)&&/24460\.3/.test(run),sum:/38291\.8/.test(sm),ex:/38[ ,.]?291[,.]8/.test(ex),th:T.th>=12&&T.qz>=8}});
   ok(dsv.perp&&dsv.mmm&&dsv.hyd&&dsv.trim&&dsv.dens&&dsv.net&&dsv.cargo&&dsv.sign&&dsv.warn==='list,ro'&&dsv.miss==='M,A'&&dsv.free&&dsv.ui&&dsv.back&&dsv.run&&dsv.sum&&dsv.ex&&dsv.th,'Драфт-сюрвей: поправки, MMM, дифферент, плотность, вычеты и груз сходятся с ручным счётом, теория, вкладка в «Инструментах штурмана» ('+JSON.stringify(dsv)+')');
+  /* Поправка компаса (cpc-js). Ручной счёт:
+     створ: ИП 312,0 − КП 309,5 → ΔК = +2,5° E; d = +1,0° E → δ = ΔК − d = +1,5° E (КК 0,5° → строка таблицы КК 0°).
+     амплитуда: φ = 40° N, δ⊙ = +15°: sin A = 0,258819/0,766044 = 0,337864 → A = 19,7468°; восход ИП = 90 − 19,7468 = 70,2532° (≈ 70,3°); заход ИП = 270 + 19,7468 = 289,7468°;
+       δ⊙ = −15° (S): восход ИП = 90 + 19,7468 = 109,7468°; φ = 70° N, δ⊙ = +23,4°: sin 23,4/cos 70 = 0,3971/0,3420 > 1 → полярный день. КП 68,0 → ΔК = 70,2532 − 68 = +2,3° E.
+     гирокомпас: ИК = ГКК 120,0 + ΔГК (−1,0) = 119,0; ΔК = 119,0 − КК 117,5 = +1,5° E; d = +3,0° E → δ = −1,5° W.
+     ΔГК: ИП 245,0 − ГКП 245,8 = −0,8° W; через 0°: ИП 1,0 − ГКП 359,5 = +1,5° E.
+     склонение с карты: 3°30′E 2015 (8′E) на 2026: 3,5 + 11·8′/60 = 4,9667° E; 2°10′W 2016 (6′E) на 2026: −2,1667 + 1 = −1,1667° (1°10′ W).
+     девиация δ на N…NW = −0,2; 1,7; 2,2; 2,1; 1,8; 0,3; −1,8; −2,1:
+       A = 4,0/8 = 0,5; B = (0,70711·(1,7+2,1−0,3+2,1) + 2,2+1,8)/4 = (3,95980+4)/4 = 1,98995; C = (−0,2−1,8 + 0,70711·(1,7−2,1−0,3−2,1))/4 = (−2−1,97990)/4 = −0,994975;
+       D = (1,7−2,1+0,3+2,1)/4 = 0,5; E = (−0,2−2,2+1,8+1,8)/4 = 0,3;
+       δ(15°) = 0,5 + 1,98995·0,258819 − 0,994975·0,965926 + 0,5·0,5 + 0,3·0,866025 = 0,563773; δ(30°) = 0,5 + 0,994975 − 0,861673 + 0,433013 + 0,15 = 1,216315;
+       таблица «Компаса» через 45° по формуле: −0,2; 1,7; 2,2; 2,1; 1,8; 0,3; −1,8; −2,1.
+     Полярная: склонение ≈ 89,37°, на φ = 40° азимут не дальше asin(cos 89,37°/cos 40°) ≈ 0,8° от N и совпадает с «Азимутом Полярной сейчас» (SNTEST.alt). */
+  const cpc=await p.evaluate(()=>{const T=CPCTEST,near=(a,b,e)=>Math.abs(a-b)<=(e||1e-3);
+   const a=T.amp(40,15,true),a2=T.amp(40,15,false),a3=T.amp(40,-15,true),a4=T.amp(70,23.4,true),g=T.gyr(120,-1,117.5),c=T.coef([-0.2,1.7,2.2,2.1,1.8,0.3,-1.8,-2.1]);
+   const ms=Date.UTC(2026,10,20,18,0,0),pz=T.body('pol',ms,40,30),pi=T.polI(),old=SNTEST.alt(SNTEST.bod('s'+pi,ms),40,30),su=T.body('sun',Date.UTC(2026,10,20,8,0,0),40,30),so=SNTEST.alt(SNTEST.bod('sl',Date.UTC(2026,10,20,8,0,0)),40,30);
+   const sv=JSON.stringify(st.cpc||null),sh=st.shn&&st.shn.t,sdev=JSON.stringify((st.shn&&st.shn.dev)||[]),svv=JSON.stringify((st.shn&&st.shn.v)||{});
+   const keys=[...document.querySelectorAll('#shn [data-snt]')].map(x=>x.dataset.snt),pos=keys.indexOf('cpc')===keys.indexOf('cmp')+1;
+   const btn=document.querySelector('#shn [data-snt=cpc]');if(btn)btn.click();
+   st.cpc.p='c';st.cpc.m='rng';Object.assign(st.cpc.v,{ip:'312.0',kp:'309.5',kk:'0.5'});Object.assign(st.shn.v,{sn_vd_d:'1',sn_vd_m:'0',sn_vd_h:'E',sn_vy:'',sn_va:''});shnR();
+   const ui=!!document.querySelector('#shn #snxw [data-cpm]')&&/Учебный расчёт|study calculation|Навчальний розрахунок/.test((document.querySelector('#shn .cpnote')||{}).textContent||''),r1=T.run('rng');
+   const wb=document.querySelector('#shn #cpo [data-cpw]');if(wb)wb.click();const w0=st.shn.dev[0];
+   st.cpc.m='amp';Object.assign(st.cpc.v,{ev:'r',la_d:'40',la_m:'0',la_h:'N',dm:'m',dc_d:'15',dc_m:'0',dc_h:'N',kpa:'68.0',kk:''});const r2=T.run('amp');
+   st.cpc.m='str';Object.assign(st.cpc.v,{bd:'pol',dt:'2026-11-20',tm:'18:00:00',tz:'0',lo_d:'30',lo_m:'0',lo_h:'E',kps:'359.0'});const r3=T.run('str');
+   st.cpc.m='gyr';Object.assign(st.cpc.v,{gkk:'120',dgk:'-1',kk:'117.5'});st.shn.v.sn_vd_d='3';const r4=T.run('gyr');
+   st.cpc.m='dgk';Object.assign(st.cpc.v,{src:'ip',ipg:'245.0',gkp:'245.8'});const r5=T.run('dgk');
+   st.cpc.m='dev';st.cpc.dw=['-0.2','1.7','2.2','2.1','1.8','0.3','-1.8','-2.1'];shnR();const r6=T.run('dev'),db=document.querySelector('#shn #cpo [data-cpdw]');if(db)db.click();
+   const dv=st.shn.dev.slice(0,8).join(','),da=SNA.devAt(22.5);
+   st.cpc.p='t';shnR();const th=document.querySelectorAll('#shn .cpth').length,fig=document.querySelectorAll('#shn .cpth svg').length;
+   const back=document.querySelector('#shn [data-snt=cmp]');if(back)back.click();const bk=!document.querySelector('#shn #snxw')&&!!document.querySelector('#shn #sno');
+   st.cpc=JSON.parse(sv);if(!st.cpc)delete st.cpc;st.shn.dev=JSON.parse(sdev);st.shn.v=JSON.parse(svv);if(sh)st.shn.t=sh;save();shnR();
+   return{rng:near(T.rng(312,309.5),2.5)&&/\+2\.5° E/.test(r1)&&/\+1\.5° E/.test(r1)&&w0==='1.5',
+    amp:near(a.A,19.7468)&&near(a.ip,70.2532)&&near(a2.ip,289.7468)&&near(a3.ip,109.7468)&&a4.err==='day'&&/70\.3°/.test(r2)&&/\+2\.3° E/.test(r2),
+    gyr:near(g.ik,119)&&near(g.dk,1.5)&&/119\.0°/.test(r4)&&/\+1\.5° E/.test(r4)&&/−1\.5° W/.test(r4),dgk:near(T.dgk(245,245.8),-0.8)&&near(T.dgk(1,359.5),1.5)&&/−0\.8° W/.test(r5),
+    vari:near(T.vari({sn_vd_d:'3',sn_vd_m:'30',sn_vd_h:'E',sn_vy:'2015',sn_va:'8',sn_vh:'E'},2026),4.96667)&&near(T.vari({sn_vd_d:'2',sn_vd_m:'10',sn_vd_h:'W',sn_vy:'2016',sn_va:'6',sn_vh:'E'},2026),-1.16667),
+    coef:near(c.A,0.5)&&near(c.B,1.98995)&&near(c.C,-0.994975)&&near(c.D,0.5)&&near(c.E,0.3)&&near(T.devK(c,15),0.563773)&&near(T.devK(c,30),1.216315)&&/\+2\.0°/.test(r6)&&/−1\.0°/.test(r6),
+    tab:dv==='-0.2,1.7,2.2,2.1,1.8,0.3,-1.8,-2.1'&&near(da,0.75),pol:!!pz&&near(pz.z,old.z,1e-9)&&Math.abs(((pz.z+180)%360)-180)<1&&pz.h>39&&pz.h<41&&/Истинный азимут|True azimuth|Істинний азимут/.test(r3),
+    sun:!!su&&near(su.z,so.z,1e-9),pos,ui,th:th>=10&&T.th>=10&&T.qz>=8&&fig>=4,back:bk,free:fmPro.has('cpc')&&fmPro.pkg('cpc')==='tools'&&fmPro.has('shn')}});
+  ok(Object.values(cpc).every(x=>x===true),'Поправка компаса: створ, амплитуда, Полярная, гирокомпас, ΔГК, склонение, коэффициенты девиации сходятся с ручным счётом, таблица «Компаса» общая, вкладка после «🧭 Компас» ('+JSON.stringify(cpc)+')');
   const trn=await p.evaluate(()=>{const dec=id=>{try{return new TextDecoder().decode(Uint8Array.from(atob(document.getElementById(id).textContent.trim()),c=>c.charCodeAt(0)))}catch(e){return ''}};
    const o=dec('to-src'),a=dec('tr-src'),b=dec('tm-src'),c=dec('ts-src'),d=dec('te-src');return{o:/id:"bunker"/.test(o)&&/id:"mob"/.test(o)&&o.includes('FM_LANG'),i:[a,b,c,d].every(x=>x.includes('fm-i18n')&&x.includes('FM_LANG')),d:/SIMS\.shipgrid/.test(d)&&/SIMS\.bode/.test(d),c:/SIMS\.shipboiler/.test(c)&&/SIMS\.shipthruster/.test(c)&&/SIMS\.mainengine/.test(c)&&/SIMS\.navpower/.test(c),btn:document.querySelectorAll('#trs [data-trs]').length,e:/SIMS\.blackout/.test(a)&&/SIMS\.dgstart/.test(a)&&/SIMS\.generator/.test(a),m:/SIMS\.mainstart/.test(b)&&/SIMS\.coolsys/.test(b)}});
   ok(trn.btn===5&&trn.o&&trn.i&&trn.d&&trn.e&&trn.m&&trn.c,'Тренажёры: раздел с пятью наборами, игры встроены ('+JSON.stringify(trn)+')');
@@ -102,6 +141,10 @@ const srv=http.createServer((q,r)=>{let u=decodeURIComponent(q.url.split('?')[0]
    await q.evaluate(()=>{localStorage.setItem('fm_pro',JSON.stringify({v:2,t0:1,b0:0,own:0,d:['2000-01-01','2000-01-02','2000-01-03']}))});
    const c=await q.evaluate(()=>{const g=id=>document.getElementById(id);g('ecl').previousElementSibling.click();return{tr:fmPro.trial().on,ecl:fmPro.has('ecl'),qz:fmPro.has('qz'),sh4:fmPro.has('sh4'),wall:!!g('fpw')&&g('fpw').classList.contains('on'),inbox:g('ecl').parentNode===g('mn'),btn:(document.querySelector('#fpw [data-fp=buy]')||{}).textContent||''}});
    const dv=await q.evaluate(()=>{const x=document.createElement('div'),sv=JSON.stringify(st.dsv||null);SNX.dsv.r(x);const r={has:fmPro.has('dsv'),stb:fmPro.has('stb'),shn:fmPro.has('shn'),g:SNX.dsv.g(),n:/🔒/.test(SNX.dsv.n()),lock:!!x.querySelector('[data-dvw]')&&!x.querySelector('[data-dvv]'),wall:document.getElementById('fpw').classList.contains('on')};st.dsv=JSON.parse(sv);if(!st.dsv)delete st.dsv;return r});
+   const cp=await q.evaluate(()=>{const x=document.createElement('div'),sv=JSON.stringify(st.cpc||null),W=document.getElementById('fpw');W.classList.remove('on');const g=SNX.cpc.g(),wall=W.classList.contains('on');W.classList.remove('on');
+    SNX.cpc.r(x);const cm=document.querySelector('#shn [data-snt=cmp]');if(cm)cm.click();
+    const r={has:fmPro.has('cpc'),shn:fmPro.has('shn'),g,wall,n:/🔒/.test(SNX.cpc.n()),lock:!!x.querySelector('[data-cpwl]')&&!x.querySelector('[data-cpv]'),cmp:!!document.querySelector('#shn #sno')&&!document.querySelector('#shn #snxw')};st.cpc=JSON.parse(sv);if(!st.cpc)delete st.cpc;return r});
+   ok(!cp.has&&cp.shn&&cp.g===false&&cp.wall&&cp.n&&cp.lock&&cp.cmp,'Play-сборка: «Поправка компаса» закрыта (🔒, окно покупки), «🧭 Компас» открыт ('+JSON.stringify(cp)+')');
    const d=await q.evaluate(()=>{document.querySelector('#fpw [data-fp=buy]').click();return{ord:window.__ord,own:fmPro.owned(),ecl:fmPro.has('ecl')}});
    ok(a.on&&a.left===3&&a.ecl&&a.price==='9,99 $'&&a.ota&&a.pro,'Play-сборка: покупка включена, 3 дня пробы, цена из магазина, самообновление выключено ('+JSON.stringify(a)+')');
    ok(!c.tr&&!c.ecl&&c.qz&&c.sh4&&c.wall&&c.inbox&&/9,99/.test(c.btn),'Play-сборка: после пробы платный раздел закрыт окном покупки, бесплатное открыто ('+JSON.stringify(c)+')');
