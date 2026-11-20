@@ -38,6 +38,7 @@ Fac Modo — помощник для моряков всех судовых пр
 
 ЗНАНИЯ И РАБОТА НА СУДНЕ
 • Инструменты штурмана: поправка компаса, секстан, место по звёздам, широта по Полярной, ориентиры и крюйс-пеленг, счисление, течение и дрейф, расхождение (CPA/TCPA), прилив
+• Остойчивость: загрузка и GM, свободная поверхность, крен, диаграмма GZ с проверкой критериев IMO; драфт-сюрвей от осадок до веса груза; теория со схемами
 • Расчёты электромеханика и механика: ток, сопротивление, расход топлива, вязкость и другие
 • 25 тренажёров: электростанция, пуск двигателя, котёл, синхронизация генераторов, питание навигации
 • Журнал ремонтов с фото
@@ -53,9 +54,9 @@ Fac Modo — помощник для моряков всех судовых пр
 • Генератор резюме с PDF прямо в телефоне
 
 ПОЛНЫЙ ДОСТУП
-Приложение бесплатное: вахта и сон, часы отдыха, документы, дом, игры, справочник моряка и мини-экзамен остаются бесплатными. Первые 3 дня использования открыто всё. Потом разделы «Берег и карьера», «Дипломы и экзамены» (библиотека, глоссарий), «Тренажёры и расчёты» открываются одной покупкой навсегда. Это не подписка, платёж один раз.
+Приложение бесплатное: вахта и сон, часы отдыха, документы, дом, игры, справочник моряка и мини-экзамен остаются бесплатными. Первые 3 дня использования открыто всё. Потом разделы «Берег и карьера», «Дипломы и экзамены» (библиотека, глоссарий), «Тренажёры и расчёты» (вместе с остойчивостью, драфт-сюрвеем и новыми способами поправки компаса) открываются одной покупкой навсегда. Это не подписка, платёж один раз.
 
-Без регистрации, рекламы и слежки. Три языка: русский, английский, украинский. Тексты тренажёров пока на русском.
+Без регистрации, рекламы и слежки. Три языка: русский, английский, украинский. Встроенные игры пока на русском.
 
 Навигационные расчёты — учебный помощник: всегда сверяйте их с картой, альманахом и судовыми приборами. Советы по сну, питанию и тренировкам — общие, не медицинские.
 
@@ -74,6 +75,7 @@ DAILY MISSIONS
 
 KNOWLEDGE AND WORK ON BOARD
 • Navigator's tools: compass error, sextant, star fix, latitude by Polaris, landmarks and running fix, dead reckoning, current and leeway, collision risk (CPA/TCPA), tides
+• Stability: loading and GM, free surface, heel, GZ curve with IMO criteria check; draught survey from draughts to cargo weight; theory with diagrams
 • Electrician's and engineer's calculations: current, resistance, fuel consumption, viscosity and more
 • 25 trainers: power plant, motor starting, boiler, generator synchronisation, navigation power
 • Repair log with photos
@@ -89,9 +91,9 @@ ASHORE
 • CV generator with a PDF made right on the phone
 
 FULL ACCESS
-The app is free: watch and sleep, rest hours, documents, home, games, the seafarer's reference and a mini exam stay free. Everything is open for your first 3 days of use. After that, Shore and career, Certificates and exams (library, glossary) and Trainers and calculations unlock with a single purchase, for good. No subscription, you pay once.
+The app is free: watch and sleep, rest hours, documents, home, games, the seafarer's reference and a mini exam stay free. Everything is open for your first 3 days of use. After that, Shore and career, Certificates and exams (library, glossary) and Trainers and calculations (including stability, draught survey and the extra compass error methods) unlock with a single purchase, for good. No subscription, you pay once.
 
-No sign-up, no ads, no tracking. Three languages: Russian, English, Ukrainian. Trainer texts are in Russian for now.
+No sign-up, no ads, no tracking. Three languages: Russian, English, Ukrainian. Built-in games are in Russian for now.
 
 Navigation calculations are a study aid: always check them against the chart, the almanac and the ship's instruments. Sleep, nutrition and workout tips are general, not medical advice.
 
@@ -110,6 +112,7 @@ Fac Modo — помічник для моряків усіх суднових п
 
 ЗНАННЯ Й РОБОТА НА СУДНІ
 • Інструменти штурмана: поправка компаса, секстан, місце за зірками, широта за Полярною, орієнтири й крюйс-пеленг, числення, течія й дрейф, розходження (CPA/TCPA), приплив
+• Остійність: завантаження і GM, вільна поверхня, крен, діаграма GZ з перевіркою критеріїв IMO; драфт-сюрвей від осадок до ваги вантажу; теорія зі схемами
 • Розрахунки електромеханіка та механіка: струм, опір, витрата палива, в’язкість та інші
 • 25 тренажерів: електростанція, пуск двигуна, котел, синхронізація генераторів, живлення навігації
 • Журнал ремонтів із фото
@@ -125,9 +128,9 @@ Fac Modo — помічник для моряків усіх суднових п
 • Генератор резюме з PDF просто в телефоні
 
 ПОВНИЙ ДОСТУП
-Застосунок безкоштовний: вахта й сон, години відпочинку, документи, дім, ігри, довідник моряка і міні-іспит лишаються безкоштовними. Перші 3 дні користування відкрито все. Потім розділи «Берег і кар’єра», «Дипломи та іспити» (бібліотека, глосарій), «Тренажери та розрахунки» відкриваються однією покупкою назавжди. Це не підписка, платіж один раз.
+Застосунок безкоштовний: вахта й сон, години відпочинку, документи, дім, ігри, довідник моряка і міні-іспит лишаються безкоштовними. Перші 3 дні користування відкрито все. Потім розділи «Берег і кар’єра», «Дипломи та іспити» (бібліотека, глосарій), «Тренажери та розрахунки» (разом з остійністю, драфт-сюрвеєм і новими способами поправки компаса) відкриваються однією покупкою назавжди. Це не підписка, платіж один раз.
 
-Без реєстрації, реклами й стеження. Три мови: російська, англійська, українська. Тексти тренажерів поки російською.
+Без реєстрації, реклами й стеження. Три мови: російська, англійська, українська. Вбудовані ігри поки російською.
 
 Навігаційні розрахунки — навчальний помічник: завжди звіряйте їх із картою, альманахом і судновими приладами. Поради щодо сну, харчування й тренувань — загальні, не медичні.
 
@@ -196,3 +199,27 @@ Fac Modo — помічник для моряків усіх суднових п
 4. Покупку можно проверить только в сборке, загруженной в Play (закрытое тестирование) и установленной из Play по ссылке-приглашению. В APK и на сайте её нет.
 5. В анкетах: «покупки внутри приложения — да».
 6. Самообновление веб-части в Play-версии выключено (правила Google Play): новые функции приходят новым `.aab`.
+
+## Закрытый тест: готовые тексты
+**«Что нового» в выпуске (Release notes, до 500 знаков на язык)** — вставить в поле как есть:
+```
+<ru-RU>
+Первая тестовая версия Fac Modo. Попробуйте вахту и сон, часы отдыха, документы, инструменты штурмана (остойчивость, драфт-сюрвей, поправка компаса), расчёты и тренажёры. Первые 3 дня открыто всё. Ошибки и идеи — через «Профиль → Настройки → Отзыв и идеи» или на facmodo111@gmail.com.
+</ru-RU>
+<en-US>
+First test version of Fac Modo. Try watch and sleep, rest hours, documents, navigator's tools (stability, draught survey, compass error), calculations and trainers. Everything is open for your first 3 days. Report bugs and ideas via Profile → Settings → Feedback and ideas or at facmodo111@gmail.com.
+</en-US>
+<uk>
+Перша тестова версія Fac Modo. Спробуйте вахту й сон, години відпочинку, документи, інструменти штурмана (остійність, драфт-сюрвей, поправка компаса), розрахунки й тренажери. Перші 3 дні відкрито все. Помилки та ідеї — через «Профіль → Налаштування → Відгук та ідеї» або на facmodo111@gmail.com.
+</uk>
+```
+
+**Сообщение тестировщикам** (отправить в Telegram/WhatsApp после того, как Google одобрит закрытый тест; вместо ССЫЛКА — ссылка-приглашение из консоли: Testing → Closed testing → Testers → «Copy link»):
+
+RU: Привет! Мы делаем Fac Modo — бесплатное приложение-помощник для моряков (вахта и сон, часы отдыха, документы, расчёты, остойчивость, драфт-сюрвей). Помоги протестировать, это 2 минуты: 1) открой ссылку с Android-телефона: ССЫЛКА; 2) нажми «Стать тестировщиком»; 3) нажми «Скачать в Google Play» и установи. Главное — не удаляй приложение 14 дней и заходи в него хотя бы иногда. Если что-то не так — напиши мне. Спасибо!
+
+EN: Hi! We're building Fac Modo, a free helper app for seafarers (watch and sleep, rest hours, documents, calculations, stability, draught survey). Please help us test it, it takes 2 minutes: 1) open this link on your Android phone: LINK; 2) tap "Become a tester"; 3) tap "Download it on Google Play" and install. Please keep the app for 14 days and open it now and then. If anything is wrong, just message me. Thanks!
+
+UK: Привіт! Ми робимо Fac Modo — безкоштовний застосунок-помічник для моряків (вахта й сон, години відпочинку, документи, розрахунки, остійність, драфт-сюрвей). Допоможи протестувати, це 2 хвилини: 1) відкрий посилання з Android-телефона: ПОСИЛАННЯ; 2) натисни «Стати тестувальником»; 3) натисни «Завантажити в Google Play» і встанови. Головне — не видаляй застосунок 14 днів і заходь у нього хоч іноді. Якщо щось не так — напиши мені. Дякую!
+
+**Список тестировщиков:** в консоли Testing → Closed testing → Testers → «Create email list» — вписать адреса Gmail через запятую (или загрузить CSV: один адрес в строке). Те же адреса — в Setup → License testing, чтобы покупка у них была бесплатной.
