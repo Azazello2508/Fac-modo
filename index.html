@@ -3260,18 +3260,7 @@ window.shnR=snR;
 snR()})();</script>
 <script id="stbt-js">/* Теория для вкладки «⚖️ Остойчивость» (stb-js): window.STBT(L) → {T: темы [значок, название, суть, подробности (HTML)], Q: вопросы [вопрос, [варианты], верный, пояснение], W: «что это и зачем» для 5 расчётов}.
  Тексты — своими словами, официальные тексты IMO не копируются. Числа и формулы во всех трёх языках одинаковые. */
-window.STBT=function(L){var S=function(h){return'<svg class="sbfig" viewBox="0 0 320 240" role="img" aria-label="'+L("Поперечное сечение судна при крене","Cross-section of a heeled ship","Поперечний переріз судна при крені")+'">'+h+'</svg>'};
-var fig=S('<rect x="0" y="150" width="320" height="90" style="fill:rgba(59,130,246,.16)"/><line x1="10" y1="150" x2="310" y2="150" style="stroke:#3b82f6;stroke-width:2"/>'
- +'<g transform="rotate(20 160 150)"><rect x="80" y="100" width="160" height="100" rx="18" style="fill:none;stroke:var(--ink);stroke-width:2.5"/><line x1="160" y1="45" x2="160" y2="205" style="stroke:var(--mute);stroke-width:1;stroke-dasharray:4 3"/></g>'
- +'<line x1="190.8" y1="50" x2="190.8" y2="200" style="stroke:var(--mute);stroke-width:1;stroke-dasharray:2 3"/>'
- +'<line x1="166.8" y1="131.2" x2="190.8" y2="131.2" style="stroke:#e5484d;stroke-width:3"/>'
- +'<line x1="166.8" y1="131.2" x2="166.8" y2="168" style="stroke:var(--ink);stroke-width:1.5"/><path d="M162.8 162 L166.8 170 L170.8 162Z" style="fill:var(--ink)"/>'
- +'<line x1="190.8" y1="178" x2="190.8" y2="146" style="stroke:#3b82f6;stroke-width:1.5"/><path d="M186.8 152 L190.8 144 L194.8 152Z" style="fill:#3b82f6"/>'
- +'<path d="M190.8 87.4 A22 22 0 0 1 183.3 86.1" style="fill:none;stroke:var(--ink);stroke-width:1.2"/>'
- +[[190.8,65.4,"M",8,-2],[166.8,131.2,"G",-16,-4],[190.8,131.2,"Z",7,-4],[142.9,197,"K",-16,6],[151.4,173.5,"B",-16,4],[190.8,178,"B1",7,12]].map(function(p){return'<circle cx="'+p[0]+'" cy="'+p[1]+'" r="3.5" style="fill:'+(p[2]=="B"?"var(--mute)":"var(--ink)")+'"/><text x="'+(p[0]+p[3])+'" y="'+(p[1]+p[4])+'" style="fill:var(--ink);font-size:13px;font-weight:700">'+p[2]+'</text>'}).join("")
- +'<text x="182" y="104" style="fill:var(--ink);font-size:12px">θ</text><text x="171" y="125" style="fill:#e5484d;font-size:12px;font-weight:700">GZ</text>'
- +'<text x="12" y="166" style="fill:#3b82f6;font-size:11px">'+L("ватерлиния","waterline","ватерлінія")+'</text><text x="8" y="20" style="fill:var(--mute);font-size:11px">'+L("Вес — вниз через G, плавучесть — вверх через B1","Weight acts down through G, buoyancy up through B1","Вага — вниз через G, плавучість — угору через B1")+'</text>'
- +'<text x="8" y="36" style="fill:var(--mute);font-size:11px">'+L("Плечо GZ = GM·sinθ (на малых углах)","Lever GZ = GM·sinθ (small angles)","Плече GZ = GM·sinθ (на малих кутах)")+'</text>');
+window.STBT=function(L){
 var T=[
 ["⚖️",L("Что такое остойчивость","What stability is","Що таке остійність"),L("Способность судна вернуться в прямое положение после крена","The ship’s ability to come back upright after heeling","Здатність судна повернутися в пряме положення після крену"),
  L("<p>Ветер, волна, перекладка руля или смещение груза кренят судно. Остойчивое судно само возвращается: вес и плавучесть создают восстанавливающий момент.</p><p><b>Начальная остойчивость</b> — на малых углах (примерно до 7–10°): её мерило — метацентрическая высота GM. <b>Остойчивость на больших углах</b> показывает диаграмма GZ: до какого угла судно ещё выпрямляется и какой у него запас.</p><p>Большая GM не означает, что всё хорошо: судно может быть остойчиво в начале и опасно на больших углах (низкий надводный борт, открытые отверстия).</p>",
@@ -3280,7 +3269,7 @@ var T=[
 ["📍",L("Точки K, B, G, M","Points K, B, G, M","Точки K, B, G, M"),L("KM = KB + BM, BM = I/V, GM = KM − KG","KM = KB + BM, BM = I/V, GM = KM − KG","KM = KB + BM, BM = I/V, GM = KM − KG"),
  L("<p><b>K</b> — киль (низ основной плоскости), от него меряют высоты. <b>G</b> — центр тяжести всего судна с грузом, через него вниз действует вес. <b>B</b> — центр величины (центр подводного объёма), через него вверх действует плавучесть.</p><p>При крене подводная часть меняет форму, и B уходит к опущенному борту в <b>B1</b>. Вертикаль через B1 пересекает диаметральную плоскость в <b>M</b> — поперечном метацентре. <b>Z</b> — точка на этой вертикали напротив G, отрезок <b>GZ</b> — восстанавливающее плечо.</p><p><b>KM = KB + BM</b>, где <b>BM = I/V</b>: I — момент инерции площади ватерлинии относительно продольной оси, V — объёмное водоизмещение. KM берут из гидростатических таблиц по осадке, KG считают по загрузке, <b>GM = KM − KG</b>.</p>",
  "<p><b>K</b> is the keel (bottom of the base line), heights are measured from it. <b>G</b> is the centre of gravity of the loaded ship; weight acts down through it. <b>B</b> is the centre of buoyancy (centre of the underwater volume); buoyancy acts up through it.</p><p>When the ship heels, the underwater shape changes and B moves towards the low side to <b>B1</b>. The vertical through B1 crosses the centreline at <b>M</b>, the transverse metacentre. <b>Z</b> is the point on that vertical opposite G, and <b>GZ</b> is the righting lever.</p><p><b>KM = KB + BM</b>, where <b>BM = I/V</b>: I is the second moment of the waterplane area about the fore-and-aft axis, V is the volume of displacement. KM comes from the hydrostatic tables for the draught, KG from the loading, <b>GM = KM − KG</b>.</p>",
- "<p><b>K</b> — кіль (низ основної площини), від нього міряють висоти. <b>G</b> — центр ваги всього судна з вантажем, через нього вниз діє вага. <b>B</b> — центр величини (центр підводного об’єму), через нього вгору діє плавучість.</p><p>При крені підводна частина змінює форму, і B іде до опущеного борту в <b>B1</b>. Вертикаль через B1 перетинає діаметральну площину в <b>M</b> — поперечному метацентрі. <b>Z</b> — точка на цій вертикалі навпроти G, відрізок <b>GZ</b> — відновне плече.</p><p><b>KM = KB + BM</b>, де <b>BM = I/V</b>: I — момент інерції площі ватерлінії відносно поздовжньої осі, V — об’ємна водотоннажність. KM беруть з гідростатичних таблиць за осадкою, KG рахують за завантаженням, <b>GM = KM − KG</b>.</p>")+fig],
+ "<p><b>K</b> — кіль (низ основної площини), від нього міряють висоти. <b>G</b> — центр ваги всього судна з вантажем, через нього вниз діє вага. <b>B</b> — центр величини (центр підводного об’єму), через нього вгору діє плавучість.</p><p>При крені підводна частина змінює форму, і B іде до опущеного борту в <b>B1</b>. Вертикаль через B1 перетинає діаметральну площину в <b>M</b> — поперечному метацентрі. <b>Z</b> — точка на цій вертикалі навпроти G, відрізок <b>GZ</b> — відновне плече.</p><p><b>KM = KB + BM</b>, де <b>BM = I/V</b>: I — момент інерції площі ватерлінії відносно поздовжньої осі, V — об’ємна водотоннажність. KM беруть з гідростатичних таблиць за осадкою, KG рахують за завантаженням, <b>GM = KM − KG</b>.</p>")],
 ["📏",L("Метацентрическая высота GM","Metacentric height GM","Метацентрична висота GM"),L("GZ ≈ GM·sinθ; «жёсткое» и «валкое» судно","GZ ≈ GM·sinθ; stiff and tender ships","GZ ≈ GM·sinθ; «жорстке» і «валке» судно"),
  L("<p>На малых углах M почти не двигается, поэтому <b>GZ ≈ GM·sinθ</b>, а восстанавливающий момент = Δ·GZ.</p><p><b>Большая GM — «жёсткое» судно</b>: короткий резкий период качки, большие ускорения, страдают крепления груза, люди и механизмы. <b>Малая GM — «валкое» судно</b>: долгий плавный период, но мало запаса, судно легко кренится от ветра и смещения груза.</p><p>Период качки связан с GM: <b>T = 2·C·B/√GM</b> — чем больше GM, тем короче период. Удвоение периода значит примерно в 4 раза меньшую GM.</p>",
  "<p>At small angles M hardly moves, so <b>GZ ≈ GM·sinθ</b>, and the righting moment = Δ·GZ.</p><p><b>Large GM — a stiff ship</b>: a short, jerky roll, high accelerations; cargo lashings, people and machinery suffer. <b>Small GM — a tender ship</b>: a long, gentle roll but little reserve; the ship heels easily from wind or a shifting cargo.</p><p>The roll period depends on GM: <b>T = 2·C·B/√GM</b> — the larger GM, the shorter the period. A doubled period means roughly 4 times smaller GM.</p>",
@@ -3393,12 +3382,12 @@ var MD=[["ld",function(){return L("1. Загрузка → GM","1. Loading → G
 function inp(id,lab,ph,v){return'<label>'+lab+'<input data-sbv="'+id+'" inputmode="decimal" autocomplete="off" value="'+q(v==null?V(id):v)+'" placeholder="'+q(ph||"")+'"></label>'}
 function cell(i,k,v,ph,lab,txt){return'<input data-sbr="'+i+'" data-sbk="'+k+'" '+(txt?'':'inputmode="decimal" ')+'autocomplete="off" aria-label="'+q(lab)+'" value="'+q(v)+'" placeholder="'+q(ph||"")+'">'}
 function form(m){var s=S(),c=chain(),h="",W=TH().W;
- if(m=="ld"){h='<p class="snx">'+L("Впиши массы и центры тяжести по высоте (KG над основной плоскостью). Первая строка — судно порожнём из информации об остойчивости.","Enter masses and their vertical centres of gravity (KG above the keel). The first row is the lightship from the stability booklet.","Впиши маси й центри ваги по висоті (KG над основною площиною). Перший рядок — судно порожнем з інформації про остійність.")+'</p>'
+ if(m=="ld"){h='<p class="snx">'+L("Впиши массы и центры тяжести по высоте (KG над основной плоскостью). Первая строка — судно порожнём из информации об остойчивости.","Enter masses and their vertical centres of gravity (KG above the keel). The first row is the lightship from the stability booklet.","Впиши маси й центри ваги по висоті (KG над основною площиною). Перший рядок — судно порожнем з інформації про остійність.")+'</p>'+(window.DGM?DGM(L,"ld"):"")
   +'<div class="sbh"><span>'+L("Что","Item","Що")+'</span><span>'+L("Масса, т","Mass, t","Маса, т")+'</span><span>KG, '+L("м","m","м")+'</span><span></span></div>'
   +s.ld.map(function(r,i){return'<div class="sbrw">'+cell("ld"+i,"n",r.n,L("Груз","Cargo","Вантаж"),L("Что","Item","Що"),1)+cell("ld"+i,"m",r.m,"",L("Масса, т","Mass, t","Маса, т"))+cell("ld"+i,"k",r.k,"",L("KG, м","KG, m","KG, м"))+(i?'<button type="button" class="alt sbdel" data-sbdel="ld'+i+'" aria-label="'+q(L("Удалить строку","Delete row","Видалити рядок"))+'">✕</button>':'<span></span>')+'</div>'}).join("")
   +'<button type="button" class="alt sbadd" data-sbadd="ld">＋ '+L("Добавить строку","Add row","Додати рядок")+'</button>'
   +'<div class="sng">'+inp("km",L("KM для этой осадки (гидростатические таблицы), м","KM for this draught (hydrostatic tables), m","KM для цієї осадки (гідростатичні таблиці), м"),"")+'</div>'}
- else if(m=="fs"){h='<p class="snx">'+L("Каждая неполная цистерна уменьшает GM. Для прямоугольной цистерны: FSM = ρ·l·b³/12. Если в судовой информации есть готовый FSM — впиши его, тогда размеры не нужны.","Every slack tank reduces GM. For a rectangular tank: FSM = ρ·l·b³/12. If the ship's booklet gives the FSM, enter it and skip the dimensions.","Кожна неповна цистерна зменшує GM. Для прямокутної цистерни: FSM = ρ·l·b³/12. Якщо в судновій інформації є готовий FSM — впиши його, тоді розміри не потрібні.")+'</p>'
+ else if(m=="fs"){h='<p class="snx">'+L("Каждая неполная цистерна уменьшает GM. Для прямоугольной цистерны: FSM = ρ·l·b³/12. Если в судовой информации есть готовый FSM — впиши его, тогда размеры не нужны.","Every slack tank reduces GM. For a rectangular tank: FSM = ρ·l·b³/12. If the ship's booklet gives the FSM, enter it and skip the dimensions.","Кожна неповна цистерна зменшує GM. Для прямокутної цистерни: FSM = ρ·l·b³/12. Якщо в судновій інформації є готовий FSM — впиши його, тоді розміри не потрібні.")+'</p>'+(window.DGM?DGM(L,"fs"):"")
   +s.fs.map(function(r,i){return'<div class="sbtk"><div class="sbrw">'+cell("fs"+i,"n",r.n,L("Цистерна","Tank","Цистерна"),L("Цистерна","Tank","Цистерна"),1)+'<button type="button" class="alt sbdel" data-sbdel="fs'+i+'" aria-label="'+q(L("Удалить цистерну","Delete tank","Видалити цистерну"))+'">✕</button></div><div class="sbg4">'
    +'<label>l, '+L("м","m","м")+cell("fs"+i,"l",r.l,"",L("Длина l, м","Length l, m","Довжина l, м"))+'</label><label>b, '+L("м","m","м")+cell("fs"+i,"b",r.b,"",L("Ширина b, м","Breadth b, m","Ширина b, м"))+'</label><label>ρ, '+L("т/м³","t/m³","т/м³")+cell("fs"+i,"r",r.r,"1.025","ρ")+'</label><label>'+L("или FSM, т·м","or FSM, t·m","або FSM, т·м")+cell("fs"+i,"f",r.f,"","FSM")+'</label></div></div>'}).join("")
   +'<button type="button" class="alt sbadd" data-sbadd="fs">＋ '+L("Добавить цистерну","Add tank","Додати цистерну")+'</button>'}
@@ -3484,34 +3473,8 @@ function start(){try{var sh=st.shn=st.shn||{};if(st.stb&&st.stb.on&&!locked())sh
 if(document.readyState=="loading")document.addEventListener("DOMContentLoaded",start);else start()})();</script>
 <script id="dsvt-js">/* Теория для вкладки «📏 Драфт-сюрвей» (dsv-js): window.DSVT(L) → {T: темы [значок, название, суть, html], Q: «Проверь себя» [вопрос, [варианты], верный, пояснение], W: «Что это и зачем»}.
  Тексты — своими словами, официальные тексты (UN/ECE Code, IMO) не копируются. Тема «Пример целиком» — метка {EX}, её таблицу рисует dsv-js тем же расчётом, что и вкладка «Расчёт». */
-window.DSVT=function(L){var S=function(lab,vb,h){return'<svg class="dvfig" viewBox="'+vb+'" role="img" aria-label="'+lab+'">'+h+'</svg>'},TX=function(x,y,t,st){return'<text x="'+x+'" y="'+y+'" style="'+(st||"fill:var(--ink);font-size:11px")+'">'+t+'</text>'};
-/* рисунок 1: метрическая шкала осадок, вода на середине цифры 6 → 5,65 м (1 м = 200 px) */
-var Y=function(d){return 210-(d-5.2)*200},mk=[[5.2,"2"],[5.4,"4"],[5.6,"6"],[5.8,"8"],[6.0,"6M"]];
-var f1=S(L("Метрическая шкала осадок","Metric draught marks","Метрична шкала осадок"),"0 0 320 240",'<rect x="40" y="20" width="150" height="215" rx="6" style="fill:var(--card,var(--bg));stroke:var(--line);stroke-width:1.5"/>'
- +mk.map(function(m){return'<text x="70" y="'+Y(m[0])+'" style="fill:var(--ink);font-size:28px;font-weight:700;font-family:Arial,sans-serif">'+m[1]+'</text><line x1="52" y1="'+Y(m[0])+'" x2="66" y2="'+Y(m[0])+'" style="stroke:var(--mute);stroke-width:1"/>'}).join("")
- +'<path d="M0 '+Y(5.65)+' Q20 '+(Y(5.65)-5)+' 40 '+Y(5.65)+' T80 '+Y(5.65)+' T120 '+Y(5.65)+' T160 '+Y(5.65)+' T200 '+Y(5.65)+' T240 '+Y(5.65)+' T280 '+Y(5.65)+' T320 '+Y(5.65)+' L320 240 L0 240Z" style="fill:rgba(59,130,246,.22);stroke:#3b82f6;stroke-width:2"/>'
- +'<line x1="200" y1="'+Y(5.8)+'" x2="200" y2="'+Y(5.9)+'" style="stroke:#e5484d;stroke-width:1.5"/><line x1="194" y1="'+Y(5.8)+'" x2="206" y2="'+Y(5.8)+'" style="stroke:#e5484d;stroke-width:1.5"/><line x1="194" y1="'+Y(5.9)+'" x2="206" y2="'+Y(5.9)+'" style="stroke:#e5484d;stroke-width:1.5"/>'
- +TX(210,Y(5.85)+4,L("цифра 10 см","figure 10 cm","цифра 10 см"),"fill:#e5484d;font-size:11px")
- +TX(196,Y(6.0)-2,L("низ цифры = отметка","figure bottom = mark","низ цифри = позначка"),"fill:var(--mute);font-size:10px")
- +TX(200,Y(5.6)+4,L("5,60 м","5.60 m","5,60 м"),"fill:var(--mute);font-size:11px")
- +TX(200,Y(5.65)-6,L("вода: 5,65 м","water: 5.65 m","вода: 5,65 м"),"fill:#3b82f6;font-size:12px;font-weight:700")
- +TX(8,14,L("Вода на середине цифры «6» → 5,60 + 0,05 = 5,65 м","Water at mid-height of the “6” → 5.60 + 0.05 = 5.65 m","Вода посередині цифри «6» → 5,60 + 0,05 = 5,65 м"),"fill:var(--mute);font-size:10.5px"));
-/* рисунок 2: перпендикуляры и марки, дифферент на корму */
-var wl=function(x){return 92+(x-40)*(-26/240)},f2=S(L("Марки осадок и перпендикуляры","Draught marks and perpendiculars","Марки осадок і перпендикуляри"),"0 0 320 200",
- '<path d="M34 60 L34 120 Q40 150 70 150 L262 150 Q284 140 290 60Z" style="fill:var(--card,var(--bg));stroke:var(--ink);stroke-width:2"/>'
- +'<line x1="0" y1="'+wl(0)+'" x2="320" y2="'+wl(320)+'" style="stroke:#3b82f6;stroke-width:2"/>'
- +[[40,"AP"],[160,"⊗"],[280,"FP"]].map(function(p){return'<line x1="'+p[0]+'" y1="40" x2="'+p[0]+'" y2="170" style="stroke:var(--mute);stroke-width:1;stroke-dasharray:4 3"/>'+TX(p[0]-8,36,p[1],"fill:var(--mute);font-size:11px;font-weight:700")}).join("")
- +[[60,"A"],[152,"M"],[268,"F"]].map(function(p){return'<line x1="'+p[0]+'" y1="'+(wl(p[0])-14)+'" x2="'+p[0]+'" y2="150" style="stroke:#e5484d;stroke-width:2.5"/>'+TX(p[0]-4,wl(p[0])-18,p[1],"fill:#e5484d;font-size:12px;font-weight:700")}).join("")
- +'<line x1="40" y1="182" x2="280" y2="182" style="stroke:var(--ink);stroke-width:1"/>'+TX(130,196,"LBP","fill:var(--ink);font-size:11px")
- +'<line x1="60" y1="164" x2="268" y2="164" style="stroke:var(--ok);stroke-width:1.5"/>'+TX(150,176,"LBM","fill:var(--ok);font-size:11px")
- +TX(41,160,"dA","fill:var(--mute);font-size:10px")+TX(266,160,"dF","fill:var(--mute);font-size:10px")
- +TX(8,13,L("Дифферент на корму: у FP осадка меньше, чем на F,","Trim by the stern: at FP the draught is less than at F,","Диферент на корму: біля FP осадка менша, ніж на F,"),"fill:var(--mute);font-size:10px")+TX(8,25,L("у AP — больше, чем на A","at AP it is more than at A","біля AP — більша, ніж на A"),"fill:var(--mute);font-size:10px"));
-/* рисунок 3: перегиб и прогиб */
-var f3=S(L("Перегиб и прогиб корпуса","Hogging and sagging","Перегин і прогин корпусу"),"0 0 320 120",
- '<line x1="10" y1="45" x2="150" y2="45" style="stroke:#3b82f6;stroke-width:1.5"/><path d="M14 38 Q80 18 146 38 L146 62 Q80 42 14 62Z" style="fill:var(--card,var(--bg));stroke:var(--ink);stroke-width:2"/>'
- +'<line x1="170" y1="45" x2="310" y2="45" style="stroke:#3b82f6;stroke-width:1.5"/><path d="M174 30 Q240 50 306 30 L306 54 Q240 74 174 54Z" style="fill:var(--card,var(--bg));stroke:var(--ink);stroke-width:2"/>'
- +TX(30,88,L("Перегиб (hog): Mp меньше","Hog: Mp is less","Перегин (hog): Mp менша"),"fill:var(--ink);font-size:11px")+TX(186,88,L("Прогиб (sag): Mp больше","Sag: Mp is greater","Прогин (sag): Mp більша"),"fill:var(--ink);font-size:11px")
- +TX(30,104,"Mp − (Fp + Ap)/2 < 0","fill:var(--mute);font-size:10.5px")+TX(186,104,"Mp − (Fp + Ap)/2 > 0","fill:var(--mute);font-size:10.5px"));
+window.DSVT=function(L){
+var F=window.DSVF?DSVF(L):{},f1=F.mk||"",f2=F.pp||"",f3=F.hs||""; /* рисунки — в dg-js */
 var T=[
 ["📏",L("Что такое драфт-сюрвей","What a draught survey is","Що таке драфт-сюрвей"),L("Вес груза по осадкам «до» и «после», точность около ±0,5 %","Cargo weight from the draughts before and after, accuracy about ±0.5 %","Вага вантажу за осадками «до» і «після», точність близько ±0,5 %"),
  L("<p>Драфт-сюрвей (draught survey) — определение массы груза по осадкам судна. Судно работает как большие весы: по осадкам и гидростатическим таблицам находят водоизмещение, вычитают всё, что не груз (балласт, топливо, воду…), и сравнивают «до» и «после» погрузки или выгрузки.</p><p>Так меряют навалочные грузы — уголь, руду, зерно, удобрения, — когда на берегу нет весов или им не доверяют. По результату пишут коносамент, считают фрахт и недостачу.</p><p><b>Кто участвует:</b> независимый сюрвейер (от фрахтователя, отправителя или получателя), старший помощник (замеры танков, таблицы судна), часто — сюрвейер от судна или клуба P&amp;I. Осадки и танки замеряют вместе и сразу сверяют цифры.</p><p><b>Точность</b> при спокойной воде и аккуратной работе — около <b>±0,5 %</b> груза. Главные источники ошибок — осадки на волне, плотность воды и замеры балласта.</p>",
@@ -3658,6 +3621,7 @@ function inp(p,k,lab,ph){var s=S(),o=p=="c"?s.c:s[p];return'<label>'+lab+'<input
 function sel(p,k,lab,opts,def){var s=S(),o=p=="c"?s.c:s[p],v=V(o,k)||def;return'<label>'+lab+'<select data-dvv="'+p+"."+k+'">'+opts.map(function(x){return'<option value="'+x[0]+'"'+(x[0]==v?" selected":"")+'>'+x[1]+'</option>'}).join("")+'</select></label>'}
 function shipForm(){return'<p class="snx">'+L("Это вводится один раз для судна: из гидростатических таблиц и чертежа марок осадок. Расстояния марок — от перпендикуляров, по чертежу марок.","Entered once for the ship: from the hydrostatic tables and the draught mark plan. Mark distances are from the perpendiculars, per the draught mark plan.","Це вводиться один раз для судна: з гідростатичних таблиць і креслення марок осадок. Відстані марок — від перпендикулярів, за кресленням марок.")+'</p>'
  +'<div class="sng">'+inp("c","L",L("Длина между перпендикулярами LBP, м","Length between perpendiculars LBP, m","Довжина між перпендикулярами LBP, м"))+'</div>'
+ +(window.DGM?DGM(L,"dv"):"")
  +'<div class="dvds">'+inp("c","dF",L("Носовые марки от FP, м","Forward marks from FP, m","Носові марки від FP, м"))+sel("c","dFd",L("где","where","де"),[["a",L("в корму от FP (обычно)","aft of FP (usual)","у корму від FP (зазвичай)")],["f",L("в нос от FP","forward of FP","у ніс від FP")]],"a")+'</div>'
  +'<div class="dvds">'+inp("c","dM",L("Марки миделя от миделя, м","Midship marks from amidships, m","Марки міделя від міделя, м"),"0")+sel("c","dMd",L("где","where","де"),[["a",L("в корму от миделя","aft of amidships","у корму від міделя")],["f",L("в нос от миделя","forward of amidships","у ніс від міделя")]],"a")+'</div>'
  +'<div class="dvds">'+inp("c","dA",L("Кормовые марки от AP, м","Aft marks from AP, m","Кормові марки від AP, м"))+sel("c","dAd",L("где","where","де"),[["f",L("в нос от AP (обычно)","forward of AP (usual)","у ніс від AP (зазвичай)")],["a",L("в корму от AP","aft of AP","у корму від AP")]],"f")+'</div>'
@@ -3771,6 +3735,291 @@ window.DSVTEST={th:TH().T.length,qz:TH().Q.length,ship:ship,side:side,marks:mark
  run:function(p){return p=="s"?shipRes():res(p||mode())},sum:sum,exTable:exTable};
 function start(){try{var sh=st.shn=st.shn||{};if(st.dsv&&st.dsv.on&&!locked())sh.t="dsv";if(window.shnR)shnR()}catch(e){}}
 if(document.readyState=="loading")document.addEventListener("DOMContentLoaded",start);else start()})();</script>
+<style id="dg-css">
+#shn .dg{margin:10px auto;max-width:460px;--dgr:#e5484d;--dgw:#3b82f6}
+#shn .dg svg{width:100%;height:auto;display:block;background:var(--bg);border:1px solid var(--line);border-radius:8px}
+@media(max-width:400px){#shn .dg{margin-left:-7px;margin-right:-7px}}
+#shn .dg figcaption{font-size:12.5px;line-height:1.35;color:var(--mute);text-align:center;margin:4px 2px 0}
+.dg text{fill:var(--ink);font:13px system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;paint-order:stroke;stroke:var(--bg);stroke-width:3px;stroke-linejoin:round}
+.dg .s{font-size:12.5px}.dg .l{font-size:15px}.dg .b{font-weight:700}.dg .m{fill:var(--mute)}.dg .r{fill:var(--dgr)}.dg .w{fill:var(--dgw)}.dg .g{fill:var(--ok)}.dg .y{fill:var(--xp)}.dg .n{fill:var(--bg);stroke:none}
+.dg .dig{font:700 42px Arial,sans-serif}.dg .dig2{font:700 38px Arial,sans-serif}
+.dg line,.dg path,.dg rect,.dg circle{stroke-width:1.6;stroke-linejoin:round;stroke-linecap:round}.dg path{fill:none}
+.dg .si{stroke:var(--ink)}.dg .sm{stroke:var(--mute)}.dg .sr{stroke:var(--dgr)}.dg .sb{stroke:var(--dgw)}.dg .sg{stroke:var(--ok)}.dg .sy{stroke:var(--xp)}
+.dg .fi{fill:var(--ink)}.dg .fm{fill:var(--mute)}.dg .fr{fill:var(--dgr)}.dg .fb{fill:var(--dgw)}.dg .fg{fill:var(--ok)}.dg .fy{fill:var(--xp)}
+.dg .w2{stroke-width:2.2}.dg .w3{stroke-width:3.2}.dg .dd{stroke-dasharray:5 4}
+.dg .d{stroke:var(--mute);stroke-width:1.1;stroke-dasharray:4 3}
+.dg .h{fill:var(--card,var(--bg));stroke:var(--ink);stroke-width:2.2}.dg .h0,.dg .tk{fill:none;stroke:var(--ink);stroke-width:2.2}.dg .hd{fill:none;stroke:var(--mute);stroke-width:1.3;stroke-dasharray:5 4}
+.dg .hc{fill:var(--bg);stroke:var(--ink);stroke-width:1.6}
+.dg .sea{fill:var(--dgw);fill-opacity:.16;stroke:none}.dg .wl{stroke:var(--dgw);stroke-width:2;fill:none}
+.dg .liq{fill:var(--dgw);fill-opacity:.42;stroke:none}.dg .liq0{fill:var(--dgw);fill-opacity:.2;stroke:none}
+.dg .cg{fill:var(--xp);fill-opacity:.4;stroke:var(--xp)}.dg .cgd{fill:none;stroke:var(--xp);stroke-dasharray:3 3}
+.dg .ice{fill:var(--dgw);fill-opacity:.35;stroke:var(--dgw);stroke-width:1.2}
+.dg .ar2{fill:var(--ok);fill-opacity:.28;stroke:none}.dg .ar3{fill:var(--xp);fill-opacity:.35;stroke:none}
+.dg .bx{fill:var(--card,var(--bg));stroke:var(--line)}.dg .bxb{fill:var(--card,var(--bg));stroke:var(--ink)}.dg .bxg{fill:var(--card,var(--bg));stroke:var(--ok);stroke-width:2.2}.dg .fx{fill:var(--acc)}
+</style>
+<script id="dg-js">/* Учебные схемы (SVG) для теории «⚖️ Остойчивость» (stbt-js) и «📏 Драфт-сюрвей» (dsvt-js) и мини-схемы над расчётами (stb-js, dsv-js).
+ window.STBF(L) / window.DSVF(L) → {ключ: <figure class="dg">…</figure>}; DGM(L, "ld"|"fs"|"dv") — мини-схемы. Цвета — только переменные (--ink, --mute, --line, --bg, --card, --ok, --xp, --dgr, --dgw из dg-css).
+ Куда какая схема — списки PS/PD ниже: [номер темы, после скольких </p>/</ul>, ключ] (99 — в конец темы). Новая схема: функция в STBF/DSVF + строка в PS/PD. Рисунки свои, утрированные для наглядности. */
+(function(){
+var r=function(v){return Math.round(v*10)/10},
+T=function(x,y,s,c,a){return'<text x="'+r(x)+'" y="'+r(y)+'"'+(c?' class="'+c+'"':'')+(a?' text-anchor="'+(a=="m"?"middle":"end")+'"':'')+'>'+s+'</text>'},
+Ln=function(a,b,c,d,k){return'<line x1="'+r(a)+'" y1="'+r(b)+'" x2="'+r(c)+'" y2="'+r(d)+'" class="'+(k||"si")+'"/>'},
+P=function(d,k){return'<path d="'+d+'" class="'+(k||"si")+'"/>'},
+C=function(x,y,q,k){return'<circle cx="'+r(x)+'" cy="'+r(y)+'" r="'+q+'" class="'+(k||"fi")+'"/>'},
+R=function(x,y,w,h,k,q){return'<rect x="'+r(x)+'" y="'+r(y)+'" width="'+r(w)+'" height="'+r(h)+'"'+(q?' rx="'+q+'"':'')+' class="'+k+'"/>'},
+pt=function(a){return a.map(function(p){return r(p[0])+" "+r(p[1])}).join(" L")},
+Pg=function(a,k){return P("M"+pt(a)+"Z",k)},
+Pl=function(a,k){return P("M"+pt(a),k)},
+hd=function(x,y,u,v,k){var bx=x-7*u,by=y-7*v;return'<path d="M'+r(x)+" "+r(y)+"L"+r(bx-3.5*v)+" "+r(by+3.5*u)+"L"+r(bx+3.5*v)+" "+r(by-3.5*u)+'Z" class="f'+k+'"/>'},
+/* стрелка (k — цвет: i ink, m mute, r red, b water, g ok, y xp; two — с двух концов) */
+A=function(x1,y1,x2,y2,k,two,w){k=k||"i";var l=Math.hypot(x2-x1,y2-y1)||1,u=(x2-x1)/l,v=(y2-y1)/l;
+ return Ln(two?x1+5*u:x1,two?y1+5*v:y1,x2-5*u,y2-5*v,"s"+k+(w?" "+w:""))+hd(x2,y2,u,v,k)+(two?hd(x1,y1,-u,-v,k):"")},
+/* точка с подписью */
+D=function(p,lab,k,dx,dy,a,tc){return C(p[0],p[1],3.8,"f"+(k||"i"))+(lab?T(p[0]+dx,p[1]+dy,lab,"b"+(tc?" "+tc:""),a):"")},
+rot=function(cx,cy,deg){var a=deg*Math.PI/180,c=Math.cos(a),s=Math.sin(a);return function(x,y){return[cx+(x-cx)*c-(y-cy)*s,cy+(x-cx)*s+(y-cy)*c]}},
+/* поперечное сечение: прямоугольник со скулами, точки в системе судна, q — поворот */
+sec=function(cx,wl,hw,top,bot,q,rb){rb=rb||14;var a=[[cx-hw,wl+top],[cx+hw,wl+top]],i,f;for(i=0;i<=3;i++){f=i*Math.PI/6;a.push([cx+hw-rb+rb*Math.cos(f),wl+bot-rb+rb*Math.sin(f)])}
+ for(i=3;i>=0;i--){f=i*Math.PI/6;a.push([cx-hw+rb-rb*Math.cos(f),wl+bot-rb+rb*Math.sin(f)])}return q?a.map(function(p){return q(p[0],p[1])}):a},
+/* часть многоугольника ниже уровня y (жидкость), центр тяжести многоугольника */
+clip=function(a,y){var o=[],i,p,n,t;for(i=0;i<a.length;i++){p=a[i];n=a[(i+1)%a.length];if(p[1]>=y)o.push(p);if((p[1]>=y)!=(n[1]>=y)){t=(y-p[1])/(n[1]-p[1]);o.push([p[0]+t*(n[0]-p[0]),y])}}return o},
+cen=function(a){var s=0,x=0,y=0,i,p,n,c;for(i=0;i<a.length;i++){p=a[i];n=a[(i+1)%a.length];c=p[0]*n[1]-n[0]*p[1];s+=c;x+=(p[0]+n[0])*c;y+=(p[1]+n[1])*c}return[x/3/s,y/3/s]},
+sea=function(y,w,h){return R(0,y,w,h-y,"sea")+Ln(0,y,w,y,"wl")},
+S=function(cap,vb,h){return'<figure class="dg"><svg viewBox="0 0 '+vb+'" role="img" aria-label="'+cap+'">'+h+'</svg><figcaption>'+cap+'</figcaption></figure>'},
+/* вставить схему после n-го </p> или </ul> (99 — в конец) */
+put=function(h,n,f){if(!f)return h;var re=/<\/(p|ul)>/g,m,k=0;while((m=re.exec(h))){if(++k==n)return h.slice(0,re.lastIndex)+f+h.slice(re.lastIndex)}return h+f},
+/* профиль судна сбоку: корма слева (x0), нос справа (x1), палуба y0, киль y1 */
+prof=function(x0,x1,y0,y1){return"M"+x0+" "+y0+" L"+x0+" "+(y1-12)+" Q"+(x0+2)+" "+y1+" "+(x0+16)+" "+y1+" L"+(x1-34)+" "+y1+" Q"+(x1-14)+" "+(y1-3)+" "+x1+" "+y0+"Z"},
+/* синусоида */
+sin=function(x0,x1,y,a,per){var o=[],x;for(x=x0;x<=x1+.01;x+=2)o.push([x,y-a*Math.sin((x-x0)/per*2*Math.PI)]);return o};
+window.DG={T:T,Ln:Ln,P:P,C:C,R:R,A:A,D:D,rot:rot,sec:sec,clip:clip,cen:cen,put:put};
+
+/* ===== Остойчивость ===== */
+window.STBF=function(L){var F={};
+ /* 1. Судно в крене: K, B, B1, G, M, Z, GZ, θ */
+ F.ks=(function(){var cx=150,wl=140,q=rot(cx,wl,20),cl=function(d){return q(cx,wl+d)},K=cl(50),B=cl(25),G=cl(-5),M=cl(-85),B1=[M[0],166],Z=[M[0],G[1]],
+  a1=[M[0],M[1]+30],a2=[M[0]-30*Math.sin(20*Math.PI/180),M[1]+30*Math.cos(20*Math.PI/180)],t=q(cx-85,wl),u=q(cx+85,wl),c0=cl(-112);
+  return S(L("Судно в крене: точки и плечо GZ","A heeled ship: the points and the lever GZ","Судно в крені: точки й плече GZ"),"300 245",
+   Pg(sec(cx,wl,85,-60,50,q,16),"h")+R(0,wl,300,105,"sea")+Ln(0,wl,300,wl,"wl")+Ln(t[0],t[1],u[0],u[1],"d")+Ln(c0[0],c0[1],K[0],K[1],"d")+Ln(M[0],M[1]-10,M[0],B1[1],"d")
+   +A(G[0],G[1],G[0],G[1]+44,"i")+A(B1[0],B1[1],B1[0],B1[1]-26,"b")+Ln(G[0],G[1],Z[0],Z[1],"sr w3")
+   +P("M"+r(a1[0])+" "+r(a1[1])+" A30 30 0 0 1 "+r(a2[0])+" "+r(a2[1]),"si")+T(M[0]-5,M[1]+48,"θ","b")
+   +D(M,"M","i",8,5)+D(Z,"Z","r",8,5,0,"r")+D(G,"G","i",-9,-6,"e")+D(B,"B","m",-9,5,"e","m")+D(B1,"B1","b",8,5,0,"w")+D(K,"K","i",-9,6,"e")
+   +T((G[0]+Z[0])/2,G[1]-8,"GZ","b r","m")
+   +T(8,18,"↓ "+L("вес — через G","weight — through G","вага — через G"))+T(8,35,"↑ "+L("плавучесть — через B1","buoyancy — through B1","плавучість — через B1"),"w")
+   +T(8,236,L("GZ = GM·sinθ — плечо, которое выпрямляет","GZ = GM·sinθ — the lever that rights the ship","GZ = GM·sinθ — плече, що випрямляє"),"s"))})();
+ /* 1б. Высоты от киля: KB, BM, KM, KG, GM */
+ F.km=(function(){var x=110,K=[x,130],B=[x,106],G=[x,72],M=[x,20],h="";
+  h+=R(50,40,120,90,"h",12)+R(0,82,300,63,"sea")+Ln(0,82,300,82,"wl")+R(50,40,120,90,"h0",12)+Ln(x,12,x,134,"d");
+  [[K,"K"],[B,"B"],[G,"G"],[M,"M"]].forEach(function(p){h+=Ln(30,p[0][1],268,p[0][1],"d")});
+  h+=A(185,K[1],185,B[1],"m",1)+T(191,K[1]-8,"KB","s")+A(185,B[1],185,M[1],"m",1)+T(191,62,"BM = I/V","s")+A(262,K[1],262,M[1],"i",1)+T(268,78,"KM","b")
+   +A(30,K[1],30,G[1],"m",1)+T(26,104,"KG","b","e")+A(30,G[1],30,M[1],"r",1)+T(26,50,"GM","b r","e")
+   +D(K,"K","i",8,-4)+D(B,"B","b",8,-4,0,"w")+D(G,"G","i",8,-4)+D(M,"M","i",8,-4);
+  return S(L("KM = KB + BM, GM = KM − KG","KM = KB + BM, GM = KM − KG","KM = KB + BM, GM = KM − KG"),"300 145",h)})();
+ /* 2. «Жёсткое» и «валкое» судно */
+ F.gm=(function(){var h=Ln(150,6,150,236,"d");[[75,8,1],[225,-42,0]].forEach(function(o){var cx=o[0],q=rot(cx,95,20),cl=function(d){return q(cx,95+d)},G=cl(o[1]),M=cl(-60),Z=[M[0],G[1]],c0=cl(-75),K=cl(30);
+  h+=Pg(sec(cx,95,50,-35,30,q,10),"h")+R(cx-75,95,150,55,"sea")+Ln(cx-75,95,cx+75,95,"wl")+Ln(c0[0],c0[1],K[0],K[1],"d")+Ln(M[0],M[1],M[0],Z[1]+16,"d")
+   +Ln(G[0],G[1],Z[0],Z[1],"sr w3")+(o[2]?T((G[0]+Z[0])/2,G[1]-7,"GZ","s b r","m"):"")+D(M,"M","i",7,0)+D(G,"G","i",-8,o[2]?10:4,"e")
+   +T(cx,18,o[2]?L("«Жёсткое»","Stiff","«Жорстке»"):L("«Валкое»","Tender","«Валке»"),"b","m")
+   +Pl(sin(cx-62,cx+62,180,13,o[2]?41.3:124),"sy w2")+T(cx,214,o[2]?L("большая GM","large GM","велика GM"):L("малая GM","small GM","мала GM"),"b","m")
+   +T(cx,230,o[2]?L("короткий резкий период","short, jerky roll","короткий різкий період"):L("долгий плавный период","long, gentle roll","довгий плавний період"),"s m","m")});
+  return S(L("«Жёсткое» и «валкое» судно","Stiff and tender ships","«Жорстке» і «валке» судно"),"300 240",h)})();
+ /* 3. Как груз меняет G */
+ F.wt=(function(){var h=Ln(150,4,150,236,"d")+Ln(4,120,296,120,"d"),
+  pan=function(x0,y0,tt,bt,f){var cx=x0+75;h+=R(x0+25,y0+28,100,64,"h",8)+R(x0+3,y0+62,144,36,"sea")+Ln(x0+3,y0+62,x0+147,y0+62,"wl")+R(x0+25,y0+28,100,64,"h0",8)
+   +T(cx,y0+16,tt,"b","m")+T(cx,y0+112,bt,"s","m")+f(cx,y0)},
+  bx=function(x,y,d){return R(x-9,y-7,18,14,d?"cgd":"cg",2)};
+  pan(0,0,L("Груз вверх","Weight up","Вантаж угору"),"KG ↑   GM ↓",function(cx,y){return bx(cx+28,y+80,1)+bx(cx+28,y+40)+A(cx+28,y+72,cx+28,y+49,"y")+D([cx-12,y+74],"G","i",-8,5,"e")+D([cx-12,y+50],"G1","r",-8,5,"e","r")+A(cx-12,y+70,cx-12,y+55,"r")});
+  pan(150,0,L("Груз вбок","Weight sideways","Вантаж убік"),L("G вбок → крен","G sideways → list","G убік → крен"),function(cx,y){return bx(cx-30,y+80,1)+bx(cx+30,y+80)+A(cx-20,y+80,cx+20,y+80,"y")+D([cx-10,y+52],"G","i",-6,-6,"e")+D([cx+14,y+52],"G1","r",6,-6,0,"r")+A(cx-6,y+52,cx+10,y+52,"r")});
+  pan(0,120,L("Приём груза","Loading","Прийом вантажу"),L("G идёт к грузу","G moves to the weight","G іде до вантажу"),function(cx,y){return bx(cx+32,y+42)+T(cx+20,y+46,"+w","s b y","e")+Ln(cx-18,y+74,cx+32,y+42,"d")+D([cx-18,y+74],"G","i",-8,5,"e")+D([cx+2,y+61],"G1","r",-2,-8,"e","r")+A(cx-14,y+71,cx-2,y+64,"r")});
+  pan(150,120,L("Снятие груза","Discharging","Зняття вантажу"),L("G уходит от груза","G moves away","G іде від вантажу"),function(cx,y){return bx(cx+32,y+42,1)+T(cx+20,y+46,"−w","s b r","e")+Ln(cx-24,y+78,cx+32,y+42,"d")+D([cx-4,y+65],"G","i",-2,-8,"e")+D([cx-24,y+78],"G1","r",-8,5,"e","r")+A(cx-8,y+68,cx-20,y+75,"r")});
+  return S(L("Как груз сдвигает центр тяжести G","How weights move the centre of gravity G","Як вантаж зсуває центр ваги G"),"300 240",h)})();
+ /* 4. Свободная поверхность: цистерна без переборки и с переборкой, виртуальный подъём G */
+ F.fs=(function(){var h=Ln(150,4,150,128,"d")+Ln(4,130,296,130,"d"),th=20,
+  tank=function(x0,w,cx,cy){var q=rot(cx,cy,th),re=[[x0,cy-25],[x0+w,cy-25],[x0+w,cy+25],[x0,cy+25]].map(function(p){return q(p[0],p[1])}),
+   wy=cen(re)[1],l1=clip(re,wy),g1=cen(l1),
+   l0=[[x0,cy],[x0+w,cy],[x0+w,cy+25],[x0,cy+25]].map(function(p){return q(p[0],p[1])}),g0=cen(l0);
+   return Pg(l1,"liq")+Pg(re,"tk")+Pl([l0[0],l0[1]],"d")+C(g0[0],g0[1],3,"fm")+A(g0[0],g0[1],g1[0],g1[1],"r")+C(g1[0],g1[1],3.4,"fr")};
+  h+=T(75,18,L("Без переборки","No bulkhead","Без перебірки"),"b","m")+tank(25,100,75,68)+T(75,124,"FSM ~ b³","s","m");
+  h+=T(225,18,L("С переборкой","With a bulkhead","З перебіркою"),"b","m")+tank(175,50,225,68)+tank(225,50,225,68)+T(225,124,"2·(b/2)³ = b³/4","s","m");
+  var x=70,M=[x,152],Gv=[x,186],G=[x,206];
+  h+=R(25,170,90,64,"h",10)+R(4,202,142,44,"sea")+Ln(4,202,146,202,"wl")+R(25,170,90,64,"h0",10)+Ln(x,144,x,240,"d")
+   +D(M,"M","i",8,4)+C(Gv[0],Gv[1],4,"hc")+T(x+8,Gv[1]+4,"G′","b r")+D(G,"G","i",8,5)+A(x-14,G[1],x-14,Gv[1]+1,"r")+A(x-26,Gv[1],x-26,M[1],"r",1)+T(x-31,174,"G′M","s b r","e")
+   +T(160,166,L("Жидкость перетекает →","Liquid flows over →","Рідина перетікає →"),"s")+T(160,184,L("будто G поднялся в G′","as if G rose to G′","ніби G піднявся в G′"),"s")+T(160,206,"GG′ = ΣFSM / Δ","b")+T(160,226,L("GM испр. = GM − GG′","GM corr. = GM − GG′","GM випр. = GM − GG′"),"b r");
+  return S(L("Свободная поверхность «поднимает» G","A free surface virtually raises G","Вільна поверхня «піднімає» G"),"300 245",h)})();
+ /* 5. Крен от груза и угол заваливания */
+ F.ll=(function(){var h=Ln(150,6,150,236,"d"),tn=Math.tan(15*Math.PI/180);
+  [[75,0],[225,1]].forEach(function(o){var cx=o[0],q=rot(cx,95,15),cl=function(d){return q(cx,95+d)},c0=cl(-75),K=cl(30),G,B1,M,G0;
+   if(!o[1]){G=q(cx+(50)*tn,90);G0=cl(-5);M=cl(-55);B1=[G[0],120]}else{G=cl(-30);M=cl(-22);B1=[G[0],120]}
+   if(o[1]){var w=rot(cx,95,-15);h+=Pg(sec(cx,95,50,-35,30,w,10),"hd")}
+   h+=Pg(sec(cx,95,50,-35,30,q,10),"h")+R(cx-75,95,150,52,"sea")+Ln(cx-75,95,cx+75,95,"wl")+Ln(c0[0],c0[1],K[0],K[1],"d")+Ln(G[0],G[1]-30,B1[0],B1[1],"d")
+    +A(G[0],G[1],G[0],G[1]+14,"i")+A(B1[0],B1[1],B1[0],B1[1]-11,"b");
+   if(!o[1])h+=C(G0[0],G0[1],3,"hc")+D(M,"M","i",7,0)+D(G,"G","i",8,4)+D(B1,"B1","b",7,10,0,"w")
+    +T(cx,18,L("Крен от груза","List","Крен від вантажу"),"b","m")+T(cx,170,L("GM > 0, G не на ДП","GM > 0, G off centre","GM > 0, G не на ДП"),"s","m")+T(cx,188,L("период нормальный","normal roll period","період нормальний"),"s m","m");
+   else h+=C(M[0],M[1],3.4,"hc")+T(M[0]-7,M[1]+8,"M","s m","e")+D(G,"G","r",8,2,0,"r")+D(B1,"B1","b",7,10,0,"w")
+    +T(cx,18,L("Угол заваливания","Angle of loll","Кут завалювання"),"b","m")+T(cx,170,L("прямо: G выше M, GM < 0","GM < 0: G above M","прямо: G вище M, GM < 0"),"s","m")+T(cx,188,L("ложится на любой борт","lolls to either side","лягає на будь-який борт"),"s m","m")
+    +T(cx,210,L("сначала снизить G!","lower G first!","спершу знизити G!"),"b r","m")});
+  return S(L("Крен от груза и угол заваливания","List and angle of loll","Крен від вантажу й кут завалювання"),"300 220",h)})();
+ /* 6, 7. Диаграмма GZ */
+ var gzc=function(th){var t=th/75;return t<=0||t>=1?0:t*(1-t)*(1+1.5*t)};
+ F.gz=(function(){var X=function(a){return 40+a*3},Y=function(v){return 180-v*197},o=[],a,h="",tm=44.7,tf=52;
+  for(a=0;a<=75;a+=1.5)o.push([X(a),Y(gzc(a))]);
+  h+=Pg(o.concat([[X(75),180]]),"ar2")+Pl(o,"si w3")+Ln(40,180,292,180,"si")+Ln(40,180,40,14,"si");
+  for(a=0;a<=80;a+=10)h+=Ln(X(a),180,X(a),184,"si")+T(X(a),197,a,"s m","m");
+  var tg=Y(gzc(0.01)/0.01*57.3);
+  h+=Ln(40,180,X(57.3)+10,tg-10*(180-tg)/(X(57.3)-40),"d sr")+Ln(X(57.3),180,X(57.3),tg,"d")+A(X(57.3)+6,180,X(57.3)+6,tg,"r",1)+T(X(57.3)+11,70,"GM","b r")
+   +Ln(X(tm),180,X(tm),Y(gzc(tm)),"d")+D([X(tm),Y(gzc(tm))],L("максимум","maximum","максимум"),"i",0,-10,"m")
+   +Ln(X(tf),24,X(tf),180,"d sb")+T(X(tf)-4,20,L("θf — заливание","θf — flooding","θf — заливання"),"s w","e")
+   +D([X(75),180],"","i")+T(X(tm),213,"θmax","s b","m")+T(X(57.3)+2,213,"57,3°","s r","m")+T(298,229,L("угол заката","vanishing angle","кут заходу"),"s b","e")
+   +T(120,168,L("площадь = запас","area = reserve","площа = запас"),"s g","m")+T(46,24,"GZ","b")+T(292,173,"θ°","s m","e");
+  return S(L("Касательная в нуле: GM на 57,3° (1 рад)","Tangent at zero: GM at 57.3° (1 rad)","Дотична в нулі: GM на 57,3° (1 рад)"),"300 236",h)})();
+ F.cr=(function(){var X=function(a){return 44+a*4},Y=function(v){return 190-v*178},
+  y=[0,.1318,.3399,.6,.7861,.7698,.5699],p=function(a){var i=Math.min(5,Math.floor(a/10)),t=a/10-i,p1=y[i],p2=y[i+1],p0=i?y[i-1]:2*p1-p2,p3=i<5?y[i+2]:2*p2-p1;
+   return .5*(2*p1+(p2-p0)*t+(2*p0-5*p1+4*p2-p3)*t*t+(3*p1-p0-3*p2+p3)*t*t*t)},
+  ar=function(a0,a1,k){var o=[[X(a0),190]],a;for(a=a0;a<=a1+.01;a+=1)o.push([X(a),Y(p(a))]);o.push([X(a1),190]);return Pg(o,k)},o=[],a,h="";
+  var mx=0;for(a=0;a<=60;a+=.5){o.push([X(a),Y(p(a))]);if(p(a)>p(mx))mx=a}
+  h+=ar(0,30,"ar2")+ar(30,40,"ar3")+Pl(o,"si w3")+Ln(44,190,292,190,"si")+Ln(44,190,44,24,"si");
+  for(a=0;a<=60;a+=10)h+=Ln(X(a),190,X(a),194,"si")+T(X(a),207,a+"°","s m","m");
+  [.2,.4,.6,.8].forEach(function(v){h+=Ln(40,Y(v),44,Y(v),"si")+T(37,Y(v)+4,L(String(v).replace(".",","),String(v),String(v).replace(".",",")),"s m","e")});
+  h+=Ln(X(30),Y(.2),X(60),Y(.2),"sr w2 dd")+T(X(60),Y(.2)-6,"GZ ≥ 0,2","s b r","e")
+   +Ln(X(25),26,X(25),190,"sr dd")+T(X(25)-4,36,"25°","s b r","e")
+   +Ln(X(mx),Y(p(mx)),X(mx),190,"d")+D([X(mx),Y(p(mx))],"θmax ≈ 44°","i",6,-8)+T(84,180,"0–30°","s b","m")+T(X(35),180,"30–40","s b","m")+T(52,24,L("GZ, м","GZ, m","GZ, м"),"s");
+  var lg=[["ar2","0–30° ≥ 0,055"],["ar3","30–40° ≥ 0,030"],["ar2 ar3","0–40° ≥ 0,090"],["r","GZ ≥ 0,20 "+L("м","m","м")+" (≥30°)"],["r","θmax ≥ 25°"],["i","GM ≥ 0,15 "+L("м","m","м")]];
+  lg.forEach(function(g,i){var x=i%2?158:10,yy=228+Math.floor(i/2)*18;h+=(g[0]=="i"?"":g[0].length>2?R(x,yy-10,14,11,g[0].split(" ")[0])+(g[0].indexOf(" ")>0?R(x+7,yy-10,7,11,"ar3"):""):Ln(x,yy-4,x+14,yy-4,"s"+g[0]+" w2"))+T(x+19,yy,g[1],"s")});
+  return S(L("Критерии IS Code 2008, площади в м·рад","IS Code 2008 criteria, areas in m·rad","Критерії IS Code 2008, площі в м·рад"),"300 274",h)})();
+ /* 8. Опасности */
+ F.hz=(function(){var h="",row=function(y,f,t){h+=f(y)+t.map(function(s,i){return T(132,y+24+i*17,s,i?"s":"b")}).join("")+(y?Ln(4,y-4,296,y-4,"d"):"")};
+  row(0,function(y){return R(15,y+40,100,40,"h",8)+R(4,y+60,120,24,"sea")+Ln(4,y+60,124,y+60,"wl")+R(15,y+40,100,40,"h0",8)+Ln(65,y+40,65,y+6,"si w2")+Ln(20,y+40,20,y+30,"si")+Ln(110,y+40,110,y+30,"si")+Ln(20,y+30,110,y+30,"si")
+   +P("M57 "+(y+8)+" Q65 "+(y+2)+" 73 "+(y+8)+" L71 "+(y+16)+" Q65 "+(y+12)+" 59 "+(y+16)+"Z","ice")+P("M16 "+(y+27)+" L114 "+(y+27)+" L112 "+(y+35)+" L18 "+(y+35)+"Z","ice")
+   +C(65,y+62,3,"hc")+D([65,y+50],"","r")+A(72,y+62,72,y+52,"r")},[L("Обледенение","Icing","Обмерзання"),L("лёд высоко над палубой:","ice high above the deck:","лід високо над палубою:"),L("KG ↑, парусность ↑","KG ↑, windage ↑","KG ↑, парусність ↑")]);
+  row(88,function(y){return R(15,y+40,90,40,"h",8)+R(4,y+60,120,24,"sea")+Ln(4,y+60,124,y+60,"wl")+R(15,y+40,90,40,"h0",8)+Ln(40,y+40,40,y+8,"si w3")+Ln(40,y+12,112,y+4,"si w2")
+   +Ln(112,y+4,112,y+30,"d")+R(105,y+30,14,11,"cg",2)+A(118,y+6,118,y+22,"r")+T(121,y+14,"w","s b r")},[L("Груз на кране","Load on the crane","Вантаж на крані"),L("вес — в ноке стрелы:","weight at the boom head:","вага — у ноку стріли:"),L("KG ↑ уже при отрыве","KG ↑ as soon as it lifts","KG ↑ уже при відриві")]);
+  row(176,function(y){var q=rot(65,y+60,-8);return Pg(sec(65,y+60,48,-24,20,q,6),"h")+R(4,y+60,120,24,"sea")+Ln(4,y+60,124,y+60,"wl")
+   +Pg([q(25,y+76),q(105,y+76),q(105,y+44),q(25,y+56)],"cg")+Pl([q(25,y+50),q(105,y+50)],"d")+A(62,y+64,76,y+64,"r")+C(62,y+64,3,"hc")},[L("Смещение зерна","Grain shift","Зсув зерна"),L("зерно ссыпается к борту:","grain slides to one side:","зерно зсипається до борту:"),L("G уходит вбок → крен","G moves sideways → list","G іде вбік → крен")]);
+  return S(L("Лёд, груз на кране, смещение зерна","Ice, a load on the crane, grain shift","Лід, вантаж на крані, зсув зерна"),"300 262",h)})();
+ /* 9. Дифферент */
+ F.tr=(function(){var h="",pf=prof(44,266,30,72);
+  h+=P(pf,"h")+R(0,55,300,30,"sea")+Ln(0,55,300,55,"wl")+P(pf,"h0")+R(54,16,30,14,"h",2)
+   +A(150,64,150,34,"b")+D([150,64],"LCB","b",8,5,0,"w")+A(116,46,116,80,"r")+D([116,46],"LCG","r",-6,-4,"e","r")
+   +P("M78 10 Q52 8 42 24","sr w2")+hd(42,24,-.5,.87,"r")+T(8,96,L("LCG в корму от LCB → судно садится кормой","LCG aft of LCB → the ship trims by the stern","LCG у корму від LCB → судно сідає кормою"),"s");
+  var q=rot(150,160,-4),kl=function(x){return q(x,184)};
+  h+=Pg([q(44,140),q(44,172),q(46,184),q(60,184),q(232,184),q(252,181),q(266,140)],"h")+R(0,160,300,46,"sea")+Ln(0,160,300,160,"wl")+Pg([q(44,140),q(44,172),q(46,184),q(60,184),q(232,184),q(252,181),q(266,140)],"h0");
+  var ky=function(x){return 160+(24+(x-150)*Math.sin(-4*Math.PI/180))/Math.cos(4*Math.PI/180)},ay=ky(30),fy=ky(276),st=kl(46);
+  h+=Ln(st[0],st[1],24,ay,"d")+A(30,160,30,ay,"i",1)+T(25,178,L("Тк","Ta","Тк"),"s b","e")+Ln(250,ky(250),282,fy,"d")+A(276,160,276,fy,"i",1)+T(281,174,L("Тн","Tf","Тн"),"s b")
+   +C(150,160,4.5,"hc")+Ln(146,160,154,160,"sg")+T(150,152,"LCF","s b g","m")+R(76,128,18,12,"cg",2)+A(85,128,85,150,"y")+T(85,124,"w","s b","m")
+   +A(85,198,150,198,"m",1)+T(118,214,"d","s b","m")+T(296,232,L("Δt = w·d / MCTC (см)","Δt = w·d / MCTC (cm)","Δt = w·d / MCTC (см)"),"b","e");
+  return S(L("Дифферент: где LCG, LCB и LCF; t = Тк − Тн","Trim: LCG, LCB, LCF; t = Ta − Tf","Диферент: де LCG, LCB і LCF; t = Тк − Тн"),"300 240",h)})();
+ return F};
+/* куда: [тема, после скольких </p>/</ul>, ключ] */
+var PS=[[1,2,"ks"],[1,3,"km"],[2,2,"gm"],[3,2,"wt"],[4,2,"fs"],[5,2,"ll"],[6,2,"gz"],[7,2,"cr"],[8,1,"hz"],[9,2,"tr"]];
+
+/* ===== Драфт-сюрвей ===== */
+window.DSVF=function(L){var F={};
+ /* метрическая шкала: вода на середине «6» → 5,65 м (1 м = 300 px) */
+ F.mk=(function(){var Y=function(d){return 235-(d-5.35)*300},h=R(30,6,132,250,"h",6);
+  [[5.4,"4"],[5.6,"6"],[5.8,"8"],[6.0,"6M"]].forEach(function(m){h+=T(56,Y(m[0]),m[1],"dig")});
+  h+=R(0,Y(5.65),300,120,"sea")+P("M0 "+Y(5.65)+" Q15 "+(Y(5.65)-4)+" 30 "+Y(5.65)+" T60 "+Y(5.65)+" T90 "+Y(5.65)+" T120 "+Y(5.65)+" T150 "+Y(5.65)+" T180 "+Y(5.65)+" T210 "+Y(5.65)+" T240 "+Y(5.65)+" T270 "+Y(5.65)+" T300 "+Y(5.65),"wl")
+   +Ln(100,Y(5.7),100,Y(5.6),"sr w2")+Ln(94,Y(5.7),174,Y(5.7),"sr dd")+Ln(94,Y(5.6),174,Y(5.6),"sr dd")
+   +T(178,Y(5.7)-8,L("5,70 — верх «6»","5.70 — top of “6”","5,70 — верх «6»"),"s r")+T(178,Y(5.65)-3,L("вода: 5,65 м","water: 5.65 m","вода: 5,65 м"),"b w")+T(178,Y(5.6)+14,L("5,60 — низ «6»","5.60 — bottom of “6”","5,60 — низ «6»"),"s r")
+   +T(178,22,L("«6M» = 6,00 м","“6M” = 6.00 m","«6M» = 6,00 м"),"s b")+T(178,58,L("цифры по 10 см,","figures 10 cm high,","цифри по 10 см,"),"s")+T(178,74,L("через каждые 20 см","every 20 cm","через кожні 20 см"),"s")
+   +T(170,214,L("низ цифры = отметка","figure bottom = mark","низ цифри = позначка"),"s");
+  return S(L("Вода на середине «6»: 5,60 + 0,05 = 5,65 м","Water mid-“6”: 5.60 + 0.05 = 5.65 m","Вода посередині «6»: 5,60 + 0,05 = 5,65 м"),"300 250",h)})();
+ /* шкала в футах: вода на середине «21» → 21′03″ */
+ F.ft=(function(){var Y=function(f){return 165-(f-19.9)*55},h=R(30,6,132,180,"h",6);
+  [[20,"20"],[21,"21"],[22,"22"]].forEach(function(m){h+=T(52,Y(m[0]),m[1],"dig2")});
+  h+=R(0,Y(21.25),300,120,"sea")+Ln(0,Y(21.25),300,Y(21.25),"wl")+Ln(112,Y(21.5),112,Y(21),"sr w2")+Ln(106,Y(21.5),174,Y(21.5),"sr dd")+Ln(106,Y(21),174,Y(21),"sr dd")
+   +T(178,Y(21.5)-8,L("21′06″ — верх","21′06″ — top","21′06″ — верх"),"s r")+T(178,Y(21.25)-2,L("вода: 21′03″","water: 21′03″","вода: 21′03″"),"b w")+T(178,Y(21)+14,L("21′00″ — низ","21′00″ — bottom","21′00″ — низ"),"s r")
+   +T(178,22,L("цифры 6″ через 12″","6″ figures every 12″","цифри 6″ через 12″"),"s")+T(178,158,L("21,25 фт·0,3048","21.25 ft·0.3048","21,25 фт·0,3048"),"s")+T(178,174,L("≈ 6,48 м","≈ 6.48 m","≈ 6,48 м"),"s b");
+  return S(L("Шкала в футах: 1 фут = 12″ = 0,3048 м","Feet scale: 1 ft = 12″ = 0.3048 m","Шкала у футах: 1 фут = 12″ = 0,3048 м"),"300 186",h)})();
+ /* чтение на волне */
+ F.wv=(function(){var Y=function(d){return 150-(d-7.2)*300},h="",d;
+  h+=R(32,10,16,150,"h",3);for(d=7.2;d<7.65;d+=.1)h+=Ln(36,Y(d),48,Y(d),"si")+T(28,Y(d)+4,L(d.toFixed(1).replace(".",","),d.toFixed(1),d.toFixed(1).replace(".",",")),"s m","e");
+  var w=sin(48,200,Y(7.38),Y(7.30)-Y(7.38),50.6);
+  h+=Pg(w.concat([[200,160],[48,160]]),"sea")+Pl(w,"wl w2")+Ln(48,Y(7.46),206,Y(7.46),"sr dd")+Ln(48,Y(7.30),206,Y(7.30),"sr dd")+Ln(48,Y(7.38),206,Y(7.38),"sg w2")
+   +T(210,Y(7.46)+4,L("макс. 7,46","max 7.46","макс. 7,46"),"s r")+T(210,Y(7.30)+4,L("мин. 7,30","min 7.30","мін. 7,30"),"s r")+T(210,Y(7.38)+5,L("среднее 7,38","mean 7.38","середнє 7,38"),"b g")
+   +T(124,146,L("время →","time →","час →"),"s m","m")+T(150,172,L("(7,46 + 7,30) / 2 = 7,38 м","(7.46 + 7.30) / 2 = 7.38 m","(7,46 + 7,30) / 2 = 7,38 м"),"b","m");
+  return S(L("На волне — среднее из макс. и мин.","In waves — the mean of max and min","На хвилі — середнє з макс. і мін."),"300 182",h)})();
+ /* судно сбоку: марки, перпендикуляры, LBP, LBM, dF, dM, dA (+ вид сверху: 6 марок) */
+ var side=function(L,full){var wl=function(x){return 66+(x-40)*18/230},h="",AP=40,FP=270,MD=155,Am=60,Mm=140,Fm=250,kl=118;
+  h+=P("M36 46 L36 "+(kl-14)+" Q38 "+kl+" 56 "+kl+" L236 "+kl+" Q258 "+(kl-4)+" 284 46Z","h")+Pg([[0,wl(0)],[300,wl(300)],[300,kl+8],[0,kl+8]],"sea")+Ln(0,wl(0),300,wl(300),"wl")+P("M36 46 L36 "+(kl-14)+" Q38 "+kl+" 56 "+kl+" L236 "+kl+" Q258 "+(kl-4)+" 284 46Z","h0");
+  [[AP,"AP"],[MD,"⊗"],[FP,"FP"]].forEach(function(p){h+=Ln(p[0],24,p[0],full?186:150,"d")+T(p[0],18,p[1],"s b m","m")});
+  [[Am,"A"],[Mm,"M"],[Fm,"F"]].forEach(function(p){h+=Ln(p[0],wl(p[0])-14,p[0],kl,"sr w3")+T(p[0],wl(p[0])-18,p[1],"b r","m")});
+  h+=A(AP,132,Am,132,"m",1)+T((AP+Am)/2,146,"dA","s b","m")+A(MD,132,Mm,132,"m",1)+T((MD+Mm)/2,146,"dM","s b","m")+A(Fm,132,FP,132,"m",1)+T((Fm+FP)/2,146,"dF","s b","m");
+  if(full)h+=A(Am,164,Fm,164,"g",1)+T(100,159,"LBM","s b g","m")+A(AP,184,FP,184,"i",1)+T(155,179,"LBP","s b","m")
+   +P("M36 204 L240 204 Q276 206 292 222 Q276 238 240 240 L36 240Z","h")+[Am,Mm,Fm].map(function(x){return C(x,209,3.5,"fr")+C(x,235,3.5,"fr")}).join("")+T(14,213,L("ЛБ","P","ЛБ"),"s b")+T(14,239,L("ПБ","S","ПБ"),"s b")+T(166,226,L("6 марок: по 3 на борт","6 marks: 3 each side","6 марок: по 3 на борт"),"s m","m");
+  else h+=T(8,166,L("← корма","← aft","← корма"),"s m")+T(292,166,L("нос →","fwd →","ніс →"),"s m","e");
+  return h};
+ F.pp=S(L("Марки и перпендикуляры, дифферент на корму","Marks and perpendiculars, trim by the stern","Марки й перпендикуляри, диферент на корму"),"300 246",side(L,1));
+ F.mini=S(L("dF, dM, dA — от перпендикуляров до марок","dF, dM, dA — perpendiculars to marks","dF, dM, dA — від перпендикулярів до марок"),"300 172",side(L,0));
+ /* перегиб и прогиб */
+ F.hs=(function(){var h="";[[6,1],[104,0]].forEach(function(o){var y=o[0],hg=o[1],dk=hg?[24,0]:[8,32],kl=hg?[68,32]:[50,86],w=hg?32:30,q=function(t,a){return(1-t)*(1-t)*a[0]+2*t*(1-t)*a[1]+t*t*a[0]};
+   h+=P("M30 "+(y+dk[0])+" Q150 "+(y+dk[1])+" 270 "+(y+dk[0])+" L270 "+(y+kl[0])+" Q150 "+(y+kl[1])+" 30 "+(y+kl[0])+"Z","h")+R(4,y+w,292,90-w,"sea")+Ln(4,y+w,296,y+w,"wl")
+    +P("M30 "+(y+dk[0])+" Q150 "+(y+dk[1])+" 270 "+(y+dk[0])+" L270 "+(y+kl[0])+" Q150 "+(y+kl[1])+" 30 "+(y+kl[0])+"Z","h0")+Ln(30,y+kl[0],270,y+kl[0],"d");
+   [[44,"Ap"],[150,"Mp"],[256,"Fp"]].forEach(function(p){var t=(p[0]-30)/240,ky=y+q(t,kl);h+=A(p[0],y+w,p[0],ky,p[1]=="Mp"?"r":"i",1)+T(p[0]+5,y+w+(ky-y-w)/2+5,p[1],"s b"+(p[1]=="Mp"?" r":""))});
+   h+=T(296,y+88,hg?L("перегиб (hog): Mp < (Fp + Ap)/2","hog: Mp < (Fp + Ap)/2","перегин (hog): Mp < (Fp + Ap)/2"):L("прогиб (sag): Mp > (Fp + Ap)/2","sag: Mp > (Fp + Ap)/2","прогин (sag): Mp > (Fp + Ap)/2"),"s b","e")});
+  h+=T(150,214,"MMM = (Fp + Ap + 6·Mp) / 8","l b","m")+T(150,232,L("Mp входит с весом 6 из 8","Mp has a weight of 6 out of 8","Mp входить з вагою 6 із 8"),"s m","m");
+  return S(L("Перегиб и прогиб (утрированно), MMM","Hog and sag (exaggerated), MMM","Перегин і прогин (утрировано), MMM"),"300 240",h)})();
+ /* ареометр и проба воды */
+ F.hy=(function(){var h=R(30,40,62,150,"tk",4)+R(31,70,60,119,"liq0")+P("M31 66 Q33 70 37 70 L54 70 Q57 70 57 62 M65 62 Q65 70 68 70 L85 70 Q89 70 91 66","sb w2")
+  +P("M48 150 Q48 124 57 118 L57 40 L65 40 L65 118 Q74 124 74 150 Q74 178 61 178 Q48 178 48 150Z","h");
+  for(var i=0;i<6;i++)h+=Ln(57,46+i*10,62,46+i*10,"si");
+  h+=Ln(14,70,104,70,"d sr")+P("M4 70 Q12 62 20 70 Q12 78 4 70Z","si")+C(13,70,2.5,"fi")+T(108,74,L("1,018","1.018","1,018"),"b r")+T(4,206,L("глаза — на уровне воды","eyes at the water level","очі — на рівні води"),"s")
+   +T(4,16,L("Ареометр в цилиндре:","Hydrometer in a cylinder:","Ареометр у циліндрі:"),"s b")+T(4,32,L("не касается стенок","not touching the walls","не торкається стінок"),"s m");
+  var pf=prof(160,296,62,132);h+=P(pf,"h")+R(150,84,150,70,"sea")+Ln(150,84,300,84,"wl")+P(pf,"h0");
+  [178,228,276].forEach(function(x){h+=C(x,108,4,"fr")});
+  h+=Ln(228,62,228,104,"si")+A(170,84,170,108,"r",1)+T(174,128,L("½ осадки","½ draught","½ осадки"),"s b r")+T(168,16,L("Проба у борта,","Sample alongside,","Проба біля борту,"),"s b")+T(168,32,L("с половины осадки,","from half the draught,","з половини осадки,"),"s")+T(168,48,L("в нескольких местах","in several places","у кількох місцях"),"s")
+   +T(228,176,L("не с поверхности:","not from the surface:","не з поверхні:"),"s m","m")+T(228,192,L("там пресный слой","the top layer is fresher","там прісний шар"),"s m","m");
+  return S(L("Ареометр и проба забортной воды","Hydrometer and the dock water sample","Ареометр і проба забортної води"),"300 214",h)})();
+ /* замер танка: пустота и высота */
+ F.tk=(function(){var q=rot(150,120,-4),re=[q(50,70),q(250,70),q(250,170),q(50,170)],lq=clip(re,128),P0=q(72,28),P1=q(72,168),t=(128-P0[1])/(P1[1]-P0[1]),Sx=P0[0]+t*(P1[0]-P0[0]),u=[(P1[0]-P0[0]),(P1[1]-P0[1])],ln=Math.hypot(u[0],u[1]),nx=u[1]/ln*-1,ny=u[0]/ln,o=12,h="";
+  h+=Pg(lq,"liq")+Pg(re,"tk")+Pl([q(68,28),q(68,70)],"si w2")+Pl([q(76,28),q(76,70)],"si w2")+Pl([q(68,70),q(68,168)],"d")+Pl([q(76,70),q(76,168)],"d")
+   +Ln(P0[0],P0[1],P1[0],P1[1],"sr w2")+C(P0[0],P0[1],3.5,"fr")+Ln(Sx-6,128,Sx+6,128,"sb w3");
+  var a0=[P0[0]-nx*o,P0[1]-ny*o],s0=[Sx-nx*o,128-ny*o],b0=[P1[0]-nx*o,P1[1]-ny*o];
+  h+=A(a0[0],a0[1],s0[0],s0[1],"i",1)+A(s0[0]+nx*2,s0[1]+ny*2,b0[0],b0[1],"b",1)
+   +T(98,98,L("пустота (ullage)","ullage","порожнина (ullage)"),"s b")+T(98,152,L("высота (sounding)","sounding","висота (sounding)"),"s b w")+T(P0[0]+10,P0[1]+2,L("опорная точка","reference point","опорна точка"),"s m")
+   +T(8,16,L("← корма","← aft","← корма"),"s m")+T(292,16,L("нос →","fwd →","ніс →"),"s m","e")
+   +T(150,200,L("Дифферент на корму: у кормовой переборки","Trim by the stern: by the aft bulkhead","Диферент на корму: біля кормової перебірки"),"s","m")+T(150,216,L("уровень выше — поправка по таблице танка","the level is higher — correct by the tank table","рівень вищий — поправка за таблицею танка"),"s","m");
+  return S(L("Пустота + высота = высота трубки","Ullage + sounding = pipe height","Порожнина + висота = висота трубки"),"300 226",h)})();
+ /* весь расчёт */
+ F.fl=(function(){var s=[[L("Осадки 6 марок (оба борта)","Draughts at 6 marks (both sides)","Осадки 6 марок (обидва борти)")],[L("Средние → к перпендикулярам","Means → to the perpendiculars","Середні → до перпендикулярів")],["MMM = (Fp + Ap + 6·Mp)/8"],[L("Таблицы: Δ, TPC, LCF, MTC","Tables: Δ, TPC, LCF, MTC","Таблиці: Δ, TPC, LCF, MTC")],[L("+ 1-я и 2-я на дифферент","+ 1st and 2nd trim corrections","+ 1-а і 2-а на диферент")],[L("× ρ / 1,025 — плотность","× ρ / 1.025 — density","× ρ / 1,025 — густина")],[L("− вычеты: балласт, топливо…","− deductibles: ballast, fuel…","− вирахування: баласт, паливо…")],[L("= чистое водоизмещение","= net displacement","= чиста водотоннажність"),1],[L("Груз = чистое «после» − «до»","Cargo = net “after” − “before”","Вантаж = чисте «після» − «до»"),2]],h="";
+  s.forEach(function(x,i){var y=6+i*34;h+=R(8,y,246,25,x[1]==2?"bxg":x[1]?"bxb":"bx",6)+C(22,y+12.5,8.5,"fx")+T(22,y+17,i+1,"s b n","m")+T(36,y+17.5,x[0],"s"+(x[1]?" b":""))+(i<8?A(131,y+25,131,y+34,"m"):"")});
+  h+=Ln(262,8,268,8,"sm")+Ln(268,8,268,268,"sm")+Ln(262,268,268,268,"sm")+'<text transform="translate(285 138) rotate(-90)" text-anchor="middle" class="s m">'+L("«до» и «после»","“before” and “after”","«до» і «після»")+'</text>';
+  return S(L("Шаги 1–8 — для обоих сюрвеев","Steps 1–8 are done for both surveys","Кроки 1–8 — для обох сюрвеїв"),"300 312",h)})();
+ /* поправки на дифферент */
+ F.tc=(function(){var h="",pf=prof(30,272,30,100),wl=function(x){return 70+(x-110)*.15};
+  h+=P(pf,"h")+Pg([[0,wl(0)],[300,wl(300)],[300,108],[0,108]],"sea")+Ln(0,wl(0),300,wl(300),"wl")+P(pf,"h0")+Ln(20,70,282,70,"d sb")
+   +Ln(150,18,150,104,"d")+T(150,14,"⊗","s b m","m")+C(110,70,4.5,"hc")+T(104,62,"F","b g","e")+Ln(156,70,156,wl(150),"sr w3")+Ln(152,70,160,70,"sr")+Ln(152,wl(150),160,wl(150),"sr")
+   +T(166,62,L("ровный киль через F","even keel through F","рівний кіль через F"),"s w")+T(162,126,L("↑ разница × TPC = 1-я","↑ difference × TPC = 1st","↑ різниця × TPC = 1-а"),"s r")
+   +A(110,118,150,118,"g",1)+T(130,133,"LCF","s b g","m")+T(8,24,L("корма глубже","stern deeper","корма глибше"),"s m");
+  var X=function(d){return 30+d*60},Y=function(d){return 232-d*18-d*d*3};
+  h+=Ln(20,232,200,232,"si")+Ln(20,232,20,148,"si")+Pl([0,.5,1,1.5,2,2.5,2.9].map(function(d){return[X(d),Y(d)]}),"si w2");
+  [[0.33,"MMM−0,5","MTC₂"],[1.33,"MMM",""],[2.33,"MMM+0,5","MTC₁"]].forEach(function(p,i){var x=X(p[0]),y=Y(p[0]);h+=Ln(x,232,x,y,"d")+T(x,247,L(p[1],p[1].replace(",","."),p[1]),"s m","m")+(p[2]?C(x,y,3.6,"fr")+T(x-6,y-6,p[2],"s b r","e"):"")});
+  var x1=X(2.33),y1=Y(2.33),y2=Y(.33);h+=Ln(x1-6,y2,x1+12,y2,"d")+A(x1+8,y2,x1+8,y1,"r",1)+T(26,158,"MTC","s m")
+   +T(204,180,L("2-я поправка:","2nd correction:","2-а поправка:"),"s b")+T(204,198,"50·t²·ΔMTC","s")+T(204,214,"/ LBP","s")+T(204,232,L("почти всегда +","almost always +","майже завжди +"),"s m");
+  return S(L("Откуда 1-я и 2-я поправки (утрированно)","Where the 1st and 2nd corrections come from","Звідки 1-а і 2-а поправки (утрировано)"),"300 254",h)})();
+ /* до и после */
+ F.ba=(function(){var h=Ln(150,4,150,130,"d");[[0,20,L("До погрузки","Before loading","До навантаження"),"8 221"],[150,42,L("После","After","Після"),"46 513"]].forEach(function(o){var x=o[0],pf=prof(x+14,x+138,40,90);
+  h+=T(x+75,18,o[2],"b","m")+P(pf,"h")+R(x+2,90-o[1],146,o[1]+16,"sea")+Ln(x+2,90-o[1],x+148,90-o[1],"wl")+P(pf,"h0")+(x?R(x+34,26,84,14,"cg",2):"")+T(x+75,124,L("чистое ","net ","чисте ")+o[3]+" "+L("т","t","т"),"s b","m")});
+  h+=R(10,140,280,30,"bxg",6)+T(150,160,L("груз = 46 513 − 8 221 = 38 292 т","cargo = 46 513 − 8 221 = 38 292 t","вантаж = 46 513 − 8 221 = 38 292 т"),"b","m");
+  return S(L("Груз = чистое «после» − чистое «до»","Cargo = net “after” − net “before”","Вантаж = чисте «після» − чисте «до»"),"300 178",h)})();
+ return F};
+var PD=[[0,99,"fl"],[2,2,"wv"],[2,99,"ft"],[3,99,"hy"],[7,99,"tc"],[9,2,"tk"],[10,1,"ba"]];
+
+/* мини-схемы над расчётами */
+window.DGM=function(L,k){
+ if(k=="dv")return DSVF(L).mini;
+ if(k=="ld"){var h=R(20,22,100,62,"h",8)+R(4,58,132,32,"sea")+Ln(4,58,136,58,"wl")+R(20,22,100,62,"h0",8)+R(32,62,26,16,"cg",2)+R(76,34,30,14,"cg",2)+C(45,70,2.5,"fm")+C(91,41,2.5,"fm")
+   +D([70,52],"G","r",-8,-5,"e","r")+D([70,84],"K","i",-8,5,"e")+A(132,84,132,52,"r",1)+Ln(70,52,136,52,"d")+Ln(70,84,136,84,"d")+T(138,72,"KG","b r")
+   +T(170,30,L("KG — высота G","KG — height of G","KG — висота G"),"s b")+T(170,46,L("над килем K","above the keel K","над кілем K"),"s")+T(170,70,"KG = Σ(m·KG) / Σm","s")+T(170,86,"GM = KM − KG","s b");
+  return S(L("Каждая строка — масса и её KG","Each row is a mass and its KG","Кожен рядок — маса та її KG"),"300 96",h)}
+ if(k=="fs"){var h=P("M14 50 L210 50 Q240 50 262 70 Q240 90 210 90 L14 90Z","h")+R(70,58,96,24,"liq")+R(70,58,96,24,"tk")+A(70,100,166,100,"i",1)+T(118,114,"l","b","m")+A(178,58,178,82,"r",1)+T(184,75,"b","b r")
+   +T(296,74,L("нос","fwd","ніс"),"s m","e")+T(14,22,"FSM = ρ·l·b³ / 12","b")+T(14,40,L("b — поперёк судна, в кубе","b — across the ship, cubed","b — поперек судна, у кубі"),"s m");
+  return S(L("Цистерна сверху: l вдоль, b поперёк","A tank seen from above: l along, b across","Цистерна згори: l уздовж, b поперек"),"300 122",h)}
+ return""};
+
+/* схемы — в темы теории (после исходного STBT/DSVT) */
+var oS=window.STBT,oD=window.DSVT;
+if(oS)window.STBT=function(L){var o=oS(L),F=STBF(L);PS.forEach(function(p){var t=o.T[p[0]];if(t)t[3]=put(t[3],p[1],F[p[2]])});return o};
+if(oD)window.DSVT=function(L){var o=oD(L),F=DSVF(L);PD.forEach(function(p){var t=o.T[p[0]];if(t)t[3]=put(t[3],p[1],F[p[2]])});return o};
+})();</script>
 <script id="cpct-js">/* Теория для вкладки «🧲 Поправка компаса» (cpc-js): window.CPCT(L) → {T: темы [значок, название, суть, html], Q: «Проверь себя» [вопрос, [варианты], верный, пояснение], W: {режим: «Что это и зачем»}}.
  Тексты — своими словами, официальные тексты (IMO, ISO, наставления) не копируются. Числа в ru/en/uk одинаковые. Рисунки — SVG в цветах темы. */
 window.CPCT=function(L){var S=function(lab,vb,h){return'<svg class="cpfig" viewBox="'+vb+'" role="img" aria-label="'+lab+'">'+h+'</svg>'},
