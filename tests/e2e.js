@@ -240,6 +240,41 @@ const srv=http.createServer((q,r)=>{let u=decodeURIComponent(q.url.split('?')[0]
    const o=JSON.parse(sv);['mtl','tnk','cyl'].forEach((k,i)=>{const v=[o.m,o.t,o.c][i];if(v)st[k]=v;else delete st[k]});save();mtlR();
    return{vc,ip,tnk,col,cyl,diag,room,gr,go,ui1,fpb,fu,ui2,add,del,thf,qa,pvb,pvc,all,note,hs,th,srch,free:['tnk','cyl','mtl'].every(k=>fmPro.has(k)&&fmPro.pkg(k)==='tools')}});
   ok(Object.entries(mtl).every(([k,v])=>k==='gr'?/^fuel,eng(,sys)?,oil$/.test(v):v===true),'Инструменты механика: VCF 54B и замер танков, баланс цилиндров сходятся с ручным счётом, цвета, группы, пример, теория и живые схемы ('+JSON.stringify(mtl)+')');
+  /* 🎖️ Моя должность (#dut, dut-js): плитка на палубе, «Мои инструменты» по чину, должность по мастеру (na → o3, me → e4 «скоро», el → eto), погоны, чек-листы и XP
+     (+5 за пункт, повторное нажатие не удваивает, не больше 50 в день), срок отметки (неделя Пн–Вс: 23.11.2026 — понедельник, живёт до вс 29.11), свои пункты, ярлыки в разделы и вкладки */
+  const dut=await p.evaluate(async()=>{const q=s=>document.querySelector(s),w=ms=>new Promise(r=>setTimeout(r,ms)),T=DUTTEST,fmc=document.getElementById('fmc'),
+    sv=JSON.stringify({d:st.dut||null,u:st.ux||null,t:st.done[today]||null,s:st.shn||null,c:st.cgo||null,m:st.mtl||null}),r={};
+   r.sec=!!q('#dut h3')&&q('#dut').dataset.t==='today'&&!!(window.uxP&&uxP.dut)&&!!DUT.o3&&!!DUT.o2&&!!DUT.co&&fmPro.has('dut');
+   delete st.dut;st.ux=Object.assign({},st.ux||{});st.ux.r='na';dutR();r.na=T.rank()==='o3'&&!!q('#dut [data-dur=o3].cur');
+   st.ux.r='me';dutR();r.me=T.rank()==='e4'&&!!q('#dut .dsoon')&&!!q('#dut [data-dur=e4] small');st.ux.r='el';dutR();r.el=T.rank()==='eto';
+   q('#dut [data-dur=co]').click();r.pick=st.dut.r==='co'&&q('#dut .duh svg').querySelectorAll('.dus').length===3&&q('#dut [data-dur=e2] svg').querySelectorAll('.duv').length===2;
+   st.dut={r:'o3',t:'ck'};delete st.done[today];dutR();
+   const ids=[...document.querySelectorAll('#dut [data-dck]')].map(b=>b.dataset.dck),cl=id=>q('#dut [data-dck="'+id+'"]').click();
+   r.sch=ids.some(i=>/^o3\.w\.s0_/.test(i))&&(window.SRFSCH||[]).length>=4&&ids.length>=20;
+   const x0=calc().xp;cl(ids[0]);const x1=calc().xp;cl(ids[0]);cl(ids[0]);const x2=calc().xp;
+   r.xp=x1-x0===5&&x2-x0===5&&q('#dut [data-dck="'+ids[0]+'"]').classList.contains('on');
+   ids.slice(1,15).forEach(cl);r.cap=st.done[today].dut.x===50&&calc().xp-x0===50&&st.done[today].dut.c==='work';
+   r.ring=!!q('#dut details[data-pk=d] svg.drg')&&!!q('#dut details[data-pk=w] svg.drg');
+   r.life=T.alive('w','2026-11-23','2026-11-29')&&!T.alive('w','2026-11-23','2026-11-30')&&!T.alive('w','2026-11-22','2026-11-23')&&T.alive('d','2026-11-23','2026-11-23')&&!T.alive('d','2026-11-22','2026-11-23')
+    &&T.alive('m','2026-11-01','2026-11-30')&&!T.alive('m','2026-10-31','2026-11-01')&&T.alive('q','2026-10-01','2026-12-31')&&!T.alive('q','2026-09-30','2026-10-01')&&T.until('w','2026-11-25')==='2026-11-29'&&T.until('m','2026-02-10')==='2026-02-28';
+   const wid=ids.find(i=>/^o3\.w\./.test(i)),mn=T.mon(today);st.dut.c[wid]=mn;dutR();const wOn=q('#dut [data-dck="'+wid+'"]').classList.contains('on');
+   const d=new Date(+mn.slice(0,4),+mn.slice(5,7)-1,+mn.slice(8,10)-1),prev=d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');st.dut.c[wid]=prev;dutR();
+   r.week=wOn&&!q('#dut [data-dck="'+wid+'"]').classList.contains('on')&&!st.dut.c[wid];
+   q('#dutin').value='Проверить <b>EPIRB</b>';q('#dutip').value='w';q('#dut [data-dadd]').click();const my=(st.dut.my.o3||[])[0];
+   r.my=!!my&&my.p==='w'&&!!q('#dut [data-dck="o3.w.u'+my.i+'"]')&&!q('#dut .dci span b');q('#dut [data-ddl]').click();r.del=st.dut.my.o3.length===0;
+   const tl=async(rk,k)=>{if(window.fmClose)fmClose();await w(80);st.dut.r=rk;dutR();uxP.dut.b.click();await w(150);q('#dut .dtb [data-dtk="'+k+'"]').click();await w(600)};
+   await tl('co','dsv');r.go1=st.cgo.t==='dsv'&&fmc.contains(q('#cgo'))&&!!q('#cgo [data-cgt=dsv].cur');
+   await tl('o2','psg');r.go2=st.shn.t==='psg'&&fmc.contains(q('#shn'));
+   await tl('o3','ls');r.go3=fmc.contains(q('#srf'))&&/LSA/.test((q('#srf h4')||{}).textContent||'');
+   await tl('e4','tnk');r.go4=st.mtl.t==='tnk'&&fmc.contains(q('#mtl'));await tl('eto','ecl');r.go5=fmc.contains(q('#ecl'));if(window.fmClose)fmClose();await w(80);
+   /* у каждого чина — свои инструменты, остальные — в «Другие инструменты»; плитки разделов-инструментов спрятаны из помещений (data-uxj), плитка «Моя должность» — на палубе */
+   const all=Object.keys(DUTTL).filter(k=>document.getElementById(DUTTL[k][2]));r.mine=['o3','o2','co','e4','e3','e2','ce','eto'].every(k=>T.mine(k).length>=8);
+   st.dut.r='e2';dutR();r.other=document.querySelectorAll('#dut .dtb [data-dtk]').length===all.length&&!!q('#dut details.dto')&&!q('#dut .dsoon')===false;
+   r.hide=T.hide.every(k=>!uxP[k]||uxP[k].b.hasAttribute('data-uxj'))&&!uxP.dut.b.hasAttribute('data-uxj')&&uxP.dut.b.classList.contains('dutw')&&q('#mtl').dataset.t==='r-eng'&&q('#shn').dataset.t==='r-brg';
+   r.kw=/старпом/.test(window.uxKW?uxKW('dut'):'')&&!!(window.gdDesc&&gdDesc('dut'));
+   const o=JSON.parse(sv);[['dut',o.d],['ux',o.u],['shn',o.s],['cgo',o.c],['mtl',o.m]].forEach(([k,v])=>{if(v)st[k]=v;else delete st[k]});if(o.t)st.done[today]=o.t;else delete st.done[today];save();dutR();shnR();cgoR();mtlR();
+   return r});
+  ok(Object.values(dut).every(v=>v===true),'Моя должность: плитка на палубе, инструменты по чину (и машина), плитки инструментов убраны из помещений, должность по мастеру, погоны, XP +5 без удвоения и не больше 50, неделя Пн–Вс, свои пункты, ярлыки в «Груз и остойчивость», «Инструменты штурмана», «Справочник» ('+JSON.stringify(dut)+')');
   /* 🔧 Инструменты механика, этап 2 (mtk2-js). Ручной счёт:
      slp: Vп = 5.2·95·60/1852 = 29640/1852 = 16.0043 уз; скольжение по GPS (16.0043 − 13.0)/16.0043 = 18.77 %, по лагу (16.0043 − 12.4)/16.0043 = 22.52 %; течение +0.6 уз;
       P = 9480·(95/105)³ = 9480·0.740633 = 7021.2 кВт; 7480 → (7480 − 7021.2)/7021.2 = +6.53 % 🟡; 7800 → +11.09 % 🔴; лаг 3.0 и 7100 кВт → скольжение 81.3 % 🟡, мощность +1.12 % 🟢.
@@ -324,6 +359,105 @@ const srv=http.createServer((q,r)=>{let u=decodeURIComponent(q.url.split('?')[0]
    const kw=window.uxKW?uxKW('mtl'):'';r.srch=/сепаратор/.test(kw)&&/котлов/.test(kw)&&/SFOC/.test(kw);
    if(window.fmClose)try{fmClose()}catch(e){}const o=JSON.parse(sv);Object.keys(o).forEach(k=>{if(o[k])st[k]=o[k];else delete st[k]});save();mtlR();return r});
   ok(Object.entries(mt3).every(([k,v])=>k==='ui'?/^(mix|sep|sfc|sta|oil|bw):1(,(mix|sep|sfc|sta|oil|bw):1){5}$/.test(v):k==='gr'?/oil$/.test(v)&&/sys/.test(v):v===true),'Инструменты механика, этап 3: смешивание, сепаратор, SFOC, пусковой воздух, анализ масла, котловая вода — ручной счёт, цвета, пример, теория, живые схемы, группа «Масло и вода» ('+JSON.stringify(mt3)+')');
+  /* ⚡ Инструменты электромеханика (#etl, etl-js на общей обвязке MTK.section). Ручной счёт:
+     gpar, пример (кВт и кВАр): Qном = Pном / 0.8 × 0.6 → 600 / 600 / 750 кВАр.
+      G1 560/800 = 70.0 %, 380/600 = 63.33 %; G2 440/800 = 55.0 %, 350/600 = 58.33 %; G3 730/1000 = 73.0 %, 510/750 = 68.0 %.
+      Средняя P 66.0 % → ΔP +4.0, −11.0 (🟡), +7.0; средняя Q 63.222 % → +0.111, −4.889, +4.778 (все 🟢).
+      Итого P 1730, Q 1240, S = √(1730² + 1240²) = √4 530 500 = 2128.50 кВА, cos φ = 0.8128; загрузка 1730/2600 = 66.54 % 🟢 → итог 🟡.
+      По току: G1 √3·440·1080·0.81/1000 = 666.69 кВт, Q = 823.07·sin(arccos 0.81) = 482.67 кВАр.
+      Обратная мощность: G2 P = −60 → −7.5 % 🔴. Перегруз станции: 780 + 770 + 950 = 2500/2600 = 96.15 % 🔴.
+     Синхронизация: 60.10 − 60.00 = +0.10 Гц 🟢, T = 10.0 с; ΔU = 5/440 = +1.136 % 🟢; угол 6° 🟢; упреждение 360·0.1·150/1000 = 5.4°.
+      59.95 Гц → Δf −0.05 🟡 (медленнее); 60.80 → +0.8 🔴; 470 В → +6.82 % 🟡; угол 20° 🔴.
+     gnd: 440 В → Uф = 254.034 В; 0.05 МОм 🔴, I = 254.034/50 000 = 5.081 мА; C 1 мкФ, 60 Гц: Iс = 3·254.034·2π·60·10⁻⁶ = 0.2873 А.
+      0.5 МОм 🟡, 2 МОм 🟢. Лампы: L1 тускло, L2/L3 ярко → фаза L1, 🟡. Порядок мастера: обычные 1, 2, 3, 7, 8, потом важные 4, 5, 6.
+      Модель ламп (RL 4 кОм, замыкание L2 через 2 кОм): Vn = 0.4·V2 → L2 0.6/√3 = 0.3464, L1/L3 √1.56/√3 = 0.7211; глухо — 0 и 1; норма 1/√3 = 0.5774. */
+  const etl=await p.evaluate(async()=>{const T=ETLTEST,near=(a,b,e)=>Math.abs(a-b)<=(e||0.01),sv=JSON.stringify({e:st.etl||null,g:st.gpar||null,n:st.gnd||null,ux:st.ux||null}),q=s=>document.querySelector(s),w=ms=>new Promise(r=>setTimeout(r,ms)),cp=x=>JSON.parse(JSON.stringify(x));
+   st.gpar=cp(T.ex.gpar);const r1=T.run('gpar'),a=T.last('gpar'),G=a.G;
+   const load=G.length===3&&near(G[0].a,70)&&near(G[1].a,55)&&near(G[2].a,73)&&near(G[0].b,63.333,0.001)&&near(G[2].b,68)&&near(a.ma,66)&&near(G[1].da,-11)&&near(a.mb,63.222,0.001)&&near(G[1].db,-4.889,0.001)
+    &&near(a.P,1730)&&near(a.Q,1240)&&near(a.S,2128.50)&&near(a.cos,0.8128,0.0001)&&near(a.ld,66.54)&&G.map(g=>g.ca+g.cb).join(',')==='GG,YG,GG'&&r1.lv==='Y'&&/<svg/.test(r1.fig)&&/2128/.test(r1.h);
+   st.gpar.v.in='i';T.run('gpar');const b=T.last('gpar').G[0],cur=near(b.P,666.69)&&near(b.Q,482.67);st.gpar.v.in='p';
+   st.gpar.r[1].p='-60';const r2=T.run('gpar'),rev=r2.lv==='R'&&T.last('gpar').G[1].ca==='R'&&near(T.last('gpar').G[1].a,-7.5);
+   st.gpar=cp(T.ex.gpar);st.gpar.r[0].p='780';st.gpar.r[1].p='770';st.gpar.r[2].p='950';const r3=T.run('gpar'),ovl=r3.lv==='R'&&near(T.last('gpar').ld,96.15)&&T.last('gpar').cl==='R';
+   st.gpar=cp(T.ex.gpar);st.gpar.v.m='s';const s1=T.run('gpar'),y=T.last('gsy');
+   const sync=near(y.df,0.1,1e-9)&&near(y.T,10)&&near(y.du,1.136,0.001)&&y.cf==='G'&&y.cu==='G'&&y.ca==='G'&&near(y.adv,5.4)&&s1.lv==='G'&&/<svg/.test(s1.fig);
+   st.gpar.v.fg='59.95';const s2=T.run('gpar'),sl=T.last('gsy').cf==='Y'&&s2.lv==='Y';st.gpar.v.fg='60.80';const s3=T.run('gpar'),fa=T.last('gsy').cf==='R'&&s3.lv==='R';
+   st.gpar.v.fg='60.10';st.gpar.v.ug='470';T.run('gpar');const uy=T.last('gsy').cu==='Y';st.gpar.v.ug='445';st.gpar.v.an='20';const s4=T.run('gpar'),ar=T.last('gsy').ca==='R'&&s4.lv==='R';
+   st.gnd=cp(T.ex.gnd);const g1=T.run('gnd'),c=T.last('gnd');
+   const gnd=near(c.Uf,254.034,0.001)&&near(c.I,5.081,0.001)&&c.cr==='R'&&c.cl==='Y'&&c.lp.join()==='0'&&c.ord.join()==='0,1,2,6,7,3,4,5'&&c.cur===0&&g1.lv==='R'&&/<svg/.test(g1.fig);
+   st.gnd.v.ce='1';T.run('gnd');const cap=near(T.last('gnd').Ic,0.2873,0.0001);st.gnd.v.ce='';
+   st.gnd.v.rm='0.5';st.gnd.v.la='b';const g2=T.run('gnd');st.gnd.v.rm='2';const g3=T.run('gnd');const thr=g2.lv==='Y'&&g3.lv==='G';
+   const L2=T.lamp(2),L0=T.lamp(0),LN=T.lamp(NaN),lamp=near(L2[1],0.3464,0.0001)&&near(L2[0],0.7211,0.0001)&&near(L2[2],0.7211,0.0001)&&near(L0[1],0,1e-6)&&near(L0[0],1,1e-6)&&near(LN[0],0.5774,0.0001);
+   /* раздел: помещение «Машинное», виден всем должностям, группы, мастер поиска кнопками, пример, цвета, схемы, теория с живыми схемами, кнопка старых расчётов */
+   const room=q('#etl').dataset.t==='r-eng';const vis=['na','me','el','rt','ot'].every(r=>{st.ux=Object.assign({},st.ux||{},{r,all:0});return uxShow('etl')});st.ux=JSON.parse(sv).ux||{};if(window.uxApply)uxApply();
+   delete st.gpar;delete st.gnd;st.etl={};if(window.uxP&&uxP.etl&&q('#etl').parentNode===q('#mn'))uxP.etl.b.click();await w(300);etlR();const gr=[...document.querySelectorAll('#etl .mtgr [data-mtg]')].map(x=>x.dataset.mtg).join(',');
+   etlGo('gnd');const go=st.etl.t==='gnd'&&st.etl.g==='net'&&!!q('#etl [data-mtt=gnd].cur');q('#etl [data-mtex]').click();await w(50);
+   const ui1=!!q('#etl .mto.mtoR')&&q('#etl #eto').querySelectorAll('figure.mtf').length===2&&document.querySelectorAll('#etl .mtrow').length===8&&document.querySelectorAll('#etl .mth').length>=7;
+   q('#etl [data-mtb="fn:0"]').click();q('#etl [data-mtb="fn:1"]').click();q('#etl [data-mtb="fy:2"]').click();await w(30);
+   const wiz=T.last('gnd').found===2&&st.gnd.r[0].x==='n'&&st.gnd.r[2].x==='y'&&/🎯/.test(q('#etl #eto').textContent)&&!q('#etl [data-mtb^="fy:"]');
+   q('#etl [data-mtb="fb:0"]').click();const back=!st.gnd.r[2].x&&T.last('gnd').cur===2;q('#etl [data-mtb="fr:0"]').click();const rst=st.gnd.r.every(r=>!r.x)&&T.last('gnd').cur===0;
+   const bf=q('#etl #eto figure.mtf:last-of-type [data-gb]');bf.scrollIntoView();await w(80);const h0=bf.innerHTML;await w(400);const anim=bf.innerHTML!==h0;
+   q('#etl [data-mtg=pwr]').click();const pw=st.etl.t==='gpar'&&st.etl.gt.net==='gnd';q('#etl [data-mtex]').click();await w(50);
+   const ui2=!!q('#etl .mto.mtoY')&&/1730/.test(q('#etl #eto').textContent)&&q('#etl #eto figure svg').querySelectorAll('rect').length>=6&&document.querySelectorAll('#etl .mtrow').length===3;
+   q('#etl [data-mtadd]').click();const add=st.gpar.r.length===4&&!q('#etl [data-mtadd]');q('#etl [data-mtdel="3"]').click();const del=st.gpar.r.length===3;
+   const ms=q('#etl [data-mtv=m]');ms.value='s';ms.dispatchEvent(new Event('change',{bubbles:true}));await w(50);
+   const sg=q('#etl #eto [data-gs]');if(sg)sg.scrollIntoView();await w(80);const sh0=sg&&sg.innerHTML;await w(400);const syui=!!q('#etl .mto.mtoG')&&/5\.4°/.test(q('#etl #eto').textContent)&&!!sg&&sg.innerHTML!==sh0;
+   q('#etl [data-mtp=t]').click();const th1=document.querySelectorAll('#etl details.mtth').length;const d3=q('#etl details[data-mti="3"]');d3.open=true;d3.scrollIntoView();await w(120);
+   const v0=(d3.querySelector('[data-gv]')||{}).innerHTML;await w(300);const thv=!!d3.querySelector('figure svg line')&&d3.querySelector('[data-gv]').innerHTML!==v0&&d3.querySelectorAll('[data-gvd]').length===3;
+   q('#etl [data-mtq="0:0"]').click();const qa=st.gpar.qa[0]===0&&/1 \//.test(q('#etl #etqn').textContent);
+   etlGo('gnd');q('#etl [data-mtp=t]').click();const d4=q('#etl details[data-mti="3"]');d4.open=true;await w(80);d4.querySelector('figure').scrollIntoView();await w(80);d4.querySelector('[data-gfd="3"]').click();await w(1000);const thb=/5\.0/.test(d4.querySelector('figure').textContent);
+   const all=!!q('#etl [data-mtmcl]'),note=/Учебный расчёт|study calculation|Навчальний/.test(q('#etl .mtnote').textContent),hs=document.documentElement.scrollWidth<=innerWidth+1;
+   const TH=[ETX.gpar.th(),ETX.gnd.th()],th=TH.every(x=>x.t>=5&&x.q>=4&&x.w)&&th1===7;
+   const kw=window.uxKW?uxKW('etl'):'',srch=/синхрон/.test(kw)&&/замыкан/.test(kw);
+   const mtl=Object.keys(MTX).length>=11&&!Object.keys(MTX).some(k=>ETX[k])&&!!q('#mtl .mtgr')&&!q('#mtl [data-mtt=gpar]');
+   if(window.fmClose)try{fmClose()}catch(e){}const o=JSON.parse(sv);[['etl','e'],['gpar','g'],['gnd','n']].forEach(([k,i])=>{if(o[i])st[k]=o[i];else delete st[k]});save();etlR();
+   return{load,cur,rev,ovl,sync,sl,fa,uy,ar,gnd,cap,thr,lamp,room,vis,gr,go,ui1,wiz,back,rst,anim,pw,ui2,add,del,syui,thv,qa,thb,all,note,hs,th,srch,mtl,
+    free:['etl','gpar','gnd','mst','ebat','sel'].every(k=>fmPro.has(k)&&fmPro.pkg(k)==='tools')}});
+  ok(Object.entries(etl).every(([k,v])=>k==='gr'?v==='pwr,net,mot,bat':v===true),'Инструменты электромеханика: генераторы в параллель (нагрузка, синхронизация) и поиск замыкания на корпус сходятся с ручным счётом, цвета, мастер, пример, теория, живые схемы, виден всем ('+JSON.stringify(etl)+')');
+  /* ⚡ Инструменты электромеханика, этап 2 (et2-js). Ручной счёт:
+     mst, пример: Iн = 90 000 / (1.732 × 440 × 0.87 × 0.94) = 144.405 А; прямой Iп = 7 × 144.405 = 1010.83 А; Sпуск = 1.732 × 440 × 1010.83 / 1000 = 770.36 кВА;
+      Sген/x″d = 625 / 0.15 = 4166.67; ΔU = 770.36 / 4937.03 = 15.604 % 🟡; момент 2.2 × (1 − 0.15604)² = 1.567, нагрузка 0.3 → 5.22 🟢; два генератора: 770.36 / 9103.03 = 8.462 %.
+      Звезда: Iп 336.94, ΔU 256.79 / 4423.45 = 5.805 %, момент 0.7333 × 0.94195² = 0.6507; тяжёлая нагрузка 1.2 → 0.542 🔴. Плавный 3 Iн: ΔU 7.342 %, момент 2.2 × (3/7)² × 0.92658² = 0.3469.
+      Частотник 1.5 Iн: ΔU 3.811 %. Генератор 400 кВА: 770.36 / (2666.67 + 770.36) = 22.41 % 🔴.
+     ebat, пример: 10 + 5 + 3 + 2 + 6 = 26 А; 180 + 90 + 54 + 36 + 3 = 363 Ач; kt(10 °C) = 0.9; C = 363 × 1.25 / (0.8 × 0.9) = 630.21 Ач; запас (660 − 630.21) / 630.21 = 4.727 % 🟡;
+      полезная 660 × 0.72 / 1.25 = 380.16 Ач, остаток 17.16; всё сразу 380.16 / 26 = 14.62 ч; заряд 363 / (60 × 0.85) = 7.118 ч.
+      600 Ач: −4.79 % 🔴, полезная 345.6; первые 0.5 ч 26 А = 13 Ач, дальше 20 А → 0.5 + 332.6 / 20 = 17.13 ч. Пассажирское: 723 Ач → 1255.2 Ач 🔴. kt(0 °C) = 0.8.
+     sel, пример 3 кА: розетки 16 А Ii 160 А → 0.02 с; щит Isd 6 × 80 = 480 А → 0.1 с (Ii 4000 А > 3000); ГРЩ Isd 5 × 360 = 1800 А → 0.3 с.
+      Пары: ГРЩ–щит 0.2 с 🟢 (наименьший запас 0.2), щит–розетки 0.08 с 🟡 → итог 🟡. 5 кА: Ii щита 4000 ≤ 5000 → 0.02 = 0.02 🔴.
+      tsd щита 0.2: 0.18 и 0.1 → 🟢. Оценка: 1 250 000 / (1.732 × 440) = 1640.20 А, / 0.15 = 10 934.7 А > Icu 6 кА 🔴. Перегрузка без Isd/Ii при 6 × Ir: 36 × 5 / 36 = 5 с. */
+  const et2=await p.evaluate(async()=>{const T=ET2TEST,near=(a,b,e)=>Math.abs(a-b)<=(e||0.01),K=['etl','mst','ebat','sel'],sv=JSON.stringify(Object.fromEntries(K.map(k=>[k,st[k]||null]))),q=s=>document.querySelector(s),w=ms=>new Promise(r=>setTimeout(r,ms)),cp=x=>JSON.parse(JSON.stringify(x)),r={};
+   st.mst=cp(T.ex.mst);const m1=T.run('mst'),a=T.last('mst'),C=a.cmp;
+   r.mst=near(a.In,144.405,0.001)&&near(a.Ip,1010.83)&&near(a.Sp,770.36)&&near(a.Sx,4166.67)&&near(a.du,15.604,0.001)&&a.cu==='Y'&&near(a.Me,1.567,0.001)&&a.cm==='G'&&near(a.du1,8.462,0.001)&&m1.lv==='Y'
+    &&near(C[1].Ip,336.94)&&near(C[1].du,5.805,0.001)&&near(C[1].Me,0.6507,0.0001)&&near(C[2].du,7.342,0.001)&&near(C[2].Me,0.3469,0.0001)&&near(C[3].du,3.811,0.001)&&(m1.fig.match(/<figure/g)||[]).length===2;
+   st.mst.v.sm='y';st.mst.v.ld='h';const m2=T.run('mst');r.mstY=T.last('mst').cm==='R'&&near(T.last('mst').mr,0.542,0.001)&&m2.lv==='R';
+   st.mst=cp(T.ex.mst);st.mst.v.ng='2';r.mst2=T.run('mst').lv==='G';st.mst.v.ng='1';st.mst.v.sg='400';const m3=T.run('mst');r.mstR=near(T.last('mst').du,22.41,0.01)&&m3.lv==='R';
+   r.cur=T.I('d',7,7,0.7)>6&&T.I('d',7,7,0.7)<=7&&near(T.I('d',7,7,10),0.9,1e-9)&&T.I('d',7,7,0)===0&&near(Math.min(...T.U('d',7,7,0.02641)),0.844,0.005);
+   st.ebat=cp(T.ex.ebat);const e1=T.run('ebat'),b=T.last('ebat');
+   r.eb=near(b.I,26)&&near(b.Ah,363)&&near(b.kt,0.9,1e-9)&&near(b.Cr,630.21)&&near(b.mg,4.727,0.001)&&b.cc==='Y'&&near(b.Us,380.16)&&b.T.all&&near(b.T.rest,17.16)&&near(b.T1,14.62)&&near(b.tch,7.118,0.001)&&e1.lv==='Y'&&/<svg/.test(e1.fig);
+   st.ebat.v.ca='600';const e2=T.run('ebat'),b2=T.last('ebat');r.ebR=e2.lv==='R'&&near(b2.mg,-4.79,0.01)&&!b2.T.all&&near(b2.T.T,17.13);
+   st.ebat=cp(T.ex.ebat);st.ebat.v.sh='p';T.run('ebat');r.ebP=near(T.last('ebat').Ah,723)&&near(T.last('ebat').Cr,1255.21)&&T.last('ebat').cc==='R';r.kt=near(T.kt(0),0.8,1e-9)&&T.kt(25)===1;
+   st.sel=cp(T.ex.sel);const s1=T.run('sel'),c=T.last('sel'),P=c.P;
+   r.sel=c.B.map(x=>x.t).join()==='0.3,0.1,0.02'&&c.B.map(x=>x.z).join()==='S,S,I'&&P[0].c==='G'&&near(P[0].min,0.2,1e-6)&&P[1].c==='Y'&&near(P[1].min,0.08,1e-6)&&s1.lv==='Y'&&(s1.fig.match(/<figure/g)||[]).length===2;
+   st.sel.v.ik='5';const s2=T.run('sel');r.selR=T.last('sel').P[1].c==='R'&&s2.lv==='R';
+   st.sel=cp(T.ex.sel);st.sel.r[1].td='0.2';r.selG=T.run('sel').lv==='G';
+   st.sel=cp(T.ex.sel);st.sel.v.km='g';const s3=T.run('sel');r.selIk=near(T.last('sel').Ik,10934.66,0.1)&&T.last('sel').B[2].cc==='R'&&s3.lv==='R';
+   r.inv=near(T.T(T.B({in:'16',ir:'1',tr:'5'},0),96).t,5,1e-9);
+   /* раздел: группы, пример, цвета, схемы, теория, анимация */
+   K.slice(1).forEach(k=>delete st[k]);st.etl={};if(window.uxP&&uxP.etl&&q('#etl').parentNode===q('#mn'))uxP.etl.b.click();await w(300);etlR();
+   r.gr=[...document.querySelectorAll('#etl .mtgr [data-mtg]')].map(x=>x.dataset.mtg).join(',');
+   const ui=[];for(const k of ['mst','ebat','sel']){etlGo(k);const go=st.etl.t===k&&!!q('#etl [data-mtt='+k+'].cur');const nh=document.querySelectorAll('#etl .mth').length;q('#etl [data-mtex]').click();await w(60);
+    const o=q('#etl #eto'),fg=o.querySelectorAll('figure.mtf'),g=fg[0].querySelector('svg > g');fg[0].scrollIntoView();await w(80);const h0=g.innerHTML;await w(500);
+    ui.push(k+':'+(go&&nh>=5&&!!o.querySelector('.mto.mtoY')&&fg.length===(k==='ebat'?1:2)&&g.innerHTML!==h0?1:0))}
+   r.ui=ui.join(',');r.rows=st.ebat.r.length===5&&st.sel.r.length===3;
+   etlGo('sel');const ks=q('#etl [data-mtv=km]');ks.value='g';ks.dispatchEvent(new Event('change',{bubbles:true}));await w(50);r.re=!!q('#etl [data-mtv=sg]')&&!q('#etl [data-mtv=ik]')&&/10\.9/.test(q('#etl #eto').textContent);
+   etlGo('mst');q('#etl [data-mtp=t]').click();r.th=document.querySelectorAll('#etl details.mtth').length===7;const d=q('#etl details[data-mti="2"]');d.open=true;d.scrollIntoView();await w(150);
+   const dg=d.querySelector('[data-mc]');const v0=dg&&dg.innerHTML;await w(500);r.thv=!!dg&&dg.innerHTML!==v0;
+   q('#etl [data-mtq="0:0"]').click();r.qa=st.mst.qa[0]===0;
+   const THS=['mst','ebat','sel'].map(k=>ETX[k].th());r.ths=THS.every(x=>x.t>=5&&x.t<=6&&x.q>=4&&x.q<=5&&x.w);
+   etlGo('sel');q('#etl [data-mtp=t]').click();const d0=q('#etl details[data-mti="0"]');d0.open=true;await w(80);d0.querySelector('[data-slo="n"]').click();await w(50);r.slo=!!d0.querySelector('[data-slw]')&&d0.querySelector('[data-slo="n"]').classList.contains('cur');
+   r.hs=document.documentElement.scrollWidth<=innerWidth+1;r.note=/Учебный расчёт|study calculation|Навчальний/.test(q('#etl .mtnote').textContent);
+   const kw=window.uxKW?uxKW('etl'):'';r.srch=/просадк/.test(kw)&&/селективн/.test(kw)&&/аккумулятор/.test(kw);
+   if(window.fmClose)try{fmClose()}catch(e){}const o=JSON.parse(sv);K.forEach(k=>{if(o[k])st[k]=o[k];else delete st[k]});save();etlR();return r});
+  ok(Object.entries(et2).every(([k,v])=>k==='gr'?v==='pwr,net,mot,bat':k==='ui'?v==='mst:1,ebat:1,sel:1':v===true),'Инструменты электромеханика, этап 2: пуск двигателя и просадка, аварийные аккумуляторы, селективность автоматов — ручной счёт, цвета, пример, теория, живые схемы, группы ('+JSON.stringify(et2)+')');
   /* Теория, примеры и цветной итог 8 старых инструментов #shn (sno-js). Примеры посчитаны shn-js и сверены вручную:
      компас КК 120.0 + δ −1.5 + d +3.5 = ИК 122.0; крюйс-пеленг 30°→60°, 12 уз, 15 мин: S = 3.00, D = 3.00, траверз 3·sin60 = 2.60;
      прилив МВ 06:10 0.6, ПВ 12:25 4.2, в 09:00 h = 0.6 + 3.6·(1 − cos(180·170/375))/2 = 2.14, запас 8.0 + 2.14 − 9.0 = 1.14 м;
@@ -423,6 +557,20 @@ const srv=http.createServer((q,r)=>{let u=decodeURIComponent(q.url.split('?')[0]
     r.pkg=K.every(k=>fmPro.pkg(k)==='tools');r.has=K.filter(k=>fmPro.has(k)).join(',');r.g=K.map(k=>MTX[k].g()).join(',')==='false,false,false,false,false,false'&&W.classList.contains('on');W.classList.remove('on');
     const x=document.createElement('div');MTX.oil.r(x);r.lock=!!x.querySelector('[data-mtwl]')&&!x.querySelector('[data-mtv]');return r});
    ok(m3.pkg&&m3.has===''&&m3.g&&m3.lock,'Play-сборка: шесть инструментов механика этапа 3 закрыты (🔒, окно покупки) ('+JSON.stringify(m3)+')');
+   const et=await q.evaluate(()=>{const W=document.getElementById('fpw'),g=id=>document.getElementById(id),K=['etl','gpar','gnd','mst','ebat','sel'],r={};W.classList.remove('on');
+    r.pkg=K.every(k=>fmPro.pkg(k)==='tools');r.has=K.filter(k=>fmPro.has(k)).join(',');
+    uxP.etl.b.click();r.wall=W.classList.contains('on');r.inbox=g('etl').parentNode===g('mn');W.classList.remove('on');
+    r.g=ETX.gpar.g()===false&&ETX.gnd.g()===false&&W.classList.contains('on');W.classList.remove('on');
+    r.g2=['mst','ebat','sel'].every(k=>!fmPro.has(k)&&ETX[k].g()===false)&&W.classList.contains('on');W.classList.remove('on');
+    r.lock=['gpar','gnd','mst','ebat','sel'].every(k=>{const y=document.createElement('div');ETX[k].r(y);return!!y.querySelector('[data-mtwl]')&&!y.querySelector('[data-mtv]')});
+    etlR();r.n=[...document.querySelectorAll('#etl [data-mtt]')].every(b=>/🔒/.test(b.textContent))&&!!document.querySelector('#etl [data-mtt]');return r});
+   ok(et.pkg&&et.has===''&&et.wall&&et.inbox&&et.g&&et.g2&&et.lock&&et.n,'Play-сборка: «⚡ Инструменты электромеханика» закрыты целиком (пакет tools, окно покупки), инструменты — 🔒 ('+JSON.stringify(et)+')');
+   const du=await q.evaluate(()=>{const W=document.getElementById('fpw'),g=id=>document.getElementById(id),r={};W.classList.remove('on');
+    r.pkg=fmPro.pkg('dut')==='tools'&&!fmPro.has('dut');uxP.dut.b.click();r.wall=W.classList.contains('on');r.inbox=g('dut').parentNode===g('mn');W.classList.remove('on');
+    const sv=JSON.stringify(st.dut||null);st.dut={r:'co'};dutR();const b=[...document.querySelectorAll('#dut .dtb [data-dtk]')];
+    r.lock=/🔒/.test(b[0].textContent)&&!/🔒/.test(b.find(x=>x.dataset.dtk==='rh').textContent);b[0].click();r.wall2=W.classList.contains('on');W.classList.remove('on');
+    st.dut=JSON.parse(sv);if(!st.dut)delete st.dut;dutR();return r});
+   ok(Object.values(du).every(v=>v===true),'Play-сборка: «🎖️ Моя должность» закрыта (пакет tools, окно покупки), платные ярлыки внутри — 🔒 и окно покупки ('+JSON.stringify(du)+')');
    const d=await q.evaluate(()=>{document.querySelector('#fpw [data-fp=buy]').click();return{ord:window.__ord,own:fmPro.owned(),ecl:fmPro.has('ecl')}});
    ok(a.on&&a.left===3&&a.ecl&&a.price==='9,99 $'&&a.ota&&a.pro,'Play-сборка: покупка включена, 3 дня пробы, цена из магазина, самообновление выключено ('+JSON.stringify(a)+')');
    ok(!c.tr&&!c.ecl&&c.qz&&c.sh4&&c.wall&&c.inbox&&/9,99/.test(c.btn),'Play-сборка: после пробы платный раздел закрыт окном покупки, бесплатное открыто ('+JSON.stringify(c)+')');
