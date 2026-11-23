@@ -344,6 +344,16 @@ const srv=http.createServer((q,r)=>{let u=decodeURIComponent(q.url.split('?')[0]
    r.eto=!!q('#dut [data-dur=eto] svg .duv.dug')&&!q('#dut [data-dur=e2] svg .duv.dug')&&q('#dut [data-dur=e4] svg').querySelectorAll('.dus').length===1&&q('#dut [data-dur=ce] svg').querySelectorAll('.dus').length===4;
    const o=JSON.parse(sv);if(o.d)st.dut=o.d;else delete st.dut;if(o.t)st.done[today]=o.t;else delete st.done[today];save();dutR();return r});
   ok(Object.values(due).every(v=>v===true),'Моя должность, машина: у 4-го, 3-го, 2-го механика, стармеха и ЭТО есть обязанности, чек-листы во всех периодах, журналы, «Шаг вверх»; «скоро» нет; +5 XP без удвоения; проверки справочника выборочно; погоны ('+JSON.stringify(due)+')');
+  /* Ярлыки «Моей должности» (баг 23.11.2026): «Анализ масла» открывал «Котловую воду» — ключ инструмента oil совпадал с группой oil;
+     ярлык открывает окно с полоской «← Моя должность», она возвращает в раздел и пропадает при закрытии. */
+  const dug=await p.evaluate(async()=>{const w=t=>new Promise(r=>setTimeout(r,t)),sv=JSON.stringify({d:st.dut||null,m:st.mtl||null}),r={};
+   mtlGo('cyl');mtlGo('oil');r.oil=st.mtl.t==='oil'&&st.mtl.g==='oil';
+   if(window.fmClose)fmClose();await w(150);st.dut={r:'e2'};uxP.dut.b.click();await w(400);dutR();await w(100);
+   const b=document.querySelector('#dut [data-dtk=oil]');r.btn=!!b;if(b){b.click();await w(700)}
+   r.open=(document.querySelector('#fmc > section')||{}).id==='mtl'&&st.mtl.t==='oil';const bar=document.querySelector('#fmc .dutbk');r.bar=!!bar;
+   if(bar){bar.querySelector('button').click();await w(500)}r.back=(document.querySelector('#fmc > section')||{}).id==='dut'&&!document.querySelector('.dutbk');
+   if(window.fmClose)fmClose();await w(100);r.gone=!document.querySelector('.dutbk');const o=JSON.parse(sv);if(o.d)st.dut=o.d;else delete st.dut;if(o.m)st.mtl=o.m;save();return r});
+  ok(Object.values(dug).every(v=>v===true),'Моя должность: ярлык «Анализ масла» ведёт в анализ масла, полоска «← Моя должность» возвращает назад ('+JSON.stringify(dug)+')');
   /* 🔧 Инструменты механика, этап 2 (mtk2-js). Ручной счёт:
      slp: Vп = 5.2·95·60/1852 = 29640/1852 = 16.0043 уз; скольжение по GPS (16.0043 − 13.0)/16.0043 = 18.77 %, по лагу (16.0043 − 12.4)/16.0043 = 22.52 %; течение +0.6 уз;
       P = 9480·(95/105)³ = 9480·0.740633 = 7021.2 кВт; 7480 → (7480 − 7021.2)/7021.2 = +6.53 % 🟡; 7800 → +11.09 % 🔴; лаг 3.0 и 7100 кВт → скольжение 81.3 % 🟡, мощность +1.12 % 🟢.
