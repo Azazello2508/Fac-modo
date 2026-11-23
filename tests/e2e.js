@@ -240,6 +240,41 @@ const srv=http.createServer((q,r)=>{let u=decodeURIComponent(q.url.split('?')[0]
    const o=JSON.parse(sv);['mtl','tnk','cyl'].forEach((k,i)=>{const v=[o.m,o.t,o.c][i];if(v)st[k]=v;else delete st[k]});save();mtlR();
    return{vc,ip,tnk,col,cyl,diag,room,gr,go,ui1,fpb,fu,ui2,add,del,thf,qa,pvb,pvc,all,note,hs,th,srch,free:['tnk','cyl','mtl'].every(k=>fmPro.has(k)&&fmPro.pkg(k)==='tools')}});
   ok(Object.entries(mtl).every(([k,v])=>k==='gr'?/^fuel,eng(,sys)?,oil$/.test(v):v===true),'Инструменты механика: VCF 54B и замер танков, баланс цилиндров сходятся с ручным счётом, цвета, группы, пример, теория и живые схемы ('+JSON.stringify(mtl)+')');
+  /* 🎖️ Моя должность (#dut, dut-js): плитка на палубе, «Мои инструменты» по чину, должность по мастеру (na → o3, me → e4 «скоро», el → eto), погоны, чек-листы и XP
+     (+5 за пункт, повторное нажатие не удваивает, не больше 50 в день), срок отметки (неделя Пн–Вс: 23.11.2026 — понедельник, живёт до вс 29.11), свои пункты, ярлыки в разделы и вкладки */
+  const dut=await p.evaluate(async()=>{const q=s=>document.querySelector(s),w=ms=>new Promise(r=>setTimeout(r,ms)),T=DUTTEST,fmc=document.getElementById('fmc'),
+    sv=JSON.stringify({d:st.dut||null,u:st.ux||null,t:st.done[today]||null,s:st.shn||null,c:st.cgo||null,m:st.mtl||null}),r={};
+   r.sec=!!q('#dut h3')&&q('#dut').dataset.t==='today'&&!!(window.uxP&&uxP.dut)&&!!DUT.o3&&!!DUT.o2&&!!DUT.co&&fmPro.has('dut');
+   delete st.dut;st.ux=Object.assign({},st.ux||{});st.ux.r='na';dutR();r.na=T.rank()==='o3'&&!!q('#dut [data-dur=o3].cur');
+   st.ux.r='me';dutR();r.me=T.rank()==='e4'&&!!q('#dut .dsoon')&&!!q('#dut [data-dur=e4] small');st.ux.r='el';dutR();r.el=T.rank()==='eto';
+   q('#dut [data-dur=co]').click();r.pick=st.dut.r==='co'&&q('#dut .duh svg').querySelectorAll('.dus').length===3&&q('#dut [data-dur=e2] svg').querySelectorAll('.duv').length===2;
+   st.dut={r:'o3',t:'ck'};delete st.done[today];dutR();
+   const ids=[...document.querySelectorAll('#dut [data-dck]')].map(b=>b.dataset.dck),cl=id=>q('#dut [data-dck="'+id+'"]').click();
+   r.sch=ids.some(i=>/^o3\.w\.s0_/.test(i))&&(window.SRFSCH||[]).length>=4&&ids.length>=20;
+   const x0=calc().xp;cl(ids[0]);const x1=calc().xp;cl(ids[0]);cl(ids[0]);const x2=calc().xp;
+   r.xp=x1-x0===5&&x2-x0===5&&q('#dut [data-dck="'+ids[0]+'"]').classList.contains('on');
+   ids.slice(1,15).forEach(cl);r.cap=st.done[today].dut.x===50&&calc().xp-x0===50&&st.done[today].dut.c==='work';
+   r.ring=!!q('#dut details[data-pk=d] svg.drg')&&!!q('#dut details[data-pk=w] svg.drg');
+   r.life=T.alive('w','2026-11-23','2026-11-29')&&!T.alive('w','2026-11-23','2026-11-30')&&!T.alive('w','2026-11-22','2026-11-23')&&T.alive('d','2026-11-23','2026-11-23')&&!T.alive('d','2026-11-22','2026-11-23')
+    &&T.alive('m','2026-11-01','2026-11-30')&&!T.alive('m','2026-10-31','2026-11-01')&&T.alive('q','2026-10-01','2026-12-31')&&!T.alive('q','2026-09-30','2026-10-01')&&T.until('w','2026-11-25')==='2026-11-29'&&T.until('m','2026-02-10')==='2026-02-28';
+   const wid=ids.find(i=>/^o3\.w\./.test(i)),mn=T.mon(today);st.dut.c[wid]=mn;dutR();const wOn=q('#dut [data-dck="'+wid+'"]').classList.contains('on');
+   const d=new Date(+mn.slice(0,4),+mn.slice(5,7)-1,+mn.slice(8,10)-1),prev=d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');st.dut.c[wid]=prev;dutR();
+   r.week=wOn&&!q('#dut [data-dck="'+wid+'"]').classList.contains('on')&&!st.dut.c[wid];
+   q('#dutin').value='Проверить <b>EPIRB</b>';q('#dutip').value='w';q('#dut [data-dadd]').click();const my=(st.dut.my.o3||[])[0];
+   r.my=!!my&&my.p==='w'&&!!q('#dut [data-dck="o3.w.u'+my.i+'"]')&&!q('#dut .dci span b');q('#dut [data-ddl]').click();r.del=st.dut.my.o3.length===0;
+   const tl=async(rk,k)=>{if(window.fmClose)fmClose();await w(80);st.dut.r=rk;dutR();uxP.dut.b.click();await w(150);q('#dut .dtb [data-dtk="'+k+'"]').click();await w(600)};
+   await tl('co','dsv');r.go1=st.cgo.t==='dsv'&&fmc.contains(q('#cgo'))&&!!q('#cgo [data-cgt=dsv].cur');
+   await tl('o2','psg');r.go2=st.shn.t==='psg'&&fmc.contains(q('#shn'));
+   await tl('o3','ls');r.go3=fmc.contains(q('#srf'))&&/LSA/.test((q('#srf h4')||{}).textContent||'');
+   await tl('e4','tnk');r.go4=st.mtl.t==='tnk'&&fmc.contains(q('#mtl'));await tl('eto','ecl');r.go5=fmc.contains(q('#ecl'));if(window.fmClose)fmClose();await w(80);
+   /* у каждого чина — свои инструменты, остальные — в «Другие инструменты»; плитки разделов-инструментов спрятаны из помещений (data-uxj), плитка «Моя должность» — на палубе */
+   const all=Object.keys(DUTTL).filter(k=>document.getElementById(DUTTL[k][2]));r.mine=['o3','o2','co','e4','e3','e2','ce','eto'].every(k=>T.mine(k).length>=8);
+   st.dut.r='e2';dutR();r.other=document.querySelectorAll('#dut .dtb [data-dtk]').length===all.length&&!!q('#dut details.dto')&&!q('#dut .dsoon')===false;
+   r.hide=T.hide.every(k=>!uxP[k]||uxP[k].b.hasAttribute('data-uxj'))&&!uxP.dut.b.hasAttribute('data-uxj')&&uxP.dut.b.classList.contains('dutw')&&q('#mtl').dataset.t==='r-eng'&&q('#shn').dataset.t==='r-brg';
+   r.kw=/старпом/.test(window.uxKW?uxKW('dut'):'')&&!!(window.gdDesc&&gdDesc('dut'));
+   const o=JSON.parse(sv);[['dut',o.d],['ux',o.u],['shn',o.s],['cgo',o.c],['mtl',o.m]].forEach(([k,v])=>{if(v)st[k]=v;else delete st[k]});if(o.t)st.done[today]=o.t;else delete st.done[today];save();dutR();shnR();cgoR();mtlR();
+   return r});
+  ok(Object.values(dut).every(v=>v===true),'Моя должность: плитка на палубе, инструменты по чину (и машина), плитки инструментов убраны из помещений, должность по мастеру, погоны, XP +5 без удвоения и не больше 50, неделя Пн–Вс, свои пункты, ярлыки в «Груз и остойчивость», «Инструменты штурмана», «Справочник» ('+JSON.stringify(dut)+')');
   /* 🔧 Инструменты механика, этап 2 (mtk2-js). Ручной счёт:
      slp: Vп = 5.2·95·60/1852 = 29640/1852 = 16.0043 уз; скольжение по GPS (16.0043 − 13.0)/16.0043 = 18.77 %, по лагу (16.0043 − 12.4)/16.0043 = 22.52 %; течение +0.6 уз;
       P = 9480·(95/105)³ = 9480·0.740633 = 7021.2 кВт; 7480 → (7480 − 7021.2)/7021.2 = +6.53 % 🟡; 7800 → +11.09 % 🔴; лаг 3.0 и 7100 кВт → скольжение 81.3 % 🟡, мощность +1.12 % 🟢.
@@ -530,6 +565,12 @@ const srv=http.createServer((q,r)=>{let u=decodeURIComponent(q.url.split('?')[0]
     r.lock=['gpar','gnd','mst','ebat','sel'].every(k=>{const y=document.createElement('div');ETX[k].r(y);return!!y.querySelector('[data-mtwl]')&&!y.querySelector('[data-mtv]')});
     etlR();r.n=[...document.querySelectorAll('#etl [data-mtt]')].every(b=>/🔒/.test(b.textContent))&&!!document.querySelector('#etl [data-mtt]');return r});
    ok(et.pkg&&et.has===''&&et.wall&&et.inbox&&et.g&&et.g2&&et.lock&&et.n,'Play-сборка: «⚡ Инструменты электромеханика» закрыты целиком (пакет tools, окно покупки), инструменты — 🔒 ('+JSON.stringify(et)+')');
+   const du=await q.evaluate(()=>{const W=document.getElementById('fpw'),g=id=>document.getElementById(id),r={};W.classList.remove('on');
+    r.pkg=fmPro.pkg('dut')==='tools'&&!fmPro.has('dut');uxP.dut.b.click();r.wall=W.classList.contains('on');r.inbox=g('dut').parentNode===g('mn');W.classList.remove('on');
+    const sv=JSON.stringify(st.dut||null);st.dut={r:'co'};dutR();const b=[...document.querySelectorAll('#dut .dtb [data-dtk]')];
+    r.lock=/🔒/.test(b[0].textContent)&&!/🔒/.test(b.find(x=>x.dataset.dtk==='rh').textContent);b[0].click();r.wall2=W.classList.contains('on');W.classList.remove('on');
+    st.dut=JSON.parse(sv);if(!st.dut)delete st.dut;dutR();return r});
+   ok(Object.values(du).every(v=>v===true),'Play-сборка: «🎖️ Моя должность» закрыта (пакет tools, окно покупки), платные ярлыки внутри — 🔒 и окно покупки ('+JSON.stringify(du)+')');
    const d=await q.evaluate(()=>{document.querySelector('#fpw [data-fp=buy]').click();return{ord:window.__ord,own:fmPro.owned(),ecl:fmPro.has('ecl')}});
    ok(a.on&&a.left===3&&a.ecl&&a.price==='9,99 $'&&a.ota&&a.pro,'Play-сборка: покупка включена, 3 дня пробы, цена из магазина, самообновление выключено ('+JSON.stringify(a)+')');
    ok(!c.tr&&!c.ecl&&c.qz&&c.sh4&&c.wall&&c.inbox&&/9,99/.test(c.btn),'Play-сборка: после пробы платный раздел закрыт окном покупки, бесплатное открыто ('+JSON.stringify(c)+')');
