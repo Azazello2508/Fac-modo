@@ -4159,6 +4159,333 @@ gyr:L("<b>Что это и зачем.</b> Самый частый способ:
 dgk:L("<b>Что это и зачем.</b> Поправка гирокомпаса: пеленг по гирокомпасу (репитеру) на створ или ориентир с известным ИП — или на Солнце, Полярную, звезду. ΔГК = ИП (или азимут) − ГКП. Результат можно перенести в «🔄 Гирокомпас».","<b>What it is and why.</b> Gyro error: take a gyro (repeater) bearing of a transit or landmark with a known true bearing — or of the Sun, Polaris or a star. Gyro error = TB (or azimuth) − gyro bearing. You can carry the result to “🔄 Gyro”.","<b>Що це і навіщо.</b> Поправка гірокомпаса: пеленг за гірокомпасом (репітером) на створ або орієнтир з відомим ІП — або на Сонце, Полярну, зірку. ΔГК = ІП (або азимут) − ГКП. Результат можна перенести в «🔄 Гірокомпас»."),
 dev:L("<b>Что это и зачем.</b> Впиши девиацию δ на 8 компасных курсах (N … NW) — из определений на этих курсах. Приложение посчитает коэффициенты A, B, C, D, E, таблицу через 15° и кривую девиации. Таблицу можно записать в «🧭 Компас» — по ней он считает курсы.","<b>What it is and why.</b> Enter the deviation on the 8 compass headings (N … NW) from your observations. The app computes coefficients A, B, C, D, E, a table every 15° and the deviation curve. You can write the table into “🧭 Compass” — it uses it to convert courses.","<b>Що це і навіщо.</b> Впиши девіацію δ на 8 компасних курсах (N … NW) — з визначень на цих курсах. Застосунок порахує коефіцієнти A, B, C, D, E, таблицю через 15° і криву девіації. Таблицю можна записати в «🧭 Компас» — за нею він рахує курси.")};
 return{T:T,Q:Q,W:W}};</script>
+<style id="dga-css">
+/* Живые схемы теории (dga-js): «⚖️ Остойчивость», «📏 Драфт-сюрвей» (#cgo), «🧲 Поправка компаса» (#shn). Цвета — переменные темы. */
+.dga{--dgr:#e5484d;--dgw:#3b82f6;margin:10px auto;max-width:460px}
+#cgo .dga svg,#shn .dga svg{width:100%;height:auto;display:block;background:var(--bg);border:1px solid var(--line);border-radius:8px;touch-action:pan-y}
+#shn .dga figcaption{font-size:12.5px;line-height:1.35;color:var(--mute);text-align:center;margin:4px 2px 0}
+@media(max-width:400px){#shn .dga{margin-left:-7px;margin-right:-7px}}
+#cgo .dga .dgat,#shn .dga .dgat{min-height:40px;margin:6px 0 0;padding:8px 10px;border-radius:8px;background:var(--card,var(--bg));border:1px solid var(--line);border-left:4px solid var(--acc);font-size:13.5px;line-height:1.45;color:var(--ink)}
+#cgo .dga .dgat.bad,#shn .dga .dgat.bad{border-left-color:var(--dgr)}
+#cgo .dga .dgat.okk,#shn .dga .dgat.okk{border-left-color:var(--ok)}
+#cgo .dga .dgac,#shn .dga .dgac{display:flex;flex-wrap:wrap;gap:6px;margin:6px 0 0}
+#cgo .dga .dgac button,#shn .dga .dgac button{flex:1 1 0;min-width:0;min-height:42px;white-space:normal;font-weight:700;padding:6px 8px}
+#cgo .dga .dgac button.cur,#shn .dga .dgac button.cur{outline:2px solid var(--ok);outline-offset:-2px}
+#cgo .dga .dgal,#shn .dga .dgal{flex:1 1 100%;flex-direction:row;display:flex;align-items:center;gap:8px;font-size:13px;color:var(--mute);min-height:42px;margin:0}
+#cgo .dga .dgal span,#shn .dga .dgal span{flex:0 1 auto;max-width:45%}
+#cgo .dga .dgal input,#shn .dga .dgal input{flex:1 1 0;min-width:0;width:auto;min-height:40px;margin:0;padding:0;border:0;background:none;accent-color:var(--acc)}
+#cgo .dga .dgal b,#shn .dga .dgal b{flex:0 0 auto;min-width:4.4em;text-align:right;color:var(--ink);font-size:13.5px}
+.dga .dgaZ{font:700 21px Arial,sans-serif}
+.dga .dgaHl{fill:var(--card,var(--bg));stroke:none}.dga .dgaRose{fill:var(--card,var(--bg));stroke:var(--line);stroke-width:2}
+.dga .dgaLand{fill:var(--mute);fill-opacity:.22;stroke:var(--mute);stroke-width:1.2}
+.dga .dgaDr{animation:dgaDr .9s ease forwards}@keyframes dgaDr{to{stroke-dashoffset:0}}
+.dga .dgaP{animation:dgaP 1.2s ease-in-out infinite}@keyframes dgaP{50%{opacity:.35}}
+.dga:not(.on) .dgaP{animation:none}
+@media(prefers-reduced-motion:reduce){.dga .dgaDr{animation:none;stroke-dashoffset:0!important}.dga .dgaP{animation:none}}
+</style>
+<script id="dga-js">/* Живые схемы в теории (решение Кости 23.11.2026: «мне нужны картинки»). Префикс dga.
+ «⚖️ Остойчивость» (STBT): heel — судно качается, B уходит к борту, плечо GZ (кнопки «Качка», «Груз высоко», ползунок крена) — тема 1; fs — свободная поверхность, G → G′ (кнопка «Переборка») вместо статичной; gz — диаграмма GZ рисуется, точка по ползунку θ вместо статичной.
+ «📏 Драфт-сюрвей» (DSVT): load — погрузка и лупа на марках (тема 1); perp — поправки к перпендикулярам (после схемы марок); hog — прогиб/перегиб и MMM вместо статичной.
+ «🧲 Поправка компаса» (CPCT): north — три севера по шагам (ползунки d, δ) вместо рисунка 1; rng — створ; amp — Солнце встаёт, амплитуда; dev — кривая δ(К) (тема «Девиационные работы»).
+ Остальные схемы теории неподвижны, но при первом показе плавно прорисовываются (линии, затем подписи).
+ Как устроено: обёртки STBT/DSVT/CPCT (после dg-js и cpct-js) вставляют <figure class="dg dga" data-dga="ключ"> с кнопками data-dgb и ползунками data-dgr.
+ Схема оживает при открытии темы (событие toggle у <details>), кадры идут только пока она на экране (IntersectionObserver), при prefers-reduced-motion — сразу конечный кадр.
+ Новая живая схема: K[ключ] = {init(f,s), draw(f,s), tick(f,s,t) → true пока меняется, btn(f,s,a), rng(f,s,a,v)} + FIG[ключ](L) + вставка в обёртке. Проверка: window.DGATEST. */
+(function(){var G=window.DG;if(!G)return;
+var T=G.T,Ln=G.Ln,P=G.P,C=G.C,R=G.R,A=G.A,D=G.D,rot=G.rot,sec=G.sec,clip=G.clip,cen=G.cen,put=G.put,
+rd=Math.PI/180,sin=function(a){return Math.sin(a*rd)},cos=function(a){return Math.cos(a*rd)},r1=function(v){return Math.round(v*10)/10},
+LL=function(r,e,u){return window.fmL?fmL(r,e,u):r},en=function(){return!!(window.st&&st.lang=="en")},
+RM=function(){try{return!!(window.matchMedia&&matchMedia("(prefers-reduced-motion: reduce)").matches)}catch(e){return false}},
+now=function(){return window.performance&&performance.now?performance.now():Date.now()},
+nf=function(x,d){d=d==null?2:d;var p=Math.pow(10,d),v=Math.round(x*p)/p,s;if(v===0)v=0;s=Math.abs(v).toFixed(d);if(!en())s=s.replace(".",",");return(v<0?"−":"")+s},
+sn=function(x,d){var s=nf(x,d);return+s.replace("−","-").replace(",",".")>0?"+"+s:s},
+ew=function(x,d){var s=sn(x,d);return s+"°"+(s[0]=="+"?" E":s[0]=="−"?" W":"")},
+dg=function(x){x=Math.round(((x%360)+360)%360)%360;return("00"+x).slice(-3)+"°"},
+br=function(x){x=((x%360)+360)%360;var s=(Math.round(x*10)/10).toFixed(1);if(s=="360.0")s="0.0";s=("00"+s).slice(-5);return(en()?s:s.replace(".",","))+"°"},
+grp=function(n){n=Math.round(n);return(n<0?"−":"")+String(Math.abs(n)).replace(/\B(?=(\d{3})+(?!\d))/g," ")},
+pg=function(a,k){return P("M"+a.map(function(p){return r1(p[0])+" "+r1(p[1])}).join(" L")+"Z",k)},
+pl=function(a,k){return P("M"+a.map(function(p){return r1(p[0])+" "+r1(p[1])}).join(" L"),k)},
+area=function(a){var s=0,i,p,n;for(i=0;i<a.length;i++){p=a[i];n=a[(i+1)%a.length];s+=p[0]*n[1]-n[0]*p[1]}return Math.abs(s)/2},
+uid=0;
+/* разметка: фигура, кнопка, ползунок */
+function fig(k,cap,vb,ctl){return'<figure class="dg dga" data-dga="'+k+'"><svg viewBox="0 0 '+vb+'" role="img" aria-label="'+cap+'"></svg><div class="dgat"></div>'+(ctl?'<div class="dgac">'+ctl+'</div>':'')+'<figcaption>'+cap+'</figcaption></figure>'}
+function bt(a,t){return'<button type="button" class="alt" data-dgb="'+a+'">'+t+'</button>'}
+function rg(a,t,mn,mx,st,v){return'<label class="dgal"><span>'+t+'</span><input type="range" data-dgr="'+a+'" min="'+mn+'" max="'+mx+'" step="'+st+'" value="'+v+'"><b></b></label>'}
+function $(f,q){return f.querySelector(q)}
+function base(f,h){var s=$(f,"svg");if(s)s.innerHTML=h;f._g=null;f._h=null}
+function dyn(f,h){var g=f._g||(f._g=$(f,".dgaD"));if(g&&f._h!==h){f._h=h;g.innerHTML=h}}
+function cap(f,h,c){var e=$(f,".dgat");if(!e)return;if(f._c!==h){f._c=h;e.innerHTML=h}var k="dgat"+(c?" "+c:"");if(e.className!=k)e.className=k}
+function setR(f,a,v,txt){var i=$(f,'[data-dgr="'+a+'"]');if(!i)return;if(v!=null&&document.activeElement!==i)i.value=v;var b=i.parentNode.querySelector("b");if(b&&txt!=null&&b.textContent!==txt)b.textContent=txt}
+function bcur(f,a,on,txt){var b=$(f,'[data-dgb="'+a+'"]');if(!b)return;b.classList.toggle("cur",!!on);if(txt!=null&&b.textContent!==txt)b.textContent=txt}
+var FIG={},K={};
+
+/* ================= ОСТОЙЧИВОСТЬ ================= */
+/* heel: точка на диаметральной на высоте h над ватерлинией при крене a: [cx + h·sin a, wl − h·cos a]. Масштаб 1 px = 0,03 м: M на 40 px, G на 0 → GM = 1,20 м; «груз высоко» — G на 52 px: GM = −0,36 м.
+ B1 — на вертикали через M ниже на BM (метацентр при малых углах); GZ = (hM − hG)·sin θ = GM·sin θ. */
+FIG.heel=function(L){return fig("heel",L("Почему судно встаёт обратно: плечо GZ","Why a ship comes back upright: the lever GZ","Чому судно повертається: плече GZ"),"300 230",
+ rg("h",L("Крен θ","Heel θ","Крен θ"),-30,30,1,0)+bt("a","🌊 "+L("Качка","Rolling","Хитавиця"))+bt("b","⚠️ "+L("Груз высоко","Weight high","Вантаж високо")))};
+K.heel={init:function(f,s){s.a=s.th=s.rm?15:0;s.auto=!s.rm;s.bad=0;s.t0=null;
+  base(f,'<g class="dgaH">'+pg(sec(150,125,85,-62,48),"h")+Ln(150,32,150,182,"d")+'<rect class="cg dgaCg" x="122" y="137" width="56" height="26"/></g>'+R(0,125,300,105,"sea")+Ln(0,125,300,125,"wl")+'<g class="dgaD"></g>')},
+ draw:function(f,s){var cx=150,wl=125,a=s.a,hG=s.bad?52:0,hM=40,GM=(hM-hG)*0.03,pp=function(h){return[cx+h*sin(a),wl-h*cos(a)]},g=pp(hG),M=pp(hM),B=[M[0],M[1]+70],Z=[B[0],g[1]],gz=GM*sin(a),
+  ok=GM>0,k=ok?"g":"r",h="",tx;
+  $(f,".dgaH").setAttribute("transform","rotate("+r1(a)+" "+cx+" "+wl+")");$(f,".dgaCg").setAttribute("y",s.bad?37:137);
+  h+=Ln(B[0],B[1],M[0],M[1],"d")+A(g[0],g[1],g[0],g[1]+36,"i",0,"w2")+A(B[0],B[1]+34,B[0],B[1]+2,"b",0,"w2");
+  if(Math.abs(Z[0]-g[0])>2.5)h+=Ln(g[0],g[1],Z[0],Z[1],"s"+k+" w3")+T((g[0]+Z[0])/2,g[1]-7,"GZ","b "+k,"m");
+  h+=D(M,"M","i",a>=0?8:-8,-5,a>=0?0:"e")+D(g,"G","i",a>=0?-9:9,-6,a>=0?"e":0)+D(B,"B","b",a>=0?9:-9,14,a>=0?0:"e","w")+T(8,218,"θ = "+Math.round(Math.abs(a))+"°","b");
+  if(Math.abs(a)>=2){var dr=(ok?-1:1)*(a>0?1:-1),x0=cx-dr*70,x1=cx+dr*70,l=Math.hypot(70,26),u=dr*70/l,v=26/l;
+   h+=P("M"+x0+" 30 Q"+cx+" 4 "+x1+" 30","s"+k+" w3")+A(x1-u*9,30-v*9,x1,30,k,0,"w3")+T(cx,46,ok?LL("выпрямляет","rights the ship","випрямляє"):LL("валит дальше","heels it further","валить далі"),"s b "+k,"m")}
+  dyn(f,h);
+  if(Math.abs(a)<1.5)tx=s.bad?LL("Груз высоко: G выше M, GM = "+nf(GM)+" м. Пока судно прямо, оно стоит, но от малейшего крена завалится.","Weight high: G is above M, GM = "+nf(GM)+" m. Upright it still stands, but the slightest heel will tip it over.","Вантаж високо: G вище M, GM = "+nf(GM)+" м. Поки судно рівно, воно стоїть, але від найменшого крену завалиться.")
+   :LL("Судно прямо: <b>G</b> (вес тянет вниз) и <b>B</b> (вода толкает вверх) на одной вертикали — плеча нет. Двигай крен или включи качку.","Upright: <b>G</b> (weight pulls down) and <b>B</b> (water pushes up) are on one vertical — no lever. Move the heel or turn on rolling.","Судно рівно: <b>G</b> (вага тягне вниз) і <b>B</b> (вода штовхає вгору) на одній вертикалі — плеча немає. Рухай крен або ввімкни хитавицю.");
+  else{var th=Math.round(Math.abs(a)),z=GM*sin(th),f1="GZ ≈ GM·sin θ = "+nf(GM)+" · sin "+th+"° = "+nf(z);
+   tx=ok?LL("Крен "+th+"°: <b>B</b> ушёл к накренённому борту. "+f1+" м (малые углы). Пара сил <b>выпрямляет</b> судно: момент Δ·GZ ≈ "+grp(10000*z)+" т·м при Δ = 10 000 т.","Heel "+th+"°: <b>B</b> moved to the low side. "+f1+" m (small angles). The couple <b>rights</b> the ship: moment Δ·GZ ≈ "+grp(10000*z)+" t·m at Δ = 10,000 t.","Крен "+th+"°: <b>B</b> пішов до накрененого борту. "+f1+" м (малі кути). Пара сил <b>випрямляє</b> судно: момент Δ·GZ ≈ "+grp(10000*z)+" т·м при Δ = 10 000 т.")
+    :LL("⚠️ Груз высоко: G выше M, GM &lt; 0. "+f1+" м — плечо в сторону крена, пара сил <b>валит судно дальше</b>.","⚠️ Weight high: G is above M, GM &lt; 0. "+f1+" m — the lever points to the low side, the couple <b>heels the ship further</b>.","⚠️ Вантаж високо: G вище M, GM &lt; 0. "+f1+" м — плече в бік крену, пара сил <b>валить судно далі</b>.")}
+  cap(f,tx,ok?"":"bad");setR(f,"h",Math.round(a),Math.round(Math.abs(a))+"°");bcur(f,"a",s.auto);
+  bcur(f,"b",s.bad,s.bad?"✅ "+LL("Груз низко","Weight low","Вантаж низько"):"⚠️ "+LL("Груз высоко","Weight high","Вантаж високо"))},
+ tick:function(f,s,t){if(s.auto){if(s.t0==null)s.t0=t;var tt=(t-s.t0)/1000;s.th=s.bad?Math.min(28,(tt%5)*7):18*Math.sin(tt*1.1)}var d=s.th-s.a;if(!s.auto&&Math.abs(d)<0.05)return false;s.a+=d*.15;return true},
+ btn:function(f,s,a){if(a=="a"&&!s.rm){s.auto=!s.auto;s.t0=null}if(a=="b"){s.bad=!s.bad;s.t0=null}},
+ rng:function(f,s,a,v){s.auto=false;s.th=v;if(s.rm)s.a=v}};
+
+/* fs: цистерна 140 × 40 px наполовину (площадь 2800); уровень — горизонтальный, ищется делением пополам так, чтобы площадь жидкости не менялась.
+ Смещение G: G1 = G + k·Σ(Aᵢ·(gᵢ − g0ᵢ))/ΣA (k = 0,37 для наглядности); G′ — где вертикаль через G1 пересекает диаметральную. Без переборки GG′ ~ b³/12, с переборкой 2·(b/2)³/12 — в 4 раза меньше.
+ Пример в тексте: l = 15 м, b = 10 м, ρ = 0,9: FSM = 0,9·15·10³/12 = 1125 т·м, Δ = 15 000 т → GG′ = 0,075 м; с переборкой 281,25 т·м → 0,019 м. */
+FIG.fs=function(L){return fig("fs",L("Свободная поверхность: жидкость перетекает, G «поднимается» в G′","Free surface: the liquid flows over, G “rises” to G′","Вільна поверхня: рідина перетікає, G «піднімається» в G′"),"300 230",
+ rg("h",L("Крен θ","Heel θ","Крен θ"),-25,25,1,0)+bt("a","🌊 "+L("Качка","Rolling","Хитавиця"))+bt("w","🧱 "+L("Переборка","Bulkhead","Перебірка")))};
+K.fs={init:function(f,s){s.a=s.th=s.rm?15:0;s.auto=!s.rm;s.w=0;s.t0=null;base(f,'<g class="dgaD"></g>')},
+ draw:function(f,s){var cx=150,wl=115,a=s.a,q=rot(cx,wl,a),kk=0.37,tk=s.w?[[cx-70,cx],[cx,cx+70]]:[[cx-70,cx+70]],h="",At=0,mx=0,my=0,I=0,lq="",gg="";
+  h+=pg(sec(cx,wl,100,-50,80,q,18),"h");var c0=q(cx,wl-56),c1=q(cx,wl+80);h+=Ln(c0[0],c0[1],c1[0],c1[1],"d");
+  tk.forEach(function(x){var re=[[x[0],wl+25],[x[1],wl+25],[x[1],wl+65],[x[0],wl+65]].map(function(p){return q(p[0],p[1])}),A0=(x[1]-x[0])*20,lo=1e9,hi=-1e9,i,y,l;
+   re.forEach(function(p){lo=Math.min(lo,p[1]);hi=Math.max(hi,p[1])});for(i=0;i<28;i++){y=(lo+hi)/2;if(area(clip(re,y))>A0)lo=y;else hi=y}
+   l=clip(re,(lo+hi)/2);var g=cen(l),g0=q((x[0]+x[1])/2,wl+55);At+=A0;mx+=A0*(g[0]-g0[0]);my+=A0*(g[1]-g0[1]);I+=Math.pow(x[1]-x[0],3)/12;
+   lq+=pg(l,"liq")+pg(re,"tk");gg+=C(g0[0],g0[1],3,"fm")+(Math.hypot(g[0]-g0[0],g[1]-g0[1])>5?A(g0[0],g0[1],g[0],g[1],"r"):"")+C(g[0],g[1],3.4,"fr")});
+  if(s.w){var b0=q(cx,wl+25),b1=q(cx,wl+65);lq+=Ln(b0[0],b0[1],b1[0],b1[1],"si w3")}
+  var Gs=q(cx,wl-8),G1=[Gs[0]+kk*mx/At,Gs[1]+kk*my/At],tt=Math.abs(a)>2?(G1[0]-Gs[0])/sin(a):kk*I/At,Gp=[Gs[0]+tt*sin(a),Gs[1]-tt*cos(a)];
+  h+=lq+gg+D(Gs,"G","i",a>=0?-9:9,10,a>=0?"e":0);
+  if(Math.abs(a)>2)h+=C(G1[0],G1[1],2.6,"fr")+Ln(G1[0],G1[1],Gp[0],Gp[1],"sr dd");
+  h+=C(Gp[0],Gp[1],4.2,"hc")+T(Gp[0]+(a>=0?8:-8),Gp[1]-3,"G′","b r",a>=0?0:"e");
+  h+=R(0,wl,300,115,"sea")+Ln(0,wl,300,wl,"wl")+T(8,20,"θ = "+Math.round(Math.abs(a))+"°","b")+T(292,20,s.w?"2·(b/2)³/12 = b³/48":"FSM ~ b³/12","s b","e")+T(292,38,"GG′ = ΣFSM / Δ","s","e");
+  dyn(f,h);
+  cap(f,s.w?LL("С продольной переборкой — две цистерны шириной b/2: FSM = 2·ρ·l·(b/2)³/12, <b>в 4 раза меньше</b>. Пример: l = 15 м, b = 10 м, ρ = 0,9 т/м³ → FSM = 281 т·м, при Δ = 15 000 т GG′ = 0,019 м.","With a longitudinal bulkhead — two tanks of width b/2: FSM = 2·ρ·l·(b/2)³/12, <b>4 times less</b>. Example: l = 15 m, b = 10 m, ρ = 0.9 t/m³ → FSM = 281 t·m, at Δ = 15,000 t GG′ = 0.019 m.","З поздовжньою перебіркою — дві цистерни завширшки b/2: FSM = 2·ρ·l·(b/2)³/12, <b>у 4 рази менше</b>. Приклад: l = 15 м, b = 10 м, ρ = 0,9 т/м³ → FSM = 281 т·м, при Δ = 15 000 т GG′ = 0,019 м.")
+   :LL("Жидкость перетекает к низкому борту, её центр g уходит туда же, и судно ведёт себя так, будто G поднялся в <b>G′</b>: GM испр. = GM − GG′. Пример: цистерна l = 15 м, b = 10 м, ρ = 0,9 т/м³ → FSM = ρ·l·b³/12 = 1125 т·м, при Δ = 15 000 т GG′ = 0,075 м.","The liquid flows to the low side, its centre g moves there too, and the ship behaves as if G rose to <b>G′</b>: GM corr. = GM − GG′. Example: tank l = 15 m, b = 10 m, ρ = 0.9 t/m³ → FSM = ρ·l·b³/12 = 1125 t·m, at Δ = 15,000 t GG′ = 0.075 m.","Рідина перетікає до низького борту, її центр g іде туди ж, і судно поводиться так, ніби G піднявся в <b>G′</b>: GM випр. = GM − GG′. Приклад: цистерна l = 15 м, b = 10 м, ρ = 0,9 т/м³ → FSM = ρ·l·b³/12 = 1125 т·м, при Δ = 15 000 т GG′ = 0,075 м."),s.w?"okk":"");
+  setR(f,"h",Math.round(a),Math.round(Math.abs(a))+"°");bcur(f,"a",s.auto);bcur(f,"w",s.w)},
+ tick:function(f,s,t){if(s.auto){if(s.t0==null)s.t0=t;s.th=18*Math.sin((t-s.t0)/1000*1.1)}var d=s.th-s.a;if(!s.auto&&Math.abs(d)<0.05)return false;s.a+=d*.15;return true},
+ btn:function(f,s,a){if(a=="a"&&!s.rm){s.auto=!s.auto;s.t0=null}if(a=="w")s.w=!s.w},
+ rng:function(f,s,a,v){s.auto=false;s.th=v;if(s.rm)s.a=v}};
+
+/* gz: та же кривая, что статичная схема dg-js (gzc), открывается слева направо за 3,5 с; точка — по ползунку θ. Максимум ≈ 0,46 м при 44,7°, угол заката 75°, θf = 52°. */
+var gzc=function(th){var t=th/75;return t<=0||t>=1?0:t*(1-t)*(1+1.5*t)};
+FIG.gz=function(L){return fig("gz",L("Диаграмма GZ: как строится и что на ней читать","The GZ curve: how it is built and what to read","Діаграма GZ: як будується і що на ній читати"),"300 236",
+ rg("t",L("Крен θ","Heel θ","Крен θ"),0,75,1,30)+bt("go","▶ "+L("Нарисовать заново","Draw again","Намалювати знову")))};
+K.gz={init:function(f,s){s.p=s.rm?1:0;s.th=30;s.t0=null;s.id="dgaC"+(++uid);var F=window.STBF?STBF(LL):{},m=String(F.gz||"").match(/<svg[^>]*>([\s\S]*)<\/svg>/);
+  base(f,'<defs><clipPath id="'+s.id+'"><rect class="dgaCr" x="0" y="0" width="40" height="236"/></clipPath></defs><g clip-path="url(#'+s.id+')">'+(m?m[1]:"")+'</g><g class="dgaD"></g>')},
+ draw:function(f,s){var X=function(a){return 40+a*3},Y=function(v){return 180-v*197},th=s.p<1?s.p*75:s.th,v=gzc(th),x=X(th),y=Y(v),h="";
+  $(f,".dgaCr").setAttribute("width",r1(Math.min(300,44+s.p*256)));
+  h+=Ln(x,180,x,y,"sr dd")+C(x,y,5,"fr")+R(200,26,94,33,"bx",6)+T(290,40,"θ = "+Math.round(th)+"°","s b","e")+T(290,54,"GZ = "+nf(v)+" "+LL("м","m","м"),"s b r","e");
+  dyn(f,h);var mx=Math.abs(th-44.7)<2.5,end=th>=74.5;
+  cap(f,LL("При крене "+Math.round(th)+"° плечо GZ = "+nf(v)+" м"+(mx?" — это <b>максимум</b>":end?" — <b>угол заката</b>, дальше судно не встанет":"")+". Кривая растёт до максимума ≈ "+nf(gzc(44.7))+" м при 44,7°, на 75° GZ = 0. Зелёная площадь — запас работы против опрокидывания, θf = 52° — угол заливания.",
+   "At "+Math.round(th)+"° heel the lever GZ = "+nf(v)+" m"+(mx?" — this is the <b>maximum</b>":end?" — the <b>vanishing angle</b>, beyond it the ship will not come back":"")+". The curve rises to a maximum ≈ "+nf(gzc(44.7))+" m at 44.7°, at 75° GZ = 0. The green area is the reserve of work against capsizing, θf = 52° is the flooding angle.",
+   "При крені "+Math.round(th)+"° плече GZ = "+nf(v)+" м"+(mx?" — це <b>максимум</b>":end?" — <b>кут заходу</b>, далі судно не встане":"")+". Крива росте до максимуму ≈ "+nf(gzc(44.7))+" м при 44,7°, на 75° GZ = 0. Зелена площа — запас роботи проти перекидання, θf = 52° — кут заливання."),end?"bad":mx?"okk":"");
+  setR(f,"t",Math.round(th),Math.round(th)+"°")},
+ tick:function(f,s,t){if(s.p>=1)return false;if(s.t0==null)s.t0=t;s.p=Math.min(1,(t-s.t0)/3500);if(s.p>=1)s.th=Math.round(44.7);return true},
+ btn:function(f,s,a){if(a=="go"){s.p=s.rm?1:0;s.t0=null}},
+ rng:function(f,s,a,v){s.th=v;s.p=1}};
+
+/* ================= ДРАФТ-СЮРВЕЙ ================= */
+/* load: марки на носу, 1 м = 22 px, киль (0 м) на y = 170 в координатах корпуса; лупа ×6,8 (1 м = 150 px). Цифры 10 см высотой через 20 см, отсчёт — по нижнему краю цифры.
+ Каждые 2000 т — +0,60 м (TPC ≈ 33,3 т/см: 2000 / 33,3 = 60 см). */
+FIG.load=function(L){return fig("load",L("Погрузка: судно садится, лупа на марках осадки","Loading: the ship sinks, a magnifier on the draught marks","Навантаження: судно сідає, лупа на марках осадки"),"300 200",
+ bt("ld","🏗️ "+L("Погрузить 2000 т","Load 2,000 t","Завантажити 2000 т"))+bt("un","⬆️ "+L("Выгрузить 2000 т","Discharge 2,000 t","Вивантажити 2000 т")))};
+K.load={init:function(f,s){s.T=s.tg=4;s.n=0;s.id="dgaL"+(++uid);var mk="",m,y,bg;
+  for(m=2;m<=9.01;m+=0.2){y=r1(170-m*22);bg=Math.abs(m-Math.round(m))<0.01;mk+=bg?Ln(232,y,243,y,"si w2")+T(246,y+4,Math.round(m)+"M","s b"):Ln(236,y,242,y,"si")}
+  base(f,'<defs><clipPath id="'+s.id+'"><circle cx="70" cy="62" r="46"/></clipPath></defs><g class="dgaS">'+P("M20 -40 H262 L290 60 Q290 170 262 170 H40 Q20 170 20 140 Z","h")+R(40,-62,40,22,"h",3)+Ln(20,-30,272,-30,"sm")+'<g class="dgaCgo"></g>'+mk+'</g>'
+   +R(0,120,300,80,"sea")+Ln(0,120,300,120,"wl")+'<g clip-path="url(#'+s.id+')">'+R(20,12,100,110,"dgaHl")+'<g class="dgaD"></g>'+R(20,62,100,60,"liq")+Ln(20,62,120,62,"wl dd")+'</g>'
+   +'<circle cx="70" cy="62" r="46" class="sy" style="fill:none;stroke-width:4"/>'+Ln(103,95,122,114,"sy w3")+Ln(116,62,236,120,"sy dd"))},
+ draw:function(f,s){var T0=s.T,h="",k,m,yy,bg,c="",i;$(f,".dgaS").setAttribute("transform","translate(0 "+r1(120-(170-T0*22))+")");
+  for(k=Math.floor(T0*5)-3;k<=Math.floor(T0*5)+3;k++){m=k/5;yy=62-(m-T0)*150;if(yy<16||yy>122)continue;bg=k%5==0;h+=T(bg?32:48,yy,bg?Math.round(m)+"M":String((k%5)*2),"dgaZ")+Ln(92,yy,112,yy,"sy w2")}
+  for(i=0;i<s.n*2;i++)c+=R(100+(i%4)*36,-26-Math.floor(i/4)*13,32,12,"cg");
+  var g=$(f,".dgaCgo");if(g&&g._c!==c){g._c=c;g.innerHTML=c}dyn(f,h);
+  var lo=Math.floor(T0*5+1e-6)/5;
+  cap(f,LL("Осадка по маркам: <b>"+nf(T0)+" м</b>. В трюме "+grp(s.n*2000)+" т; TPC ≈ 33,3 т/см, поэтому 2000 т — это +60 см. Цифры высотой 10 см стоят через 20 см, отсчёт — по нижнему краю цифры: вода между "+nf(lo,1)+" и "+nf(lo+0.2,1)+" м.",
+   "Draught at the marks: <b>"+nf(T0)+" m</b>. In the hold "+grp(s.n*2000)+" t; TPC ≈ 33.3 t/cm, so 2,000 t is +60 cm. The 10 cm figures are 20 cm apart, read at the bottom edge of a figure: the water is between "+nf(lo,1)+" and "+nf(lo+0.2,1)+" m.",
+   "Осадка за марками: <b>"+nf(T0)+" м</b>. У трюмі "+grp(s.n*2000)+" т; TPC ≈ 33,3 т/см, тому 2000 т — це +60 см. Цифри заввишки 10 см стоять через 20 см, відлік — за нижнім краєм цифри: вода між "+nf(lo,1)+" і "+nf(lo+0.2,1)+" м."))},
+ tick:function(f,s){var d=s.tg-s.T;if(Math.abs(d)<0.002){if(s.T!==s.tg){s.T=s.tg;return true}return false}s.T+=d*.06;return true},
+ btn:function(f,s,a){if(a=="ld"&&s.n<6)s.n++;if(a=="un"&&s.n>0)s.n--;s.tg=Math.round((4+0.6*s.n)*100)/100;if(s.rm)s.T=s.tg}};
+
+/* perp: LBP = 180 м, марки: носовые dF = 4,0 м в корму от FP, кормовые dA = 12,0 м в нос от AP → LBM = 164 м; осадка на миделе 8,00 м, x — от миделя (+ в корму).
+ Истинный дифферент t (ползунок): осадка в точке x = 8 + t·x/180; F = осадка при x = −86, A — при x = +78; t марок = A − F = t·164/180.
+ Fp = F − t·dF/LBM, Ap = A + t·dA/LBM (как в dsv-js). Пример t = 2,00: F = 7,044, A = 8,867, t марок = 1,822 → Fp = 7,000, Ap = 9,000. Наклон воды на рисунке утрирован ×2. */
+FIG.perp=function(L){return fig("perp",L("Марки не на перпендикулярах: поправки Fp и Ap","The marks are not on the perpendiculars: corrections Fp and Ap","Марки не на перпендикулярах: поправки Fp і Ap"),"300 200",
+ rg("t",L("Дифферент Ap − Fp","Trim Ap − Fp","Диферент Ap − Fp"),-1,3,0.1,2))};
+K.perp={init:function(f,s){s.t=2;s.auto=!s.rm;s.t0=null;
+  base(f,pg([[34,48],[34,138],[40,148],[52,150],[250,150],[276,48]],"h")+'<g class="dgaD"></g>')},
+ draw:function(f,s){var t=s.t,xm=function(x){return(157-x)/226*180},wy=function(x){return 150-(8+2*t*xm(x)/180)*10},h="",
+  F=8+t*(-86)/180,Am=8+t*78/180,tm=Am-F,Fp=F-tm*4/164,Ap=Am+tm*12/164,xF=254,xA=84,i;
+  h+=pg([[0,wy(0)],[300,wy(300)],[300,200],[0,200]],"sea")+Ln(0,wy(0),300,wy(300),"wl");
+  h+=Ln(44,30,44,166,"d")+Ln(270,30,270,166,"d")+T(44,26,"AP","s b","m")+T(270,26,"FP","s b","m");
+  [[xA,"A"],[xF,"F"]].forEach(function(o){var x=o[0];h+=Ln(x,62,x,142,"si");for(i=0;i<=8;i++)h+=Ln(x-3,62+i*10,x+3,62+i*10,"si");h+=T(x,56,o[1],"b","m")+C(x,wy(x),3.6,"fr")});
+  [[xA,44,"Ap"],[xF,270,"Fp"]].forEach(function(o){var y0=wy(o[0]),y1=wy(o[1]);h+=Ln(o[0],y0,o[1],y0,"sr dd")+(Math.abs(y1-y0)>4?A(o[1],y0,o[1],y1,"r",1):"")+C(o[1],y1,3.4,"fb")+T(o[1]+(o[1]<150?-5:5),y1+(t>=0?-6:14),o[2],"s b w",o[1]<150?"e":0)});
+  h+=A(44,174,xA,174,"m",1)+T((44+xA)/2,190,"dA","s b","m")+A(xF,174,270,174,"m",1)+T((xF+270)/2,190,"dF","s b","m")+A(xA,184,xF,184,"m",1)+T(157,180,"LBM = 164 "+LL("м","m","м"),"s","m");
+  dyn(f,h);var big=Math.abs(tm*12/164)>=0.1;
+  cap(f,LL("По маркам: F = "+nf(F)+", A = "+nf(Am)+" → t = A − F = "+sn(tm)+" м. Fp = F − t·dF/LBM = "+nf(F)+" − ("+sn(tm)+")·4/164 = <b>"+nf(Fp)+" м</b>; Ap = A + t·dA/LBM = "+nf(Am)+" + ("+sn(tm)+")·12/164 = <b>"+nf(Ap)+" м</b>."+(big?" Поправка кормы ≥ 10 см — проверь dA по чертежу.":""),
+   "At the marks: F = "+nf(F)+", A = "+nf(Am)+" → t = A − F = "+sn(tm)+" m. Fp = F − t·dF/LBM = "+nf(F)+" − ("+sn(tm)+")·4/164 = <b>"+nf(Fp)+" m</b>; Ap = A + t·dA/LBM = "+nf(Am)+" + ("+sn(tm)+")·12/164 = <b>"+nf(Ap)+" m</b>."+(big?" The aft correction is ≥ 10 cm — check dA on the drawing.":""),
+   "За марками: F = "+nf(F)+", A = "+nf(Am)+" → t = A − F = "+sn(tm)+" м. Fp = F − t·dF/LBM = "+nf(F)+" − ("+sn(tm)+")·4/164 = <b>"+nf(Fp)+" м</b>; Ap = A + t·dA/LBM = "+nf(Am)+" + ("+sn(tm)+")·12/164 = <b>"+nf(Ap)+" м</b>."+(big?" Поправка корми ≥ 10 см — перевір dA за кресленням.":"")));
+  setR(f,"t",r1(t),sn(t,1)+" "+LL("м","m","м"))},
+ tick:function(f,s,t){if(!s.auto)return false;if(s.t0==null)s.t0=t;s.t=Math.round((1+1.6*Math.sin((t-s.t0)/1000*0.6))*100)/100;return true},
+ rng:function(f,s,a,v){s.auto=false;s.t=v}};
+
+/* hog: Fp = 7,80, Ap = 8,40, Mp = (Fp + Ap)/2 + p; прогиб (sag) p > 0 — середина глубже, перегиб (hog) p < 0. MMM = (Fp + Ap + 6·Mp)/8.
+ Пример p = +0,12: Mp = 8,22, MMM = (7,80 + 8,40 + 49,32)/8 = 8,19. На рисунке прогиб утрирован (1 м = 100 px), дифферент ×3. */
+FIG.hog=function(L){return fig("hog",L("Прогиб и перегиб: зачем осадка на миделе","Sag and hog: why the midship draught matters","Прогин і перегин: навіщо осадка на міделі"),"300 190",
+ rg("p",L("Прогиб + / перегиб −","Sag + / hog −","Прогин + / перегин −"),-0.3,0.3,0.01,0.12))};
+K.hog={init:function(f,s){s.p=0.12;s.auto=!s.rm;s.t0=null;base(f,'<g class="dgaD"></g>')},
+ draw:function(f,s){var p=s.p,Fp=7.8,Ap=8.4,Mp=(Fp+Ap)/2+p,MMM=(Fp+Ap+6*Mp)/8,ky=function(x){var u=(x-150)/110,ln=Ap+(Fp-Ap)*(x-40)/220;return 70+7*(8.1+(ln-8.1)*3)+p*(1-u*u)*100},
+  dk=[],kl=[],x,h="";for(x=30;x<=270;x+=10){dk.push([x,ky(x)-82]);kl.unshift([x,ky(x)])}
+  h+=pg(dk.concat(kl),"h")+R(0,70,300,120,"sea")+Ln(0,70,300,70,"wl")+Ln(40,ky(40),260,ky(260),"d");
+  var cm=(ky(40)+ky(260))/2;if(Math.abs(p)>=0.06)h+=A(150,cm,150,ky(150),"r",1)+T(158,(cm+ky(150))/2+4,sn(p)+" "+LL("м","m","м"),"s b r");
+  [[40,"A",Ap],[150,"M",Mp],[260,"F",Fp]].forEach(function(o){h+=C(o[0],70,3.6,"fr")+T(o[0],ky(o[0])-90,o[1]+" "+nf(o[2]),"s b","m")});
+  dyn(f,h);var w=Math.abs(p)>0.15,kind=p>0.004?LL("Прогиб (sag)","Sag","Прогин (sag)"):p<-0.004?LL("Перегиб (hog)","Hog","Перегин (hog)"):LL("Корпус прямой","Straight hull","Корпус прямий"),
+  sm=nf(Fp)+" + "+nf(Ap)+" + 6·"+nf(Mp);
+  cap(f,LL(kind+": Mp − (Fp + Ap)/2 = "+nf(Mp)+" − "+nf((Fp+Ap)/2)+" = <b>"+sn(p)+" м</b>. По одним концам осадка была бы "+nf((Fp+Ap)/2)+" м, а «среднее из средних» MMM = (Fp + Ap + 6·Mp)/8 = ("+sm+")/8 = <b>"+nf(MMM)+" м</b>."+(w?" Больше 15 см — перепроверь осадки.":""),
+   kind+": Mp − (Fp + Ap)/2 = "+nf(Mp)+" − "+nf((Fp+Ap)/2)+" = <b>"+sn(p)+" m</b>. From the ends only the draught would be "+nf((Fp+Ap)/2)+" m, the “mean of means” MMM = (Fp + Ap + 6·Mp)/8 = ("+sm+")/8 = <b>"+nf(MMM)+" m</b>."+(w?" More than 15 cm — check the draughts again.":""),
+   kind+": Mp − (Fp + Ap)/2 = "+nf(Mp)+" − "+nf((Fp+Ap)/2)+" = <b>"+sn(p)+" м</b>. За самими кінцями осадка була б "+nf((Fp+Ap)/2)+" м, а «середнє із середніх» MMM = (Fp + Ap + 6·Mp)/8 = ("+sm+")/8 = <b>"+nf(MMM)+" м</b>."+(w?" Більше 15 см — перевір осадки ще раз.":"")),w?"bad":"");
+  setR(f,"p",p,sn(p)+" "+LL("м","m","м"))},
+ tick:function(f,s,t){if(!s.auto)return false;if(s.t0==null)s.t0=t;s.p=Math.round(0.22*Math.sin((t-s.t0)/1000*0.7+0.6)*100)/100;return true},
+ rng:function(f,s,a,v){s.auto=false;s.p=v}};
+
+/* ================= ПОПРАВКА КОМПАСА ================= */
+/* north: ИК = 55°, d и δ — ползунки (E = +, W = −); КК = ИК − d − δ; ΔК = d + δ. Углы от Nи по часовой стрелке. */
+FIG.north=function(L){return fig("north",L("Истинный, магнитный и компасный меридианы","True, magnetic and compass meridians","Істинний, магнітний і компасний меридіани"),"300 250",
+ rg("d",L("Склонение d","Variation","Схилення d"),-20,20,1,12)+rg("e",L("Девиация δ","Deviation","Девіація δ"),-10,10,1,-5)+bt("go","▶ "+L("Показать по шагам","Show step by step","Показати по кроках")))};
+K.north={init:function(f,s){s.d=12;s.e=-5;s.st=4;s.an=0;s.t0=null;s.run=0;var tk="",a,l;
+  for(a=0;a<360;a+=10){l=a%30?6:12;tk+=Ln(150+(92-l)*sin(a),135-(92-l)*cos(a),150+92*sin(a),135-92*cos(a),"sm")}
+  base(f,'<circle cx="150" cy="135" r="92" class="dgaRose"/>'+tk+'<g class="dgaD"></g>')},
+ draw:function(f,s){var cx=150,cy=135,K0=55,d=s.d,e=s.e,KK=K0-d-e,st=s.st,h="",
+  pq=function(a,q){return[cx+q*sin(a),cy-q*cos(a)]},tc={i:"",b:"w",y:"y",g:"g"},
+  arm=function(a,k,lab,q,dx){var p=pq(a,q),t=pq(a,q+12);return A(cx,cy,p[0],p[1],k,0,"w2")+T(t[0]+(dx||0),t[1]+4,lab,"b "+tc[k],"m")},
+  arc=function(a1,a2,q,k,lab,an){if(Math.abs(a2-a1)<0.5)return"";var p1=pq(a1,q),p2=pq(a2,q),m=Math.abs(a2-a1)>=24?pq((a1+a2)/2,q+11):pq(a1+a2>=0?Math.max(a1,a2)+10:Math.min(a1,a2)-10,q),len=Math.ceil(Math.abs(a2-a1)*rd*q)+2;
+   return'<path d="M'+r1(p1[0])+" "+r1(p1[1])+" A"+q+" "+q+" 0 0 "+(a2>a1?1:0)+" "+r1(p2[0])+" "+r1(p2[1])+'" class="s'+k+' w3'+(an&&!s.rm?' dgaDr" style="stroke-dasharray:'+len+';stroke-dashoffset:'+len:'')+'"/>'+T(m[0],m[1]+4,lab,"b "+tc[k],"m")},
+  Nt=LL("Nи","Nt","Nі"),Nm=LL("Nм","Nm","Nм"),Nc=LL("Nк","Nc","Nк"),fd=function(x){return x>0?x+"° E":x<0?(-x)+"° W":"0°"},tm=function(x){return(x<0?" − ":" + ")+Math.abs(x)+"°"};
+  if(st>=1)h+=arm(0,"i",Nt,88);
+  if(st>=2)h+=arm(d,"b",Nm,70,d>=0?12:-12)+arc(0,d,34,"b","d",s.an==2);
+  if(st>=3)h+=arm(d+e,"y",Nc,52,(d+e)>=d?14:-14)+arc(d,d+e,50,"y","δ",s.an==3);
+  if(st>=4)h+=arm(K0,"g",LL("курс","heading","курс"),92)+arc(d+e,K0,68,"g",LL("КК","CC","КК"),s.an==4);
+  h+='<path d="M0 -16 L8 10 L0 5 L-8 10 Z" class="fx" transform="translate('+cx+" "+cy+") rotate("+(st>=4?K0:0)+')"/>';
+  if(st>=4)h+=T(8,242,LL("ИК = КК + δ + d","TC = CC + Dev + Var","ІК = КК + δ + d"),"s b");
+  s.an=0;dyn(f,h);
+  var c=[LL("<b>Шаг 1.</b> Истинный север Nи — на географический полюс. От него считают истинный курс ИК.","<b>Step 1.</b> True north Nt points to the geographic pole. The true course TC is measured from it.","<b>Крок 1.</b> Істинна північ Nі — на географічний полюс. Від неї рахують істинний курс ІК."),
+   LL("<b>Шаг 2.</b> Магнитная стрелка смотрит на магнитный север Nм. Угол между ними — склонение <b>d = "+fd(d)+"</b> (с карты).","<b>Step 2.</b> A magnetic needle points to magnetic north Nm. The angle between them is the variation <b>"+fd(d)+"</b> (from the chart).","<b>Крок 2.</b> Магнітна стрілка дивиться на магнітну північ Nм. Кут між ними — схилення <b>d = "+fd(d)+"</b> (з карти)."),
+   LL("<b>Шаг 3.</b> Железо судна отклоняет компас ещё на девиацию <b>δ = "+fd(e)+"</b> (таблица девиации). Получаем компасный север Nк.","<b>Step 3.</b> The ship’s iron pulls the compass further by the deviation <b>"+fd(e)+"</b> (deviation card). This gives compass north Nc.","<b>Крок 3.</b> Залізо судна відхиляє компас ще на девіацію <b>δ = "+fd(e)+"</b> (таблиця девіації). Отримуємо компасну північ Nк."),
+   LL("<b>Шаг 4.</b> ИК = КК + δ + d: "+K0+"° = "+KK+"°"+tm(e)+tm(d)+". Поправка ΔК = d + δ = <b>"+fd(d+e)+"</b>, поэтому КК = ИК − ΔК = "+KK+"°.","<b>Step 4.</b> TC = CC + Dev + Var: "+K0+"° = "+KK+"°"+tm(e)+tm(d)+". Compass error CE = Var + Dev = <b>"+fd(d+e)+"</b>, so CC = TC − CE = "+KK+"°.","<b>Крок 4.</b> ІК = КК + δ + d: "+K0+"° = "+KK+"°"+tm(e)+tm(d)+". Поправка ΔК = d + δ = <b>"+fd(d+e)+"</b>, тому КК = ІК − ΔК = "+KK+"°.")];
+  cap(f,c[st-1]);setR(f,"d",null,fd(d));setR(f,"e",null,fd(e));bcur(f,"go",s.run)},
+ tick:function(f,s,t){if(!s.run)return false;if(s.t0==null)s.t0=t;var n=Math.min(4,1+Math.floor((t-s.t0)/2200));if(n!=s.st){s.st=n;s.an=n;if(n>=4)s.run=0;return true}return false},
+ btn:function(f,s,a){if(a!="go")return;if(s.rm){s.st=s.st>=4?1:s.st+1;return}s.st=1;s.an=1;s.run=1;s.t0=null},
+ rng:function(f,s,a,v){if(a=="d")s.d=v;else s.e=v;s.st=4;s.run=0}};
+
+/* rng: створ ИП 045,0° (задний знак R (245; 45) — в 045° от переднего F (215; 75)), линия створа пересекает путь y = 165 при x = 125. ΔК = +3,0° E, значит КП в створе = 045,0 − 3,0 = 042,0°.
+ Вид с судна: середина пары — по пеленгу, расхождение знаков утрировано (4 px на градус). В створе — |ИП R − ИП F| < 1°. */
+FIG.rng=function(L){return fig("rng",L("Знаки створа: пеленгуй, когда они в одной линии","Transit marks: take the bearing when they are in line","Знаки створу: пеленгуй, коли вони в одній лінії"),"300 220",
+ rg("x",L("Судно","Ship","Судно"),20,280,1,125)+bt("go","▶ "+L("Пройти створ","Cross the transit","Пройти створ")))};
+K.rng={init:function(f,s){s.x=s.rm?125:20;s.auto=!s.rm;s.t0=null;
+  base(f,pg([[100,0],[300,0],[300,150]],"dgaLand")+Ln(275,15,85,205,"sy dd")+Ln(0,165,300,165,"d")+R(240,23,10,22,"bx")+C(245,19,4,"fy")+R(211,63,8,12,"bx")+C(215,59,4,"fy")
+   +T(254,40,LL("задний","rear","задній"),"s")+T(224,84,LL("передний","front","передній"),"s")+T(296,182,LL("ИП створа 045,0°","transit TB 045.0°","ІП створу 045,0°"),"s y","e")+'<g class="dgaD"></g>')},
+ draw:function(f,s){var x=s.x,b=function(px,py){return Math.atan2(px-x,165-py)/rd},bF=b(215,75),bR=b(245,45),df=bR-bF,bm=(bF+bR)/2,al=Math.abs(df)<1,
+  c=Math.max(30,Math.min(100,65+(bm-45)*1.2)),o=Math.max(-24,Math.min(24,df*4)),xF=c-o/2,xR=c+o/2,h="";
+  h+=Ln(x,165,215,75,"d")+Ln(x,165,245,45,"d")+'<path d="M'+(x+11)+' 165 L'+(x-8)+' 158 L'+(x-8)+' 172 Z" class="fx"/>';
+  h+=R(6,6,118,88,al?"bxg":"bx",6)+T(65,22,LL("вид с судна","view from the ship","вигляд із судна"),"s m","m")+Ln(12,80,118,80,"sm")
+   +R(xR-3,80-46,6,46,"fm")+C(xR,80-50,4,"fy")+R(xF-5,80-24,10,24,"fi")+C(xF,80-28,4,"fy")+(al?T(65,92,LL("в створе!","in line!","у створі!"),"s b g dgaP","m"):"");
+  dyn(f,h);
+  cap(f,al?LL("✅ Знаки в створе — пеленгуй! КП = 042,0°. ΔК = ИП − КП = 045,0° − 042,0° = <b>+3,0° E</b>.","✅ The marks are in line — take the bearing! CB = 042.0°. CE = TB − CB = 045.0° − 042.0° = <b>+3.0° E</b>.","✅ Знаки у створі — пеленгуй! КП = 042,0°. ΔК = ІП − КП = 045,0° − 042,0° = <b>+3,0° E</b>.")
+   :LL("Знаки не в створе: задний "+(df<0?"левее":"правее")+" переднего на "+nf(Math.abs(df),1)+"°. ИП створа 045,0° — с карты. Ждём, когда знаки встанут один над другим.","The marks are not in line: the rear one is "+nf(Math.abs(df),1)+"° to the "+(df<0?"left":"right")+" of the front one. The transit TB 045.0° is from the chart. Wait until the marks stand one above the other.","Знаки не у створі: задній "+(df<0?"лівіше":"правіше")+" переднього на "+nf(Math.abs(df),1)+"°. ІП створу 045,0° — з карти. Чекаємо, коли знаки стануть один над одним."),al?"okk":"");
+  setR(f,"x",Math.round(x),"")},
+ tick:function(f,s,t){if(!s.auto)return false;if(s.t0==null)s.t0=t;var u=((t-s.t0)/1000)%13;s.x=u<5?20+u*21:u<7.5?125:u<12.5?125+(u-7.5)*31:280;return true},
+ btn:function(f,s,a){if(a=="go"){if(s.rm){s.x=125;return}s.auto=true;s.t0=null}},
+ rng:function(f,s,a,v){s.auto=false;s.x=v}};
+
+/* amp: sin A = sin δ⊙ / cos φ, A — к N при склонении N; восход ИП = 90° − A (A со знаком: N +). Пример δ⊙ = 15° N, φ = 40° N: A = 19,7° N, ИП = 070,3° (как CPCTEST).
+ Вверху — вид на восток: центр Солнца на истинном горизонте (нижний край ≈ на полдиаметра выше видимого) — момент пеленга; путь Солнца наклонён к горизонту под 90° − φ. Внизу — вид сверху. */
+FIG.amp=function(L){return fig("amp",L("Амплитуда: Солнце встаёт","Amplitude: the Sun rises","Амплітуда: Сонце сходить"),"300 250",
+ rg("dc",L("Склонение Солнца","Sun’s declination","Схилення Сонця"),-23,23,1,15)+rg("la",L("Широта φ","Latitude","Широта φ"),0,60,1,40)+bt("go","▶ "+L("Восход","Sunrise","Схід")))};
+K.amp={init:function(f,s){s.dc=15;s.la=40;s.u=s.rm?0:-1.6;s.auto=!s.rm;s.t0=null;
+  base(f,'<g class="dgaD"></g>'+R(0,95,300,17,"dgaHl")+R(0,95,300,17,"sea")+Ln(0,95,300,95,"si w2")+Ln(0,79,300,79,"sb dd")+T(4,108,LL("видимый горизонт","visible horizon","видимий горизонт"),"s")+T(4,75,LL("истинный","true","істинний"),"s w")
+   +'<circle cx="150" cy="182" r="58" class="dgaRose"/>'+Ln(150,182,150,124,"si")+Ln(150,182,208,182,"d")+T(150,121,"N","b","m")+T(212,186,"E","b")+T(150,248,"S","b","m")+T(88,186,"W","b","e")+'<g class="dgaT"></g>')},
+ draw:function(f,s){var x=sin(s.dc)/cos(s.la),A0=Math.asin(Math.max(-1,Math.min(1,x)))/rd,ip=90-A0,xA=150+(ip-90)*2.2,be=90-s.la,u=s.u,sx=xA+u*30*cos(be),sy=79-u*30*sin(be),h="",tp="",
+  pq=function(a,q){return[150+q*sin(a),182-q*cos(a)]},e=pq(ip,58),m=pq((90+ip)/2,44),now0=Math.abs(u)<0.12;
+  h+=Ln(xA-15*cos(be),79+15*sin(be),xA+80*cos(be),79-80*sin(be),"d");if(sy<104)h+=C(sx,sy,8,"fy");
+  if(now0)h+=Ln(xA,30,xA,95,"sg w2")+T(xA,24,LL("пеленгуй!","bearing now!","пеленгуй!"),"s b g","m");
+  dyn(f,h);
+  tp=Ln(150,182,e[0],e[1],"sy w3")+C(e[0],e[1],6,"fy")+(Math.abs(A0)>=0.5?'<path d="M184 182 A34 34 0 0 '+(ip<90?0:1)+" "+r1(150+34*sin(ip))+" "+r1(182-34*cos(ip))+'" class="sg w2"/>'+T(m[0],m[1]+4,"A","b g","m"):"")
+   +T(e[0]+(ip<90?8:8),e[1]+(ip<90?-4:12),LL("ИП ","TB ","ІП ")+br(ip),"s b y");
+  var g=$(f,".dgaT");if(g&&g._c!==tp){g._c=tp;g.innerHTML=tp}
+  var nm=A0>=0?"N":"S",fA=nf(Math.abs(A0),1)+"° "+nm,fl=s.la+"°",fd=Math.abs(s.dc)+"° "+(s.dc>=0?"N":"S"),fi=A0>=0?"90° − A":"90° + A";
+  cap(f,LL("sin A = sin "+fd.replace(/ [NS]/,"")+" / cos "+fl+" = "+nf(Math.abs(x),3)+" → A = <b>"+fA+"</b> (к "+nm+", как склонение). ИП восхода = "+fi+" = <b>"+br(ip)+"</b>. Пеленгуй, когда центр Солнца на истинном горизонте — нижний край примерно на полдиаметра выше видимого. Затем ΔК = ИП − КП.",
+   "sin A = sin Dec / cos Lat = sin "+fd.replace(/ [NS]/,"")+" / cos "+fl+" = "+nf(Math.abs(x),3)+" → A = <b>"+fA+"</b> (named like the declination). Sunrise TB = "+fi+" = <b>"+br(ip)+"</b>. Take the bearing when the Sun’s centre is on the true horizon — the lower limb about half a diameter above the visible one. Then CE = TB − CB.",
+   "sin A = sin "+fd.replace(/ [NS]/,"")+" / cos "+fl+" = "+nf(Math.abs(x),3)+" → A = <b>"+fA+"</b> (до "+nm+", як схилення). ІП сходу = "+fi+" = <b>"+br(ip)+"</b>. Пеленгуй, коли центр Сонця на істинному горизонті — нижній край приблизно на півдіаметра вище видимого. Потім ΔК = ІП − КП."),now0?"okk":"");
+  setR(f,"dc",null,fd);setR(f,"la",null,s.la+"° N")},
+ tick:function(f,s,t){if(!s.auto)return false;if(s.t0==null)s.t0=t;s.u=Math.min(0,-1.6+(t-s.t0)/1000*0.5);if(s.u>=0)s.auto=false;return true},
+ btn:function(f,s,a){if(a=="go"){if(s.rm){s.u=0;return}s.u=-1.6;s.auto=true;s.t0=null}},
+ rng:function(f,s,a,v){s[a]=v;if(!s.auto)s.u=0}};
+
+/* dev: δ(К) = A + B·sinК + C·cosК + D·sin2К + E·cos2К, A = +0,5, B = +2,0, C = −1,0, D = +0,5, E = +0,3 (близко к примеру в CPCTEST). Пример КК 090°: 0,5 + 2,0 + 0 + 0 − 0,3 = +2,2° E. */
+var CO={A:0.5,B:2,C:-1,D:0.5,E:0.3},dvK=function(k){return CO.A+CO.B*sin(k)+CO.C*cos(k)+CO.D*sin(2*k)+CO.E*cos(2*k)};
+FIG.dev=function(L){return fig("dev",L("Девиация на разных курсах: кривая δ(К)","Deviation on different headings: the curve Dev(H)","Девіація на різних курсах: крива δ(К)"),"300 230",
+ rg("k",L("Компасный курс","Compass heading","Компасний курс"),0,360,5,90)+bt("go","▶ "+L("Развернуть судно","Swing the ship","Розвернути судно")))};
+K.dev={init:function(f,s){s.hd=s.rm?90:0;s.full=s.rm?1:0;s.auto=!s.rm;s.t0=null;var X=function(k){return 24+k*0.744},h="",k;
+  h+='<circle cx="58" cy="62" r="42" class="dgaRose"/>'+T(58,16,"N","b","m")+Ln(24,170,292,170,"sm")+Ln(24,126,24,214,"sm")+T(20,147,"+3°","s m","e")+T(20,201,"−3°","s m","e")+Ln(21,143,27,143,"sm")+Ln(21,197,27,197,"sm");
+  [[0,"N"],[90,"E"],[180,"S"],[270,"W"],[360,"N"]].forEach(function(o){h+=Ln(X(o[0]),167,X(o[0]),173,"sm")+T(X(o[0]),226,o[1],"s m","m")});
+  for(k=0;k<360;k+=45)h+=C(X(k),170-dvK(k)*9,2.6,"fm");
+  [["A",CO.A,118,22],["B",CO.B,118,40],["C",CO.C,118,58],["D",CO.D,204,22],["E",CO.E,204,40]].forEach(function(o){h+=T(o[2],o[3],o[0]+" = "+sn(o[1],1),"s b")});
+  base(f,h+'<g class="dgaD"></g>')},
+ draw:function(f,s){var X=function(k){return 24+k*0.744},Y=function(k){return 170-dvK(k)*9},K0=s.hd,o=[],k,top=s.full?360:K0,h="",dv=dvK(K0),tm=function(v,nm,a){return(v<0?" − ":" + ")+nf(Math.abs(v),1)+"·"+nm+" "+a+"°"};
+  for(k=0;k<=top+0.01;k+=3)o.push([X(Math.min(k,top)),Y(Math.min(k,top))]);if(o.length>1)h+=pl(o,"sb w3");
+  h+=Ln(X(K0),170,X(K0),Y(K0),"sr dd")+C(X(K0),Y(K0),4.6,"fr");
+  var p=[58+38*sin(K0),62-38*cos(K0)];h+=Ln(58,62,p[0],p[1],"sg w2")+'<path d="M0 -14 L7 9 L0 5 L-7 9 Z" class="fx" transform="translate(58 62) rotate('+r1(K0)+')"/>'
+   +T(118,84,LL("КК ","CC ","КК ")+dg(K0)+": δ = "+ew(dv,1),"b r");
+  dyn(f,h);var ks=Math.round(K0)%360;
+  cap(f,LL("КК "+dg(K0)+": δ = "+sn(CO.A,1)+tm(CO.B,"sin",ks)+tm(CO.C,"cos",ks)+tm(CO.D,"sin",2*ks%360)+tm(CO.E,"cos",2*ks%360)+" = <b>"+ew(dv,1)+"</b>. A — постоянная часть, B и C меняются раз за оборот (полукруговая), D и E — дважды (четвертная).",
+   "CC "+dg(K0)+": Dev = "+sn(CO.A,1)+tm(CO.B,"sin",ks)+tm(CO.C,"cos",ks)+tm(CO.D,"sin",2*ks%360)+tm(CO.E,"cos",2*ks%360)+" = <b>"+ew(dv,1)+"</b>. A is the constant part, B and C change once per turn (semicircular), D and E twice (quadrantal).",
+   "КК "+dg(K0)+": δ = "+sn(CO.A,1)+tm(CO.B,"sin",ks)+tm(CO.C,"cos",ks)+tm(CO.D,"sin",2*ks%360)+tm(CO.E,"cos",2*ks%360)+" = <b>"+ew(dv,1)+"</b>. A — стала частина, B і C змінюються раз за оберт (напівкругова), D і E — двічі (чвертна)."));
+  setR(f,"k",Math.round(K0/5)*5,dg(K0))},
+ tick:function(f,s,t){if(!s.auto)return false;if(s.t0==null)s.t0=t;s.hd=Math.min(360,(t-s.t0)/1000*45);if(s.hd>=360){s.auto=false;s.full=1;s.hd=0}return true},
+ btn:function(f,s,a){if(a=="go"){if(s.rm){s.full=1;return}s.hd=0;s.full=0;s.auto=true;s.t0=null}},
+ rng:function(f,s,a,v){s.auto=false;s.full=1;s.hd=v}};
+
+/* ================= запуск, кадры, видимость ================= */
+var live=[],raf=0,io=null;
+function loop(t){raf=0;var any=0;live=live.filter(function(f){return f.isConnected});
+ live.forEach(function(f){var s=f._dga,c=K[s.k];if(!s.vis||!c.tick)return;try{if(c.tick(f,s,t)){c.draw(f,s);any=1}}catch(e){}});if(any)kick()}
+function kick(){if(!raf&&!RM())raf=requestAnimationFrame(loop)}
+try{io=window.IntersectionObserver?new IntersectionObserver(function(es){es.forEach(function(e){var f=e.target,s=f._dga;
+ if(s){s.vis=e.isIntersecting;f.classList.toggle("on",s.vis);if(s.vis)kick()}else if(e.isIntersecting){io.unobserve(f);drawIn(f)}})},{threshold:0.2}):null}catch(e){io=null}
+function init(f){if(f._dga)return f._dga;var k=f.getAttribute("data-dga"),c=K[k];if(!c)return null;var s=f._dga={k:k,vis:!io,rm:RM()};
+ try{c.init(f,s);c.draw(f,s)}catch(e){if(window.fmLog)fmLog("warn","dga",{k:k,e:String(e).slice(0,80)})}live.push(f);if(io)io.observe(f);else f.classList.add("on");kick();return s}
+/* плавное появление неподвижных схем: линии прорисовываются, затем появляются подписи и заливки */
+function drawIn(sv){if(RM()||!sv.animate)return;var i=0;
+ Array.prototype.forEach.call(sv.querySelectorAll("line,path,text,circle,rect"),function(e){try{var cs=getComputedStyle(e),dl=Math.min(i++*12,500);
+  if(e.tagName!="text"&&cs.stroke!="none"&&cs.fill=="none"&&(!cs.strokeDasharray||cs.strokeDasharray=="none")&&e.getTotalLength){var l=e.getTotalLength();if(l>6){e.animate([{strokeDasharray:l+" "+l,strokeDashoffset:l},{strokeDasharray:l+" "+l,strokeDashoffset:0}],{duration:800,delay:dl,easing:"ease-out",fill:"backwards"});return}}
+  e.animate([{opacity:0},{opacity:1}],{duration:500,delay:(e.tagName=="text"?450:150)+dl/2,fill:"backwards"})}catch(x){}})}
+function scan(r){if(!r||!r.querySelectorAll)return;Array.prototype.forEach.call(r.querySelectorAll("figure.dga"),init);
+ Array.prototype.forEach.call(r.querySelectorAll(".dg:not(.dga) svg,svg.cpfig"),function(sv){if(sv.getAttribute("data-dgi"))return;sv.setAttribute("data-dgi","1");if(io)io.observe(sv)})}
+document.addEventListener("toggle",function(e){var d=e.target;if(d&&d.open&&d.tagName=="DETAILS"&&/(^| )(sbth|dvth|cpth)( |$)/.test(d.className))scan(d)},true);
+document.addEventListener("click",function(e){var b=e.target&&e.target.closest&&e.target.closest("[data-dgb]");if(!b)return;var f=b.closest("figure.dga");if(!f)return;var s=init(f);if(!s)return;var c=K[s.k];
+ if(c.btn)c.btn(f,s,b.getAttribute("data-dgb"));c.draw(f,s);kick()});
+document.addEventListener("input",function(e){var i=e.target;if(!i||!i.getAttribute||!i.getAttribute("data-dgr"))return;var f=i.closest("figure.dga");if(!f)return;var s=init(f);if(!s)return;var c=K[s.k];
+ if(c.rng)c.rng(f,s,i.getAttribute("data-dgr"),+i.value);c.draw(f,s);kick()});
+
+/* ================= вставка в теорию ================= */
+var rep=function(h,a,b){return a&&h.indexOf(a)>=0?h.split(a).join(b):h+b},
+svg1=function(h,f){var i=h.indexOf('<svg class="cpfig"'),j=i<0?-1:h.indexOf("</svg>",i);return i<0||j<0?f+h:h.slice(0,i)+f+h.slice(j+6)},
+at=function(o,i,ic){var t=o&&o.T&&o.T[i];return t&&(!ic||t[0]==ic)?t:null};
+var oS=window.STBT,oD=window.DSVT,oC=window.CPCT;
+if(oS)window.STBT=function(L){var o=oS(L),F=window.STBF?STBF(L):{},t;
+ if((t=at(o,0)))t[3]=put(t[3],1,FIG.heel(L));if((t=at(o,4,"🌊")))t[3]=rep(t[3],F.fs,FIG.fs(L));if((t=at(o,6,"📈")))t[3]=rep(t[3],F.gz,FIG.gz(L));return o};
+if(oD)window.DSVT=function(L){var o=oD(L),F=window.DSVF?DSVF(L):{},t;
+ if((t=at(o,0)))t[3]=put(t[3],1,FIG.load(L));if((t=at(o,4))&&F.pp)t[3]=rep(t[3],F.pp,F.pp+FIG.perp(L));if((t=at(o,5,"〰️")))t[3]=rep(t[3],F.hs,FIG.hog(L));return o};
+if(oC)window.CPCT=function(L){var o=oC(L),t;
+ if((t=at(o,0,"🧭")))t[3]=svg1(t[3],FIG.north(L));if((t=at(o,5,"🗼")))t[3]=svg1(t[3],FIG.rng(L));if((t=at(o,6,"🌅")))t[3]=svg1(t[3],FIG.amp(L));if((t=at(o,10,"🛠️")))t[3]=t[3]+FIG.dev(L);return o};
+window.DGATEST={keys:Object.keys(K),scan:scan,init:init,state:function(f){return f&&f._dga},draw:function(f){var s=f&&f._dga;if(s)K[s.k].draw(f,s)},rm:RM,
+ heel:function(GM,th){return GM*sin(th)},mmm:function(Fp,Ap,Mp){return(Fp+Ap+6*Mp)/8},amp:function(dc,la){var A0=Math.asin(sin(dc)/cos(la))/rd;return{A:A0,ip:90-A0}},dev:dvK,
+ perp:function(t){var F=8-t*86/180,Am=8+t*78/180,tm=Am-F;return{F:F,A:Am,Fp:F-tm*4/164,Ap:Am+tm*12/164}}};
+})();</script>
 <style id="cpc-css">
 #shn .cppg{display:flex;gap:6px;margin:0 0 8px}#shn .cppg button{flex:1 1 0;min-height:42px;font-weight:700}
 #shn .cpwhy{margin:4px 0 8px;padding:8px 10px;border-left:4px solid var(--xp);background:var(--bg);border-radius:8px;font-size:13.5px;line-height:1.5}
