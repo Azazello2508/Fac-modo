@@ -55,7 +55,7 @@ Fac Modo — помощник для моряков всех судовых пр
 • Генератор резюме с PDF прямо в телефоне
 
 ПОЛНЫЙ ДОСТУП
-Приложение бесплатное: вахта и сон, часы отдыха, документы, дом, игры, справочник моряка и мини-экзамен остаются бесплатными. Первые 3 дня использования открыто всё. Потом разделы «Берег и карьера», «Дипломы и экзамены» (библиотека, глоссарий), «Тренажёры и расчёты» (вместе с остойчивостью, драфт-сюрвеем и новыми способами поправки компаса) открываются одной покупкой навсегда. Это не подписка, платёж один раз.
+Приложение бесплатное: вахта и сон, часы отдыха, документы, дом, игры, справочник моряка и мини-экзамен остаются бесплатными. Первые 3 дня использования открыто всё. Потом разделы «Берег и карьера», «Дипломы и экзамены» (библиотека, глоссарий), «Тренажёры и расчёты» (вместе со всеми инструментами штурмана, остойчивостью и драфт-сюрвеем) открываются одной покупкой навсегда. Это не подписка, платёж один раз.
 
 Без регистрации, рекламы и слежки. Три языка: русский, английский, украинский. Встроенные игры пока на русском.
 
@@ -92,7 +92,7 @@ ASHORE
 • CV generator with a PDF made right on the phone
 
 FULL ACCESS
-The app is free: watch and sleep, rest hours, documents, home, games, the seafarer's reference and a mini exam stay free. Everything is open for your first 3 days of use. After that, Shore and career, Certificates and exams (library, glossary) and Trainers and calculations (including stability, draught survey and the extra compass error methods) unlock with a single purchase, for good. No subscription, you pay once.
+The app is free: watch and sleep, rest hours, documents, home, games, the seafarer's reference and a mini exam stay free. Everything is open for your first 3 days of use. After that, Shore and career, Certificates and exams (library, glossary) and Trainers and calculations (including all navigator's tools, stability and draught survey) unlock with a single purchase, for good. No subscription, you pay once.
 
 No sign-up, no ads, no tracking. Three languages: Russian, English, Ukrainian. Built-in games are in Russian for now.
 
@@ -129,7 +129,7 @@ Fac Modo — помічник для моряків усіх суднових п
 • Генератор резюме з PDF просто в телефоні
 
 ПОВНИЙ ДОСТУП
-Застосунок безкоштовний: вахта й сон, години відпочинку, документи, дім, ігри, довідник моряка і міні-іспит лишаються безкоштовними. Перші 3 дні користування відкрито все. Потім розділи «Берег і кар’єра», «Дипломи та іспити» (бібліотека, глосарій), «Тренажери та розрахунки» (разом з остійністю, драфт-сюрвеєм і новими способами поправки компаса) відкриваються однією покупкою назавжди. Це не підписка, платіж один раз.
+Застосунок безкоштовний: вахта й сон, години відпочинку, документи, дім, ігри, довідник моряка і міні-іспит лишаються безкоштовними. Перші 3 дні користування відкрито все. Потім розділи «Берег і кар’єра», «Дипломи та іспити» (бібліотека, глосарій), «Тренажери та розрахунки» (разом з усіма інструментами штурмана, остійністю і драфт-сюрвеєм) відкриваються однією покупкою назавжди. Це не підписка, платіж один раз.
 
 Без реєстрації, реклами й стеження. Три мови: російська, англійська, українська. Вбудовані ігри поки російською.
 
