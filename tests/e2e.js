@@ -377,7 +377,52 @@ const srv=http.createServer((q,r)=>{let u=decodeURIComponent(q.url.split('?')[0]
    if(window.fmClose)try{fmClose()}catch(e){}const o=JSON.parse(sv);[['etl','e'],['gpar','g'],['gnd','n']].forEach(([k,i])=>{if(o[i])st[k]=o[i];else delete st[k]});save();etlR();
    return{load,cur,rev,ovl,sync,sl,fa,uy,ar,gnd,cap,thr,lamp,room,vis,gr,go,ui1,wiz,back,rst,anim,pw,ui2,add,del,syui,thv,qa,thb,all,note,hs,th,srch,mtl,
     free:['etl','gpar','gnd','mst','ebat','sel'].every(k=>fmPro.has(k)&&fmPro.pkg(k)==='tools')}});
-  ok(Object.entries(etl).every(([k,v])=>k==='gr'?v==='pwr,net':v===true),'Инструменты электромеханика: генераторы в параллель (нагрузка, синхронизация) и поиск замыкания на корпус сходятся с ручным счётом, цвета, мастер, пример, теория, живые схемы, виден всем ('+JSON.stringify(etl)+')');
+  ok(Object.entries(etl).every(([k,v])=>k==='gr'?v==='pwr,net,mot,bat':v===true),'Инструменты электромеханика: генераторы в параллель (нагрузка, синхронизация) и поиск замыкания на корпус сходятся с ручным счётом, цвета, мастер, пример, теория, живые схемы, виден всем ('+JSON.stringify(etl)+')');
+  /* ⚡ Инструменты электромеханика, этап 2 (et2-js). Ручной счёт:
+     mst, пример: Iн = 90 000 / (1.732 × 440 × 0.87 × 0.94) = 144.405 А; прямой Iп = 7 × 144.405 = 1010.83 А; Sпуск = 1.732 × 440 × 1010.83 / 1000 = 770.36 кВА;
+      Sген/x″d = 625 / 0.15 = 4166.67; ΔU = 770.36 / 4937.03 = 15.604 % 🟡; момент 2.2 × (1 − 0.15604)² = 1.567, нагрузка 0.3 → 5.22 🟢; два генератора: 770.36 / 9103.03 = 8.462 %.
+      Звезда: Iп 336.94, ΔU 256.79 / 4423.45 = 5.805 %, момент 0.7333 × 0.94195² = 0.6507; тяжёлая нагрузка 1.2 → 0.542 🔴. Плавный 3 Iн: ΔU 7.342 %, момент 2.2 × (3/7)² × 0.92658² = 0.3469.
+      Частотник 1.5 Iн: ΔU 3.811 %. Генератор 400 кВА: 770.36 / (2666.67 + 770.36) = 22.41 % 🔴.
+     ebat, пример: 10 + 5 + 3 + 2 + 6 = 26 А; 180 + 90 + 54 + 36 + 3 = 363 Ач; kt(10 °C) = 0.9; C = 363 × 1.25 / (0.8 × 0.9) = 630.21 Ач; запас (660 − 630.21) / 630.21 = 4.727 % 🟡;
+      полезная 660 × 0.72 / 1.25 = 380.16 Ач, остаток 17.16; всё сразу 380.16 / 26 = 14.62 ч; заряд 363 / (60 × 0.85) = 7.118 ч.
+      600 Ач: −4.79 % 🔴, полезная 345.6; первые 0.5 ч 26 А = 13 Ач, дальше 20 А → 0.5 + 332.6 / 20 = 17.13 ч. Пассажирское: 723 Ач → 1255.2 Ач 🔴. kt(0 °C) = 0.8.
+     sel, пример 3 кА: розетки 16 А Ii 160 А → 0.02 с; щит Isd 6 × 80 = 480 А → 0.1 с (Ii 4000 А > 3000); ГРЩ Isd 5 × 360 = 1800 А → 0.3 с.
+      Пары: ГРЩ–щит 0.2 с 🟢 (наименьший запас 0.2), щит–розетки 0.08 с 🟡 → итог 🟡. 5 кА: Ii щита 4000 ≤ 5000 → 0.02 = 0.02 🔴.
+      tsd щита 0.2: 0.18 и 0.1 → 🟢. Оценка: 1 250 000 / (1.732 × 440) = 1640.20 А, / 0.15 = 10 934.7 А > Icu 6 кА 🔴. Перегрузка без Isd/Ii при 6 × Ir: 36 × 5 / 36 = 5 с. */
+  const et2=await p.evaluate(async()=>{const T=ET2TEST,near=(a,b,e)=>Math.abs(a-b)<=(e||0.01),K=['etl','mst','ebat','sel'],sv=JSON.stringify(Object.fromEntries(K.map(k=>[k,st[k]||null]))),q=s=>document.querySelector(s),w=ms=>new Promise(r=>setTimeout(r,ms)),cp=x=>JSON.parse(JSON.stringify(x)),r={};
+   st.mst=cp(T.ex.mst);const m1=T.run('mst'),a=T.last('mst'),C=a.cmp;
+   r.mst=near(a.In,144.405,0.001)&&near(a.Ip,1010.83)&&near(a.Sp,770.36)&&near(a.Sx,4166.67)&&near(a.du,15.604,0.001)&&a.cu==='Y'&&near(a.Me,1.567,0.001)&&a.cm==='G'&&near(a.du1,8.462,0.001)&&m1.lv==='Y'
+    &&near(C[1].Ip,336.94)&&near(C[1].du,5.805,0.001)&&near(C[1].Me,0.6507,0.0001)&&near(C[2].du,7.342,0.001)&&near(C[2].Me,0.3469,0.0001)&&near(C[3].du,3.811,0.001)&&(m1.fig.match(/<figure/g)||[]).length===2;
+   st.mst.v.sm='y';st.mst.v.ld='h';const m2=T.run('mst');r.mstY=T.last('mst').cm==='R'&&near(T.last('mst').mr,0.542,0.001)&&m2.lv==='R';
+   st.mst=cp(T.ex.mst);st.mst.v.ng='2';r.mst2=T.run('mst').lv==='G';st.mst.v.ng='1';st.mst.v.sg='400';const m3=T.run('mst');r.mstR=near(T.last('mst').du,22.41,0.01)&&m3.lv==='R';
+   r.cur=T.I('d',7,7,0.7)>6&&T.I('d',7,7,0.7)<=7&&near(T.I('d',7,7,10),0.9,1e-9)&&T.I('d',7,7,0)===0&&near(Math.min(...T.U('d',7,7,0.02641)),0.844,0.005);
+   st.ebat=cp(T.ex.ebat);const e1=T.run('ebat'),b=T.last('ebat');
+   r.eb=near(b.I,26)&&near(b.Ah,363)&&near(b.kt,0.9,1e-9)&&near(b.Cr,630.21)&&near(b.mg,4.727,0.001)&&b.cc==='Y'&&near(b.Us,380.16)&&b.T.all&&near(b.T.rest,17.16)&&near(b.T1,14.62)&&near(b.tch,7.118,0.001)&&e1.lv==='Y'&&/<svg/.test(e1.fig);
+   st.ebat.v.ca='600';const e2=T.run('ebat'),b2=T.last('ebat');r.ebR=e2.lv==='R'&&near(b2.mg,-4.79,0.01)&&!b2.T.all&&near(b2.T.T,17.13);
+   st.ebat=cp(T.ex.ebat);st.ebat.v.sh='p';T.run('ebat');r.ebP=near(T.last('ebat').Ah,723)&&near(T.last('ebat').Cr,1255.21)&&T.last('ebat').cc==='R';r.kt=near(T.kt(0),0.8,1e-9)&&T.kt(25)===1;
+   st.sel=cp(T.ex.sel);const s1=T.run('sel'),c=T.last('sel'),P=c.P;
+   r.sel=c.B.map(x=>x.t).join()==='0.3,0.1,0.02'&&c.B.map(x=>x.z).join()==='S,S,I'&&P[0].c==='G'&&near(P[0].min,0.2,1e-6)&&P[1].c==='Y'&&near(P[1].min,0.08,1e-6)&&s1.lv==='Y'&&(s1.fig.match(/<figure/g)||[]).length===2;
+   st.sel.v.ik='5';const s2=T.run('sel');r.selR=T.last('sel').P[1].c==='R'&&s2.lv==='R';
+   st.sel=cp(T.ex.sel);st.sel.r[1].td='0.2';r.selG=T.run('sel').lv==='G';
+   st.sel=cp(T.ex.sel);st.sel.v.km='g';const s3=T.run('sel');r.selIk=near(T.last('sel').Ik,10934.66,0.1)&&T.last('sel').B[2].cc==='R'&&s3.lv==='R';
+   r.inv=near(T.T(T.B({in:'16',ir:'1',tr:'5'},0),96).t,5,1e-9);
+   /* раздел: группы, пример, цвета, схемы, теория, анимация */
+   K.slice(1).forEach(k=>delete st[k]);st.etl={};if(window.uxP&&uxP.etl&&q('#etl').parentNode===q('#mn'))uxP.etl.b.click();await w(300);etlR();
+   r.gr=[...document.querySelectorAll('#etl .mtgr [data-mtg]')].map(x=>x.dataset.mtg).join(',');
+   const ui=[];for(const k of ['mst','ebat','sel']){etlGo(k);const go=st.etl.t===k&&!!q('#etl [data-mtt='+k+'].cur');const nh=document.querySelectorAll('#etl .mth').length;q('#etl [data-mtex]').click();await w(60);
+    const o=q('#etl #eto'),fg=o.querySelectorAll('figure.mtf'),g=fg[0].querySelector('svg > g');fg[0].scrollIntoView();await w(80);const h0=g.innerHTML;await w(500);
+    ui.push(k+':'+(go&&nh>=5&&!!o.querySelector('.mto.mtoY')&&fg.length===(k==='ebat'?1:2)&&g.innerHTML!==h0?1:0))}
+   r.ui=ui.join(',');r.rows=st.ebat.r.length===5&&st.sel.r.length===3;
+   etlGo('sel');const ks=q('#etl [data-mtv=km]');ks.value='g';ks.dispatchEvent(new Event('change',{bubbles:true}));await w(50);r.re=!!q('#etl [data-mtv=sg]')&&!q('#etl [data-mtv=ik]')&&/10\.9/.test(q('#etl #eto').textContent);
+   etlGo('mst');q('#etl [data-mtp=t]').click();r.th=document.querySelectorAll('#etl details.mtth').length===7;const d=q('#etl details[data-mti="2"]');d.open=true;d.scrollIntoView();await w(150);
+   const dg=d.querySelector('[data-mc]');const v0=dg&&dg.innerHTML;await w(500);r.thv=!!dg&&dg.innerHTML!==v0;
+   q('#etl [data-mtq="0:0"]').click();r.qa=st.mst.qa[0]===0;
+   const THS=['mst','ebat','sel'].map(k=>ETX[k].th());r.ths=THS.every(x=>x.t>=5&&x.t<=6&&x.q>=4&&x.q<=5&&x.w);
+   etlGo('sel');q('#etl [data-mtp=t]').click();const d0=q('#etl details[data-mti="0"]');d0.open=true;await w(80);d0.querySelector('[data-slo="n"]').click();await w(50);r.slo=!!d0.querySelector('[data-slw]')&&d0.querySelector('[data-slo="n"]').classList.contains('cur');
+   r.hs=document.documentElement.scrollWidth<=innerWidth+1;r.note=/Учебный расчёт|study calculation|Навчальний/.test(q('#etl .mtnote').textContent);
+   const kw=window.uxKW?uxKW('etl'):'';r.srch=/просадк/.test(kw)&&/селективн/.test(kw)&&/аккумулятор/.test(kw);
+   if(window.fmClose)try{fmClose()}catch(e){}const o=JSON.parse(sv);K.forEach(k=>{if(o[k])st[k]=o[k];else delete st[k]});save();etlR();return r});
+  ok(Object.entries(et2).every(([k,v])=>k==='gr'?v==='pwr,net,mot,bat':k==='ui'?v==='mst:1,ebat:1,sel:1':v===true),'Инструменты электромеханика, этап 2: пуск двигателя и просадка, аварийные аккумуляторы, селективность автоматов — ручной счёт, цвета, пример, теория, живые схемы, группы ('+JSON.stringify(et2)+')');
   /* Теория, примеры и цветной итог 8 старых инструментов #shn (sno-js). Примеры посчитаны shn-js и сверены вручную:
      компас КК 120.0 + δ −1.5 + d +3.5 = ИК 122.0; крюйс-пеленг 30°→60°, 12 уз, 15 мин: S = 3.00, D = 3.00, траверз 3·sin60 = 2.60;
      прилив МВ 06:10 0.6, ПВ 12:25 4.2, в 09:00 h = 0.6 + 3.6·(1 − cos(180·170/375))/2 = 2.14, запас 8.0 + 2.14 − 9.0 = 1.14 м;
@@ -481,9 +526,10 @@ const srv=http.createServer((q,r)=>{let u=decodeURIComponent(q.url.split('?')[0]
     r.pkg=K.every(k=>fmPro.pkg(k)==='tools');r.has=K.filter(k=>fmPro.has(k)).join(',');
     uxP.etl.b.click();r.wall=W.classList.contains('on');r.inbox=g('etl').parentNode===g('mn');W.classList.remove('on');
     r.g=ETX.gpar.g()===false&&ETX.gnd.g()===false&&W.classList.contains('on');W.classList.remove('on');
-    r.lock=['gpar','gnd'].every(k=>{const y=document.createElement('div');ETX[k].r(y);return!!y.querySelector('[data-mtwl]')&&!y.querySelector('[data-mtv]')});
+    r.g2=['mst','ebat','sel'].every(k=>!fmPro.has(k)&&ETX[k].g()===false)&&W.classList.contains('on');W.classList.remove('on');
+    r.lock=['gpar','gnd','mst','ebat','sel'].every(k=>{const y=document.createElement('div');ETX[k].r(y);return!!y.querySelector('[data-mtwl]')&&!y.querySelector('[data-mtv]')});
     etlR();r.n=[...document.querySelectorAll('#etl [data-mtt]')].every(b=>/🔒/.test(b.textContent))&&!!document.querySelector('#etl [data-mtt]');return r});
-   ok(et.pkg&&et.has===''&&et.wall&&et.inbox&&et.g&&et.lock&&et.n,'Play-сборка: «⚡ Инструменты электромеханика» закрыты целиком (пакет tools, окно покупки), инструменты — 🔒 ('+JSON.stringify(et)+')');
+   ok(et.pkg&&et.has===''&&et.wall&&et.inbox&&et.g&&et.g2&&et.lock&&et.n,'Play-сборка: «⚡ Инструменты электромеханика» закрыты целиком (пакет tools, окно покупки), инструменты — 🔒 ('+JSON.stringify(et)+')');
    const d=await q.evaluate(()=>{document.querySelector('#fpw [data-fp=buy]').click();return{ord:window.__ord,own:fmPro.owned(),ecl:fmPro.has('ecl')}});
    ok(a.on&&a.left===3&&a.ecl&&a.price==='9,99 $'&&a.ota&&a.pro,'Play-сборка: покупка включена, 3 дня пробы, цена из магазина, самообновление выключено ('+JSON.stringify(a)+')');
    ok(!c.tr&&!c.ecl&&c.qz&&c.sh4&&c.wall&&c.inbox&&/9,99/.test(c.btn),'Play-сборка: после пробы платный раздел закрыт окном покупки, бесплатное открыто ('+JSON.stringify(c)+')');
