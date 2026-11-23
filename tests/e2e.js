@@ -84,6 +84,45 @@ const srv=http.createServer((q,r)=>{let u=decodeURIComponent(q.url.split('?')[0]
     sign:near(g2.LBM,99,1e-9)&&lf.c1<0&&near(lf.c1,-232.2934),warn:bad.w.map(x=>x[0]).join(','),miss:miss.miss.join(','),
     free:fmPro.has('dsv')&&fmPro.pkg('dsv')==='tools'&&fmPro.has('shn'),ui,back:bk,run:/8221\.3/.test(run)&&/24460\.3/.test(run),sum:/38291\.8/.test(sm),ex:/38[ ,.]?291[,.]8/.test(ex),th:T.th>=12&&T.qz>=8}});
   ok(dsv.perp&&dsv.mmm&&dsv.hyd&&dsv.trim&&dsv.dens&&dsv.net&&dsv.cargo&&dsv.sign&&dsv.warn==='list,ro'&&dsv.miss==='M,A'&&dsv.free&&dsv.ui&&dsv.back&&dsv.run&&dsv.sum&&dsv.ex&&dsv.th,'Драфт-сюрвей: поправки, MMM, дифферент, плотность, вычеты и груз сходятся с ручным счётом, теория, вкладка в «⚓ Груз и остойчивость» ('+JSON.stringify(dsv)+')');
+  /* 💧 Танки и балласт (tkb-js, вкладка в «⚓ Груз и остойчивость»). Ручной счёт учебного примера (TKBTEST.ex): LBP = 180, Tн 6,20, Tк 7,40 → t = +1,20 м (на корму), крен 0, ρ забортной 1,025.
+     WBT P (зондирование 185, труба x = +4,5 м в корму): поправка = −1,20·4,5/180·100 = −3,0 см → 182,0; таблица 175 → 247,5 и 200 → 285,0: V = 247,5 + 7·37,5/25 = 258,0 м³; 258,0·1,025 = 264,45 т; 258/420 = 61,4 %.
+     WBT S (пустота 140, высота трубы 320, таблица по зондированию): зондирование 180, поправка −3,0 → 177,0 (пустота 143,0); V = 247,5 + 2·1,5 = 250,5 м³; ·1,025 = 256,7625 т.
+     FWT (ДП, x = −2,0): поправка = +1,20·2/180·100 = +1,3333 → 251,3333; таблица 200 → 80, 300 → 120: V = 80 + 51,333·0,4 = 100,5333 м³; ρ 1,000 → 100,5333 т.
+     APT (готовая поправка −5 см): 320 → 315; таблица 0 → 0, 400 → 200: V = 157,5 м³; ·1,025 = 161,4375 т. Балласт = 264,45 + 256,7625 + 161,4375 = 682,65 т; пресная = 100,5333 т.
+     Борта: ЛБ 264,45, ПБ 256,7625 → разница 7,6875 т = 1,475 % от 521,2125 — норма (≤ 2 %). Крен 1° на ПБ, труба y = −6 (к ЛБ): −tg 1°·(−6)·100 = +10,4727 см. Замер 182 см (258 м³): при ρ 1,018 — 262,644 т, пресная — 258 т.
+     Ошибки: замер 310 → 307, V = 429,45 > 420 (полный танк) → 🔴; таблица «10 0 / 100 50», замер 5 → 0 м³ при ненулевом замере → 🔴; пустота 400 > высоты трубы 320 → 🔴;
+     пустота ПБ 200 → зондирование 117, V = 120 + 17·127,5/75 = 148,9 → разница бортов 26,8 % > 2 % → 🟡; ρ 1,040 → 🟡.
+     Перенос в начальный сюрвей примера DSVTEST: балласт 15000 → 682.65, пресная 280 → 100.53; вычеты 682,65 + 100,53 + 820 + 95 + 32 + 12 = 1742,18 → чистое = 24460,273 − 1742,18 = 22718,093 т. */
+  const tkb=await p.evaluate(async()=>{const T=TKBTEST,E=T.ex,near=(a,b,e)=>Math.abs(a-b)<=(e||1e-3),w=ms=>new Promise(r=>setTimeout(r,ms)),q=s=>document.querySelector(s),r={},
+    sv={t:JSON.stringify(st.tkb||null),d:JSON.stringify(st.dsv||null),c:JSON.stringify(st.cgo||null)},cl=o=>JSON.parse(JSON.stringify(o));
+   const a=T.tot(cl(E)),x=a.T;
+   r.num=near(x[0].sc,182)&&near(x[0].V,258)&&near(x[0].m,264.45)&&near(x[0].pc,61.4286,1e-3)&&near(x[1].sc,177)&&near(x[1].zc,143)&&near(x[1].V,250.5)&&near(x[1].m,256.7625)
+    &&near(x[2].sc,251.3333,1e-3)&&near(x[2].m,100.5333,1e-3)&&x[2].ro===1&&near(x[3].sc,315)&&near(x[3].m,161.4375)&&near(a.b,682.65)&&near(a.f,100.5333,1e-3)&&near(a.dp,1.4749,1e-3);
+   r.side=x[0].sd==='p'&&x[1].sd==='s'&&x[2].sd==='c'&&T.side({nm:'ЛБ №3'})==='p'&&T.side({nm:'DB 2S'})==='s'&&T.side({nm:'FPT'})==='c'&&T.side({nm:'X',sd:'s'})==='s';
+   r.trim=near(T.trim({tf:'6.20',ta:'7.40'}),1.2)&&near(T.trim({tr:'-0.5',tf:'6',ta:'7'}),-0.5);
+   const hl=T.tank({lb:'180',hl:'1',ro:'1.025'},{z:'185',y:'-6',tb:E.r[0].tb});r.heel=near(hl.ch,10.4727,1e-3)&&near(hl.sc,195.4727,1e-3);
+   const lv=s=>T.calc(s).lv,e1=cl(E);e1.r[0].z='310';const e2=cl(E);e2.r[0].tb='10 0\n100 50';e2.r[0].z='5';e2.r[0].x='';const e3=cl(E);e3.r[1].z='400';const e4=cl(E);e4.r[1].z='200';const e5=cl(E);e5.v.ro='1.040';
+   r.lv=lv(cl(E))==='G'&&lv(e1)==='R'&&lv(e2)==='R'&&lv(e3)==='R'&&lv(e4)==='Y'&&T.tot(e4).dp>2&&lv(e5)==='Y'&&near(T.tot(e1).b,256.7625+161.4375);
+   r.ro=near(T.tank({ro:'1.018'},{z:'182',tb:E.r[0].tb}).m,262.644)&&near(T.tank({},{z:'182',tb:E.r[0].tb}).m,264.45)&&near(T.tank({ro:'1.018'},{z:'182',ty:'f',tb:E.r[0].tb}).m,258);
+   r.tab=Object.keys(CGX).join(',')==='stb,dsv,tkb'&&fmPro.has('tkb')&&fmPro.pkg('tkb')==='tools';
+   q('#cgo [data-cgt=tkb]').click();await w(100);st.tkb.p='c';cgoR();await w(50);q('#cgo [data-mtex]').click();await w(150);
+   r.ui=!!q('#cgo #tkbo .tkbs')&&!!q('#cgo #tkbo figure svg')&&/682\.65/.test(q('#tkbo').textContent)&&/документацией судна и правилами компании/.test((q('#cgo .mtnote')||{}).textContent||'')&&st.tkb.on===1&&!!q('#cgo [data-cgt=tkb].cur');
+   /* перенос в вычеты: в начальном сюрвее уже есть числа → спрашивает; «нет» — ничего не меняется */
+   const D=DSVTEST.ex;st.dsv={c:cl(D.c),i:cl(D.i),f:cl(D.f)};st.dsv.i.dd=D.i.dd.map((v,i)=>({k:i,n:'',w:String(v)}));st.dsv.f.dd=D.f.dd.map((v,i)=>({k:i,n:'',w:String(v)}));
+   let asked=0;const oc=window.confirm;window.confirm=()=>{asked++;return false};q('#cgo [data-mtb="dsv:i"]').click();await w(50);const keep=st.dsv.i.dd[0].w==='15000'&&asked===1;
+   window.confirm=()=>{asked++;return true};q('#cgo [data-mtb="dsv:i"]').click();await w(50);window.confirm=oc;const s1=DSVTEST.survey(st.dsv.i,st.dsv.c);
+   r.dsv=keep&&asked===2&&st.dsv.i.dd[0].w==='682.65'&&st.dsv.i.dd[1].w==='100.53'&&st.dsv.i.dd[2].w==='820'&&near(s1.S,1742.18,1e-6)&&near(s1.net,22718.093,2e-3)&&!!q('#cgo .tkbok [data-mtb="go:dsv"]');
+   /* «прочее» — своей строкой; пустой конечный сюрвей — без вопроса */
+   st.tkb.r.push({nm:'Sludge',ty:'o',ro:'0.95',z:'100',tb:'0 0\n200 20'});st.dsv.f.dd.forEach(x=>x.w='');asked=0;window.confirm=()=>{asked++;return true};
+   const tf=T.toDsv('f');window.confirm=oc;const orow=st.dsv.f.dd.find(x=>x.k==null);r.oth=!!tf&&asked===0&&!!orow&&orow.w==='9.50'&&st.dsv.f.dd[0].w==='682.65';st.tkb.r.pop();
+   T.toDsv('i',null,1);cgoR();await w(50);q('#cgo [data-mtb="go:dsv"]').click();await w(100);
+   r.go=st.cgo.t==='dsv'&&st.dsv.m==='i'&&!!q('#cgo [data-cgt=dsv].cur')&&!!q('#cgo #cgxw [data-dvm]');
+   /* теория: 6 тем, 5 вопросов, живая схема «замер по трубе при дифференте» */
+   q('#cgo [data-cgt=tkb]').click();await w(50);q('#cgo [data-mtp=t]').click();await w(50);const dt=q('#cgo details.mtth[data-mti="2"]');dt.open=true;await w(150);
+   const th=T.th();r.th=th.t===6&&th.q===5&&th.w&&!!dt.querySelector('figure.mtf svg polygon')&&!!q('#cgo details.mtth[data-mti="0"] figure');
+   st.tkb=JSON.parse(sv.t);if(!st.tkb)delete st.tkb;st.dsv=JSON.parse(sv.d);if(!st.dsv)delete st.dsv;st.cgo=JSON.parse(sv.c);if(!st.cgo)delete st.cgo;save();cgoR();
+   return r});
+  ok(Object.values(tkb).every(v=>v===true),'Танки и балласт: интерполяция, поправки на дифферент и крен, плотность, итоги по бортам, 🔴/🟡, перенос в вычеты драфт-сюрвея (DSVTEST считает с ними), теория и живая схема ('+JSON.stringify(tkb)+')');
   /* Поправка компаса (cpc-js). Ручной счёт:
      створ: ИП 312,0 − КП 309,5 → ΔК = +2,5° E; d = +1,0° E → δ = ΔК − d = +1,5° E (КК 0,5° → строка таблицы КК 0°).
      амплитуда: φ = 40° N, δ⊙ = +15°: sin A = 0,258819/0,766044 = 0,337864 → A = 19,7468°; восход ИП = 90 − 19,7468 = 70,2532° (≈ 70,3°); заход ИП = 270 + 19,7468 = 289,7468°;
@@ -266,7 +305,7 @@ const srv=http.createServer((q,r)=>{let u=decodeURIComponent(q.url.split('?')[0]
    await tl('co','dsv');r.go1=st.cgo.t==='dsv'&&fmc.contains(q('#cgo'))&&!!q('#cgo [data-cgt=dsv].cur');
    await tl('o2','psg');r.go2=st.shn.t==='psg'&&fmc.contains(q('#shn'));
    await tl('o3','ls');r.go3=fmc.contains(q('#srf'))&&/LSA/.test((q('#srf h4')||{}).textContent||'');
-   await tl('e4','tnk');r.go4=st.mtl.t==='tnk'&&fmc.contains(q('#mtl'));await tl('eto','ecl');r.go5=fmc.contains(q('#ecl'));if(window.fmClose)fmClose();await w(80);
+   await tl('e4','tnk');r.go4=st.mtl.t==='tnk'&&fmc.contains(q('#mtl'));await tl('co','tkb');r.go6=st.cgo.t==='tkb'&&fmc.contains(q('#cgo'))&&!!q('#cgo [data-cgt=tkb].cur')&&!!q('#cgo #tkbo');r.dtl=DUTDTL.co.some(g=>g[1].includes('tkb'))&&!DUTDTL.co.some(g=>g[1].includes('tnk'))&&DUTDTL.e4.some(g=>g[1].includes('tnk'))&&DUTDTL.o2.every(g=>!g[1].includes('tkb'));await tl('eto','ecl');r.go5=fmc.contains(q('#ecl'));if(window.fmClose)fmClose();await w(80);
    /* у каждого чина — свои инструменты, остальные — в «Другие инструменты»; плитки разделов-инструментов спрятаны из помещений (data-uxj), плитка «Моя должность» — на палубе */
    const all=Object.keys(DUTTL).filter(k=>document.getElementById(DUTTL[k][2]));r.mine=['o3','o2','co','e4','e3','e2','ce','eto'].every(k=>T.mine(k).length>=8);
    st.dut.r='e2';dutR();r.other=document.querySelectorAll('#dut .dtb [data-dtk]').length===all.length&&!!q('#dut details.dto')&&!q('#dut .dsoon');
@@ -275,6 +314,23 @@ const srv=http.createServer((q,r)=>{let u=decodeURIComponent(q.url.split('?')[0]
    const o=JSON.parse(sv);[['dut',o.d],['ux',o.u],['shn',o.s],['cgo',o.c],['mtl',o.m]].forEach(([k,v])=>{if(v)st[k]=v;else delete st[k]});if(o.t)st.done[today]=o.t;else delete st.done[today];save();dutR();shnR();cgoR();mtlR();
    return r});
   ok(Object.values(dut).every(v=>v===true),'Моя должность: плитка на палубе, инструменты по чину (и машина), плитки инструментов убраны из помещений, должность по мастеру, погоны, XP +5 без удвоения и не больше 50, неделя Пн–Вс, свои пункты, ярлыки в «Груз и остойчивость», «Инструменты штурмана», «Справочник» ('+JSON.stringify(dut)+')');
+  /* Мелкие исправления перед Google Play (23.11.2026): «↺ Начать заново» в «Проверь себя» MTK (#mtl, #etl) не ниже 40 px;
+     «изучено N / M» на карточке помещения = число видимых плиток помещения (без спрятанных data-uxj); показы путеводителя открывают #mtl (⛽ замер танков), #etl (🔄 генераторы в параллель) и #dut и подсвечивают цель */
+  const pol=await p.evaluate(async()=>{const q=s=>document.querySelector(s),w=ms=>new Promise(r=>setTimeout(r,ms)),fmc=document.getElementById('fmc'),r={},sv=JSON.stringify({m:st.mtl||null,e:st.etl||null,g:st.gv||null});
+   r.btn={};for(const k of ['mtl','etl']){if(window.fmClose)fmClose();await w(80);uxP[k].b.click();await w(150);const t=q('#'+k+' [data-mtp=t]');if(t)t.click();await w(50);
+    q('#'+k).querySelectorAll('details').forEach(x=>x.open=true);const b=q('#'+k+' [data-mtqr]');r.btn[k]=b?Math.round(b.getBoundingClientRect().height):0}
+   if(window.fmClose)fmClose();await w(80);setTab('today');save();await w(50);
+   r.rooms={};document.querySelectorAll('#shp [data-shr]').forEach(b=>{const id=b.dataset.shr,m=((b.querySelector('.shq')||{}).textContent||'').match(/(\d+) \/ (\d+)/),
+    n=[...document.querySelectorAll('main>button.fmt[data-t="r-'+id+'"]')].filter(x=>!x.hidden&&!x.hasAttribute('data-uxh')&&!x.hasAttribute('data-uxj')&&!x.classList.contains('uxrow')).length;r.rooms[id]=(m?m[2]:'-')+'/'+n});
+   mtlGo('cyl');etlGo('gnd');r.demo=[];for(const ch of [0,2]){gvOpen(ch);await w(200);const n=document.querySelectorAll('#gv [data-gv=demo]').length;
+    for(let j=0;j<n;j++){gvOpen(ch);await w(200);const b=q('#gv [data-gv=demo][data-j="'+j+'"]');if(!b)continue;b.click();await w(900);
+     const o=q('#gvo');r.demo.push(['mtl','etl','dut'].filter(k=>fmc.contains(q('#'+k))).join('')+':'+(o?o.dataset.gvf:'-')+':'+(st.mtl&&st.mtl.t||'')+':'+(st.etl&&st.etl.t||''));
+     document.dispatchEvent(new KeyboardEvent('keydown',{key:'Escape'}));await w(50)}}
+   if(window.fmClose)fmClose();setTab('today');const o=JSON.parse(sv);[['mtl',o.m],['etl',o.e],['gv',o.g]].forEach(([k,v])=>{if(v)st[k]=v;else delete st[k]});save();
+   return r});
+  ok(pol.btn.mtl>=40&&pol.btn.etl>=40&&Object.keys(pol.rooms).length>=2&&Object.values(pol.rooms).every(x=>x.split('/')[0]===x.split('/')[1])
+   &&pol.demo.some(x=>/^mtl:0:tnk:/.test(x))&&pol.demo.some(x=>/^etl:0:.*:gpar$/.test(x))&&pol.demo.some(x=>/^dut:0:/.test(x)),
+   'Мелкие исправления: «Начать заново» ≥ 40 px, счётчик помещения = видимые плитки, путеводитель показывает «Инструменты механика», «электромеханика» и «Мою должность» ('+JSON.stringify(pol)+')');
   /* 🎖️ Моя должность, этап 2 — машина (e4 e3 e2 ce eto): обязанности (6–10) с заметкой «распределение типовое», чек-листы во всех 6 периодах, журналы, «Шаг вверх» (6–8 вопросов),
      заглушки «скоро» нет ни у одной должности; отметка +5 XP, повторное нажатие не удваивает; {sch,j} берёт из справочника только выбранные проверки; погон ЭТО — зелёный просвет, «Шаг вверх» 2-го механика рисует погон стармеха (4 нашивки) */
   const due=await p.evaluate(()=>{const q=s=>document.querySelector(s),qa=s=>document.querySelectorAll(s),T=DUTTEST,sv=JSON.stringify({d:st.dut||null,t:st.done[today]||null}),r={},E=['e4','e3','e2','ce','eto'],P=['d','w','m','q','dep','arr'];
@@ -525,7 +581,7 @@ const srv=http.createServer((q,r)=>{let u=decodeURIComponent(q.url.split('?')[0]
     room:!!c&&c.dataset.t==='r-brg',tile:!!(window.uxP&&uxP.cgo)&&/Груз|Cargo|Вантаж/.test(uxP.cgo.b.textContent),free:fmPro.has('cgo')&&fmPro.tier('cgo')==='free',
     kw:/осадк/.test(kw)&&/остойчив/.test(kw)&&!/остойчив/.test(kws)&&/поправка компаса/.test(kws)}});
   ok(grp.gb&&grp.G==='{"comp":"cmp,cpc|true","astro":"sxt,str|true","sail":"dr,cur,cpa,psg,twd|true","coast":"lmk,tide,ukc,air,anc|true"}'&&grp.mem&&grp.old==='{"lmk":"coast","tide":"coast","sxt":"astro","str":"astro","dr":"sail","cur":"sail","cpa":"sail","cmp":"comp","cpc":"comp","ukc":"coast","psg":"sail"}'
-   &&grp.moved&&grp.go&&grp.add&&grp.fl&&grp.cg==='stb,dsv'&&grp.room&&grp.tile&&grp.free&&grp.kw,'Инструменты штурмана: 4 группы, инструменты по группам, память группы, старые вкладки в своих группах; «⚓ Груз и остойчивость» на Мостике ('+JSON.stringify(grp)+')');
+   &&grp.moved&&grp.go&&grp.add&&grp.fl&&grp.cg==='stb,dsv,tkb'&&grp.room&&grp.tile&&grp.free&&grp.kw,'Инструменты штурмана: 4 группы, инструменты по группам, память группы, старые вкладки в своих группах; «⚓ Груз и остойчивость» на Мостике ('+JSON.stringify(grp)+')');
   /* поиск «Все разделы»: остойчивость, драфт, осадка → «Груз и остойчивость»; поправка компаса → «Инструменты штурмана» */
   const srch=await p.evaluate(async()=>{const r={},sv=JSON.stringify(st.ux||{});st.ux=st.ux||{};st.ux.all=1;if(window.uxApply)uxApply();uxOpen();const Q=document.getElementById('uxq');
    for(const w of ['остойчивость','драфт','осадка','поправка компаса','stability','остійність','запас под килем','squat','проседание','ETA','переход','мост','air draft','якорь','смычки','истинный ветер']){Q.value=w;Q.dispatchEvent(new Event('input'));await new Promise(z=>setTimeout(z,30));r[w]=[...document.querySelectorAll('#uxl [data-k]')].map(x=>x.dataset.k).filter((x,i,a)=>a.indexOf(x)===i).join(',')}
@@ -549,6 +605,9 @@ const srv=http.createServer((q,r)=>{let u=decodeURIComponent(q.url.split('?')[0]
    await q.evaluate(()=>{localStorage.setItem('fm_pro',JSON.stringify({v:2,t0:1,b0:0,own:0,d:['2000-01-01','2000-01-02','2000-01-03']}))});
    const c=await q.evaluate(()=>{const g=id=>document.getElementById(id);g('ecl').previousElementSibling.click();return{tr:fmPro.trial().on,ecl:fmPro.has('ecl'),qz:fmPro.has('qz'),sh4:fmPro.has('sh4'),wall:!!g('fpw')&&g('fpw').classList.contains('on'),inbox:g('ecl').parentNode===g('mn'),btn:(document.querySelector('#fpw [data-fp=buy]')||{}).textContent||''}});
    const dv=await q.evaluate(()=>{const x=document.createElement('div'),sv=JSON.stringify(st.dsv||null);cgoR();CGX.dsv.r(x);const r={has:fmPro.has('dsv'),stb:fmPro.has('stb'),shn:!fmPro.has('shn')&&fmPro.has('cgo'),g:CGX.dsv.g(),n:/🔒/.test(CGX.dsv.n())&&/🔒/.test(CGX.stb.n())&&/🔒/.test(document.querySelector('#cgo [data-cgt=dsv]').textContent),lock:!!x.querySelector('[data-dvw]')&&!x.querySelector('[data-dvv]'),wall:document.getElementById('fpw').classList.contains('on')};st.dsv=JSON.parse(sv);if(!st.dsv)delete st.dsv;return r});
+   const tk=await q.evaluate(()=>{const x=document.createElement('div'),sv=JSON.stringify(st.tkb||null),W=document.getElementById('fpw');W.classList.remove('on');const g=CGX.tkb.g(),wall=W.classList.contains('on');W.classList.remove('on');CGX.tkb.r(x);
+    const r={has:fmPro.has('tkb'),g,wall,n:/🔒/.test(CGX.tkb.n())&&/🔒/.test((document.querySelector('#cgo [data-cgt=tkb]')||{}).textContent||''),lock:!!x.querySelector('[data-mtwl]')&&!x.querySelector('[data-mtv]')};st.tkb=JSON.parse(sv);if(!st.tkb)delete st.tkb;return r});
+   ok(!tk.has&&tk.g===false&&tk.wall&&tk.n&&tk.lock,'Play-сборка: «Танки и балласт» закрыты (🔒, окно покупки) ('+JSON.stringify(tk)+')');
    const cp=await q.evaluate(()=>{const x=document.createElement('div'),sv=JSON.stringify(st.cpc||null),W=document.getElementById('fpw');W.classList.remove('on');const g=SNX.cpc.g(),wall=W.classList.contains('on');W.classList.remove('on');
     SNX.cpc.r(x);shnGo('comp');const cm=document.querySelector('#shn [data-snt=cmp]');if(cm)cm.click();
     const r={has:fmPro.has('cpc'),shn:!fmPro.has('shn')&&fmPro.pkg('shn')==='tools',g,wall,n:/🔒/.test(SNX.cpc.n()),lock:!!x.querySelector('[data-cpwl]')&&!x.querySelector('[data-cpv]'),cmp:!!document.querySelector('#shn #sno')&&!document.querySelector('#shn #snxw')};st.cpc=JSON.parse(sv);if(!st.cpc)delete st.cpc;return r});
