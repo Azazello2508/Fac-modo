@@ -169,6 +169,25 @@ const srv=http.createServer((q,r)=>{let u=decodeURIComponent(q.url.split('?')[0]
     th:JSON.stringify(TH),note:err.join(','),qa,free:['ukc','psg','air','anc','twd'].every(k=>fmPro.has(k)&&fmPro.pkg(k)==='tools')}});
   ok(nvt.ukc&&nvt.rl&&nvt.gc&&nvt.route&&nvt.eq&&nvt.time&&nvt.air&&nvt.anc&&nvt.twd&&nvt.bft&&nvt.gc1&&nvt.gs&&nvt.ui&&nvt.note===''&&nvt.qa&&nvt.free
    &&Object.values(JSON.parse(nvt.th)).every(x=>{const a=x.split('/').map(Number);return a[0]>=4&&a[1]>=1&&a[2]>=4}),'Новые инструменты штурмана: запас под килем, переход (обе формулы, ETA, топливо), мост, якорь, истинный ветер сходятся с ручным счётом, группы, теория ('+JSON.stringify(nvt)+')');
+  /* Теория, примеры и цветной итог 8 старых инструментов #shn (sno-js). Примеры посчитаны shn-js и сверены вручную:
+     компас КК 120.0 + δ −1.5 + d +3.5 = ИК 122.0; крюйс-пеленг 30°→60°, 12 уз, 15 мин: S = 3.00, D = 3.00, траверз 3·sin60 = 2.60;
+     прилив МВ 06:10 0.6, ПВ 12:25 4.2, в 09:00 h = 0.6 + 3.6·(1 − cos(180·170/375))/2 = 2.14, запас 8.0 + 2.14 − 9.0 = 1.14 м;
+     CPA пример 1.44 мили → жёлтый; засечка 2 = 40.2° 7.0 мили (пеленг почти не меняется) → CPA 0.20 → красный. */
+  const sno=await p.evaluate(async()=>{const q=s=>document.querySelector(s),w=()=>new Promise(r=>setTimeout(r,0)),sh=JSON.stringify(st.shn||{}),sn=JSON.stringify(st.sno||null),R={},bad=[];window.confirm=()=>true;
+   const MD={cmp:['conv','brg','sun','tab'],sxt:['ho','noon','ie'],str:['pick','fix','pol'],lmk:['bb','bd','kp','va','vis'],dr:['np','cd'],cur:[''],cpa:[''],tide:['']};
+   for(const t in MD){shnGo(t);const b=q('#shn [data-snt='+t+']');if(b)b.click();await w();st.sno=st.sno||{};st.sno.p=st.sno.p||{};st.sno.p[t]='c';shnR();await w();
+    for(const m of MD[t]){if(m){q('#shn [data-snm='+m+']').click();await w()}const ex=q('#shn [data-snoex]');if(!ex){bad.push(t+'/'+m+':ex');continue}ex.click();await w();
+     const x=q('#shn #sno .sno');R[t+'/'+m]=x?(x.querySelector('.snolv')?x.className.match(/sno([GYR])/)[1]:'-')+'|'+x.textContent:'';if(!x||!x.querySelector('.snolv'))bad.push(t+'/'+m)}
+    const tb=q('#shn [data-snop=t]');tb.click();await w();const th=SNOTEST.th(t),nT=document.querySelectorAll('#shn #snoth .nxth').length;
+    if(!(th.t>=4&&th.q>=4&&th.w&&nT===th.t+1&&q('#shn .nxwhy')&&/Учебный расчёт/.test((q('#shn #snoth .nxnote')||{}).textContent||'')&&q('#shn #sno').closest('.snoH')))bad.push(t+':theory');
+    const qa=q('#shn [data-snoq="0:0"]');qa.click();await w();if(!(st.sno.qa[t]&&st.sno.qa[t][0]===0&&q('#shn #snoq0 .nxqe')))bad.push(t+':qa');
+    q('#shn [data-snop=c]').click();await w()}
+   shnGo('cpa');q('#shn [data-snt=cpa]').click();await w();const s2=(id,v)=>{const e=document.getElementById(id);e.value=v;e.dispatchEvent(new Event('input',{bubbles:true}))};
+   s2('sn_p2','40.2');s2('sn_d2','7.0');await w();const red=(q('#shn #sno .sno')||{}).className||'';
+   st.shn=JSON.parse(sh);const o=JSON.parse(sn);if(o)st.sno=o;else delete st.sno;save();shnR();await w();
+   return{bad:bad.join(','),cmp:/122\.0°/.test(R['cmp/conv'])&&R['cmp/conv'][0]==='G',kp:/2\.60/.test(R['lmk/kp']),tide:/1\.14/.test(R['tide/'])&&R['tide/'][0]==='G',
+    cpaY:R['cpa/'][0]==='Y'&&/1\.44/.test(R['cpa/']),cpaR:/snoR/.test(red),fix:/41°05\.0′/.test(R['str/fix']),free:['cmp','sxt','str','lmk','dr','cur','cpa','tide'].every(k=>!window.fmPro||fmPro.has(k))}});
+  ok(sno.bad===''&&sno.cmp&&sno.kp&&sno.tide&&sno.cpaY&&sno.cpaR&&sno.fix&&sno.free,'Старые инструменты штурмана: теория, «Проверь себя», примеры во всех режимах, цветной итог (CPA 0.2 — красный) ('+JSON.stringify(sno)+')');
   /* Группы #shn: 4 группы сверху, инструменты выбранной группы под ними; группа и инструмент запоминаются; старое st.shn.t открывается в своей группе;
      вкладка SNX с полем grp встаёт в свою группу; «⚓ Груз и остойчивость» (#cgo) — отдельный раздел на Мостике с остойчивостью и драфт-сюрвеем. */
   const grp=await p.evaluate(()=>{const sv=JSON.stringify(st.shn||{}),q=s=>document.querySelector(s),keys=()=>[...document.querySelectorAll('#shn .sngr+.sntb [data-snt]')].map(x=>x.dataset.snt).join(',');
