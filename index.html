@@ -3166,24 +3166,24 @@ function lp(id){var a=ang(id+"a"),o=ang(id+"o");return ok(a,o)?{a:a,o:o}:null}
 function rhumb(p,k,s){var a2=p.a+s*cos(k)/60;if(Math.abs(a2)>89.5)return null;var dpsi=Math.log(tan(45+a2/2)/tan(45+p.a/2)),dl=Math.abs(a2-p.a)>1e-9?tan(k)*dpsi/R:s*sin(k)/60/cos(p.a);if(Math.abs(cos(k))<1e-9)dl=s*sin(k)/60/cos(p.a);return{a:a2,o:n180(p.o+dl)}}
 function plane(o,p){var am=(o.a+p.a)/2;return[n180(p.o-o.o)*60*cos(am),(p.a-o.a)*60]}
 function unplane(o,x,y){var a=o.a+y/60;return{a:a,o:n180(o.o+x/60/cos((o.a+a)/2))}}
-function calc(){var s=S(),t=s.t,m=mode(),r="",bad=0,i,x;
+var FG=null;function calc(){FG=null;var s=S(),t=s.t,m=mode(),r="",bad=0,i,x;
 if(t=="cmp"){var d=varN();
  if(m=="conv"){var v=num("sn_cv"),ty=E("sn_ct").value,dd=num("sn_cd"),g=num("sn_cg");if(!isFinite(v))return out(NEED);
   if(!isFinite(d))d=0;var dev=function(kk){return isFinite(dd)?dd:(isFinite(devAt(kk))?devAt(kk):0)},kk,ik;
   if(ty=="kk"){kk=v;ik=v+d+dev(kk)}else{ik=ty=="ik"?v:ty=="mk"?v+d:v+(isFinite(g)?g:0);kk=ik-d;for(i=0;i<6;i++)kk=ik-d-dev(kk)}
-  var de=dev(kk);r=L("ИК","TC","ІК")+' <b>'+fc(ik)+'</b> · '+L("МК","MC","МК")+' <b>'+fc(ik-d)+'</b> · '+L("КК","CC","КК")+' <b>'+fc(kk)+'</b>'+(isFinite(g)?' · '+L("ГКК","Gyro","ГКК")+' <b>'+fc(ik-g)+'</b>':'')+'<br>d = '+fs(d)+' · δ = '+fs(de)+(isFinite(dd)?'':' <small>('+(isFinite(devAt(kk))?L("из таблицы","from table","з таблиці"):L("таблица пустая — взято 0","table empty — 0 used","таблиця порожня — взято 0"))+')</small>')+' · '+L("ΔК","Error","ΔК")+' = <b>'+fs(d+de)+'</b>'+(isFinite(ang("sn_vd"))?'':'<br><span class="snw">'+L("Склонение не введено — взято 0.","Variation not entered — 0 used.","Схилення не введено — взято 0.")+'</span>')}
+  var de=dev(kk);FG={k:"cmp",m:m,ik:ik,d:d,de:de,kk:kk,g:g};r=L("ИК","TC","ІК")+' <b>'+fc(ik)+'</b> · '+L("МК","MC","МК")+' <b>'+fc(ik-d)+'</b> · '+L("КК","CC","КК")+' <b>'+fc(kk)+'</b>'+(isFinite(g)?' · '+L("ГКК","Gyro","ГКК")+' <b>'+fc(ik-g)+'</b>':'')+'<br>d = '+fs(d)+' · δ = '+fs(de)+(isFinite(dd)?'':' <small>('+(isFinite(devAt(kk))?L("из таблицы","from table","з таблиці"):L("таблица пустая — взято 0","table empty — 0 used","таблиця порожня — взято 0"))+')</small>')+' · '+L("ΔК","Error","ΔК")+' = <b>'+fs(d+de)+'</b>'+(isFinite(ang("sn_vd"))?'':'<br><span class="snw">'+L("Склонение не введено — взято 0.","Variation not entered — 0 used.","Схилення не введено — взято 0.")+'</span>')}
  else if(m=="brg"||m=="sun"){var tp,cp=num(m=="brg"?"sn_bc":"sn_sb"),ex="";if(m=="brg")tp=num("sn_bt");else{var p=lp("sn_l"),ms=tms("sn_t");if(!p||!isFinite(ms))return out(NEED);var hz=alt(bod("sl",ms),p.a,p.o);tp=hz.z;ex=L("Истинный азимут Солнца","Sun's true azimuth","Істинний азимут Сонця")+' <b>'+fc(tp)+'</b>, '+L("высота","altitude","висота")+' '+f(hz.h,1)+'°<br>';if(hz.h<0)return out(ex+L("Солнце под горизонтом в это время.","The Sun is below the horizon at this time.","Сонце під горизонтом у цей час."),1);if(hz.h>30)ex+='<span class="snw">'+L("Солнце высоко (выше 30°) — пеленг будет неточным.","The Sun is high (above 30°) — the bearing will be less accurate.","Сонце високо (вище 30°) — пеленг буде неточним.")+'</span><br>'}
-  if(!ok(tp,cp))return out(ex||NEED);var dk=n180(tp-cp);r=ex+L("ΔК","Error","ΔК")+' = '+L("ИП − КП","TB − CB","ІП − КП")+' = <b>'+fs(dk)+'</b>';if(isFinite(d)){var dv=dk-d;r+='<br>'+L("Девиация","Deviation","Девіація")+' '+L("δ = ΔК − d","= Error − Var","δ = ΔК − d")+' = <b>'+fs(dv)+'</b>';var kc=num(m=="brg"?"sn_bk":"sn_sk");if(isFinite(kc))r+=' '+L("на КК","on CC","на КК")+' '+fc(kc)+'<br><small>'+L("Можно вписать в таблицу девиации.","You can put it into the deviation table.","Можна вписати в таблицю девіації.")+'</small>'}else r+='<br><small>'+L("Впиши склонение — получишь и девиацию.","Enter the variation to get the deviation too.","Впиши схилення — отримаєш і девіацію.")+'</small>'}
- else{var D=devT(),n=D.filter(function(z){return isFinite(parseFloat(z))}).length;r=n?L("Девиация сохранена. Пример: на КК 22.5° δ = ","Deviation saved. Example: on CC 22.5° deviation = ","Девіацію збережено. Приклад: на КК 22.5° δ = ")+'<b>'+fs(devAt(22.5))+'</b>':L("Таблица пустая.","The table is empty.","Таблиця порожня.")}}
-else if(t=="sxt"){if(m=="ho"){var hs=ang("sn_hs");if(!isFinite(hs))return out(NEED);var b=E("sn_hb").value,c=hoC(hs,b,Date.now());
+  if(!ok(tp,cp))return out(ex||NEED);var dk=n180(tp-cp);FG={k:"cmp",m:m,tp:tp,cp:cp,dk:dk,d:d};r=ex+L("ΔК","Error","ΔК")+' = '+L("ИП − КП","TB − CB","ІП − КП")+' = <b>'+fs(dk)+'</b>';if(isFinite(d)){var dv=dk-d;FG.dv=dv;r+='<br>'+L("Девиация","Deviation","Девіація")+' '+L("δ = ΔК − d","= Error − Var","δ = ΔК − d")+' = <b>'+fs(dv)+'</b>';var kc=num(m=="brg"?"sn_bk":"sn_sk");if(isFinite(kc))r+=' '+L("на КК","on CC","на КК")+' '+fc(kc)+'<br><small>'+L("Можно вписать в таблицу девиации.","You can put it into the deviation table.","Можна вписати в таблицю девіації.")+'</small>'}else r+='<br><small>'+L("Впиши склонение — получишь и девиацию.","Enter the variation to get the deviation too.","Впиши схилення — отримаєш і девіацію.")+'</small>'}
+ else{var D=devT(),n=D.filter(function(z){return isFinite(parseFloat(z))}).length;FG={k:"cmp",m:m,n:n,devAt:devAt,D:D};r=n?L("Девиация сохранена. Пример: на КК 22.5° δ = ","Deviation saved. Example: on CC 22.5° deviation = ","Девіацію збережено. Приклад: на КК 22.5° δ = ")+'<b>'+fs(devAt(22.5))+'</b>':L("Таблица пустая.","The table is empty.","Таблиця порожня.")}}
+else if(t=="sxt"){if(m=="ho"){var hs=ang("sn_hs");if(!isFinite(hs))return out(NEED);var b=E("sn_hb").value,c=hoC(hs,b,Date.now());FG={k:"sxt",m:m,hs:hs,b:b,c:c};
   r='<table><tr><td>Hs</td><td>'+fdm(hs)+'</td></tr><tr><td>'+L("Поправка индекса i","Index correction","Поправка індексу i")+'</td><td>'+fmn(c.i)+'</td></tr><tr><td>'+L("Наклонение горизонта","Dip","Нахил горизонту")+'</td><td>'+fmn(c.dip)+'</td></tr><tr><td>'+L("Видимая высота","Apparent altitude","Видима висота")+'</td><td>'+fdm(c.ha)+'</td></tr><tr><td>'+L("Рефракция","Refraction","Рефракція")+'</td><td>'+fmn(c.R)+'</td></tr>'+(b=="st"?'':'<tr><td>'+L("Полудиаметр","Semi-diameter","Півдіаметр")+'</td><td>'+fmn(c.sd)+'</td></tr><tr><td>'+L("Параллакс","Parallax","Паралакс")+'</td><td>'+fmn(c.px)+'</td></tr>')+'</table>Ho = <b>'+fdm(c.ho)+'</b>'+eyeW()+(c.ha<5?'<br><span class="snw">'+L("Ниже 5° рефракция непостоянна — высота ненадёжна.","Below 5° refraction is erratic — the altitude is unreliable.","Нижче 5° рефракція непостійна — висота ненадійна.")+'</span>':'')}
  else if(m=="noon"){var ms0=tms("sn_t"),lo=ang("sn_lo");if(!ok(ms0,lo))return out(NEED);var day=Date.UTC(new Date(ms0).getUTCFullYear(),new Date(ms0).getUTCMonth(),new Date(ms0).getUTCDate()),tt=day+(12-lo/15)*36e5;
   for(i=0;i<4;i++){var gg=bod("sl",tt);tt-=n180(gg.gha+lo)/15*36e5}var sd=bod("sl",tt),la0=ang("sn_la");r=L("Полдень (Солнце в меридиане)","Noon (Sun on the meridian)","Полудень (Сонце в меридіані)")+': <b>'+fhm(tt)+'</b><br>'+L("Склонение Солнца","Sun's declination","Схилення Сонця")+' '+fla(sd.dec);
   if(isFinite(la0))r+='<br>'+L("Ожидаемая высота ≈ ","Expected altitude ≈ ","Очікувана висота ≈ ")+fdm(90-Math.abs(la0-sd.dec))+' — '+L("выставь секстан заранее.","preset the sextant.","виставте секстан заздалегідь.");
-  var nh=ang("sn_nh");if(isFinite(nh)){var c2=hoC(nh,E("sn_nb").value,tt),z=90-c2.ho,la=E("sn_nz").value=="S"?sd.dec+z:sd.dec-z;r+='<br>Ho = '+fdm(c2.ho)+' · z = 90° − Ho = '+fdm(z)+'<br>'+L("Широта","Latitude","Широта")+' φ = <b>'+fla(la)+'</b>'+eyeW()}}
+  var nh=ang("sn_nh");if(isFinite(nh)){var c2=hoC(nh,E("sn_nb").value,tt),z=90-c2.ho,la=E("sn_nz").value=="S"?sd.dec+z:sd.dec-z;FG={k:"sxt",m:m,ho:c2.ho,z:z,la:la,dec:sd.dec,ns:E("sn_nz").value,b:E("sn_nb").value};r+='<br>Ho = '+fdm(c2.ho)+' · z = 90° − Ho = '+fdm(z)+'<br>'+L("Широта","Latitude","Широта")+' φ = <b>'+fla(la)+'</b>'+eyeW()}}
  else{var rd=num("sn_ir"),on=num("sn_ion"),off=num("sn_ioff");if(isFinite(rd)){var iv=E("sn_ia").value=="on"?-rd:rd;r=L("По горизонту: поправка индекса","By the horizon: index correction","За горизонтом: поправка індексу")+' i = <b>'+fmn(iv/60)+'</b> <small>('+L("отсчёт на дуге вычитают, за дугой — прибавляют","on the arc subtract, off the arc add","відлік на дузі віднімають, за дугою — додають")+')</small>'}
   if(ok(on,off)){r+=(r?'<br>':'')+L("По Солнцу","By the Sun","За Сонцем")+': i = '+L("(за − на)/2","(off − on)/2","(за − на)/2")+' = <b>'+fmn((off-on)/120)+'</b>, '+L("проверка: полудиаметр","check: semi-diameter","перевірка: півдіаметр")+' '+L("(на + за)/4","(on + off)/4","(на + за)/4")+' = '+f((on+off)/4,1)+'′ '+L("(должно быть около 16′)","(should be about 16′)","(має бути близько 16′)");if(Math.abs((on+off)/4-16)>0.5){r+='<br><span class="snw">'+L("Сильно отличается от 16′ — измерь ещё раз.","Far from 16′ — measure again.","Сильно відрізняється від 16′ — виміряй ще раз.")+'</span>'}}
-  if(!r)return out(NEED);r+='<br><small>'+L("Впиши i в поле «Поправка индекса» в «Исправить высоту» — она сохранится для всех расчётов.","Put i into the Index correction field in Correct the altitude — it is saved for all calculations.","Впиши i в поле «Поправка індексу» в «Виправити висоту» — вона збережеться для всіх розрахунків.")+'</small>'}}
+  if(!r)return out(NEED);FG={k:"sxt",m:m,i:isFinite(rd)?(E("sn_ia").value=="on"?-rd:rd):(off-on)/2};r+='<br><small>'+L("Впиши i в поле «Поправка индекса» в «Исправить высоту» — она сохранится для всех расчётов.","Put i into the Index correction field in Correct the altitude — it is saved for all calculations.","Впиши i в поле «Поправка індексу» в «Виправити висоту» — вона збережеться для всіх розрахунків.")+'</small>'}}
 else if(t=="str"){if(!ST.length)return out(L("Нет данных о звёздах.","No star data.","Немає даних про зірки."),1);
  if(m=="pick"){var p=lp("sn_l"),ms=tms("sn_t");if(!p||!isFinite(ms))return out(NEED);var sh=alt(bod("sl",ms),p.a,p.o).h,list=[];
   ST.forEach(function(x){var a=alt(bod("s"+x.i,ms),p.a,p.o);if(a.h>=12&&a.h<=78)list.push({x:x,h:a.h,z:a.z})});list.sort(function(a,b){return a.z-b.z});
@@ -3191,58 +3191,58 @@ else if(t=="str"){if(!ST.length)return out(L("Нет данных о звёзд�
   var cand=list.filter(function(a){return a.x.mg<=2.6&&a.h>=15&&a.h<=70}),best=null,bs=-1;
   for(var a1=0;a1<cand.length;a1++)for(var a2=a1+1;a2<cand.length;a2++)for(var a3=a2+1;a3<cand.length;a3++){var zz=[cand[a1].z,cand[a2].z,cand[a3].z],sc=Math.min(nr(zz[1]-zz[0]),nr(zz[2]-zz[1]),nr(zz[0]-zz[2]))-0.5*(cand[a1].x.mg+cand[a2].x.mg+cand[a3].x.mg);if(sc>bs){bs=sc;best=[cand[a1],cand[a2],cand[a3]]}}
   if(best)r+='<br>'+L("Советую","Suggested","Раджу")+': <b>'+best.map(function(a){return a.x.n}).join(", ")+'</b>';
-  r+='<table><tr><th>'+L("Звезда","Star","Зірка")+'</th><th>'+L("Высота","Alt","Висота")+'</th><th>'+L("Азимут","Az","Азимут")+'</th><th>'+L("Блеск","Mag","Блиск")+'</th></tr>'+list.map(function(a){var b=best&&best.indexOf(a)>=0;return'<tr'+(b?' style="font-weight:700"':'')+'><td>'+esc(a.x.n)+'</td><td>'+fdm(a.h)+'</td><td>'+fc(a.z)+'</td><td>'+f(a.x.mg,1)+'</td></tr>'}).join("")+'</table><small>'+L("Высоты и азимуты — для поиска звезды; секстан выставь на высоту и смотри в сторону азимута.","Altitudes and azimuths help to find the star: preset the sextant and look toward the azimuth.","Висоти й азимути — для пошуку зірки: виставте секстан на висоту і дивіться в бік азимута.")+'</small>'}
+  FG={k:"str",m:m,sh:sh,list:list,best:best};r+='<table><tr><th>'+L("Звезда","Star","Зірка")+'</th><th>'+L("Высота","Alt","Висота")+'</th><th>'+L("Азимут","Az","Азимут")+'</th><th>'+L("Блеск","Mag","Блиск")+'</th></tr>'+list.map(function(a){var b=best&&best.indexOf(a)>=0;return'<tr'+(b?' style="font-weight:700"':'')+'><td>'+esc(a.x.n)+'</td><td>'+fdm(a.h)+'</td><td>'+fc(a.z)+'</td><td>'+f(a.x.mg,1)+'</td></tr>'}).join("")+'</table><small>'+L("Высоты и азимуты — для поиска звезды; секстан выставь на высоту и смотри в сторону азимута.","Altitudes and azimuths help to find the star: preset the sextant and look toward the azimuth.","Висоти й азимути — для пошуку зірки: виставте секстан на висоту і дивіться в бік азимута.")+'</small>'}
  else if(m=="fix"){var p=lp("sn_l");if(!p)return out(NEED);var S2=[],tl=-Infinity,ik=num("sn_fk"),vv=num("sn_fv");
   for(i=1;i<=3;i++){var b=E("sn_b"+i).value,hs=ang("sn_h"+i),ms=tms("sn_t"+i);if(!b||!ok(hs,ms))continue;var c=hoC(hs,b=="sl"||b=="su"?b:"st",ms),a=alt(bod(b,ms),p.a,p.o);S2.push({b:b,ho:c.ho,hc:a.h,z:a.z,p:(c.ho-a.h)*60,ms:ms});if(ms>tl)tl=ms}
   if(!S2.length)return out(NEED);
   S2.forEach(function(x){x.adv=0;if(ok(ik,vv)&&tl>x.ms){var dd=vv*(tl-x.ms)/36e5;x.adv=dd*cos(x.z-ik);x.p+=x.adv}});
-  r='<table><tr><th>'+L("Светило","Body","Світило")+'</th><th>Ho</th><th>Hc</th><th>Zn</th><th>p</th></tr>'+S2.map(function(x){return'<tr><td>'+esc(bname(x.b))+'</td><td>'+fdm(x.ho)+'</td><td>'+fdm(x.hc)+'</td><td>'+fc(x.z)+'</td><td>'+f(Math.abs(x.p),1)+' '+(x.p>=0?L("к","tow.","до"):L("от","away","від"))+'</td></tr>'}).join("")+'</table>';
+  FG={k:"str",m:m,S2:S2};r='<table><tr><th>'+L("Светило","Body","Світило")+'</th><th>Ho</th><th>Hc</th><th>Zn</th><th>p</th></tr>'+S2.map(function(x){return'<tr><td>'+esc(bname(x.b))+'</td><td>'+fdm(x.ho)+'</td><td>'+fdm(x.hc)+'</td><td>'+fc(x.z)+'</td><td>'+f(Math.abs(x.p),1)+' '+(x.p>=0?L("к","tow.","до"):L("от","away","від"))+'</td></tr>'}).join("")+'</table>';
   if(Math.max.apply(null,S2.map(function(x){return Math.abs(x.p)}))>30)r+='<span class="snw">'+L("Перенос больше 30 миль — проверь время, отсчёт и счислимое место.","Intercept over 30 nm — check time, reading and DR.","Перенос більше 30 миль — перевір час, відлік і счислене місце.")+'</span><br>';
   if(S2.length<2)r+=L("Одна высотная линия: место где-то на ней. Добавь второе светило для обсервации.","One line of position: you are somewhere on it. Add a second body for a fix.","Одна висотна лінія: місце десь на ній. Додай друге світило для обсервації.");
   else{var a11=0,a12=0,a22=0,b1=0,b2=0;S2.forEach(function(x){var sx=sin(x.z),cy=cos(x.z);a11+=sx*sx;a12+=sx*cy;a22+=cy*cy;b1+=x.p*sx;b2+=x.p*cy});var dt=a11*a22-a12*a12,mn=180;
    for(i=0;i<S2.length;i++)for(var j=i+1;j<S2.length;j++){var dz=Math.abs(n180(S2[i].z-S2[j].z));dz=Math.min(dz,180-dz);if(dz<mn)mn=dz}
    if(Math.abs(dt)<1e-6||mn<15)r+='<span class="snw">'+L("Азимуты светил слишком близки — линии почти параллельны. Возьми светила с разницей азимутов 60–120°.","The azimuths are too close — the lines are almost parallel. Choose bodies 60–120° apart.","Азимути світил занадто близькі — лінії майже паралельні. Візьми світила з різницею азимутів 60–120°.")+'</span>';
    else{var dx=(b1*a22-b2*a12)/dt,dy=(a11*b2-a12*b1)/dt,fx=unplane(p,dx,dy),res=0;S2.forEach(function(x){res=Math.max(res,Math.abs(x.p-dx*sin(x.z)-dy*cos(x.z)))});
-    r+=L("Обсервованное место","Fix","Обсервоване місце")+(ok(ik,vv)&&S2.length>1?' '+L("на","at","на")+' '+fhm(tl):'')+':<br><b>'+fla(fx.a)+' &nbsp; '+flo(fx.o)+'</b><br>'+L("Невязка от счислимого","Offset from DR","Нев’язка від счисленого")+': '+f(Math.sqrt(dx*dx+dy*dy),1)+' '+L("миль","nm","миль")+' '+L("в направлении","toward","у напрямку")+' '+fc(atan2(dx,dy))+(S2.length>2?'<br>'+L("Треугольник погрешностей: до","Cocked hat: up to","Трикутник похибок: до")+' '+f(res,1)+' '+L("миль","nm","миль"):'')}}
+    FG.dx=dx;FG.dy=dy;FG.res=res;FG.fx=fx;r+=L("Обсервованное место","Fix","Обсервоване місце")+(ok(ik,vv)&&S2.length>1?' '+L("на","at","на")+' '+fhm(tl):'')+':<br><b>'+fla(fx.a)+' &nbsp; '+flo(fx.o)+'</b><br>'+L("Невязка от счислимого","Offset from DR","Нев’язка від счисленого")+': '+f(Math.sqrt(dx*dx+dy*dy),1)+' '+L("миль","nm","миль")+' '+L("в направлении","toward","у напрямку")+' '+fc(atan2(dx,dy))+(S2.length>2?'<br>'+L("Треугольник погрешностей: до","Cocked hat: up to","Трикутник похибок: до")+' '+f(res,1)+' '+L("миль","nm","миль"):'')}}
   r+=eyeW()+(ok(ik,vv)?'':'<br><small>'+L("Если между наблюдениями прошло больше 5 минут — впиши ИК и скорость, линии перенесутся на время последнего.","If more than 5 minutes passed between sights, enter course and speed so the lines are advanced to the last one.","Якщо між спостереженнями минуло більше 5 хвилин — впиши ІК і швидкість, лінії перенесуться на час останнього.")+'</small>')}
  else{var hs=ang("sn_ph"),ms=tms("sn_t"),lo=ang("sn_lo"),pi=-1;ST.forEach(function(x){if(x.dec>88)pi=x.i});if(!ok(hs,ms,lo)||pi<0)return out(NEED);var c=hoC(hs,"st",ms),g=bod("s"+pi,ms),la=c.ho;
   for(i=0;i<8;i++){var h1=alt(g,la,lo).h,h2=alt(g,la+0.01,lo).h,dd=(h2-h1)/0.01;if(Math.abs(dd)<1e-6)break;la+=(c.ho-h1)/dd}
-  r='Ho = '+fdm(c.ho)+'<br>'+L("Поправка за положение Полярной","Polaris correction","Поправка за положення Полярної")+': '+fmn(la-c.ho)+'<br>'+L("Широта","Latitude","Широта")+' φ = <b>'+fla(la)+'</b>'+eyeW()+'<br><small>'+L("Азимут Полярной сейчас","Polaris azimuth now","Азимут Полярної зараз")+' '+fc(alt(g,la,lo).z)+' — '+L("можно проверить и компас.","you can check the compass too.","можна перевірити й компас.")+'</small>'}}
+  FG={k:"str",m:m,ho:c.ho,la:la,z:alt(g,la,lo).z};r='Ho = '+fdm(c.ho)+'<br>'+L("Поправка за положение Полярной","Polaris correction","Поправка за положення Полярної")+': '+fmn(la-c.ho)+'<br>'+L("Широта","Latitude","Широта")+' φ = <b>'+fla(la)+'</b>'+eyeW()+'<br><small>'+L("Азимут Полярной сейчас","Polaris azimuth now","Азимут Полярної зараз")+' '+fc(alt(g,la,lo).z)+' — '+L("можно проверить и компас.","you can check the compass too.","можна перевірити й компас.")+'</small>'}}
 else if(t=="lmk"){var A=lp("sn_a");
  if(m=="bb"){var B=lp("sn_b"),pa=num("sn_pa"),pb=num("sn_pb");if(!A||!B||!ok(pa,pb))return out(NEED);var b0=plane(A,B),u1=[sin(pa),cos(pa)],u2=[sin(pb),cos(pb)],dt=-u1[0]*u2[1]+u2[0]*u1[1];
   var cut=Math.abs(n180(pa-pb));cut=Math.min(cut,180-cut);if(Math.abs(dt)<0.05)return out(L("Пеленги почти параллельны — место не определить. Возьми ориентиры под углом 60–120°.","The bearings are almost parallel — no fix. Choose landmarks 60–120° apart.","Пеленги майже паралельні — місце не визначити. Візьми орієнтири під кутом 60–120°."),1);
-  var t1=(b0[0]*u2[1]-u2[0]*b0[1])/dt,P={x:-t1*u1[0],y:-t1*u1[1]},fx=unplane(A,P.x,P.y),dB=Math.hypot(P.x-b0[0],P.y-b0[1]);
+  var t1=(b0[0]*u2[1]-u2[0]*b0[1])/dt,P={x:-t1*u1[0],y:-t1*u1[1]},fx=unplane(A,P.x,P.y),dB=Math.hypot(P.x-b0[0],P.y-b0[1]);FG={k:"lmk",m:m,b0:b0,P:P,pa:pa,pb:pb,cut:cut,t1:t1,dB:dB};
   r=L("Место судна","Ship's position","Місце судна")+':<br><b>'+fla(fx.a)+' &nbsp; '+flo(fx.o)+'</b><br>'+L("До A","To A","До A")+' '+f(Math.abs(t1),1)+' · '+L("до B","to B","до B")+' '+f(dB,1)+' '+L("миль","nm","миль")+' · '+L("угол между пеленгами","angle between bearings","кут між пеленгами")+' '+f(cut,0)+'°'+(cut<30?'<br><span class="snw">'+L("Угол меньше 30° — место неточное.","Angle under 30° — the fix is poor.","Кут менше 30° — місце неточне.")+'</span>':'')+(t1<0?'<br><span class="snw">'+L("Проверь пеленги: ориентир A получается позади.","Check the bearings: landmark A comes out behind you.","Перевір пеленги: орієнтир A виходить позаду.")+'</span>':'')}
- else if(m=="bd"){var pa=num("sn_pa"),da=num("sn_da");if(!A||!ok(pa,da))return out(NEED);var fx=unplane(A,-da*sin(pa),-da*cos(pa));r=L("Место судна","Ship's position","Місце судна")+':<br><b>'+fla(fx.a)+' &nbsp; '+flo(fx.o)+'</b><br><small>'+L("Обратный пеленг от ориентира на судно","Reverse bearing from landmark to ship","Зворотний пеленг від орієнтира на судно")+' '+fc(pa+180)+'</small>'}
+ else if(m=="bd"){var pa=num("sn_pa"),da=num("sn_da");if(!A||!ok(pa,da))return out(NEED);var fx=unplane(A,-da*sin(pa),-da*cos(pa));FG={k:"lmk",m:m,pa:pa,da:da};r=L("Место судна","Ship's position","Місце судна")+':<br><b>'+fla(fx.a)+' &nbsp; '+flo(fx.o)+'</b><br><small>'+L("Обратный пеленг от ориентира на судно","Reverse bearing from landmark to ship","Зворотний пеленг від орієнтира на судно")+' '+fc(pa+180)+'</small>'}
  else if(m=="kp"){var q1=num("sn_q1"),q2=num("sn_q2"),kv=num("sn_kv"),kt=num("sn_kt");if(!ok(q1,q2,kv,kt))return out(NEED);q1=Math.abs(n180(q1));q2=Math.abs(n180(q2));if(q2<=q1)return out(L("Второй курсовой угол должен быть больше первого.","The second relative bearing must be larger than the first.","Другий курсовий кут має бути більшим за перший."),1);
-  var sr=kv*kt/60,d2=sr*sin(q1)/sin(q2-q1),ab=d2*sin(q2),ta=d2*cos(q2);r=L("Пройдено","Run","Пройдено")+' '+f(sr,2)+' '+L("миль","nm","миль")+'<br>'+L("Дистанция до ориентира сейчас","Distance off now","Дистанція до орієнтира зараз")+': <b>'+f(d2,2)+' '+L("миль","nm","миль")+'</b><br>'+L("На траверзе пройдём в","Will pass abeam at","На траверзі пройдемо за")+' <b>'+f(ab,2)+' '+L("миль","nm","миль")+'</b>'+(ta>0&&kv>0?' '+L("через","in","через")+' '+f(ta/kv*60,0)+' '+L("мин","min","хв"):'')+'<br><small>'+L("Без учёта течения — ошибка растёт, если сносит.","Current not included — the error grows if you are set off.","Без урахування течії — похибка зростає, якщо зносить.")+'</small>'}
- else if(m=="va"){var hh=num("sn_vh2"),aa=ang("sn_vv");if(!ok(hh,aa)||aa<=0)return out(NEED);var dm2=hh/tan(aa);r=L("Расстояние до ориентира","Distance to landmark","Відстань до орієнтира")+': <b>'+f(dm2/1852,2)+' '+L("миль","nm","миль")+'</b> = '+f(dm2/185.2,1)+' '+L("кбт","cables","кбт")+' ('+f(dm2,0)+' '+L("м","m","м")+')';var hz=2.08*Math.sqrt(hh);if(dm2/1852>hz*0.6)r+='<br><span class="snw">'+L("Далеко для этого метода — основание ориентира, скорее всего, за горизонтом.","Too far for this method — the base is probably below the horizon.","Далеко для цього методу — основа орієнтира, ймовірно, за горизонтом.")+'</span>'}
- else{var e=num("sn_e"),hh=num("sn_vh3");if(!isFinite(e))return out(NEED);r=L("Дальность видимого горизонта","Distance to the horizon","Дальність видимого горизонту")+': <b>'+f(2.08*Math.sqrt(e),1)+' '+L("миль","nm","миль")+'</b>';if(isFinite(hh))r+='<br>'+L("Ориентир откроется на","Landmark will appear at","Орієнтир відкриється на")+' <b>'+f(2.08*(Math.sqrt(e)+Math.sqrt(hh)),1)+' '+L("миль","nm","миль")+'</b><br><small>'+L("Dп","D","Dп")+' = 2.08 (√e + √h). '+L("Огонь маяка виден не дальше его дальности по карте.","A light is not seen beyond its charted range.","Вогонь маяка видно не далі за його дальність на карті.")+'</small>'}}
+  var sr=kv*kt/60,d2=sr*sin(q1)/sin(q2-q1),ab=d2*sin(q2),ta=d2*cos(q2);FG={k:"lmk",m:m,q1:q1,q2:q2,sr:sr,d2:d2,ab:ab,ta:ta};r=L("Пройдено","Run","Пройдено")+' '+f(sr,2)+' '+L("миль","nm","миль")+'<br>'+L("Дистанция до ориентира сейчас","Distance off now","Дистанція до орієнтира зараз")+': <b>'+f(d2,2)+' '+L("миль","nm","миль")+'</b><br>'+L("На траверзе пройдём в","Will pass abeam at","На траверзі пройдемо за")+' <b>'+f(ab,2)+' '+L("миль","nm","миль")+'</b>'+(ta>0&&kv>0?' '+L("через","in","через")+' '+f(ta/kv*60,0)+' '+L("мин","min","хв"):'')+'<br><small>'+L("Без учёта течения — ошибка растёт, если сносит.","Current not included — the error grows if you are set off.","Без урахування течії — похибка зростає, якщо зносить.")+'</small>'}
+ else if(m=="va"){var hh=num("sn_vh2"),aa=ang("sn_vv");if(!ok(hh,aa)||aa<=0)return out(NEED);var dm2=hh/tan(aa);FG={k:"lmk",m:m,h:hh,a:aa,d:dm2};r=L("Расстояние до ориентира","Distance to landmark","Відстань до орієнтира")+': <b>'+f(dm2/1852,2)+' '+L("миль","nm","миль")+'</b> = '+f(dm2/185.2,1)+' '+L("кбт","cables","кбт")+' ('+f(dm2,0)+' '+L("м","m","м")+')';var hz=2.08*Math.sqrt(hh);if(dm2/1852>hz*0.6)r+='<br><span class="snw">'+L("Далеко для этого метода — основание ориентира, скорее всего, за горизонтом.","Too far for this method — the base is probably below the horizon.","Далеко для цього методу — основа орієнтира, ймовірно, за горизонтом.")+'</span>'}
+ else{var e=num("sn_e"),hh=num("sn_vh3");if(!isFinite(e))return out(NEED);FG={k:"lmk",m:m,e:e,h:hh,D1:2.08*Math.sqrt(e),D2:isFinite(hh)?2.08*(Math.sqrt(e)+Math.sqrt(hh)):NaN};r=L("Дальность видимого горизонта","Distance to the horizon","Дальність видимого горизонту")+': <b>'+f(2.08*Math.sqrt(e),1)+' '+L("миль","nm","миль")+'</b>';if(isFinite(hh))r+='<br>'+L("Ориентир откроется на","Landmark will appear at","Орієнтир відкриється на")+' <b>'+f(2.08*(Math.sqrt(e)+Math.sqrt(hh)),1)+' '+L("миль","nm","миль")+'</b><br><small>'+L("Dп","D","Dп")+' = 2.08 (√e + √h). '+L("Огонь маяка виден не дальше его дальности по карте.","A light is not seen beyond its charted range.","Вогонь маяка видно не далі за його дальність на карті.")+'</small>'}}
 else if(t=="dr"){var p=lp("sn_l");
  if(m=="np"){var k=num("sn_dk"),sd=num("sn_ds"),dv=num("sn_dv"),dtm=num("sn_dt");if(!isFinite(sd)&&ok(dv,dtm))sd=dv*dtm;if(!p||!ok(k,sd))return out(NEED);var e2=rhumb(p,k,sd);if(!e2)return out(L("Слишком близко к полюсу.","Too close to the pole.","Занадто близько до полюса."),1);
-  r=L("Придём в точку","Arrival position","Прийдемо в точку")+':<br><b>'+fla(e2.a)+' &nbsp; '+flo(e2.o)+'</b><br>'+L("Разность широт","Diff. of latitude","Різниця широт")+' '+f((e2.a-p.a)*60,1)+'′ · '+L("разность долгот","diff. of longitude","різниця довгот")+' '+f(n180(e2.o-p.o)*60,1)+'′ · '+f(sd,1)+' '+L("миль","nm","миль")}
+  FG={k:"dr",m:m,p:p,e2:e2,c:k,s:sd};r=L("Придём в точку","Arrival position","Прийдемо в точку")+':<br><b>'+fla(e2.a)+' &nbsp; '+flo(e2.o)+'</b><br>'+L("Разность широт","Diff. of latitude","Різниця широт")+' '+f((e2.a-p.a)*60,1)+'′ · '+L("разность долгот","diff. of longitude","різниця довгот")+' '+f(n180(e2.o-p.o)*60,1)+'′ · '+f(sd,1)+' '+L("миль","nm","миль")}
  else{var x2=lp("sn_x");if(!p||!x2)return out(NEED);var dl=n180(x2.o-p.o),dpsi=Math.log(tan(45+x2.a/2)/tan(45+p.a/2)),k=nr(atan2(dl*R,dpsi)),dd=Math.abs(x2.a-p.a)>1e-6?Math.abs((x2.a-p.a)*60/cos(k)):Math.abs(dl*60*cos(p.a));
   var gc=Math.acos(Math.max(-1,Math.min(1,sin(p.a)*sin(x2.a)+cos(p.a)*cos(x2.a)*cos(dl))))/R*60,gk=nr(atan2(sin(dl)*cos(x2.a),cos(p.a)*sin(x2.a)-sin(p.a)*cos(x2.a)*cos(dl))),cv=num("sn_cv2");
-  r=L("Локсодромия (постоянный курс)","Rhumb line (constant course)","Локсодромія (сталий курс)")+': '+L("ИК","TC","ІК")+' <b>'+fc(k)+'</b>, <b>'+f(dd,1)+' '+L("миль","nm","миль")+'</b><br>'+L("Ортодромия (кратчайший путь)","Great circle (shortest)","Ортодромія (найкоротший шлях)")+': '+L("начальный курс","initial course","початковий курс")+' '+fc(gk)+', '+f(gc,1)+' '+L("миль","nm","миль")+(dd-gc>1?' ('+L("короче на","shorter by","коротше на")+' '+f(dd-gc,1)+')':'')+(isFinite(cv)&&cv>0?'<br>'+L("В пути","Time on passage","У дорозі")+': '+f(dd/cv,1)+' '+L("ч","h","год")+' ('+f(dd/cv/24,1)+' '+L("сут","days","діб")+')':'')}}
+  FG={k:"dr",m:m,p:p,x2:x2,rk:k,rd:dd,gk:gk,gd:gc};r=L("Локсодромия (постоянный курс)","Rhumb line (constant course)","Локсодромія (сталий курс)")+': '+L("ИК","TC","ІК")+' <b>'+fc(k)+'</b>, <b>'+f(dd,1)+' '+L("миль","nm","миль")+'</b><br>'+L("Ортодромия (кратчайший путь)","Great circle (shortest)","Ортодромія (найкоротший шлях)")+': '+L("начальный курс","initial course","початковий курс")+' '+fc(gk)+', '+f(gc,1)+' '+L("миль","nm","миль")+(dd-gc>1?' ('+L("короче на","shorter by","коротше на")+' '+f(dd-gc,1)+')':'')+(isFinite(cv)&&cv>0?'<br>'+L("В пути","Time on passage","У дорозі")+': '+f(dd/cv,1)+' '+L("ч","h","год")+' ('+f(dd/cv/24,1)+' '+L("сут","days","діб")+')':'')}}
 else if(t=="cur"){var tr=num("sn_cu"),vs=num("sn_cs"),ck=num("sn_ck"),cc=num("sn_cc"),aw=num("sn_ca"),d3=num("sn_cd2");if(!ok(tr,vs)||vs<=0)return out(NEED);if(!ok(ck,cc)){ck=0;cc=0}if(!isFinite(aw))aw=0;
  var cn=cc*sin(ck-tr),cu=cc*cos(ck-tr);if(Math.abs(cn)>=vs)return out(L("Течение сильнее судна поперёк пути — по этой линии не пройти.","The cross current is stronger than the ship — this track cannot be held.","Течія сильніша за судно поперек шляху — цією лінією не пройти."),1);
  var be=asin(-cn/vs),sog=vs*cos(be)+cu,pua=tr+be,sg=E("sn_cw").value=="l"?1:-1,ik=pua-sg*aw;
- r=L("Править","Steer","Правити")+' '+L("ИК","TC","ІК")+' <b>'+fc(ik)+'</b><br>'+L("Поправка на течение","Current correction","Поправка на течію")+' '+fs(be)+(aw?' · '+L("на дрейф","leeway","на дрейф")+' '+fs(-sg*aw):'')+'<br>'+L("Скорость над грунтом","Speed over ground","Швидкість над ґрунтом")+' <b>'+f(sog,1)+' '+L("уз","kn","вуз")+'</b>'+(isFinite(d3)&&sog>0?'<br>'+L("Время на","Time for","Час на")+' '+f(d3,1)+' '+L("миль","nm","миль")+': '+f(d3/sog,1)+' '+L("ч","h","год"):'')+(sog<=0?'<br><span class="snw">'+L("Против течения не продвинемся.","No progress against the current.","Проти течії не просунемося.")+'</span>':'')}
+ FG={k:"cur",tr:tr,vs:vs,ck:ck,cc:cc,be:be,sog:sog,pua:pua,ik:ik,aw:aw};r=L("Править","Steer","Правити")+' '+L("ИК","TC","ІК")+' <b>'+fc(ik)+'</b><br>'+L("Поправка на течение","Current correction","Поправка на течію")+' '+fs(be)+(aw?' · '+L("на дрейф","leeway","на дрейф")+' '+fs(-sg*aw):'')+'<br>'+L("Скорость над грунтом","Speed over ground","Швидкість над ґрунтом")+' <b>'+f(sog,1)+' '+L("уз","kn","вуз")+'</b>'+(isFinite(d3)&&sog>0?'<br>'+L("Время на","Time for","Час на")+' '+f(d3,1)+' '+L("миль","nm","миль")+': '+f(d3/sog,1)+' '+L("ч","h","год"):'')+(sog<=0?'<br><span class="snw">'+L("Против течения не продвинемся.","No progress against the current.","Проти течії не просунемося.")+'</span>':'')}
 else if(t=="cpa"){var ok2=num("sn_ok"),ov=num("sn_ov"),p1=num("sn_p1"),d1=num("sn_d1"),p2=num("sn_p2"),d2=num("sn_d2"),dtt=num("sn_dt2"),cl=num("sn_cl");if(!ok(ok2,ov,p1,d1,p2,d2,dtt)||dtt<=0)return out(NEED);if(!isFinite(cl))cl=2;
  var P1=[d1*sin(p1),d1*cos(p1)],P2=[d2*sin(p2),d2*cos(p2)],h=dtt/60,vr=[(P2[0]-P1[0])/h,(P2[1]-P1[1])/h],v2=vr[0]*vr[0]+vr[1]*vr[1],vt=[vr[0]+ov*sin(ok2),vr[1]+ov*cos(ok2)],ts=Math.hypot(vt[0],vt[1]);
  var tg=L("Цель","Target","Ціль")+': '+L("курс","course","курс")+' '+(ts>0.2?fc(atan2(vt[0],vt[1])):"—")+', '+L("скорость","speed","швидкість")+' '+f(ts,1)+' '+L("уз","kn","вуз");
  if(v2<1e-4)return out(L("Пеленг и дистанция не меняются — цель идёт тем же курсом и скоростью, что и мы.","Bearing and range do not change — the target moves like us.","Пеленг і дистанція не змінюються — ціль іде тим самим курсом і швидкістю, що й ми.")+'<br>'+tg);
- var tc=-(P2[0]*vr[0]+P2[1]*vr[1])/v2,cpa=tc>0?Math.hypot(P2[0]+vr[0]*tc,P2[1]+vr[1]*tc):d2,db=Math.abs(n180(p2-p1)),risk=tc>0&&cpa<cl;bad=risk;
+ var tc=-(P2[0]*vr[0]+P2[1]*vr[1])/v2,cpa=tc>0?Math.hypot(P2[0]+vr[0]*tc,P2[1]+vr[1]*tc):d2,db=Math.abs(n180(p2-p1)),risk=tc>0&&cpa<cl;bad=risk;FG={k:"cpa",P1:P1,P2:P2,vr:vr,tc:tc,cpa:cpa,cl:cl,risk:risk,hd:ok2,d1:d1,d2:d2,h:h,ts:ts};
  r=tc>0?'CPA <b>'+f(cpa,2)+' '+L("миль","nm","миль")+'</b> · TCPA <b>'+f(tc*60,0)+' '+L("мин","min","хв")+'</b>':L("Цель уже расходится с нами, дистанция растёт.","The target is already opening, the range is increasing.","Ціль уже розходиться з нами, дистанція зростає.");r+='<br>'+tg+'<br>'+L("Пеленг изменился на","Bearing changed by","Пеленг змінився на")+' '+f(db,1)+'°';
  if(risk)r+='<br><span class="snw">'+L("Опасное сближение! Меньше безопасной дистанции. Действуй по МППСС-72, доложи капитану.","Close-quarters situation! Inside the safe distance. Act under COLREG and call the master.","Небезпечне зближення! Менше безпечної дистанції. Дій за МППЗС-72, доповідай капітану.")+'</span>';else if(db<2&&d2<d1)r+='<br><span class="snw">'+L("Пеленг почти не меняется, дистанция уменьшается — признак опасности столкновения.","Steady bearing and decreasing range — risk of collision.","Пеленг майже не змінюється, дистанція зменшується — ознака небезпеки зіткнення.")+'</span>'}
 else{var lt=hm("sn_lt"),ht=hm("sn_ht"),lh=num("sn_lh"),hh=num("sn_hh"),qt=hm("sn_qt");if(!ok(lt,ht,lh,hh))return out(NEED);var dz=((ht-lt)%1440+1440)%1440,lf=dz>=60&&dz<=720,a0=lf?[lt,lh]:[ht,hh],a1=lf?[lt+dz,hh]:[ht+(1440-dz),lh];if(Math.abs(a1[0]-a0[0])<60||Math.abs(a1[0]-a0[0])>720)return out(L("Между малой и полной водой обычно около 6 часов. Проверь время.","Low and high water are usually about 6 hours apart. Check the times.","Між малою і повною водою зазвичай близько 6 годин. Перевір час."),1);
- var Tt=a1[0]-a0[0],hf=function(tq){return a0[1]+(a1[1]-a0[1])*(1-Math.cos(Math.PI*(tq-a0[0])/Tt))/2},mmss=function(mi){mi=Math.round(mi)%1440;return(mi<600?"0":"")+Math.floor(mi/60)+":"+(mi%60<10?"0":"")+mi%60};
+ var Tt=a1[0]-a0[0],hf=function(tq){return a0[1]+(a1[1]-a0[1])*(1-Math.cos(Math.PI*(tq-a0[0])/Tt))/2},mmss=function(mi){mi=Math.round(mi)%1440;return(mi<600?"0":"")+Math.floor(mi/60)+":"+(mi%60<10?"0":"")+mi%60};FG={k:"tide",a0:a0,a1:a1,hf:hf,t:mmss};
  r=L("Величина прилива","Range","Величина припливу")+' '+f(Math.abs(hh-lh),2)+' '+L("м","m","м")+'<table><tr><th>'+L("Время","Time","Час")+'</th><th>'+L("Уровень, м","Height, m","Рівень, м")+'</th></tr>';for(i=0;i<=6;i++){var tq=a0[0]+Tt*i/6;r+='<tr><td>'+mmss(tq)+'</td><td>'+f(hf(tq),2)+'</td></tr>'}r+='</table>';
- if(isFinite(qt)){if(qt<a0[0]&&qt+1440<=a1[0])qt+=1440;if(qt<a0[0]||qt>a1[0])r+='<span class="snw">'+L("Время вне промежутка между малой и полной водой.","The time is outside the low–high water interval.","Час поза проміжком між малою і повною водою.")+'</span>';else{var hq=hf(qt);r+=L("В","At","О")+' '+mmss(qt)+': '+L("уровень","height","рівень")+' <b>'+f(hq,2)+' '+L("м","m","м")+'</b>';var qd=num("sn_qd"),qr=num("sn_qr");if(ok(qd,qr)){var uk=qd+hq-qr;bad=uk<0.5;r+='<br>'+L("Запас под килем","Under-keel clearance","Запас під кілем")+' = '+f(qd,1)+' + '+f(hq,2)+' − '+f(qr,1)+' = <b>'+f(uk,2)+' '+L("м","m","м")+'</b>'+(uk<0.5?'<br><span class="snw">'+L("Мало воды под килем! Проверь требования компании к запасу.","Too little water under the keel! Check the company's UKC policy.","Мало води під кілем! Перевір вимоги компанії до запасу.")+'</span>':'')}}}
+ if(isFinite(qt)){if(qt<a0[0]&&qt+1440<=a1[0])qt+=1440;if(qt<a0[0]||qt>a1[0])r+='<span class="snw">'+L("Время вне промежутка между малой и полной водой.","The time is outside the low–high water interval.","Час поза проміжком між малою і повною водою.")+'</span>';else{var hq=hf(qt);FG.qt=qt;FG.hq=hq;r+=L("В","At","О")+' '+mmss(qt)+': '+L("уровень","height","рівень")+' <b>'+f(hq,2)+' '+L("м","m","м")+'</b>';var qd=num("sn_qd"),qr=num("sn_qr");if(ok(qd,qr)){var uk=qd+hq-qr;bad=uk<0.5;FG.qd=qd;FG.qr=qr;FG.uk=uk;r+='<br>'+L("Запас под килем","Under-keel clearance","Запас під кілем")+' = '+f(qd,1)+' + '+f(hq,2)+' − '+f(qr,1)+' = <b>'+f(uk,2)+' '+L("м","m","м")+'</b>'+(uk<0.5?'<br><span class="snw">'+L("Мало воды под килем! Проверь требования компании к запасу.","Too little water under the keel! Check the company's UKC policy.","Мало води під кілем! Перевір вимоги компанії до запасу.")+'</span>':'')}}}
  r+='<br><small>'+L("Метод: уровень между малой и полной водой меняется по косинусоиде (приближённо, как в правиле двенадцатых).","Method: the level between low and high water follows a cosine curve (an approximation, close to the rule of twelfths).","Метод: рівень між малою і повною водою змінюється за косинусоїдою (наближено, як у правилі дванадцятих).")+'</small>'}
 return out(r,bad)}
 function snC(){var o=E("sno");if(!o)return;var s=S();[].forEach.call(el.querySelectorAll("input,select"),function(e){if(e.dataset.sndv!=null){var D=s.dev=s.dev||[];D[+e.dataset.sndv]=e.value}else s.v[e.id]=e.value});
- try{o.innerHTML=calc()}catch(x){o.innerHTML=out(L("Не получилось посчитать — проверь числа.","Could not calculate — check the numbers.","Не вдалося порахувати — перевір числа."),1)}clearTimeout(snC.t);snC.t=setTimeout(function(){try{save()}catch(x){}},400)}
+ try{o.innerHTML=calc()}catch(x){o.innerHTML=out(L("Не получилось посчитать — проверь числа.","Could not calculate — check the numbers.","Не вдалося порахувати — перевір числа."),1)}try{if(window.SNF)SNF(o,FG)}catch(x){}clearTimeout(snC.t);snC.t=setTimeout(function(){try{save()}catch(x){}},400)}
 /* порядок вкладок: свои, затем из SNX; вкладка SNX с полем a (ключ) встаёт сразу после той вкладки */
 function ord(X){var k=Object.keys(T);Object.keys(X).forEach(function(x){var a=X[x].a,i=a?k.indexOf(a):-1;if(i<0){k.push(x);return}var j=i+1;while(j<k.length&&X[k[j]]&&X[k[j]].a==a)j++;k.splice(j,0,x)});return k}
 /* два уровня: сверху 4 группы GR, под ними инструменты выбранной группы. Свои инструменты — в группах GT; вкладка SNX кладётся в группу полем grp
@@ -4884,7 +4884,7 @@ function TH(k){var W,T,Q,u,a,c,w;
    [L("Видимый ветер прямо с носа 20 уз, ход 12 уз. Истинный:","Apparent wind right ahead 20 kn, speed 12 kn. True wind:","Видимий вітер прямо з носа 20 вуз, хід 12 вуз. Істинний:"),[L("8 уз с носа","8 kn from ahead","8 вуз з носа"),L("32 уз","32 kn","32 вуз"),L("20 уз","20 kn","20 вуз")],0,"20 − 12 = 8"]]}
  return{W:W,T:T,Q:Q}}
 /* ---------- поля ---------- */
-var box=null,CK="",tm=0,NEED=function(){return L("Заполни поля выше — ответ появится здесь.","Fill in the fields above — the answer will appear here.","Заповни поля вище — відповідь з’явиться тут.")};
+var box=null,CK="",tm=0,FGN=null,NEED=function(){return L("Заполни поля выше — ответ появится здесь.","Fill in the fields above — the answer will appear here.","Заповни поля вище — відповідь з’явиться тут.")};
 function V(x){var v=S(CK).v[x];return v==null?"":v}
 function fi(x,ph,a){return'<input data-nxv="'+x+'" inputmode="decimal" autocomplete="off" value="'+q(V(x))+'" placeholder="'+q(ph||"")+'"'+(a?' aria-label="'+q(a)+'"':'')+'>'}
 function pm(){return'<button type="button" class="alt" data-nxneg="1" aria-label="±">±</button>'}
@@ -4967,7 +4967,7 @@ function res(k){var v=S(k).v,M_=M();
   if(o.r=="25"&&c.H>50)r+=wn(L("Формулу 25√H обычно применяют на глубинах до ~50 м.","The 25√H formula is usually used in depths up to ~50 m.","Формулу 25√H зазвичай застосовують на глибинах до ~50 м."));
   if(o.r=="25"&&o.w!="n")r+=sm(L("В свежую погоду и шторм цепи травят больше — сравни с кратностью глубины.","In fresh weather and storms pay out more — compare with the multiple of depth.","У свіжу погоду й шторм ланцюга травлять більше — порівняй з кратністю глибини."));
   if(o.w=="s")r+=sm(L("В шторм на якоре — машина в готовности и якорная вахта; часто безопаснее уйти в море.","Anchored in a storm — engine ready and an anchor watch; often it is safer to go to sea.","У шторм на якорі — машина в готовності та якірна вахта; часто безпечніше вийти в море."));
-  return out(r+figC(c))}
+  FGN={k:"anc",c:c,o:o};return out(r+figC(c))}
  if(k=="twd"){var m=mode("twd"),C=n(v.C),Vs=n(v.vs),ms=v.u=="ms",cv=function(x){return ms?x/KN:x},sp=function(x){return"<b>"+f(x,1)+" "+L("уз","kn","вуз")+"</b> = "+f(x*KN,1)+" "+L("м/с","m/s","м/с")},sd=function(x){return Math.abs(Math.round(x))+"° "+(Math.round(x)<0?L("левого борта","port","лівого борту"):Math.round(x)>0?L("правого борта","starboard","правого борту"):"")};
   if(!isFinite(Vs))Vs=0;if(!isFinite(C))return out(NEED());
   if(m=="i"){var dt=n(v.dt),vt=n(v.vt);if(!ok(dt,vt))return out(NEED());vt=cv(vt);var a=twi(C,Vs,dt,vt);if(!isFinite(a.d))return out(L("Видимого ветра нет: истинный ветер дует с кормы со скоростью судна.","No apparent wind: the true wind blows from astern at the ship’s speed.","Видимого вітру немає: істинний вітер дме з корми зі швидкістю судна."));
@@ -4995,7 +4995,7 @@ function res(k){var v=S(k).v,M_=M();
   var fr=n(v.fr);if(isFinite(fr)&&fr>0)r+="<br>"+L("Топливо на переход","Fuel for the passage","Паливо на перехід")+": "+f(fr,1)+" × "+f(mm/1440,3)+" = <b>"+f(fr*mm/1440,1)+" "+L("т","t","т")+"</b>"+sm(L("Плюс запас по правилам компании (погода, течение, манёвры).","Plus a reserve by company rules (weather, current, manoeuvring).","Плюс запас за правилами компанії (погода, течія, маневри)."))}
  else r+=sm(L("Впиши скорость — посчитаю время в пути, ETA и топливо.","Enter the speed to get the time on passage, ETA and fuel.","Впиши швидкість — порахую час у дорозі, ETA і паливо."));
  if(P.a.some(function(p){return Math.abs(p.la)>70}))r+=wn(L("Высокие широты: проверь ледовую обстановку.","High latitudes: check the ice situation.","Високі широти: перевір льодову обстановку."));
- return out(r)}
+ FGN={k:"psg",a:P.a,rt:rt,g:g};return out(r)}
 /* ---------- вид ---------- */
 function qh(i,Q){var x=Q[i],a=S(CK).qa||{},c=a[i];return'<b>'+(i+1)+'. '+x[0]+'</b>'+x[1].map(function(o,j){return'<button type="button" class="alt'+(c==null?"":j==x[2]?" ok":j==c?" no":"")+'" data-nxq="'+i+':'+j+'">'+o+'</button>'}).join("")+(c==null?"":'<p class="nxqe">'+(c==x[2]?"✅ ":"❌ ")+x[3]+'</p>')}
 function theory(D){var a=S(CK).qa||{},k=0;D.Q.forEach(function(x,i){if(a[i]==x[2])k++});
@@ -5009,7 +5009,7 @@ function render(b,k){box=b;CK=k;var s=S(k);s.on=1;
  if(p=="t"){b.innerHTML='<div class="nxbx">'+PG+WH+theory(D)+NT+'</div>';return}var m=mode(k);
  b.innerHTML='<div class="nxbx">'+PG+WH+(MD[k]?'<div class="sntb snmb add">'+MD[k].map(function(x){return'<button type="button" class="alt'+(x[0]==m?" cur":"")+'" data-nxm="'+x[0]+'">'+x[1]()+'</button>'}).join("")+'</div>':'')
   +form(k)+'<button type="button" class="alt nxex" data-nxex="1">📋 '+L("Заполнить примером","Fill in the example","Заповнити прикладом")+'</button><div id="nxo"></div>'+NT+'</div>';upd(1)}
-function upd(ns){if(!box)return;var o=box.querySelector("#nxo");if(o){try{o.innerHTML=res(CK)}catch(e){o.innerHTML=out(L("Не получилось посчитать — проверь числа.","Could not calculate — check the numbers.","Не вдалося порахувати — перевір числа."),1)}}
+function upd(ns){if(!box)return;var o=box.querySelector("#nxo");if(o){FGN=null;try{o.innerHTML=res(CK)}catch(e){o.innerHTML=out(L("Не получилось посчитать — проверь числа.","Could not calculate — check the numbers.","Не вдалося порахувати — перевір числа."),1)}try{if(window.SNF)SNF(o,FGN)}catch(e){}}
  if(!ns){clearTimeout(tm);tm=setTimeout(function(){try{save()}catch(x){}},400)}}
 function readIn(t){var s=S(CK),k;if((k=t.dataset.nxv)!=null){if(!/^[a-z0-9_]{1,8}$/.test(k))return 0;s.v[k]=String(t.value).slice(0,40);return 1}
  if((k=t.dataset.nxp)!=null&&CK=="psg"){var a=k.split(":"),i=+a[0];if(!(i>=0&&i<30)||!/^[ao]_[dmh]$/.test(a[1]||""))return 0;var p=s.pt[i];if(!p||typeof p!="object"||Array.isArray(p))p=s.pt[i]={};p[a[1]]=String(t.value).slice(0,12);return 1}return 0}
@@ -5501,6 +5501,303 @@ el.addEventListener("click",function(e){var b=e.target.closest("button");if(!b||
  else if(b.dataset.snoqr){s.qa[t]={};sv();if(window.shnR)shnR();var dz=E("snoqz");if(dz)dz.open=true}});
 window.SNOTEST={keys:K,ex:EX,th:function(t){var D=TH(t);return{t:D.T.length,q:D.Q.length,w:!!D.W}},grade:function(){var t=tool();if(!t)return null;var x=(E("sno")||{}).querySelector&&E("sno").querySelector(".sno");return x?grade(t,mode(),x):null},hn:HN};
 try{run()}catch(e){}})();</script>
+<style id="snf-css">
+#shn .snf{margin:8px auto 4px;max-width:440px;--snr:#e5484d;--snb:#3b82f6}
+#shn .snf svg{width:100%;height:auto;display:block;background:var(--bg);border:1px solid var(--line);border-radius:8px}
+#shn .snf figcaption{font-size:12.5px;line-height:1.35;color:var(--mute);text-align:center;margin:4px 2px 0}
+#shn .snf text{font:600 12.5px system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;paint-order:stroke;stroke:var(--bg);stroke-width:3px;stroke-linejoin:round}
+#shn .snf text.l{font-size:14px;font-weight:700}
+#shn .snf path,#shn .snf circle{stroke-linecap:round;stroke-linejoin:round}#shn .snf path{fill:none}
+#shn .snf .snfd{stroke-dasharray:1 1;stroke-dashoffset:1;animation:snfd .8s ease-out forwards}
+#shn .snf .snfo{opacity:0;animation:snfo .6s ease-out forwards}
+#shn .snf .snff{animation:snff 1s linear infinite}
+#shn .snf .snfu{animation:snfu 1.8s ease-in-out infinite}
+#shn .snf .snfw{transform-box:fill-box;transform-origin:center;animation:snfw 3.2s ease-in-out infinite}
+@keyframes snfd{to{stroke-dashoffset:0}}@keyframes snfo{to{opacity:1}}@keyframes snff{to{stroke-dashoffset:-18}}@keyframes snfu{50%{opacity:.35}}@keyframes snfw{50%{transform:translateY(2px) rotate(2deg)}}
+#shn .snf.snfp *{animation-play-state:paused!important}
+#shn .snfb{display:flex;justify-content:center;margin:6px 0 0}#shn .snfb button{min-height:40px;padding:6px 16px}
+@media(prefers-reduced-motion:reduce){#shn .snf *{animation:none!important}#shn .snf .snfd{stroke-dashoffset:0}#shn .snf .snfo{opacity:1}}
+</style>
+<script id="snf-js">/* Живые схемы под результатом в «🔭 Инструментах штурмана» (решение Кости 23.11.2026: «мне нужны картинки»). Рисуются SVG по числам, которые посчитал сам инструмент:
+ shn-js (cmp, sxt, str, lmk, dr, cur, cpa, tide) кладёт их в FG, nvt-js (psg, anc) — в FGN, и после каждого расчёта вызывает window.SNF(контейнер результата, данные).
+ Здесь ничего не пересчитывается по-своему — только переводится в координаты картинки. Нет данных — нет схемы. Цвета — переменные темы, подписи — fmL (ru/en/uk), не мельче 12,5.
+ Анимация: линии прорисовываются (CSS), у CPA едет цель (кнопка «▶ Проиграть»), у течения бегут стрелки, судно идёт по маршруту и ходит на якоре (requestAnimationFrame ≈30 кадров/с).
+ Схема не видна (IntersectionObserver) или приложение свёрнуто — анимация на паузе; prefers-reduced-motion — без анимации (последний кадр). Проверка — тест «Схемы инструментов штурмана» в tests/e2e.js. */
+(function(){
+var L=function(r,e,u){return window.fmL?fmL(r,e,u):r},Rd=Math.PI/180,
+ RM=!!(window.matchMedia&&matchMedia("(prefers-reduced-motion: reduce)").matches),
+ C={i:"var(--ink)",m:"var(--mute)",r:"var(--snr)",b:"var(--snb)",g:"var(--ok)",y:"var(--xp)",l:"var(--line)",bg:"var(--bg)"};
+function sn(x){return Math.sin(x*Rd)}function cs(x){return Math.cos(x*Rd)}
+function nr(x){x%=360;return x<0?x+360:x}function n180(x){x=nr(x);return x>180?x-360:x}
+function ok(){for(var i=0;i<arguments.length;i++)if(typeof arguments[i]!="number"||!isFinite(arguments[i]))return false;return true}
+function f(x,n){n=n==null?1:n;var p=Math.pow(10,n),v=Math.round(x*p)/p;return(v<0?"−":"")+Math.abs(v).toFixed(n)}
+/* малые углы d, δ, ΔК на схеме увеличиваем в одно и то же число раз (до 5), подписи — настоящие числа */
+function vsc(a){var m=Infinity;a.forEach(function(x){if(Math.abs(x)>0.05)m=Math.min(m,Math.abs(x))});return m==Infinity?1:Math.min(5,Math.max(1,10/m))}
+function fc(x){return f(nr(x),1)+"°"}function fs(x){return(x>=0?"+":"−")+f(Math.abs(x),1)+"°"}
+function fdm(x,hs){var a=Math.abs(x),d=Math.floor(a),m=(a-d)*60;if(m>=59.95){d++;m=0}return(hs?"":x<0?"−":"")+d+"°"+(m<10?"0":"")+m.toFixed(1)+"′"+(hs?" "+(x<0?hs[1]:hs[0]):"")}
+function fla(x){return fdm(x,["N","S"])}function flo(x){return fdm(n180(x),["E","W"])}
+function fmn(x){return(x>=0?"+":"−")+f(Math.abs(x*60),1)+"′"}
+function q(s){return String(s).replace(/[&<>"]/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]})}
+function r1(x){return Math.round(x*10)/10}
+var MI=function(){return L("мили","nm","милі")},KN=function(){return L("уз","kn","вуз")},MM=function(){return L("м","m","м")},MN=function(){return L("мин","min","хв")};
+/* ---------- кирпичики SVG ---------- */
+var DL=0;function nd(){var d=DL;DL=Math.min(DL+0.14,1.6);return d.toFixed(2)+"s"}
+/* путь: o.da — пунктир, o.an:0 — без появления, o.fl — бегущий пунктир, o.id — data-a, o.op — прозрачность */
+function P(d,c,w,o){o=o||{};var s="stroke:"+(C[c]||c)+";stroke-width:"+(w||2),cl="";if(o.da)s+=";stroke-dasharray:"+o.da;if(o.op!=null)s+=";stroke-opacity:"+o.op;
+ if(o.fl)cl="snff";else if(o.an!==0){cl=o.da?"snfo":"snfd";s+=";animation-delay:"+nd()}
+ return'<path d="'+d+'"'+(cl=="snfd"?' pathLength="1"':'')+(cl?' class="'+cl+'"':'')+' style="'+s+'"'+(o.id?' data-a="'+o.id+'"':'')+'/>'}
+function Ln(x1,y1,x2,y2,c,w,o){return P("M"+r1(x1)+" "+r1(y1)+"L"+r1(x2)+" "+r1(y2),c,w,o)}
+function head(x1,y1,x2,y2,c,w,o){var a=Math.atan2(y2-y1,x2-x1),h=6+(w||2)*1.6,b=0.45;if(Math.hypot(x2-x1,y2-y1)<h)return"";
+ return'<path d="M'+r1(x2-h*Math.cos(a-b))+" "+r1(y2-h*Math.sin(a-b))+"L"+r1(x2)+" "+r1(y2)+"L"+r1(x2-h*Math.cos(a+b))+" "+r1(y2-h*Math.sin(a+b))+'Z"'+(o&&o.an===0?'':' class="snfo"')+' style="fill:'+(C[c]||c)+";stroke:"+(C[c]||c)+';stroke-width:1'+(o&&o.an===0?'':';animation-delay:'+nd())+'"/>'}
+function Ar(x1,y1,x2,y2,c,w,o){return Ln(x1,y1,x2,y2,c,w,o)+head(x1,y1,x2,y2,c,w,o)}
+function Tx(x,y,t,c,a,o){o=o||{};return'<text x="'+r1(x)+'" y="'+r1(y)+'"'+(a?' text-anchor="'+a+'"':'')+(o.cl?' class="'+o.cl+'"':'')+' style="fill:'+(C[c||"i"]||c)+'"'+(o.id?' data-a="'+o.id+'"':'')+'>'+t+'</text>'}
+function Ci(x,y,r,c,fl,w,o){o=o||{};return'<circle cx="'+r1(x)+'" cy="'+r1(y)+'" r="'+r1(r)+'"'+(o.cl?' class="'+o.cl+'"':'')+' style="stroke:'+(c?C[c]||c:"none")+';stroke-width:'+(w||1.6)+';fill:'+(fl?C[fl]||fl:"none")+(o.fo!=null?';fill-opacity:'+o.fo:'')+(o.da?';stroke-dasharray:'+o.da:'')+'"'+(o.id?' data-a="'+o.id+'"':'')+'/>'}
+function Rc(x,y,w,h,c,op){return'<rect x="'+r1(x)+'" y="'+r1(y)+'" width="'+r1(Math.max(0,w))+'" height="'+r1(Math.max(0,h))+'" style="fill:'+(C[c]||c)+';fill-opacity:'+(op==null?1:op)+';stroke:none"/>'}
+/* углы-пеленги: 0 — вверх (N), по часовой */
+function Pt(cx,cy,r,a){return[cx+r*sn(a),cy-r*cs(a)]}
+function Ray(cx,cy,a,r,c,w,o){var p=Pt(cx,cy,r,a);return Ln(cx,cy,p[0],p[1],c,w,o)}
+function ArRay(cx,cy,a,r,c,w,o){var p=Pt(cx,cy,r,a);return Ar(cx,cy,p[0],p[1],c,w,o)}
+/* дуга от a1 к a2: короткой стороной или (cw) по часовой */
+function Arc(cx,cy,r,a1,a2,c,w,o,cw){var d=cw?nr(a2-a1):n180(a2-a1);if(Math.abs(d)<0.4)return"";var p=Pt(cx,cy,r,a1),e=Pt(cx,cy,r,a1+d);
+ return P("M"+r1(p[0])+" "+r1(p[1])+"A"+r1(r)+" "+r1(r)+" 0 "+(Math.abs(d)>180?1:0)+" "+(d>0?1:0)+" "+r1(e[0])+" "+r1(e[1]),c,w,o)}
+var CPN=0;function clip(x,y,w,h,inner){var id="snfc"+(++CPN);return'<clipPath id="'+id+'"><rect x="'+x+'" y="'+y+'" width="'+w+'" height="'+h+'"/></clipPath><g clip-path="url(#'+id+')">'+inner+'</g>'}
+function N(x,y){return Ar(x,y+22,x,y,"i",1.6,{an:0})+Tx(x,y+36,"N","i","middle")}
+function house(x,y,c){return'<path d="M'+r1(x)+" "+r1(y-13)+"L"+r1(x+5)+" "+r1(y+3)+"L"+r1(x-5)+" "+r1(y+3)+'Z" style="fill:'+C[c||"y"]+';stroke:'+C.i+';stroke-width:1.3"/>'}
+function star(x,y,r,c,o){var h="";for(var i=0;i<10;i++){var a=i*36,rr=i%2?r*0.45:r;h+=(i?"L":"M")+r1(x+rr*sn(a))+" "+r1(y-rr*cs(a))}return'<path d="'+h+'Z"'+(o&&o.cl?' class="'+o.cl+'"':'')+' style="fill:'+C[c||"y"]+';stroke:'+C[c||"y"]+';stroke-width:1"/>'}
+function sun(x,y,r){return Ci(x,y,r,"y","y",1.6,{cl:"snfu"})}
+function boat(x,y,s,id,c){s=s||1;return'<g'+(id?' data-a="'+id+'"':'')+' transform="translate('+r1(x)+' '+r1(y)+')"><path d="M0 '+(-9*s)+'L'+(5.5*s)+' '+(6*s)+'L0 '+(3*s)+'L'+(-5.5*s)+' '+(6*s)+'Z" style="fill:'+C[c||"i"]+';stroke:var(--bg);stroke-width:1.5"/></g>'}
+function hull(x,y){return'<g class="snfw"><path d="M'+(x-16)+" "+(y-4)+"L"+(x+16)+" "+(y-4)+"L"+(x+11)+" "+(y+5)+"L"+(x-12)+" "+(y+5)+'Z" style="fill:'+C.i+';stroke:none"/><path d="M'+x+" "+(y-4)+"L"+x+" "+(y-14)+'" style="stroke:'+C.i+';stroke-width:2"/></g>'}
+/* подпись к отрезку: сбоку, подальше от точки away */
+function lb(a,b,t,c,away){var ax=a[0],ay=a[1],bx=b[0],by=b[1],l=Math.hypot(bx-ax,by-ay)||1,nx=-(by-ay)/l*13,ny=(bx-ax)/l*13,mx=(ax+bx)/2,my=(ay+by)/2;
+ if(away&&nx*(away[0]-mx)+ny*(away[1]-my)>0){nx=-nx;ny=-ny}return Tx(cl(mx+nx,24,276),cl(my+ny+4,14,9999),t,c,"middle")}
+function cl(x,a,b){return Math.max(a,Math.min(b,x))}
+/* вписать точки (мили или градусы; y — на север) в прямоугольник с одним масштабом */
+function fit(pts,x0,y0,w,h,mn){var X0=Infinity,X1=-Infinity,Y0=Infinity,Y1=-Infinity;pts.forEach(function(p){if(p[0]<X0)X0=p[0];if(p[0]>X1)X1=p[0];if(p[1]<Y0)Y0=p[1];if(p[1]>Y1)Y1=p[1]});
+ var dx=Math.max(X1-X0,mn||1e-6),dy=Math.max(Y1-Y0,mn||1e-6),k=Math.min(w/dx,h/dy),mx=(X0+X1)/2,my=(Y0+Y1)/2,M=function(p){return[x0+w/2+(p[0]-mx)*k,y0+h/2-(p[1]-my)*k]};M.k=k;return M}
+function nice(v){var s=[0.1,0.2,0.25,0.5,1,2,2.5,5,10,20,25,50,100,200,250,500,1000];for(var i=0;i<s.length;i++)if(s[i]>=v)return s[i];return s[s.length-1]}
+function along(Q){var c=[0];for(var i=1;i<Q.length;i++)c.push(c[i-1]+Math.hypot(Q[i][0]-Q[i-1][0],Q[i][1]-Q[i-1][1]));var T=c[c.length-1]||1;
+ return function(u){var x=cl(u,0,1)*T,i=1;while(i<c.length-1&&c[i]<x)i++;var a=Q[i-1],b=Q[i]||a,s=(c[i]-c[i-1])||1,w=cl((x-c[i-1])/s,0,1);return[a[0]+(b[0]-a[0])*w,a[1]+(b[1]-a[1])*w,Math.atan2(b[0]-a[0],-(b[1]-a[1]))/Rd]}}
+function mv(s,id,x,y,a){var e=s.querySelector('[data-a="'+id+'"]');if(e)e.setAttribute("transform","translate("+r1(x)+" "+r1(y)+")"+(a!=null?" rotate("+r1(a)+")":""))}
+/* ---------- анимация: одна петля на все схемы, только видимые ---------- */
+var AN=[],FS=[],raf=0,io=window.IntersectionObserver?new IntersectionObserver(function(es){es.forEach(function(x){x.target._v=x.isIntersecting;x.target.classList.toggle("snfp",!x.isIntersecting)});kick()}):null;
+function kick(){if(raf||document.hidden)return;for(var i=0;i<AN.length;i++)if(AN[i].run&&AN[i].f._v&&AN[i].f.isConnected){raf=requestAnimationFrame(loop);return}}
+function loop(ts){raf=0;var go=0;AN.forEach(function(A){if(!A.run||!A.f._v||!A.f.isConnected)return;go=1;if(A.last&&ts-A.last<30)return;var dt=A.last?Math.min(ts-A.last,60):0;A.last=ts;A.t+=dt/1000;
+  try{if(A.fn(A.s,A.t)===false){A.run=false}}catch(e){A.run=false}});
+ AN=AN.filter(function(A){return A.f.isConnected});if(go&&!document.hidden)raf=requestAnimationFrame(loop)}
+document.addEventListener("visibilitychange",function(){if(!document.hidden)kick()});
+function put(o,F){if(!F||!F.h)return;FS=FS.filter(function(x){if(x.isConnected)return true;if(io)io.unobserve(x);return false});
+ var fg=document.createElement("figure");fg.className="snf"+(io?" snfp":"");fg.setAttribute("translate","no");fg._v=!io;
+ fg.innerHTML='<svg viewBox="0 0 300 '+F.H+'" role="img" aria-label="'+q(F.lab)+'">'+F.h+'</svg>'+(F.cap?'<figcaption>'+F.cap+'</figcaption>':'')+(F.btn?'<div class="snfb"><button type="button" class="alt" data-snfp="1">▶ '+L("Проиграть","Play","Програти")+'</button></div>':'');
+ o.appendChild(fg);FS.push(fg);if(io)io.observe(fg);if(!F.an)return;
+ var A={f:fg,s:fg.querySelector("svg"),fn:F.an,t:0,last:0,run:!RM};AN.push(A);try{F.an(A.s,RM?null:0)}catch(e){}kick();
+ var b=fg.querySelector("[data-snfp]");if(b)b.addEventListener("click",function(){A.t=0;A.last=0;A.run=true;kick()})}
+/* ---------- схемы ---------- */
+var F={};
+function rose(cx,cy,r){var h=Ci(cx,cy,r,"l",null,1.5);for(var a=0;a<360;a+=30){var p1=Pt(cx,cy,r,a),p2=Pt(cx,cy,r-(a%90?5:10),a);h+=Ln(p1[0],p1[1],p2[0],p2[1],"m",1.2,{an:0})}return h}
+function rlab(cx,cy,a,R,t,c,H){var p=Pt(cx,cy,R,a);return Tx(cl(p[0],14,286),cl(p[1]+5,14,H),t,c,"middle",{cl:"l"})}
+/* Компас: перевод курсов — три севера и курс */
+F["cmp/conv"]=function(d){if(!ok(d.ik,d.d,d.de))return;var cx=150,cy=136,r=78,H=278,sc=vsc([d.d,d.de]),mN=d.d*sc,kN=(d.d+d.de)*sc,ex=sc>1,h=rose(cx,cy,r);
+ h+=Ray(cx,cy,0,r+6,"i",2)+rlab(cx,cy,0,r+18,L("Nи","Nt","Nі"),"i",210)+Ray(cx,cy,mN,r+6,"b",2)+rlab(cx,cy,mN,r+32,L("Nм","Nm","Nм"),"b",210)+Ray(cx,cy,kN,r+6,"y",2)+rlab(cx,cy,kN,r+46,L("Nк","Nc","Nк"),"y",210);
+ if(ok(d.g)){h+=Ray(cx,cy,d.g,r+6,"m",1.6,{da:"4 3"})+rlab(cx,cy,d.g,r-14,L("Nг","Ng","Nг"),"m",210)}
+ var pd=Pt(cx,cy,48,mN/2),pe=Pt(cx,cy,64,(mN+kN)/2);h+=Arc(cx,cy,38,0,mN,"b",2.4)+(mN?Tx(pd[0],pd[1]+5,"d","b","middle",{cl:"l"}):"")+Arc(cx,cy,54,mN,kN,"y",2.4)+(kN!=mN?Tx(pe[0],pe[1]+5,"δ","y","middle",{cl:"l"}):"");
+ var pc=Pt(cx,cy,r-26,d.ik+12);h+=ArRay(cx,cy,d.ik,r-4,"g",3.2)+Tx(pc[0],pc[1]+4,L("ИК","TC","ІК"),"g","middle",{cl:"l"})+Ci(cx,cy,4,null,"i");
+ h+=Tx(150,H-30,L("ИК ","TC ","ІК ")+fc(d.ik)+" · "+L("МК ","MC ","МК ")+fc(d.ik-d.d)+" · "+L("КК ","CC ","КК ")+fc(d.kk),"i","middle")+Tx(150,H-11,"d "+fs(d.d)+" · δ "+fs(d.de)+" · ΔК "+fs(d.d+d.de),"m","middle");
+ return{H:H,h:h,lab:L("Три севера и курс","Three norths and the course","Три півночі й курс"),cap:L("Nи — истинный север, Nм — магнитный (на склонение d), Nк — компасный (ещё на девиацию δ). Зелёная стрелка — курс.","Nt — true north, Nm — magnetic (by variation d), Nc — compass (plus deviation δ). The green arrow is the course.","Nі — істинна північ, Nм — магнітна (на схилення d), Nк — компасна (ще на девіацію δ). Зелена стрілка — курс.")+(ex?" "+L("Малые углы на схеме показаны крупнее.","Small angles are drawn larger.","Малі кути на схемі показано більшими."):"")}};
+/* Компас: поправка по пеленгу и по Солнцу */
+F["cmp/brg"]=F["cmp/sun"]=function(d){if(!ok(d.tp,d.cp,d.dk))return;var cx=150,cy=136,r=78,H=278,h=rose(cx,cy,r),po=Pt(cx,cy,r+16,d.tp),vk=d.dk*vsc([d.dk]);
+ h+=Ray(cx,cy,0,r+6,"i",2)+rlab(cx,cy,0,r+20,L("Nи","Nt","Nі"),"i",210)+Ray(cx,cy,vk,r+6,"y",2)+rlab(cx,cy,vk,r+36,L("Nк","Nc","Nк"),"y",210);
+ h+=ArRay(cx,cy,d.tp,r+2,"g",3)+(d.m=="sun"?sun(po[0],po[1],8):house(po[0],po[1]+4));
+ var a1=Pt(cx,cy,58,d.tp/2),a2=Pt(cx,cy,72,vk+nr(d.tp-vk)/2),a3=Pt(cx,cy,42,vk/2+(vk>=0?14:-14));
+ h+=Arc(cx,cy,48,0,d.tp,"i",1.6,null,1)+Tx(a1[0],a1[1]+4,L("ИП","TB","ІП"),"i","middle")+Arc(cx,cy,62,vk,d.tp,"y",1.6,null,1)+Tx(a2[0],a2[1]+4,L("КП","CB","КП"),"y","middle")
+  +Arc(cx,cy,30,0,vk,"r",2.4)+Tx(a3[0],a3[1]+4,"ΔК","r","middle")+Ci(cx,cy,4,null,"i");
+ h+=Tx(150,H-30,L("ИП ","TB ","ІП ")+fc(d.tp)+" · "+L("КП ","CB ","КП ")+fc(d.cp)+" · ΔК "+fs(d.dk),"i","middle")+(ok(d.d,d.dv)?Tx(150,H-11,"d "+fs(d.d)+" · δ = ΔК − d = "+fs(d.dv),"m","middle"):"");
+ return{H:H,h:h,lab:L("Поправка компаса по пеленгу","Compass error by bearing","Поправка компаса за пеленгом"),cap:L("Один и тот же предмет: ИП — от истинного севера, КП — от компасного. Разница между ними — ΔК.","The same object: TB from true north, CB from compass north. The difference is the compass error.","Той самий предмет: ІП — від істинної півночі, КП — від компасної. Різниця між ними — ΔК.")+(vsc([d.dk])>1?" "+L("Малые углы на схеме показаны крупнее.","Small angles are drawn larger.","Малі кути на схемі показано більшими."):"")}};
+/* Компас: таблица девиации — кривая */
+F["cmp/tab"]=function(d){if(!d.n||typeof d.devAt!="function")return;var H=210,x0=40,x1=286,yc=98,mx=1,i,v,pts=[];for(i=0;i<=360;i+=5){v=d.devAt(i);if(ok(v)){pts.push([i,v]);mx=Math.max(mx,Math.abs(v))}}
+ mx=Math.ceil(mx*1.2);var ky=72/mx,X=function(k){return x0+(x1-x0)*k/360},Y=function(v){return yc-v*ky},h=Rc(x0,yc-72,x1-x0,144,"l",0.25);
+ for(i=0;i<=360;i+=90)h+=Ln(X(i),yc-72,X(i),yc+72,"l",1,{an:0})+Tx(X(i),yc+90,i+"°","m","middle");
+ h+=Ln(x0,yc,x1,yc,"i",1.4,{an:0})+Tx(x0-4,yc-68,"+"+mx+"°","m","end")+Tx(x0-4,yc+76,"−"+mx+"°","m","end")+Tx(x0-4,yc+4,"0","m","end")+Tx(x0+4,yc-56,"δ","y","start",{cl:"l"});
+ h+=P(pts.map(function(p,j){return(j?"L":"M")+r1(X(p[0]))+" "+r1(Y(p[1]))}).join(""),"y",2.6);
+ (d.D||[]).forEach(function(z,j){v=parseFloat(z);if(isFinite(v))h+=Ci(X(j*45),Y(v),4,"y","bg",2)});
+ h+=Tx(163,H-10,L("компасный курс КК","compass course","компасний курс КК"),"m","middle");
+ return{H:H,h:h,lab:L("Кривая девиации","Deviation curve","Крива девіації"),cap:L("Точки — твоя таблица через 45°, между ними приложение считает по прямой.","Dots are your card every 45°, in between the app interpolates linearly.","Точки — твоя таблиця через 45°, між ними застосунок рахує по прямій.")}};
+/* Секстан: исправить высоту — горизонт, светило, высота дугой и поправки */
+function upR(x0,y0,a,top,right){var s=Math.max(sn(a),0.01),c=Math.max(cs(a),0.01);return Math.min(240,(y0-top)/s,(right-x0)/c)}
+F["sxt/ho"]=function(d){var c=d.c;if(!c||!ok(c.ho,d.hs))return;var H=258,ey=150,ex=36,a=cl(c.ho,0,86),as=cl(d.hs,0,86),R=upR(ex,ey,a,26,282),b=Pt(ex,ey,R,90-a),bs=Pt(ex,ey,Math.min(R,150),90-as),h="";
+ h+=Rc(0,ey,300,H-ey,"b",0.14)+Ln(4,ey,296,ey,"b",2,{an:0})+hull(ex,ey+4);
+ h+=Ln(ex,ey-6,bs[0],bs[1],"m",1.4,{da:"4 4"})+Ln(ex,ey-6,b[0],b[1],"g",2.6)+(d.b=="st"?star(b[0],b[1],8,"y",{cl:"snfu"}):sun(b[0],b[1],8));
+ var am=Pt(ex,ey-6,74,90-a/2);h+=Arc(ex,ey-6,62,90,90-a,"g",2.2)+Tx(am[0]+6,am[1]+4,"Ho","g","start",{cl:"l"});
+ var row=function(y,l1,l2){return Tx(14,y,l1,"i","start")+(l2?Tx(156,y,l2,"i","start"):"")};
+ h+=row(ey+24,"Hs "+fdm(d.hs),"i "+fmn(c.i))+row(ey+44,L("наклонение ","dip ","нахил ")+fmn(c.dip),L("рефракция ","refraction ","рефракція ")+fmn(c.R))
+  +(d.b!="st"?row(ey+64,L("полудиаметр ","semi-diam. ","півдіаметр ")+fmn(c.sd),L("параллакс ","parallax ","паралакс ")+fmn(c.px)):"")+Tx(14,ey+(d.b!="st"?90:66),"Ho = "+fdm(c.ho),"g","start",{cl:"l"});
+ return{H:H,h:h,lab:L("Высота светила над горизонтом","Altitude of the body","Висота світила над горизонтом"),cap:L("Пунктир — отсчёт секстана Hs, зелёная — истинная высота Ho после всех поправок.","Dashed — the sextant reading Hs, green — the observed altitude Ho after all corrections.","Пунктир — відлік секстана Hs, зелена — істинна висота Ho після всіх поправок.")}};
+/* Секстан: широта в полдень — небесный меридиан */
+F["sxt/noon"]=function(d){if(!ok(d.ho,d.z,d.la,d.dec))return;var H=262,cx=150,cy=124,r=86,M=function(t,rr){return[cx+(rr||r)*Math.cos(t*Rd),cy-(rr||r)*Math.sin(t*Rd)]},AM=function(rr,t1,t2,c,w){return Arc(cx,cy,rr,90-t1,90-t2,c,w)},
+ ts=d.ns=="N"?180-d.ho:d.ho,tp=d.la>=0?180-d.la:-d.la,tq=d.la>=0?tp-90:tp+90,h="";
+ h+=Rc(cx-r-12,cy,2*r+24,12,"b",0.14)+Ci(cx,cy,r,"m",null,1.4)+Ln(cx-r-12,cy,cx+r+12,cy,"b",2,{an:0})+Tx(cx-r-8,cy+28,"N","i","middle",{cl:"l"})+Tx(cx+r+8,cy+28,"S","i","middle",{cl:"l"});
+ h+=Ln(cx,cy,cx,cy-r,"m",1.2,{da:"4 3"})+Tx(cx,cy-r-8,"Z","i","middle",{cl:"l"});
+ var p1=M(tp),p2=M(tp+180),q1=M(tq),q2=M(tq+180),s=M(ts),pl=M(tp,r+14),ql=M(tq,r+14);
+ h+=Ln(p2[0],p2[1],p1[0],p1[1],"m",1.4,{da:"5 4"})+Tx(pl[0],pl[1]+5,d.la>=0?"Pn":"Ps","m","middle")+Ln(q2[0],q2[1],q1[0],q1[1],"b",1.8)+Tx(ql[0],ql[1]+5,"Q","b","middle");
+ h+=Ln(cx,cy,s[0],s[1],"y",2.6)+sun(s[0],s[1],7);
+ var hl=M(d.ns=="N"?180-d.ho/2:d.ho/2,46),zl=M(90+(ts-90)/2,64),fl=M(d.la>=0?180-d.la/2:-d.la/2,32),dl=M(tq+(ts-tq)/2,r-12);
+ h+=AM(36,d.ns=="N"?180:0,ts,"g",2.2)+Tx(hl[0],hl[1]+4,"Ho","g","middle")+AM(54,90,ts,"y",1.8)+Tx(zl[0],zl[1]+4,"z","y","middle",{cl:"l"})
+  +AM(24,d.la>=0?180:0,tp,"m",1.8)+Tx(fl[0],fl[1]+4,"φ","m","middle",{cl:"l"})+(Math.abs(d.dec)>1.5?AM(r-22,tq,ts,"b",1.8)+Tx(dl[0],dl[1]+4,"δ","b","middle"):"");
+ h+=Tx(150,H-30,"Ho "+fdm(d.ho)+" · z "+fdm(d.z)+" · δ "+fla(d.dec),"i","middle")+Tx(150,H-10,L("Широта","Latitude","Широта")+" φ = "+fla(d.la),"g","middle",{cl:"l"});
+ return{H:H,h:h,lab:L("Солнце в меридиане","The Sun on the meridian","Сонце в меридіані"),cap:L("Небесный меридиан: Z — зенит, P — полюс мира, Q — экватор. В полдень φ = δ ± z.","Celestial meridian: Z — zenith, P — celestial pole, Q — equator. At noon φ = δ ± z.","Небесний меридіан: Z — зеніт, P — полюс світу, Q — екватор. Опівдні φ = δ ± z.")}};
+/* Секстан: поправка индекса — шкала */
+F["sxt/ie"]=function(d){if(!ok(d.i))return;var H=158,cx=150,cy=250,r=200,Rg=Math.max(5,Math.ceil(Math.abs(d.i))+1),st=Rg>10?2:1,k=26/Rg,h="",i;
+ h+=Arc(cx,cy,r,-30,30,"i",1.6,{an:0});for(i=-Rg;i<=Rg;i+=st){var a=i*k,p=Pt(cx,cy,r,a),p2=Pt(cx,cy,r+(i?8:13),a),pl=Pt(cx,cy,r+22,a);h+=Ln(p[0],p[1],p2[0],p2[1],i?"m":"i",i?1.2:2.2,{an:0});if(i%(st*(Rg>6?2:1))==0||!i)h+=Tx(pl[0],pl[1]+4,i?Math.abs(i)+"′":"0","m","middle")}
+ var pa=cl(d.i,-Rg,Rg)*k,t1=Pt(cx,cy,r-34,pa),t2=Pt(cx,cy,r-2,pa);h+=Ar(t1[0],t1[1],t2[0],t2[1],"g",3);
+ h+=Tx(70,108,"← "+L("на дуге","on the arc","на дузі"),"m","middle")+Tx(230,108,L("за дугой","off the arc","за дугою")+" →","m","middle")+Tx(150,H-14,"i = "+fmn(d.i/60),"g","middle",{cl:"l"});
+ return{H:H,h:h,lab:L("Отсчёт поправки индекса","Index error reading","Відлік поправки індексу"),cap:L("Отсчёт на дуге — поправка с минусом, за дугой — с плюсом.","Reading on the arc — the correction is minus, off the arc — plus.","Відлік на дузі — поправка з мінусом, за дугою — з плюсом.")}};
+/* Звёзды: какие видно — карта неба (вид сверху) */
+F["str/pick"]=function(d){if(!d.list||!ok(d.sh))return;var H=298,cx=150,cy=140,R=112,h=Ci(cx,cy,R,"i",null,1.6)+Ci(cx,cy,R*2/3,"m",null,1,{da:"4 4"})+Ci(cx,cy,R/3,"m",null,1,{da:"4 4"});
+ h+=Ln(cx-R,cy,cx+R,cy,"l",1,{an:0})+Ln(cx,cy-R,cx,cy+R,"l",1,{an:0});[["N",0],["E",90],["S",180],["W",270]].forEach(function(x){var p=Pt(cx,cy,R+12,x[1]);h+=Tx(p[0],p[1]+5,x[0],"i","middle",{cl:"l"})});
+ var bs=d.best||[],lbl="";d.list.forEach(function(a){var rr=(90-a.h)/90*R,p=Pt(cx,cy,rr,a.z),b=bs.indexOf(a)>=0,s=Math.max(1.6,4.4-0.9*(a.x.mg||0));
+  h+=b?star(p[0],p[1],s+3.5,"g",{cl:"snfu"}):Ci(p[0],p[1],s*0.8,null,"i",1,{fo:0.7});if(b){var rt=p[0]>cx;lbl+=Tx(cl(p[0]+(rt?-9:9),8,292),p[1]+4,q(a.x.n),"g",rt?"end":"start")}});
+ h+=lbl+Tx(cx+4,cy-R/3+12,"60°","m","start")+Tx(cx+4,cy-R*2/3+12,"30°","m","start");
+ var tw=d.sh>-3?L("светло","still light","світло"):d.sh<-12?L("темно","dark","темно"):L("сумерки — можно","twilight — go","сутінки — можна");
+ h+=Tx(150,H-10,"☀ "+L("Солнце ","Sun ","Сонце ")+f(d.sh,1)+"° — "+tw,d.sh>-3||d.sh<-12?"r":"g","middle");
+ return{H:H,h:h,lab:L("Звёзды над горизонтом","Stars above the horizon","Зірки над горизонтом"),cap:L("Вид сверху: в центре — зенит, по краю — горизонт. Зелёные звёзды — советую.","Seen from above: zenith in the middle, horizon at the edge. Green stars are suggested.","Вигляд згори: у центрі — зеніт, по краю — горизонт. Зелені зірки — раджу.")}};
+/* Звёзды: место по 2–3 светилам — высотные линии */
+F["str/fix"]=function(d){var S2=d.S2;if(!S2||!S2.length)return;var fx=ok(d.dx,d.dy),ext=2,i;S2.forEach(function(x){ext=Math.max(ext,Math.abs(x.p))});if(fx)ext=Math.max(ext,Math.abs(d.dx),Math.abs(d.dy));
+ var H=288,cx=150,cy=132,k=100/(ext*1.25),X=function(x,y){return[cx+x*k,cy-y*k]},Lh=ext*1.35,col=["b","y","i"],h="",o=X(0,0),away=o;
+ h+=Rc(10,10,280,244,"l",0.18);var ln="",ux=0,uy=0;
+ S2.forEach(function(x,j){var c=col[j%3],F0=[x.p*sn(x.z),x.p*cs(x.z)],dv=[cs(x.z),-sn(x.z)],a=X(F0[0]-dv[0]*Lh,F0[1]-dv[1]*Lh),b=X(F0[0]+dv[0]*Lh,F0[1]+dv[1]*Lh),fp=X(F0[0],F0[1]),t=Pt(o[0],o[1],34,x.z),tl=Pt(o[0],o[1],46,x.z);
+  ux+=sn(x.z);uy+=cs(x.z);h+=Ar(o[0],o[1],t[0],t[1],"m",1.4,{da:"3 3"})+Tx(tl[0],tl[1]+4,String(j+1),c,"middle",{cl:"l"});ln+=Ln(o[0],o[1],fp[0],fp[1],c,1.4)+Ln(a[0],a[1],b[0],b[1],c,2.6)});
+ var ua=Math.atan2(-ux,-uy)/Rd,dp=Pt(o[0],o[1],26,ua);h+=clip(10,10,280,244,ln)+Rc(o[0]-4,o[1]-4,8,8,"i")+Tx(dp[0],dp[1]+5,L("счисл.","DR","счисл."),"i","middle");
+ if(fx){var p=X(d.dx,d.dy);h+=Ci(p[0],p[1],7,"g","bg",2.6,{cl:"snfu"})+Ci(p[0],p[1],2.4,null,"g")+Tx(p[0]+10,p[1]-8,L("место","fix","місце"),"g","start",{cl:"l"})}
+ var sb=nice(ext/2.5),sl=sb*k;h+=Ln(20,240,20+sl,240,"i",2.4,{an:0})+Ln(20,235,20,245,"i",2,{an:0})+Ln(20+sl,235,20+sl,245,"i",2,{an:0})+Tx(24+sl,244,sb+" "+MI(),"m","start")+N(272,18);
+ h+=Tx(150,H-12,fx?L("Невязка ","Offset ","Нев’язка ")+f(Math.hypot(d.dx,d.dy),1)+" "+MI()+" → "+fc(Math.atan2(d.dx,d.dy)/Rd)+(S2.length>2&&ok(d.res)?" · ∆ "+f(d.res,1):""):S2.length<2?L("Одна линия — место где-то на ней","One line — you are somewhere on it","Одна лінія — місце десь на ній"):L("Линии почти параллельны","Lines almost parallel","Лінії майже паралельні"),fx?"g":"r","middle");
+ return{H:H,h:h,lab:L("Высотные линии и место","Lines of position and the fix","Висотні лінії й місце"),cap:L("Пунктир — к светилу (азимут). Линия положения перпендикулярна ему на расстоянии переноса p.","Dashed — toward the body (azimuth). The line of position is perpendicular to it, at the intercept p.","Пунктир — до світила (азимут). Лінія положення перпендикулярна до нього на відстані перенесення p.")}};
+/* Звёзды: широта по Полярной */
+F["str/pol"]=function(d){if(!ok(d.ho,d.la))return;var H=232,ex=40,ey=170,a=cl(d.ho,0,86),R=upR(ex,ey,a,28,282),b=Pt(ex,ey-6,R,90-a),pp=Pt(ex,ey-6,R*0.82,90-cl(d.la,0,86)),h="";
+ h+=Rc(0,ey,300,H-ey,"b",0.14)+Ln(4,ey,296,ey,"b",2,{an:0})+hull(ex,ey+4);
+ h+=Ln(ex,ey-6,pp[0],pp[1],"m",1.4,{da:"5 4"})+Ci(pp[0],pp[1],3,null,"m")+Tx(pp[0]+8,pp[1]+14,"P","m","start")+Ln(ex,ey-6,b[0],b[1],"g",2.6)+star(b[0],b[1],8,"y",{cl:"snfu"})+Tx(cl(b[0],20,280),b[1]-14,L("Полярная","Polaris","Полярна"),"y","middle");
+ var al=Pt(ex,ey-6,84,90-a/2);h+=Arc(ex,ey-6,72,90,90-a,"g",2.2)+Tx(al[0]+6,al[1]+4,"Ho","g","start",{cl:"l"});
+ h+=Tx(150,H-30,"Ho "+fdm(d.ho)+(ok(d.z)?" · "+L("азимут ","azimuth ","азимут ")+fc(d.z):""),"i","middle")+Tx(150,H-10,L("Широта","Latitude","Широта")+" φ = "+fla(d.la),"g","middle",{cl:"l"});
+ return{H:H,h:h,lab:L("Широта по Полярной","Latitude by Polaris","Широта за Полярною"),cap:L("Полярная почти над полюсом P: её высота почти равна широте.","Polaris is almost above the pole P: its altitude is nearly the latitude.","Полярна майже над полюсом P: її висота майже дорівнює широті.")}};
+/* Ориентиры */
+F["lmk/bb"]=function(d){if(!d.b0||!d.P)return;var A=[0,0],B=d.b0,S=[d.P.x,d.P.y],ext=function(p,s){return[p[0]+(p[0]-s[0])*0.25,p[1]+(p[1]-s[1])*0.25]},EA=ext(A,S),EB=ext(B,S),
+ M=fit([A,B,S,EA,EB],30,30,240,180),a=M(A),b=M(B),s=M(S),ea=M(EA),eb=M(EB),bad=d.cut<30,H=268,h="";
+ h+=Ln(s[0],s[1],ea[0],ea[1],"b",2.4)+Ln(s[0],s[1],eb[0],eb[1],"y",2.4)+house(a[0],a[1])+house(b[0],b[1])+Tx(a[0]+9,a[1]-6,"A","i","start",{cl:"l"})+Tx(b[0]+9,b[1]-6,"B","i","start",{cl:"l"});
+ h+=lb(s,a,L("ИП ","TB ","ІП ")+f(nr(d.pa),0)+"°","b",b)+lb(s,b,L("ИП ","TB ","ІП ")+f(nr(d.pb),0)+"°","y",a);
+ var am=Pt(s[0],s[1],34,d.pa+n180(d.pb-d.pa)/2);h+=Arc(s[0],s[1],24,d.pa,d.pb,bad?"r":"m",1.8)+Tx(am[0],am[1]+4,f(d.cut,0)+"°",bad?"r":"m","middle");
+ h+=boat(s[0],s[1],1.1,null,"g")+Ci(s[0],s[1],11,"g",null,2,{cl:"snfu"})+N(272,10)+Tx(150,H-12,L("до A ","to A ","до A ")+f(Math.abs(d.t1),1)+" · "+L("до B ","to B ","до B ")+f(d.dB,1)+" "+MI()+(bad?" · "+L("угол мал!","angle too small!","кут малий!"):""),bad?"r":"i","middle");
+ return{H:H,h:h,lab:L("Место по двум пеленгам","Fix by two bearings","Місце за двома пеленгами"),cap:L("Судно — на пересечении пеленгов. Чем ближе угол к 90°, тем точнее место.","The ship is where the bearings cross. The closer the angle to 90°, the better the fix.","Судно — на перетині пеленгів. Що ближче кут до 90°, то точніше місце.")}};
+F["lmk/bd"]=function(d){if(!ok(d.pa,d.da))return;var A=[0,0],S=[-d.da*sn(d.pa),-d.da*cs(d.pa)],M=fit([A,S],50,50,200,140),a=M(A),s=M(S),rr=d.da*M.k,H=258,h="";
+ h+=Arc(a[0],a[1],rr,d.pa+180-28,d.pa+180+28,"m",1.4,{da:"5 4"})+Ar(s[0],s[1],a[0],a[1],"b",2.4)+house(a[0],a[1])+Tx(a[0]+9,a[1]-6,"A","i","start",{cl:"l"});
+ h+=lb(s,a,L("ИП ","TB ","ІП ")+f(nr(d.pa),0)+"° · "+f(d.da,1)+" "+MI(),"b",[a[0]+60,a[1]])+boat(s[0],s[1],1.1,null,"g")+Ci(s[0],s[1],11,"g",null,2,{cl:"snfu"})+N(272,10);
+ h+=Tx(150,H-12,L("Обратный пеленг ","Reverse bearing ","Зворотний пеленг ")+fc(d.pa+180),"m","middle");
+ return{H:H,h:h,lab:L("Место по пеленгу и дистанции","Fix by bearing and distance","Місце за пеленгом і дистанцією"),cap:L("Отложи от ориентира обратный пеленг и дистанцию — там судно.","Lay off the reverse bearing and distance from the landmark — that is the ship.","Відклади від орієнтира зворотний пеленг і дистанцію — там судно.")}};
+F["lmk/kp"]=function(d){if(!ok(d.q1,d.q2,d.sr,d.d2))return;var S=[0,0],F0=[0,-d.sr],Mk=[d.d2*sn(d.q2),d.d2*cs(d.q2)],Ab=[0,d.ta],end=[0,Math.max(d.ta,0)+d.sr*0.35],
+ M=fit([S,F0,Mk,Ab,end],40,24,220,196),s=M(S),f0=M(F0),mk=M(Mk),ab=M(Ab),en=M(end),H=270,h="";
+ h+=Ar(f0[0],f0[1]-0,en[0],en[1],"m",1.4,{da:"6 4"})+Ln(f0[0],f0[1],mk[0],mk[1],"b",2.2)+Ln(s[0],s[1],mk[0],mk[1],"y",2.2)+Ln(mk[0],mk[1],ab[0],ab[1],"g",2,{da:"5 4"})+house(mk[0],mk[1]+4);
+ var l1=Pt(f0[0],f0[1],32,d.q1/2),l2=Pt(s[0],s[1],32,d.q2/2);h+=Arc(f0[0],f0[1],22,0,d.q1,"b",1.8)+Tx(l1[0]+2,l1[1]+4,f(d.q1,0)+"°","b","start")+Arc(s[0],s[1],22,0,d.q2,"y",1.8)+Tx(l2[0]+2,l2[1]+4,f(d.q2,0)+"°","y","start");
+ h+=Ci(f0[0],f0[1],3.5,null,"i")+Tx(f0[0]-8,f0[1]+4,"1","i","end",{cl:"l"})+Ci(s[0],s[1],3.5,null,"i")+Tx(s[0]-8,s[1]+4,"2","i","end",{cl:"l"})+lb(mk,ab,f(d.ab,2),"g",s)+lb(f0,s,f(d.sr,2),"m",mk);
+ h+=boat(f0[0],f0[1],1.1,"sh","g")+Tx(150,H-12,L("Сейчас ","Now ","Зараз ")+f(d.d2,2)+" · "+L("на траверзе ","abeam ","на траверзі ")+f(d.ab,2)+" "+MI(),"i","middle");
+ var Q=[f0,[ab[0],Math.min(ab[1],s[1])]],go=along(Q);
+ return{H:H,h:h,lab:L("Крюйс-пеленг","Running fix","Крюйс-пеленг"),cap:L("Два курсовых угла на один ориентир (1 и 2) и пройденное расстояние между ними.","Two relative bearings of one landmark (1 and 2) and the run between them.","Два курсові кути на один орієнтир (1 і 2) і пройдена відстань між ними."),
+  an:function(sv,t){var u=t==null?1:(t%7)/6;var p=go(u);mv(sv,"sh",p[0],p[1],0)}}};
+F["lmk/va"]=function(d){if(!ok(d.h,d.a,d.d))return;var H=226,x0=30,yb=170,x1=246,yt=64,h="";
+ h+=Rc(0,yb,300,H-yb,"b",0.14)+Ln(4,yb,296,yb,"b",2,{an:0})+Ln(x1,yb,x1,yt,"i",4)+house(x1,yt+2)+Ln(x0,yb,x1,yt,"g",2.4)+Ln(x0,yb,x1,yb,"y",2.2);
+ h+=Arc(x0,yb,54,90,90-Math.atan2(yb-yt,x1-x0)/Rd,"g",2)+Tx(x0+62,yb-12,"α "+fdm(d.a),"g","start",{cl:"l"})+Tx(x1-8,(yb+yt)/2,"h "+f(d.h,0)+" "+MM(),"i","end")+Tx((x0+x1)/2,yb+22,"D = "+f(d.d/1852,2)+" "+MI()+" = "+f(d.d/185.2,1)+" "+L("кбт","cables","кбт"),"y","middle");
+ h+=hull(x0,yb+2)+Tx(150,H-8,"D = h / tg α","m","middle");
+ return{H:H,h:h,lab:L("Расстояние по вертикальному углу","Distance by vertical angle","Відстань за вертикальним кутом"),cap:L("Схема не в масштабе: угол на деле маленький.","Not to scale: the real angle is small.","Схема не в масштабі: насправді кут маленький.")}};
+F["lmk/vis"]=function(d){if(!ok(d.e,d.D1))return;var H=212,cy=1000,R=900,y=function(x){return cy-Math.sqrt(R*R-(x-150)*(x-150))},h="",ey=y(40),hx=150,hy=y(150),lx=262,ly=y(lx);
+ var pth="";for(var x=0;x<=300;x+=10)pth+=(x?"L":"M")+x+" "+r1(y(x));h+='<path d="'+pth+'L300 '+H+'L0 '+H+'Z" style="fill:var(--snb);fill-opacity:.14;stroke:none"/>'+P(pth,"b",2,{an:0});
+ h+=Ln(40,ey,40,ey-34,"i",2.4,{an:0})+Ci(40,ey-34,3,null,"i")+Ln(40,ey-34,hx,hy,"g",2.2)+Ci(hx,hy,3.5,null,"g")+Tx(92,ey-44,"De "+f(d.D1,1),"g","middle");
+ if(ok(d.D2)){h+=Ln(lx,ly,lx,ly-44,"i",4,{an:0})+house(lx,ly-42)+Ln(hx,hy,lx,ly-44,"y",2.2)+Tx(210,hy-34,"Dh "+f(d.D2-d.D1,1),"y","middle")+Tx(150,H-28,L("Ориентир откроется на ","Landmark appears at ","Орієнтир відкриється на ")+f(d.D2,1)+" "+MI(),"i","middle")}
+ h+=Tx(150,H-9,"D = 2.08 (√e + √h)","m","middle");
+ return{H:H,h:h,lab:L("Дальность видимости","Visibility range","Дальність видимості"),cap:L("Глаз видит до горизонта, маяк «выглядывает» из-за него. Схема не в масштабе.","The eye sees to the horizon, the light rises above it. Not to scale.","Око бачить до горизонту, маяк «виглядає» з-за нього. Схема не в масштабі.")}};
+/* карта Меркатора: маршрут по точкам, локсодромия (прямые) и ортодромия (дуги), судно идёт по главной линии */
+function merc(la){return Math.log(Math.tan((45+cl(la,-89.5,89.5)/2)*Rd))/Rd}
+function gcPts(a,b){var v=function(p){return[cs(p.la)*cs(p.lo),cs(p.la)*sn(p.lo),sn(p.la)]},A=v(a),B=v(b),dt=cl(A[0]*B[0]+A[1]*B[1]+A[2]*B[2],-1,1),w=Math.acos(dt),o=[],n=28,i;
+ for(i=0;i<=n;i++){var t=i/n,s1=w>1e-9?Math.sin((1-t)*w)/Math.sin(w):1-t,s2=w>1e-9?Math.sin(t*w)/Math.sin(w):t,x=s1*A[0]+s2*B[0],y=s1*A[1]+s2*B[1],z=s1*A[2]+s2*B[2];o.push({la:Math.atan2(z,Math.hypot(x,y))/Rd,lo:Math.atan2(y,x)/Rd})}return o}
+function unwrap(list,lo0){var u=lo0,prev=null;return list.map(function(p){u=prev==null?lo0+n180(p.lo-lo0):u+n180(p.lo-prev);prev=p.lo;return[u,merc(p.la)]})}
+function chart(pts,o){var lo0=pts[0].lo,rl=unwrap(pts,lo0),gc=[];if(o.gc)for(var i=1;i<pts.length;i++){var g=gcPts(pts[i-1],pts[i]);if(i>1)g.shift();gc=gc.concat(g)}
+ var G=o.gc?unwrap(gc,lo0):[],M=fit(rl.concat(G),26,24,248,o.H-96,0.2),h=Rc(10,10,280,o.H-68,"l",0.18),S=function(a){return a.map(M)},R1=S(rl),G1=S(G),pl=function(a){return a.map(function(p,j){return(j?"L":"M")+r1(p[0])+" "+r1(p[1])}).join("")};
+ /* сетка: меридианы и параллели с «круглым» шагом */
+ var k=M.k,cx0=M([0,0]),lx0=-(cx0[0]-26)/k,lx1=lx0+248/k,my1=(cx0[1]-24)/k,my0=my1-(o.H-96)/k,st=nice(Math.max(lx1-lx0,my1-my0)/4),v,gl="";
+ for(v=Math.ceil(lx0/st)*st;v<=lx1;v+=st){var gx=M([v,0])[0];gl+=Ln(gx,10,gx,o.H-58,"l",1,{an:0})}
+ var la0=Math.atan(Math.sinh(my0*Rd))/Rd,la1=Math.atan(Math.sinh(my1*Rd))/Rd;for(v=Math.ceil(la0/st)*st;v<=la1;v+=st){var gy=M([0,merc(v)])[1];gl+=Ln(10,gy,290,gy,"l",1,{an:0})}
+ h+=clip(10,10,280,o.H-68,gl);
+ var main=o.main=="gc"&&G1.length?G1:R1,oth=main===R1?G1:R1;
+ if(oth.length>1)h+=P(pl(oth),oth===G1?"g":"y",1.8,{da:"6 4"});h+=P(pl(main),main===G1?"g":"y",3);
+ R1.forEach(function(p,j){h+=Ci(p[0],p[1],4.5,"bg","i",1.5)+Tx(p[0]+(p[0]>250?-8:8),p[1]-8,o.lab?o.lab[j]:String(j+1),"i",p[0]>250?"end":"start",{cl:"l"})});
+ h+=boat(main[0][0],main[0][1],1.1,"sh","g")+N(268,16);
+ var go=along(main);return{h:h,an:main.length>1?function(sv,t){var u=t==null?0.5:Math.min(1,(t%9)/8),p=go(u);mv(sv,"sh",p[0],p[1],p[2])}:null}}
+F["dr/np"]=function(d){if(!d.p||!d.e2||!ok(d.c,d.s))return;var H=262,c=chart([{la:d.p.a,lo:d.p.o},{la:d.e2.a,lo:d.e2.o}],{H:H,main:"rl",lab:["A","B"]});
+ return{H:H,h:c.h+Tx(150,H-30,L("ИК ","TC ","ІК ")+fc(d.c)+" · "+f(d.s,1)+" "+MI(),"y","middle",{cl:"l"})+Tx(150,H-10,"B: "+fla(d.e2.a)+"  "+flo(d.e2.o),"i","middle"),an:c.an,
+  lab:L("Путь по счислению","Dead reckoning track","Шлях за численням"),cap:L("От точки A постоянным курсом (локсодромия) — на карте Меркатора прямая.","From A on a constant course (rhumb line) — a straight line on a Mercator chart.","Від точки A сталим курсом (локсодромія) — на карті Меркатора пряма.")}};
+F["dr/cd"]=function(d){if(!d.p||!d.x2||!ok(d.rk,d.rd,d.gk,d.gd))return;var H=274,c=chart([{la:d.p.a,lo:d.p.o},{la:d.x2.a,lo:d.x2.o}],{H:H,gc:1,main:"gc",lab:["A","B"]});
+ return{H:H,h:c.h+Tx(150,H-30,L("локсодромия ","rhumb ","локсодромія ")+fc(d.rk)+" · "+f(d.rd,1)+" "+MI(),"y","middle")+Tx(150,H-10,L("ортодромия ","great circle ","ортодромія ")+fc(d.gk)+" · "+f(d.gd,1)+" "+MI(),"g","middle"),an:c.an,
+  lab:L("Локсодромия и ортодромия","Rhumb line and great circle","Локсодромія й ортодромія"),cap:L("Жёлтая — постоянный курс (прямая на карте), зелёная — кратчайший путь по дуге большого круга.","Yellow — constant course (straight on the chart), green — the shortest way along a great circle.","Жовта — сталий курс (пряма на карті), зелена — найкоротший шлях по дузі великого кола.")}};
+F.psg=function(d){var a=d.a;if(!a||a.length<2||!d.rt)return;var H=286,c=chart(a.map(function(p){return{la:p.la,lo:p.lo}}),{H:H,gc:1,main:d.g?"gc":"rl",lab:a.map(function(p){return String(p.i+1)})}),l0=d.rt.l[0]||{};
+ return{H:H,h:c.h+Tx(150,H-30,(d.g?L("Ортодромия ","Great circle ","Ортодромія "):L("Локсодромия ","Rhumb line ","Локсодромія "))+f(d.rt.d,1)+" "+MI()+(ok(l0.c)?" · "+(d.g?L("нач. ","init. ","поч. "):"")+L("курс ","course ","курс ")+fc(l0.c):""),d.g?"g":"y","middle",{cl:"l"})
+  +Tx(150,H-10,(d.g?L("по локсодромии ","by rhumb line ","за локсодромією "):L("по ортодромии ","by great circle ","за ортодромією "))+f(d.rt.o,1)+" "+MI(),"m","middle"),an:c.an,
+  lab:L("Маршрут перехода на карте","Passage route on the chart","Маршрут переходу на карті"),cap:L("Карта Меркатора: жёлтая — локсодромия (курс один), зелёная — ортодромия (короче). Сплошная — выбранный способ.","Mercator chart: yellow — rhumb line (one course), green — great circle (shorter). Solid — the chosen method.","Карта Меркатора: жовта — локсодромія (курс один), зелена — ортодромія (коротша). Суцільна — обраний спосіб.")}};
+/* Течение и дрейф: треугольник скоростей */
+F.cur=function(d){if(!ok(d.tr,d.vs,d.ck,d.cc,d.be,d.sog,d.pua,d.ik))return;var O=[0,0],W=[d.vs*sn(d.pua),d.vs*cs(d.pua)],G=[d.sog*sn(d.tr),d.sog*cs(d.tr)],T=[G[0]*1.3+sn(d.tr)*0.5,G[1]*1.3+cs(d.tr)*0.5],
+ K=[d.vs*sn(d.ik),d.vs*cs(d.ik)],M=fit([O,W,G,T].concat(d.aw?[K]:[]),56,40,188,160,0.5),o=M(O),w=M(W),g=M(G),t=M(T),kk=M(K),H=276,h="",bad=d.sog<=0;
+ h+=Ln(o[0],o[1],t[0],t[1],"m",1.2,{da:"8 5"})+lb(g,t,L("линия пути","track","лінія шляху"),"m",w);
+ if(d.aw){var kt=[kk[0]+(kk[0]-o[0])*0.12,kk[1]+(kk[1]-o[1])*0.12];h+=Ar(o[0],o[1],kk[0],kk[1],"i",1.6,{da:"4 3"})+Tx(cl(kt[0],20,280),cl(kt[1]+5,14,230),L("ИК","TC","ІК"),"i","middle")}
+ h+=Ar(o[0],o[1],w[0],w[1],"b",2.6)+lb(o,w,L("ход ","speed ","хід ")+f(d.vs,1),"b",g);
+ if(d.cc>0.05)h+=Ln(w[0],w[1],g[0],g[1],"y",2.6,{da:"6 3",fl:1})+head(w[0],w[1],g[0],g[1],"y",2.6)+lb(w,g,L("течение ","current ","течія ")+f(d.cc,1),"y",o);
+ h+=Ar(o[0],o[1],g[0],g[1],bad?"r":"g",3.2)+lb(o,g,L("над грунтом ","over ground ","над ґрунтом ")+f(d.sog,1),bad?"r":"g",w)+boat(o[0],o[1],1.1,null,"i")+N(272,8);
+ h+=Tx(150,H-30,L("Править ИК ","Steer TC ","Правити ІК ")+fc(d.ik),"g","middle",{cl:"l"})+Tx(150,H-10,L("поправка ","correction ","поправка ")+fs(d.be)+(d.aw?" · "+L("дрейф ","leeway ","дрейф ")+f(d.aw,1)+"°":"")+" · "+f(d.sog,1)+" "+KN(),bad?"r":"m","middle");
+ return{H:H,h:h,lab:L("Треугольник скоростей","Velocity triangle","Трикутник швидкостей"),cap:L("Синяя — ход судна по воде, жёлтая — течение, зелёная — движение над грунтом по линии пути.","Blue — the ship through the water, yellow — the current, green — over the ground along the track.","Синя — хід судна по воді, жовта — течія, зелена — рух над ґрунтом по лінії шляху.")}};
+/* Расхождение: вид радара, относительное движение цели */
+F.cpa=function(d){if(!d.P1||!d.P2||!d.vr||!ok(d.tc,d.cpa,d.cl,d.h))return;var vr=d.vr,P1=d.P1,P2=d.P2,danger=d.tc<=0||d.risk||d.cpa<1,H=322,cx=150,cy=156,
+ RG=[0.5,0.75,1,1.5,2,3,4,6,8,12,16,24,32,48,64,96],Rg=RG[RG.length-1],i;for(i=0;i<RG.length;i++)if(RG[i]>=Math.max(Math.hypot(P1[0],P1[1]),Math.hypot(P2[0],P2[1]),d.cl)*1.12){Rg=RG[i];break}
+ var k=118/Rg,X=function(p){return[cx+p[0]*k,cy-p[1]*k]},h="",vv=vr[0]*vr[0]+vr[1]*vr[1],b=2*(P2[0]*vr[0]+P2[1]*vr[1]),c=P2[0]*P2[0]+P2[1]*P2[1]-Rg*Rg*1.04,te=vv>0?(-b+Math.sqrt(Math.max(0,b*b-4*vv*c)))/(2*vv):0,
+ E=[P2[0]+vr[0]*te,P2[1]+vr[1]*te],p1=X(P1),p2=X(P2),e=X(E),cp=d.tc>0?X([P2[0]+vr[0]*d.tc,P2[1]+vr[1]*d.tc]):null;
+ h+=Ci(cx,cy,118,"i","b",1.6,{fo:0.06})+Ci(cx,cy,118*2/3,"m",null,1,{da:"3 4"})+Ci(cx,cy,118/3,"m",null,1,{da:"3 4"});
+ var rl=Pt(cx,cy,121,45);h+=Tx(rl[0]+2,rl[1]-2,(Rg<1?f(Rg,2):String(Rg))+" "+MI(),"m","start");
+ if(d.cl*k<130)h+=Ci(cx,cy,d.cl*k,"r",null,1.6,{da:"5 4"});
+ h+=Ray(cx,cy,d.hd,118,"i",1.2,{da:"8 4"})+'<g transform="rotate('+r1(d.hd)+' '+cx+' '+cy+')">'+boat(cx,cy,1.3,null,"g")+'</g>';
+ h+=Ar(p1[0],p1[1],e[0],e[1],"m",1.8)+Ci(p1[0],p1[1],4,"i","bg",1.8)+Tx(p1[0]+8,p1[1]-6,"1","i","start")+Ci(p2[0],p2[1],4,null,"i")+Tx(p2[0]+8,p2[1]-6,"2","i","start");
+ if(cp){var cc=danger?"r":"g";h+=Ln(cx,cy,cp[0],cp[1],cc,1.8,{da:"4 3"})+Ci(cp[0],cp[1],5,cc,"bg",2.4)+Tx(cl(cp[0]+(cp[0]<cx?-9:9),20,280),cp[1]+(cp[1]<cy?-8:16),"CPA "+f(d.cpa,2),cc,cp[0]<cx?"end":"start",{cl:"l"})}
+ h+=Ci(p1[0],p1[1],6.5,danger?"r":"y",danger?"r":"y",1.6,{id:"tg",fo:0.85})+Tx(10,20,"",danger?"r":"i","start",{id:"ck",cl:"l"});
+ h+=Tx(150,H-30,d.tc>0?"CPA "+f(d.cpa,2)+" "+MI()+" · TCPA "+f(d.tc*60,0)+" "+MN():"TCPA < 0 — "+L("цель расходится","target opening","ціль розходиться"),danger?"r":"g","middle",{cl:"l"})
+  +Tx(150,H-10,L("Безопасная дистанция ","Safe distance ","Безпечна дистанція ")+f(d.cl,1)+" "+MI(),"m","middle");
+ var Tt=d.h+te,dur=6;
+ return{H:H,h:h,btn:1,lab:L("Расхождение на экране радара","Collision risk on the radar","Розходження на екрані радара"),cap:L("Своё судно в центре. Серая линия — относительное движение цели через засечки 1 и 2, точка CPA — ближе всего.","Own ship in the centre. The grey line is the target’s relative motion through plots 1 and 2; CPA is the closest point.","Своє судно в центрі. Сіра лінія — відносний рух цілі через засічки 1 і 2, точка CPA — найближче."),
+  an:function(sv,t){var tau=t==null?d.h:Math.min(t/dur,1)*Tt,p=[P1[0]+vr[0]*tau,P1[1]+vr[1]*tau],x=X(p),e=sv.querySelector('[data-a="tg"]'),c=sv.querySelector('[data-a="ck"]'),dist=Math.hypot(p[0],p[1]),m=(tau-d.h)*60;
+   if(e){e.setAttribute("cx",r1(x[0]));e.setAttribute("cy",r1(x[1]))}
+   if(c){c.textContent=(Math.abs(m)<0.5?L("сейчас","now","зараз"):(m>0?"+":"−")+f(Math.abs(m),0)+" "+MN())+" · "+f(dist,2)+" "+MI();c.style.fill=dist<d.cl?C.r:C.i}
+   return t==null||t<dur}}};
+/* Прилив: кривая уровня, «сейчас», полоса нужной глубины */
+F.tide=function(d){if(!d.a0||!d.a1||typeof d.hf!="function")return;var a0=d.a0,a1=d.a1,T0=a0[0],T1=a1[0],need=ok(d.qd,d.qr)?d.qr-d.qd:NaN,safe=need+0.5,lo=Math.min(a0[1],a1[1]),hi=Math.max(a0[1],a1[1]);
+ if(ok(need)){lo=Math.min(lo,need);hi=Math.max(hi,safe)}var pad=Math.max((hi-lo)*0.12,0.2);lo-=pad;hi+=pad;
+ var H=262,x0=44,x1=284,y0=24,y1=188,X=function(t){return x0+(x1-x0)*(t-T0)/(T1-T0)},Y=function(v){return y1-(y1-y0)*(v-lo)/(hi-lo)},h="",i,pts=[],t;
+ for(i=0;i<=40;i++){t=T0+(T1-T0)*i/40;pts.push([X(t),Y(d.hf(t))])}var pl=pts.map(function(p,j){return(j?"L":"M")+r1(p[0])+" "+r1(p[1])}).join("");
+ h+='<path d="'+pl+"L"+x1+" "+y1+"L"+x0+" "+y1+'Z" style="fill:var(--snb);fill-opacity:.15;stroke:none"/>';
+ if(ok(need)){var ys=Y(safe);h+=Rc(x0,ys,x1-x0,y1-ys,"r",0.13)+Ln(x0,Y(need),x1,Y(need),"r",1.6,{da:"5 4"})+Tx(x1-4,ys-6,L("нужно ≥ ","need ≥ ","треба ≥ ")+f(safe,2)+" "+MM(),"r","end")}
+ h+=Ln(x0,y1,x1,y1,"i",1.4,{an:0})+Ln(x0,y0,x0,y1,"i",1.4,{an:0})+P(pl,"b",2.8);
+ var lw=function(v){return v==lo+pad||v<=Math.min(a0[1],a1[1])?L("МВ","LW","МВ"):L("ПВ","HW","ПВ")};
+ h+=Tx(x0,y1+18,d.t(T0),"m","middle")+Tx((x0+x1)/2,y1+18,d.t((T0+T1)/2),"m","middle")+Tx(x1,y1+18,d.t(T1),"m","end");
+ h+=Tx(x0-4,Y(a0[1])+4,f(a0[1],1),"m","end")+Tx(x0-4,Y(a1[1])+4,f(a1[1],1),"m","end")+Tx(X(T0)+6,Y(a0[1])+(a0[1]<a1[1]?-8:16),lw(a0[1]),"i","start")+Tx(X(T1)-6,Y(a1[1])+(a1[1]<a0[1]?-8:16),lw(a1[1]),"i","end");
+ var bad=ok(d.uk)&&d.uk<0.5;
+ if(ok(d.qt,d.hq)&&d.qt>=T0&&d.qt<=T1){var qx=X(d.qt),qy=Y(d.hq);h+=Ln(qx,qy,qx,y1,bad?"r":"g",1.4,{da:"3 3"})+Ci(qx,qy,9,bad?"r":"g",null,2,{cl:"snfu"})+Ci(qx,qy,4.5,null,bad?"r":"g")
+  +Tx(cl(qx,70,230),ok(need)&&Math.abs(qy-16-Y(need))<14?qy+26:Math.max(qy-16,16),d.t(d.qt)+" · "+f(d.hq,2)+" "+MM(),bad?"r":"g","middle",{cl:"l"})}
+ h+=Tx(150,H-12,ok(d.uk)?L("Запас под килем ","Under-keel clearance ","Запас під кілем ")+f(d.uk,2)+" "+MM():L("Величина прилива ","Range ","Величина припливу ")+f(Math.abs(a1[1]-a0[1]),2)+" "+MM(),bad?"r":ok(d.uk)?"g":"i","middle",{cl:"l"});
+ return{H:H,h:h,lab:L("Кривая прилива","Tide curve","Крива припливу"),cap:L("Уровень от малой до полной воды. Красная полоса — воды мало для твоей осадки (запас меньше 0,5 м).","The level from low to high water. The red band — too little water for your draught (clearance under 0.5 m).","Рівень від малої до повної води. Червона смуга — води мало для твоєї осадки (запас менше 0,5 м).")}};
+/* Якорь: круг якорной стоянки, судно ходит на цепи */
+F.anc=function(d){var c=d.c,o=d.o||{};if(!c||!ok(c.R,c.hz,c.Lp,c.H))return;var H=262,cx=150,cy=120,rr=92,R=Math.max(c.R,1),k=rr/R,bx=cx+Math.min(c.hz*k,rr-14),sl=cx+rr-bx,h="";
+ h+=Ci(cx,cy,rr,"b","b",2,{fo:0.1,da:"6 4"});var rp=Pt(cx,cy,rr,225),rl=Pt(cx,cy,rr*0.55,225);h+=Ln(cx,cy,rp[0],rp[1],"y",1.8,{da:"5 4"})+Tx(rl[0]-6,rl[1]+16,"R "+f(c.R,0)+" "+MM(),"y","end",{cl:"l"});
+ h+='<g data-a="sw" transform="rotate(20 '+cx+' '+cy+')">'+Ln(cx,cy,bx,cy,"g",3,{an:0})+'<path d="M'+r1(bx)+" "+cy+"L"+r1(bx+sl*0.2)+" "+(cy-6)+"L"+r1(cx+rr)+" "+(cy-6)+"L"+r1(cx+rr)+" "+(cy+6)+"L"+r1(bx+sl*0.2)+" "+(cy+6)+'Z" style="fill:var(--bg);stroke:var(--ink);stroke-width:2"/></g>';
+ h+=Ci(cx,cy,5,null,"i")+Tx(cx,cy-12,"⚓","i","middle")+'<g data-a="wd" transform="rotate(20 30 34)">'+Ar(14,34,46,34,"m",2,{an:0})+'</g>'+Tx(30,64,L("ветер","wind","вітер"),"m","middle");
+ h+=Tx(150,H-30,"R ≈ "+f(c.R,1)+" "+MM()+" ("+f(c.R/1852,2)+" "+MI()+")","b","middle",{cl:"l"})+Tx(150,H-10,L("цепь ","cable ","ланцюг ")+c.n+" × 27.5 = "+f(c.Lp,1)+" "+MM()+" · H "+f(c.H,1)+" "+MM(),"g","middle");
+ return{H:H,h:h,lab:L("Круг якорной стоянки","Swinging circle","Коло якірної стоянки"),cap:L("Ветер меняется — судно ходит вокруг якоря на цепи. Круг радиусом R не должен задевать мели и другие суда.","As the wind shifts the ship swings round the anchor. The circle of radius R must stay clear of shoals and other ships.","Вітер змінюється — судно ходить навколо якоря на ланцюзі. Коло радіусом R не повинне зачіпати мілини й інші судна."),
+  an:function(sv,t){var a=t==null?20:20+110*Math.sin(t*2*Math.PI/18);var e=sv.querySelector('[data-a="sw"]'),w=sv.querySelector('[data-a="wd"]');if(e)e.setAttribute("transform","rotate("+r1(a)+" "+cx+" "+cy+")");if(w)w.setAttribute("transform","rotate("+r1(a)+" 30 34)")}}};
+/* вход: контейнер результата и данные расчёта (FG из shn-js или FGN из nvt-js) */
+window.SNF=function(o,d){if(!o||!d||!d.k)return;var fn=F[d.k+"/"+(d.m||"")]||F[d.k];if(!fn)return;DL=0;var R=null;try{R=fn(d)}catch(e){if(window.fmLog)fmLog("warn","snf-err",{k:d.k,m:d.m,e:String(e&&e.message||e).slice(0,120)})}
+ if(!R)return;if(d.k=="anc"){var old=o.querySelector(".nxfig");if(old)old.parentNode.removeChild(old)}put(o,R)};
+window.SNFTEST={keys:function(){return Object.keys(F)}};
+/* shn-js и nvt-js уже нарисовали результат до этого блока — перерисовать раздел один раз, чтобы схема появилась сразу */
+if(window.shnR&&(document.getElementById("sno")||document.getElementById("nxo")))try{shnR()}catch(e){}
+})();</script>
 <style id="prv-css">#prv .add{display:flex;flex-wrap:wrap;gap:8px}#prv .add a{display:inline-flex;align-items:center;padding:10px 14px;border-radius:12px;border:1px solid var(--line);background:var(--bg);color:var(--ink);text-decoration:none;font-weight:700;font-size:14px}</style>
 <script id="prv-js">/* Конфиденциальность и поддержка (#prv, Опции): ссылки на privacy.html и support.html на сайте приложения — нужны для App Store и Google Play */
 (function(){var el=document.getElementById("prv");if(!el)return;var L=function(r,e,u){return window.fmL?fmL(r,e,u):r},lg=(window.st&&st.lang)||"ru",B="https://azazello2508.github.io/Fac-modo/";

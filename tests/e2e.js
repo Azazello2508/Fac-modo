@@ -224,6 +224,21 @@ const srv=http.createServer((q,r)=>{let u=decodeURIComponent(q.url.split('?')[0]
    return{bad:bad.join(','),cmp:/122\.0°/.test(R['cmp/conv'])&&R['cmp/conv'][0]==='G',kp:/2\.60/.test(R['lmk/kp']),tide:/1\.14/.test(R['tide/'])&&R['tide/'][0]==='G',
     cpaY:R['cpa/'][0]==='R'&&/1\.44/.test(R['cpa/']),cpaR:/snoR/.test(red),cpa15:/snoY/.test(yl2)&&/snoG/.test(grn),note:/1′/.test(nc)&&/Учебный расчёт/.test(nd)&&!/1′/.test(nd),fix:/41°05\.0′/.test(R['str/fix']),free:['cmp','sxt','str','lmk','dr','cur','cpa','tide'].every(k=>!window.fmPro||fmPro.has(k))}});
   ok(sno.bad===''&&sno.cmp&&sno.kp&&sno.tide&&sno.cpaY&&sno.cpaR&&sno.cpa15&&sno.fix&&sno.note&&sno.free,'Старые инструменты штурмана: теория, «Проверь себя», примеры во всех режимах, цветной итог (CPA 0.2 — красный) ('+JSON.stringify(sno)+')');
+  /* Схемы инструментов штурмана (snf-js): у 8 старых инструментов и у «Перехода» и «Якоря» после ввода чисел (или «Заполнить примером») под результатом
+     появляется живая схема — svg с содержимым; без данных схемы нет; опасное CPA (0,6 мили < 1) рисуется красным. */
+  const snf=await p.evaluate(()=>{const q=s=>document.querySelector(s),sh=JSON.stringify(st.shn||{}),sv={};['psg','anc'].forEach(k=>sv[k]=JSON.stringify(st[k]||null));
+   const C=[['cmp','conv',{sn_ct:'ik',sn_cv:'100',sn_vd_d:'5',sn_vd_h:'E',sn_cd:'-2'}],['sxt','ho',{sn_hb:'sl',sn_hs_d:'30',sn_hs_m:'0',sn_e:'15'}],
+    ['str','pol',{sn_ph_d:'40',sn_ph_m:'10',sn_t_dt:'2026-11-20',sn_t_tm:'18:00:00',sn_lo_d:'30',sn_lo_h:'E',sn_e:'15'}],['lmk','kp',{sn_q1:'30',sn_q2:'60',sn_kv:'12',sn_kt:'20'}],
+    ['dr','np',{sn_la_d:'41',sn_la_h:'N',sn_lo_d:'41',sn_lo_h:'E',sn_dk:'250',sn_ds:'120'}],['cur','',{sn_cu:'90',sn_cs:'12',sn_ck:'200',sn_cc:'2.5'}],
+    ['cpa','',{sn_ok:'0',sn_ov:'12',sn_p1:'45',sn_d1:'8',sn_p2:'44',sn_d2:'6.5',sn_dt2:'6',sn_cl:'2'}],['tide','',{sn_lt:'06:00',sn_lh:'0.5',sn_ht:'12:10',sn_hh:'4.2',sn_qt:'08:00',sn_qd:'8',sn_qr:'10'}]],R={};
+   const fig=()=>{const s=q('#shn #sno svg, #shn #nxo figure.snf svg');return s?s.querySelectorAll('path,circle,text').length:0};
+   st.shn.v={};st.shn.t='cpa';shnR();const empty=fig();
+   let red=false;C.forEach(([k,m,v])=>{st.shn.t=k;st.shn.m[k]=m;st.shn.v=Object.assign({},v);shnGo(k);R[k]=fig();if(k==='cpa')red=!!q('#shn #sno figure.snf [style*="--snr"]')&&!!q('#shn #sno [data-snfp]')});
+   ['psg','anc'].forEach(k=>{shnGo(k);const b=q('#shn [data-snt='+k+']');if(b)b.click();st[k].p='c';shnR();const ex=q('#shn #snxw [data-nxex]');if(ex)ex.click();R[k]=fig()});
+   const one=document.querySelectorAll('#shn #nxo figure.snf').length===1&&!q('#shn #nxo .nxfig');
+   ['psg','anc'].forEach(k=>{st[k]=JSON.parse(sv[k]);if(!st[k])delete st[k]});st.shn=JSON.parse(sh);save();shnR();
+   return{R,empty,red,one,keys:SNFTEST.keys().length}});
+  ok(Object.keys(snf.R).length===10&&Object.values(snf.R).every(n=>n>=8)&&snf.empty===0&&snf.red&&snf.one&&snf.keys>=16,'Схемы инструментов штурмана: у 10 инструментов есть svg, без данных схемы нет, опасное CPA — красным ('+JSON.stringify(snf)+')');
   /* Группы #shn: 4 группы сверху, инструменты выбранной группы под ними; группа и инструмент запоминаются; старое st.shn.t открывается в своей группе;
      вкладка SNX с полем grp встаёт в свою группу; «⚓ Груз и остойчивость» (#cgo) — отдельный раздел на Мостике с остойчивостью и драфт-сюрвеем. */
   const grp=await p.evaluate(()=>{const sv=JSON.stringify(st.shn||{}),q=s=>document.querySelector(s),keys=()=>[...document.querySelectorAll('#shn .sngr+.sntb [data-snt]')].map(x=>x.dataset.snt).join(',');
