@@ -5909,7 +5909,7 @@ function section(c){var el=c.el,X=window[c.X]=window[c.X]||{},GR=c.GR,SE;
   else if(d.mtt){var x=X[d.mtt];if(!x||d.mtt==s.t)return;if(x.g&&!x.g())return;s.t=d.mtt;R();sv()}
   else if(d.mtmcl)openAll()});
  SE={el:el,X:X,S:S,R:R,grp:grp,inG:inG,ip:c.ip||"mt",GR:GR,
-  go:function(k){var s=S();if(gOk(k)){if(inG(k).length)goG(k)}else if(X[k]){if(locked(k))goG(grp(k));else{s.t=k;s.g=grp(k)}}R()},
+  go:function(k){var s=S();if(X[k]&&!locked(k)){s.t=k;s.g=grp(k)}else if(gOk(k)){if(inG(k).length)goG(k)}else if(X[k])goG(grp(k));R()},
   tool:function(k,D){return tool(k,D,SE)}};
  return SE}
 var MS=section({el:el,X:"MTX",st:"mtl",GR:GR,def:"sys",w:"mtxw",ip:"mt",
@@ -9446,6 +9446,11 @@ el.addEventListener("input",function(e){if(e.target.id!="srfq")return;q=e.target
 srfR()})();
 </script>
 <style id="dut-css">
+#fmc .dutbk{position:sticky;top:0;z-index:5;display:flex;align-items:center;gap:8px;margin:0 0 8px;padding:6px 8px;border-radius:12px;background:var(--card,#0b2238);border:1px solid var(--line);box-shadow:0 4px 12px rgba(0,0,0,.25)}
+#fmc .dutbk .dutbkb{min-height:40px;padding:6px 12px;border-radius:10px;font-weight:700;flex:none}
+#fmc .dutbk .dutbkn{font-size:13px;color:var(--mute);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.dutfl{outline:3px solid var(--ok,#3ccf7a)!important;outline-offset:2px;animation:dutfl 1.6s ease}
+@keyframes dutfl{0%,40%{box-shadow:0 0 0 6px rgba(60,207,122,.35)}100%{box-shadow:none}}
 #dut .duh{display:flex;align-items:center;gap:12px;margin:0 0 10px;padding:10px 12px;border:1px solid var(--line);border-radius:14px;background:var(--bg)}
 #dut .duh>div{min-width:0;flex:1 1 auto}#dut .duh b{display:block;font-size:16px;line-height:1.25}#dut .duh small{display:block;font-size:12.5px;line-height:1.35;color:var(--mute)}
 #dut .dup{flex:0 0 auto;width:84px;height:34px;display:block}#dut .dupm{width:40px;height:16px;display:block;margin:0 auto 2px}
@@ -10049,10 +10054,20 @@ function anim(){var rs=el.querySelectorAll("svg.drg[data-to]");if(!rs.length)ret
  if(window.requestAnimationFrame)requestAnimationFrame(function(){requestAnimationFrame(go)});else go()}
 /* ---------- ярлыки ---------- */
 function lockId(k,s){var P=window.fmPro;if(!P||!P.has)return"";if(s&&!P.has(s))return s;if(!P.has(k))return k;return""}
-function goTo(k,s){var P=window.uxP||{},b=P[k]&&P[k].b;if(!b)return false;
+function goTo(k,s,x){var P=window.uxP||{},b=P[k]&&P[k].b;if(!b)return false;
  try{if(k=="shn"&&s){if(!O(st.shn))st.shn={};st.shn.t=s;if(window.shnR)shnR()}else if(k=="cgo"&&s){if(!O(st.cgo))st.cgo={};st.cgo.t=s;if(window.cgoR)cgoR()}else if(k=="mtl"&&s&&window.mtlGo)mtlGo(s);else if(k=="etl"&&s&&window.etlGo)etlGo(s);sv()}catch(e){}
  if(window.fmClose)try{fmClose()}catch(e){}
- setTimeout(function(){b.click();if(k=="srf"&&s)setTimeout(function(){var x=document.querySelector('#srf [data-srf="'+s+'"]');if(x)x.click()},60);if(k=="dc"&&s&&window.oneTab)setTimeout(function(){oneTab(s)},60)},90);return true}
+ setTimeout(function(){b.click();if(k=="srf"&&s)setTimeout(function(){var x=document.querySelector('#srf [data-srf="'+s+'"]');if(x)x.click()},60);if(k=="dc"&&s&&window.oneTab)setTimeout(function(){oneTab(s)},60);setTimeout(function(){mark(k,s,x)},220)},90);return true}
+/* ярлык открыт из «Моей должности»: полоска «← Моя должность» вверху окна и подсветка нужного инструмента (бар убирается при закрытии окна) */
+function mark(k,s,x){var fc=document.getElementById("fmc"),fm=document.getElementById("fmm");if(!fc||!fm||!fm.classList.contains("on"))return;
+ [].forEach.call(document.querySelectorAll(".dutbk"),function(e){e.remove()});
+ var bar=document.createElement("div");bar.className="dutbk";bar.setAttribute("translate","no");
+ bar.innerHTML='<button type="button" class="dutbkb">← '+q(L("Моя должность","My rank","Моя посада"))+'</button>'+(x?'<span class="dutbkn">'+q(x[0]+" "+A(x[1]))+'</span>':"");
+ bar.querySelector("button").addEventListener("click",function(){if(window.fmClose)try{fmClose()}catch(e){}setTimeout(function(){var d=(window.uxP||{}).dut;if(d&&d.b)d.b.click()},90)});
+ fc.insertBefore(bar,fc.firstChild);
+ if(!mark.ob){mark.ob=new MutationObserver(function(){if(!fm.classList.contains("on"))[].forEach.call(document.querySelectorAll(".dutbk"),function(e){e.remove()})});mark.ob.observe(fm,{attributes:true,attributeFilter:["class"]})}
+ var sel=s?(k=="shn"?'[data-snt="'+s+'"]':k=="cgo"?'[data-cgt="'+s+'"]':(k=="mtl"||k=="etl")?'[data-mtt="'+s+'"]':""):"",sec=document.getElementById(k),t=sel&&sec?sec.querySelector(sel):null;
+ try{if(t){t.scrollIntoView({block:"center"});t.classList.add("dutfl");setTimeout(function(){t.classList.remove("dutfl")},1800)}else fc.scrollTop=0}catch(e){}}
 /* ---------- отрисовка ---------- */
 function tabDu(r,D){return'<p class="dunote">⏰ '+L("Вахта: ","Watch: ","Вахта: ")+'<b>'+A(D.w)+'</b></p><ol class="dul">'+D.du.map(function(x){return'<li>'+A(x)+'</li>'}).join("")+'</ol>'+(D.n?'<p class="dsrc">ℹ️ '+A(D.n)+'</p>':"")}
 function tabCk(r){var s=S(),t=today,h='<p class="dunote">⭐ '+L("+5 XP за пункт, не больше 50 XP в день. Сегодня: ","+5 XP per item, up to 50 XP a day. Today: ","+5 XP за пункт, не більше 50 XP на день. Сьогодні: ")+'<b>'+(xpN()*5)+' XP</b>. '
@@ -10097,7 +10112,7 @@ el.addEventListener("click",function(e){var b=e.target.closest("button");if(!b||
   if(M.length>=30){tst(L("Не больше 30 своих пунктов","Up to 30 items of your own","Не більше 30 своїх пунктів"));return}
   M.push({i:Date.now().toString(36)+Math.floor(Math.random()*36).toString(36),t:tx,p:p2});OP[p2]=1;sv();R()}
  else if(d.ddl){var a=d.ddl.split("|"),M2=s.my[r];if(Array.isArray(M2))s.my[r]=M2.filter(function(m){return!(m&&m.p==a[0]&&m.i==a[1])});delete s.c[r+"."+a[0]+".u"+a[1]];sv();R()}
- else if(d.dtk){var x=TL[d.dtk];if(!x)return;var lk=lockId(x[2],x[3]);if(lk){if(window.fmPro&&fmPro.wall)fmPro.wall(lk);return}goTo(x[2],x[3])}
+ else if(d.dtk){var x=TL[d.dtk];if(!x)return;var lk=lockId(x[2],x[3]);if(lk){if(window.fmPro&&fmPro.wall)fmPro.wall(lk);return}goTo(x[2],x[3],x)}
  else if(d.dup){var l2=lockId(d.dup);if(l2){if(window.fmPro&&fmPro.wall)fmPro.wall(l2);return}goTo(d.dup,d.dup=="ct"?"ct":"")}
  else if(d.dgo){var l3=lockId(d.dgo);if(l3){if(window.fmPro&&fmPro.wall)fmPro.wall(l3);return}goTo(d.dgo,"")}});
 el.addEventListener("keydown",function(e){if(e.key=="Enter"&&e.target&&e.target.id=="dutin"){e.preventDefault();var b=el.querySelector("[data-dadd]");if(b)b.click()}});
