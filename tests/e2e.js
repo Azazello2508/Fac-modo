@@ -123,6 +123,39 @@ const srv=http.createServer((q,r)=>{let u=decodeURIComponent(q.url.split('?')[0]
     tab:dv==='-0.2,1.7,2.2,2.1,1.8,0.3,-1.8,-2.1'&&near(da,0.75),pol:!!pz&&near(pz.z,old.z,1e-9)&&Math.abs(((pz.z+180)%360)-180)<1&&pz.h>39&&pz.h<41&&/Истинный азимут|True azimuth|Істинний азимут/.test(r3),
     sun:!!su&&near(su.z,so.z,1e-9),pos,ui,th:th>=10&&T.th>=10&&T.qz>=8&&fig>=4,back:bk,free:fmPro.has('cpc')&&fmPro.pkg('cpc')==='tools'&&fmPro.has('shn')}});
   ok(Object.values(cpc).every(x=>x===true),'Поправка компаса: створ, амплитуда, Полярная, гирокомпас, ΔГК, склонение, коэффициенты девиации сходятся с ручным счётом, таблица «Компаса» общая, вкладка после «🧭 Компас» ('+JSON.stringify(cpc)+')');
+  /* Живые схемы теории (dga-js): в «Остойчивости», «Драфт-сюрвее» и «Поправке компаса» есть живые схемы, кнопки и ползунки срабатывают. Ручной счёт:
+     крен 15°, GM 1,20 → GZ = 1,20·sin 15° = 0,3106 м; «груз высоко» GM = −0,36 → GZ < 0 (красная подсказка); переборка: FSM 1125 → 281 т·м;
+     поправки к перпендикулярам, t = 2: F = 8 − 2·86/180 = 7,0444, A = 8 + 2·78/180 = 8,8667, t марок = 1,8222 → Fp = 7,0444 − 1,8222·4/164 = 7,00, Ap = 8,8667 + 1,8222·12/164 = 9,00;
+     прогиб +0,12: Mp = 8,22, MMM = (7,80 + 8,40 + 6·8,22)/8 = 8,19; погрузка 2000 т при TPC 33,3 т/см → +0,60 м (4,00 → 4,60);
+     три севера: d = +12, δ = −5 → КК = 55 − 12 + 5 = 48°, ΔК = +7° E; створ: КП 042,0°, ΔК = 045,0 − 042,0 = +3,0° E; амплитуда δ⊙ 15° N, φ 40°: A = 19,7468°, ИП = 070,3°;
+     δ(090°) = 0,5 + 2,0·1 − 1,0·0 + 0,5·0 + 0,3·(−1) = +2,2° E. */
+  const dga=await p.evaluate(async()=>{const W=ms=>new Promise(r=>setTimeout(r,ms)),D=DGATEST,near=(a,b,e)=>Math.abs(a-b)<=(e||1e-3),o={};
+   const sv={stb:JSON.stringify(st.stb||null),dsv:JSON.stringify(st.dsv||null),cpc:JSON.stringify(st.cpc||null),cgo:JSON.stringify(st.cgo||null),sh:st.shn&&st.shn.t,g:st.shn&&st.shn.g};
+   const fg=k=>document.querySelector('figure.dga[data-dga="'+k+'"]'),cap=k=>((fg(k)||document).querySelector('.dgat')||{}).textContent||'',st0=k=>D.state(fg(k))||{},
+    clk=(k,a)=>fg(k).querySelector('[data-dgb="'+a+'"]').click(),rg=(k,a,v)=>{const i=fg(k).querySelector('[data-dgr="'+a+'"]');i.value=v;i.dispatchEvent(new Event('input',{bubbles:true}))},
+    opn=q=>document.querySelectorAll(q).forEach(d=>d.open=true);
+   o.math=near(D.heel(1.2,15),0.31058)&&near(D.mmm(7.8,8.4,8.22),8.19)&&near(D.perp(2).Fp,7)&&near(D.perp(2).Ap,9)&&near(D.amp(15,40).ip,70.2532)&&near(D.dev(90),2.2);
+   document.querySelector('#cgo [data-cgt=stb]').click();st.stb.p='t';cgoR();opn('#cgo details.sbth');await W(200);
+   o.stb=['heel','fs','gz'].every(k=>fg(k)&&D.state(fg(k)))&&document.querySelectorAll('#cgo .dg:not(.dga) svg[data-dgi]').length>=5;
+   let s=st0('heel');s.auto=false;s.a=s.th=15;D.draw(fg('heel'));const h1=cap('heel'),hb=!fg('heel').querySelector('.dgat.bad');clk('heel','b');
+   o.heel=/0[,.]31/.test(h1)&&hb&&st0('heel').bad===true&&!!fg('heel').querySelector('.dgat.bad')&&/−0[,.]36/.test(cap('heel'));
+   rg('heel','h',-10);o.heelR=st0('heel').th===-10&&st0('heel').auto===false;
+   const f1=cap('fs');clk('fs','w');o.fs=/1125/.test(f1)&&st0('fs').w===true&&/281/.test(cap('fs'));
+   rg('gz','t',45);o.gz=st0('gz').p===1&&/0[,.]46/.test(cap('gz'));
+   document.querySelector('#cgo [data-cgt=dsv]').click();st.dsv.p='t';cgoR();opn('#cgo details.dvth');await W(200);
+   o.dsv=['load','perp','hog'].every(k=>fg(k)&&D.state(fg(k)));
+   clk('load','ld');o.load=st0('load').n===1&&near(st0('load').tg,4.6);clk('load','un');o.load=o.load&&st0('load').n===0;
+   rg('perp','t',2);o.perp=/7[,.]00 /.test(cap('perp')+' ')&&/9[,.]00 /.test(cap('perp')+' ');
+   rg('hog','p',0.12);o.hog=/8[,.]19/.test(cap('hog'))&&/8[,.]22/.test(cap('hog'));
+   shnGo('comp');document.querySelector('#shn [data-snt=cpc]').click();st.cpc.p='t';shnR();opn('#shn details.cpth');await W(200);
+   o.cpc=['north','rng','amp','dev'].every(k=>fg(k)&&D.state(fg(k)))&&!!fg('north').closest('.cpth')&&document.querySelectorAll('#shn .cpth svg.cpfig[data-dgi]').length>=1;
+   rg('north','d',12);rg('north','e',-5);o.north=/48°/.test(cap('north'))&&/7° E/.test(cap('north'));clk('north','go');o.north=o.north&&(st0('north').st===1||D.rm());
+   rg('rng','x',125);o.rng=/\+3[,.]0° E/.test(cap('rng'))&&!!fg('rng').querySelector('.dgat.okk');rg('rng','x',40);o.rng=o.rng&&!fg('rng').querySelector('.dgat.okk');
+   o.amp=/070[,.]3°/.test(cap('amp'))&&/19[,.]7° N/.test(cap('amp'));rg('amp','dc',-15);o.amp=o.amp&&/109[,.]7°/.test(cap('amp'));
+   rg('dev','k',90);o.dev=/\+2[,.]2° E/.test(cap('dev'));
+   st.stb=JSON.parse(sv.stb);if(!st.stb)delete st.stb;st.dsv=JSON.parse(sv.dsv);if(!st.dsv)delete st.dsv;st.cpc=JSON.parse(sv.cpc);if(!st.cpc)delete st.cpc;st.cgo=JSON.parse(sv.cgo);if(!st.cgo)delete st.cgo;
+   if(sv.sh)st.shn.t=sv.sh;if(sv.g)st.shn.g=sv.g;save();cgoR();shnR();return o});
+  ok(Object.values(dga).every(x=>x===true),'Живые схемы теории: остойчивость, драфт-сюрвей, поправка компаса — схемы есть, кнопки и ползунки работают, числа сходятся с ручным счётом ('+JSON.stringify(dga)+')');
   /* Новые инструменты штурмана (nvt-js). Ручной счёт:
      Запас под килем: 12,0 + 1,2 = 13,2; 13,2 − 10,5 = 2,70 без хода; squat = 0,80·10²/100 = 0,80 → UKC 1,90 ≥ 1,05 (10 % от 10,5) ✅;
        V max = √((2,70 − 1,05)·100/0,80) = √206,25 = 14,361 уз; канал: squat 0,80·100/50 = 1,60, UKC 1,10, V max = √103,125 = 10,155; на 8 уз squat 0,80·64/100 = 0,512;
@@ -169,6 +202,43 @@ const srv=http.createServer((q,r)=>{let u=decodeURIComponent(q.url.split('?')[0]
     th:JSON.stringify(TH),note:err.join(','),qa,free:['ukc','psg','air','anc','twd'].every(k=>fmPro.has(k)&&fmPro.pkg(k)==='tools')}});
   ok(nvt.ukc&&nvt.rl&&nvt.gc&&nvt.route&&nvt.eq&&nvt.time&&nvt.air&&nvt.anc&&nvt.twd&&nvt.bft&&nvt.gc1&&nvt.gs&&nvt.ui&&nvt.note===''&&nvt.qa&&nvt.free
    &&Object.values(JSON.parse(nvt.th)).every(x=>{const a=x.split('/').map(Number);return a[0]>=4&&a[1]>=1&&a[2]>=4}),'Новые инструменты штурмана: запас под килем, переход (обе формулы, ETA, топливо), мост, якорь, истинный ветер сходятся с ручным счётом, группы, теория ('+JSON.stringify(nvt)+')');
+  /* Теория, примеры и цветной итог 8 старых инструментов #shn (sno-js). Примеры посчитаны shn-js и сверены вручную:
+     компас КК 120.0 + δ −1.5 + d +3.5 = ИК 122.0; крюйс-пеленг 30°→60°, 12 уз, 15 мин: S = 3.00, D = 3.00, траверз 3·sin60 = 2.60;
+     прилив МВ 06:10 0.6, ПВ 12:25 4.2, в 09:00 h = 0.6 + 3.6·(1 − cos(180·170/375))/2 = 2.14, запас 8.0 + 2.14 − 9.0 = 1.14 м;
+     CPA пример 1.44 мили < безопасной 2 → красный (как текст shn-js); засечка 2 = 40.2° 7.0 → CPA 0.20 → красный;
+     безопасная 1.2: 1.2 ≤ CPA 1.44 < 1.8 → жёлтый; засечка 2 = 40° 9.0 (дистанция растёт, TCPA < 0) → зелёный; пометка с 1′ — у компаса, у прилива — общая. */
+  const sno=await p.evaluate(async()=>{const q=s=>document.querySelector(s),w=()=>new Promise(r=>setTimeout(r,0)),sh=JSON.stringify(st.shn||{}),sn=JSON.stringify(st.sno||null),R={},bad=[];window.confirm=()=>true;
+   const MD={cmp:['conv','brg','sun','tab'],sxt:['ho','noon','ie'],str:['pick','fix','pol'],lmk:['bb','bd','kp','va','vis'],dr:['np','cd'],cur:[''],cpa:[''],tide:['']};
+   for(const t in MD){shnGo(t);const b=q('#shn [data-snt='+t+']');if(b)b.click();await w();st.sno=st.sno||{};st.sno.p=st.sno.p||{};st.sno.p[t]='c';shnR();await w();
+    for(const m of MD[t]){if(m){q('#shn [data-snm='+m+']').click();await w()}const ex=q('#shn [data-snoex]');if(!ex){bad.push(t+'/'+m+':ex');continue}ex.click();await w();
+     const x=q('#shn #sno .sno');R[t+'/'+m]=x?(x.querySelector('.snolv')?x.className.match(/sno([GYR])/)[1]:'-')+'|'+x.textContent:'';if(!x||!x.querySelector('.snolv'))bad.push(t+'/'+m)}
+    const tb=q('#shn [data-snop=t]');tb.click();await w();const th=SNOTEST.th(t),nT=document.querySelectorAll('#shn #snoth .nxth').length;
+    if(!(th.t>=4&&th.q>=4&&th.w&&nT===th.t+1&&q('#shn .nxwhy')&&/Учебный расчёт/.test((q('#shn #snoth .nxnote')||{}).textContent||'')&&q('#shn #sno').closest('.snoH')))bad.push(t+':theory');
+    const qa=q('#shn [data-snoq="0:0"]');qa.click();await w();if(!(st.sno.qa[t]&&st.sno.qa[t][0]===0&&q('#shn #snoq0 .nxqe')))bad.push(t+':qa');
+    q('#shn [data-snop=c]').click();await w()}
+   shnGo('cpa');q('#shn [data-snt=cpa]').click();await w();const s2=(id,v)=>{const e=document.getElementById(id);e.value=v;e.dispatchEvent(new Event('input',{bubbles:true}))};
+   s2('sn_p2','40.2');s2('sn_d2','7.0');await w();const red=(q('#shn #sno .sno')||{}).className||'';
+   s2('sn_p2','41.5');s2('sn_cl','1.2');await w();const yl2=(q('#shn #sno .sno')||{}).className||'';s2('sn_p2','40');s2('sn_d2','9.0');await w();const grn=(q('#shn #sno .sno')||{}).className||'';
+   const ntx=async k=>{shnGo(k);q('#shn [data-snt='+k+']').click();await w();return (q('#shn #snont')||{}).textContent||''},nc=await ntx('cmp'),nd=await ntx('tide');
+   st.shn=JSON.parse(sh);const o=JSON.parse(sn);if(o)st.sno=o;else delete st.sno;save();shnR();await w();
+   return{bad:bad.join(','),cmp:/122\.0°/.test(R['cmp/conv'])&&R['cmp/conv'][0]==='G',kp:/2\.60/.test(R['lmk/kp']),tide:/1\.14/.test(R['tide/'])&&R['tide/'][0]==='G',
+    cpaY:R['cpa/'][0]==='R'&&/1\.44/.test(R['cpa/']),cpaR:/snoR/.test(red),cpa15:/snoY/.test(yl2)&&/snoG/.test(grn),note:/1′/.test(nc)&&/Учебный расчёт/.test(nd)&&!/1′/.test(nd),fix:/41°05\.0′/.test(R['str/fix']),free:['cmp','sxt','str','lmk','dr','cur','cpa','tide'].every(k=>!window.fmPro||fmPro.has(k))}});
+  ok(sno.bad===''&&sno.cmp&&sno.kp&&sno.tide&&sno.cpaY&&sno.cpaR&&sno.cpa15&&sno.fix&&sno.note&&sno.free,'Старые инструменты штурмана: теория, «Проверь себя», примеры во всех режимах, цветной итог (CPA 0.2 — красный) ('+JSON.stringify(sno)+')');
+  /* Схемы инструментов штурмана (snf-js): у 8 старых инструментов и у «Перехода» и «Якоря» после ввода чисел (или «Заполнить примером») под результатом
+     появляется живая схема — svg с содержимым; без данных схемы нет; опасное CPA (0,6 мили < 1) рисуется красным. */
+  const snf=await p.evaluate(()=>{const q=s=>document.querySelector(s),sh=JSON.stringify(st.shn||{}),sv={};['psg','anc'].forEach(k=>sv[k]=JSON.stringify(st[k]||null));
+   const C=[['cmp','conv',{sn_ct:'ik',sn_cv:'100',sn_vd_d:'5',sn_vd_h:'E',sn_cd:'-2'}],['sxt','ho',{sn_hb:'sl',sn_hs_d:'30',sn_hs_m:'0',sn_e:'15'}],
+    ['str','pol',{sn_ph_d:'40',sn_ph_m:'10',sn_t_dt:'2026-11-20',sn_t_tm:'18:00:00',sn_lo_d:'30',sn_lo_h:'E',sn_e:'15'}],['lmk','kp',{sn_q1:'30',sn_q2:'60',sn_kv:'12',sn_kt:'20'}],
+    ['dr','np',{sn_la_d:'41',sn_la_h:'N',sn_lo_d:'41',sn_lo_h:'E',sn_dk:'250',sn_ds:'120'}],['cur','',{sn_cu:'90',sn_cs:'12',sn_ck:'200',sn_cc:'2.5'}],
+    ['cpa','',{sn_ok:'0',sn_ov:'12',sn_p1:'45',sn_d1:'8',sn_p2:'44',sn_d2:'6.5',sn_dt2:'6',sn_cl:'2'}],['tide','',{sn_lt:'06:00',sn_lh:'0.5',sn_ht:'12:10',sn_hh:'4.2',sn_qt:'08:00',sn_qd:'8',sn_qr:'10'}]],R={};
+   const fig=()=>{const s=q('#shn #sno svg, #shn #nxo figure.snf svg');return s?s.querySelectorAll('path,circle,text').length:0};
+   st.shn.v={};st.shn.t='cpa';shnR();const empty=fig();
+   let red=false;C.forEach(([k,m,v])=>{st.shn.t=k;st.shn.m[k]=m;st.shn.v=Object.assign({},v);shnGo(k);R[k]=fig();if(k==='cpa')red=!!q('#shn #sno figure.snf [style*="--snr"]')&&!!q('#shn #sno [data-snfp]')});
+   ['psg','anc'].forEach(k=>{shnGo(k);const b=q('#shn [data-snt='+k+']');if(b)b.click();st[k].p='c';shnR();const ex=q('#shn #snxw [data-nxex]');if(ex)ex.click();R[k]=fig()});
+   const one=document.querySelectorAll('#shn #nxo figure.snf').length===1&&!q('#shn #nxo .nxfig');
+   ['psg','anc'].forEach(k=>{st[k]=JSON.parse(sv[k]);if(!st[k])delete st[k]});st.shn=JSON.parse(sh);save();shnR();
+   return{R,empty,red,one,keys:SNFTEST.keys().length}});
+  ok(Object.keys(snf.R).length===10&&Object.values(snf.R).every(n=>n>=8)&&snf.empty===0&&snf.red&&snf.one&&snf.keys>=16,'Схемы инструментов штурмана: у 10 инструментов есть svg, без данных схемы нет, опасное CPA — красным ('+JSON.stringify(snf)+')');
   /* Группы #shn: 4 группы сверху, инструменты выбранной группы под ними; группа и инструмент запоминаются; старое st.shn.t открывается в своей группе;
      вкладка SNX с полем grp встаёт в свою группу; «⚓ Груз и остойчивость» (#cgo) — отдельный раздел на Мостике с остойчивостью и драфт-сюрвеем. */
   const grp=await p.evaluate(()=>{const sv=JSON.stringify(st.shn||{}),q=s=>document.querySelector(s),keys=()=>[...document.querySelectorAll('#shn .sngr+.sntb [data-snt]')].map(x=>x.dataset.snt).join(',');
