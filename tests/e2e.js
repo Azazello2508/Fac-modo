@@ -240,13 +240,13 @@ const srv=http.createServer((q,r)=>{let u=decodeURIComponent(q.url.split('?')[0]
    const o=JSON.parse(sv);['mtl','tnk','cyl'].forEach((k,i)=>{const v=[o.m,o.t,o.c][i];if(v)st[k]=v;else delete st[k]});save();mtlR();
    return{vc,ip,tnk,col,cyl,diag,room,gr,go,ui1,fpb,fu,ui2,add,del,thf,qa,pvb,pvc,all,note,hs,th,srch,free:['tnk','cyl','mtl'].every(k=>fmPro.has(k)&&fmPro.pkg(k)==='tools')}});
   ok(Object.entries(mtl).every(([k,v])=>k==='gr'?/^fuel,eng(,sys)?,oil$/.test(v):v===true),'Инструменты механика: VCF 54B и замер танков, баланс цилиндров сходятся с ручным счётом, цвета, группы, пример, теория и живые схемы ('+JSON.stringify(mtl)+')');
-  /* 🎖️ Моя должность (#dut, dut-js): плитка на палубе, «Мои инструменты» по чину, должность по мастеру (na → o3, me → e4 «скоро», el → eto), погоны, чек-листы и XP
+  /* 🎖️ Моя должность (#dut, dut-js): плитка на палубе, «Мои инструменты» по чину, должность по мастеру (na → o3, me → e4, el → eto), погоны, чек-листы и XP
      (+5 за пункт, повторное нажатие не удваивает, не больше 50 в день), срок отметки (неделя Пн–Вс: 23.11.2026 — понедельник, живёт до вс 29.11), свои пункты, ярлыки в разделы и вкладки */
   const dut=await p.evaluate(async()=>{const q=s=>document.querySelector(s),w=ms=>new Promise(r=>setTimeout(r,ms)),T=DUTTEST,fmc=document.getElementById('fmc'),
     sv=JSON.stringify({d:st.dut||null,u:st.ux||null,t:st.done[today]||null,s:st.shn||null,c:st.cgo||null,m:st.mtl||null}),r={};
    r.sec=!!q('#dut h3')&&q('#dut').dataset.t==='today'&&!!(window.uxP&&uxP.dut)&&!!DUT.o3&&!!DUT.o2&&!!DUT.co&&fmPro.has('dut');
    delete st.dut;st.ux=Object.assign({},st.ux||{});st.ux.r='na';dutR();r.na=T.rank()==='o3'&&!!q('#dut [data-dur=o3].cur');
-   st.ux.r='me';dutR();r.me=T.rank()==='e4'&&!!q('#dut .dsoon')&&!!q('#dut [data-dur=e4] small');st.ux.r='el';dutR();r.el=T.rank()==='eto';
+   st.ux.r='me';dutR();r.me=T.rank()==='e4'&&!q('#dut .dsoon')&&!q('#dut [data-dur] small');st.ux.r='el';dutR();r.el=T.rank()==='eto';
    q('#dut [data-dur=co]').click();r.pick=st.dut.r==='co'&&q('#dut .duh svg').querySelectorAll('.dus').length===3&&q('#dut [data-dur=e2] svg').querySelectorAll('.duv').length===2;
    st.dut={r:'o3',t:'ck'};delete st.done[today];dutR();
    const ids=[...document.querySelectorAll('#dut [data-dck]')].map(b=>b.dataset.dck),cl=id=>q('#dut [data-dck="'+id+'"]').click();
@@ -269,12 +269,25 @@ const srv=http.createServer((q,r)=>{let u=decodeURIComponent(q.url.split('?')[0]
    await tl('e4','tnk');r.go4=st.mtl.t==='tnk'&&fmc.contains(q('#mtl'));await tl('eto','ecl');r.go5=fmc.contains(q('#ecl'));if(window.fmClose)fmClose();await w(80);
    /* у каждого чина — свои инструменты, остальные — в «Другие инструменты»; плитки разделов-инструментов спрятаны из помещений (data-uxj), плитка «Моя должность» — на палубе */
    const all=Object.keys(DUTTL).filter(k=>document.getElementById(DUTTL[k][2]));r.mine=['o3','o2','co','e4','e3','e2','ce','eto'].every(k=>T.mine(k).length>=8);
-   st.dut.r='e2';dutR();r.other=document.querySelectorAll('#dut .dtb [data-dtk]').length===all.length&&!!q('#dut details.dto')&&!q('#dut .dsoon')===false;
+   st.dut.r='e2';dutR();r.other=document.querySelectorAll('#dut .dtb [data-dtk]').length===all.length&&!!q('#dut details.dto')&&!q('#dut .dsoon');
    r.hide=T.hide.every(k=>!uxP[k]||uxP[k].b.hasAttribute('data-uxj'))&&!uxP.dut.b.hasAttribute('data-uxj')&&uxP.dut.b.classList.contains('dutw')&&q('#mtl').dataset.t==='r-eng'&&q('#shn').dataset.t==='r-brg';
    r.kw=/старпом/.test(window.uxKW?uxKW('dut'):'')&&!!(window.gdDesc&&gdDesc('dut'));
    const o=JSON.parse(sv);[['dut',o.d],['ux',o.u],['shn',o.s],['cgo',o.c],['mtl',o.m]].forEach(([k,v])=>{if(v)st[k]=v;else delete st[k]});if(o.t)st.done[today]=o.t;else delete st.done[today];save();dutR();shnR();cgoR();mtlR();
    return r});
   ok(Object.values(dut).every(v=>v===true),'Моя должность: плитка на палубе, инструменты по чину (и машина), плитки инструментов убраны из помещений, должность по мастеру, погоны, XP +5 без удвоения и не больше 50, неделя Пн–Вс, свои пункты, ярлыки в «Груз и остойчивость», «Инструменты штурмана», «Справочник» ('+JSON.stringify(dut)+')');
+  /* 🎖️ Моя должность, этап 2 — машина (e4 e3 e2 ce eto): обязанности (6–10) с заметкой «распределение типовое», чек-листы во всех 6 периодах, журналы, «Шаг вверх» (6–8 вопросов),
+     заглушки «скоро» нет ни у одной должности; отметка +5 XP, повторное нажатие не удваивает; {sch,j} берёт из справочника только выбранные проверки; погон ЭТО — зелёный просвет, «Шаг вверх» 2-го механика рисует погон стармеха (4 нашивки) */
+  const due=await p.evaluate(()=>{const q=s=>document.querySelector(s),qa=s=>document.querySelectorAll(s),T=DUTTEST,sv=JSON.stringify({d:st.dut||null,t:st.done[today]||null}),r={},E=['e4','e3','e2','ce','eto'],P=['d','w','m','q','dep','arr'];
+   r.data=E.every(k=>{const D=DUT[k];return!!D&&D.du.length>=6&&D.du.length<=10&&D.lg.length>=4&&!!D.up&&D.up.qa.length>=6&&D.up.qa.length<=8&&!!D.n&&P.every(x=>T.items(k,x).length>=2)});
+   r.ui=E.every(k=>{st.dut={r:k,t:'du'};dutR();const a=qa('#dut ol.dul li').length>=6&&!q('#dut .dsoon')&&!q('#dut [data-dur] small')&&/:/.test((q('#dut .duh small')||{}).textContent||'');
+    st.dut.t='ck';dutR();const b=qa('#dut details.dck').length===6;st.dut.t='lg';dutR();const c=qa('#dut .dlg').length>=4;st.dut.t='up';dutR();const d=qa('#dut .dqa').length>=6&&!!q('#dut .dnx');return a&&b&&c&&d});
+   r.sch=T.items('e4','w').filter(x=>/\.s0_/.test(x.id)).map(x=>x.id).join()==='e4.w.s0_1'&&T.items('eto','w').filter(x=>/\.s0_/.test(x.id)).length===2&&T.items('o3','w').filter(x=>/\.s0_/.test(x.id)).length===(SRFSCH[0][1]||[]).length;
+   st.dut={r:'e3',t:'ck'};delete st.done[today];dutR();const id=T.items('e3','d')[0].id,cl=()=>q('#dut [data-dck="'+id+'"]').click(),x0=calc().xp;cl();const x1=calc().xp;cl();cl();const x2=calc().xp;
+   r.xp=x1-x0===5&&x2-x0===5&&q('#dut [data-dck="'+id+'"]').classList.contains('on')&&st.done[today].dut.c==='work';
+   st.dut={r:'e2',t:'up'};dutR();r.up=(q('#dut .dnx svg')||{querySelectorAll:()=>[]}).querySelectorAll('.dus').length===4;
+   r.eto=!!q('#dut [data-dur=eto] svg .duv.dug')&&!q('#dut [data-dur=e2] svg .duv.dug')&&q('#dut [data-dur=e4] svg').querySelectorAll('.dus').length===1&&q('#dut [data-dur=ce] svg').querySelectorAll('.dus').length===4;
+   const o=JSON.parse(sv);if(o.d)st.dut=o.d;else delete st.dut;if(o.t)st.done[today]=o.t;else delete st.done[today];save();dutR();return r});
+  ok(Object.values(due).every(v=>v===true),'Моя должность, машина: у 4-го, 3-го, 2-го механика, стармеха и ЭТО есть обязанности, чек-листы во всех периодах, журналы, «Шаг вверх»; «скоро» нет; +5 XP без удвоения; проверки справочника выборочно; погоны ('+JSON.stringify(due)+')');
   /* 🔧 Инструменты механика, этап 2 (mtk2-js). Ручной счёт:
      slp: Vп = 5.2·95·60/1852 = 29640/1852 = 16.0043 уз; скольжение по GPS (16.0043 − 13.0)/16.0043 = 18.77 %, по лагу (16.0043 − 12.4)/16.0043 = 22.52 %; течение +0.6 уз;
       P = 9480·(95/105)³ = 9480·0.740633 = 7021.2 кВт; 7480 → (7480 − 7021.2)/7021.2 = +6.53 % 🟡; 7800 → +11.09 % 🔴; лаг 3.0 и 7100 кВт → скольжение 81.3 % 🟡, мощность +1.12 % 🟢.
