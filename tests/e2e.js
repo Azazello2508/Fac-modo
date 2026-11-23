@@ -275,6 +275,23 @@ const srv=http.createServer((q,r)=>{let u=decodeURIComponent(q.url.split('?')[0]
    const o=JSON.parse(sv);[['dut',o.d],['ux',o.u],['shn',o.s],['cgo',o.c],['mtl',o.m]].forEach(([k,v])=>{if(v)st[k]=v;else delete st[k]});if(o.t)st.done[today]=o.t;else delete st.done[today];save();dutR();shnR();cgoR();mtlR();
    return r});
   ok(Object.values(dut).every(v=>v===true),'Моя должность: плитка на палубе, инструменты по чину (и машина), плитки инструментов убраны из помещений, должность по мастеру, погоны, XP +5 без удвоения и не больше 50, неделя Пн–Вс, свои пункты, ярлыки в «Груз и остойчивость», «Инструменты штурмана», «Справочник» ('+JSON.stringify(dut)+')');
+  /* Мелкие исправления перед Google Play (23.11.2026): «↺ Начать заново» в «Проверь себя» MTK (#mtl, #etl) не ниже 40 px;
+     «изучено N / M» на карточке помещения = число видимых плиток помещения (без спрятанных data-uxj); показы путеводителя открывают #mtl (⛽ замер танков), #etl (🔄 генераторы в параллель) и #dut и подсвечивают цель */
+  const pol=await p.evaluate(async()=>{const q=s=>document.querySelector(s),w=ms=>new Promise(r=>setTimeout(r,ms)),fmc=document.getElementById('fmc'),r={},sv=JSON.stringify({m:st.mtl||null,e:st.etl||null,g:st.gv||null});
+   r.btn={};for(const k of ['mtl','etl']){if(window.fmClose)fmClose();await w(80);uxP[k].b.click();await w(150);const t=q('#'+k+' [data-mtp=t]');if(t)t.click();await w(50);
+    q('#'+k).querySelectorAll('details').forEach(x=>x.open=true);const b=q('#'+k+' [data-mtqr]');r.btn[k]=b?Math.round(b.getBoundingClientRect().height):0}
+   if(window.fmClose)fmClose();await w(80);setTab('today');save();await w(50);
+   r.rooms={};document.querySelectorAll('#shp [data-shr]').forEach(b=>{const id=b.dataset.shr,m=((b.querySelector('.shq')||{}).textContent||'').match(/(\d+) \/ (\d+)/),
+    n=[...document.querySelectorAll('main>button.fmt[data-t="r-'+id+'"]')].filter(x=>!x.hidden&&!x.hasAttribute('data-uxh')&&!x.hasAttribute('data-uxj')&&!x.classList.contains('uxrow')).length;r.rooms[id]=(m?m[2]:'-')+'/'+n});
+   mtlGo('cyl');etlGo('gnd');r.demo=[];for(const ch of [0,2]){gvOpen(ch);await w(200);const n=document.querySelectorAll('#gv [data-gv=demo]').length;
+    for(let j=0;j<n;j++){gvOpen(ch);await w(200);const b=q('#gv [data-gv=demo][data-j="'+j+'"]');if(!b)continue;b.click();await w(900);
+     const o=q('#gvo');r.demo.push(['mtl','etl','dut'].filter(k=>fmc.contains(q('#'+k))).join('')+':'+(o?o.dataset.gvf:'-')+':'+(st.mtl&&st.mtl.t||'')+':'+(st.etl&&st.etl.t||''));
+     document.dispatchEvent(new KeyboardEvent('keydown',{key:'Escape'}));await w(50)}}
+   if(window.fmClose)fmClose();setTab('today');const o=JSON.parse(sv);[['mtl',o.m],['etl',o.e],['gv',o.g]].forEach(([k,v])=>{if(v)st[k]=v;else delete st[k]});save();
+   return r});
+  ok(pol.btn.mtl>=40&&pol.btn.etl>=40&&Object.keys(pol.rooms).length>=2&&Object.values(pol.rooms).every(x=>x.split('/')[0]===x.split('/')[1])
+   &&pol.demo.some(x=>/^mtl:0:tnk:/.test(x))&&pol.demo.some(x=>/^etl:0:.*:gpar$/.test(x))&&pol.demo.some(x=>/^dut:0:/.test(x)),
+   'Мелкие исправления: «Начать заново» ≥ 40 px, счётчик помещения = видимые плитки, путеводитель показывает «Инструменты механика», «электромеханика» и «Мою должность» ('+JSON.stringify(pol)+')');
   /* 🎖️ Моя должность, этап 2 — машина (e4 e3 e2 ce eto): обязанности (6–10) с заметкой «распределение типовое», чек-листы во всех 6 периодах, журналы, «Шаг вверх» (6–8 вопросов),
      заглушки «скоро» нет ни у одной должности; отметка +5 XP, повторное нажатие не удваивает; {sch,j} берёт из справочника только выбранные проверки; погон ЭТО — зелёный просвет, «Шаг вверх» 2-го механика рисует погон стармеха (4 нашивки) */
   const due=await p.evaluate(()=>{const q=s=>document.querySelector(s),qa=s=>document.querySelectorAll(s),T=DUTTEST,sv=JSON.stringify({d:st.dut||null,t:st.done[today]||null}),r={},E=['e4','e3','e2','ce','eto'],P=['d','w','m','q','dep','arr'];

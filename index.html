@@ -4369,8 +4369,13 @@ K.north={init:function(f,s){s.d=12;s.e=-5;s.st=4;s.an=0;s.t0=null;s.run=0;var tk
    return'<path d="M'+r1(p1[0])+" "+r1(p1[1])+" A"+q+" "+q+" 0 0 "+(a2>a1?1:0)+" "+r1(p2[0])+" "+r1(p2[1])+'" class="s'+k+' w3'+(an&&!s.rm?' dgaDr" style="stroke-dasharray:'+len+';stroke-dashoffset:'+len:'')+'"/>'+T(m[0],m[1]+4,lab,"b "+tc[k],"m")},
   Nt=LL("Nи","Nt","Nі"),Nm=LL("Nм","Nm","Nм"),Nc=LL("Nк","Nc","Nк"),fd=function(x){return x>0?x+"° E":x<0?(-x)+"° W":"0°"},tm=function(x){return(x<0?" − ":" + ")+Math.abs(x)+"°"};
   if(st>=1)h+=arm(0,"i",Nt,88);
-  if(st>=2)h+=arm(d,"b",Nm,70,d>=0?12:-12)+arc(0,d,34,"b","d",s.an==2);
-  if(st>=3)h+=arm(d+e,"y",Nc,52,(d+e)>=d?14:-14)+arc(d,d+e,50,"y","δ",s.an==3);
+  /* тесно (меридианы ближе 16°): подписи Nм, Nк — слева от самой левой стрелки на их высоте, с выноской; подписи малых дуг — справа от стрелок */
+  var cw=st>=2&&(Math.abs(d)<16||Math.abs(e)<16||Math.abs(d+e)<16),AR=[[0,88],[d,70]].concat(st>=3?[[d+e,52]]:[]),
+   sd=function(a,q,k,lab){var p=pq(a,q),y=p[1],x=p[0];AR.forEach(function(r){if(cy-r[1]*cos(r[0])<=y+7)x=Math.min(x,cx+(cy-y)*Math.tan(r[0]*rd))});x-=9;
+    return(p[0]-x>18?Ln(x+2,y,p[0]-5,y,"s"+k):"")+T(x,y+4,lab,"b "+tc[k],"e")},
+   arc2=function(a1,a2,q,k,lab,an){if(!cw||Math.abs(a2-a1)>=24)return arc(a1,a2,q,k,lab,an);var t=arc(a1,a2,q,k,"",an),m=pq(Math.max(a1,a2,0)+14/q/rd,q);return t?t+T(m[0],m[1]+4,lab,"b "+tc[k],"m"):""};
+  if(st>=2)h+=(cw?arm(d,"b","",70)+sd(d,70,"b",Nm):arm(d,"b",Nm,70,d>=0?12:-12))+arc2(0,d,34,"b","d",s.an==2);
+  if(st>=3)h+=(cw?arm(d+e,"y","",52)+sd(d+e,52,"y",Nc):arm(d+e,"y",Nc,52,(d+e)>=d?14:-14))+arc2(d,d+e,50,"y","δ",s.an==3);
   if(st>=4)h+=arm(K0,"g",LL("курс","heading","курс"),92)+arc(d+e,K0,68,"g",LL("КК","CC","КК"),s.an==4);
   h+='<path d="M0 -16 L8 10 L0 5 L-8 10 Z" class="fx" transform="translate('+cx+" "+cy+") rotate("+(st>=4?K0:0)+')"/>';
   if(st>=4)h+=T(8,242,LL("ИК = КК + δ + d","TC = CC + Dev + Var","ІК = КК + δ + d"),"s b");
@@ -5665,10 +5670,13 @@ F["str/pick"]=function(d){if(!d.list||!ok(d.sh))return;var H=298,cx=150,cy=140,R
 /* Звёзды: место по 2–3 светилам — высотные линии */
 F["str/fix"]=function(d){var S2=d.S2;if(!S2||!S2.length)return;var fx=ok(d.dx,d.dy),ext=2,i;S2.forEach(function(x){ext=Math.max(ext,Math.abs(x.p))});if(fx)ext=Math.max(ext,Math.abs(d.dx),Math.abs(d.dy));
  var H=288,cx=150,cy=132,k=100/(ext*1.25),X=function(x,y){return[cx+x*k,cy-y*k]},Lh=ext*1.35,col=["b","y","i"],h="",o=X(0,0),away=o;
- h+=Rc(10,10,280,244,"l",0.18);var ln="",ux=0,uy=0;
+ h+=Rc(10,10,280,244,"l",0.18);var ln="";
  S2.forEach(function(x,j){var c=col[j%3],F0=[x.p*sn(x.z),x.p*cs(x.z)],dv=[cs(x.z),-sn(x.z)],a=X(F0[0]-dv[0]*Lh,F0[1]-dv[1]*Lh),b=X(F0[0]+dv[0]*Lh,F0[1]+dv[1]*Lh),fp=X(F0[0],F0[1]),t=Pt(o[0],o[1],34,x.z),tl=Pt(o[0],o[1],46,x.z);
-  ux+=sn(x.z);uy+=cs(x.z);h+=Ar(o[0],o[1],t[0],t[1],"m",1.4,{da:"3 3"})+Tx(tl[0],tl[1]+4,String(j+1),c,"middle",{cl:"l"});ln+=Ln(o[0],o[1],fp[0],fp[1],c,1.4)+Ln(a[0],a[1],b[0],b[1],c,2.6)});
- var ua=Math.atan2(-ux,-uy)/Rd,dp=Pt(o[0],o[1],26,ua);h+=clip(10,10,280,244,ln)+Rc(o[0]-4,o[1]-4,8,8,"i")+Tx(dp[0],dp[1]+5,L("счисл.","DR","счисл."),"i","middle");
+  h+=Ar(o[0],o[1],t[0],t[1],"m",1.4,{da:"3 3"})+Tx(tl[0],tl[1]+4,String(j+1),c,"middle",{cl:"l"});ln+=Ln(o[0],o[1],fp[0],fp[1],c,1.4)+Ln(a[0],a[1],b[0],b[1],c,2.6)});
+ /* «счисл.»: перебор направлений через 15°, берём самое далёкое от азимутов (и номеров), от отрезка к линии при p < 0 и от линий положения, что проходят рядом; при равенстве — ближе к низу */
+ var ua=180,bs=-1,av=[],a0;S2.forEach(function(x){av.push(x.z);if(x.p<0)av.push(x.z+180);if(Math.abs(x.p)*k<34)av.push(x.z+90,x.z-90)});
+ for(a0=0;a0<360;a0+=15){var md=360;av.forEach(function(z){md=Math.min(md,Math.abs(n180(a0-z)))});md-=Math.abs(n180(a0-180))/100;if(md>bs){bs=md;ua=a0}}
+ var dp=Pt(o[0],o[1],22+14*Math.abs(sn(ua)),ua);h+=clip(10,10,280,244,ln)+Rc(o[0]-4,o[1]-4,8,8,"i")+Tx(dp[0],dp[1]+5,L("счисл.","DR","счисл."),"i","middle");
  if(fx){var p=X(d.dx,d.dy);h+=Ci(p[0],p[1],7,"g","bg",2.6,{cl:"snfu"})+Ci(p[0],p[1],2.4,null,"g")+Tx(p[0]+10,p[1]-8,L("место","fix","місце"),"g","start",{cl:"l"})}
  var sb=nice(ext/2.5),sl=sb*k;h+=Ln(20,240,20+sl,240,"i",2.4,{an:0})+Ln(20,235,20,245,"i",2,{an:0})+Ln(20+sl,235,20+sl,245,"i",2,{an:0})+Tx(24+sl,244,sb+" "+MI(),"m","start")+N(272,18);
  h+=Tx(150,H-12,fx?L("Невязка ","Offset ","Нев’язка ")+f(Math.hypot(d.dx,d.dy),1)+" "+MI()+" → "+fc(Math.atan2(d.dx,d.dy)/Rd)+(S2.length>2&&ok(d.res)?" · ∆ "+f(d.res,1):""):S2.length<2?L("Одна линия — место где-то на ней","One line — you are somewhere on it","Одна лінія — місце десь на ній"):L("Линии почти параллельны","Lines almost parallel","Лінії майже паралельні"),fx?"g":"r","middle");
@@ -5759,7 +5767,10 @@ F.cpa=function(d){if(!d.P1||!d.P2||!d.vr||!ok(d.tc,d.cpa,d.cl,d.h))return;var vr
  var rl=Pt(cx,cy,121,45);h+=Tx(rl[0]+2,rl[1]-2,(Rg<1?f(Rg,2):String(Rg))+" "+MI(),"m","start");
  if(d.cl*k<130)h+=Ci(cx,cy,d.cl*k,"r",null,1.6,{da:"5 4"});
  h+=Ray(cx,cy,d.hd,118,"i",1.2,{da:"8 4"})+'<g transform="rotate('+r1(d.hd)+' '+cx+' '+cy+')">'+boat(cx,cy,1.3,null,"g")+'</g>';
- h+=Ar(p1[0],p1[1],e[0],e[1],"m",1.8)+Ci(p1[0],p1[1],4,"i","bg",1.8)+Tx(p1[0]+8,p1[1]-6,"1","i","start")+Ci(p2[0],p2[1],4,null,"i")+Tx(p2[0]+8,p2[1]-6,"2","i","start");
+ h+=Ar(p1[0],p1[1],e[0],e[1],"m",1.8)+Ci(p1[0],p1[1],4,"i","bg",1.8)+Ci(p2[0],p2[1],4,null,"i");
+ /* подписи засечек не слипаются: «1» — позади засечки 1 на линии движения, «2» — сбоку от линии, с той стороны, где нет центра и CPA */
+ var ql=Math.hypot(e[0]-p1[0],e[1]-p1[1])||1,qx=(e[0]-p1[0])/ql,qy=(e[1]-p1[1])/ql,nx=-qy,ny=qx;if(nx*(p2[0]-cx)+ny*(p2[1]-cy)<0){nx=-nx;ny=-ny}
+ h+=Tx(p1[0]-qx*14,p1[1]-qy*14+4,"1","i","middle")+Tx(p2[0]+nx*14,p2[1]+ny*14+4,"2","i","middle");
  if(cp){var cc=danger?"r":"g";h+=Ln(cx,cy,cp[0],cp[1],cc,1.8,{da:"4 3"})+Ci(cp[0],cp[1],5,cc,"bg",2.4)+Tx(cl(cp[0]+(cp[0]<cx?-9:9),20,280),cp[1]+(cp[1]<cy?-8:16),"CPA "+f(d.cpa,2),cc,cp[0]<cx?"end":"start",{cl:"l"})}
  h+=Ci(p1[0],p1[1],6.5,danger?"r":"y",danger?"r":"y",1.6,{id:"tg",fo:0.85})+Tx(10,20,"",danger?"r":"i","start",{id:"ck",cl:"l"});
  h+=Tx(150,H-30,d.tc>0?"CPA "+f(d.cpa,2)+" "+MI()+" · TCPA "+f(d.tc*60,0)+" "+MN():"TCPA < 0 — "+L("цель расходится","target opening","ціль розходиться"),danger?"r":"g","middle",{cl:"l"})
@@ -5847,6 +5858,7 @@ if(window.shnR&&(document.getElementById("sno")||document.getElementById("nxo"))
 #mtl .mthn{margin:4px 0;padding:6px 8px;border-left:3px solid #f5a524;background:var(--card,var(--bg));border-radius:6px;font-size:13.5px;line-height:1.45}
 #mtl .mtpv{margin:8px 0;padding:8px;border:1px solid var(--line);border-radius:8px;background:var(--card,var(--bg));font-size:13.5px;line-height:1.45}
 #mtl .mtall{margin:14px 0 0;padding-top:10px;border-top:1px solid var(--line)}#mtl .mtall button{width:100%;min-height:44px;font-weight:700}
+#mtl [data-mtqr]{min-height:42px;padding:6px 14px}
 </style>
 <script id="mtl-js">/* 🔧 Инструменты механика (#mtl, помещение «Машинное»; решение Кости 23.11.2026) — по образцу «🔭 Инструментов штурмана». Раздел платный целиком (PKG.tools в pro-js: mtl),
  инструменты тоже проверяют fmPro.has(ключ) (в g(), в отрисовке и в обработчике). Старые «⚙️ Расчёты механика» (#mcl) не тронуты — кнопка внизу открывает их.
@@ -7153,6 +7165,7 @@ if(window.mtlR)mtlR()})();</script>
 #etl .mthn{margin:4px 0;padding:6px 8px;border-left:3px solid #f5a524;background:var(--card,var(--bg));border-radius:6px;font-size:13.5px;line-height:1.45}
 #etl .mtpv{margin:8px 0;padding:8px;border:1px solid var(--line);border-radius:8px;background:var(--card,var(--bg));font-size:13.5px;line-height:1.45}
 #etl .mtall{margin:14px 0 0;padding-top:10px;border-top:1px solid var(--line)}#etl .mtall button{width:100%;min-height:44px;font-weight:700}
+#etl [data-mtqr]{min-height:42px;padding:6px 14px}
 #etl .etgo{margin:6px 0;padding-left:24px;font-size:13.5px;line-height:1.55}#etl .etgo li,#etl .mtth li{display:list-item;margin:3px 0;padding:2px 0;border:0;border-radius:0;background:none;box-shadow:none;min-height:0}#etl .mtth ul{padding-left:20px;margin:6px 0}#etl .etgo li.cur{font-weight:700}#etl .etgo .G{color:var(--ok)}#etl .etgo .Y{color:#c47f00}#etl .etgo .R{color:#e5484d;font-weight:700}
 #etl .etstep{margin:8px 0;padding:8px 10px;border:2px solid var(--acc);border-radius:10px;background:var(--bg);font-size:14px;line-height:1.5}
 </style>
@@ -9242,6 +9255,8 @@ main>button.fmt.dutw>.dutws{grid-area:d;display:block;font-size:13px;line-height
 #dut .dlk{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:6px;margin:10px 0 0}#dut .dlk button{min-height:44px;white-space:normal;text-align:left;padding:6px 10px}
 #dut .dsoon{padding:14px;border:1px dashed var(--line);border-radius:12px;text-align:center;font-size:14px;line-height:1.5}#dut .dsoon button{margin-top:8px;min-height:44px}
 #dut .dsrc{margin:12px 0 0;font-size:12px;color:var(--mute);line-height:1.4}
+#dut button{background:var(--bg);color:var(--ink);border:1px solid var(--line);border-radius:10px;font:inherit;cursor:pointer}#dut .dck button{background:var(--card)}
+#dut .dci.on{border-color:var(--ok);background:color-mix(in srgb,var(--ok) 10%,var(--card))}#dut .dci:focus-visible{outline:2px solid var(--acc);outline-offset:1px}
 @media(max-width:360px){#dut .dutb button{font-size:10.5px}#dut .dur button{font-size:11.5px}#dut .dup{width:66px;height:28px}}
 @media(prefers-reduced-motion:reduce){#dut .dup .dus,#dut .dup .duv,#dut .dugl,#dut .drg.full{animation:none}#dut .drg .dr1{transition:none}}
 </style>
@@ -10967,8 +10982,9 @@ de.classList.add("shpon");
 /* 3. состояние помещений */
 function shown(b){return b&&!b.hidden&&!b.hasAttribute("data-uxh")&&!b.hasAttribute("data-uxj")}
 function tiles(id){return(BY[id]||[]).filter(function(k){return shown(P[k].b)})}
-function tools(id){return(BY[id]||[]).filter(function(k){var b=P[k].b,m=P[one(k)];return!b.classList.contains("uxrow")&&(!window.gdDesc||gdDesc(k))&&(!window.uxShow||uxShow(k))&&m&&!m.b.hasAttribute("data-uxh")&&!m.b.hidden})}
-function seen(id){var v=(st.gd&&st.gd.v)||{},a=tools(id);return[a.filter(function(k){return v[k]}).length,a.length]}
+/* «изучено N / M» и ✨ — по плиткам, которые видны в помещении (спрятанные data-uxj — вкладки групп one-js и ярлыки «Моей должности» — не считаются); плитка группы изучена, если открыт любой её раздел */
+function tools(id){return tiles(id).filter(function(k){return!P[k].b.classList.contains("uxrow")&&(!window.gdDesc||gdDesc(k))&&(!window.uxShow||uxShow(k))})}
+function seen(id){var v=(st.gd&&st.gd.v)||{},a=tools(id),K=Object.keys(P);return[a.filter(function(k){return v[k]||K.some(function(m){return v[m]&&m!=k&&one(m)==k})}).length,a.length]}
 function stat(id){var b=null,w=["r","w","ok",""];tiles(id).forEach(function(k){var s=P[k].b.querySelector(":scope>small.lvs");if(!s||!s.textContent)return;var c=w.indexOf((s.className.split(" ")[1])||"");if(!b||c<b[1])b=[s,c]});return b?[b[0].textContent,b[0].className.split(" ")[1]||""]:null}
 function draw(){var rs=R.filter(function(r){return r[0]=="cab"||tiles(r[0]).length}),h='<div class="shh">🚢 '+L("Твоё судно","Your ship","Твоє судно")+'</div>';
  h+=rs.map(function(r,i){var q=seen(r[0]),s=stat(r[0]),n=q[1]-q[0],wide=i==rs.length-1&&rs.length%2;
@@ -11352,9 +11368,9 @@ var C=[
   ["В калькуляторах ЭМ выбери расчёт, например «Сечение кабеля», и впиши значения — ответ появится сразу.","In the ETO calculators pick a calculation, e.g. “Cable size”, and enter the values — the answer appears at once.","У калькуляторах ЕМ обери розрахунок, наприклад «Переріз кабелю», і впиши значення — відповідь з’явиться одразу."],
   ["В «Журнал ремонтов» заполни дату, оборудование и что сделал, при желании «📷 Добавить фото», затем «Сохранить запись».","In the “Repair log”, fill in the date, equipment and what you did, add a photo with “📷 Add photo” if you like, then tap “Save entry”.","У «Журнал ремонтів» заповни дату, обладнання і що зробив, за бажанням «📷 Додати фото», потім «Зберегти запис»."],
   ["В «Чек-листы» отмечай пункты — отметки сохраняются.","In “Checklists”, tick items off — the ticks are saved.","У «Чек-листи» відмічай пункти — позначки зберігаються."]],
- d:[{k:"mtl",q:[".mtgr"],t:["«🔧 Инструменты механика»: сверху группы, под ними инструменты. «⛽ Замер танков и бункеровка» — масса топлива по замерам и сравнение с BDN.","“🔧 Engineer’s tools”: groups at the top, tools below. “⛽ Tank soundings and bunkering” — fuel mass by soundings and a check against the BDN.","«🔧 Інструменти механіка»: угорі групи, під ними інструменти. «⛽ Замір танків і бункерування» — маса палива за замірами й порівняння з BDN."]},
+ d:[{k:"mtl",go:["mtlGo","tnk"],q:["[data-mtt=tnk]",".mttb",".mtgr"],t:["«🔧 Инструменты механика»: сверху группы, под ними инструменты. «⛽ Замер танков и бункеровка» — масса топлива по замерам и сравнение с BDN.","“🔧 Engineer’s tools”: groups at the top, tools below. “⛽ Tank soundings and bunkering” — fuel mass by soundings and a check against the BDN.","«🔧 Інструменти механіка»: угорі групи, під ними інструменти. «⛽ Замір танків і бункерування» — маса палива за замірами й порівняння з BDN."]},
   {k:"mtl",go:["mtlGo","cyl"],q:["[data-mtt=cyl]",".mttb"],t:["«⚙️ Баланс цилиндров»: Pcomp, Pmax, Pi и выхлоп по цилиндрам, отклонения от среднего цветом и что проверить. В теории — живая индикаторная диаграмма.","“⚙️ Cylinder balance”: Pcomp, Pmax, Pi and exhaust per cylinder, deviations in colour and what to check. The theory has a live indicator diagram.","«⚙️ Баланс циліндрів»: Pcomp, Pmax, Pi і вихлоп по циліндрах, відхилення кольором і що перевірити. У теорії — жива індикаторна діаграма."]},
-  {k:"etl",q:[".mtgr"],t:["«⚡ Инструменты электромеханика»: группы Электростанция и Сеть и защита. «🔄 Генераторы в параллель» — распределение нагрузки и синхронизация с живым синхроскопом.","“⚡ Electrical tools”: groups Power plant and Network and protection. “🔄 Generators in parallel” — load sharing and synchronising with a live synchroscope.","«⚡ Інструменти електромеханіка»: групи Електростанція та Мережа і захист. «🔄 Генератори в паралель» — розподіл навантаження й синхронізація з живим синхроскопом."]},
+  {k:"etl",go:["etlGo","gpar"],q:["[data-mtt=gpar]",".mttb",".mtgr"],t:["«⚡ Инструменты электромеханика»: группы Электростанция и Сеть и защита. «🔄 Генераторы в параллель» — распределение нагрузки и синхронизация с живым синхроскопом.","“⚡ Electrical tools”: groups Power plant and Network and protection. “🔄 Generators in parallel” — load sharing and synchronising with a live synchroscope.","«⚡ Інструменти електромеханіка»: групи Електростанція та Мережа і захист. «🔄 Генератори в паралель» — розподіл навантаження й синхронізація з живим синхроскопом."]},
   {k:"etl",go:["etlGo","gnd"],q:["[data-mtt=gnd]",".mttb"],t:["«⏚ Поиск замыкания на корпус»: мегомметр щита и лампы изоляции, потом мастер ведёт по фидерам — какой отключить и где искать дальше.","“⏚ Earth fault finding”: the switchboard megger and earth lamps, then the guide takes you feeder by feeder — which to switch off and where to look next.","«⏚ Пошук замикання на корпус»: мегомметр щита й лампи ізоляції, потім майстер веде по фідерах — який відключити і де шукати далі."]},
   {k:"cvm",q:["^[data-cvt]"],t:["Вкладки расчётов: единицы, рейс, электро. Впиши число — перевод и результат сразу.","Calculator tabs: units, voyage, electrical. Enter a number — the result appears at once.","Вкладки розрахунків: одиниці, рейс, електро. Впиши число — результат одразу."]},
   {k:"clc",q:["^button"],t:["Калькуляторы ЭМ: ток двигателя, cos φ, сечение кабеля, обороты. Выбери нужный и впиши значения.","ETO calculators: motor current, cos φ, cable size, speed. Pick one and enter the values.","Калькулятори ЕМ: струм двигуна, cos φ, переріз кабелю, оберти. Обери потрібний і впиши значення."]},
