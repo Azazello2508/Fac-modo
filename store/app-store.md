@@ -10,7 +10,7 @@
 | SKU | `facmodo-ios` |
 | Основной язык | Русский |
 | Категория | Основная — Производительность (Productivity), дополнительная — Образование (Education) |
-| Цена | Бесплатно. **Решено 04.11.2026: + разовая покупка внутри приложения** (In-App Purchase, тип Non-Consumable — один раз навсегда, не подписка); что открывает и цена — ещё решить. Нужны договор Paid Apps, банк и налоги; комиссия 15 % в Small Business Program |
+| Цена | Бесплатно + **одна разовая покупка «Полный доступ»** (решено 04.11.2026, цена — 9,99 $): In-App Purchase, тип **Non-Consumable** (один раз навсегда, не подписка), Product ID `fm_full`. Пробный период — 3 дня использования. Нужны договор Paid Apps, банк и налоги; комиссия 15 % в Small Business Program. Шаги — раздел «Покупка «Полный доступ» в App Store Connect» ниже |
 | Устройства | Только iPhone (сборка с `TARGETED_DEVICE_FAMILY=1`) |
 | Privacy Policy URL | https://azazello2508.github.io/Fac-modo/privacy.html |
 | Support URL | https://azazello2508.github.io/Fac-modo/support.html |
@@ -146,6 +146,8 @@ Content notes:
 - Online games "Tanks" and "Planes" have an optional two-player mode by room code that connects to our relay server (tanchiki-server.pinkovskyi2508.workers.dev, Cloudflare). Only the game state is relayed; nothing is stored, no account, no personal data. Chess, checkers, etc. "over the network" are peer-to-peer between two phones on the same Wi-Fi.
 - Camera / photo library are used only when the user chooses to add a photo to the repair log or profile.
 - Background audio is used only for "Sleep sounds" (white/sea noise that keeps playing with the screen locked).
+- In-App Purchase: one non-consumable item "Full access" (fm_full). The app is free; for the first 3 days of use everything is open as a trial (the remaining days are shown in the purchase window before the trial ends). After that the career, exams and professional tools sections show the purchase window with "Buy" and "Restore purchase". Watch and sleep, rest hours, documents, home, games and the seafarer reference stay free. To test: open Profile/My cabin → Settings → "💎 Full access", or tap "🎖️ My position" on the deck (a paid section).
+- The bundled-content refresh never unlocks or adds paid features; the paid list is part of the reviewed build.
 ```
 Контакт для проверяющего: имя, телефон, e-mail — заполнить при отправке (почта приложения — facmodo111@gmail.com).
 
@@ -160,3 +162,28 @@ Content notes:
 6. GitHub → Actions → «Отправка в App Store» → Run workflow. Через 10–30 минут сборка появится в App Store Connect → TestFlight.
 7. Поставить приложение через TestFlight на свой iPhone и проверить.
 8. Заполнить карточку тексты/скриншоты/конфиденциальность/рейтинг из этого файла → выбрать сборку → Submit for Review.
+
+## Покупка «Полный доступ» в App Store Connect
+Так же, как в Google Play: одна покупка навсегда открывает все платные пакеты (`PKG` в блоке `pro-js`), пробный период 3 дня использования, «Восстановить покупку» есть (Apple её требует).
+Покупка включена только в сборке, которую отправляет «Отправка в App Store» (`ios-store.yml`, `FM_STORE=1`, плагин `cordova-plugin-purchase` ставится только туда). ipa из «Сборки для iPhone» (`ios.yml`), сайт, ПК и APK остаются бесплатными.
+
+Что сделать Косте или брату (по шагам, после регистрации в Apple Developer):
+1. App Store Connect → **Business** (раньше «Agreements, Tax, and Banking») → договор **Paid Apps** → Accept. Без него покупки не работают даже в тесте.
+2. Там же: **Bank Account** (счёт для выплат) и **Tax Forms** (налоговая анкета, для не-США — W-8BEN). Статус договора должен стать **Active**.
+3. По желанию — **App Store Small Business Program** (комиссия 15 % вместо 30 %): developer.apple.com/app-store/small-business-program → заявка.
+4. App Store Connect → Apps → Fac Modo → **Monetization → In-App Purchases** → «+»:
+   - Type: **Non-Consumable**; Reference Name: `Full access`; Product ID: **`fm_full`** (ровно так, как в приложении);
+   - Price: **9,99 $** (Apple сам пересчитает в другие валюты);
+   - Localization (ru / en / uk): название «Полный доступ» / «Full access» / «Повний доступ», описание «Все тренажёры, расчёты, инструменты и курс на берег — навсегда» / «All trainers, calculators, tools and the shore course — for good» / «Усі тренажери, розрахунки, інструменти й курс на берег — назавжди»;
+   - Review Information: скриншот окна покупки (💎 Полный доступ) и заметка «Unlocks paid sections; see App Review notes».
+   - Family Sharing — по желанию (можно включить, тогда покупку получит и семья).
+5. Первую покупку Apple проверяет **вместе с версией приложения**: на странице версии → раздел **In-App Purchases and Subscriptions** → добавить `fm_full` → Submit for Review.
+6. Проверка до выпуска: **Users and Access → Sandbox → Test Accounts** → «+» (любой новый e-mail, не настоящий Apple ID). На iPhone: Настройки → App Store → **Sandbox Account** → войти этим тестовым аккаунтом. Поставить сборку из TestFlight и купить — деньги не списываются. Проверить «Купить», затем удалить и снова поставить приложение → «Восстановить покупку».
+   В TestFlight покупки тоже бесплатные (это тестовая среда).
+
+Чем App Store отличается от Google Play (правила Apple):
+- **Коды доступа `FM1.…` в версии из App Store не принимаются**, поле для кода спрятано: правило 3.1.1 запрещает открывать функции своими ключами и кодами мимо покупки Apple. Друзьям и тестировщикам — бесплатный TestFlight (до 10 000 человек), ipa из `ios.yml` или **Offer Codes** Apple (App Store Connect → In-App Purchases → `fm_full` → Offer Codes: одноразовые коды, человек вводит их в App Store). Вернуть поле кода — `ACC_IOS=1` в `pro-js` (риск отказа).
+- **Пробный период.** Apple советует делать пробу бесплатной покупкой «3-day Trial» за 0 $ (правило 3.1.1). У нас проба считается в самом приложении, и окно покупки до её конца показывает, сколько дней осталось и что закроется. Если проверяющий попросит — добавить бесплатный Non-Consumable `fm_trial` (это новая сборка).
+- **Самообновление (правило 2.5.2):** в версии из App Store ставятся только обновления с `[store-ok]` (только исправления). Новые платные разделы (`PKG`) и изменения покупки — только новой сборкой через App Store, коммиты с такими правками метку `[store-ok]` не получают.
+- Ранние пользователи: кто пользуется ipa из `ios.yml`, сайтом или ПК, ничего не платят — там покупки нет.
+- Настоящую покупку Apple без аккаунта разработчика проверить нельзя: проверена только логика на макете плагина (`tests/e2e.js`, «App Store: …»).

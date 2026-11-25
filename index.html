@@ -8163,15 +8163,17 @@ if(document.readyState=="loading")document.addEventListener("DOMContentLoaded",s
 </style>
 <script id="pro-js">/* Покупка «Полный доступ» (fmPro). Решения Кости: приложение бесплатное + разовая покупка «навсегда» (Non-Consumable, Google Play Billing),
 пробный период 3 ДНЯ ИСПОЛЬЗОВАНИЯ (считаются разные дни, когда приложение открывали), цена 9,99 $ (задаётся в Play Console).
-ВКЛЮЧЕНО ТОЛЬКО В СБОРКЕ ДЛЯ GOOGLE PLAY (FM_PLAY=1: android.yml подставляет 1 в AAB). Во всех остальных сборках (сайт, ПК, apk для друзей и тестировщиков, iPhone) fmPro.on()=false, и всё открыто.
+ВКЛЮЧЕНО ТОЛЬКО В МАГАЗИННЫХ СБОРКАХ: Google Play (FM_PLAY=1: android.yml подставляет 1 в AAB; fm_play) и App Store (FM_STORE=1: ios-store.yml через ios_prepare.sh; fm_store — так флаг переживает самообновление).
+Во всех остальных сборках (сайт, ПК, apk для друзей и тестировщиков, ipa из ios.yml) fmPro.on()=false, и всё открыто.
+App Store (IOS=1): та же покупка fm_full через платформу APPLE_APPSTORE, тексты про App Store и Apple ID; поле кода доступа FM1 скрыто и коды не принимаются (правило Apple 3.1.1: свои ключи для открытия функций запрещены) — для друзей там TestFlight или Offer Codes Apple; включить обратно — ACC_IOS=1.
 Платные разделы — список PKG ниже (единственное место, где это задаётся). Покупка одна и открывает все три пакета.
 Ключ fm_pro = {v, t0, b0 (сборка при первом открытии), own (куплено, 0/1), d (дни использования)}. Не переносится и не попадает в копии (TRX: |pro): покупка возвращается из магазина (восстановление), а не из файла.
-Плагин оплаты — cordova-plugin-purchase (глобальный CdvPurchase), ставится ТОЛЬКО в сборку AAB (android.yml). Без него (или без интернета) окно покупки пишет, что покупка недоступна; уже купленное остаётся (own=1), отзыв покупки не отнимает доступ.
+Плагин оплаты — cordova-plugin-purchase (глобальный CdvPurchase), ставится ТОЛЬКО в сборку AAB (android.yml) и в сборку для App Store (ios-store.yml). Без него (или без интернета) окно покупки пишет, что покупка недоступна; уже купленное остаётся (own=1), отзыв покупки не отнимает доступ.
 Проверка логики: PROTEST.decide(...), PROTEST.force(on) (только для тестов). */
-(function(){var K="fm_pro",PID="fm_full",TRIAL=3,ACC_PUB="MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAE8FoFzac0aEsAuJ8t6IdVqWI9U64r5xir7f0w5/eZauK59okrj2pSMBtiAqTxPfORtaSfrSqMwmm+x6iwfGdr7w==",L=localStorage,ON=(window.FM_PLAY||L.getItem("fm_play")=="1")?1:0;
+(function(){var K="fm_pro",PID="fm_full",TRIAL=3,ACC_PUB="MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAE8FoFzac0aEsAuJ8t6IdVqWI9U64r5xir7f0w5/eZauK59okrj2pSMBtiAqTxPfORtaSfrSqMwmm+x6iwfGdr7w==",L=localStorage,GP=(window.FM_PLAY||L.getItem("fm_play")=="1")?1:0,IOS=!GP&&(window.FM_STORE||L.getItem("fm_store")=="1")?1:0,ON=(GP||IOS)?1:0,ACC_IOS=0;
 var PKG={coast:["sh1","sh2","sh3","sh5","rz","ap","iv"],exams:["lib","gl"],tools:["ecl","mcl","trs","shn","mtl","tnk","cyl","slp","hex","pmp","mix","sep","sfc","sta","oil","bw","etl","gpar","gnd","mst","ebat","sel","stb","dsv","tkb","cpc","ukc","psg","air","anc","twd","dut"]},PAID={};
 Object.keys(PKG).forEach(function(k){PKG[k].forEach(function(i){PAID[i]=k})});
-var T=function(r,e,u){return window.fmL?fmL(r,e,u):r};
+var T=function(r,e,u){return window.fmL?fmL(r,e,u):r},SN=function(){return IOS?"App Store":"Google Play"},PLN=function(){return IOS?"APPLE_APPSTORE":"GOOGLE_PLAY"},ACC=function(){return!IOS||!!ACC_IOS};
 function rd(){try{var o=JSON.parse(L.getItem(K)||"null");if(o&&typeof o=="object"&&o.t0>0)return o}catch(e){}return null}
 function wr(o){try{L.setItem(K,JSON.stringify(o))}catch(e){}return o}
 function day(){var t=new Date();return t.getFullYear()+"-"+("0"+(t.getMonth()+1)).slice(-2)+"-"+("0"+t.getDate()).slice(-2)}
@@ -8186,7 +8188,7 @@ function b64(x){x=String(x).replace(/-/g,"+").replace(/_/g,"/");while(x.length%4
 function say(m){note=m;ev();return Promise.resolve(false)}
 function redeem(code){var t=String(code||"").replace(/\s+/g,""),m=/^FM1\.([A-Za-z0-9_-]+)\.([A-Za-z0-9_-]+)$/.exec(t);
  var bad=T("Код не подошёл: проверьте, что он скопирован целиком.","The code did not work: check that it was copied in full.","Код не підійшов: перевірте, що його скопійовано повністю.");
- if(!m)return say(bad);if(!(window.crypto&&crypto.subtle))return say(T("На этом устройстве код проверить нельзя.","This device cannot check the code.","На цьому пристрої код перевірити не можна."));
+ if(!ACC())return say(T("В версии из App Store коды доступа не принимаются.","Access codes are not accepted in the App Store version.","У версії з App Store коди доступу не приймаються."));if(!m)return say(bad);if(!(window.crypto&&crypto.subtle))return say(T("На этом устройстве код проверить нельзя.","This device cannot check the code.","На цьому пристрої код перевірити не можна."));
  return crypto.subtle.importKey("spki",b64(ACC_PUB),{name:"ECDSA",namedCurve:"P-256"},false,["verify"]).then(function(k){return crypto.subtle.verify({name:"ECDSA",hash:"SHA-256"},k,b64(m[2]),b64(m[1]))}).then(function(ok){
   if(!ok)return say(bad);var o;try{o=JSON.parse(new TextDecoder().decode(b64(m[1])))}catch(e){return say(bad)}
   if(!o||typeof o!="object")return say(bad);if(o.e&&String(o.e)<day())return say(T("Срок этого кода закончился.","This code has expired.","Термін цього коду закінчився."));
@@ -8205,17 +8207,17 @@ var P=window.fmPro={
  price:function(){try{var o=PR&&PR.offers&&PR.offers[0];if(!o)return"";var p=(o.pricingPhases&&o.pricingPhases[0])||o.pricing||{};return p.price||""}catch(e){return""}},
  ready:function(){return!!(S&&PR)},
  note:function(){return note},
- buy:function(){try{var o=PR&&PR.getOffer&&PR.getOffer();if(!o){note=T("Покупка сейчас недоступна: нужен интернет и Google Play.","Purchase is unavailable now: internet and Google Play are required.","Покупка зараз недоступна: потрібен інтернет і Google Play.");ev();return}
-   note=T("Открываю окно Google Play…","Opening Google Play…","Відкриваю вікно Google Play…");ev();o.order().then(function(e){if(e&&e.isError){note=String(e.message||e.code||"");ev()}})}catch(e){note=String(e&&e.message||e);ev()}},
+ buy:function(){try{var o=PR&&PR.getOffer&&PR.getOffer();if(!o){note=T("Покупка сейчас недоступна: нужен интернет и "+SN()+".","Purchase is unavailable now: internet and "+SN()+" are required.","Покупка зараз недоступна: потрібен інтернет і "+SN()+".");ev();return}
+   note=T("Открываю окно "+SN()+"…","Opening "+SN()+"…","Відкриваю вікно "+SN()+"…");ev();o.order().then(function(e){if(e&&e.isError){note=String(e.message||e.code||"");ev()}})}catch(e){note=String(e&&e.message||e);ev()}},
  restore:function(){try{if(!S){note=T("Магазин недоступен.","Store is unavailable.","Магазин недоступний.");ev();return}
-   note=T("Проверяю покупки…","Checking purchases…","Перевіряю покупки…");ev();S.restorePurchases().then(function(){sync();if(!P.owned()){note=T("Покупок на этом аккаунте Google не найдено.","No purchases found on this Google account.","Покупок на цьому акаунті Google не знайдено.");ev()}})}catch(e){note=String(e&&e.message||e);ev()}},
+   note=T("Проверяю покупки…","Checking purchases…","Перевіряю покупки…");ev();S.restorePurchases().then(function(){sync();if(!P.owned()){note=IOS?T("Покупок на этом Apple ID не найдено.","No purchases found on this Apple ID.","Покупок на цьому Apple ID не знайдено."):T("Покупок на этом аккаунте Google не найдено.","No purchases found on this Google account.","Покупок на цьому акаунті Google не знайдено.");ev()}})}catch(e){note=String(e&&e.message||e);ev()}},
  wall:function(id){wall(id)}
 };
 function ev(){try{dispatchEvent(new CustomEvent("fmpro"))}catch(e){}}
-function sync(){try{if(!S)return;PR=S.get(PID,window.CdvPurchase.Platform.GOOGLE_PLAY)||PR;if(S.owned(PID)||(PR&&PR.owned))P.setOwned(1);else ev()}catch(e){}}
+function sync(){try{if(!S)return;PR=S.get(PID,window.CdvPurchase.Platform[PLN()])||PR;if(S.owned(PID)||(PR&&PR.owned))P.setOwned(1);else ev()}catch(e){}}
 function initStore(){if(!ON||S)return;var C=window.CdvPurchase;
  if(!C||!C.store){if(tries++<5)setTimeout(initStore,2000);return}
- try{var st=C.store,PL=C.Platform.GOOGLE_PLAY;st.register([{id:PID,type:C.ProductType.NON_CONSUMABLE,platform:PL}]);
+ try{var st=C.store,PL=C.Platform[PLN()];st.register([{id:PID,type:C.ProductType.NON_CONSUMABLE,platform:PL}]);
   st.when().approved(function(t){try{t.finish()}catch(e){}});st.when().productUpdated(sync);st.when().receiptUpdated(sync);
   st.error(function(e){note=String(e&&e.message||e);ev()});S=st;st.initialize([PL]).then(sync)}catch(e){S=null;note=String(e&&e.message||e)}}
 document.addEventListener("deviceready",initStore);window.addEventListener("load",function(){setTimeout(initStore,500)});
@@ -8231,7 +8233,7 @@ function body(id){var tr=P.trial(),h="<h3>💎 "+T("Полный доступ","
  h+='<p class="note" style="margin:6px 0">'+T("Один платёж, навсегда, без подписки. Бесплатными остаются вахта и сон, часы отдыха, документы, дом, игры и справочник.","One payment, forever, no subscription. Watch and sleep, rest hours, documents, home, games and the reference stay free.","Один платіж, назавжди, без підписки. Безкоштовними лишаються вахта і сон, години відпочинку, документи, дім, ігри та довідник.")+"</p>";
  var pr=P.price();h+='<button type="button" class="fpbtn" data-fp="buy" style="background:var(--acc);color:#04202e;border:0">'+T("Купить навсегда","Buy for good","Придбати назавжди")+(pr?" — "+pr:"")+"</button>";
  h+='<button type="button" class="fpbtn" data-fp="restore" style="background:var(--card);color:var(--ink);border:1px solid var(--line)">'+T("Восстановить покупку","Restore purchase","Відновити покупку")+"</button>";
- h+='<details style="margin:10px 0 0"><summary style="cursor:pointer;min-height:40px;display:flex;align-items:center">'+T("У меня есть код доступа (друзья и тестировщики)","I have an access code (friends and testers)","У мене є код доступу (друзі та тестувальники)")+'</summary><input class="fpc" type="text" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="FM1.…" style="width:100%;box-sizing:border-box;min-height:44px;margin:6px 0 0;padding:0 10px;border-radius:10px;border:1px solid var(--line);background:var(--card);color:var(--ink);font:inherit"><button type="button" class="fpbtn" data-fp="code" style="background:var(--card);color:var(--ink);border:1px solid var(--line)">'+T("Активировать код","Activate code","Активувати код")+"</button></details>";
+ if(ACC())h+='<details style="margin:10px 0 0"><summary style="cursor:pointer;min-height:40px;display:flex;align-items:center">'+T("У меня есть код доступа (друзья и тестировщики)","I have an access code (friends and testers)","У мене є код доступу (друзі та тестувальники)")+'</summary><input class="fpc" type="text" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="FM1.…" style="width:100%;box-sizing:border-box;min-height:44px;margin:6px 0 0;padding:0 10px;border-radius:10px;border:1px solid var(--line);background:var(--card);color:var(--ink);font:inherit"><button type="button" class="fpbtn" data-fp="code" style="background:var(--card);color:var(--ink);border:1px solid var(--line)">'+T("Активировать код","Activate code","Активувати код")+"</button></details>";
  if(note)h+='<p class="note" role="status" style="margin:8px 0 0">'+String(note).replace(/[&<>]/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;"}[c]})+"</p>";return h}
 function keep(el,fn){var i=el&&el.querySelector(".fpc"),v=i?i.value:"",o=i?i.parentNode.open:false;fn();var n=el&&el.querySelector(".fpc");if(n&&v){n.value=v;n.parentNode.open=o||!!v}}
 function paint(){var h=null;if(W&&W.classList.contains("on"))keep(W,function(){W.firstChild.innerHTML=body(W.dataset.id)+'<button type="button" class="fpbtn" data-fp="x" style="background:transparent;color:var(--mute);border:0">'+T("Закрыть","Close","Закрити")+"</button>"})}
@@ -8239,7 +8241,7 @@ function wall(id){if(!W){W=document.createElement("div");W.id="fpw";W.setAttribu
   W.addEventListener("click",function(e){var b=e.target.closest("[data-fp]");if(e.target==W||(b&&b.dataset.fp=="x")){W.classList.remove("on");return}if(!b)return;if(b.dataset.fp=="buy")P.buy();else if(b.dataset.fp=="restore")P.restore();else if(b.dataset.fp=="code")P.redeem((W.querySelector(".fpc")||{}).value)})}
  W.dataset.id=id||"";W.classList.add("on");paint()}
 addEventListener("fmpro",function(){paint();try{if(window.fmProPaint)fmProPaint()}catch(e){}});
-window.PROTEST={decide:decide,trial:TRIAL,force:function(v){ON=v?1:0;ev()},pub:function(v){ACC_PUB=v},ids:PAID};
+window.PROTEST={decide:decide,trial:TRIAL,force:function(v){ON=v?1:0;ev()},ios:function(){return!!IOS},pub:function(v){ACC_PUB=v},ids:PAID};
 function sec(){var e=document.getElementById("pro");if(!e)return;e.hidden=!ON;keep(e,function(){e.innerHTML=ON?body(""):""})}
 window.fmProPaint=sec;
 document.addEventListener("click",function(e){var b=e.target.closest("#pro [data-fp]");if(!b)return;if(b.dataset.fp=="buy")P.buy();else if(b.dataset.fp=="restore")P.restore();else if(b.dataset.fp=="code")P.redeem((document.querySelector("#pro .fpc")||{}).value)});

@@ -42,7 +42,9 @@ jobs:
 
       - name: Установить Capacitor
         # Версии закреплены (а не @latest): новая версия чужой библиотеки не попадёт в сборку сама, без проверки
-        run: npm install --no-audit --no-fund @capacitor/core@8.5.3 @capacitor/cli@8.5.3 @capacitor/ios@8.5.3 @capacitor/filesystem@8.1.5 @capacitor/local-notifications@8.3.1
+        # Только здесь (не в ios.yml): плагин оплаты cordova-plugin-purchase (Apple In-App Purchase) — покупка «Полный доступ» (блок pro-js, FM_STORE=1).
+        # В ipa из ios.yml его нет: там нечем платить, поэтому всё бесплатно (друзья и тестировщики). Версия та же, что в android.yml.
+        run: npm install --no-audit --no-fund @capacitor/core@8.5.3 @capacitor/cli@8.5.3 @capacitor/ios@8.5.3 @capacitor/filesystem@8.1.5 @capacitor/local-notifications@8.3.1 cordova-plugin-purchase@13.20.0
 
       - name: Подготовить проект iOS
         env:
