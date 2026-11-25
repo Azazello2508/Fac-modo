@@ -16,6 +16,8 @@ if [ "${FM_STORE:-0}" = "1" ]; then sed -i '' 's/__FM_STORE__/1/' www/index.html
 # --- проект iOS ---
 npx cap add ios
 npx cap sync ios
+# сборка для App Store: плагин оплаты (ios-store.yml ставит cordova-plugin-purchase) должен попасть в проект, иначе покупка «Полный доступ» не откроется
+if [ "${FM_STORE:-0}" = "1" ]; then grep -rqs "cordova-plugin-purchase\|CdvPurchase" ios/capacitor-cordova-ios-plugins ios/App/App/public/cordova_plugins.js || echo "::warning::плагин оплаты не найден в проекте iOS — проверить сборку"; fi
 
 # --- иконка и заставка ---
 for f in ios/App/App/Assets.xcassets/AppIcon.appiconset/*.png; do cp assets/icon-1024.png "$f"; done
